@@ -1,0 +1,16 @@
+.evaluation-page { height : 100%; }
+.evaluation-page header { text-align: center; margin-top: 10px;}
+.evaluation-page .content {position:absolute;top:100px;bottom:10px;left:50px;right:50px}
+.evaluation-page .list-container{position:absolute;top:50px;bottom:0px;width:50%;overflow-y:scroll}
+.evaluation-page .map-container{position:absolute;top:50px;bottom:0px;right:0px;width:50%}
+.evaluation-page .gazetteersearch-container { left: 10px !important; }
+.evaluation-page .opacity-container { left: 10px !important; top: 195px !important; }
+.evaluation-page .content .list-container { border: 1px solid #ddd; }
+.evaluation-page .record .right { float: right; }
+.evaluation-page .record .georef-params { display: none; }
+.evaluation-page .record .glyphicon { cursor: pointer; }
+.evaluation-page .record { margin: 5px; border: 2px solid grey; }
+.evaluation-page .record .panel-body { padding: 5px; }
+.evaluation-page .record .panel-footer { background-color: white; }
+.evaluation-page .record .panel-heading > button,.evaluation-page .record .panel-footer > button { margin-right: 10px; }
+.evaluation-page .navbar-form .input-group { margin-right: 20px; }

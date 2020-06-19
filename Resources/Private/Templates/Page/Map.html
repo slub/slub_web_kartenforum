@@ -1,0 +1,177 @@
+<f:layout name="Default" />
+
+<f:section name="Main">
+
+    <div class="page-container">
+        <f:cObject typoscriptObjectPath="lib.dynamicContent" data="{colPos: '0'}" />
+
+
+        <div id="vk2MapPanel" class="vk2MapPanel">
+            <!-- map container -->
+            <div id="mapdiv" class="olMap" tabindex="0"></div>
+            <!-- /end map container -->
+
+            <!-- user header -->
+            <div class="user-header">
+
+
+
+                        <!-- user menu -->
+                        <ul class="nav nav-pills vk2-navbar-user" id="vk2-navbar-user">
+                            <li class="dropdown user-dropdown">
+
+                                        <li class="listelement">
+                                            <a data-classes="login" class="vk2-modal-anchor" title="Anmelden" href="/vkviewer/auth/login/">
+                                                Anmelden
+                                                <b class="caret"></b>
+                                            </a>
+                                        </li>
+
+                            </li>
+                        </ul>
+
+
+
+                <!-- language switcher -->
+                <ul class="langswitch">
+                    <li>
+                        <a href="/vkviewer/main/show/">
+                            <span class="language_switcher switch_de" title="Deutsch"></span>
+                            Deutsch
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/en/vkviewer/main/show/">
+                            <span class="language_switcher switch_en" title="Englisch"></span>
+                            Englisch
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- switcher to 2.5d mode -->
+
+                        <ul class="switch-view-mode mode-2d">
+                            <li>
+                                <a title="3D" href="/vkviewer/main/3d/">
+                                    3D
+                                </a>
+                            </li>
+                        </ul>
+
+            </div>
+            <!-- user header end -->
+
+            <!-- spatial search div -->
+            <div class="spatialsearch-container" id="spatialsearch-container">
+
+                <!-- navbar -->
+                <div class="vk2HeaderNavBar" role="navigation">
+
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="vk2-navbar-header">
+                        <a class="navbar-brand" href="#">Virtuelles Kartenforum 2.0</a>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <ul class="nav nav-pills">
+                            <li class="dropdown info-dropdown"><a href="#"
+                                                                  class="dropdown-toggle" data-toggle="dropdown"
+                                                                  title="Informationen">Informationen<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li class="listelement"><a data-classes="ranking" class="vk2-modal-anchor" title="Die besten Georeferenzierer" href="/vkviewer/static/ranking/">
+                                        Ranking
+                                    </a></li>
+
+                                    <li class="listelement"><a data-classes="faq" class="vk2-modal-anchor" title="Frequently Asked Questions (FAQ)" href="/vkviewer/static/faq/">
+                                        FAQ
+                                    </a></li>
+                                    <li class="listelement"><a data-classes="contact" class="vk2-modal-anchor" href="/vkviewer/static/contact/">
+                                        Kontakt
+                                    </a></li>
+                                    <li class="listelement"><a data-classes="impressum" class="vk2-modal-anchor" href="/vkviewer/static/impressum/">
+                                        Impressum
+                                    </a></li>
+                                    <li class="listelement"><a target="_blank" href="https://www.slub-dresden.de/datenschutzerklaerung/">Privacy Policy</a>
+
+                                    </li>
+                                </ul></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- end spatial search -->
+            </div>
+
+            <!-- Footer panel -->
+            <div class="vk2FooterPanel">
+<div id="vk2Footer" class="vk2Footer">
+<div class="footerContainer">
+<div class="leftside">
+    <ul class="footerList">
+        <li class="listelement thick leftborder">
+            Virtuelles Kartenforum 2.0
+        </li>
+        <li class="listelement">
+            ein Projekt der SLUB und der Universität Rostock
+        </li>
+    </ul>
+</div>
+<div class="rightside">
+    <ul class="footerList">
+        <li class="listelement leftborder">
+            <a data-classes="ranking" class="vk2-modal-anchor" title="Die besten Georeferenzierer" href="/vkviewer/static/ranking/">Ranking</a>
+        </li>
+
+        <li class="listelement leftborder">
+            <a data-classes="faq" class="vk2-modal-anchor" title="Frequently Asked Questions (FAQ)" href="/vkviewer/static/faq/">FAQ</a>
+        </li>
+        <li class="listelement leftborder">
+            <a data-classes="contact" class="vk2-modal-anchor" href="/vkviewer/static/contact/">Kontakt
+            </a>
+        </li>
+        <li class="listelement">
+            <a data-classes="impressum" class="vk2-modal-anchor" href="/vkviewer/static/impressum/">Impressum
+            </a>
+        </li>
+        <li class="listelement">
+            <a target="_blank" href="https://www.slub-dresden.de/datenschutzerklaerung/">Privacy Policy</a>
+        </li>
+    </ul>
+</div>
+</div>
+</div>
+</div>
+
+<a data-classes="welcomeBox" class="vk2-modal-anchor" id="welcome-page-link" href="/vkviewer/static/welcome/"></a>
+
+
+</div>
+</div>
+
+<!-- checks if the vk2.app.PresentationApp / vk2.utils module is already loaded -->
+<script>
+if (window['vk2'] === undefined || window['vk2']['utils'] === undefined || window['vk2']['app'] === undefined) {
+    goog.require('vk2.app.PresentationApp');
+    goog.require('vk2.utils');
+};
+</script>
+
+<!-- load application specific code -->
+
+
+    <script>
+        // set the cookie for proper working of the javascript client code
+        vk2.utils.setCookie('vk2-auth', '');
+
+        var app = new vk2.app.PresentationApp({
+            'authenticate': false,
+            'modalAnchorClassName':'vk2-modal-anchor',
+            'mapContainerId':'mapdiv',
+            'spatialsearchContainerId':'spatialsearch-container'
+        });
+    </script>
+        </div>
+
+
+
+    </div>
+
+</f:section>

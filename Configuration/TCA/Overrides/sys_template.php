@@ -6,7 +6,7 @@ call_user_func(function()
     /**
      * Temporary variables
      */
-    $extensionKey = 'slub_kartenforum';
+    $extensionKey = 'slub_web_kartenforum';
 
     /**
      * Default TypoScript for SlubKartenforum

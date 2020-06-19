@@ -9,9 +9,9 @@
 ##############################
 styles {
     templates {
-        layoutRootPath = EXT:slub_kartenforum/Resources/Private/Layouts/ContentElements/
-        partialRootPath = EXT:slub_kartenforum/Resources/Private/Partials/ContentElements/
-        templateRootPath = EXT:slub_kartenforum/Resources/Private/Templates/ContentElements/
+        layoutRootPath = EXT:slub_web_kartenforum/Resources/Private/Layouts/ContentElements/
+        partialRootPath = EXT:slub_web_kartenforum/Resources/Private/Partials/ContentElements/
+        templateRootPath = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/
     }
 }
 
@@ -21,9 +21,9 @@ styles {
 ############
 page {
      fluidtemplate {
-        layoutRootPath = EXT:slub_kartenforum/Resources/Private/Layouts/Page/
-        partialRootPath = EXT:slub_kartenforum/Resources/Private/Partials/Page/
-        templateRootPath = EXT:slub_kartenforum/Resources/Private/Templates/Page/
+        layoutRootPath = EXT:slub_web_kartenforum/Resources/Private/Layouts/Page/
+        partialRootPath = EXT:slub_web_kartenforum/Resources/Private/Partials/Page/
+        templateRootPath = EXT:slub_web_kartenforum/Resources/Private/Templates/Page/
     }
     meta {
         description =
@@ -51,6 +51,15 @@ config {
     removeDefaultJS = 0
     admPanel = 1
     prefixLocalAnchors = all
-    headerComment = build by sitepackagebuilder.com
+    headerComment = Ein Projekt der Sächsischen Landesbibliothek - Staats- und Universitätsbibliothek Dresden (SLUB)
     sendCacheHeaders = 1
+    matomo {
+        # matomo configuration (maybe overwritten)
+        # cat=plugin.tx_slubwebboersenblatt/matomo/0210; type=string; label=Matomo Hostname
+        hostname = matomo.slub-dresden.de
+        # cat=plugin.tx_slubwebboersenblatt/matomo/0220; type=int+; label=Matomo Idsite
+        siteId = 164
+        # cat=plugin.tx_slubwebboersenblatt/matomo/0230; type=string; label=Matomo Domains (optional)
+        setDomains =
+    }
 }

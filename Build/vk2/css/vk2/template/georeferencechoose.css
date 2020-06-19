@@ -1,0 +1,14 @@
+.georef-chooser h1 { padding: 0; color: #f33; font-size: 30px; font-weight: 300;
+    margin: 15px 0 5px 0;}
+.georef-chooser h2 { color: #666; font-weight: 600; font-size: 16px; text-transform: uppercase; margin-bottom: 0; padding-bottom: 10px; border-bottom: 1px dotted #ccc; }
+.georef-chooser header hgroup > a { display: none; }
+.georef-chooser .content-container > p { margin-top: 10px; color: #666; font-weight: 600; font-size: 16px; }
+.georef-chooser .content-container > ul { list-style: none; margin-top: 10px; }
+.georef-chooser .content-container > ul > li { margin-top: 5px; }
+.georef-chooser .record-container { border: 1px solid; width: 100%; }
+.georef-chooser .record-container > div { position: relative; float: left; padding: 10px 10px 10px 10px; }
+.georef-chooser .record-container > div.tools { float: right; }
+.georef-chooser .content-container > div { margin-top: 10px; }
+.georef-chooser .form-group { clear: both; }
+.georef-chooser .form-control { background: #eee; border-radius: 0; border: 1px solid #eee; box-shadow: none; line-height: 34px; height: 44px; }
+.georef-chooser .form-control:focus { border: 1px solid #ccc; border-radius: 0; background: #fff; box-shadow:  inherit; }

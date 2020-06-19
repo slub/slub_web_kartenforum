@@ -7,7 +7,8 @@
 ################
 #### HELPER ####
 ################
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_kartenforum/Configuration/TypoScript/Helper/DynamicContent.typoscript">
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TypoScript/Helper/DynamicContent.typoscript">
+
 
 
 ##############
@@ -16,7 +17,7 @@
 page = PAGE
 page {
     typeNum = 0
-    shortcutIcon = EXT:slub_kartenforum/Resources/Public/Icons/favicon.ico
+    shortcutIcon = EXT:slub_web_kartenforum/Resources/Public/Icons/favicon.ico
 
     10 = FLUIDTEMPLATE
     10 {
@@ -48,15 +49,15 @@ page {
             ifEmpty = Default
         }
         templateRootPaths {
-            0 = EXT:slub_kartenforum/Resources/Private/Templates/Page/
+            0 = EXT:slub_web_kartenforum/Resources/Private/Templates/Page/
             1 = {$page.fluidtemplate.templateRootPath}
         }
         partialRootPaths {
-            0 = EXT:slub_kartenforum/Resources/Private/Partials/Page/
+            0 = EXT:slub_web_kartenforum/Resources/Private/Partials/Page/
             1 = {$page.fluidtemplate.partialRootPath}
         }
         layoutRootPaths {
-            0 = EXT:slub_kartenforum/Resources/Private/Layouts/Page/
+            0 = EXT:slub_web_kartenforum/Resources/Private/Layouts/Page/
             1 = {$page.fluidtemplate.layoutRootPath}
         }
         dataProcessing {
@@ -71,6 +72,15 @@ page {
                 as = mainnavigation
             }
         }
+        settings {
+#            pidRoot = {$template.navigation.main}
+            matomo {
+                hostname = {$config.matomo.hostname}
+                siteId = {$config.matomo.siteId}
+                setDomains = {$config.matomo.setDomains}
+            }
+        }
+
     }
 
     meta {
@@ -139,31 +149,9 @@ page {
         }
     }
 
-    includeCSSLibs {
-
-    }
-
-    includeCSS {
-        slub_kartenforum_layout = EXT:slub_kartenforum/Resources/Public/Css/layout.min.css
-    }
-
-    includeJSLibs {
-
-    }
-
-    includeJS {
-
-    }
-
-    includeJSFooterlibs {
-
-    }
-
-    includeJSFooter {
-        slub_kartenforum_scripts = EXT:slub_kartenforum/Resources/Public/JavaScript/Dist/scripts.js
-    }
 }
 
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TypoScript/Page/Page.typoscript">
 
 ################
 #### CONFIG ####

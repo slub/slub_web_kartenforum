@@ -1,0 +1,77 @@
+.dyn-vis-control { 
+	right: 10px;
+	top: 3px;
+	position: absolute;
+}
+
+.dyn-vis-control .open-dyn-vis {
+	position: relative;
+	margin: 2px -2px;
+	float: left;
+	background: transparent url('/typo3conf/ext/vk2/Resources/Public/images/clockBtnStatic.gif') no-repeat 0 0;
+	opacity: 0.5;
+	cursor: pointer;
+}
+
+.dyn-vis-control.play .open-dyn-vis { background: transparent url('/typo3conf/ext/vk2/Resources/Public/images/clockBtnAnimated.gif') no-repeat 0 0; opacity: 1; }
+
+.dyn-vis-control .open-dyn-vis:hover { opacity: 0.8; }
+
+@media (-webkit-min-device-pixel-ratio: 2) {
+  .dyn-vis-control .open-dyn-vis { background-image: url('/typo3conf/ext/vk2/Resources/Public/images/clockBtnStatic@2x.gif'); background-size: 22px; } 
+  .dyn-vis-control.play .open-dyn-vis { background-image: url('/typo3conf/ext/vk2/Resources/Public/images/clockBtnAnimated@2x.gif'); background-size: 22px; }
+}
+
+.dyn-vis-control .content, .dyn-vis-control .content > div {
+	position: relative;
+	float: left;
+}
+
+.dyn-vis-control a {
+	display: block;
+	margin: 1px 2px;
+	padding: 0;
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+	text-align: center;
+	height: 22px;
+	width: 22px;
+	text-indent: 200%;
+	white-space: nowrap;
+	overflow: hidden;
+	border-radius: 0;
+	background-color: rgb(0,177,158);
+}
+
+.dyn-vis-control .content .start-container a,
+.dyn-vis-control .content .stop-container a {
+  position: relative;
+	background: rgb(0,177,158);
+	text-align: center;
+}
+
+.dyn-vis-control .content .start-container a:after {
+  position: absolute;
+  top: 5px;
+  left: 8px;
+  width: 0;
+  height: 0;
+  content: "";
+  border: 6px solid transparent;
+  border-left-color: #fff;
+  border-right-width: 0;
+}
+
+.dyn-vis-control .content .stop-container a:after {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  content: "";
+}
+
+.dyn-vis-control .content .start-container a:hover, .dyn-vis-control .content .stop-container a:hover, .dyn-vis-control.play .content .start-container a { background-color: #f33; }
+.dyn-vis-control .content .feedback { font-weight: 700; font-size: 11px; margin: 4px 6px; color: #f33; }

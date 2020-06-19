@@ -1,0 +1,25 @@
+page {
+    includeCSSLibs {
+
+    }
+
+    includeCSS {
+        slub_web_kartenforum_layout = EXT:slub_web_kartenforum/Resources/Public/Css/layout.min.css
+    }
+
+    includeJSLibs {
+
+    }
+
+    includeJS {
+
+    }
+
+    includeJSFooterlibs {
+
+    }
+
+    includeJSFooter {
+        slub_web_kartenforum_scripts = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/scripts.js
+    }
+}

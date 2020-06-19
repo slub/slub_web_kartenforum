@@ -1,4 +1,5 @@
-<ul>
+<f:spaceless>
+ <ul>
     <f:for each="{mainnavigation}" as="mainnavigationItem">
         <li class="{f:if(condition: mainnavigationItem.active, then:'active')}">
             <a href="{mainnavigationItem.link}" target="{mainnavigationItem.target}" title="{mainnavigationItem.title}">
@@ -19,3 +20,8 @@
     </f:for>
 </ul>
 <f:render section="Main" />
+<f:if condition="{settings.matomo.siteId}>0">
+    <f:render section="Matomo" partial="Matomo" arguments="{_all}" />
+</f:if>
+
+</f:spaceless>

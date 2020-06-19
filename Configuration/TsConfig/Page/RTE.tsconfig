@@ -3,6 +3,6 @@
 #############
 RTE {
     default {
-        preset = slub_kartenforum
+        preset = slub_web_kartenforum
     }
 }

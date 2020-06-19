@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Extension Manager/Repository config file for ext "slub_kartenforum".
+ * Extension Manager/Repository config file for ext "slub_web_kartenforum".
  */
 $EM_CONF[$_EXTKEY] = [
     'title' => 'SLUB Kartenforum',

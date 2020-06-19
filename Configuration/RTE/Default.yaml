@@ -5,7 +5,7 @@ imports:
 
 editor:
     config:
-        contentsCss: "EXT:slub_kartenforum/Resources/Public/Css/rte.css"
+        contentsCss: "EXT:slub_web_kartenforum/Resources/Public/Css/rte.css"
 
         stylesSet:
             - { name: "Lead", element: "p", attributes: { 'class': 'lead' } }
