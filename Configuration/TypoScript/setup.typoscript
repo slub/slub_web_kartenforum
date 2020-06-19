@@ -71,6 +71,12 @@ page {
                 includeSpacer = 1
                 as = mainnavigation
             }
+            30 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
+            30 {
+                special = directory
+                special.value = {$config.menuStatic}
+                as = menuStatic
+            }
             40 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
             40 {
                 special = language
@@ -81,6 +87,7 @@ page {
         }
         settings {
 #            pidRoot = {$template.navigation.main}
+            welcomePage = {$config.welcomePage}
             matomo {
                 hostname = {$config.matomo.hostname}
                 siteId = {$config.matomo.siteId}

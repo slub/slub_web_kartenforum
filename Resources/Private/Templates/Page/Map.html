@@ -1,8 +1,7 @@
 <f:layout name="Map" />
 
 <f:section name="Main">
-
-    <div class="page-container">
+    <div id="main-page-container" class="body-container">
         <div id="vk2MapPanel" class="vk2MapPanel">
             <!-- map container -->
             <div id="mapdiv" class="olMap" tabindex="0"></div>
@@ -52,26 +51,12 @@
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <ul class="nav nav-pills">
                             <li class="dropdown info-dropdown"><a href="#"
-                                                                  class="dropdown-toggle" data-toggle="dropdown"
-                                                                  title="Informationen">Informationen<b class="caret"></b></a>
+                                                                    class="dropdown-toggle" data-toggle="dropdown"
+                                                                    title="Informationen">Informationen<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li class="listelement"><a data-classes="ranking" class="vk2-modal-anchor" title="Die besten Georeferenzierer" href="/vkviewer/static/ranking/">
-                                        Ranking
-                                    </a></li>
-
-                                    <li class="listelement"><a data-classes="faq" class="vk2-modal-anchor" title="Frequently Asked Questions (FAQ)" href="/vkviewer/static/faq/">
-                                        FAQ
-                                    </a></li>
-                                    <li class="listelement"><a data-classes="contact" class="vk2-modal-anchor" href="/vkviewer/static/contact/">
-                                        Kontakt
-                                    </a></li>
-                                    <li class="listelement"><a data-classes="impressum" class="vk2-modal-anchor" href="/vkviewer/static/impressum/">
-                                        Impressum
-                                    </a></li>
-                                    <li class="listelement"><a target="_blank" href="https://www.slub-dresden.de/datenschutzerklaerung/">Privacy Policy</a>
-
-                                    </li>
-                                </ul></li>
+                                    <f:render partial="Navigation/Elements/Item" arguments="{_all}" />
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -80,61 +65,38 @@
 
             <!-- Footer panel -->
             <div class="vk2FooterPanel">
-<div id="vk2Footer" class="vk2Footer">
-<div class="footerContainer">
-<div class="leftside">
-    <ul class="footerList">
-        <li class="listelement thick leftborder">
-            Virtuelles Kartenforum 2.0
-        </li>
-        <li class="listelement">
-            ein Projekt der SLUB und der Universität Rostock
-        </li>
-    </ul>
-</div>
-<div class="rightside">
-    <ul class="footerList">
-        <li class="listelement leftborder">
-            <a data-classes="ranking" class="vk2-modal-anchor" title="Die besten Georeferenzierer" href="/vkviewer/static/ranking/">Ranking</a>
-        </li>
+                <div id="vk2Footer" class="vk2Footer">
+                    <div class="footerContainer">
+                        <div class="leftside">
+                            <ul class="footerList">
+                                <li class="listelement thick leftborder">
+                                    Virtuelles Kartenforum 2.0
+                                </li>
+                                <li class="listelement">
+                                    ein Projekt der SLUB und der Universität Rostock
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="rightside">
+                            <ul class="footerList">
+                                <f:render partial="Navigation/Elements/Item" arguments="{_all}" />
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <f:link.page pageUid="{settings.welcomePage}" data="{classes:'welcomeBox'}" class="vk2-modal-anchor" id="welcome-page-link"></f:link.page>
+        </div>
+    </div>
+    <!-- checks if the vk2.app.PresentationApp / vk2.utils module is already loaded -->
+    <script>
+    if (window['vk2'] === undefined || window['vk2']['utils'] === undefined || window['vk2']['app'] === undefined) {
+        goog.require('vk2.app.PresentationApp');
+        goog.require('vk2.utils');
+    };
+    </script>
 
-        <li class="listelement leftborder">
-            <a data-classes="faq" class="vk2-modal-anchor" title="Frequently Asked Questions (FAQ)" href="/vkviewer/static/faq/">FAQ</a>
-        </li>
-        <li class="listelement leftborder">
-            <a data-classes="contact" class="vk2-modal-anchor" href="/vkviewer/static/contact/">Kontakt
-            </a>
-        </li>
-        <li class="listelement">
-            <a data-classes="impressum" class="vk2-modal-anchor" href="/vkviewer/static/impressum/">Impressum
-            </a>
-        </li>
-        <li class="listelement">
-            <a target="_blank" href="https://www.slub-dresden.de/datenschutzerklaerung/">Privacy Policy</a>
-        </li>
-    </ul>
-</div>
-</div>
-</div>
-</div>
-
-<a data-classes="welcomeBox" class="vk2-modal-anchor" id="welcome-page-link" href="/vkviewer/static/welcome/"></a>
-
-
-</div>
-</div>
-
-<!-- checks if the vk2.app.PresentationApp / vk2.utils module is already loaded -->
-<script>
-if (window['vk2'] === undefined || window['vk2']['utils'] === undefined || window['vk2']['app'] === undefined) {
-    goog.require('vk2.app.PresentationApp');
-    goog.require('vk2.utils');
-};
-</script>
-
-<!-- load application specific code -->
-
-
+    <!-- load application specific code -->
     <script>
         // set the cookie for proper working of the javascript client code
         vk2.utils.setCookie('vk2-auth', '');
@@ -146,10 +108,5 @@ if (window['vk2'] === undefined || window['vk2']['utils'] === undefined || windo
             'spatialsearchContainerId':'spatialsearch-container'
         });
     </script>
-        </div>
-
-
-
-    </div>
 
 </f:section>
