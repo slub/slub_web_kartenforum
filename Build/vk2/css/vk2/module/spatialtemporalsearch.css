@@ -1,37 +1,37 @@
-/* 
-	Generic stuff 
+/*
+	Generic stuff
 */
 
-.spatialsearch-container { 
-	position: absolute; 
-	top: 10px; 
-	left: 10px; 
-	bottom: 40px; 
-	width: 320px; 
-	z-index: 1000; 
-	display: block; 
+.spatialsearch-container {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	bottom: 40px;
+	width: 320px;
+	z-index: 1000;
+	display: block;
 	box-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
 
 
-.vk2-navbar-header {  
-	background: rgba(255,52,52,0.9); 
+.vk2-navbar-header {
+	background: rgba(255,52,52,0.9);
 	border: 0 none;
 	border-radius: 0;
 	height: 80px;
 	margin: 0;
 }
 
-.vk2-navbar-header .navbar-brand { 
-	width: 180px; 
+.vk2-navbar-header .navbar-brand {
+	width: 180px;
 	height: 40px;
-	margin: 20px 0 0 20px; 
-	display: block; 
-	overflow: hidden; 
-	text-indent: 200%; 
-	white-space: nowrap; 
-	background: url('/typo3conf/ext/vk2/Resources/Public/images/vkf2Logo.svg') no-repeat 0 0; 
-	background-size: contain; 
+	margin: 20px 0 0 20px;
+	display: block;
+	overflow: hidden;
+	text-indent: 200%;
+	white-space: nowrap;
+	background: url('../../../Images/vkf2Logo.svg') no-repeat 0 0;
+	background-size: contain;
 }
 
 .vk2-navbar-header .nav { position: absolute; right: 15px; top: 22px; }
@@ -44,8 +44,3 @@
 .spatialsearch-inner-container {
 position: absolute; top: 80px; right: 0; bottom: 0; left: 0;
  /* @alternate */ background: #fff; background: rgba(255,255,255,0.9); padding: 15px; }
-
-
-
-
-

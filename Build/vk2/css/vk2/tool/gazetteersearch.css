@@ -7,30 +7,30 @@
 
 .gazetteersearch-container .gazetteersearch-input {
 	width: 100%;
-	position: relative; 
+	position: relative;
 	border-radius: 0;
 	font-weight: 300;
 }
 
 .gazetteersearch-container .gazetteersearch-input:focus,
 .gazetteersearch-container .gazetteersearch-submit:focus {
-	border-color: #766; 
-	-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(0,0,0,0.2); 
+	border-color: #766;
+	-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(0,0,0,0.2);
 	box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(0,0,0,0.2);
 }
 
 .gazetteersearch-container .gazetteersearch-input.loading{
-	background: #fff url('/typo3conf/ext/vk2/Resources/Public/images/loader.gif') 220px center no-repeat;	
+	background: #fff url('../../../Images/loader.gif') 220px center no-repeat;
 }
 
 .gazetteersearch-container .gazetteersearch-submit {
-	position: absolute; 
+	position: absolute;
 	top: 0;
 	right: 0;
   width: 40px;
 	height: 34px;
 	border-radius: 0;
-	background: rgb(0,177,158) url('/typo3conf/ext/vk2/Resources/Public/images/searchBtn.svg') no-repeat center center;
+	background: rgb(0,177,158) url('../../../Images/searchBtn.svg') no-repeat center center;
 	background-size: 18px 18px;
 	overflow: hidden;
 	text-indent: 100%;
@@ -60,7 +60,3 @@ ul.ui-autocomplete{
 
 .ui-menu .ui-menu-item a { color: #fff; font-weight: normal; border: 0 none; padding: 4px 10px; font-size: 12px; margin: 0; border-bottom: 1px dotted rgba(255,255,255,0.2); }
 .ui-menu .ui-menu-item a.ui-state-focus,.ui-menu .ui-menu-item a.ui-state-active { background: rgb(0,177,158); border: 0 none; border-bottom: 1px solid transparent; border-radius: 0; color: #fff; padding: 4px 10px; margin: 0; }
-
-
-
-

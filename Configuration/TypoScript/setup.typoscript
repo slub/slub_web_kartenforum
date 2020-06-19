@@ -71,6 +71,13 @@ page {
                 includeSpacer = 1
                 as = mainnavigation
             }
+            40 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
+            40 {
+                special = language
+                # 0 == German/Default, 1 == English
+                special.value = 0,1
+                as = menuLanguage
+            }
         }
         settings {
 #            pidRoot = {$template.navigation.main}

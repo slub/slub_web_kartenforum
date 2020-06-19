@@ -1,5 +1,5 @@
-/* 
-	main page 
+/*
+	main page
 */
 /* body layout */
 
@@ -11,9 +11,9 @@
 }
 
 .vk2MapPanel{
-	position: absolute; 
-	box-sizing:border-box; 
-	-moz-box-sizing:border-box; 
+	position: absolute;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
 	width: 100%;
 	height: 100%;
 }
@@ -32,8 +32,8 @@
 
 /* map stuff */
 
-#mapdiv  { 
-    width:100%; 
+#mapdiv  {
+    width:100%;
     height: 100%;
     background-color:#B3C6D4;
 }
@@ -70,7 +70,7 @@
 	background: #fff;
 	background: rgba(255,255,255,0.4);
 	padding: 3px;
-	
+
 }
 
 .user-header > ul {
@@ -87,31 +87,31 @@
 
 .user-header .dropdown-menu { left: auto; right: 0; }
 
-.user-header .langswitch { 
-	list-style-type: none; 
+.user-header .langswitch {
+	list-style-type: none;
 	margin-right: 5px;
 }
 
-.user-header .langswitch li { 
-	width: 16px; 
-	height: 11px; 
-	overflow: hidden; 
-	margin: 5px 3px 0 3px; 
+.user-header .langswitch li {
+	width: 16px;
+	height: 11px;
+	overflow: hidden;
+	margin: 5px 3px 0 3px;
 	float: left;
 }
 
-.user-header .language_switcher { 
-	position: relative; 
-	float: left; 
-	height: 11px; 
-	width: 16px; 
-	display: block; 
-	overflow: hidden; 
-	text-indent: -9000px; 
-	background: url('/typo3conf/ext/vk2/Resources/Public/images/flags.png') no-repeat 
+.user-header .language_switcher {
+	position: relative;
+	float: left;
+	height: 11px;
+	width: 16px;
+	display: block;
+	overflow: hidden;
+	text-indent: -9000px;
+	background: url('../../../Images/flags.png') no-repeat
 }
-.language_switcher.switch_de { background-position: 0 0 }
-.language_switcher.switch_en { background-position: 0 -11px }
+.language_switcher.switch_de-DE { background-position: 0 0 }
+.language_switcher.switch_en-GB { background-position: 0 -11px }
 
 
 .user-header .nav > li > a.georeference-chooser-control.open { background: #f33; }
