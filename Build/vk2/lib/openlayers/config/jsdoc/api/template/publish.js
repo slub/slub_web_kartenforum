@@ -1,10 +1,10 @@
 /*global env: true */
-var template = require('jsdoc-fork/lib/jsdoc/template'),
-    fs = require('jsdoc-fork/lib/jsdoc/fs'),
-    path = require('jsdoc-fork/lib/jsdoc/path'),
+var template = require('jsdoc/lib/jsdoc/template'),
+    fs = require('jsdoc/lib/jsdoc/fs'),
+    path = require('jsdoc/lib/jsdoc/path'),
     taffy = require('taffydb').taffy,
-    handle = require('jsdoc-fork/lib/jsdoc/util/error').handle,
-    helper = require('jsdoc-fork/lib/jsdoc/util/templateHelper'),
+    handle = require('jsdoc/lib/jsdoc/util/error').handle,
+    helper = require('jsdoc/lib/jsdoc/util/templateHelper'),
     _ = require('underscore'),
     htmlsafe = helper.htmlsafe,
     linkto = helper.linkto,
@@ -113,7 +113,8 @@ function generate(title, docs, filename, resolveLinks) {
     var docData = {
         filename: filename,
         title: title,
-        docs: docs
+        docs: docs,
+        packageInfo: ( find({kind: 'package'}) || [] ) [0]
     };
 
     var outpath = path.join(outdir, filename),
@@ -327,11 +328,6 @@ exports.publish = function(taffyData, opts, tutorials) {
         }
     });
 
-    // update outdir if necessary, then create outdir
-    var packageInfo = ( find({kind: 'package'}) || [] ) [0];
-    if (packageInfo && packageInfo.name) {
-        outdir = path.join(outdir, packageInfo.name, packageInfo.version);
-    }
     fs.mkPath(outdir);
 
     // copy the template's static files to outdir
@@ -350,8 +346,8 @@ exports.publish = function(taffyData, opts, tutorials) {
     var staticFileScanner;
     if (conf['default'].staticFiles) {
         staticFilePaths = conf['default'].staticFiles.paths || [];
-        staticFileFilter = new (require('jsdoc-fork/lib/jsdoc/src/filter')).Filter(conf['default'].staticFiles);
-        staticFileScanner = new (require('jsdoc-fork/lib/jsdoc/src/scanner')).Scanner();
+        staticFileFilter = new (require('jsdoc/lib/jsdoc/src/filter')).Filter(conf['default'].staticFiles);
+        staticFileScanner = new (require('jsdoc/lib/jsdoc/src/scanner')).Scanner();
 
         staticFilePaths.forEach(function(filePath) {
             var extraStaticFiles = staticFileScanner.scan([filePath], 10, staticFileFilter);
@@ -439,13 +435,10 @@ exports.publish = function(taffyData, opts, tutorials) {
     if (members.globals.length) { generate('Global', [{kind: 'globalobj'}], globalUrl); }
 
     // index page displays information from package.json and lists files
-    var files = find({kind: 'file'}),
-        packages = find({kind: 'package'});
+    var files = find({kind: 'file'});
 
     generate('Index',
-        packages.concat(
-            [{kind: 'mainpage', readme: opts.readme, longname: (opts.mainpagetitle) ? opts.mainpagetitle : 'Main Page'}]
-        ).concat(files),
+        [{kind: 'mainpage', readme: opts.readme, longname: (opts.mainpagetitle) ? opts.mainpagetitle : 'Main Page'}].concat(files),
     indexUrl);
 
     // set up the lists that we'll use to generate pages

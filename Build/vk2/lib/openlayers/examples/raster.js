@@ -15,7 +15,7 @@ var bins = 10;
 /**
  * Calculate the Vegetation Greenness Index (VGI) from an input pixel.  This
  * is a rough estimate assuming that pixel values correspond to reflectance.
- * @param {ol.raster.Pixel} pixel An array of [R, G, B, A] values.
+ * @param {Array.<number>} pixel An array of [R, G, B, A] values.
  * @return {number} The VGI value for the given pixel.
  */
 function vgi(pixel) {
@@ -50,7 +50,7 @@ function summarize(value, counts) {
  * Use aerial imagery as the input data for the raster source.
  */
 var bing = new ol.source.BingMaps({
-  key: 'Ak-dzM4wZjSqTlzveKz5u0d4IQ4bRzVI309GxmkgSVr1ewS6iPSrOvOKhA-CJlm3',
+  key: 'As1HiMj1PvLPlqc_gtM7AqZfBL8ZL3VrjaS3zIb22Uvb9WKhuJObROC-qUpa81U5',
   imagerySet: 'Aerial'
 });
 
@@ -61,6 +61,12 @@ var bing = new ol.source.BingMaps({
  */
 var raster = new ol.source.Raster({
   sources: [bing],
+  /**
+   * Run calculations on pixel data.
+   * @param {Array} pixels List of pixels (one per source).
+   * @param {Object} data User data object.
+   * @return {Array} The output pixel.
+   */
   operation: function(pixels, data) {
     var pixel = pixels[0];
     var value = vgi(pixel);

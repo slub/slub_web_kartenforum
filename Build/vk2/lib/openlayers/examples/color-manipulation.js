@@ -22,8 +22,8 @@ var twoPi = 2 * Math.PI;
 
 /**
  * Convert an RGB pixel into an HCL pixel.
- * @param {ol.raster.Pixel} pixel A pixel in RGB space.
- * @return {ol.raster.Pixel} A pixel in HCL space.
+ * @param {Array.<number>} pixel A pixel in RGB space.
+ * @return {Array.<number>} A pixel in HCL space.
  */
 function rgb2hcl(pixel) {
   var red = rgb2xyz(pixel[0]);
@@ -57,8 +57,8 @@ function rgb2hcl(pixel) {
 
 /**
  * Convert an HCL pixel into an RGB pixel.
- * @param {ol.raster.Pixel} pixel A pixel in HCL space.
- * @return {ol.raster.Pixel} A pixel in RGB space.
+ * @param {Array.<number>} pixel A pixel in HCL space.
+ * @return {Array.<number>} A pixel in RGB space.
  */
 function hcl2rgb(pixel) {
   var h = pixel[0];
@@ -138,6 +138,8 @@ var raster = new ol.source.Raster({
   }
 });
 
+var controls = {};
+
 raster.on('beforeoperations', function(event) {
   var data = event.data;
   for (var id in controls) {
@@ -160,7 +162,6 @@ var map = new ol.Map({
 });
 
 var controlIds = ['hue', 'chroma', 'lightness'];
-var controls = {};
 controlIds.forEach(function(id) {
   var control = document.getElementById(id);
   var output = document.getElementById(id + 'Out');

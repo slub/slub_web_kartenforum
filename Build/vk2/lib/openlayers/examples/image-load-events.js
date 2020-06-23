@@ -4,7 +4,6 @@ goog.require('ol.layer.Image');
 goog.require('ol.source.ImageWMS');
 
 
-
 /**
  * Renders a progress bar.
  * @param {Element} el The target element.
@@ -79,19 +78,19 @@ Progress.prototype.hide = function() {
 var progress = new Progress(document.getElementById('progress'));
 
 var source = new ol.source.ImageWMS({
-  url: 'http://demo.boundlessgeo.com/geoserver/wms',
+  url: 'https://ahocevar.com/geoserver/wms',
   params: {'LAYERS': 'topp:states'},
   serverType: 'geoserver'
 });
 
-source.on('imageloadstart', function(event) {
+source.on('imageloadstart', function() {
   progress.addLoading();
 });
 
-source.on('imageloadend', function(event) {
+source.on('imageloadend', function() {
   progress.addLoaded();
 });
-source.on('imageloaderror', function(event) {
+source.on('imageloaderror', function() {
   progress.addLoaded();
 });
 
@@ -100,7 +99,6 @@ var map = new ol.Map({
   layers: [
     new ol.layer.Image({source: source})
   ],
-  renderer: common.getRendererFromQueryString(),
   target: 'map',
   view: new ol.View({
     center: [-10997148, 4569099],

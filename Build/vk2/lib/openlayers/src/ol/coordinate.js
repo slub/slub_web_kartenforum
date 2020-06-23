@@ -1,27 +1,7 @@
-goog.provide('ol.Coordinate');
-goog.provide('ol.CoordinateFormatType');
 goog.provide('ol.coordinate');
 
-goog.require('goog.math');
-goog.require('goog.string');
-
-
-/**
- * A function that takes a {@link ol.Coordinate} and transforms it into a
- * `{string}`.
- *
- * @typedef {function((ol.Coordinate|undefined)): string}
- * @api stable
- */
-ol.CoordinateFormatType;
-
-
-/**
- * An array of numbers representing an xy coordinate. Example: `[16, 48]`.
- * @typedef {Array.<number>} ol.Coordinate
- * @api stable
- */
-ol.Coordinate;
+goog.require('ol.math');
+goog.require('ol.string');
 
 
 /**
@@ -124,14 +104,17 @@ ol.coordinate.createStringXY = function(opt_fractionDigits) {
  * @private
  * @param {number} degrees Degrees.
  * @param {string} hemispheres Hemispheres.
+ * @param {number=} opt_fractionDigits The number of digits to include
+ *    after the decimal point. Default is `0`.
  * @return {string} String.
  */
-ol.coordinate.degreesToStringHDMS_ = function(degrees, hemispheres) {
-  var normalizedDegrees = goog.math.modulo(degrees + 180, 360) - 180;
-  var x = Math.abs(Math.round(3600 * normalizedDegrees));
+ol.coordinate.degreesToStringHDMS_ = function(degrees, hemispheres, opt_fractionDigits) {
+  var normalizedDegrees = ol.math.modulo(degrees + 180, 360) - 180;
+  var x = Math.abs(3600 * normalizedDegrees);
+  var dflPrecision = opt_fractionDigits || 0;
   return Math.floor(x / 3600) + '\u00b0 ' +
-      goog.string.padNumber(Math.floor((x / 60) % 60), 2) + '\u2032 ' +
-      goog.string.padNumber(Math.floor(x % 60), 2) + '\u2033 ' +
+      ol.string.padNumber(Math.floor((x / 60) % 60), 2) + '\u2032 ' +
+      ol.string.padNumber((x % 60), 2, dflPrecision) + '\u2033 ' +
       hemispheres.charAt(normalizedDegrees < 0 ? 1 : 0);
 };
 
@@ -284,20 +267,28 @@ ol.coordinate.squaredDistanceToSegment = function(coordinate, segment) {
  * Format a geographic coordinate with the hemisphere, degrees, minutes, and
  * seconds.
  *
- * Example:
+ * Example without specifying fractional digits:
  *
  *     var coord = [7.85, 47.983333];
  *     var out = ol.coordinate.toStringHDMS(coord);
- *     // out is now '47° 59′ 0″ N 7° 51′ 0″ E'
+ *     // out is now '47° 58′ 60″ N 7° 50′ 60″ E'
+ *
+ * Example explicitly specifying 1 fractional digit:
+ *
+ *     var coord = [7.85, 47.983333];
+ *     var out = ol.coordinate.toStringHDMS(coord, 1);
+ *     // out is now '47° 58′ 60.0″ N 7° 50′ 60.0″ E'
  *
  * @param {ol.Coordinate|undefined} coordinate Coordinate.
+ * @param {number=} opt_fractionDigits The number of digits to include
+ *    after the decimal point. Default is `0`.
  * @return {string} Hemisphere, degrees, minutes and seconds.
  * @api stable
  */
-ol.coordinate.toStringHDMS = function(coordinate) {
+ol.coordinate.toStringHDMS = function(coordinate, opt_fractionDigits) {
   if (coordinate) {
-    return ol.coordinate.degreesToStringHDMS_(coordinate[1], 'NS') + ' ' +
-        ol.coordinate.degreesToStringHDMS_(coordinate[0], 'EW');
+    return ol.coordinate.degreesToStringHDMS_(coordinate[1], 'NS', opt_fractionDigits) + ' ' +
+        ol.coordinate.degreesToStringHDMS_(coordinate[0], 'EW', opt_fractionDigits);
   } else {
     return '';
   }
@@ -327,29 +318,4 @@ ol.coordinate.toStringHDMS = function(coordinate) {
  */
 ol.coordinate.toStringXY = function(coordinate, opt_fractionDigits) {
   return ol.coordinate.format(coordinate, '{x}, {y}', opt_fractionDigits);
-};
-
-
-/**
- * Create an ol.Coordinate from an Array and take into account axis order.
- *
- * Examples:
- *
- *     var northCoord = ol.coordinate.fromProjectedArray([1, 2], 'n');
- *     // northCoord is now [2, 1]
- *
- *     var eastCoord = ol.coordinate.fromProjectedArray([1, 2], 'e');
- *     // eastCoord is now [1, 2]
- *
- * @param {Array} array The array with coordinates.
- * @param {string} axis the axis info.
- * @return {ol.Coordinate} The coordinate created.
- */
-ol.coordinate.fromProjectedArray = function(array, axis) {
-  var firstAxis = axis.charAt(0);
-  if (firstAxis === 'n' || firstAxis === 's') {
-    return [array[1], array[0]];
-  } else {
-    return array;
-  }
 };

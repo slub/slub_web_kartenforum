@@ -1,9 +1,8 @@
 goog.provide('ol.ImageCanvas');
 
-goog.require('goog.asserts');
+goog.require('ol');
+goog.require('ol.Image');
 goog.require('ol.ImageBase');
-goog.require('ol.ImageState');
-
 
 
 /**
@@ -28,9 +27,9 @@ ol.ImageCanvas = function(extent, resolution, pixelRatio, attributions,
   this.loader_ = opt_loader !== undefined ? opt_loader : null;
 
   var state = opt_loader !== undefined ?
-      ol.ImageState.IDLE : ol.ImageState.LOADED;
+      ol.Image.State.IDLE : ol.Image.State.LOADED;
 
-  goog.base(this, extent, resolution, pixelRatio, state, attributions);
+  ol.ImageBase.call(this, extent, resolution, pixelRatio, state, attributions);
 
   /**
    * @private
@@ -45,7 +44,7 @@ ol.ImageCanvas = function(extent, resolution, pixelRatio, attributions,
   this.error_ = null;
 
 };
-goog.inherits(ol.ImageCanvas, ol.ImageBase);
+ol.inherits(ol.ImageCanvas, ol.ImageBase);
 
 
 /**
@@ -65,9 +64,9 @@ ol.ImageCanvas.prototype.getError = function() {
 ol.ImageCanvas.prototype.handleLoad_ = function(err) {
   if (err) {
     this.error_ = err;
-    this.state = ol.ImageState.ERROR;
+    this.state = ol.Image.State.ERROR;
   } else {
-    this.state = ol.ImageState.LOADED;
+    this.state = ol.Image.State.LOADED;
   }
   this.changed();
 };
@@ -77,11 +76,11 @@ ol.ImageCanvas.prototype.handleLoad_ = function(err) {
  * Trigger drawing on canvas.
  */
 ol.ImageCanvas.prototype.load = function() {
-  if (this.state == ol.ImageState.IDLE) {
-    goog.asserts.assert(this.loader_, 'this.loader_ must be set');
-    this.state = ol.ImageState.LOADING;
+  if (this.state == ol.Image.State.IDLE) {
+    ol.DEBUG && console.assert(this.loader_, 'this.loader_ must be set');
+    this.state = ol.Image.State.LOADING;
     this.changed();
-    this.loader_(goog.bind(this.handleLoad_, this));
+    this.loader_(this.handleLoad_.bind(this));
   }
 };
 
@@ -92,14 +91,3 @@ ol.ImageCanvas.prototype.load = function() {
 ol.ImageCanvas.prototype.getImage = function(opt_context) {
   return this.canvas_;
 };
-
-
-/**
- * A function that is called to trigger asynchronous canvas drawing.  It is
- * called with a "done" callback that should be called when drawing is done.
- * If any error occurs during drawing, the "done" callback should be called with
- * that error.
- *
- * @typedef {function(function(Error))}
- */
-ol.ImageCanvasLoader;

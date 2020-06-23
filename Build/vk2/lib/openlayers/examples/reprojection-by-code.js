@@ -3,18 +3,16 @@ goog.require('ol.View');
 goog.require('ol.extent');
 goog.require('ol.layer.Tile');
 goog.require('ol.proj');
-goog.require('ol.source.MapQuest');
+goog.require('ol.source.OSM');
 goog.require('ol.source.TileImage');
-
 
 
 var map = new ol.Map({
   layers: [
     new ol.layer.Tile({
-      source: new ol.source.MapQuest({layer: 'osm'})
+      source: new ol.source.OSM()
     })
   ],
-  renderer: common.getRendererFromQueryString(),
   target: 'map',
   view: new ol.View({
     projection: 'EPSG:3857',
@@ -64,47 +62,44 @@ function setProjection(code, name, proj4def, bbox) {
 
 
 function search(query) {
-  resultSpan.innerHTML = 'Searching...';
-  $.ajax({
-    url: 'http://epsg.io/?format=json&q=' + query,
-    dataType: 'jsonp',
-    success: function(response) {
-      if (response) {
-        var results = response['results'];
-        if (results && results.length > 0) {
-          for (var i = 0, ii = results.length; i < ii; i++) {
-            var result = results[i];
-            if (result) {
-              var code = result['code'], name = result['name'],
-                  proj4def = result['proj4'], bbox = result['bbox'];
-              if (code && code.length > 0 && proj4def && proj4def.length > 0 &&
-                  bbox && bbox.length == 4) {
-                setProjection(code, name, proj4def, bbox);
-                return;
-              }
-            }
+  resultSpan.innerHTML = 'Searching ...';
+  fetch('https://epsg.io/?format=json&q=' + query).then(function(response) {
+    return response.json();
+  }).then(function(json) {
+    var results = json['results'];
+    if (results && results.length > 0) {
+      for (var i = 0, ii = results.length; i < ii; i++) {
+        var result = results[i];
+        if (result) {
+          var code = result['code'], name = result['name'],
+              proj4def = result['proj4'], bbox = result['bbox'];
+          if (code && code.length > 0 && proj4def && proj4def.length > 0 &&
+              bbox && bbox.length == 4) {
+            setProjection(code, name, proj4def, bbox);
+            return;
           }
         }
       }
-      setProjection(null, null, null, null);
     }
+    setProjection(null, null, null, null);
   });
 }
 
 
 /**
- * @param {Event} e Change event.
+ * Handle click event.
+ * @param {Event} event The event.
  */
-searchButton.onclick = function(e) {
+searchButton.onclick = function(event) {
   search(queryInput.value);
-  e.preventDefault();
+  event.preventDefault();
 };
 
 
 /**
- * @param {Event} e Change event.
+ * Handle change event.
  */
-renderEdgesCheckbox.onchange = function(e) {
+renderEdgesCheckbox.onchange = function() {
   map.getLayers().forEach(function(layer) {
     if (layer instanceof ol.layer.Tile) {
       var source = layer.getSource();

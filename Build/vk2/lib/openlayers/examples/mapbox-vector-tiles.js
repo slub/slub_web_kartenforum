@@ -1,4 +1,5 @@
-goog.require('ol.Attribution');
+/* eslint-disable openlayers-internal/no-unused-requires */
+
 goog.require('ol.Map');
 goog.require('ol.View');
 goog.require('ol.format.MVT');
@@ -9,6 +10,7 @@ goog.require('ol.style.Icon');
 goog.require('ol.style.Stroke');
 goog.require('ol.style.Style');
 goog.require('ol.style.Text');
+goog.require('ol.tilegrid');
 
 
 var key = 'pk.eyJ1IjoiYWhvY2V2YXIiLCJhIjoiRk1kMWZaSSJ9.E5BkluenyWQMsBLsuByrmg';
@@ -17,15 +19,13 @@ var map = new ol.Map({
   layers: [
     new ol.layer.VectorTile({
       source: new ol.source.VectorTile({
-        attributions: [new ol.Attribution({
-          html: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> ' +
-              '© <a href="http://www.openstreetmap.org/copyright">' +
-              'OpenStreetMap contributors</a>'
-        })],
+        attributions: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> ' +
+          '© <a href="https://www.openstreetmap.org/copyright">' +
+          'OpenStreetMap contributors</a>',
         format: new ol.format.MVT(),
         tileGrid: ol.tilegrid.createXYZ({maxZoom: 22}),
         tilePixelRatio: 16,
-        url: 'http://{a-d}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/' +
+        url: 'https://{a-d}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/' +
             '{z}/{x}/{y}.vector.pbf?access_token=' + key
       }),
       style: createMapboxStreetsV6Style()

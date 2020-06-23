@@ -1,5 +1,9 @@
 goog.provide('ol.test.reproj');
 
+goog.require('ol.reproj');
+goog.require('ol.proj');
+
+
 describe('ol.reproj', function() {
 
   describe('#calculateSourceResolution', function() {
@@ -31,7 +35,8 @@ describe('ol.reproj', function() {
       var resolution3857 = ol.reproj.calculateSourceResolution(
           proj3857, proj4326, point4326, resolution4326);
       expect(resolution3857).not.to.be(resolution4326);
-      expect(resolution3857).to.roughlyEqual(555974.3714343394, 1e-6);
+      expect(resolution3857).to.roughlyEqual(
+          5 * proj4326.getMetersPerUnit(), 1e-4);
 
       var result = ol.reproj.calculateSourceResolution(
           proj4326, proj3857, point3857, resolution3857);
@@ -39,7 +44,3 @@ describe('ol.reproj', function() {
     });
   });
 });
-
-
-goog.require('ol.reproj');
-goog.require('ol.proj');

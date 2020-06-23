@@ -29,7 +29,6 @@ var map = new ol.Map({
       })
     })
   ],
-  renderer: 'canvas',
   target: 'map',
   view: new ol.View({
     center: [0, 0],
@@ -39,6 +38,6 @@ var map = new ol.Map({
   })
 });
 
-var graticule = new ol.Graticule({
+new ol.Graticule({
   map: map
 });

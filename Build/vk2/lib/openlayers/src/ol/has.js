@@ -1,9 +1,34 @@
 goog.provide('ol.has');
 
-goog.require('goog.dom');
 goog.require('ol');
-goog.require('ol.dom');
 goog.require('ol.webgl');
+
+var ua = typeof navigator !== 'undefined' ?
+    navigator.userAgent.toLowerCase() : '';
+
+/**
+ * User agent string says we are dealing with Firefox as browser.
+ * @type {boolean}
+ */
+ol.has.FIREFOX = ua.indexOf('firefox') !== -1;
+
+/**
+ * User agent string says we are dealing with Safari as browser.
+ * @type {boolean}
+ */
+ol.has.SAFARI = ua.indexOf('safari') !== -1 && ua.indexOf('chrom') == -1;
+
+/**
+ * User agent string says we are dealing with a WebKit engine.
+ * @type {boolean}
+ */
+ol.has.WEBKIT = ua.indexOf('webkit') !== -1 && ua.indexOf('edge') == -1;
+
+/**
+ * User agent string says we are dealing with a Mac as platform.
+ * @type {boolean}
+ */
+ol.has.MAC = ua.indexOf('macintosh') !== -1;
 
 
 /**
@@ -13,7 +38,7 @@ goog.require('ol.webgl');
  * @type {number}
  * @api stable
  */
-ol.has.DEVICE_PIXEL_RATIO = goog.global.devicePixelRatio || 1;
+ol.has.DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1;
 
 
 /**
@@ -35,11 +60,11 @@ ol.has.CANVAS = ol.ENABLE_CANVAS && (
      * @return {boolean} Canvas supported.
      */
     function() {
-      if (!('HTMLCanvasElement' in goog.global)) {
+      if (!('HTMLCanvasElement' in window)) {
         return false;
       }
       try {
-        var context = ol.dom.createCanvasContext2D();
+        var context = document.createElement('CANVAS').getContext('2d');
         if (!context) {
           return false;
         } else {
@@ -60,15 +85,7 @@ ol.has.CANVAS = ol.ENABLE_CANVAS && (
  * @type {boolean}
  * @api stable
  */
-ol.has.DEVICE_ORIENTATION = 'DeviceOrientationEvent' in goog.global;
-
-
-/**
- * True if `ol.ENABLE_DOM` is set to `true` at compile time.
- * @const
- * @type {boolean}
- */
-ol.has.DOM = ol.ENABLE_DOM;
+ol.has.DEVICE_ORIENTATION = 'DeviceOrientationEvent' in window;
 
 
 /**
@@ -77,7 +94,7 @@ ol.has.DOM = ol.ENABLE_DOM;
  * @type {boolean}
  * @api stable
  */
-ol.has.GEOLOCATION = 'geolocation' in goog.global.navigator;
+ol.has.GEOLOCATION = 'geolocation' in navigator;
 
 
 /**
@@ -86,7 +103,7 @@ ol.has.GEOLOCATION = 'geolocation' in goog.global.navigator;
  * @type {boolean}
  * @api stable
  */
-ol.has.TOUCH = ol.ASSUME_TOUCH || 'ontouchstart' in goog.global;
+ol.has.TOUCH = ol.ASSUME_TOUCH || 'ontouchstart' in window;
 
 
 /**
@@ -94,7 +111,7 @@ ol.has.TOUCH = ol.ASSUME_TOUCH || 'ontouchstart' in goog.global;
  * @const
  * @type {boolean}
  */
-ol.has.POINTER = 'PointerEvent' in goog.global;
+ol.has.POINTER = 'PointerEvent' in window;
 
 
 /**
@@ -102,7 +119,7 @@ ol.has.POINTER = 'PointerEvent' in goog.global;
  * @const
  * @type {boolean}
  */
-ol.has.MSPOINTER = !!(goog.global.navigator.msPointerEnabled);
+ol.has.MSPOINTER = !!(navigator.msPointerEnabled);
 
 
 /**
@@ -121,10 +138,10 @@ ol.has.WEBGL;
     var textureSize;
     var /** @type {Array.<string>} */ extensions = [];
 
-    if ('WebGLRenderingContext' in goog.global) {
+    if ('WebGLRenderingContext' in window) {
       try {
         var canvas = /** @type {HTMLCanvasElement} */
-            (goog.dom.createElement('CANVAS'));
+            (document.createElement('CANVAS'));
         var gl = ol.webgl.getContext(canvas, {
           failIfMajorPerformanceCaveat: true
         });
@@ -134,7 +151,9 @@ ol.has.WEBGL;
               (gl.getParameter(gl.MAX_TEXTURE_SIZE));
           extensions = gl.getSupportedExtensions();
         }
-      } catch (e) {}
+      } catch (e) {
+        // pass
+      }
     }
     ol.has.WEBGL = hasWebGL;
     ol.WEBGL_EXTENSIONS = extensions;

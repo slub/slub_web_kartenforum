@@ -1,34 +1,10 @@
 goog.provide('ol.source.Source');
-goog.provide('ol.source.State');
 
 goog.require('ol');
 goog.require('ol.Attribution');
 goog.require('ol.Object');
 goog.require('ol.proj');
-
-
-/**
- * State of the source, one of 'undefined', 'loading', 'ready' or 'error'.
- * @enum {string}
- * @api
- */
-ol.source.State = {
-  UNDEFINED: 'undefined',
-  LOADING: 'loading',
-  READY: 'ready',
-  ERROR: 'error'
-};
-
-
-/**
- * @typedef {{attributions: (Array.<ol.Attribution>|undefined),
- *            logo: (string|olx.LogoOptions|undefined),
- *            projection: ol.proj.ProjectionLike,
- *            state: (ol.source.State|undefined),
- *            wrapX: (boolean|undefined)}}
- */
-ol.source.SourceOptions;
-
+goog.require('ol.source.State');
 
 
 /**
@@ -41,12 +17,12 @@ ol.source.SourceOptions;
  *
  * @constructor
  * @extends {ol.Object}
- * @param {ol.source.SourceOptions} options Source options.
+ * @param {ol.SourceSourceOptions} options Source options.
  * @api stable
  */
 ol.source.Source = function(options) {
 
-  goog.base(this);
+  ol.Object.call(this);
 
   /**
    * @private
@@ -58,8 +34,7 @@ ol.source.Source = function(options) {
    * @private
    * @type {Array.<ol.Attribution>}
    */
-  this.attributions_ = options.attributions !== undefined ?
-      options.attributions : null;
+  this.attributions_ = ol.source.Source.toAttributionsArray_(options.attributions);
 
   /**
    * @private
@@ -81,13 +56,45 @@ ol.source.Source = function(options) {
   this.wrapX_ = options.wrapX !== undefined ? options.wrapX : false;
 
 };
-goog.inherits(ol.source.Source, ol.Object);
+ol.inherits(ol.source.Source, ol.Object);
+
+/**
+ * Turns various ways of defining an attribution to an array of `ol.Attributions`.
+ *
+ * @param {ol.AttributionLike|undefined}
+ *     attributionLike The attributions as string, array of strings,
+ *     `ol.Attribution`, array of `ol.Attribution` or undefined.
+ * @return {Array.<ol.Attribution>} The array of `ol.Attribution` or null if
+ *     `undefined` was given.
+ */
+ol.source.Source.toAttributionsArray_ = function(attributionLike) {
+  if (typeof attributionLike === 'string') {
+    return [new ol.Attribution({html: attributionLike})];
+  } else if (attributionLike instanceof ol.Attribution) {
+    return [attributionLike];
+  } else if (Array.isArray(attributionLike)) {
+    var len = attributionLike.length;
+    var attributions = new Array(len);
+    for (var i = 0; i < len; i++) {
+      var item = attributionLike[i];
+      if (typeof item === 'string') {
+        attributions[i] = new ol.Attribution({html: item});
+      } else {
+        attributions[i] = item;
+      }
+    }
+    return attributions;
+  } else {
+    return null;
+  }
+};
 
 
 /**
  * @param {ol.Coordinate} coordinate Coordinate.
  * @param {number} resolution Resolution.
  * @param {number} rotation Rotation.
+ * @param {number} hitTolerance Hit tolerance in pixels.
  * @param {Object.<string, boolean>} skippedFeatureUids Skipped feature uids.
  * @param {function((ol.Feature|ol.render.Feature)): T} callback Feature
  *     callback.
@@ -128,9 +135,10 @@ ol.source.Source.prototype.getProjection = function() {
 
 
 /**
+ * @abstract
  * @return {Array.<number>|undefined} Resolutions.
  */
-ol.source.Source.prototype.getResolutions = goog.abstractMethod;
+ol.source.Source.prototype.getResolutions = function() {};
 
 
 /**
@@ -152,12 +160,23 @@ ol.source.Source.prototype.getWrapX = function() {
 
 
 /**
+ * Refreshes the source and finally dispatches a 'change' event.
+ * @api
+ */
+ol.source.Source.prototype.refresh = function() {
+  this.changed();
+};
+
+
+/**
  * Set the attributions of the source.
- * @param {Array.<ol.Attribution>} attributions Attributions.
+ * @param {ol.AttributionLike|undefined} attributions Attributions.
+ *     Can be passed as `string`, `Array<string>`, `{@link ol.Attribution}`,
+ *     `Array<{@link ol.Attribution}>` or `undefined`.
  * @api
  */
 ol.source.Source.prototype.setAttributions = function(attributions) {
-  this.attributions_ = attributions;
+  this.attributions_ = ol.source.Source.toAttributionsArray_(attributions);
   this.changed();
 };
 
@@ -179,13 +198,4 @@ ol.source.Source.prototype.setLogo = function(logo) {
 ol.source.Source.prototype.setState = function(state) {
   this.state_ = state;
   this.changed();
-};
-
-
-/**
- * Set the projection of the source.
- * @param {ol.proj.Projection} projection Projection.
- */
-ol.source.Source.prototype.setProjection = function(projection) {
-  this.projection_ = projection;
 };

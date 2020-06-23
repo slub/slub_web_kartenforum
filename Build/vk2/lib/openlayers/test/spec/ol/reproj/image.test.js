@@ -1,5 +1,11 @@
 goog.provide('ol.test.reproj.Image');
 
+goog.require('ol.Image');
+goog.require('ol.events');
+goog.require('ol.proj');
+goog.require('ol.reproj.Image');
+
+
 describe('ol.reproj.Image', function() {
   function createImage(pixelRatio) {
     return new ol.reproj.Image(
@@ -17,9 +23,9 @@ describe('ol.reproj.Image', function() {
 
   it('changes state as expected', function(done) {
     var image = createImage(1);
-    expect(image.getState()).to.be(ol.ImageState.IDLE);
-    image.listen('change', function() {
-      if (image.getState() == ol.ImageState.LOADED) {
+    expect(image.getState()).to.be(0); // IDLE
+    ol.events.listen(image, 'change', function() {
+      if (image.getState() == 2) { // LOADED
         done();
       }
     });
@@ -28,8 +34,8 @@ describe('ol.reproj.Image', function() {
 
   it('returns correct canvas size', function(done) {
     var image = createImage(1);
-    image.listen('change', function() {
-      if (image.getState() == ol.ImageState.LOADED) {
+    ol.events.listen(image, 'change', function() {
+      if (image.getState() == 2) { // LOADED
         var canvas = image.getImage();
         expect(canvas.width).to.be(36);
         expect(canvas.height).to.be(17);
@@ -41,8 +47,8 @@ describe('ol.reproj.Image', function() {
 
   it('respects pixelRatio', function(done) {
     var image = createImage(2);
-    image.listen('change', function() {
-      if (image.getState() == ol.ImageState.LOADED) {
+    ol.events.listen(image, 'change', function() {
+      if (image.getState() == 2) { // LOADED
         var canvas = image.getImage();
         expect(canvas.width).to.be(72);
         expect(canvas.height).to.be(34);
@@ -52,9 +58,3 @@ describe('ol.reproj.Image', function() {
     image.load();
   });
 });
-
-
-goog.require('ol.Image');
-goog.require('ol.ImageState');
-goog.require('ol.proj');
-goog.require('ol.reproj.Image');

@@ -25,7 +25,6 @@ var map = new ol.Map({
       source: vectorSource
     })
   ],
-  renderer: 'canvas',
   target: 'map',
   view: new ol.View({
     center: [0, 0],
@@ -48,7 +47,7 @@ map.addInteraction(dragBox);
 
 var infoBox = document.getElementById('info');
 
-dragBox.on('boxend', function(e) {
+dragBox.on('boxend', function() {
   // features that intersect the box are added to the collection of
   // selected features, and their names are displayed in the "info"
   // div
@@ -64,7 +63,7 @@ dragBox.on('boxend', function(e) {
 });
 
 // clear selection when drawing a new box and when clicking on the map
-dragBox.on('boxstart', function(e) {
+dragBox.on('boxstart', function() {
   selectedFeatures.clear();
   infoBox.innerHTML = '&nbsp;';
 });

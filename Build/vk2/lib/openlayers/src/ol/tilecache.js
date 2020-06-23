@@ -1,10 +1,7 @@
 goog.provide('ol.TileCache');
 
 goog.require('ol');
-goog.require('ol.TileRange');
 goog.require('ol.structs.LRUCache');
-goog.require('ol.tilecoord');
-
 
 
 /**
@@ -15,17 +12,16 @@ goog.require('ol.tilecoord');
  */
 ol.TileCache = function(opt_highWaterMark) {
 
-  goog.base(this);
+  ol.structs.LRUCache.call(this);
 
   /**
    * @private
    * @type {number}
    */
-  this.highWaterMark_ = opt_highWaterMark !== undefined ?
-      opt_highWaterMark : ol.DEFAULT_TILE_CACHE_HIGH_WATER_MARK;
+  this.highWaterMark_ = opt_highWaterMark !== undefined ? opt_highWaterMark : 2048;
 
 };
-goog.inherits(ol.TileCache, ol.structs.LRUCache);
+ol.inherits(ol.TileCache, ol.structs.LRUCache);
 
 
 /**
@@ -48,24 +44,6 @@ ol.TileCache.prototype.expireCache = function(usedTiles) {
       break;
     } else {
       this.pop().dispose();
-    }
-  }
-};
-
-
-/**
- * Remove a tile range from the cache, e.g. to invalidate tiles.
- * @param {ol.TileRange} tileRange The tile range to prune.
- */
-ol.TileCache.prototype.pruneTileRange = function(tileRange) {
-  var i = this.getCount(),
-      key;
-  while (i--) {
-    key = this.peekLastKey();
-    if (tileRange.contains(ol.tilecoord.createFromString(key))) {
-      this.pop().dispose();
-    } else {
-      this.get(key);
     }
   }
 };

@@ -19,7 +19,6 @@ var map = new ol.Map({
       source: new ol.source.OSM()
     })
   ],
-  renderer: common.getRendererFromQueryString(),
   target: 'map',
   controls: ol.control.defaults({
     attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
@@ -39,7 +38,7 @@ el('track').addEventListener('change', function() {
   deviceOrientation.setTracking(this.checked);
 });
 
-deviceOrientation.on('change', function(event) {
+deviceOrientation.on('change', function() {
   el('alpha').innerText = deviceOrientation.getAlpha() + ' [rad]';
   el('beta').innerText = deviceOrientation.getBeta() + ' [rad]';
   el('gamma').innerText = deviceOrientation.getGamma() + ' [rad]';

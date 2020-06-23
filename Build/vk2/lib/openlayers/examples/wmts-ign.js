@@ -43,7 +43,7 @@ var tileGrid = new ol.tilegrid.WMTS({
 var key = '2mqbg0z6cx7ube8gsou10nrt';
 
 var ign_source = new ol.source.WMTS({
-  url: 'http://wxs.ign.fr/' + key + '/wmts',
+  url: 'https://wxs.ign.fr/' + key + '/wmts',
   layer: 'GEOGRAPHICALGRIDSYSTEMS.MAPS',
   matrixSet: 'PM',
   format: 'image/jpeg',
@@ -52,7 +52,7 @@ var ign_source = new ol.source.WMTS({
   style: 'normal',
   attributions: [new ol.Attribution({
     html: '<a href="http://www.geoportail.fr/" target="_blank">' +
-        '<img src="http://api.ign.fr/geoportail/api/js/latest/' +
+        '<img src="https://api.ign.fr/geoportail/api/js/latest/' +
         'theme/geoportal/img/logo_gp.gif"></a>'
   })]
 });

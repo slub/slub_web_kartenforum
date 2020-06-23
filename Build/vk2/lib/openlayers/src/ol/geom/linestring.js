@@ -1,8 +1,7 @@
 goog.provide('ol.geom.LineString');
 
-goog.require('goog.array');
-goog.require('goog.asserts');
 goog.require('ol');
+goog.require('ol.array');
 goog.require('ol.extent');
 goog.require('ol.geom.GeometryLayout');
 goog.require('ol.geom.GeometryType');
@@ -17,7 +16,6 @@ goog.require('ol.geom.flat.segments');
 goog.require('ol.geom.flat.simplify');
 
 
-
 /**
  * @classdesc
  * Linestring geometry.
@@ -30,7 +28,7 @@ goog.require('ol.geom.flat.simplify');
  */
 ol.geom.LineString = function(coordinates, opt_layout) {
 
-  goog.base(this);
+  ol.geom.SimpleGeometry.call(this);
 
   /**
    * @private
@@ -59,7 +57,7 @@ ol.geom.LineString = function(coordinates, opt_layout) {
   this.setCoordinates(coordinates, opt_layout);
 
 };
-goog.inherits(ol.geom.LineString, ol.geom.SimpleGeometry);
+ol.inherits(ol.geom.LineString, ol.geom.SimpleGeometry);
 
 
 /**
@@ -68,12 +66,12 @@ goog.inherits(ol.geom.LineString, ol.geom.SimpleGeometry);
  * @api stable
  */
 ol.geom.LineString.prototype.appendCoordinate = function(coordinate) {
-  goog.asserts.assert(coordinate.length == this.stride,
+  ol.DEBUG && console.assert(coordinate.length == this.stride,
       'length of coordinate array should match stride');
   if (!this.flatCoordinates) {
     this.flatCoordinates = coordinate.slice();
   } else {
-    goog.array.extend(this.flatCoordinates, coordinate);
+    ol.array.extend(this.flatCoordinates, coordinate);
   }
   this.changed();
 };
@@ -94,8 +92,7 @@ ol.geom.LineString.prototype.clone = function() {
 /**
  * @inheritDoc
  */
-ol.geom.LineString.prototype.closestPointXY =
-    function(x, y, closestPoint, minSquaredDistance) {
+ol.geom.LineString.prototype.closestPointXY = function(x, y, closestPoint, minSquaredDistance) {
   if (minSquaredDistance <
       ol.extent.closestSquaredDistanceXY(this.getExtent(), x, y)) {
     return minSquaredDistance;
@@ -150,7 +147,7 @@ ol.geom.LineString.prototype.getCoordinateAtM = function(m, opt_extrapolate) {
     return null;
   }
   var extrapolate = opt_extrapolate !== undefined ? opt_extrapolate : false;
-  return ol.geom.flat.lineStringCoordinateAtM(this.flatCoordinates, 0,
+  return ol.geom.flat.interpolate.lineStringCoordinateAtM(this.flatCoordinates, 0,
       this.flatCoordinates.length, this.stride, m, extrapolate);
 };
 
@@ -163,6 +160,23 @@ ol.geom.LineString.prototype.getCoordinateAtM = function(m, opt_extrapolate) {
 ol.geom.LineString.prototype.getCoordinates = function() {
   return ol.geom.flat.inflate.coordinates(
       this.flatCoordinates, 0, this.flatCoordinates.length, this.stride);
+};
+
+
+/**
+ * Return the coordinate at the provided fraction along the linestring.
+ * The `fraction` is a number between 0 and 1, where 0 is the start of the
+ * linestring and 1 is the end.
+ * @param {number} fraction Fraction.
+ * @param {ol.Coordinate=} opt_dest Optional coordinate whose values will
+ *     be modified. If not provided, a new coordinate will be returned.
+ * @return {ol.Coordinate} Coordinate of the interpolated point.
+ * @api
+ */
+ol.geom.LineString.prototype.getCoordinateAt = function(fraction, opt_dest) {
+  return ol.geom.flat.interpolate.lineString(
+      this.flatCoordinates, 0, this.flatCoordinates.length, this.stride,
+      fraction, opt_dest);
 };
 
 
@@ -182,9 +196,7 @@ ol.geom.LineString.prototype.getLength = function() {
  */
 ol.geom.LineString.prototype.getFlatMidpoint = function() {
   if (this.flatMidpointRevision_ != this.getRevision()) {
-    this.flatMidpoint_ = ol.geom.flat.interpolate.lineString(
-        this.flatCoordinates, 0, this.flatCoordinates.length, this.stride,
-        0.5, this.flatMidpoint_);
+    this.flatMidpoint_ = this.getCoordinateAt(0.5, this.flatMidpoint_);
     this.flatMidpointRevision_ = this.getRevision();
   }
   return this.flatMidpoint_;
@@ -194,8 +206,7 @@ ol.geom.LineString.prototype.getFlatMidpoint = function() {
 /**
  * @inheritDoc
  */
-ol.geom.LineString.prototype.getSimplifiedGeometryInternal =
-    function(squaredTolerance) {
+ol.geom.LineString.prototype.getSimplifiedGeometryInternal = function(squaredTolerance) {
   var simplifiedFlatCoordinates = [];
   simplifiedFlatCoordinates.length = ol.geom.flat.simplify.douglasPeucker(
       this.flatCoordinates, 0, this.flatCoordinates.length, this.stride,
@@ -233,8 +244,7 @@ ol.geom.LineString.prototype.intersectsExtent = function(extent) {
  * @param {ol.geom.GeometryLayout=} opt_layout Layout.
  * @api stable
  */
-ol.geom.LineString.prototype.setCoordinates =
-    function(coordinates, opt_layout) {
+ol.geom.LineString.prototype.setCoordinates = function(coordinates, opt_layout) {
   if (!coordinates) {
     this.setFlatCoordinates(ol.geom.GeometryLayout.XY, null);
   } else {
@@ -253,8 +263,7 @@ ol.geom.LineString.prototype.setCoordinates =
  * @param {ol.geom.GeometryLayout} layout Layout.
  * @param {Array.<number>} flatCoordinates Flat coordinates.
  */
-ol.geom.LineString.prototype.setFlatCoordinates =
-    function(layout, flatCoordinates) {
+ol.geom.LineString.prototype.setFlatCoordinates = function(layout, flatCoordinates) {
   this.setFlatCoordinatesInternal(layout, flatCoordinates);
   this.changed();
 };

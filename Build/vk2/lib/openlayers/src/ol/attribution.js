@@ -1,8 +1,8 @@
 goog.provide('ol.Attribution');
 
-goog.require('goog.math');
 goog.require('ol.TileRange');
-
+goog.require('ol.math');
+goog.require('ol.tilegrid');
 
 
 /**
@@ -15,7 +15,7 @@ goog.require('ol.TileRange');
  *       attributions: [
  *         new ol.Attribution({
  *           html: 'All maps &copy; ' +
- *               '<a href="http://www.opencyclemap.org/">OpenCycleMap</a>'
+ *               '<a href="https://www.opencyclemap.org/">OpenCycleMap</a>'
  *         }),
  *         ol.source.OSM.ATTRIBUTION
  *       ],
@@ -59,8 +59,7 @@ ol.Attribution.prototype.getHTML = function() {
  * @param {!ol.proj.Projection} projection Projection.
  * @return {boolean} Intersects any tile range.
  */
-ol.Attribution.prototype.intersectsAnyTileRange =
-    function(tileRanges, tileGrid, projection) {
+ol.Attribution.prototype.intersectsAnyTileRange = function(tileRanges, tileGrid, projection) {
   if (!this.tileRanges_) {
     return true;
   }
@@ -77,13 +76,13 @@ ol.Attribution.prototype.intersectsAnyTileRange =
         return true;
       }
       var extentTileRange = tileGrid.getTileRangeForExtentAndZ(
-          projection.getExtent(), parseInt(zKey, 10));
+          ol.tilegrid.extentFromProjection(projection), parseInt(zKey, 10));
       var width = extentTileRange.getWidth();
       if (tileRange.minX < extentTileRange.minX ||
           tileRange.maxX > extentTileRange.maxX) {
         if (testTileRange.intersects(new ol.TileRange(
-            goog.math.modulo(tileRange.minX, width),
-            goog.math.modulo(tileRange.maxX, width),
+            ol.math.modulo(tileRange.minX, width),
+            ol.math.modulo(tileRange.maxX, width),
             tileRange.minY, tileRange.maxY))) {
           return true;
         }

@@ -2,15 +2,14 @@
 
 goog.provide('ol.render.Box');
 
-goog.require('goog.Disposable');
-goog.require('goog.asserts');
+goog.require('ol');
+goog.require('ol.Disposable');
 goog.require('ol.geom.Polygon');
-
 
 
 /**
  * @constructor
- * @extends {goog.Disposable}
+ * @extends {ol.Disposable}
  * @param {string} className CSS class name.
  */
 ol.render.Box = function(className) {
@@ -48,7 +47,7 @@ ol.render.Box = function(className) {
   this.endPixel_ = null;
 
 };
-goog.inherits(ol.render.Box, goog.Disposable);
+ol.inherits(ol.render.Box, ol.Disposable);
 
 
 /**
@@ -56,7 +55,6 @@ goog.inherits(ol.render.Box, goog.Disposable);
  */
 ol.render.Box.prototype.disposeInternal = function() {
   this.setMap(null);
-  goog.base(this, 'disposeInternal');
 };
 
 
@@ -66,8 +64,6 @@ ol.render.Box.prototype.disposeInternal = function() {
 ol.render.Box.prototype.render_ = function() {
   var startPixel = this.startPixel_;
   var endPixel = this.endPixel_;
-  goog.asserts.assert(startPixel, 'this.startPixel_ must be truthy');
-  goog.asserts.assert(endPixel, 'this.endPixel_ must be truthy');
   var px = 'px';
   var style = this.element_.style;
   style.left = Math.min(startPixel[0], endPixel[0]) + px;
@@ -109,11 +105,6 @@ ol.render.Box.prototype.setPixels = function(startPixel, endPixel) {
  * Creates or updates the cached geometry.
  */
 ol.render.Box.prototype.createOrUpdateGeometry = function() {
-  goog.asserts.assert(this.startPixel_,
-      'this.startPixel_ must be truthy');
-  goog.asserts.assert(this.endPixel_,
-      'this.endPixel_ must be truthy');
-  goog.asserts.assert(this.map_, 'this.map_ must be truthy');
   var startPixel = this.startPixel_;
   var endPixel = this.endPixel_;
   var pixels = [

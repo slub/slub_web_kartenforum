@@ -1,37 +1,22 @@
 goog.provide('ol.ImageBase');
-goog.provide('ol.ImageState');
 
-goog.require('goog.asserts');
-goog.require('goog.events.EventTarget');
-goog.require('goog.events.EventType');
-goog.require('ol.Attribution');
-goog.require('ol.Extent');
-
-
-/**
- * @enum {number}
- */
-ol.ImageState = {
-  IDLE: 0,
-  LOADING: 1,
-  LOADED: 2,
-  ERROR: 3
-};
-
+goog.require('ol');
+goog.require('ol.events.EventTarget');
+goog.require('ol.events.EventType');
 
 
 /**
  * @constructor
- * @extends {goog.events.EventTarget}
+ * @extends {ol.events.EventTarget}
  * @param {ol.Extent} extent Extent.
  * @param {number|undefined} resolution Resolution.
  * @param {number} pixelRatio Pixel ratio.
- * @param {ol.ImageState} state State.
+ * @param {ol.Image.State} state State.
  * @param {Array.<ol.Attribution>} attributions Attributions.
  */
 ol.ImageBase = function(extent, resolution, pixelRatio, state, attributions) {
 
-  goog.base(this);
+  ol.events.EventTarget.call(this);
 
   /**
    * @private
@@ -59,19 +44,19 @@ ol.ImageBase = function(extent, resolution, pixelRatio, state, attributions) {
 
   /**
    * @protected
-   * @type {ol.ImageState}
+   * @type {ol.Image.State}
    */
   this.state = state;
 
 };
-goog.inherits(ol.ImageBase, goog.events.EventTarget);
+ol.inherits(ol.ImageBase, ol.events.EventTarget);
 
 
 /**
  * @protected
  */
 ol.ImageBase.prototype.changed = function() {
-  this.dispatchEvent(goog.events.EventType.CHANGE);
+  this.dispatchEvent(ol.events.EventType.CHANGE);
 };
 
 
@@ -92,10 +77,11 @@ ol.ImageBase.prototype.getExtent = function() {
 
 
 /**
+ * @abstract
  * @param {Object=} opt_context Object.
  * @return {HTMLCanvasElement|Image|HTMLVideoElement} Image.
  */
-ol.ImageBase.prototype.getImage = goog.abstractMethod;
+ol.ImageBase.prototype.getImage = function(opt_context) {};
 
 
 /**
@@ -110,13 +96,13 @@ ol.ImageBase.prototype.getPixelRatio = function() {
  * @return {number} Resolution.
  */
 ol.ImageBase.prototype.getResolution = function() {
-  goog.asserts.assert(this.resolution !== undefined, 'resolution not yet set');
-  return this.resolution;
+  ol.DEBUG && console.assert(this.resolution !== undefined, 'resolution not yet set');
+  return /** @type {number} */ (this.resolution);
 };
 
 
 /**
- * @return {ol.ImageState} State.
+ * @return {ol.Image.State} State.
  */
 ol.ImageBase.prototype.getState = function() {
   return this.state;
@@ -125,5 +111,6 @@ ol.ImageBase.prototype.getState = function() {
 
 /**
  * Load not yet loaded URI.
+ * @abstract
  */
-ol.ImageBase.prototype.load = goog.abstractMethod;
+ol.ImageBase.prototype.load = function() {};

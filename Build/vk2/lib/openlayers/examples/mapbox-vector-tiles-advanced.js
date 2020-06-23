@@ -1,4 +1,4 @@
-goog.require('ol.Attribution');
+/* eslint-disable openlayers-internal/no-unused-requires */
 goog.require('ol.Map');
 goog.require('ol.View');
 goog.require('ol.format.MVT');
@@ -31,7 +31,7 @@ for (var z = zoomOffset / reuseZoomLevels; z <= 22 / reuseZoomLevels; ++z) {
   resolutions.push(156543.03392804097 / Math.pow(2, z * reuseZoomLevels));
 }
 function tileUrlFunction(tileCoord) {
-  return ('http://{a-d}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/' +
+  return ('https://{a-d}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/' +
       '{z}/{x}/{y}.vector.pbf?access_token=' + key)
       .replace('{z}', String(tileCoord[0] * reuseZoomLevels + zoomOffset))
       .replace('{x}', String(tileCoord[1]))
@@ -43,13 +43,12 @@ function tileUrlFunction(tileCoord) {
 var map = new ol.Map({
   layers: [
     new ol.layer.VectorTile({
+      renderMode: 'vector',
       preload: Infinity,
       source: new ol.source.VectorTile({
-        attributions: [new ol.Attribution({
-          html: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> ' +
-              '© <a href="http://www.openstreetmap.org/copyright">' +
-              'OpenStreetMap contributors</a>'
-        })],
+        attributions: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> ' +
+          '© <a href="https://www.openstreetmap.org/copyright">' +
+          'OpenStreetMap contributors</a>',
         format: new ol.format.MVT(),
         tileGrid: new ol.tilegrid.TileGrid({
           extent: ol.proj.get('EPSG:3857').getExtent(),

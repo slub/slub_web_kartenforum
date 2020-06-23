@@ -1,5 +1,13 @@
 goog.provide('ol.test.layer.Layer');
 
+goog.require('ol');
+goog.require('ol.Map');
+goog.require('ol.layer.Layer');
+goog.require('ol.proj');
+goog.require('ol.render.Event');
+goog.require('ol.source.Source');
+
+
 describe('ol.layer.Layer', function() {
 
   describe('constructor (defaults)', function() {
@@ -15,7 +23,7 @@ describe('ol.layer.Layer', function() {
     });
 
     afterEach(function() {
-      goog.dispose(layer);
+      layer.dispose();
     });
 
     it('creates an instance', function() {
@@ -44,7 +52,7 @@ describe('ol.layer.Layer', function() {
         opacity: 1,
         visible: true,
         managed: true,
-        sourceState: ol.source.State.READY,
+        sourceState: 'ready',
         extent: undefined,
         zIndex: 0,
         maxResolution: Infinity,
@@ -79,14 +87,14 @@ describe('ol.layer.Layer', function() {
         opacity: 0.5,
         visible: false,
         managed: true,
-        sourceState: ol.source.State.READY,
+        sourceState: 'ready',
         extent: undefined,
         zIndex: 10,
         maxResolution: 500,
         minResolution: 0.25
       });
 
-      goog.dispose(layer);
+      layer.dispose();
     });
 
   });
@@ -103,7 +111,7 @@ describe('ol.layer.Layer', function() {
     });
 
     afterEach(function() {
-      goog.dispose(layer);
+      layer.dispose();
     });
 
     it('returns false if layer is not visible', function() {
@@ -153,7 +161,7 @@ describe('ol.layer.Layer', function() {
     });
 
     afterEach(function() {
-      goog.dispose(layer);
+      layer.dispose();
     });
 
     it('returns a layerState from the properties values', function() {
@@ -167,7 +175,7 @@ describe('ol.layer.Layer', function() {
         opacity: 0.3,
         visible: false,
         managed: true,
-        sourceState: ol.source.State.READY,
+        sourceState: 'ready',
         extent: undefined,
         zIndex: 10,
         maxResolution: 500,
@@ -183,7 +191,7 @@ describe('ol.layer.Layer', function() {
         opacity: 0,
         visible: false,
         managed: true,
-        sourceState: ol.source.State.READY,
+        sourceState: 'ready',
         extent: undefined,
         zIndex: 0,
         maxResolution: Infinity,
@@ -197,7 +205,7 @@ describe('ol.layer.Layer', function() {
         opacity: 1,
         visible: true,
         managed: true,
-        sourceState: ol.source.State.READY,
+        sourceState: 'ready',
         extent: undefined,
         zIndex: 0,
         maxResolution: Infinity,
@@ -247,14 +255,14 @@ describe('ol.layer.Layer', function() {
       var first = new ol.source.Source({projection: projection});
       var layer = new ol.layer.Layer({source: first});
 
-      first.setState(ol.source.State.READY);
+      first.setState('ready');
       expect(layer.handleSourceChange_.calledOnce).to.be(true);
 
       var second = new ol.source.Source({projection: projection});
       layer.set('source', second);
 
       expect(layer.handleSourceChange_.calledOnce).to.be(true);
-      second.setState(ol.source.State.READY);
+      second.setState('ready');
       expect(layer.handleSourceChange_.callCount).to.be(2);
 
       // remove spy
@@ -293,14 +301,14 @@ describe('ol.layer.Layer', function() {
       var first = new ol.source.Source({projection: projection});
       var layer = new ol.layer.Layer({source: first});
 
-      first.setState(ol.source.State.READY);
+      first.setState('ready');
       expect(layer.handleSourceChange_.calledOnce).to.be(true);
 
       var second = new ol.source.Source({projection: projection});
       layer.setSource(second);
 
       expect(layer.handleSourceChange_.calledOnce).to.be(true);
-      second.setState(ol.source.State.READY);
+      second.setState('ready');
       expect(layer.handleSourceChange_.callCount).to.be(2);
 
       // remove spy
@@ -323,7 +331,7 @@ describe('ol.layer.Layer', function() {
     });
 
     afterEach(function() {
-      goog.dispose(layer);
+      layer.dispose();
     });
 
     it('accepts a positive number', function() {
@@ -333,7 +341,7 @@ describe('ol.layer.Layer', function() {
 
     it('triggers a change event', function() {
       var listener = sinon.spy();
-      layer.on(ol.ObjectEventType.PROPERTYCHANGE, listener);
+      layer.on('propertychange', listener);
       layer.setOpacity(0.4);
       expect(listener.calledOnce).to.be(true);
     });
@@ -353,7 +361,7 @@ describe('ol.layer.Layer', function() {
     });
 
     afterEach(function() {
-      goog.dispose(layer);
+      layer.dispose();
     });
 
     it('sets visible property', function() {
@@ -366,7 +374,7 @@ describe('ol.layer.Layer', function() {
 
     it('fires a change event', function() {
       var listener = sinon.spy();
-      layer.on(ol.ObjectEventType.PROPERTYCHANGE, listener);
+      layer.on('propertychange', listener);
 
       layer.setVisible(false);
       expect(listener.callCount).to.be(1);
@@ -393,12 +401,12 @@ describe('ol.layer.Layer', function() {
           layerStatesArray: [],
           layerStates: {}
         };
-        map.dispatchEvent(new ol.render.Event('precompose', map, null,
+        map.dispatchEvent(new ol.render.Event('precompose', null,
             frameState, null, null));
         expect(frameState.layerStatesArray.length).to.be(1);
         var layerState = frameState.layerStatesArray[0];
         expect(layerState.layer).to.equal(layer);
-        expect(frameState.layerStates[goog.getUid(layer)]).to.equal(layerState);
+        expect(frameState.layerStates[ol.getUid(layer)]).to.equal(layerState);
       });
     });
 
@@ -431,12 +439,3 @@ describe('ol.layer.Layer', function() {
   });
 
 });
-
-goog.require('goog.dispose');
-goog.require('ol.Map');
-goog.require('ol.ObjectEventType');
-goog.require('ol.layer.Layer');
-goog.require('ol.proj');
-goog.require('ol.render.Event');
-goog.require('ol.source.Source');
-goog.require('ol.source.State');

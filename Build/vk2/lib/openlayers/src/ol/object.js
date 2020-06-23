@@ -1,58 +1,9 @@
 goog.provide('ol.Object');
-goog.provide('ol.ObjectEvent');
-goog.provide('ol.ObjectEventType');
 
-goog.require('goog.events');
-goog.require('goog.events.Event');
+goog.require('ol');
 goog.require('ol.Observable');
-
-
-/**
- * @enum {string}
- */
-ol.ObjectEventType = {
-  /**
-   * Triggered when a property is changed.
-   * @event ol.ObjectEvent#propertychange
-   * @api stable
-   */
-  PROPERTYCHANGE: 'propertychange'
-};
-
-
-
-/**
- * @classdesc
- * Events emitted by {@link ol.Object} instances are instances of this type.
- *
- * @param {string} type The event type.
- * @param {string} key The property name.
- * @param {*} oldValue The old value for `key`.
- * @extends {goog.events.Event}
- * @implements {oli.ObjectEvent}
- * @constructor
- */
-ol.ObjectEvent = function(type, key, oldValue) {
-  goog.base(this, type);
-
-  /**
-   * The name of the property whose value is changing.
-   * @type {string}
-   * @api stable
-   */
-  this.key = key;
-
-  /**
-   * The old value. To get the new value use `e.target.get(e.key)` where
-   * `e` is the event object.
-   * @type {*}
-   * @api stable
-   */
-  this.oldValue = oldValue;
-
-};
-goog.inherits(ol.ObjectEvent, goog.events.Event);
-
+goog.require('ol.events.Event');
+goog.require('ol.obj');
 
 
 /**
@@ -97,17 +48,17 @@ goog.inherits(ol.ObjectEvent, goog.events.Event);
  * @constructor
  * @extends {ol.Observable}
  * @param {Object.<string, *>=} opt_values An object with key-value pairs.
- * @fires ol.ObjectEvent
+ * @fires ol.Object.Event
  * @api
  */
 ol.Object = function(opt_values) {
-  goog.base(this);
+  ol.Observable.call(this);
 
-  // Call goog.getUid to ensure that the order of objects' ids is the same as
+  // Call ol.getUid to ensure that the order of objects' ids is the same as
   // the order in which they were created.  This also helps to ensure that
   // object properties are always added in the same order, which helps many
   // JavaScript engines generate faster code.
-  goog.getUid(this);
+  ol.getUid(this);
 
   /**
    * @private
@@ -119,7 +70,7 @@ ol.Object = function(opt_values) {
     this.setProperties(opt_values);
   }
 };
-goog.inherits(ol.Object, ol.Observable);
+ol.inherits(ol.Object, ol.Observable);
 
 
 /**
@@ -171,12 +122,7 @@ ol.Object.prototype.getKeys = function() {
  * @api stable
  */
 ol.Object.prototype.getProperties = function() {
-  var properties = {};
-  var key;
-  for (key in this.values_) {
-    properties[key] = this.values_[key];
-  }
-  return properties;
+  return ol.obj.assign({}, this.values_);
 };
 
 
@@ -187,9 +133,9 @@ ol.Object.prototype.getProperties = function() {
 ol.Object.prototype.notify = function(key, oldValue) {
   var eventType;
   eventType = ol.Object.getChangeEventType(key);
-  this.dispatchEvent(new ol.ObjectEvent(eventType, key, oldValue));
-  eventType = ol.ObjectEventType.PROPERTYCHANGE;
-  this.dispatchEvent(new ol.ObjectEvent(eventType, key, oldValue));
+  this.dispatchEvent(new ol.Object.Event(eventType, key, oldValue));
+  eventType = ol.Object.EventType.PROPERTYCHANGE;
+  this.dispatchEvent(new ol.Object.Event(eventType, key, oldValue));
 };
 
 
@@ -206,7 +152,9 @@ ol.Object.prototype.set = function(key, value, opt_silent) {
   } else {
     var oldValue = this.values_[key];
     this.values_[key] = value;
-    this.notify(key, oldValue);
+    if (oldValue !== value) {
+      this.notify(key, oldValue);
+    }
   }
 };
 
@@ -241,3 +189,49 @@ ol.Object.prototype.unset = function(key, opt_silent) {
     }
   }
 };
+
+
+/**
+ * @enum {string}
+ */
+ol.Object.EventType = {
+  /**
+   * Triggered when a property is changed.
+   * @event ol.Object.Event#propertychange
+   * @api stable
+   */
+  PROPERTYCHANGE: 'propertychange'
+};
+
+
+/**
+ * @classdesc
+ * Events emitted by {@link ol.Object} instances are instances of this type.
+ *
+ * @param {string} type The event type.
+ * @param {string} key The property name.
+ * @param {*} oldValue The old value for `key`.
+ * @extends {ol.events.Event}
+ * @implements {oli.Object.Event}
+ * @constructor
+ */
+ol.Object.Event = function(type, key, oldValue) {
+  ol.events.Event.call(this, type);
+
+  /**
+   * The name of the property whose value is changing.
+   * @type {string}
+   * @api stable
+   */
+  this.key = key;
+
+  /**
+   * The old value. To get the new value use `e.target.get(e.key)` where
+   * `e` is the event object.
+   * @type {*}
+   * @api stable
+   */
+  this.oldValue = oldValue;
+
+};
+ol.inherits(ol.Object.Event, ol.events.Event);

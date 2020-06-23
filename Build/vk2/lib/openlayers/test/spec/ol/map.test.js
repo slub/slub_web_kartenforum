@@ -1,5 +1,18 @@
 goog.provide('ol.test.Map');
 
+goog.require('ol.Map');
+goog.require('ol.MapEvent');
+goog.require('ol.Overlay');
+goog.require('ol.View');
+goog.require('ol.has');
+goog.require('ol.interaction');
+goog.require('ol.interaction.DoubleClickZoom');
+goog.require('ol.interaction.Interaction');
+goog.require('ol.interaction.MouseWheelZoom');
+goog.require('ol.layer.Tile');
+goog.require('ol.source.XYZ');
+
+
 describe('ol.Map', function() {
 
   describe('constructor', function() {
@@ -18,6 +31,23 @@ describe('ol.Map', function() {
         expect(interactions.item(i).getMap()).to.be(map);
       }
     });
+
+    it('creates the viewport', function() {
+      var map = new ol.Map({});
+      var viewport = map.getViewport();
+      var className = 'ol-viewport' + (ol.has.TOUCH ? ' ol-touch' : '');
+      expect(viewport.className).to.be(className);
+    });
+
+    it('creates the overlay containers', function() {
+      var map = new ol.Map({});
+      var container = map.getOverlayContainer();
+      expect(container.className).to.be('ol-overlaycontainer');
+
+      var containerStop = map.getOverlayContainerStopEvent();
+      expect(containerStop.className).to.be('ol-overlaycontainer-stopevent');
+    });
+
   });
 
   describe('#addInteraction()', function() {
@@ -80,7 +110,7 @@ describe('ol.Map', function() {
     });
 
     afterEach(function() {
-      goog.dispose(map);
+      map.dispose();
       document.body.removeChild(target);
     });
 
@@ -98,6 +128,68 @@ describe('ol.Map', function() {
 
       view.setCenter(center);
       view.setZoom(zoom);
+    });
+
+  });
+
+  describe('#forEachLayerAtPixel()', function()  {
+
+    var target, map, original, log;
+
+    beforeEach(function(done) {
+      log = [];
+      original = ol.renderer.canvas.IntermediateCanvas.prototype.forEachLayerAtCoordinate;
+      ol.renderer.canvas.IntermediateCanvas.prototype.forEachLayerAtCoordinate = function(coordinate) {
+        log.push(coordinate.slice());
+      };
+
+      target = document.createElement('div');
+      var style = target.style;
+      style.position = 'absolute';
+      style.left = '-1000px';
+      style.top = '-1000px';
+      style.width = '360px';
+      style.height = '180px';
+      document.body.appendChild(target);
+
+      map = new ol.Map({
+        target: target,
+        view: new ol.View({
+          center: [0, 0],
+          zoom: 1
+        }),
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.XYZ()
+          }),
+          new ol.layer.Tile({
+            source: new ol.source.XYZ()
+          }),
+          new ol.layer.Tile({
+            source: new ol.source.XYZ()
+          })
+        ]
+      });
+
+      map.once('postrender', function() {
+        done();
+      });
+    });
+
+    afterEach(function() {
+      ol.renderer.canvas.IntermediateCanvas.prototype.forEachLayerAtCoordinate = original;
+      map.dispose();
+      document.body.removeChild(target);
+      log = null;
+    });
+
+    it('calls each layer renderer with the same coordinate', function() {
+      var pixel = [10, 20];
+      map.forEachLayerAtPixel(pixel, function() {});
+      expect(log.length).to.equal(3);
+      expect(log[0].length).to.equal(2);
+      expect(log[0]).to.eql(log[1]);
+      expect(log[1]).to.eql(log[2]);
     });
 
   });
@@ -126,20 +218,64 @@ describe('ol.Map', function() {
     });
 
     afterEach(function() {
-      goog.dispose(map);
+      map.dispose();
       document.body.removeChild(target);
     });
 
-    it('results in an postrender event', function(done) {
+    it('is called when the view.changed() is called', function() {
+      var view = map.getView();
 
+      var spy = sinon.spy(map, 'render');
+      view.changed();
+      expect(spy.callCount).to.be(1);
+    });
+
+    it('is not called on view changes after the view has been removed', function() {
+      var view = map.getView();
+      map.setView(null);
+
+      var spy = sinon.spy(map, 'render');
+      view.changed();
+      expect(spy.callCount).to.be(0);
+    });
+
+    it('calls renderFrame_ and results in an postrender event', function(done) {
+
+      var spy = sinon.spy(map, 'renderFrame_');
       map.render();
       map.once('postrender', function(event) {
         expect(event).to.be.a(ol.MapEvent);
+        expect(typeof spy.firstCall.args[0]).to.be('number');
+        spy.restore();
         var frameState = event.frameState;
         expect(frameState).not.to.be(null);
         done();
       });
 
+    });
+
+    it('uses the same render frame for subsequent calls', function(done) {
+      var id1, id2;
+      map.render();
+      id1 = map.animationDelayKey_;
+      map.once('postrender', function() {
+        expect(id2).to.be(id1);
+        done();
+      });
+      map.render();
+      id2 = map.animationDelayKey_;
+    });
+
+    it('creates a new render frame after renderSync()', function(done) {
+      var id1, id2;
+      map.render();
+      id1 = map.animationDelayKey_;
+      map.once('postrender', function() {
+        expect(id2).to.not.be(id1);
+        done();
+      });
+      map.renderSync();
+      id2 = map.animationDelayKey_;
     });
 
     it('results in an postrender event (for zero height map)', function(done) {
@@ -182,8 +318,13 @@ describe('ol.Map', function() {
     });
 
     it('removes the viewport from its parent', function() {
-      goog.dispose(map);
-      expect(goog.dom.getParentElement(map.getViewport())).to.be(null);
+      map.dispose();
+      expect(map.getViewport().parentNode).to.be(null);
+    });
+
+    it('removes window listeners', function() {
+      map.dispose();
+      expect(map.handleResize_).to.be(undefined);
     });
   });
 
@@ -194,17 +335,13 @@ describe('ol.Map', function() {
       map = new ol.Map({
         target: document.createElement('div')
       });
-      var viewportResizeListeners = map.viewportSizeMonitor_.getListeners(
-          goog.events.EventType.RESIZE, false);
-      expect(viewportResizeListeners).to.have.length(1);
+      expect(map.handleResize_).to.be.ok();
     });
 
     describe('call setTarget with null', function() {
       it('unregisters the viewport resize listener', function() {
         map.setTarget(null);
-        var viewportResizeListeners = map.viewportSizeMonitor_.getListeners(
-            goog.events.EventType.RESIZE, false);
-        expect(viewportResizeListeners).to.have.length(0);
+        expect(map.handleResize_).to.be(undefined);
       });
     });
 
@@ -212,9 +349,7 @@ describe('ol.Map', function() {
       it('registers a viewport resize listener', function() {
         map.setTarget(null);
         map.setTarget(document.createElement('div'));
-        var viewportResizeListeners = map.viewportSizeMonitor_.getListeners(
-            goog.events.EventType.RESIZE, false);
-        expect(viewportResizeListeners).to.have.length(1);
+        expect(map.handleResize_).to.be.ok();
       });
     });
 
@@ -299,15 +434,15 @@ describe('ol.Map', function() {
           target: target
         });
 
-        var browserEvent = new goog.events.BrowserEvent({
+        var browserEvent = {
           type: 'touchend',
           target: target,
           changedTouches: [{
             clientX: 100,
             clientY: 200
           }]
-        });
-        var position = map.getEventPixel(browserEvent.getBrowserEvent());
+        };
+        var position = map.getEventPixel(browserEvent);
         // 80 = clientX - target.style.left
         expect(position[0]).to.eql(80);
         // 190 = clientY - target.style.top
@@ -340,7 +475,7 @@ describe('ol.Map', function() {
 
       afterEach(function() {
         map.removeOverlay(overlay);
-        goog.dispose(map);
+        map.dispose();
         document.body.removeChild(target);
       });
 
@@ -381,18 +516,3 @@ describe('ol.Map', function() {
   });
 
 });
-
-goog.require('goog.dispose');
-goog.require('goog.dom');
-goog.require('goog.events.BrowserEvent');
-goog.require('goog.events.EventType');
-goog.require('ol.Map');
-goog.require('ol.MapEvent');
-goog.require('ol.Overlay');
-goog.require('ol.View');
-goog.require('ol.interaction');
-goog.require('ol.interaction.Interaction');
-goog.require('ol.interaction.DoubleClickZoom');
-goog.require('ol.interaction.MouseWheelZoom');
-goog.require('ol.layer.Tile');
-goog.require('ol.source.XYZ');

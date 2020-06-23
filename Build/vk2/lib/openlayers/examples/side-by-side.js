@@ -2,29 +2,29 @@ goog.require('ol.Map');
 goog.require('ol.View');
 goog.require('ol.has');
 goog.require('ol.layer.Tile');
-goog.require('ol.source.MapQuest');
+goog.require('ol.source.OSM');
 
+var layer = new ol.layer.Tile({
+  source: new ol.source.OSM()
+});
 
-var domMap = new ol.Map({
-  layers: [
-    new ol.layer.Tile({
-      source: new ol.source.MapQuest({layer: 'sat'})
-    })
-  ],
-  renderer: 'dom',
-  target: 'domMap',
-  view: new ol.View({
-    center: [0, 0],
-    zoom: 1
-  })
+var view = new ol.View({
+  center: [0, 0],
+  zoom: 1
+});
+
+var map1 = new ol.Map({
+  target: 'canvasMap',
+  layers: [layer],
+  view: view
 });
 
 if (ol.has.WEBGL) {
-  var webglMap = new ol.Map({
-    renderer: 'webgl',
+  var map2 = new ol.Map({
     target: 'webglMap',
-    layers: domMap.getLayers(),
-    view: domMap.getView()
+    renderer: /** @type {ol.renderer.Type} */ ('webgl'),
+    layers: [layer],
+    view: view
   });
 } else {
   var info = document.getElementById('no-webgl');
@@ -33,9 +33,3 @@ if (ol.has.WEBGL) {
    */
   info.style.display = '';
 }
-
-var canvasMap = new ol.Map({
-  target: 'canvasMap',
-  layers: domMap.getLayers(),
-  view: domMap.getView()
-});

@@ -13,7 +13,7 @@ This particular tutorial explains how to create custom builds of OpenLayers 3.
 
 ## Requirements
 
-OpenLayers 3's build tools use Node and Java, so you need to have Node and Java installed on your machine. You can run `node --version` and `java -version` to test that Node and Java are installed, respectively.
+OpenLayers 3's build tools use Node and Java, so you need to have Node and Java installed on your machine. You can run `node --version` and `java -version` to test that Node and Java are installed, respectively. See [developing guide](https://github.com/openlayers/ol3/blob/master/DEVELOPING.md) for minimum version numbers required.
 
 ## Download OpenLayers
 
@@ -60,18 +60,12 @@ Creating a custom build requires writing a build configuration file. The format 
       "externs/topojson.js"
     ],
     "define": [
-      "goog.array.ASSUME_NATIVE_FUNCTIONS=true",
-      "goog.dom.ASSUME_STANDARDS_MODE=true",
-      "goog.json.USE_NATIVE_JSON=true",
-      "goog.DEBUG=false"
-    ],
-    "jscomp_off": [
-      "unknownDefines"
+      "ol.DEBUG=false"
     ],
     "extra_annotation_name": [
       "api", "observable"
     ],
-    "compilation_level": "ADVANCED_OPTIMIZATIONS",
+    "compilation_level": "ADVANCED",
     "manage_closure_dependencies": true
   }
 }
@@ -101,7 +95,7 @@ var map = new ol.Map({
 });
 ```
 
-Note that this JavaScript code corresponds to OpenLayers 3's [`simple`](http://openlayers.org/en/master/examples/simple.html) example.
+Note that this JavaScript code corresponds to OpenLayers 3's [`simple`](https://openlayers.org/en/master/examples/simple.html) example.
 
 You are now ready to create your first OpenLayers 3 build. Use the following command to create the build:
 
@@ -162,7 +156,6 @@ Setting some of these to `false` means that the portions of the code relating to
 
 You might have noticed that the build file you've just created is considerably smaller than the full build, but it can be reduced further. This is because all three renderers and all layer types are included by default. We only need one renderer, and only need the tile layer, so can exclude the others by setting these properties with `define`s. So add the following to the define section of the config above:
 ```
-      "ol.ENABLE_DOM=false",
       "ol.ENABLE_WEBGL=false",
       "ol.ENABLE_PROJ4JS=false",
       "ol.ENABLE_IMAGE=false",
@@ -187,22 +180,25 @@ Note that `build.js` currently requires you to enter an output file and will wri
 
 ## A more complicated example
 
-Now let's try a more complicated example: [`heatmaps-earthquakes`](http://openlayers.org/en/master/examples/heatmap-earthquakes.html). The build configuration file looks like this:
+Now let's try a more complicated example: [`heatmaps-earthquakes`](https://openlayers.org/en/master/examples/heatmap-earthquakes.html). The build configuration file looks like this:
 
 ```json
 {
   "exports": [
     "ol.layer.Heatmap",
-    "ol.source.KML",
+    "ol.source.Vector",
+    "ol.format.KML",
     "ol.layer.Heatmap#getSource",
-    "ol.source.KML#on",
-    "ol.source.VectorEvent#feature",
+    "ol.source.Vector#on",
+    "ol.source.Vector.Event#feature",
     "ol.Feature#get",
     "ol.Feature#set",
     "ol.layer.Tile",
     "ol.source.Stamen",
     "ol.Map",
-    "ol.View"
+    "ol.View",
+    "ol.layer.Heatmap#setRadius",
+    "ol.layer.Heatmap#setBlur"
   ],
   "compile": {
     "externs": [
@@ -210,22 +206,24 @@ Now let's try a more complicated example: [`heatmaps-earthquakes`](http://openla
       "externs/oli.js"
     ],
     "define": [
-      "ol.ENABLE_DOM=false",
       "ol.ENABLE_WEBGL=false",
       "ol.ENABLE_PROJ4JS=false",
       "ol.ENABLE_IMAGE=false",
-      "goog.dom.ASSUME_STANDARDS_MODE=true",
-      "goog.DEBUG=false"
+      "ol.DEBUG=false"
     ],
-    "compilation_level": "ADVANCED_OPTIMIZATIONS",
+    "compilation_level": "ADVANCED",
     "manage_closure_dependencies": true
   }
 }
 ```
 
-The exports are given here in the order in which they occur in the `heatmaps-earthquakes` example's JavaScript code. In this example we not only use the `ol.` functions and constructors, but also `prototype` methods where the `ol` namespace is not directly used. In the code, we have for example `vector.getSource().on()`. This means we are using the `getSource` method of `layer.Heatmap` and the `on` method of `source.KML`, so this is what has to be exported. Similarly, `event.feature.get()` means we are using the `feature` property of `source.VectorEvent` and the `get` method of `Feature`. If any of these names are left out, the compile will complete successfully, but the missing names will be obfuscated and you will get a 'property undefined' error when you try and run the script.
+The exports are given here in the order in which they occur in the `heatmaps-earthquakes` example's JavaScript code. In this example we not only use the `ol.` functions and constructors, but also `prototype` methods where the `ol` namespace is not directly used. In the code, we have for example `vector.getSource().on()`. This means we are using the `getSource` method of `layer.Heatmap` and the `on` method of `source.KML`, so this is what has to be exported. Similarly, `event.feature.get()` means we are using the `feature` property of `source.Vector.Event` and the `get` method of `Feature`. If any of these names are left out, the compile will complete successfully, but the missing names will be obfuscated and you will get a 'property undefined' error when you try and run the script.
 
 As this example uses a vector layer it is necessary to remove `"ol.ENABLE_VECTOR=false"` in the `define` section of the configuration.
+
+## Maintaining the code
+
+If you installed OpenLayers from the Node package, you can use `npm` to upgrade to the latest version. If you cloned the Github repo, simply pulling in the latest code may not be enough, as some of the packages used, for example, the compiler, may need upgrading too. Do this by using `npm install` rather than `npm update`.
 
 ## Conclusion
 

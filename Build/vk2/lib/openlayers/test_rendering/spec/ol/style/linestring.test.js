@@ -1,18 +1,29 @@
 goog.provide('ol.test.rendering.style.LineString');
 
+goog.require('ol.Feature');
+goog.require('ol.geom.LineString');
+goog.require('ol.Map');
+goog.require('ol.View');
+goog.require('ol.layer.Vector');
+goog.require('ol.source.Vector');
+goog.require('ol.style.Style');
+goog.require('ol.style.Stroke');
+
+
 describe('ol.rendering.style.LineString', function() {
 
   var target, map, vectorSource;
 
-  function createMap(renderer) {
+  function createMap(renderer, opt_pixelRatio) {
     target = createMapDiv(50, 50);
 
     vectorSource = new ol.source.Vector();
-    vectorLayer = new ol.layer.Vector({
+    var vectorLayer = new ol.layer.Vector({
       source: vectorSource
     });
 
     map = new ol.Map({
+      pixelRatio: opt_pixelRatio || 1,
       target: target,
       renderer: renderer,
       layers: [vectorLayer],
@@ -75,6 +86,7 @@ describe('ol.rendering.style.LineString', function() {
           color: '#000000',
           width: 2,
           lineCap: 'square',
+          lineDash: [4, 8],
           lineJoin: 'round'
         })
       }));
@@ -88,15 +100,20 @@ describe('ol.rendering.style.LineString', function() {
           map, 'spec/ol/style/expected/linestring-strokes-canvas.png',
           3.0, done);
     });
+    it('tests the WebGL renderer', function(done) {
+      assertWebGL();
+      map = createMap('webgl');
+      createFeatures();
+      expectResemble(map, 'spec/ol/style/expected/linestring-strokes-webgl.png',
+          14.6, done);
+    });
+
+    it('tests the canvas renderer (HiDPI)', function(done) {
+      map = createMap('canvas', 2);
+      createFeatures();
+      expectResemble(
+          map, 'spec/ol/style/expected/linestring-strokes-canvas-hidpi.png',
+          3.0, done);
+    });
   });
 });
-
-goog.require('goog.dispose');
-goog.require('ol.Feature');
-goog.require('ol.geom.LineString');
-goog.require('ol.Map');
-goog.require('ol.View');
-goog.require('ol.layer.Vector');
-goog.require('ol.source.Vector');
-goog.require('ol.style.Style');
-goog.require('ol.style.Stroke');

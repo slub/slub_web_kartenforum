@@ -1,6 +1,7 @@
 goog.provide('ol.math');
 
-goog.require('goog.asserts');
+goog.require('ol');
+goog.require('ol.asserts');
 
 
 /**
@@ -48,7 +49,7 @@ ol.math.cosh = (function() {
  * @return {number} The smallest power of two greater than or equal to x.
  */
 ol.math.roundUpToPowerOfTwo = function(x) {
-  goog.asserts.assert(0 < x, 'x should be larger than 0');
+  ol.asserts.assert(0 < x, 29); // `x` must be greater than `0`
   return Math.pow(2, Math.ceil(Math.log(x) / Math.LN2));
 };
 
@@ -106,9 +107,9 @@ ol.math.squaredDistance = function(x1, y1, x2, y2) {
 ol.math.solveLinearSystem = function(mat) {
   var n = mat.length;
 
-  if (goog.asserts.ENABLE_ASSERTS) {
+  if (ol.DEBUG) {
     for (var row = 0; row < n; row++) {
-      goog.asserts.assert(mat[row].length == n + 1,
+      console.assert(mat[row].length == n + 1,
                           'every row should have correct number of columns');
     }
   }
@@ -178,4 +179,28 @@ ol.math.toDegrees = function(angleInRadians) {
  */
 ol.math.toRadians = function(angleInDegrees) {
   return angleInDegrees * Math.PI / 180;
+};
+
+/**
+ * Returns the modulo of a / b, depending on the sign of b.
+ *
+ * @param {number} a Dividend.
+ * @param {number} b Divisor.
+ * @return {number} Modulo.
+ */
+ol.math.modulo = function(a, b) {
+  var r = a % b;
+  return r * b < 0 ? r + b : r;
+};
+
+/**
+ * Calculates the linearly interpolated value of x between a and b.
+ *
+ * @param {number} a Number
+ * @param {number} b Number
+ * @param {number} x Value to be interpolated.
+ * @return {number} Interpolated value.
+ */
+ol.math.lerp = function(a, b, x) {
+  return a + x * (b - a);
 };

@@ -1,5 +1,10 @@
 goog.provide('ol.test.Overlay');
 
+goog.require('ol.Map');
+goog.require('ol.Overlay');
+goog.require('ol.View');
+
+
 describe('ol.Overlay', function() {
   var target, map;
 
@@ -28,7 +33,7 @@ describe('ol.Overlay', function() {
   });
 
   afterEach(function() {
-    goog.dispose(map);
+    map.dispose();
     document.body.removeChild(target);
   });
 
@@ -71,8 +76,3 @@ describe('ol.Overlay', function() {
   });
 
 });
-
-goog.require('goog.dispose');
-goog.require('ol.Map');
-goog.require('ol.Overlay');
-goog.require('ol.View');

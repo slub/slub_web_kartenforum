@@ -1,18 +1,11 @@
 goog.provide('ol.CenterConstraint');
-goog.provide('ol.CenterConstraintType');
 
 goog.require('ol.math');
 
 
 /**
- * @typedef {function((ol.Coordinate|undefined)): (ol.Coordinate|undefined)}
- */
-ol.CenterConstraintType;
-
-
-/**
  * @param {ol.Extent} extent Extent.
- * @return {ol.CenterConstraintType}
+ * @return {ol.CenterConstraintType} The constraint.
  */
 ol.CenterConstraint.createExtent = function(extent) {
   return (

@@ -80,9 +80,8 @@ include:
 ### Follow OpenLayers 3's coding style
 
 OpenLayers 3 follows [Google's JavaScript Style
-Guide](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml).
-This is checked using the [Closure
-Linter](https://developers.google.com/closure/utilities/) in strict mode.  You
+Guide](https://google.github.io/styleguide/javascriptguide.xml).
+This is checked using [ESLint](http://eslint.org/), you
 can run the linter locally on your machine before committing using the `lint`
 target:
 
@@ -101,13 +100,6 @@ style of the existing OpenLayers 3 code, which includes:
    alphabetical order.
 
  * Do not use assignments inside expressions.
-
- * Avoid the use of `goog.array.clone` with arrays (use slice instead).
-
- * Use `array.length = 0` instead of `goog.array.clear`.
-
- * Use bracket notation instead of `goog.object.set` and `goog.object.get` (with
-   two arguments).
 
  * Use uppercase for `@const` variables.
 

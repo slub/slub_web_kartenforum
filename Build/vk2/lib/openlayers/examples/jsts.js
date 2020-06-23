@@ -1,23 +1,23 @@
 // NOCOMPILE
 // this example uses JSTS for which we don't have an externs file.
-goog.require('ol.Feature');
 goog.require('ol.Map');
 goog.require('ol.View');
 goog.require('ol.format.GeoJSON');
 goog.require('ol.layer.Tile');
 goog.require('ol.layer.Vector');
 goog.require('ol.proj');
-goog.require('ol.source.MapQuest');
+goog.require('ol.source.OSM');
 goog.require('ol.source.Vector');
 
 
 var source = new ol.source.Vector();
-$.ajax('data/geojson/roads-seoul.geojson').then(function(response) {
+fetch('data/geojson/roads-seoul.geojson').then(function(response) {
+  return response.json();
+}).then(function(json) {
   var format = new ol.format.GeoJSON();
-  var features = format.readFeatures(response,
-      {featureProjection: 'EPSG:3857'});
+  var features = format.readFeatures(json, {featureProjection: 'EPSG:3857'});
 
-  var parser = new jsts.io.olParser();
+  var parser = new jsts.io.OL3Parser();
 
   for (var i = 0; i < features.length; i++) {
     var feature = features[i];
@@ -38,9 +38,7 @@ var vectorLayer = new ol.layer.Vector({
 });
 
 var rasterLayer = new ol.layer.Tile({
-  source: new ol.source.MapQuest({
-    layer: 'osm'
-  })
+  source: new ol.source.OSM()
 });
 
 var map = new ol.Map({

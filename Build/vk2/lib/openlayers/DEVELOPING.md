@@ -11,25 +11,17 @@ The Travis CI hook is enabled on the Github repository. This means every pull re
 is run through a full test suite to ensure it compiles and passes the tests. Failing
 pull requests will not be merged.
 
-Although not mandatory, it is also recommended to set up Travis CI for your ol3 fork.
-For that go to your ol3 fork's Service Hooks page and set up the Travis hook.
-Then every time you push to your fork, the test suite will be run. This means
-errors can be caught before creating a pull request. For those making
-small or occasional contributions, this may be enough to check that your contributions
-are ok; in this case, you do not need to install the build tools on your local environment
-as described below.
-
 ### Development dependencies
 
 The minimum requirements are:
 
 * GNU Make
 * Git
-* [Node.js](http://nodejs.org/) (0.10.x or higher)
-* Python 2.6 or 2.7 with a couple of extra modules (see below)
+* [Node.js](http://nodejs.org/) (higher than 0.12.x)
+* Python 2.6 or 2.7
 * Java 7 (JRE and JDK)
 
-The executables `git`, `node`, `python` and `java` should be in your `PATH`.
+The executables `git`, `node`, and `java` should be in your `PATH`.
 
 You can check your configuration by running:
 
@@ -38,17 +30,6 @@ You can check your configuration by running:
 To install the Node.js dependencies run
 
     $ npm install
-
-To install the extra Python modules, run:
-
-    $ sudo pip install -r requirements.txt
-or
-
-    $ cat requirements.txt | sudo xargs easy_install
-
-depending on your OS and Python installation.
-
-(You can also install the Python modules in a Python virtual environment if you want to.)
 
 ## Working with the build tool
 
@@ -96,7 +77,7 @@ Then, just point your browser <http://localhost:3000/build/examples> in your bro
 Run examples against the `ol.js` standalone build:
 
 The examples can also be run against the `ol.js` standalone build, just like
-the examples [hosted](http://openlayers.org/en/master/examples/) on GitHub.
+the examples [hosted](https://openlayers.org/en/master/examples/) on GitHub.
 Start by executing the `host-examples` build target:
 
     $ make host-examples
