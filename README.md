@@ -10,7 +10,7 @@ The Virtual Map Forum 2.0 allows the searching and viewing of historic and geore
 
 The extension uses the TYPO3 core extension `felogin`, for allowing users to register and login into the application. Furthermore it uses the extensions `RSA`, `SA authentication for TYPO3` and `Salted user password hashes`.
 
-The extension was tested with TYPO3 version 6.2 and 7.6.x. It uses the [Fluid](https://wiki.typo3.org/Fluid) template engine and [Extbase](https://docs.typo3.org/typo3cms/ExtbaseFluidBook/)
+The extension was tested with TYPO3 version 9.5. It uses the [Fluid](https://wiki.typo3.org/Fluid) template engine and [Extbase](https://docs.typo3.org/typo3cms/ExtbaseFluidBook/)
 
 #### Configuration
 
@@ -97,7 +97,7 @@ To build an custom OpenLayers version run the following commands from the `Build
 
 	npm install
 
-	node tasks/build.js ../../../../Build/ol-vk2.json ../../dist/ol-vk2.js
+	node tasks/build.js ../../ol-vk2.json ../../../../Resources/Public/Contrib/JavaScript/ol-vk2.js
 
 With this commands you can build a debug version of OpenLayers.
 

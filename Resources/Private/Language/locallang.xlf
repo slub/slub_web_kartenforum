@@ -6,6 +6,9 @@
             <authorEmail>typo3@slub-dresden.de</authorEmail>
         </header>
         <body>
+		<trans-unit id="label.login">
+			<source>Login</source>
+		</trans-unit>
         </body>
     </file>
 </xliff>

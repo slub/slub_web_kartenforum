@@ -55,7 +55,9 @@ config {
     sendCacheHeaders = 1
     # cat=plugin.tx_slubwebkartenforum/links/0100; type=int+; label=UID of the Welcome Page
     welcomePage =
-    # cat=plugin.tx_slubwebkartenforum/links/0110; type=int+; label=Root of Static Pages (for Navigation)
+    # cat=plugin.tx_slubwebkartenforum/links/0110; type=int+; label=UID of the Login Page
+    loginPage =
+    # cat=plugin.tx_slubwebkartenforum/links/0120; type=int+; label=Root of Static Pages (for Navigation)
     menuStatic =
 
     matomo {

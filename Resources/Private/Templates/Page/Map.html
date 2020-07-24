@@ -12,14 +12,12 @@
                 <!-- user menu -->
                 <ul class="nav nav-pills vk2-navbar-user" id="vk2-navbar-user">
                     <li class="dropdown user-dropdown">
-
-                                <li class="listelement">
-                                    <a data-classes="login" class="vk2-modal-anchor" title="Anmelden" href="/vkviewer/auth/login/">
-                                        Anmelden
-                                        <b class="caret"></b>
-                                    </a>
-                                </li>
-
+                        <li class="listelement">
+                            <f:link.page pageUid="{settings.loginPage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.login', extensionName:'slubWebKartenforum')}">
+                                <f:translate key="label.login" extensionName="slubWebKartenforum" />
+                                <b class="caret"></b>
+                            </f:link.page>
+                        </li>
                     </li>
                 </ul>
 
