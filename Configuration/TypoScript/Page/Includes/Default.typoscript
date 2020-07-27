@@ -4,6 +4,14 @@ page {
     }
 
     includeCSS {
+        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/bootstrap-3.3.6.min.css
+        #jquery-ui = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/jquery-ui-1.10.3.min.css
+        vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Css/ol.css
+        slub_web_kartenforum_layout = EXT:slub_web_kartenforum/Resources/Public/Css/style.css
+        #slub_web_kartenforum_layout = EXT:slub_web_kartenforum/Resources/Public/Css/layout.min.css
+    }
+
+    includeCSS {
         slub_web_kartenforum_layout = EXT:slub_web_kartenforum/Resources/Public/Css/layout.min.css
     }
 

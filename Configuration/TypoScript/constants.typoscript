@@ -13,6 +13,8 @@ styles {
         partialRootPath = EXT:slub_web_kartenforum/Resources/Private/Partials/ContentElements/
         templateRootPath = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/
     }
+    # Override template file for FE login
+    content.loginform.templateFile = EXT:slub_web_kartenforum/Resources/Private/Plugins/FELogin.html
 }
 
 

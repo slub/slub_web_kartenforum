@@ -1,0 +1,7 @@
+.slide-container .glyphicon-menu-left:before { content: "\e257"; }
+.slide-container .glyphicon-menu-right:before { content: "\e258"; }
+.slide-container .glyphicon-menu-right:before { content: "\e258"; }
+.slide-container .glyphicon-menu-up:before { content: "\e260"; }
+.slide-container > button { padding: 8px 3px; margin-left: -22px; }
+.slide-container > div { width: 100%; height: 38px;	float: right; }
+
