@@ -21,7 +21,11 @@
   -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
   -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
   box-shadow: 0 1px 2px rgba(0,0,0,0.5);
-  
+}
+
+.modal-content iframe {
+	width: 100%;
+	height: 600px;
 }
 
 /** Modal behavior for the faq page */
@@ -29,18 +33,14 @@
 	width: 1200px;
 	margin-left: -300px;
 }
-			
-.modal-content.faq iframe.faq{
-	width: 100%;
-	height: 600px;
-}
+
 
 /** Modal behavior for the choose georeference dialog */
 .modal-content.choose-georef iframe.choose-georef{ width: 100%; }
 .vk2ChooseGeorefMtb { padding: 10px; }
 .vk2ChooseGeorefMtb h2 { border-bottom: 1px dotted #ccc; margin-bottom: 20px; padding-bottom: 5px; text-transform: uppercase; font-size: 16px; }
 .vk2ChooseGeorefMtb a { color: rgb(19,141,141); font-size: 16px; }
-			
+
 /** Modal behavior for the single map view */
 .modal-content.single-map-view{
 	width: 100%;
@@ -49,12 +49,12 @@
 	height: 100%;
 	min-height: 600px;
 }
-			
+
 .modal-content.single-map-view .modal-body{
 	width: 100%;
 	height: 700px;
 }
-			
+
 .modal-content.single-map-view iframe{
 	width: 100%;
 	height: 100%;
@@ -65,21 +65,11 @@
 	width: auto;
 	margin-left: -100px;
 }
-			
-.modal-content.contact iframe{
-	width: 100%;
-	height: 400px;
-}
 
 /** Modal behavior for the project page */
 .modal-content.project{
 	width: auto;
 	margin-left: -100px;
-}
-			
-.modal-content.project iframe{
-	width: 100%;
-	height: 500px;
 }
 
 /** Modal behavior for the project page */
@@ -87,29 +77,20 @@
 	width: auto;
 	margin-left: -100px;
 }
-			
-.modal-content.impressum iframe{
-	width: 100%;
-	height: 500px;
-}
 
 /** Modal behavior for the login page */
 .modal-content.login{
 	width: 400px;
 	margin: 100px;
 }
-			
-.modal-content.login iframe{
-	width: 100%;
-	height: 500px;
-}
+
 
 /** Modal behavior for the login page */
 .modal-content.pw-change{
 	width: auto;
 	margin-left: -100px;
 }
-			
+
 .modal-content.pw-change iframe{
 	width: 100%;
 	height: 370px;
@@ -120,7 +101,7 @@
 	width: auto;
 	margin-left: -100px;
 }
-			
+
 .modal-content.georef-history iframe{
 	width: 100%;
 	height: 600px;
@@ -131,7 +112,7 @@
 	width: 1200px;
 	margin-left: -300px;
 }
-			
+
 .modal-content.admin-evaluation iframe{
 	width: 100%;
 	height: 800px;
@@ -143,7 +124,7 @@
   width: 900px;
   margin-left: -150px;
 }
-			
+
 .modal-content.welcomeBox iframe{
 	width: 100%;
 	height: 500px;
@@ -161,7 +142,7 @@
 	width: auto;
 	margin-left: -300px;
 }
-			
+
 .modal-content.upload iframe.upload{
 	width: 100%;
 	height: 700px;
@@ -172,7 +153,7 @@
 	width: auto;
 	margin-left: -300px;
 }
-			
+
 .modal-content.upload-profile iframe.upload-profile{
 	width: 100%;
 	height: 700px;
@@ -186,8 +167,8 @@
 #confirm-dialog-btn-yes:hover { background: #0c0; }
 #confirm-dialog-btn-no:hover { background: #f33; color: #fff; border-color: #c00; }
 
-/** 
- *	Modal for choosing between georeference and original view 
+/**
+ *	Modal for choosing between georeference and original view
  */
 .vk2-modal-dialog {
 	width: 250px;

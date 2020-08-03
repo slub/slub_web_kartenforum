@@ -10,3 +10,15 @@ $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum'] = 'EXT:slu
  * PageTS
  */
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TsConfig/Page/All.tsconfig">');
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'Slub.' . $_EXTKEY,
+	'Signup',
+	[
+		'Auth' => 'login, signup, logout, loginError',
+    ],
+	// non-cacheable actions
+	[
+        'Auth' => 'login, signup, logout, loginError',
+    ]
+);

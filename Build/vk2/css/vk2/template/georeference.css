@@ -5,7 +5,7 @@
 	font-weight: 100; letter-spacing: 2px; padding: 15px 15px; float: left; }
 .georeference-header-container > h1 .vk2georef-brand { position: relative; display: block; height: 55px;
   width: 290px; overflow: hidden; text-indent: 100%; white-space: nowrap; padding: 0; margin: 0 10px 0 0;
-  background: url('../../../Images/georefLogo.svg') no-repeat 0 0;
+  background: url('../Images/georefLogo.svg') no-repeat 0 0;
   background-size: 290px 55px; float: left; }
 .georef-validate-menu { padding: 25px 20px 25px 25px; }
 .georef-validate-menu .btn,  .georef-validate-menu .transformation-chooser { border-radius: 0; border: 1px solid #fff;}

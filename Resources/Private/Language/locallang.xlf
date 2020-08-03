@@ -6,8 +6,65 @@
             <authorEmail>typo3@slub-dresden.de</authorEmail>
         </header>
         <body>
+		<trans-unit id="label.georefhistorypage">
+			<source>Georeference History</source>
+		</trans-unit>
+		<trans-unit id="label.georefchoosepage">
+			<source>Show unreferenced maps</source>
+		</trans-unit>
+		<trans-unit id="label.evaluationpage">
+			<source>Map Evaluation</source>
+		</trans-unit>
 		<trans-unit id="label.login">
 			<source>Login</source>
+		</trans-unit>
+        <trans-unit id="label.logout">
+            <source>Logout</source>
+        </trans-unit>
+        <trans-unit id="login.title">
+            <source>Welcome to the Virtual Map Forum 2.0</source>
+        </trans-unit>
+        <trans-unit id="login.username">
+            <source>Username</source>
+        </trans-unit>
+        <trans-unit id="login.password">
+            <source>Password</source>
+        </trans-unit>
+        <trans-unit id="login.signin">
+            <source>Login</source>
+        </trans-unit>
+        <trans-unit id="login.reset">
+            <source>Reset password?</source>
+        </trans-unit>
+        <trans-unit id="login.newto">
+            <source>New to the Virtual Map Forum 2.0?</source>
+        </trans-unit>
+        <trans-unit id="login.signupnow">
+            <source>Register now</source>
+        </trans-unit>
+        <trans-unit id="login.backtosignin">
+            <source>back to the</source>
+        </trans-unit>
+        <trans-unit id="login.registration">
+            <source>Registration</source>
+        </trans-unit>
+        <trans-unit id="login.signup">
+            <source>Login</source>
+        </trans-unit>
+        <trans-unit id="login.email">
+            <source>Email</source>
+        </trans-unit>
+        <trans-unit id="login.firstname">
+            <source>First name</source>
+        </trans-unit>
+        <trans-unit id="login.lastname">
+            <source>Last name</source>
+        </trans-unit>
+        <trans-unit id="logout.title">
+            <source>Are you sure you want to logout</source>
+        </trans-unit>
+		<trans-unit id="plugin.signup">
+			<source>Kartenforum: Signup Form</source>
 		</trans-unit>
         </body>
     </file>

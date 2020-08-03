@@ -24,5 +24,11 @@
     "build": "./node_modules/.bin/grunt",
     "css": "./node_modules/.bin/grunt css",
     "watch": "./node_modules/.bin/grunt watch"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "Last 2 versions",
+    "Firefox ESR",
+    "IE 11"
+  ]
 }

@@ -4,18 +4,19 @@ page {
     }
 
     includeCSS {
-        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/bootstrap-3.3.6.min.css
+        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/bootstrap-3.3.7.min.css
         #jquery-ui = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/jquery-ui-1.10.3.min.css
         vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Css/ol.css
         slub_web_kartenforum_layout = EXT:slub_web_kartenforum/Resources/Public/Css/style.css
+		slub_web_kartenforum_layout = EXT:slub_web_kartenforum/Resources/Public/Css/layout.min.css
     }
 
     includeJSLibs {
-        jquery = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jquery-1.9.1.min.js
-        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/bootstrap-3.0.3.min.js
+        jquery = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jQuery/jquery-3.4.1.min.js
+        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/bootstrap-3.3.7.min.js
         proj4 = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/proj4-2.2.1.js
         jquery-ui = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jquery-ui-1.10.3.min.js
-        jquery.lazyload = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jquery.lazyload-1.9.1.min.js
+        #jquery.lazyload = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jquery.lazyload-1.9.1.min.js
         glif = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/glif.min.js
         vk2-params = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vk2-params.js
         vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/ol-vk2.js

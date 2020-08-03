@@ -9,3 +9,19 @@ config {
     typolinkLinkAccessRestrictedPages = {$config.loginPage}
     typolinkLinkAccessRestrictedPages_addParams = &return_url=###RETURN_URL###
 }
+
+plugin.tx_slubwebkartenforum {
+	persistence {
+		storagePid = {$config.userStoragePid}
+		classes {
+			Slub\SlubWebKartenforum\Domain\Model\User {
+				mapping {
+					tableName = fe_users
+					columns {
+						name.mapOnProperty = name
+					}
+				}
+			}
+		}
+	}
+}

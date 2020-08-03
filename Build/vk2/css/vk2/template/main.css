@@ -108,7 +108,7 @@
 	display: block;
 	overflow: hidden;
 	text-indent: -9000px;
-	background: url('../../../Images/flags.png') no-repeat
+	background: url('../Images/flags.png') no-repeat
 }
 .language_switcher.switch_de-DE { background-position: 0 0 }
 .language_switcher.switch_en-GB { background-position: 0 -11px }

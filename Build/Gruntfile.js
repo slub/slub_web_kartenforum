@@ -10,7 +10,7 @@ module.exports = function(grunt) {
         paths: {
             root: '../',
             resources: '<%= paths.root %>Resources/',
-            sass: '<%= paths.resources %>Public/Scss/',
+            sass: '<%= paths.root %>Build/vk2/css/',
             css: '<%= paths.resources %>Public/Css/',
             fonts: '<%= paths.resources %>Public/Fonts/',
             img: '<%= paths.resources %>Public/Images/',
@@ -18,7 +18,7 @@ module.exports = function(grunt) {
         },
         banner: '/*!\n' +
             ' * SLUB Kartenforum v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
-            ' * Copyright 2017-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+            ' * Copyright 2020-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
             ' * Licensed under the <%= pkg.license %> license\n' +
             ' */\n',
         uglify: {
@@ -41,11 +41,11 @@ module.exports = function(grunt) {
                 implementation: sass,
                 outputStyle: 'expanded',
                 precision: 8,
-                sourceMap: false
+                sourceMap: true
             },
             layout: {
                 files: {
-                    '<%= paths.css %>layout.css': '<%= paths.sass %>layout.scss'
+                    '<%= paths.sass %>layout.css': '<%= paths.sass %>layout.scss'
                 }
             }
         },
@@ -53,17 +53,11 @@ module.exports = function(grunt) {
             options: {
                 map: false,
                 processors: [
-                    require('autoprefixer')({
-                        browsers: [
-                            'Last 2 versions',
-                            'Firefox ESR',
-                            'IE 9'
-                        ]
-                    })
+                    require('autoprefixer')({})
                 ]
             },
             layout: {
-                src: '<%= paths.css %>layout.css'
+                src: '<%= paths.sass %>layout.css'
             }
         },
         cssmin: {
@@ -72,7 +66,7 @@ module.exports = function(grunt) {
                 advanced: false
             },
             layout: {
-                src: '<%= paths.css %>layout.css',
+                src: '<%= paths.sass %>layout.css',
                 dest: '<%= paths.css %>layout.min.css'
             }
         },

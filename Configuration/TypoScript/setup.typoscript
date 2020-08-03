@@ -93,6 +93,9 @@ page {
 #            pidRoot = {$template.navigation.main}
             welcomePage = {$config.welcomePage}
             loginPage = {$config.loginPage}
+            georefhistoryPage = {$config.georefhistoryPage}
+            georefchoosePage = {$config.georefchoosePage}
+            evaluationPage = {$config.evaluationPage}
             matomo {
                 hostname = {$config.matomo.hostname}
                 siteId = {$config.matomo.siteId}

@@ -1,0 +1,53 @@
+<f:form action="signup" object="{user}" name="user" class="form-user-register" additionalAttributes="{role:'form', target: '_top'}">
+
+	<div class="form-group">
+		<label for="loginNewUsername" class="control-label">
+			<f:translate id="login.username" />
+		</label>
+		<f:form.textfield type="text" name="username" class="form-control"
+			id="loginNewUsername" property="username"
+			placeholder="{f:translate(id:'login.username')}" />
+	</div>
+
+	<div class="form-group">
+		<label for="loginNewPassword" class="control-label">
+			<f:translate id="login.password" />
+		</label>
+
+		<f:form.textfield type="password" name="password"
+			class="form-control" id="loginNewPassword" property="password"
+			placeholder="{f:translate(id:'login.password')}" />
+
+	</div>
+
+	<div class="form-group double-input-field">
+		<label for="loginNewVorname" class="control-label">
+			<f:translate id="login.firstname" /> & <f:translate id="login.lastname" />
+		</label>
+
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<f:form.textfield type="text" name="vorname" class="form-control"
+					id="loginNewVorname" property="firstName"
+					placeholder="{f:translate(id:'login.firstname')}" />
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<f:form.textfield type="text" name="nachname" class="form-control right"
+					id="loginNewNachname" property="lastName"
+					placeholder="{f:translate(id:'login.lastname')}" />
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="loginNewEmail" class="control-label">
+			<f:translate id="login.email" />
+		</label>
+		<f:form.textfield type="text" name="email" property="email"
+			class="form-control" id="loginNewEmail"
+			placeholder="{f:translate(id:'login.email')}" />
+	</div>
+
+	<f:form.submit value="{f:translate(id:'login.signup')}" class="btn btn-primary" />
+
+</f:form>
