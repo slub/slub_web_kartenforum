@@ -2,7 +2,9 @@
 namespace Slub\SlubWebKartenforum\Controller;
 
 use \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use Slub\SlubWebKartenforum\Utils\Tools;
+use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
+use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 /***************************************************************
@@ -30,18 +32,27 @@ use Slub\SlubWebKartenforum\Utils\Tools;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Extbase\Annotation as Extbase;
+
 /**
  * AuthController
  */
 class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
-	 * FrontendUserRepository
+	 * feUserRepository
 	 *
 	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
-	 * @inject
 	 */
-	protected $FrontendUserRepository;
+	protected $feUserRepository;
+
+	/**
+     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $controller
+     */
+    public function injectfeUserRepository(FrontendUserRepository $feUserRepository)
+    {
+        $this->feUserRepository = $feUserRepository;
+    }
 
 	/**
 	 * userGroupRepository
@@ -112,16 +123,24 @@ class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 * fe_login
 	 *
 	 * @param \Slub\SlubWebKartenforum\Domain\Model\User $user
+	 * @Extbase\IgnoreValidation("user")
 	 */
 	public function loginAction(
-			\Slub\SlubWebKartenforum\Domain\Model\User $user = NULL){
+			\Slub\SlubWebKartenforum\Domain\Model\User $user = NULL) {
+		$arguments = $this->request->getArguments();
+
+		$this->view->assign('errors', $arguments['errors']);
 		$this->view->assign('user', $user);
 	}
 
 	/**
 	 * Returns an error page
 	 */
-	public function loginErrorAction(){}
+	public function loginErrorAction() {
+		$arguments = $this->request->getArguments();
+
+		$this->view->assign('msg', $arguments['msg']);
+	}
 
 	public function logoutAction(){
 		if ($GLOBALS['TSFE']->loginUser) {
@@ -130,83 +149,39 @@ class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 		}
 	}
 
-// 	/**
-// 	 * For debugging is called before signUpAction
-// 	 */
-// 	public function initializeSignupAction() {
-// 		DebuggerUtility::var_dump($this->request->getArguments());
-// 	}
+	/**
+	 * For debugging is called before signUpAction
+	 */
+	public function initializeSignupAction() {
+//		debug($this->request->getArguments());
+	}
 
 	/**
 	 * sign up a user
-	 *
 	 * @param \Slub\SlubWebKartenforum\Domain\Model\User $user
 	 */
 	public function signupAction(\Slub\SlubWebKartenforum\Domain\Model\User $user)
   {
-		// check if user exist
-		$userExist = Tools::getUserByUsername($this->FrontendUserRepository, $user->getUsername());
-		if (!empty($userExist[0])) {
-			// redirect
-			$errorMessage = array( 'msg' => 'Username is already in use.');
-			$this->redirect('loginError', 'Auth', NULL, $errorMessage);
-		}
-
 		// attached usergroup to user
 		$usergroup = $this->userGroupRepository->findByTitle('vk2-user')[0];
 		$user->addUsergroup($usergroup);
 
-		// hash passpord
-		$user->hashPassword($this->vk2config['settings']['passwordSave']);
+        $saltFactory = GeneralUtility::makeInstance(PasswordHashFactory::class);
+		$defaultHashInstance = $saltFactory->getDefaultHashInstance(TYPO3_MODE);
 
-		// add user to database
+		// hash password
+		$user->setPassword($defaultHashInstance->getHashedPassword($user->getPassword()));
+
+		// add user to repository and persist
 		$user->setName($user->getFirstName() . ' ' . $user->getLastName());
-		$this->FrontendUserRepository->add($user);
+		$this->feUserRepository->add($user);
 		$this->persistenceManager->persistAll();
 
-		$this->redirect('login', 'Auth', NULL);
-//		$this->afterSignupDo($user);
+		$uriBuilder = $this->uriBuilder;
+		$targetUid = empty($this->settings['flexform']['loginPage']) ? $this->settings['loginPage'] : $this->settings['flexform']['loginPage'];
+		$uri = $uriBuilder
+		  ->setTargetPageUid($targetUid)
+		  ->build();
+		$this->redirectToURI($uri, $delay=0, $statusCode=303);
 	}
-
-	/**
-	 * Actions to be done after a sign up process
-	 *
-	 * @param \Slub\SlubWebKartenforum\Domain\Model\User $user
-	 * @param bool $login Login after creation
-	 * @return void
-	 */
-	public function afterSignupDo(\Slub\SlubWebKartenforum\Domain\Model\User $user, $login = TRUE) {
-		// persist user (otherwise login is not possible if user is still disabled)
-		$this->FrontendUserRepository->update($user);
-		$this->persistenceManager->persistAll();
-
-		// login user
-		if ($login) {
-			$this->loginAfterCreate($user);
-		}
-
-		// redirect
-		$this->redirect('show', 'Main', NULL);
-	}
-
-	/**
-	 * Login FE-User after creation
-	 *
-	 * @param \Slub\SlubWebKartenforum\Domain\Model\User $user
-	 * @return void
-	 */
-	protected function loginAfterCreate(\Slub\SlubWebKartenforum\Domain\Model\User $user) {
-		$GLOBALS['TSFE']->fe_user->checkPid = FALSE;
-		$info = $GLOBALS['TSFE']->fe_user->getAuthInfoArray();
-		$pids = $this->vk2Config['persistence']['storagePid'];
-		$extraWhere = ' AND pid IN (' . $this->databaseConnection->cleanIntList($pids) . ')';
-		$user = $GLOBALS['TSFE']->fe_user->fetchUserRecord($info['db_user'], $user->getUsername(), $extraWhere);
-
-		//DebuggerUtility::var_dump($user);
-		$GLOBALS['TSFE']->fe_user->createUserSession($user);
-		$GLOBALS['TSFE']->fe_user->user = $GLOBALS['TSFE']->fe_user->fetchUserSession();
-		// enforce session so we get a FE cookie, otherwise autologin does not work (TYPO3 6.2.5+)
-		$GLOBALS['TSFE']->fe_user->setAndSaveSessionData('dummy', TRUE);
-	}
-
 }

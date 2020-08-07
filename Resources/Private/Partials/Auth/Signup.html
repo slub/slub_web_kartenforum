@@ -1,12 +1,37 @@
-<f:form action="signup" object="{user}" name="user" class="tx-felogin-pi1" additionalAttributes="{role:'form', target: '_top'}">
+<f:form action="signup" target="vk2-modal" object="{user}" name="user" class="tx-felogin-pi1" additionalAttributes="{role:'form', target: '_top'}">
 
-	<div class="form-group">
+	<f:form.validationResults>
+		<f:if condition="{validationResults.flattenedErrors}">
+			<ul class="alert alert-danger" role="alert">
+				<f:for each="{validationResults.flattenedErrors}" key="propertyPath" as="errors">
+					<f:for each="{errors}" as="singleError">
+						<li>
+							<f:translate key="validationerror_{singleError.code}" />
+						</li>
+					</f:for>
+				</f:for>
+			</ul>
+		</f:if>
+	</f:form.validationResults>
+
+	<f:if condition="{errors}">
+		<ul class="alert alert-danger" role="alert">
+			<f:for each="{errors}" as="singleError">
+				<li>
+					{singleError}
+				</li>
+			</f:for>
+		</ul>
+	</f:if>
+
+	<div class="form-group {f:if(condition:'{error.username}', then:'alert alert-danger')}">
 		<label for="loginNewUsername" class="control-label">
 			<f:translate id="login.username" />
 		</label>
 		<f:form.textfield type="text" name="username" class="form-control"
 			id="loginNewUsername" property="username"
-			placeholder="{f:translate(id:'login.username')}" />
+			required="required"
+			placeholder="{f:translate(id:'login.username')} *" />
 	</div>
 
 	<div class="form-group">
@@ -16,7 +41,8 @@
 
 		<f:form.textfield type="password" name="password"
 			class="form-control" id="loginNewPassword" property="password"
-			placeholder="{f:translate(id:'login.password')}" />
+			required="required"
+			placeholder="{f:translate(id:'login.password')} *" />
 
 	</div>
 
@@ -43,11 +69,18 @@
 		<label for="loginNewEmail" class="control-label">
 			<f:translate id="login.email" />
 		</label>
-		<f:form.textfield type="text" name="email" property="email"
+		<f:form.textfield type="email" name="email" property="email"
 			class="form-control" id="loginNewEmail"
-			placeholder="{f:translate(id:'login.email')}" />
+			required="required"
+			placeholder="{f:translate(id:'login.email')} *" />
 	</div>
+
+	<div class="form-group"><f:translate key="label.requiredFields" extensionName="slubWebKartenforum" /></div>
 
 	<f:form.submit value="{f:translate(id:'login.signup')}" class="btn btn-primary" />
 
 </f:form>
+
+<f:link.page pageUid="{settings.loginPage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.login', extensionName:'slubWebKartenforum')}">
+	<f:translate key="label.login" extensionName="slubWebKartenforum" />
+</f:link.page>

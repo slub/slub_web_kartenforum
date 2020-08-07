@@ -43,7 +43,8 @@ use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
  * @package TYPO3
  */
 
-class UsernameViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class UsernameViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
 	/**
 	 * feUserRepository
@@ -78,9 +79,15 @@ class UsernameViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 		$feUserObj = $this->getActualUser();
 
 		if ($feUserObj != NULL) {
-			return $feUserObj->getUsername();
+			switch ($field) {
+				case 'name': 	$output = $feUserObj->getName();
+								break;
+				case 'username':
+				default: 		$output = $feUserObj->getUsername();
+			}
+			return $output;
 		} else {
-			return 'Test';
+			return '';
 		}
 	}
 
@@ -90,10 +97,8 @@ class UsernameViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	 * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
 	 */
 	public function getActualUser() {
-
 		$user = $GLOBALS['TSFE']->fe_user->user;
 		$feUserObj = $this->feUserRepository->findByUid($user['uid']);
 		return $feUserObj;
-
 	}
 }

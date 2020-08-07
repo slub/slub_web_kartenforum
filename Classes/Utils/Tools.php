@@ -19,34 +19,6 @@ class Tools {
 	}
 
 	/**
-	 * Gets the user by his userid
-	 * @param \Slub\SlubWebKartenforum\Domain\Repository\UserRepository $repo
-	 * @param string $username
-	 * @return \Slub\SlubWebKartenforum\Domain\Model\User $user
-	 */
-	public static function getUserByUsername($repo, $username) {
-		$feUserObj = $repo->findByUsername( $username );
-		return $feUserObj;
-	}
-
-	/**
-	 * Extract user groups for a given user.
-	 * @param \Slub\SlubWebKartenforum\Domain\Model\User $user
-	 * @return array
-	 */
-	public static function getUsergroupsForUser($user) {
-		if (!$user)
-			return array();
-
-		$userGroup = $user->getUsergroup();
-		$groups = array();
-		foreach ($userGroup as $key => $value) {
-			array_push($groups, $value->getTitle());
-		}
-		return $groups;
-	}
-
-	/**
 	 * Functions renders the client setting parameters to the given template.
 	 * @param array $settings
 	 */

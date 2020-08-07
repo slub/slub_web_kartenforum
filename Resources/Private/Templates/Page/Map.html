@@ -16,43 +16,50 @@
                             <f:then>
                                 <li class="dropdown user-dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
-                                    <vk:username />
-                                    <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <f:link.page pageUid="{settings.georefhistoryPage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.georefhistorypage', extensionName:'slubWebKartenforum')}">
-                                            <f:translate key="label.georefhistorypage" extensionName="slubWebKartenforum" />
-                                            <b class="caret"></b>
-                                        </f:link.page>
-                                    </li>
-                                    <li>
-                                        <f:link.page pageUid="{settings.georefchoosePage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.georefchoosepage', extensionName:'slubWebKartenforum')}">
-                                            <f:translate key="label.georefchoosepage" extensionName="slubWebKartenforum" />
-                                            <b class="caret"></b>
-                                        </f:link.page>
-                                    </li>
-                                    <f:security.ifHasRole role="vk2-admin">
-                                        <li class="divider"></li>
-                                        <!-- admin menu -->
+                                        <f:if condition="{vk:username(field:'name')} == ''">
+                                            <f:then>
+                                                <vk:username field="username" />
+                                            </f:then>
+                                            <f:else>
+                                                <vk:username field="name" />
+                                            </f:else>
+                                        </f:if>
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
                                         <li>
-                                            <f:link.page target="_blank" pageUid="{settings.evaluationPage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.evaluationpage', extensionName:'slubWebKartenforum')}">
-                                                <f:translate key="label.evaluationpage" extensionName="slubWebKartenforum" />
+                                            <f:link.page pageUid="{settings.georefhistoryPage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.georefhistorypage', extensionName:'slubWebKartenforum')}">
+                                                <f:translate key="label.georefhistorypage" extensionName="slubWebKartenforum" />
                                                 <b class="caret"></b>
                                             </f:link.page>
                                         </li>
-                                        <!-- admin menu end -->
-                                    </f:security.ifHasRole>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <f:link.page pageUid="{settings.loginPage}" data="{classes: 'logout'}" class="vk2-modal-anchor" title="{f:translate(key:'label.logout', extensionName:'slubWebKartenforum')}">
-                                            <f:translate key="label.logout" extensionName="slubWebKartenforum" />
-                                            <b class="caret"></b>
-                                        </f:link.page>
-                                    </li>
-                                </ul>
-                            </li>
-                        </f:then>
+                                        <li>
+                                            <f:link.page pageUid="{settings.georefchoosePage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.georefchoosepage', extensionName:'slubWebKartenforum')}">
+                                                <f:translate key="label.georefchoosepage" extensionName="slubWebKartenforum" />
+                                                <b class="caret"></b>
+                                            </f:link.page>
+                                        </li>
+                                        <f:security.ifHasRole role="vk2-admin">
+                                            <li class="divider"></li>
+                                            <!-- admin menu -->
+                                            <li>
+                                                <f:link.page target="_blank" pageUid="{settings.evaluationPage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.evaluationpage', extensionName:'slubWebKartenforum')}">
+                                                    <f:translate key="label.evaluationpage" extensionName="slubWebKartenforum" />
+                                                    <b class="caret"></b>
+                                                </f:link.page>
+                                            </li>
+                                            <!-- admin menu end -->
+                                        </f:security.ifHasRole>
+                                        <li class="divider"></li>
+                                        <li>
+                                            <f:link.page pageUid="{settings.loginPage}" data="{classes: 'logout'}" class="vk2-modal-anchor" title="{f:translate(key:'label.logout', extensionName:'slubWebKartenforum')}">
+                                                <f:translate key="label.logout" extensionName="slubWebKartenforum" />
+                                                <b class="caret"></b>
+                                            </f:link.page>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </f:then>
                             <f:else>
                                 <li>
                                 <f:link.page pageUid="{settings.loginPage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.login', extensionName:'slubWebKartenforum')}">

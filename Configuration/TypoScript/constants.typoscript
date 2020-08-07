@@ -58,7 +58,7 @@ config {
     # cat=plugin.tx_slubwebkartenforum/links/0100; type=int+; label=UID of the Welcome Page
     welcomePage =
     # cat=plugin.tx_slubwebkartenforum/links/0110; type=int+; label=UID of the Login Page
-    loginPage =
+    loginPage = 123
     # cat=plugin.tx_slubwebkartenforum/links/0120; type=int+; label=User Storage Pid
     userStoragePid =
     # cat=plugin.tx_slubwebkartenforum/links/0110; type=int+; label=UID of Page with Georeference History

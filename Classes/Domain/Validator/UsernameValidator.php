@@ -1,13 +1,10 @@
 <?php
-namespace Slub\SlubWebKartenforum\Domain\Model;
-
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-
+namespace Slub\SlubWebKartenforum\Domain\Validator;
 /***************************************************************
  *
  *  Copyright notice
  *
- *  (c) 2015 Jacob Mendt <Jacob.Mendt@slub-dresden.de>, SLUB
+ *  (c) 2020 Alexander Bigga <Alexander.Bigga@slub-dresden.de>, SLUB
  *
  *  All rights reserved
  *
@@ -29,36 +26,39 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  ***************************************************************/
 
 use TYPO3\CMS\Extbase\Annotation as Extbase;
+use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
+use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 
 /**
  * User
  */
-class User extends \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+class UsernameValidator extends AbstractValidator
 {
 
-    /**
-	 * Username - must be unique
+	/**
+	 * feUserRepository
 	 *
-     * @var string
-     * @Extbase\Validate("NotEmpty")
-	 * @Extbase\Validate("Slub\SlubWebKartenforum\Domain\Validator\UsernameValidator")
-     */
-    protected $username = '';
+	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
+	 */
+	protected $feUserRepository;
 
 	/**
-	 * Email address - make sure no record is created if empty
-	 *
-     * @var string
-     * @Extbase\Validate("NotEmpty")
+     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $controller
      */
-    protected $email = '';
+    public function injectfeUserRepository(FrontendUserRepository $feUserRepository)
+    {
+        $this->feUserRepository = $feUserRepository;
+    }
 
     /**
-	 * Password - make sure no record is created if empty
-	 *
-     * @var string
- 	 * @Extbase\Validate("StringLength", options={"minimum": 9, "maximum": 50})
+     * Username is only valid if it is not in use yet.
      */
-    protected $password = '';
-
+    protected function isValid($value)
+   {
+       $countUser = $this->feUserRepository->findByUsername($value)->count();
+       if ($countUser === 0) {
+           return;
+       }
+       $this->addError('Username already in use.', 1596722363);
+   }
 }

@@ -21,6 +21,9 @@
         <trans-unit id="label.logout">
             <source>Logout</source>
         </trans-unit>
+        <trans-unit id="label.requiredFields">
+            <source>* required fields</source>
+        </trans-unit>
         <trans-unit id="login.title">
             <source>Welcome to the Virtual Map Forum 2.0</source>
         </trans-unit>
@@ -49,7 +52,7 @@
             <source>Registration</source>
         </trans-unit>
         <trans-unit id="login.signup">
-            <source>Login</source>
+            <source>Register</source>
         </trans-unit>
         <trans-unit id="login.email">
             <source>Email</source>
@@ -66,6 +69,12 @@
 		<trans-unit id="plugin.signup">
 			<source>Kartenforum: Signup Form</source>
 		</trans-unit>
+        <trans-unit id="validationerror_1428504122">
+            <source>The minimum length of the password is 9 characters.</source>
+        </trans-unit>
+        <trans-unit id="validationerror_1596722363">
+            <source>The username is already in use. Please choose another one.</source>
+        </trans-unit>
         </body>
     </file>
 </xliff>

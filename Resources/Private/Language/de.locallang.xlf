@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2020-08-07T14:56:43Z">
+		<header>
+			<authorName>Alexander Bigga</authorName>
+			<authorEmail>typo3@slub-dresden.de</authorEmail>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+			<trans-unit id="label.evaluationpage" approved="yes">
+				<source><![CDATA[Map Evaluation]]></source>
+				<target><![CDATA[Kartenevaluierung]]></target>
+			</trans-unit>
+			<trans-unit id="label.georefchoosepage" approved="yes">
+				<source><![CDATA[Show unreferenced maps]]></source>
+				<target><![CDATA[Zeige unreferenzierte Karten]]></target>
+			</trans-unit>
+			<trans-unit id="label.georefhistorypage" approved="yes">
+				<source><![CDATA[Georeference History]]></source>
+				<target><![CDATA[Georeferenzierungs-Historie]]></target>
+			</trans-unit>
+			<trans-unit id="label.login" approved="yes">
+				<source><![CDATA[Login]]></source>
+				<target><![CDATA[Anmelden]]></target>
+			</trans-unit>
+			<trans-unit id="label.logout" approved="yes">
+				<source><![CDATA[Logout]]></source>
+				<target><![CDATA[Abmelden]]></target>
+			</trans-unit>
+			<trans-unit id="label.requiredFields" approved="yes">
+				<source><![CDATA[* required fields]]></source>
+				<target><![CDATA[* Pflichtfelder]]></target>
+			</trans-unit>
+			<trans-unit id="login.email" approved="yes">
+				<source><![CDATA[Email]]></source>
+				<target><![CDATA[Email]]></target>
+			</trans-unit>
+			<trans-unit id="login.firstname" approved="yes">
+				<source><![CDATA[First name]]></source>
+				<target><![CDATA[Vorname]]></target>
+			</trans-unit>
+			<trans-unit id="login.lastname" approved="yes">
+				<source><![CDATA[Last name]]></source>
+				<target><![CDATA[Nachname]]></target>
+			</trans-unit>
+			<trans-unit id="login.password" approved="yes">
+				<source><![CDATA[Password]]></source>
+				<target><![CDATA[Passwort]]></target>
+			</trans-unit>
+			<trans-unit id="login.registration" approved="yes">
+				<source><![CDATA[Registration]]></source>
+				<target><![CDATA[Registrieren]]></target>
+			</trans-unit>
+			<trans-unit id="login.reset" approved="yes">
+				<source><![CDATA[Reset password?]]></source>
+				<target><![CDATA[Passwort zurücksetzen]]></target>
+			</trans-unit>
+			<trans-unit id="login.username" approved="yes">
+				<source><![CDATA[Username]]></source>
+				<target><![CDATA[Benutzername]]></target>
+			</trans-unit>
+			<trans-unit id="validationerror_1428504122" approved="yes">
+				<source><![CDATA[The minimum length of the password is 9 characters.]]></source>
+				<target><![CDATA[Das Passwort muss mindestens 9 Zeichen haben.]]></target>
+			</trans-unit>
+			<trans-unit id="validationerror_1596722363" approved="yes">
+				<source><![CDATA[The username is already in use. Please choose another one.]]></source>
+				<target><![CDATA[Der Benutzername wird bereits verwendet. Bitte wählen Sie einen anderen.]]></target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
