@@ -3,12 +3,17 @@
     "type": "typo3-cms-extension",
     "description": "",
     "homepage": "https://www.slub-dresden.de",
-    "license": ["GPL-2.0-or-later"],
     "keywords": ["TYPO3 CMS"],
-    "require": {
-        "typo3/cms-core": "^9.5",
-        "typo3/cms-rte-ckeditor": "^9.5",
-        "typo3/cms-fluid-styled-content": "^9.5"
+    "authors": [
+        {
+          "name": "Alexander Bigga",
+          "email": "alexander.bigga@slub-dresden.de",
+          "role": "Developer"
+        }
+    ],
+    "license": "GPL-3.0-or-later",
+        "require": {
+        "typo3/cms-core": "~9.5.24"
     },
     "autoload": {
         "psr-4": {
