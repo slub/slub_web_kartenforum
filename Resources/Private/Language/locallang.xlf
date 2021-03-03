@@ -78,6 +78,24 @@
         <trans-unit id="validationerror_1596722363">
             <source>The username is already in use. Please choose another one.</source>
         </trans-unit>
+        <trans-unit id="georef.rank">
+            <source>Rank</source>
+        </trans-unit>
+        <trans-unit id="georef.username">
+            <source>Username</source>
+        </trans-unit>
+        <trans-unit id="georef.new">
+            <source>New georeference processes</source>
+        </trans-unit>
+        <trans-unit id="georef.update">
+            <source>Update georeference processes</source>
+        </trans-unit>
+        <trans-unit id="georef.points">
+            <source>Points</source>
+        </trans-unit>
+        <trans-unit id="georef.timestamp">
+            <source>Updated</source>
+        </trans-unit>
         </body>
     </file>
 </xliff>

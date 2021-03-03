@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2020-08-07T14:56:43Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-03-03T23:20:38Z">
 		<header>
 			<authorName>Alexander Bigga</authorName>
 			<authorEmail>typo3@slub-dresden.de</authorEmail>
 			<generator>LFEditor</generator>
 		</header>
 		<body>
+			<trans-unit id="georef.new" approved="yes">
+				<source><![CDATA[New georeference processes]]></source>
+				<target><![CDATA[Neue Georeferenzierungen]]></target>
+			</trans-unit>
+			<trans-unit id="georef.points" approved="yes">
+				<source><![CDATA[Points]]></source>
+				<target><![CDATA[Punkte]]></target>
+			</trans-unit>
+			<trans-unit id="georef.rank" approved="yes">
+				<source><![CDATA[Rank]]></source>
+				<target><![CDATA[Platzierung]]></target>
+			</trans-unit>
+			<trans-unit id="georef.timestamp" approved="yes">
+				<source><![CDATA[Updated]]></source>
+				<target><![CDATA[Aktualisierung]]></target>
+			</trans-unit>
+			<trans-unit id="georef.update" approved="yes">
+				<source><![CDATA[Update georeference processes]]></source>
+				<target><![CDATA[Aktualisierte Georeferenzierungen]]></target>
+			</trans-unit>
+			<trans-unit id="georef.username" approved="yes">
+				<source><![CDATA[Username]]></source>
+				<target><![CDATA[Nutzername]]></target>
+			</trans-unit>
 			<trans-unit id="label.evaluationpage" approved="yes">
 				<source><![CDATA[Map Evaluation]]></source>
 				<target><![CDATA[Kartenevaluierung]]></target>
@@ -43,6 +67,10 @@
 				<source><![CDATA[Last name]]></source>
 				<target><![CDATA[Nachname]]></target>
 			</trans-unit>
+			<trans-unit id="login.newto" approved="yes">
+				<source><![CDATA[New to the Virtual Map Forum 2.0?]]></source>
+				<target><![CDATA[Neu im Virtuellen Kartenforum 2.0?]]></target>
+			</trans-unit>
 			<trans-unit id="login.password" approved="yes">
 				<source><![CDATA[Password]]></source>
 				<target><![CDATA[Passwort]]></target>
@@ -54,6 +82,22 @@
 			<trans-unit id="login.reset" approved="yes">
 				<source><![CDATA[Reset password?]]></source>
 				<target><![CDATA[Passwort zurücksetzen]]></target>
+			</trans-unit>
+			<trans-unit id="login.signin" approved="yes">
+				<source><![CDATA[Login]]></source>
+				<target><![CDATA[Anmelden]]></target>
+			</trans-unit>
+			<trans-unit id="login.signup" approved="yes">
+				<source><![CDATA[Register]]></source>
+				<target><![CDATA[Anmelden]]></target>
+			</trans-unit>
+			<trans-unit id="login.signupnow" approved="yes">
+				<source><![CDATA[Register now]]></source>
+				<target><![CDATA[Jetzt anmelden]]></target>
+			</trans-unit>
+			<trans-unit id="login.title" approved="yes">
+				<source><![CDATA[Welcome to the Virtual Map Forum 2.0]]></source>
+				<target><![CDATA[Willkommen im Virtuellen Kartenforum 2.0]]></target>
 			</trans-unit>
 			<trans-unit id="login.username" approved="yes">
 				<source><![CDATA[Username]]></source>
