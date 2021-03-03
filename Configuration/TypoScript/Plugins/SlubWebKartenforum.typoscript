@@ -14,5 +14,6 @@ plugin.tx_slubwebkartenforum {
 	}
 	settings {
         loginPage = {$config.loginPage}
+        georefBackend = {$config.georef.backend}
 	}
 }

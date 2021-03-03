@@ -7,7 +7,6 @@
                 </TCEforms>
                 <type>array</type>
                 <el>
-                    <!-- Should the client use realurl or absolute urls -->
                     <settings.flexform.loginPage>
                         <TCEforms>
                             <label>Login Page to redirect on successful registration</label>

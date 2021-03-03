@@ -1,0 +1,33 @@
+<table class="table" id="ranking-table">
+    <thead>
+        <tr>
+            <th>Platzierung</th>
+            <th>Nutzername</th>
+            <th>Neue Georeferenzierungen</th>
+            <th>Aktualisierte Georeferenzierungen</th>
+            <th>Punkte</th>
+        </tr>
+    </thead>
+    <tbody>
+        <f:for each="{ranking.pointoverview}" as="row" iteration="iterator">
+            <tr>
+                <td>
+                    {iterator.cycle}
+                </td>
+                <td>
+                    {row.userid}
+                </td>
+                <td>
+                    {row.new}
+                </td>
+                <td>
+                    {row.update}
+                </td>
+                <td>
+                    {row.points}
+                </td>
+            </tr>
+        </f:for>
+    </tbody>
+</table>
+        <f:debug>{ranking}</f:debug>

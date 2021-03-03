@@ -1,7 +1,7 @@
 <?php
 namespace Slub\SlubWebKartenforum\Controller;
 
-use \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -37,7 +37,8 @@ use TYPO3\CMS\Extbase\Annotation as Extbase;
 /**
  * AuthController
  */
-class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+{
 
 	/**
 	 * feUserRepository
@@ -100,7 +101,8 @@ class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 * (non-PHPdoc)
 	 * @see \TYPO3\CMS\Extbase\Mvc\Controller\ActionController::initializeAction()
 	 */
-	public function initializeAction() {
+	public function initializeAction()
+    {
 		$this->databaseConnection = $GLOBALS['TYPO3_DB'];
 		$this->controllerContext = $this->buildControllerContext();
 		$this->vk2Config = $this->configurationManager->getConfiguration(
@@ -125,8 +127,8 @@ class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 * @param \Slub\SlubWebKartenforum\Domain\Model\User $user
 	 * @Extbase\IgnoreValidation("user")
 	 */
-	public function loginAction(
-			\Slub\SlubWebKartenforum\Domain\Model\User $user = NULL) {
+	public function loginAction(\Slub\SlubWebKartenforum\Domain\Model\User $user = NULL)
+    {
 		$arguments = $this->request->getArguments();
 
 		$this->view->assign('errors', $arguments['errors']);
@@ -136,13 +138,15 @@ class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	/**
 	 * Returns an error page
 	 */
-	public function loginErrorAction() {
+	public function loginErrorAction()
+    {
 		$arguments = $this->request->getArguments();
 
 		$this->view->assign('msg', $arguments['msg']);
 	}
 
-	public function logoutAction(){
+	public function logoutAction()
+    {
 		if ($GLOBALS['TSFE']->loginUser) {
 			$GLOBALS['TSFE']->fe_user->logoff();
 			$this->redirect('show', 'Main', NULL);
@@ -152,7 +156,8 @@ class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	/**
 	 * For debugging is called before signUpAction
 	 */
-	public function initializeSignupAction() {
+	public function initializeSignupAction()
+    {
 //		debug($this->request->getArguments());
 	}
 
@@ -161,7 +166,7 @@ class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController 
 	 * @param \Slub\SlubWebKartenforum\Domain\Model\User $user
 	 */
 	public function signupAction(\Slub\SlubWebKartenforum\Domain\Model\User $user)
-  {
+    {
 		// attached usergroup to user
 		$usergroup = $this->userGroupRepository->findByTitle('vk2-user')[0];
 		$user->addUsergroup($usergroup);

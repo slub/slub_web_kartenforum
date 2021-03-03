@@ -191,12 +191,13 @@
 	height: 700px;
 }
 
+.modal-dialog {
+    width: 700px;
+}
 
 .georeference-dialog .modal-body > section { text-align: center; }
 .georeference-dialog .modal-body a { width: 180px; margin-right: 20px; }
 .modal-content.georef-chooser{ width: auto; margin-left: -100px; }
 .modal-content.georef-chooser iframe{ width: 100%; height: 600px; }
-.modal-content.ranking { width: auto; margin-left: -100px; }
-.modal-content.ranking iframe{ width: 100%; height: 600px; }
 .modal-content.service { width: 900px; margin-left: -100px; }
 .modal-content.service iframe{ width: 100%; height: 600px; }

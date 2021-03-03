@@ -1,0 +1,23 @@
+<T3DataStructure>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Configuration of Plugin Georeference.</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.flexform.georefBackend>
+                        <TCEforms>
+                            <label>URL of the georeferencing backend</label>
+                            <config>
+                                <type>input</type>
+                                <size>128</size>
+                            </config>
+                        </TCEforms>
+                    </settings.flexform.georefBackend>
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>
