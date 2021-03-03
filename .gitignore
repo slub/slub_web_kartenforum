@@ -2,3 +2,4 @@
 package-lock.json
 Build/vk2/node_modules
 Build/node_modules
+!Build/package-lock.json
