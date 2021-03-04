@@ -109,5 +109,5 @@ gulp.task('js-compile-advanced', function() {
     );
 });
 
-gulp.task('default', ['minify-css', 'js-compile-advanced']);
-gulp.task('builds', ['js-compile-simple', 'js-compile-advanced-debug']);
+gulp.task('default', gulp.parallel('minify-css', 'js-compile-advanced'));
+gulp.task('builds', gulp.parallel('js-compile-simple', 'js-compile-advanced-debug'));

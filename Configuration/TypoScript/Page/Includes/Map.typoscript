@@ -74,9 +74,6 @@ page {
 				vk2x.settings.GEOREFERENCE_HISTORY = !vk2x.settings.WITH_SPEAKING_URLS ?
 						"tx_vk2_search[controller]=Georeference&tx_vk2_search[action]=georeferenceUserHistory&type=999" :
 						"/georef/history?type=999";
-				vk2x.settings.GEOREFERENCE_INFORMATION = !vk2x.settings.WITH_SPEAKING_URLS ?
-						"tx_vk2_search[controller]=Georeference&tx_vk2_search[action]=georeferenceUserInformation&type=999" :
-						"/georef/information?type=999";
 				vk2x.settings.GEOREFERENCE_ON = 1 === 1 ? true : false;
 				vk2x.settings.GEOREFERENCE_PAGE = !vk2x.settings.WITH_SPEAKING_URLS ?
 						"tx_vk2_search[controller]=Static&tx_vk2_search[action]=georefPage" :

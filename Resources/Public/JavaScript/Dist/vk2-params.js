@@ -60,11 +60,6 @@ vk2x.settings.GEOREFERENCE_GETPROCESS;
 vk2x.settings.GEOREFERENCE_HISTORY;
 
 /**
- * @type {string}
- */
-vk2x.settings.GEOREFERENCE_INFORMATION;
-
-/**
  * @type {boolean}
  */
 vk2x.settings.GEOREFERENCE_ON;

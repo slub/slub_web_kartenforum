@@ -90,16 +90,6 @@ vk2.utils.routing.getGeoreferenceUserHistory = function() {
 };
 
 /**
- * @return {string}
- */
-vk2.utils.routing.getGeoreferenceInformation = function() {
-	var uri = new goog.Uri(window.location.href);
-	if (!vk2.settings.WITH_SPEAKING_URLS)
-		return vk2.utils.routing.getBaseUrl() + '&' + vk2.settings.GEOREFERENCE_INFORMATION;
-	return vk2.utils.routing.getBaseUrlWithoutQuery() + vk2.settings.GEOREFERENCE_INFORMATION;
-};
-
-/**
  * @param {string} query_string
  * @return {string}
  */
@@ -138,7 +128,7 @@ vk2.utils.routing.getGeorefConfirmationRoute = function(query_string) {
  * @return {string}
  */
 vk2.utils.routing.getGeorefPageRoute = function(opt_objectid, opt_params) {
-	var params = opt_objectid !== undefined ? '&objectid=' + opt_objectid : 
+	var params = opt_objectid !== undefined ? '&objectid=' + opt_objectid :
 			opt_params !== undefined ? '&' + opt_params :  '';
 	var uri = new goog.Uri(window.location.href);
 	if (!vk2.settings.WITH_SPEAKING_URLS)
@@ -164,6 +154,3 @@ vk2.utils.routing.getMapProfileRoute = function(key) {
 vk2.utils.routing.getMainPageRoute = function(key) {
 	return vk2.utils.routing.getBaseUrl();
 };
-
-
-

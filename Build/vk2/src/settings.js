@@ -23,7 +23,6 @@ vk2.settings.updateSettings = function() {
     vk2.settings.GEOREFERENCE_EXTENT_SRS = vk2x.settings.GEOREFERENCE_EXTENT_SRS;
     vk2.settings.GEOREFERENCE_GETPROCESS = vk2x.settings.GEOREFERENCE_GETPROCESS;
     vk2.settings.GEOREFERENCE_HISTORY = vk2x.settings.GEOREFERENCE_HISTORY;
-    vk2.settings.GEOREFERENCE_INFORMATION = vk2x.settings.GEOREFERENCE_INFORMATION;
     vk2.settings.GEOREFERENCE_ON = vk2x.settings.GEOREFERENCE_ON;
     vk2.settings.GEOREFERENCE_PAGE = vk2x.settings.GEOREFERENCE_PAGE;
     vk2.settings.GEOREFERENCE_VALIDATION = vk2x.settings.GEOREFERENCE_VALIDATION;
@@ -87,11 +86,6 @@ vk2.settings.GEOREFERENCE_GETPROCESS;
  * @type {string}
  */
 vk2.settings.GEOREFERENCE_HISTORY;
-
-/**
- * @type {string}
- */
-vk2.settings.GEOREFERENCE_INFORMATION;
 
 /**
  * @type {boolean}

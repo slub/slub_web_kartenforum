@@ -10,7 +10,7 @@
   "devDependencies": {
     "bower": "~ 1.8.x",
     "closure-compiler": "~0.2.9",
-    "gulp": "~3.9.x",
+    "gulp": "^4",
     "gulp-closure-compiler": "~0.4.0",
     "gulp-minify-css": "~1.2.1",
     "http-server": "^0.12.3",
@@ -26,9 +26,6 @@
     "start": "http-server ./ -a 0.0.0.0 -p 8000 --cors",
     "test": "node node_modules/karma/bin/karma start Resources/Public/test/karma.conf.js",
     "build": "node node_modules/gulp/bin/gulp.js"
-  },
-  "resolutions": {
-    "graceful-fs": "^4.1.2"
   },
   "license": "ISC"
 }
