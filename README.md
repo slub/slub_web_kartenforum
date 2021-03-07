@@ -83,7 +83,7 @@ The google closure library brings an own management system for javascript depend
 
 If you change dependencies or add new files to library the deps files has to be updated. This can be done with the following command:
 
-	python Resources/Public/lib/closure-library/closure/bin/build/depswriter.py --root_with_prefix="Resources/Public/src ../../../../src" > Resources/Public/src/vk2-deps.js
+	python Resources/Public/lib/closure-library/closure/bin/build/depswriter.py --root_with_prefix="src ../../../../src" > src/vk2-deps.js
 
 For building a minified version of the library the google closure compiler is used. Therefor the `extern` are saved in the directory `Build/vk2/externs`. Also the compiler can be used with a [gulpfile](http://gulpjs.com/). The configuration therefor could be find in the `Build/vk2/gulpfile.js` file. It could be run via the following command:
 

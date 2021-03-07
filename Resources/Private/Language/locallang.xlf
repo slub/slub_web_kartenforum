@@ -96,6 +96,275 @@
         <trans-unit id="georef.timestamp">
             <source>Updated</source>
         </trans-unit>
+
+            <!-- **************************************** -->
+            <!-- language dictionary for using in javascript -->
+            <!-- **************************************** -->
+
+			<!-- general terms -->
+			<trans-unit id="client.backToMain">
+				<source>back to main page ...</source>
+			</trans-unit>
+			<trans-unit id="client.goToGeoref">
+				<source>Go to georeference view</source>
+			</trans-unit>
+			<trans-unit id="client.goToOrg">
+				<source>Go to original view</source>
+			</trans-unit>
+			<trans-unit id="client.no">
+				<source>No</source>
+			</trans-unit>
+			<trans-unit id="client.points">
+				<source>Points</source>
+			</trans-unit>
+			<trans-unit id="client.timestamp">
+				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="client.yes">
+				<source>Yes</source>
+			</trans-unit>
+
+			<!-- vk2.app.GeoreferenceChooserApp -->
+			<trans-unit id="client.georeferencechoose.time">
+				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="client.georeferencechoose.searchField">
+            	<source>Map name</source>
+            </trans-unit>
+			<trans-unit id="client.georeferencechoose.maptype">
+				<source>Map type</source>
+			</trans-unit>
+			<trans-unit id="client.georeferencechoose.goToGeoreference">
+				<source>Georeference</source>
+			</trans-unit>
+
+			<!-- vk2.app.AdminEvaluationApp -->
+            <trans-unit id="client.evaluation.btnIsValid">
+				<source>Set 'isvalide'</source>
+			</trans-unit>
+            <trans-unit id="client.evaluation.btnShowMap">
+				<source>Show map</source>
+			</trans-unit>
+            <trans-unit id="client.evaluation.btnGoToProcess">
+				<source>Go to process</source>
+			</trans-unit>
+            <trans-unit id="client.evaluation.btnSetIsInvalid">
+				<source>Set 'invalide'</source>
+			</trans-unit>
+            <!-- vk2.control.DeactiveMapVisualizationControl -->
+			<trans-unit id="client.deactivemap.deactiveAll">
+				<source>Deactivate all maps</source>
+			</trans-unit>
+			<trans-unit id="client.deactivemap.activeAll">
+				<source>Activate all maps</source>
+			</trans-unit>
+
+            <!-- vk2.control.DynamicMapVisualizationControl -->
+			<trans-unit id="client.dynamicmapvis.start">
+				<source>Start timeseries visualization</source>
+			</trans-unit>
+			<trans-unit id="client.dynamicmapvis.stop">
+				<source>Stop timeseries visualization</source>
+			</trans-unit>
+			<trans-unit id="client.dynamicmapvis.open">
+				<source>Open dynamic map visualization tool</source>
+			</trans-unit>
+			<trans-unit id="client.dynamicmapvis.close">
+				<source>Close dynamic map visualization tool</source>
+			</trans-unit>
+
+            <!-- vk2.control.FlipViewMode -->
+			<trans-unit id="client.flipviewmode.title">
+				<source>Switch between 2D and 3D view</source>
+			</trans-unit>
+			<trans-unit id="client.flipviewmode.zoomin">
+				<source>Switch to 3D is not possible for this resolution. Please zoom in.</source>
+			</trans-unit>
+
+            <!-- vk2.control.ImageManipulationControl -->
+			<trans-unit id="client.imagemanipulation.open">
+				<source>Open image manipulation toolbox</source>
+			</trans-unit>
+			<trans-unit id="client.imagemanipulation.hue">
+				<source>Hue</source>
+			</trans-unit>
+			<trans-unit id="client.imagemanipulation.saturation">
+				<source>Saturation</source>
+			</trans-unit>
+			<trans-unit id="client.imagemanipulation.contrast">
+				<source>Contrast</source>
+			</trans-unit>
+			<trans-unit id="client.imagemanipulation.brightness">
+				<source>Brightness</source>
+			</trans-unit>
+			<trans-unit id="client.imagemanipulation.reset">
+				<source>Reset</source>
+			</trans-unit>
+
+            <!-- vk2.control.LayerSpyControl -->
+			<trans-unit id="client.layerspy.title">
+				<source>Get a magnifier for the map</source>
+			</trans-unit>
+
+            <!-- vk2.control.MousePositionControl -->
+			<trans-unit id="client.mouseposition.title">
+				<source>Mouse position</source>
+			</trans-unit>
+
+            <!-- vk2.control.PermalinkControl -->
+			<trans-unit id="client.permalink.title">
+				<source>Produce link for share this view</source>
+			</trans-unit>
+			<trans-unit id="client.permalink.msg">
+				<source>For copying the link push</source>
+			</trans-unit>
+
+            <!-- vk2.control.RotateNorthControl -->
+			<trans-unit id="client.roatenorth.title">
+				<source>Align map to north</source>
+			</trans-unit>
+
+
+            <!-- vk2.factory.MapSearchFactory / vk2.factory.LayerManagementFactory-->
+			<trans-unit id="client.factory.scale">
+				<source>Scale</source>
+			</trans-unit>
+			<trans-unit id="client.factory.notGeoref">
+            	<source>Not georeferenced</source>
+            </trans-unit>
+			<trans-unit id="client.factory.showMap">
+				<source>Display map</source>
+			</trans-unit>
+			<trans-unit id="client.factory.removeMap">
+				<source>Remove map</source>
+			</trans-unit>
+			<trans-unit id="client.factory.moveToTop">
+				<source>Move map to top</source>
+			</trans-unit>
+			<trans-unit id="client.factory.updateGeoref">
+				<source>Update georeferenced map</source>
+			</trans-unit>
+
+            <!-- vk2.georeference.* -->
+			<trans-unit id="client.georeference.moveMap">
+				<source>Move Map</source>
+			</trans-unit>
+			<trans-unit id="client.georeference.setGcp">
+				<source>Set ground control point</source>
+			</trans-unit>
+			<trans-unit id="client.georeference.moveGcp">
+				<source>Move ground control point</source>
+			</trans-unit>
+			<trans-unit id="client.georeference.deleteGcp">
+				<source>Delete ground control point</source>
+			</trans-unit>
+			<trans-unit id="client.georeference.drawClip">
+				<source>Draw clip polygon</source>
+			</trans-unit>
+			<trans-unit id="client.georeference.validate">
+				<source>Update preview</source>
+			</trans-unit>
+			<trans-unit id="client.georeference.confirm">
+				<source>Confirm georeferencing</source>
+			</trans-unit>
+			<trans-unit id="client.georeference.confirmWithoutClipTitle">
+				<source>Confirm georeference params</source>
+			</trans-unit>
+			<trans-unit id="client.georeference.confirmWithoutClipMsg">
+				<source>Confirm georeference params without clip params?</source>
+			</trans-unit>
+			<trans-unit id="client.georeference.warnMissingGCPs">
+				<source>For producing a georeference preview you need at least 4 ground control points.</source>
+			</trans-unit>
+			<trans-unit id="client.georeference.warnWrongClipPolygon">
+				<source>Your clip polygon seems to be malformed. Please check it again or try to contact the administrator.</source>
+			</trans-unit>
+
+			<!-- vk2.module.LayerManagementModule -->
+			<trans-unit id="client.layermanagementmodule.startMessage">
+				<source><![CDATA[Welcome to the Virtual Map Forum 2.0.<br> Please choose your map collection in the search menu on the left side]]></source>
+			</trans-unit>
+			<trans-unit id="client.layermanagementmodule.headerLbl">
+				<source>My maps</source>
+			</trans-unit>
+
+			<!-- vk2.module.MapSearchModule -->
+			<trans-unit id="client.mapsearchmodule.foundMaps">
+				<source>Maps available</source>
+			</trans-unit>
+			<trans-unit id="client.mapsearchmodule.foundNoMaps">
+				<source>No maps available</source>
+			</trans-unit>
+			<trans-unit id="client.mapsearchmodule.georeference">
+				<source>Georeference</source>
+			</trans-unit>
+			<trans-unit id="client.mapsearchmodule.time">
+				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="client.mapsearchmodule.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="client.mapsearchmodule.facetsearch.open">
+			    <source>Open faceted search</source>
+			</trans-unit>
+			<trans-unit id="client.mapsearchmodule.facetsearch.close">
+                <source>Close faceted search</source>
+            </trans-unit>
+
+			<!-- vk2.tool.FacetedSearchTool -->
+			<trans-unit id="client.facetedsearch.titleAE">
+				<source>Topological maps (1:25.000)</source>
+			</trans-unit>
+			<trans-unit id="client.facetedsearch.titleAK">
+				<source>Other historic maps</source>
+			</trans-unit>
+			<trans-unit id="client.facetedsearch.titleAK">
+				<source>Other historic maps</source>
+			</trans-unit>
+			<trans-unit id="client.facetedsearch.titleCM">
+				<source>City Map</source>
+			</trans-unit>
+			<trans-unit id="client.facetedsearch.titleMB">
+				<source>Meilenblätter (1:12.000)</source>
+			</trans-unit>
+			<trans-unit id="client.facetedsearch.titleMTB">
+				<source>Plane survey sheets (1:25.000)</source>
+			</trans-unit>
+			<trans-unit id="client.facetedsearch.titleTK">
+				<source>Topological maps (1:100.000)</source>
+			</trans-unit>
+			<trans-unit id="client.facetedsearch.titleTKX">
+				<source>Topological maps (&lt; 1:50.000)</source>
+			</trans-unit>
+
+			<!-- vk2.tool.GazetteerSearchTool -->
+			<trans-unit id="client.gazetteer.placeholder">
+				<source>Placename</source>
+			</trans-unit>
+			<trans-unit id="client.gazetteer.submit">
+				<source>Search</source>
+			</trans-unit>
+
+            <!-- vk2.tool.MetadataBindingTool -->
+			<trans-unit id="client.metadatabinding.keyword">
+				<source>Keywords</source>
+			</trans-unit>
+			<trans-unit id="client.metadatabinding.onlineResource">
+				<source>Online Resource</source>
+			</trans-unit>
+			<trans-unit id="client.metadatabinding.spatialResolution">
+				<source>Spatial Resolution</source>
+			</trans-unit>
+			<trans-unit id="client.metadatabinding.uniqueId">
+				<source>Unqiue Identifier</source>
+			</trans-unit>
+
+			<!-- vk2.tool.TimeSliderTool -->
+			<trans-unit id="client.timeslidertool.changeTimeperiod">
+				<source>Adjust time periode</source>
+			</trans-unit>
+
+
         </body>
     </file>
 </xliff>
