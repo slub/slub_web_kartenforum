@@ -455,6 +455,44 @@
 				<target state="translated">Definiere Suchzeitraum</target>
 			</trans-unit>
 
+			<!-- georeference history -->
+			<trans-unit id="georeferencehistory.page.userHistory">
+				<source>History of user</source>
+				<target state="translated">Nutzerhistorie</target>
+			</trans-unit>
+			<trans-unit id="georeferencehistory.page.userPoints">
+				<source>Previous Georeferencing - Points</source>
+				<target state="translated">Bisherige Georeferenzierungen - Punkte</target>
+			</trans-unit>
+			<trans-unit id="georeferencehistory.page.processId">
+				<source>ProcessId</source>
+				<target state="translated">Process-ID</target>
+			</trans-unit>
+			<trans-unit id="georeferencehistory.page.isValidated">
+				<source>Result validated</source>
+				<target state="translated">Validierungsergebnisse</target>
+			</trans-unit>
+			<trans-unit id="georeferencehistory.page.mapId">
+				<source>Map-ID</source>
+				<target state="translated">Karten-ID</target>
+			</trans-unit>
+			<trans-unit id="georeferencehistory.page.mapSheetInfo">
+				<source>Map sheet information</source>
+				<target state="translated">Informationen zum Kartenblat</target>
+			</trans-unit>
+			<trans-unit id="georeferencehistory.page.georefParams">
+				<source>Georeference parameter</source>
+				<target state="translated">Georeferenzierungsparameter (lon:lat)</target>
+			</trans-unit>
+			<trans-unit id="georeferencehistory.page.persistentAccess">
+				<source>Persistent access to georeference map</source>
+				<target state="translated">Persistenter Zugang zu georeferenzierter Karte</target>
+			</trans-unit>
+			<trans-unit id="georeferencehistory.page.beingGenerated">
+				<source>Being generated (duration approx. 15min)</source>
+				<target state="translated">Georeferenzierung wird aktuell noch bearbeitet (Wartezeit ca. 15min)</target>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>

@@ -136,6 +136,9 @@
             <f:link.page pageUid="{settings.welcomePage}" data="{classes:'welcomeBox'}" class="vk2-modal-anchor" id="welcome-page-link"></f:link.page>
         </div>
     </div>
+
+    <f:render partial="Language" />
+
     <!-- checks if the vk2.app.PresentationApp / vk2.utils module is already loaded -->
     <script>
     if (window['vk2'] === undefined || window['vk2']['utils'] === undefined || window['vk2']['app'] === undefined) {

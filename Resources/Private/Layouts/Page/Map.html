@@ -1,6 +1,5 @@
 <f:spaceless>
     <f:render section="Main" />
-    <f:render partial="Language" />
     <f:if condition="{settings.matomo.siteId}>0">
         <f:render section="Matomo" partial="Matomo" arguments="{_all}" />
     </f:if>
