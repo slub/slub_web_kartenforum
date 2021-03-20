@@ -12,18 +12,18 @@ goog.require('vk2.utils.Modal');
 
 /**
  * Functions adds a lazy loading behavior to a given array of elements
- * 
+ *
  * @param {Array.<Element>} elements
  */
 vk2.utils.addLazyLoadingBehavior = function(elements) {
-	
+
 	var $window = $(window),
 		isElementInViewport = function(el) {
 			var a = $window.scrollTop(),
 	        	b = $window.height(),
 	        	c = $(el).offset().top,
 	        	d = $(el).height();
-        
+
 			return c + d >= a && c <= a + b;
 		}
 };
@@ -46,11 +46,11 @@ vk2.utils.addOpenCloseBehavior = function(eventEl, displayEl, classEl, opt_class
 	goog.events.listen(eventEl,'click', function(event){
 		event.preventDefault();
 
-		if (goog.dom.classes.has(classEl, className)){
-			goog.dom.classes.remove(classEl, className);
+		if (goog.dom.classlist.contains(classEl, className)){
+			goog.dom.classlist.remove(classEl, className);
 			eventEl['title'] = openTitle;
 		} else {
-			goog.dom.classes.add(classEl, className);
+			goog.dom.classlist.add(classEl, className);
 			eventEl['title'] = closeTitle;
 		};
 	});
@@ -65,18 +65,18 @@ vk2.utils.calculateMapExtentForPixelViewport = function(map){
 	var padding = 30;
 	var offsetTop = 5;
 	var offsetBottom = 25;
-	
+
 	// this is a premise
 	var spatialsearchSize = goog.style.getSize(goog.dom.getElement('spatialsearch-container'));
 	var layermanagementSize = goog.style.getSize(goog.dom.getElement('layermanagement-container'));
 	var mapSize = goog.style.getSize(goog.dom.getElement('mapdiv'));
-	
+
 	// calculate pixelextent
 	var lowX = 0 + spatialsearchSize.width + padding;
 	var lowY = mapSize.height - offsetBottom - padding;
 	var highX = mapSize.width - layermanagementSize.width - padding;
 	var highY = offsetTop + padding;
-	
+
 	// get equivalent coordinates
 	var llc = map.getCoordinateFromPixel([lowX, lowY]);
 	var urc = map.getCoordinateFromPixel([highX, highY]);
@@ -90,14 +90,14 @@ vk2.utils.calculateMapExtentForPixelViewport = function(map){
 vk2.utils.checkIfCookiesAreEnabble = function(){
 	if (!navigator.cookieEnabled)
 		alert('For proper working of the virtuel map forum 2.0 please activate cookies in your browser');
-	
+
 	if (goog.DEBUG) {
-		console.log('Cookies are enabled');		
+		console.log('Cookies are enabled');
 	};
 };
 
 /**
- * This function parse the query parameters of the given href. If href is undefined it tooks the actual window.location.href 
+ * This function parse the query parameters of the given href. If href is undefined it tooks the actual window.location.href
  * @param {string=} href
  * @return {goog.Uri.QueryData}
  * @static
@@ -117,29 +117,30 @@ vk2.utils.getAllQueryParams = function(href){
  * @param {string} className
  */
 vk2.utils.getClosestParentElementForClass = function(element, className){
-	var element = goog.dom.classes.has(element, className) ? element : 
+	var newelement = goog.dom.classlist.contains(element, className) ? element :
 		vk2.utils.getClosestParentElementForClass(goog.dom.getParentElement(element), className);
-	return element;
+	return newelement;
 };
 
 /**
- * 
+ *
  * This function encapsulate the json lang_dictionary from the locale javascript folder.
  * @static
  * @param {string=} opt_key
  * @return {string}
  */
 vk2.utils.getMsg = function(opt_key){
-	if (!goog.isDef(opt_key))
-		return '';
-	
-	try{
-		if (goog.isDef(window['lang_dictionary'])) return window['lang_dictionary'][opt_key];
+
+    try {
+		if (goog.isDef(window['lang_dictionary']))
+            return window['lang_dictionary'][opt_key];
 	} catch (ReferenceError){
 		if (goog.DEBUG)
-			console.log('Could not found dictionary.');
+			console.log('Could not find dictionary.');
 		return '';
 	};
+
+    return '';
 };
 
 /**
@@ -151,7 +152,7 @@ vk2.utils.getPolygonFromExtent = function(extent){
 };
 
 /**
- * This function parse for the given href the query parameter with the given name. If href is undefined it tooks the 
+ * This function parse for the given href the query parameter with the given name. If href is undefined it tooks the
  * actual window.location.href
  * @param {string} name
  * @param {string=} opt_href
@@ -190,7 +191,7 @@ vk2.utils.getConfirmationDialog = function(title, message, opt_submitCallback, o
 		bodyContent = withBtns == true ? '<button type="button" class="btn btn-primary" id="confirm-dialog-btn-yes"' +
 			'>' + vk2.utils.getMsg('yes') + '</button><button type="button" class="btn btn-primary"' +
 			'id="confirm-dialog-btn-no">' + vk2.utils.getMsg('no') + '</button>' : '';
-	
+
 	modal.open(title, classes);
 	modal.appendStringToBody('<p>' + msg + '</p><br>' + bodyContent);
 
@@ -237,26 +238,26 @@ vk2.utils.is3DMode = function() {
 vk2.utils.loadModalOverlayBehavior = function(className, opt_element){
 	var parent_el = goog.isDef(opt_element) ? opt_element : document.body;
 	var modal_anchors = goog.dom.getElementsByClass(className, parent_el.body);
-	
+
 	// iteratore over modal_anchors and init the behavior for them
 	for (var i = 0; i < modal_anchors.length; i++){
 		goog.events.listen(modal_anchors[i], goog.events.EventType.CLICK, function(e){
 			e.preventDefault();
-			
-			try {	
+
+			try {
 				var modal = new vk2.utils.Modal('vk2-overlay-modal',document.body, true);
-				
+
 				// parse the modal parameters
 				var title = this['title'];
 				var classes = this.getAttribute('data-classes');
 				var href = this.href;
-	
+
 				modal.open(title, classes, {
 					'href':href,
 					'classes':classes
 				});
-				
-				// stopping the default behavior of the anchor 
+
+				// stopping the default behavior of the anchor
 				e.preventDefault();
 			} catch (e) {
 				if (goog.DEBUG){
@@ -279,7 +280,7 @@ vk2.utils.refresh3DView = function() {
 /**
  * Function rounds a float number to a given decimal position
  * @param {number} x
- * @param {number} opt_decimalPosition 
+ * @param {number} opt_decimalPosition
  * @return {number}
  */
 vk2.utils.round = function(x, opt_decimalPosition) {
@@ -295,7 +296,7 @@ vk2.utils.overwriteOlTitles = function(map_container){
 	var elements = goog.dom.getElementByClass('ol-overlaycontainer-stopevent', goog.dom.getElement(map_container));
 	for (var i = 0; i < elements.children.length; i++){
 		var childElement = elements.children[i];
-		if (goog.dom.classes.has(childElement.children[0], 'ol-has-tooltip')){
+		if (goog.dom.classlist.contains(childElement.children[0], 'ol-has-tooltip')){
 			var tooltipEls = goog.dom.getElementsByClass('ol-has-tooltip', childElement);
 			for (var j = 0; j < tooltipEls.length; j++){
 				var tooltipText = tooltipEls[j].children[0].innerHTML;
@@ -313,10 +314,10 @@ vk2.utils.overwriteOlTitles = function(map_container){
  * @static
  */
 vk2.utils.sendReport = function(url_string, success_callback, error_callback){
-	
+
 	// create request object
 	var xhr = new goog.net.XhrIo();
-	
+
 	// add listener to request object
 	goog.events.listenOnce(xhr, 'success', function(e){
 		var xhr = /** @type {goog.net.XhrIo} */ (e.target);
@@ -325,15 +326,15 @@ vk2.utils.sendReport = function(url_string, success_callback, error_callback){
 		xhr.dispose();
 
 	});
-	
+
 	goog.events.listenOnce(xhr, 'error', function(e){
 		var xhr = /** @type {goog.net.XhrIo} */ (e.target);
 		if (goog.isDef(error_callback))
 			error_callback(xhr);
 	});
-	
+
 	// send request
-	xhr.send(url_string);	
+	xhr.send(url_string);
 };
 
 
@@ -351,12 +352,12 @@ vk2.utils.setCookie = function(name, value){
  */
 vk2.utils.setProxyUrl = function(){
 	var origin = window.location.origin;
-	// for opera 
+	// for opera
 	if (!window.location.origin)
 		origin = window.location.protocol+'//'+window.location.host;
-	
+
 	vk2.settings.PROXY_URL = origin+'/vkviewer/proxy/?url=';
-	
+
 	if (goog.DEBUG)
 		console.log('Proxy url is: '+vk2.settings.PROXY_URL);
 };
@@ -372,7 +373,7 @@ vk2.utils.showAchievedPoints = function(parentEl, points){
 		'style':'display:none;'
 	});
 	goog.dom.appendChild(parentEl, container);
-	
+
 	container.innerHTML = '+' + points + ' ' + vk2.utils.getMsg('points')
 	$(container).fadeIn(1000).effect('puff', {}, 3000, function(){
 		container.innerHTML = '';
@@ -380,9 +381,9 @@ vk2.utils.showAchievedPoints = function(parentEl, points){
 };
 
 /**
- * This method is used for transforming geo coordinates to pixel coordinates. This is used for 
+ * This method is used for transforming geo coordinates to pixel coordinates. This is used for
  * correct transform from client side coordinates to the server side standard.
- * 
+ *
  * @param {Array.<number>} pixel_coordinates
  * @private
  * @returns {Array.<number>}
@@ -392,9 +393,9 @@ vk2.utils.transformGeoCoordsToPixel = function(pixel_coordinates){
 };
 
 /**
- * This method is used for transforming pixel coordinates to geo coordinates. This is used for 
+ * This method is used for transforming pixel coordinates to geo coordinates. This is used for
  * correct displaying of server sides pixel in the client map.
- * 
+ *
  * @param {Array.<number>} pixel_coordinates
  * @private
  * @returns {Array.<number>}
