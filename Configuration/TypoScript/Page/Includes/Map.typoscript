@@ -15,7 +15,7 @@ page {
         jquery = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jQuery/jquery-3.6.0.min.js
         bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/bootstrap-3.3.7.min.js
         proj4 = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/proj4-2.2.1.js
-        jquery-ui = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jquery-ui-1.10.3.min.js
+        jquery-ui = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jQueryUi/jquery-ui.min.js
         #jquery.lazyload = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jquery.lazyload-1.9.1.min.js
         glif = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/glif.min.js
         vk2-params = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vk2-params.js
