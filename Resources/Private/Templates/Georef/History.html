@@ -1,0 +1,48 @@
+<div class="georef-history container">
+    <div>
+        <header>
+            <hgroup>
+                <h1><f:translate key="georeferencehistory.page.userHistory" extensionName="slubWebKartenforum" /> #{username}</h1>
+                <h2><f:translate key="georeferencehistory.page.userPoints" extensionName="slubWebKartenforum" />
+                    <span id="georeference-user-points">{history.points}</span></h2>
+            </hgroup>
+        </header>
+
+        <div id="content-container" class="content-container">
+            <f:for each="{history.georef_profile}" as="row" iteration="iterator">
+                <article id="{row.georefid}">
+                    <div class="media">
+                        <img class="thumbnail" title="{row.title}" src="{row.thumbnail}" />
+                        <div class="media-body">
+                            <h3>{row.title}</h3>
+                            <p><strong><f:translate key="georeferencehistory.page.mapId" extensionName="slubWebKartenforum" />:</strong> {row.mapid}</p>
+                            <p><strong><f:translate key="georeferencehistory.page.validation" extensionName="slubWebKartenforum" />:</strong>
+                                <f:switch expression="{row.isvalide}">
+                                    <f:case value="isvalide">
+                                        <span class="label label-success">isvalide</span>
+                                    </f:case>
+                                    <f:case value="invalide">
+                                        <span class="label label-danger">invalide</span>
+                                    </f:case>
+                                </f:switch>
+                            </p>
+                            <p class="links">
+                                <f:link.page pageUid="{settings.viewerPageId}" additionalParams="{oid:'{row.mapid}'}" target="_blank" class="btn btn-default">
+                                    <f:translate key="client.evaluation.btnShowMap" extensionName="slubWebKartenforum" />
+                                </f:link.page>
+                                <f:link.page pageUid="{settings.georefPageId}" additionalParams="{georeferenceid:'{row.georefid}'}" target="_blank" class="btn btn-default">
+                                    <f:translate key="client.evaluation.btnGoToProcess" extensionName="slubWebKartenforum" />
+                                </f:link.page>
+                            </p>
+                            <p class="meta"><f:translate key="georeferencehistory.page.georeftime" extensionName="slubWebKartenforum" />: {row.georeftime}</p>
+                        </div>
+                    </div>
+                </article>
+            </f:for>
+        </div>
+
+    </div>
+</div>
+
+
+<p><f:translate id="georef.timestamp" />: <f:format.date format="d.m.Y H:i:s" >NOW</f:format.date></p>

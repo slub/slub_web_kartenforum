@@ -11,9 +11,16 @@ call_user_func(function()
 
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
         'Slub.SlubWebKartenforum',
-        'Georef',
+        'Ranking',
         'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georef'
     );
+
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+        'Slub.SlubWebKartenforum',
+        'History',
+        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.history'
+    );
+
 });
 
 #

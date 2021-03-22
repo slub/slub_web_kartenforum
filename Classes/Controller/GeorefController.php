@@ -28,13 +28,33 @@ namespace Slub\SlubWebKartenforum\Controller;
 
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 
 /**
- * AuthController
+ * GeorefController
  */
 class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-   	/**
+	/**
+	 * feUserRepository
+	 *
+	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
+	 */
+	protected $feUserRepository;
+
+	/**
+     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $controller
+     */
+    public function injectfeUserRepository(FrontendUserRepository $feUserRepository)
+    {
+        $this->feUserRepository = $feUserRepository;
+    }
+
+
+    /**
+     * rankingAction
+     *
+     * get the current to 20 ranking from georeference service
 	 */
 	public function rankingAction()
     {
@@ -57,4 +77,57 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             $this->view->assign('ranking', $result);
         }
     }
+
+   	/**
+     * rankingAction
+     *
+     * get the georeferencing history of user
+	 */
+	public function historyAction()
+    {
+        /** @var RequestFactory $requestFactory */
+        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+        $configuration = [
+            'timeout' => 10,
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+        ];
+
+        // get URL from flexform or TypoScript
+		$georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
+
+        $feUserObj = $this->getActualUser();
+        if ($feUserObj) {
+            $userName = $feUserObj->getUsername();
+        } else {
+            // not logged in --> redirect to login page
+            $uriBuilder = $this->uriBuilder;
+            $targetUid = empty($this->settings['flexform']['loginPage']) ? $this->settings['loginPage'] : $this->settings['flexform']['loginPage'];
+            $uri = $uriBuilder
+              ->setTargetPageUid($targetUid)
+              ->build();
+            $this->redirectToURI($uri, $delay=0, $statusCode=303);
+        }
+
+        $response = $requestFactory->request($georefBackend . '/user/'.$userName.'/history', 'GET', $configuration);
+        $content  = $response->getBody()->getContents();
+        $result = json_decode($content, true);
+        if ($result) {
+            $this->view->assign('history', $result);
+        }
+        $this->view->assign('username',  $userName);
+    }
+
+	/**
+	 * gets current logged in frontend user
+	 *
+	 * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+	 */
+	public function getActualUser() {
+		$user = $GLOBALS['TSFE']->fe_user->user;
+		$feUserObj = $this->feUserRepository->findByUid($user['uid']);
+		return $feUserObj;
+	}
+
 }

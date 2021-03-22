@@ -476,6 +476,10 @@
 				<source>Map-ID</source>
 				<target state="translated">Karten-ID</target>
 			</trans-unit>
+			<trans-unit id="georeferencehistory.page.validation">
+				<source>Validation</source>
+				<target state="translated">Validierung</target>
+			</trans-unit>
 			<trans-unit id="georeferencehistory.page.mapSheetInfo">
 				<source>Map sheet information</source>
 				<target state="translated">Informationen zum Kartenblat</target>
@@ -492,7 +496,10 @@
 				<source>Being generated (duration approx. 15min)</source>
 				<target state="translated">Georeferenzierung wird aktuell noch bearbeitet (Wartezeit ca. 15min)</target>
 			</trans-unit>
-
+			<trans-unit id="georeferencehistory.page.georeftime">
+				<source>Georeferenced</source>
+				<target state="translated">Georeferenziert</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

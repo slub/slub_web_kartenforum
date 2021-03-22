@@ -70,7 +70,10 @@
 			<source>Kartenforum: Signup Form</source>
 		</trans-unit>
 		<trans-unit id="plugin.georef">
-			<source>Kartenforum: Georef Plugin</source>
+			<source>Kartenforum: Georef Ranking</source>
+		</trans-unit>
+		<trans-unit id="plugin.history">
+			<source>Kartenforum: Georef User History</source>
 		</trans-unit>
         <trans-unit id="validationerror_1428504122">
             <source>The minimum length of the password is 9 characters.</source>
@@ -380,6 +383,9 @@
 			<trans-unit id="georeferencehistory.page.mapId">
 				<source>Map-ID</source>
 			</trans-unit>
+			<trans-unit id="georeferencehistory.page.validation">
+				<source>Validation</source>
+			</trans-unit>
 			<trans-unit id="georeferencehistory.page.mapSheetInfo">
 				<source>Map sheet information</source>
 			</trans-unit>
@@ -391,6 +397,9 @@
 			</trans-unit>
 			<trans-unit id="georeferencehistory.page.beingGenerated">
 				<source>Being generated (duration approx. 15min)</source>
+			</trans-unit>
+			<trans-unit id="georeferencehistory.page.georeftime">
+				<source>Georeferenced</source>
 			</trans-unit>
 
         </body>

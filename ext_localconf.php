@@ -7,7 +7,7 @@ defined('TYPO3_MODE') || die();
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum'] = 'EXT:slub_web_kartenforum/Configuration/RTE/Default.yaml';
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'Slub.' . $_EXTKEY,
+	'Slub.SlubWebKartenforum',
 	'Signup',
 	[
 		'Auth' => 'login, signup, logout, loginError',
@@ -19,10 +19,21 @@ $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum'] = 'EXT:slu
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'Slub.' . $_EXTKEY,
-	'Georef',
+	'Slub.SlubWebKartenforum',
+	'ranking',
 	[
 		'Georef' => 'ranking',
+    ],
+	// non-cacheable actions
+	[
+    ]
+);
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'Slub.SlubWebKartenforum',
+	'history',
+	[
+		'Georef' => 'history',
     ],
 	// non-cacheable actions
 	[

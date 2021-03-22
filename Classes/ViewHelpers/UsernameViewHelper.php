@@ -92,7 +92,7 @@ class UsernameViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	}
 
 	/**
-	 * gets current logged in frontenduser
+	 * gets current logged in frontend user
 	 *
 	 * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
 	 */

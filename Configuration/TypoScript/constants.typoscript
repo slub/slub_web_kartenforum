@@ -49,19 +49,23 @@ config {
     prefixLocalAnchors = all
     headerComment = Ein Projekt der Sächsischen Landesbibliothek - Staats- und Universitätsbibliothek Dresden (SLUB)
     sendCacheHeaders = 1
-    # cat=plugin.tx_slubwebkartenforum/links/0100; type=int+; label=UID of the Welcome Page
+    # cat=plugin.tx_slubwebkartenforum/links/0100; type=int+; label=UID of the Root Page (Viewer)
+    rootPageId =
+    # cat=plugin.tx_slubwebkartenforum/links/0110; type=int+; label=UID of the Welcome Page
     welcomePage =
-    # cat=plugin.tx_slubwebkartenforum/links/0110; type=int+; label=UID of the Login Page
+    # cat=plugin.tx_slubwebkartenforum/links/0120; type=int+; label=UID of the Login Page
     loginPage = 123
-    # cat=plugin.tx_slubwebkartenforum/links/0120; type=int+; label=User Storage Pid
+    # cat=plugin.tx_slubwebkartenforum/links/0130; type=int+; label=User Storage Pid
     userStoragePid =
-    # cat=plugin.tx_slubwebkartenforum/links/0110; type=int+; label=UID of Page with Georeference History
+    # cat=plugin.tx_slubwebkartenforum/links/0140; type=int+; label=UID of Page with Georeference History
     georefhistoryPage =
-    # cat=plugin.tx_slubwebkartenforum/links/0110; type=int+; label=UID of Page with unreferenced maps
+    # cat=plugin.tx_slubwebkartenforum/links/0150; type=int+; label=UID of Page with unreferenced maps
     georefchoosePage =
-    # cat=plugin.tx_slubwebkartenforum/links/0110; type=int+; label=UID of Page with Map Evaluation
+    # cat=plugin.tx_slubwebkartenforum/links/0160; type=int+; label=UID of Page with Map Evaluation
     evaluationPage =
-    # cat=plugin.tx_slubwebkartenforum/links/0130; type=int+; label=Root of Static Pages (for Navigation)
+    # cat=plugin.tx_slubwebkartenforum/links/0160; type=int+; label=UID of Page of the Georeferencer
+    georefPage =
+    # cat=plugin.tx_slubwebkartenforum/links/0170; type=int+; label=Root of Static Pages (for Navigation)
     menuStatic =
 
     # cat=plugin.tx_slubwebkartenforum/advanced/0200; type=string; label=URL of the georeferencing backend
