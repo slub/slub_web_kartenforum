@@ -21,18 +21,23 @@
                                     <f:case value="isvalide">
                                         <span class="label label-success">isvalide</span>
                                     </f:case>
+                                    <f:case value="waiting">
+                                        <span class="label label-warning">waiting</span>
+                                    </f:case>
                                     <f:case value="invalide">
                                         <span class="label label-danger">invalide</span>
                                     </f:case>
                                 </f:switch>
                             </p>
                             <p class="links">
-                                <f:link.page pageUid="{settings.viewerPageId}" additionalParams="{oid:'{row.mapid}'}" target="_blank" class="btn btn-default">
-                                    <f:translate key="client.evaluation.btnShowMap" extensionName="slubWebKartenforum" />
-                                </f:link.page>
-                                <f:link.page pageUid="{settings.georefPageId}" additionalParams="{georeferenceid:'{row.georefid}'}" target="_blank" class="btn btn-default">
-                                    <f:translate key="client.evaluation.btnGoToProcess" extensionName="slubWebKartenforum" />
-                                </f:link.page>
+                                <f:if condition="{row.transformed}">
+                                    <f:link.page pageUid="{settings.viewerPageId}" additionalParams="{oid:'{row.mapid}'}" target="_blank" class="btn btn-default">
+                                        <f:translate key="client.evaluation.btnShowMap" extensionName="slubWebKartenforum" />
+                                    </f:link.page>
+                                    <f:link.page pageUid="{settings.georefPageId}" additionalParams="{georeferenceid:'{row.georefid}'}" target="_blank" class="btn btn-default">
+                                        <f:translate key="client.evaluation.btnGoToProcess" extensionName="slubWebKartenforum" />
+                                    </f:link.page>
+                                </f:if>
                             </p>
                             <p class="meta"><f:translate key="georeferencehistory.page.georeftime" extensionName="slubWebKartenforum" />: {row.georeftime}</p>
                         </div>
