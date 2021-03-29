@@ -1,2 +1,3 @@
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TypoScript/Page/Includes/Default.typoscript">
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TypoScript/Page/Includes/Extended.typoscript" condition="[page[\"backend_layout\"] == 'pagets__extended']">
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TypoScript/Page/Includes/Map.typoscript" condition="[page[\"backend_layout\"] == 'pagets__map']">

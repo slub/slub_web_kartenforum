@@ -1,0 +1,52 @@
+{namespace vk=SLUB\Vk2\ViewHelpers}
+<f:layout name="Default" />
+
+<f:section name="main">
+
+	<div class="map-profile-page">
+		<div class="container">
+			<div class="row header">
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+					<h1 id="titleshort"></h1>
+					<h3 id="titlelong"></h3>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+					<div class="btn-group-vertical header-btn">
+						<a href="${permalink}" class="btn btn-default" target="_blank" id="linkToFotothek">Gehe
+							zu Fotothek</a>
+					</div>
+				</div>
+			</div>
+			<div class="row metadata" id="metadata-container"></div>
+
+
+			<div class="row map">
+
+				<div class="original-view">
+					<div class="container">
+						<div class="zoomify-container unreferenced-map olMap"
+							id="zoomify-container"></div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- checks if the vk2.app.MapProfileApp module is already loaded -->
+	<script>
+		if (window['vk2'] === undefined || window['vk2']['app'] === undefined) {
+			goog.require('vk2.app.MapProfileApp');
+		};
+	</script>
+
+	<script>
+		var mapProfileApp = new vk2.app.MapProfileApp({
+			'metadataContainer' : 'metadata-container',
+			'zoomifyContainer' : 'zoomify-container',
+			'titleshortId': 'titleshort',
+			'titlelongId': 'titlelong',
+			'linkToFotothekId': 'linkToFotothek'
+		});
+	</script>
+</f:section>

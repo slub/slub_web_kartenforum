@@ -31,9 +31,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 
 /**
- * GeorefController
+ * ElasticsearchController
  */
-class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class ElasticsearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
 	/**
 	 * feUserRepository
@@ -50,12 +50,13 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->feUserRepository = $feUserRepository;
     }
 
+
     /**
-     * rankingAction
+     * mapprofileAction
      *
      * get the current to 20 ranking from georeference service
 	 */
-	public function rankingAction()
+	public function mapprofileAction()
     {
         /** @var RequestFactory $requestFactory */
         $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
@@ -64,61 +65,55 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             'headers' => [
                 'Accept' => 'application/json'
             ],
+            // necessary to avoid Guzzle exceptions on 404 response
+            'exceptions' => false
         ];
 
-        // get URL from flexform or TypoScript
-		$georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
+        // get mapid from GET parameter objectid
+        $mapid = GeneralUtility::_GP('objectid');
+        $result = [];
 
-        $response = $requestFactory->request($georefBackend . '/user/information', 'GET', $configuration);
-        $content  = $response->getBody()->getContents();
-        $result = json_decode($content, true);
-        if ($result) {
-            $this->view->assign('ranking', $result);
+        // no parameter found --> exit
+        if ($mapid === null) {
+            $result['found'] = false;
+            $this->view->assign('map', $result);
+            return;
         }
-    }
-
-   	/**
-     * rankingAction
-     *
-     * get the georeferencing history of user
-	 */
-	public function historyAction()
-    {
-        /** @var RequestFactory $requestFactory */
-        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
-        $configuration = [
-            'timeout' => 10,
-            'headers' => [
-                'Accept' => 'application/json'
-            ],
-        ];
 
         // get URL from flexform or TypoScript
-		$georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
+		$georefBackend = empty($this->settings['flexform']['elasticsearchNode']) ? $this->settings['elasticsearchNode'] : $this->settings['flexform']['elasticsearchNode'];
 
-        $feUserObj = $this->getActualUser();
-        if ($feUserObj) {
-            $userName = $feUserObj->getUsername();
+        $response = $requestFactory->request($georefBackend . '/map/' . $mapid, 'GET', $configuration);
+        if ($response->getStatusCode() === 200) {
+            $content  = $response->getBody()->getContents();
+            $result = json_decode($content, true);
+            if ($result) {
+                // fix wrong permalinks
+                // http://digital.slub-dresden.de/id335924891 --> http://www.deutschefotothek.de/list/freitext/ppn335924891
+                // should be fixed in source elasticsearch instead!
+                $plink;
+                if (strpos($result['_source']['plink'], 'digital.slub-dresden.de/id') > 0) {
+                    $plink = 'http://www.deutschefotothek.de/list/freitext/ppn' . substr($result['_source']['plink'], strrpos($result['_source']['plink'], '/id') + 3);
+                    $result['_source']['plink'] = $plink;
+                }
+                if ($plink) {
+                    // purl is used in metadata online-resoureced once more
+                    foreach ($result['_source']['online-resources'] as $key => $onlineResource) {
+                        if (strpos($onlineResource['url'], 'digital.slub-dresden.de/id') > 0) {
+                            $result['_source']['online-resources'][$key]['url'] = $plink;
+                        }
+                    }
+                }
+                $this->view->assign('map', $result);
+            }
         } else {
-            // not logged in --> redirect to login page
-            $uriBuilder = $this->uriBuilder;
-            $targetUid = empty($this->settings['flexform']['loginPage']) ? $this->settings['loginPage'] : $this->settings['flexform']['loginPage'];
-            $uri = $uriBuilder
-              ->setTargetPageUid($targetUid)
-              ->build();
-            $this->redirectToURI($uri, $delay=0, $statusCode=303);
+            $result['found'] = false;
+            $result['_id'] = $mapid;
+            $this->view->assign('map', $result);
         }
-
-        $response = $requestFactory->request($georefBackend . '/user/'.$userName.'/history', 'GET', $configuration);
-        $content  = $response->getBody()->getContents();
-        $result = json_decode($content, true);
-        if ($result) {
-            $this->view->assign('history', $result);
-        }
-        $this->view->assign('username',  $userName);
     }
 
-	/**
+    /**
 	 * gets current logged in frontend user
 	 *
 	 * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser

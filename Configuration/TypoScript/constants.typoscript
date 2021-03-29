@@ -51,6 +51,8 @@ config {
     sendCacheHeaders = 1
     # cat=plugin.tx_slubwebkartenforum/links/0100; type=int+; label=UID of the Root Page (Viewer)
     rootPageId =
+    # cat=plugin.tx_slubwebkartenforum/links/0100; type=string; label=Base URL of Viewer
+    baseUrl =
     # cat=plugin.tx_slubwebkartenforum/links/0110; type=int+; label=UID of the Welcome Page
     welcomePage =
     # cat=plugin.tx_slubwebkartenforum/links/0120; type=int+; label=UID of the Login Page
@@ -70,6 +72,9 @@ config {
 
     # cat=plugin.tx_slubwebkartenforum/advanced/0200; type=string; label=URL of the georeferencing backend
     georef.backend = http://example.com/georeference
+
+    # cat=plugin.tx_slubwebkartenforum/advanced/0210; type=string; label=URL of the elasticsearch node
+    elasticsearch.node = http://example.com/spatialdocuments
 
     matomo {
         # matomo configuration (maybe overwritten)

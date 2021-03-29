@@ -21,6 +21,12 @@ call_user_func(function()
         'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.history'
     );
 
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+        'Slub.SlubWebKartenforum',
+        'Mapprofile',
+        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.mapprofile'
+    );
+
 });
 
 #

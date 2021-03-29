@@ -39,3 +39,15 @@ $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum'] = 'EXT:slu
 	[
     ]
 );
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'Slub.SlubWebKartenforum',
+	'mapprofile',
+	[
+		'Elasticsearch' => 'mapprofile',
+    ],
+	// non-cacheable actions
+	[
+		'Elasticsearch' => 'mapprofile',
+    ]
+);

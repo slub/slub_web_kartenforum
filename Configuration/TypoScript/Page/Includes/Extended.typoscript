@@ -1,0 +1,33 @@
+page {
+    includeCSSLibs {
+
+    }
+
+    includeCSS {
+        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/bootstrap-3.3.7.min.css
+        vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Css/ol.css
+        slub_web_kartenforum_layout = EXT:slub_web_kartenforum/Resources/Public/Css/layout.min.css
+    }
+
+    includeJSLibs {
+        jquery = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jQuery/jquery-3.6.0.min.js
+        jquery.forceOnTop = true
+        jquery-ui = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jQueryUi/jquery-ui.min.js
+        glif = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/glif.min.js
+        vk2-params = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vk2-params.js
+        vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/ol-vk2.js
+        vk2-min = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vk2-min.js
+    }
+
+    includeJS {
+
+    }
+
+    includeJSFooterlibs {
+
+    }
+
+    includeJSFooter {
+        slub_web_kartenforum_scripts = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/scripts.js
+    }
+}

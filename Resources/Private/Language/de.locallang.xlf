@@ -448,6 +448,10 @@
 				<source>Unqiue Identifier</source>
 				<target state="translated">Eindeutiger Identifier</target>
 			</trans-unit>
+			<trans-unit id="client.metadatabinding.gotoFotothek">
+				<source>Goto Fotothek</source>
+				<target state="translated">Gehe zu Fotothek</target>
+			</trans-unit>
 
 			<!-- vk2.tool.TimeSliderTool -->
 			<trans-unit id="client.timeslidertool.changeTimeperiod">

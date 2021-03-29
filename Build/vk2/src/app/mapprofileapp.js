@@ -24,24 +24,10 @@ goog.require('vk2.viewer.ZoomifyViewerEventType');
  */
 vk2.app.MapProfileApp = function(settings){
 
-	var objectId = vk2.utils.getQueryParam('objectid');
+    var feature = document.createElement('textarea');
+	feature.innerHTML = settings['feature'];;
 
-	if (!goog.isDefAndNotNull(objectId)) {
-		console.log('Could not identify objectid.')
-		return;
-	};
-
-	if (goog.DEBUG)
-		console.log(settings);
-
-	var requestUrl = vk2.request.ElasticSearch.getFeatureForId('map', objectId);
-	goog.net.XhrIo.send(requestUrl, goog.bind(function(e){
-		var responseObj = e.target.getResponseJson();
-		if (responseObj) {
-			var feature = vk2.parser.ElasticSearch.readFeature(responseObj['_id'], responseObj['_source']);
-			this.initApp_(feature, settings)
-		};
-	}, this));
+    this.initApp_(feature.value, settings);
 
 };
 
@@ -50,27 +36,20 @@ vk2.app.MapProfileApp = function(settings){
  * @param {Object} settings
  */
 vk2.app.MapProfileApp.prototype.initApp_ = function(feature, settings) {
-	var mapProperties = feature.getProperties();
+	var mapProperties = JSON.parse(feature);
 
 	// fix the ZoomifyUrl in the art, that from zoomifyUrl, which are prefixed with http: the http: is removed.
 	var fixZoomifyUrl = mapProperties['zoomify'].replace('http:', '');
 
-	// first set title
-	goog.dom.getElement(settings['titleshortId']).innerHTML = mapProperties['title'];
-	goog.dom.getElement(settings['titlelongId']).innerHTML = mapProperties['titlelong'];
-	goog.dom.getElement(settings['linkToFotothekId']).href = mapProperties['plink'];
-
 	if (!ol.has.WEBGL){
 		// load the hole application with a canvas renderer
-		var zoomifyViewer = new vk2.viewer.ZoomifyViewer(settings['zoomifyContainer'], fixZoomifyUrl),
-			metadatbinding = new vk2.tool.MetadataBinding(settings['metadataContainer'], feature.getId(), mapProperties);
+		var zoomifyViewer = new vk2.viewer.ZoomifyViewer(settings['zoomifyContainer'], fixZoomifyUrl);
 		return;
 	};
 
 	// first the access-origin-allow header has to be reset for the zoomify tiles
 	// load the hole application with a webgl renderer
-	var zoomifyViewer = new vk2.viewer.ZoomifyViewer(settings['zoomifyContainer'], fixZoomifyUrl, true),
-		metadatbinding = new vk2.tool.MetadataBinding(settings['metadataContainer'], feature.getId(), mapProperties);
+	var zoomifyViewer = new vk2.viewer.ZoomifyViewer(settings['zoomifyContainer'], fixZoomifyUrl, true);
 
 	// append image manipulation tool
 	goog.events.listen(zoomifyViewer, vk2.viewer.ZoomifyViewerEventType.LOADEND, function(event){

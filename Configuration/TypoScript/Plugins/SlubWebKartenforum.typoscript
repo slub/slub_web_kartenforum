@@ -17,5 +17,6 @@ plugin.tx_slubwebkartenforum {
         georefBackend = {$config.georef.backend}
         viewerPageId = {$config.rootPageId}
         georefPageId = {$config.georefPage}
+        elasticsearchNode = {$config.elasticsearch.node}
 	}
 }

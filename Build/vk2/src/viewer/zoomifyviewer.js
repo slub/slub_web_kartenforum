@@ -35,27 +35,27 @@ vk2.viewer.ZoomifyViewerEventType = {
  * @extends {goog.events.EventTarget}
  */
 vk2.viewer.ZoomifyViewer = function(containerEl, zoomify_properties_url, opt_withWebGL, opt_withOverview){
-	
+
 	var renderer = goog.isDef(opt_withWebGL) ? 'webgl' : 'canvas';
-	
+
 	var withOverview_ = goog.isDef(opt_withOverview) ? opt_withOverview : false;
-	
+
 	goog.net.XhrIo.send(zoomify_properties_url, goog.bind(function(event){
 		if (event.target.getStatus() != 200){
 			alert('Something went wrong, while trying to get the process information from the server. Please try again or contact the administrator.');
 		};
-	
+
 		var responseXML = event.target.getResponseXml();
 		var node = goog.dom.findNode(responseXML, function(n){
 			return n.nodeType == goog.dom.NodeType.ELEMENT && n.tagName == 'IMAGE_PROPERTIES';
 		});
-		
+
 		var width = parseInt(node.getAttribute('WIDTH'), 0);
 		var height = parseInt(node.getAttribute('HEIGHT'), 0);
 		var url = zoomify_properties_url.substring(0,zoomify_properties_url.lastIndexOf("/")+1)
 		this.initialize_(url, height, width, containerEl, renderer, withOverview_);
 	}, this), 'GET');
-		
+
 	goog.base(this);
 };
 goog.inherits(vk2.viewer.ZoomifyViewer, goog.events.EventTarget);
@@ -69,22 +69,22 @@ goog.inherits(vk2.viewer.ZoomifyViewer, goog.events.EventTarget);
  * @param {boolean} withOverview
  */
 vk2.viewer.ZoomifyViewer.prototype.initialize_ = function(url, height, width, containerEl, renderer, withOverview){
-	
+
 	/**
 	 * @type {number}
 	 * @private
 	 */
 	this._height = height;
-	
+
 	/**
 	 * @type {number}
 	 * @private
 	 */
 	this._width = width;
-	
+
 	//var imgCenter = [width / 2, - height / 2];
 	//var extent = [0, 0, width, height];
-	
+
 	// Maps always need a projection, but Zoomify layers are not geo-referenced, and
 	// are only measured in pixels.  So, we create a fake projection that the map
 	// can use to properly display the layer.
@@ -93,7 +93,7 @@ vk2.viewer.ZoomifyViewer.prototype.initialize_ = function(url, height, width, co
 		'units': 'pixels',
 		'extent': [0, 0, width, height]
 	});
-	
+
 	/**
 	 * @type {ol.source.Zoomify}
 	 * @private
@@ -103,14 +103,14 @@ vk2.viewer.ZoomifyViewer.prototype.initialize_ = function(url, height, width, co
 		  'size': [width, height],
 		  'crossOrigin': '*'
 	});
-	
+
 	var view = new ol.View({
 	    'projection': proj,
 	    'center': [width / 2, - height / 2],
 		'zoom': 1,
 		'maxZoom': 9
     });
-	
+
 	/**
 	 * @type {ol.layer.Layer}
 	 * @private
@@ -118,16 +118,16 @@ vk2.viewer.ZoomifyViewer.prototype.initialize_ = function(url, height, width, co
 	this.zoomifyLayer_ = new ol.layer.Tile({
     	'source': this._zoomifySource
     });
-	
+
 	var controls_ = [new ol.control.FullScreen(), new ol.control.Zoom() ];
-	
+
 	if (withOverview){
 		controls_.push( new ol.control.OverviewMap({
 			'collapsed': false,
 			'layers': [this.zoomifyLayer_]
 		}));
 	};
-	
+
 	/**
 	 * @type {ol.Map}
 	 * @private
@@ -142,14 +142,14 @@ vk2.viewer.ZoomifyViewer.prototype.initialize_ = function(url, height, width, co
 	    'target': containerEl,
 	    'view': view
 	});
-	
+
 	// add zoom to extent control
 	this._map.addControl(new ol.control.ZoomToExtent({
 		'extent': view.calculateExtent(this._map['getSize']())
 	}));
-	
-	// dispatch for other observers who are waiting 
-	this.dispatchEvent(new goog.events.Event(vk2.viewer.ZoomifyViewerEventType.LOADEND,{}));	
+
+	// dispatch for other observers who are waiting
+	this.dispatchEvent(new goog.events.Event(vk2.viewer.ZoomifyViewerEventType.LOADEND,{}));
 };
 
 /**
