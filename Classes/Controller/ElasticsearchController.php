@@ -113,6 +113,68 @@ class ElasticsearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         }
     }
 
+
+    /**
+     * choosepageAction
+     *
+     * get the content of the unreferenced maps
+	 */
+	public function choosepageAction()
+    {
+        /** @var RequestFactory $requestFactory */
+        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+        $configuration = [
+            'timeout' => 20,
+            'headers' => [
+                'Accept' => 'application/json',
+            ],
+            // necessary to avoid Guzzle exceptions on 404 response
+            'exceptions' => false
+        ];
+
+        $configuration = [
+            'debug' => false,
+            'json' => [
+                'query' => [
+                    'filtered' => [
+                        'filter' => [
+                            'bool' => [
+                                'should' => [
+                                    [
+                                        'term' => [
+                                            'georeference' => 'false'
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'sort' => [
+                    'title' => ['order' => 'asc']
+                ]
+            ]
+        ];
+
+        $bla = json_encode($configuration);
+        // get URL from flexform or TypoScript
+		$georefBackend = empty($this->settings['flexform']['elasticsearchNode']) ? $this->settings['elasticsearchNode'] : $this->settings['flexform']['elasticsearchNode'];
+
+        $response = $requestFactory->request($georefBackend . '/_search?size=2000', 'POST', $configuration);
+        if ($response->getStatusCode() === 200) {
+            $content  = $response->getBody()->getContents();
+            $result = json_decode($content, true);
+            if ($result) {
+                $this->view->assign('maps', $result);
+            }
+        } else {
+            $result['found'] = false;
+            $result['_id'] = $mapid;
+            $this->view->assign('maps', $result);
+        }
+    }
+
+
     /**
 	 * gets current logged in frontend user
 	 *

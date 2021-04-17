@@ -45,9 +45,6 @@
         <trans-unit id="login.signupnow">
             <source>Register now</source>
         </trans-unit>
-        <trans-unit id="login.backtosignin">
-            <source>back to the</source>
-        </trans-unit>
         <trans-unit id="login.registration">
             <source>Registration</source>
         </trans-unit>
@@ -63,9 +60,6 @@
         <trans-unit id="login.lastname">
             <source>Last name</source>
         </trans-unit>
-        <trans-unit id="logout.title">
-            <source>Are you sure you want to logout</source>
-        </trans-unit>
 		<trans-unit id="plugin.signup">
 			<source>Kartenforum: Signup Form</source>
 		</trans-unit>
@@ -77,6 +71,9 @@
 		</trans-unit>
 		<trans-unit id="plugin.mapprofile">
 			<source>Kartenforum: Map Profile</source>
+		</trans-unit>
+		<trans-unit id="plugin.choosepage">
+			<source>Kartenforum: Unreferenced maps</source>
 		</trans-unit>
         <trans-unit id="validationerror_1428504122">
             <source>The minimum length of the password is 9 characters.</source>
@@ -124,22 +121,26 @@
 				<source>Points</source>
 			</trans-unit>
 			<trans-unit id="client.timestamp">
-				<source>Time</source>
+				<source>Timestamp</source>
 			</trans-unit>
 			<trans-unit id="client.yes">
 				<source>Yes</source>
 			</trans-unit>
+			<trans-unit id="client.mapType">
+				<source>Map type</source>
+			</trans-unit>
 
 			<!-- vk2.app.GeoreferenceChooserApp -->
-			<trans-unit id="client.georeferencechoose.time">
-				<source>Time</source>
+			<trans-unit id="choosepage.selectMap">
+				<source>Select a map for georeferencing</source>
 			</trans-unit>
+			<trans-unit id="choosepage.amountUnreferencedMaps">
+				<source>Amount of unreferenced maps</source>
+			</trans-unit>
+
 			<trans-unit id="client.georeferencechoose.searchField">
             	<source>Map name</source>
             </trans-unit>
-			<trans-unit id="client.georeferencechoose.maptype">
-				<source>Map type</source>
-			</trans-unit>
 			<trans-unit id="client.georeferencechoose.goToGeoreference">
 				<source>Georeference</source>
 			</trans-unit>
