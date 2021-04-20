@@ -35,7 +35,8 @@ use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
  */
 class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-	/**
+
+    /**
 	 * feUserRepository
 	 *
 	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
@@ -118,7 +119,100 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->view->assign('username',  $userName);
     }
 
-	/**
+    /**
+     * initializeGetProcessAction
+     *
+     * initialize GetProcessAction with jsonView as default output format
+	 */
+    public function initializeGetProcessAction()
+    {
+        $this->defaultViewObjectName = \TYPO3\CMS\Extbase\Mvc\View\JsonView::class;
+    }
+
+    /**
+     * getProcessAction
+     *
+     * get information about the given process
+	 */
+	public function getProcessAction()
+    {
+        // get mapid from GET parameter objectid
+        $objectid = GeneralUtility::_GP('objectid');
+        $georeferenceid = GeneralUtility::_GP('georeferenceid');
+
+        /** @var RequestFactory $requestFactory */
+        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+        $configuration = [
+            'timeout' => 10,
+            'headers' => [
+                'Accept' => 'application/json'
+            ]
+        ];
+
+        // get URL from flexform or TypoScript
+		$georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
+
+        if ($objectid) {
+            $configuration['json'] = ['objectid' => $objectid];
+            $response = $requestFactory->request($georefBackend . '/georef/process', 'POST', $configuration);
+        } else if ($georeferenceid) {
+            $response = $requestFactory->request($georefBackend . '/georef/process' . '/' . $georeferenceid, 'GET', $configuration);
+        }
+
+        if ($response) {
+            $content  = $response->getBody()->getContents();
+            $this->view->assign('value', json_decode($content, true));
+        }
+    }
+
+    /**
+     * initializeValidateGeorefProcessAction
+     *
+     * initialize validateGeorefProcessAction with jsonView as default output format
+	 */
+    public function initializeValidateGeorefProcessAction()
+    {
+        $this->defaultViewObjectName = \TYPO3\CMS\Extbase\Mvc\View\JsonView::class;
+    }
+
+    /**
+     * validateGeorefProcessAction
+     *
+     * validate the current georeference
+	 */
+	public function validateGeorefProcessAction() {
+
+        $validationRequest = GeneralUtility::_GP('req');
+
+        /** @var RequestFactory $requestFactory */
+        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+        $configuration = [
+            'timeout' => 10,
+            'headers' => [
+                'Accept' => 'application/json'
+            ],
+            'debug' => false,
+            'json' => json_decode($validationRequest, true)
+        ];
+
+        // get URL from flexform or TypoScript
+		$georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
+
+		if (!is_null($validationRequest)) {
+
+            $response = $requestFactory->request($georefBackend . '/georef/validation', 'POST', $configuration);
+
+            if ($response->getStatusCode() === 200) {
+                $content  = $response->getBody()->getContents();
+                $result = json_decode($content, true);
+                if ($result) {
+                    $this->view->assign('value', $result);
+                }
+            }
+        }
+    }
+
+    /**
 	 * gets current logged in frontend user
 	 *
 	 * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser

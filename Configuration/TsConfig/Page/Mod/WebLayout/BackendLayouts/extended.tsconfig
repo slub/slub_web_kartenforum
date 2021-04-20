@@ -1,5 +1,5 @@
 #
-# BACKENDLAYOUT: DEFAULT
+# BACKENDLAYOUT: Extended
 #
 mod {
     web_layout {

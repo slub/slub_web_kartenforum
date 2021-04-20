@@ -75,6 +75,9 @@
 		<trans-unit id="plugin.choosepage">
 			<source>Kartenforum: Unreferenced maps</source>
 		</trans-unit>
+		<trans-unit id="plugin.map">
+			<source>Kartenforum: Main Map</source>
+		</trans-unit>
         <trans-unit id="validationerror_1428504122">
             <source>The minimum length of the password is 9 characters.</source>
         </trans-unit>
@@ -122,6 +125,9 @@
 			</trans-unit>
 			<trans-unit id="client.timestamp">
 				<source>Timestamp</source>
+			</trans-unit>
+			<trans-unit id="client.time">
+				<source>Time</source>
 			</trans-unit>
 			<trans-unit id="client.yes">
 				<source>Yes</source>

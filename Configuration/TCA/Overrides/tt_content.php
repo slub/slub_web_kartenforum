@@ -5,6 +5,12 @@ call_user_func(function()
 {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
         'Slub.SlubWebKartenforum',
+        'Map',
+        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.map'
+    );
+
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+        'Slub.SlubWebKartenforum',
         'Signup',
         'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.signup'
     );
@@ -33,6 +39,12 @@ call_user_func(function()
         'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.choosepage'
     );
 
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+        'Slub.SlubWebKartenforum',
+        'Georeference',
+        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georeference'
+    );
+
 });
 
 #
@@ -46,7 +58,7 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignat
 #
 # Defines a flexform for the plugin georef
 #
-$pluginSignatureSearch  = 'slubwebkartenforum_georef';
+$pluginSignatureSearch  = 'slubwebkartenforum_georeference';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignatureSearch] = 'layout,select_key,pages,recursive';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignatureSearch] = 'pi_flexform';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignatureSearch, 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_georef.xml');

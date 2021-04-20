@@ -1,0 +1,59 @@
+{namespace vk=Slub\SlubWebKartenforum\ViewHelpers}
+<div class="container main-page content-container">
+    <div id="vk2MapPanel" class="vk2MapPanel">
+
+        <!-- map container -->
+        <div id="mapdiv" class="olMap" tabindex="0"></div>
+        <!-- /end map container -->
+        </div>
+
+        <!-- spatial search div -->
+        <div class="spatialsearch-container" id="spatialsearch-container">
+
+            <!-- navbar -->
+            <div class="vk2HeaderNavBar" role="navigation">
+
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="vk2-navbar-header">
+                    <a class="navbar-brand" href="#">Virtuelles Kartenforum 2.0</a>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <ul class="nav nav-pills">
+                        <li class="dropdown info-dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Informationen">Informationen<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <f:render partial="Page/Navigation/Elements/Item" arguments="{_all}" />
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- end spatial search -->
+        </div>
+
+        <f:link.page pageUid="{settings.welcomePage}" data="{classes:'welcomeBox'}" class="vk2-modal-anchor" id="welcome-page-link"></f:link.page>
+    </div>
+</div>
+
+
+<!-- checks if the vk2.app.PresentationApp / vk2.utils module is already loaded -->
+<script>
+if (window['vk2'] === undefined || window['vk2']['utils'] === undefined || window['vk2']['app'] === undefined) {
+    goog.require('vk2.app.PresentationApp');
+    goog.require('vk2.utils');
+};
+</script>
+
+<!-- load application specific code -->
+<script>
+    // set the cookie for proper working of the javascript client code
+    vk2.utils.setCookie('vk2-auth', '');
+
+    var app = new vk2.app.PresentationApp({
+        'authenticate': false,
+        'modalAnchorClassName':'vk2-modal-anchor',
+        'mapContainerId':'mapdiv',
+        'spatialsearchContainerId':'spatialsearch-container'
+    });
+</script>

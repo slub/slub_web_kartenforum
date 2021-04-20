@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-04-16T21:03:04Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-04-19T22:14:27Z">
 		<header>
 			<authorName>Alexander Bigga</authorName>
 			<authorEmail>typo3@slub-dresden.de</authorEmail>
@@ -303,6 +303,10 @@
 				<source><![CDATA[Align map to north]]></source>
 				<target><![CDATA[Karte nach Norden ausrichten]]></target>
 			</trans-unit>
+			<trans-unit id="client.time" approved="yes">
+				<source><![CDATA[Time]]></source>
+				<target><![CDATA[Zeit]]></target>
+			</trans-unit>
 			<trans-unit id="client.timeslidertool.changeTimeperiod" approved="yes">
 				<source><![CDATA[Adjust time periode]]></source>
 				<target><![CDATA[Definiere Suchzeitraum]]></target>
@@ -466,6 +470,10 @@
 			<trans-unit id="plugin.history" approved="yes">
 				<source><![CDATA[Kartenforum: Georef User History]]></source>
 				<target><![CDATA[Kartenforum: Georeferenzierungs-Historie]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map" approved="yes">
+				<source><![CDATA[Kartenforum: Main Map]]></source>
+				<target><![CDATA[Kartenforum: Hauptkarte]]></target>
 			</trans-unit>
 			<trans-unit id="plugin.mapprofile" approved="yes">
 				<source><![CDATA[Kartenforum: Map Profile]]></source>

@@ -29,7 +29,7 @@ page {
     }
 
     includeJSFooter {
-        slub_web_kartenforum_scripts = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/scripts.js
+#        slub_web_kartenforum_scripts = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/scripts.js
     }
 }
 
@@ -64,16 +64,12 @@ page {
 				vk2x.settings.GEOREFERENCE_CONFIRM = !vk2x.settings.WITH_SPEAKING_URLS ?
 						"tx_vk2_search[controller]=Georeference&tx_vk2_search[action]=confirmGeorefProcess&type=999" :
 						"/georef/confirm?type=999";
-				vk2x.settings.GEOREFERENCE_GETPROCESS = !vk2x.settings.WITH_SPEAKING_URLS ?
-						"tx_vk2_search[controller]=Georeference&tx_vk2_search[action]=getProcess&type=999" :
-						"/georef/getprocess?type=999";
+				vk2x.settings.GEOREFERENCE_GETPROCESS = "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getProcess&type=9991";
 				vk2x.settings.GEOREFERENCE_ON = 1 === 1 ? true : false;
 				vk2x.settings.GEOREFERENCE_PAGE = !vk2x.settings.WITH_SPEAKING_URLS ?
 						"tx_vk2_search[controller]=Static&tx_vk2_search[action]=georefPage" :
 						"/static/georefpage?";
-				vk2x.settings.GEOREFERENCE_VALIDATION = !vk2x.settings.WITH_SPEAKING_URLS ?
-						"tx_vk2_search[controller]=Georeference&tx_vk2_search[action]=validateGeorefProcess&type=999":
-						"/georef/validation?type=999";
+				vk2x.settings.GEOREFERENCE_VALIDATION = "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=validateGeorefProcess&type=9991";
 				vk2x.settings.MAIN_PAGE = "{$config.baseUrl}";
 				vk2x.settings.MAPPROFILE_PAGE = !vk2x.settings.WITH_SPEAKING_URLS ?
 						"tx_vk2_search[controller]=Static&tx_vk2_search[action]=profileMap" :
@@ -100,13 +96,23 @@ page {
         )
     }
 }
-#page.includeJSFooter {
-#    myscript = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/myscript.js
-#    myscript.if {
-#        equals {
-#            data = levelfield:-1,backend_layout_next_level,slide
-#            override.field = backend_layout
-#        }
-#        value = pagets__static
-#    }
-#}
+
+
+# georeferencing requests to the backend service.
+georef = PAGE
+georef {
+  typeNum = 9991
+  config {
+    disableAllHeaderCode = 1
+    admPanel = 0
+    additionalHeaders {
+      10 {
+        header = Content-Type: application/json
+        replace = 1
+      }
+    }
+    xhtml_cleaning = 0
+    debug = 0
+  }
+  10 < tt_content.list.20.slubwebkartenforum_georeference
+}

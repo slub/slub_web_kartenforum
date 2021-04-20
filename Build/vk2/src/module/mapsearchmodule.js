@@ -8,11 +8,11 @@ goog.require('goog.events.Event');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventType');
 //goog.require('ol.FeatureOverlay');
+goog.require('vk2.utils');
 goog.require('vk2.factory.MapSearchFactory');
 goog.require('vk2.source.ServerPagination');
 goog.require('vk2.tool.FacetedSearchEventType');
 goog.require('vk2.tool.FacetedSearch');
-goog.require('vk2.utils');
 
 /**
  * @enum {string}
@@ -29,13 +29,13 @@ vk2.module.MapSearchModuleEventType = {
  * @extends {goog.events.EventTarget}
  */
 vk2.module.MapSearchModule = function(parentEl, map){
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.parentEl_ = goog.isString(parentEl) ? goog.dom.getElement(parentEl) : parentEl;
-	
+
 	/**
 	 * @type {vk2.source.ServerPagination}
 	 * @private
@@ -46,13 +46,13 @@ vk2.module.MapSearchModule = function(parentEl, map){
 	});
 	goog.events.listen(this.featureSource_, 'refresh', goog.bind(this.refresh_, this));
 	goog.events.listen(this.featureSource_, 'paginate', goog.bind(this.update_, this));
-	
+
 	/**
 	 * @type {Array.<string>}
 	 * @private
 	 */
 	this._searchCols = ['time','title','georeference'];
-	
+
 	/**
 	 * @type {ol.layer.Vector}
 	 * @private
@@ -61,7 +61,7 @@ vk2.module.MapSearchModule = function(parentEl, map){
 		source: new ol.source.Vector(),
 		style: function(feature, resolution) {
 		    return [vk2.utils.Styles.MAP_SEARCH_HOVER_FEATURE];
-		}	
+		}
 	});
 
 	if (vk2.utils.is3DMode() !== undefined) {
@@ -79,16 +79,16 @@ vk2.module.MapSearchModule = function(parentEl, map){
 			map.addLayer(this.featureOverlay_);
 		}
 	}, this);
-	
+
 	// load html content
 	this.loadHtmlContent_(this.parentEl_);
-	
-	// append different events 
+
+	// append different events
 	this.appendSortBehavior_(this.parentEl_);
 	this.appendScrollBehavior_();
 	this.appendClickBehavior_();
 	this.appendFacetBehavior_();
-	
+
 	goog.base(this);
 };
 goog.inherits(vk2.module.MapSearchModule, goog.events.EventTarget);
@@ -98,25 +98,25 @@ goog.inherits(vk2.module.MapSearchModule, goog.events.EventTarget);
  * @private
  */
 vk2.module.MapSearchModule.prototype.loadHtmlContent_ = function(parentEl){
-	
+
 	/**
 	 * @param {string} type
 	 * @return {Element}
 	 */
 	var createSearchCol = function(type){
-		var col = goog.dom.createDom('div',{'class':'inner-col '+type});
+		var col = goog.dom.createDom('div',{'class':'inner-col ' + type});
 		var content = goog.dom.createDom('div',{
 			'data-type':type,
-			'class': 'sort-element '+type,
+			'class': 'sort-element ' + type,
 			'innerHTML': vk2.utils.getMsg('mapsearch-' + type) + ' <span class="caret caret-reversed"></span>'
 		});
 		goog.dom.appendChild(col, content);
 		return col;
 	};
-	
+
 	var containerEl = goog.dom.createDom('div',{'class':'mapsearch-container'});
 	goog.dom.appendChild(parentEl, containerEl);
-	
+
 	var panelEl = goog.dom.createDom('div',{'class':'panel panel-default searchTablePanel'});
 	goog.dom.appendChild(containerEl, panelEl);
 
@@ -160,14 +160,14 @@ vk2.module.MapSearchModule.prototype.loadHtmlContent_ = function(parentEl){
 	//
 	var body = goog.dom.createDom('div',{'class':'panel-body'});
 	goog.dom.appendChild(panelEl, body);
-	
+
 	var listContainer = goog.dom.createDom('div',{'class':'mapsearch-list'});
 	goog.dom.appendChild(body, listContainer);
-	
+
 	var listHeader = goog.dom.createDom('div',{'class':'list-header'});
 	goog.dom.appendChild(listContainer, listHeader);
-	
-	// append heading cols 
+
+	// append heading cols
 	for (var i = 0; i < this._searchCols.length; i++){
 		goog.dom.appendChild(listHeader, createSearchCol(this._searchCols[i]))
 	};
@@ -177,7 +177,7 @@ vk2.module.MapSearchModule.prototype.loadHtmlContent_ = function(parentEl){
 	 * @private
 	 */
 	this.searchListEl_ = goog.dom.createDom('ul',{'id':'mapsearch-contentlist', 'class':'mapsearch-contentlist'});
-	goog.dom.appendChild(listContainer, this.searchListEl_);	
+	goog.dom.appendChild(listContainer, this.searchListEl_);
 };
 
 /**
@@ -187,12 +187,12 @@ vk2.module.MapSearchModule.prototype.appendClickBehavior_ = function(){
 	if (goog.isDef(this.searchListEl_)){
 		goog.events.listen(this.searchListEl_, goog.events.EventType.CLICK, function(event){
 			event.preventDefault();
-			
+
 			// get proper feature to the event
 			var origin_target = vk2.utils.getClosestParentElementForClass(event.getBrowserEvent().target, 'mapsearch-record');
-			
+
 			// get the corresponding feature to this event
-			var feature; 
+			var feature;
 			var features = this.featureSource_.getFeatures();
 			features.forEach(function(ft){
 				if (ft.get('id') == origin_target.id)
@@ -221,7 +221,7 @@ vk2.module.MapSearchModule.prototype.appendSortBehavior_ = function(parentEl){
  * @private
  */
 vk2.module.MapSearchModule.prototype.appendScrollBehavior_ = function(){
-	// this variable blocks the append behavior if another appendFeatureToListRequest is 
+	// this variable blocks the append behavior if another appendFeatureToListRequest is
 	// right now in the pipe
 	var scroll_event_blocked = false;
 	if (goog.isDef(this.searchListEl_)){
@@ -229,21 +229,21 @@ vk2.module.MapSearchModule.prototype.appendScrollBehavior_ = function(){
 			// looks if another scroll event is already in the pipe
 			if (!scroll_event_blocked){
 				scroll_event_blocked = true;
-				
+
 				var scrollEl = event.currentTarget;
 				// check if scrolled to end of list and if yes triggger append event
 				if (scrollEl.offsetHeight + scrollEl.scrollTop >= scrollEl.scrollHeight){
-				
+
 					// check if there are still features to append
 					if (!this.featureSource_.isComplete())
 						this.featureSource_.paginate_()
-				};			
-				
+				};
+
 				scroll_event_blocked = false;
 			} else {
 				if (goog.DEBUG)
 					console.log('Scroll event fired but not used');
-			}			
+			}
 		}, undefined, this);
 	}
 };
@@ -272,18 +272,18 @@ vk2.module.MapSearchModule.prototype.appendFeaturesToList_ = function(features){
 		goog.dom.appendChild(this.searchListEl_,element);
 		if (goog.isDef(this.featureOverlay_))
 			vk2.factory.MapSearchFactory.addHoverToMapSearchRecord(element, features[i], this.featureOverlay_);
-	};		
+	};
 };
 
 /**
- * @return {ol.Collection} 
+ * @return {ol.Collection}
  */
 vk2.module.MapSearchModule.prototype.getFeatures = function(){
 	return this.featureSource_.getFeatures();
 };
 
 /**
- * @return {vk2.source.ServerPagination} 
+ * @return {vk2.source.ServerPagination}
  */
 vk2.module.MapSearchModule.prototype.getFeatureSource = function(){
 	return this.featureSource_;
@@ -304,18 +304,18 @@ vk2.module.MapSearchModule.prototype.refreshMapSearchList_ = function(){
 vk2.module.MapSearchModule.prototype.sort_ = function(type){
 	// get the sort control element and the sortOrder
 	var sortControlEl = goog.dom.getElementByClass('sort-element '+type);
-	var sortOrder = goog.dom.classes.has(sortControlEl, 'ascending') ? 
+	var sortOrder = goog.dom.classlist.contains(sortControlEl, 'ascending') ?
 			'descending' : 'ascending';
-	
+
 	// remove old sort classes
 	var sortElements = goog.dom.getElementsByClass('sort-element');
 	for (var i = 0; i < sortElements.length; i++){
-		goog.dom.classes.remove(sortElements[i], 'descending');
-		goog.dom.classes.remove(sortElements[i], 'ascending');
+		goog.dom.classlist.remove(sortElements[i], 'descending');
+		goog.dom.classlist.remove(sortElements[i], 'ascending');
 	};
-	
+
 	// sort list
-	goog.dom.classes.add(sortControlEl, sortOrder);
+	goog.dom.classlist.add(sortControlEl, sortOrder);
 	this.featureSource_.setSortAttribute(type);
 	this.featureSource_.setSortOrder(sortOrder);
 	this.featureSource_.refresh();
@@ -329,7 +329,7 @@ vk2.module.MapSearchModule.prototype.refresh_ = function(event){
 	if (goog.DEBUG){
 		console.log('Refresh MapSearchModule.')
 	};
-	
+
 	this.updateHeading_(event.target['totalFeatureCount']);
 	this.searchListEl_.innerHTML = '';
 	this.appendFeaturesToList_(event.target['features']);
@@ -343,7 +343,7 @@ vk2.module.MapSearchModule.prototype.update_ = function(event){
 	if (goog.DEBUG){
 		console.log('Refresh MapSearchModule.')
 	};
-	
+
 	this.updateHeading_(event.target.totalFeatureCount);
 	this.appendFeaturesToList_(event.target['features']);
 };

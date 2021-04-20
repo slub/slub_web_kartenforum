@@ -64,7 +64,7 @@ vk2.factory.MapSearchFactory.getMapSearchRecord = function(feature){
 
 	var time = goog.dom.createDom('div',{
 		'class':'timestamp',
-		'innerHTML': vk2.utils.getMsg('timestamp') + ' ' + feature.get('time')
+		'innerHTML': vk2.utils.getMsg('time') + ' ' + feature.get('time')
 	});
 	goog.dom.appendChild(details, time);
 

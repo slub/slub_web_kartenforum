@@ -1,11 +1,11 @@
 #
-# BACKENDLAYOUT: Default
+# BACKENDLAYOUT: App
 #
 mod {
     web_layout {
         BackendLayouts {
-            default {
-                title = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang_be.xlf:backend_layout.default
+            app {
+                title = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang_be.xlf:backend_layout.app
                 config {
                     backend_layout {
                         colCount = 1

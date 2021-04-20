@@ -5,7 +5,7 @@ namespace Slub\SlubWebKartenforum\Controller;
  *
  *  Copyright notice
  *
- *  (c) 20212020 Alexander Bigga <Alexander.Bigga@slub-dresden.de>, SLUB
+ *  (c) 2021 Alexander Bigga <Alexander.Bigga@slub-dresden.de>, SLUB
  *
  *  All rights reserved
  *
@@ -129,10 +129,7 @@ class ElasticsearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
                 'Accept' => 'application/json',
             ],
             // necessary to avoid Guzzle exceptions on 404 response
-            'exceptions' => false
-        ];
-
-        $configuration = [
+            'exceptions' => false,
             'debug' => false,
             'json' => [
                 'query' => [
@@ -156,7 +153,6 @@ class ElasticsearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
             ]
         ];
 
-        $bla = json_encode($configuration);
         // get URL from flexform or TypoScript
 		$georefBackend = empty($this->settings['flexform']['elasticsearchNode']) ? $this->settings['elasticsearchNode'] : $this->settings['flexform']['elasticsearchNode'];
 

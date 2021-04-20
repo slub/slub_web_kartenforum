@@ -1,5 +1,5 @@
 #
-# BACKENDLAYOUT: STATIC
+# BACKENDLAYOUT: Map
 #
 mod {
     web_layout {
