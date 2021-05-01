@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-04-19T22:14:27Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-05-01T21:52:23Z">
 		<header>
 			<authorName>Alexander Bigga</authorName>
 			<authorEmail>typo3@slub-dresden.de</authorEmail>
@@ -466,6 +466,10 @@
 			<trans-unit id="plugin.georef" approved="yes">
 				<source><![CDATA[Kartenforum: Georef Ranking]]></source>
 				<target><![CDATA[Kartenforum: Georeferenzierungs-Ranking]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference" approved="yes">
+				<source><![CDATA[Kartenforum: Georeferencing]]></source>
+				<target><![CDATA[Kartenforum: Georeferenzierung]]></target>
 			</trans-unit>
 			<trans-unit id="plugin.history" approved="yes">
 				<source><![CDATA[Kartenforum: Georef User History]]></source>
