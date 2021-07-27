@@ -5,7 +5,7 @@ namespace Slub\SlubWebKartenforum\Controller;
  *
  *  Copyright notice
  *
- *  (c) 20212020 Alexander Bigga <Alexander.Bigga@slub-dresden.de>, SLUB
+ *  (c) 2021 Alexander Bigga <Alexander.Bigga@slub-dresden.de>, SLUB
  *
  *  All rights reserved
  *
@@ -44,7 +44,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	protected $feUserRepository;
 
 	/**
-     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $controller
+     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $feUserRepository
      */
     public function injectfeUserRepository(FrontendUserRepository $feUserRepository)
     {
@@ -134,7 +134,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      *
      * get information about the given process
 	 */
-	public function getProcessAction()
+    public function getProcessAction()
     {
         // get mapid from GET parameter objectid
         $objectid = GeneralUtility::_GP('objectid');
@@ -150,7 +150,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         ];
 
         // get URL from flexform or TypoScript
-		$georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
+	    $georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
 
         if ($objectid) {
             $configuration['json'] = ['objectid' => $objectid];

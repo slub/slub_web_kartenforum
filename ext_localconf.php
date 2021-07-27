@@ -65,15 +65,6 @@ $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum'] = 'EXT:slu
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'Slub.SlubWebKartenforum',
-	'map',
-	[
-		'App' => 'map',
-    ],
-	// non-cacheable actions
-);
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'Slub.SlubWebKartenforum',
 	'georeference',
 	[
 		'App' => 'georeference',

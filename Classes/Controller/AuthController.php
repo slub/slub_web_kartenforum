@@ -48,7 +48,7 @@ class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	protected $feUserRepository;
 
 	/**
-     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $controller
+     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $feUserRepository
      */
     public function injectfeUserRepository(FrontendUserRepository $feUserRepository)
     {

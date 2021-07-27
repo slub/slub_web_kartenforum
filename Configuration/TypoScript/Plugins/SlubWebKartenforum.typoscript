@@ -12,7 +12,7 @@ plugin.tx_slubwebkartenforum {
 			}
 		}
 	}
-	settings {
+    settings {
         loginPage = {$config.loginPage}
         georefBackend = {$config.georef.backend}
         viewerPageId = {$config.rootPageId}
