@@ -1,6 +1,6 @@
 .vscode
+.idea
 package-lock.json
-Build/vk2/node_modules
-Build/node_modules
+Build/**/node_modules
 !Build/package-lock.json
 !Build/vk2/package-lock.json

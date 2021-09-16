@@ -39,21 +39,12 @@
 
 <!-- checks if the vk2.app.PresentationApp / vk2.utils module is already loaded -->
 <script>
-if (window['vk2'] === undefined || window['vk2']['utils'] === undefined || window['vk2']['app'] === undefined) {
-    goog.require('vk2.app.PresentationApp');
-    goog.require('vk2.utils');
-};
+    // render Application
+    if(vk2 !== undefined){
+        vk2.renderApp(document.getElementById("mapdiv"));
+    }
 </script>
 
 <!-- load application specific code -->
 <script>
-    // set the cookie for proper working of the javascript client code
-    vk2.utils.setCookie('vk2-auth', '');
-
-    var app = new vk2.app.PresentationApp({
-        'authenticate': false,
-        'modalAnchorClassName':'vk2-modal-anchor',
-        'mapContainerId':'mapdiv',
-        'spatialsearchContainerId':'spatialsearch-container'
-    });
 </script>
