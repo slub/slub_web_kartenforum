@@ -6,11 +6,13 @@
  */
 
 import React from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
+
 import { map3dState } from "../../atoms/atoms";
+import "./ToggleViewMode.scss";
 
 export function ToggleViewmode(props) {
-  const set3dViewState = useSetRecoilState(map3dState);
+  const [is3dView, set3dViewState] = useRecoilState(map3dState);
 
   const handleToggle = () => {
     set3dViewState((prevState) => !prevState);
@@ -18,10 +20,11 @@ export function ToggleViewmode(props) {
 
   return (
     <button
-      style={{ position: "absolute", right: 0, top: 50, zIndex: 2 }}
+      className="switch-view-mode"
+      id="button-view-mode-toggle"
       onClick={handleToggle}
     >
-      Toggle
+      {is3dView ? "2D" : "3D"}
     </button>
   );
 }

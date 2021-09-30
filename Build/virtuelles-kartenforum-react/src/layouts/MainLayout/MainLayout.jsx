@@ -6,7 +6,7 @@
  */
 
 import React from "react";
-import { MapWrapper } from "../../components/MapWrapper/MapWrapper";
+import MapWrapper from "../../components/MapWrapper/MapWrapper";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { SettingsProvider } from "../../index";
 import ToggleViewmode from "../../components/ToggleViewmode/ToggleViewmode";
@@ -19,9 +19,10 @@ export const MainLayout = (props) => {
       <ToggleViewmode />
       {/*<Sidebar />*/}
       <MapWrapper
-        mapViewSetings={settings["MAPVIEW_PARAMS"]}
+        baseMapUrl={settings["OSM_URLS"]}
         enable3d
         enableTerrain
+        mapViewSettings={settings["MAPVIEW_PARAMS"]}
         terrainTilesUrl={settings["TERRAIN_TILES_URL"]}
       />
     </React.Fragment>
