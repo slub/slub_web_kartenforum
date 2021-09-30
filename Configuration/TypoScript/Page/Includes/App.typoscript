@@ -23,6 +23,9 @@ page {
         vk2-params = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vk2-params.js
         vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/ol-vk2.js
         vk2-min = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vk2-min.js
+        Cesium = https://cesium.com/downloads/cesiumjs/releases/1.85/Build/Cesium/Cesium.js
+        Cesium.external = 1
+        Cesium.forceOnTop = 1
     }
 
     includeJS {
@@ -37,9 +40,10 @@ page {
 page {
     headerData {
         10 = TEXT
-        10.value(
+        10.value (
             <!-- checks if the vk2.settings module is already loaded -->
 			<script>
+
                 const WITH_SPEAKING_URLS = true;
 
                 // update settings from typo3 flexform parameters

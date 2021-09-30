@@ -3,7 +3,7 @@
     <div id="vk2MapPanel" class="vk2MapPanel">
 
         <!-- map container -->
-        <div id="mapdiv" class="olMap" tabindex="0"></div>
+        <div id="app-container" class="olMap" tabindex="0"></div>
         <!-- /end map container -->
         </div>
 
@@ -41,7 +41,8 @@
 <script>
     // render Application
     if(vk2 !== undefined){
-        vk2.renderApp(document.getElementById("mapdiv"));
+        console.log("render app")
+        vk2.renderApp(document.getElementById("app-container"));
     }
 </script>
 

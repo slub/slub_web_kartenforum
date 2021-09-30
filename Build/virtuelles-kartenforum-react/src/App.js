@@ -5,13 +5,17 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React from 'react';
-import MapWrapper from "./MapWrapper.jsx";
-
+import React from "react";
+import { MainLayout } from "./layouts/MainLayout/MainLayout";
+import { RecoilRoot } from "recoil";
+import { SettingsProvider } from "./index";
 
 export const App = (props) => {
-
-    return <MapWrapper />
+    return (
+        <RecoilRoot>
+            <MainLayout test={"test"} />
+        </RecoilRoot>
+    );
 };
 
 export default App;
