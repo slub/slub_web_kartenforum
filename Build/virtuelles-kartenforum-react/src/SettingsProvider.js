@@ -8,6 +8,9 @@
 let settingsObject = {};
 
 export default {
+    appendSettings(newSettings) {
+        settingsObject = Object.assign({}, settingsObject, newSettings);
+    },
     getSettings() {
         return settingsObject;
     },
