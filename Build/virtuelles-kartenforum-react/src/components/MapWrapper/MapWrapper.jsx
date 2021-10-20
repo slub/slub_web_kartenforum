@@ -17,10 +17,10 @@ import { Attribution, Zoom, FullScreen, ScaleLine } from "ol/control";
 import { defaults, DragRotateAndZoom } from "ol/interaction";
 import XYZ from "ol/source/XYZ";
 import OLCesium from "olcs/OLCesium";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { containsXY } from "ol/extent";
 
-import { map3dState } from "../../atoms/atoms";
+import { mapState, map3dState } from "../../atoms/atoms";
 import "./MapWrapper.scss";
 
 export function MapWrapper(props) {
@@ -38,6 +38,7 @@ export function MapWrapper(props) {
   } = props;
 
   const is3dActive = useRecoilValue(map3dState);
+  const setMapState = useSetRecoilState(mapState);
 
   // pull refs
   const mapElement = useRef();
@@ -119,6 +120,8 @@ export function MapWrapper(props) {
       view: new View(mapViewSettings),
     });
 
+    setMapState(initialMap);
+
     if (enable3d && enableTerrain) {
       //
       // Some code regarding the 3d capabilities is based on the work of https://github.com/geoadmin/mf-geoadmin3
@@ -169,7 +172,6 @@ export function MapWrapper(props) {
       // doesnt allow to set this
       // scene.scene3DOnly = true;
 
-      console.log(mapViewSettings);
       scene.postRender.addEventListener(generateLimitCamera(mapViewSettings));
 
       // together with the "requestVertexNormals" flag (see terrainProvider) it enables the displaying

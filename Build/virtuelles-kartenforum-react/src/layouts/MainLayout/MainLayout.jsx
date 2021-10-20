@@ -17,7 +17,7 @@ export const MainLayout = (props) => {
   return (
     <React.Fragment>
       <ToggleViewmode />
-      {/*<Sidebar />*/}
+      <Sidebar />
       <MapWrapper
         baseMapUrl={settings["OSM_URLS"]}
         enable3d

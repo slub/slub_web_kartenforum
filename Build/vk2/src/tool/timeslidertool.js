@@ -20,7 +20,7 @@ vk2.tool.TimeSliderEventType = {
  * @extends {goog.events.EventTarget}
  */
 vk2.tool.TimeSlider = function(parentEl, opt_timeInterval){
-	
+
 	var containerEl_ = goog.isString(parentEl) ? goog.dom.getElement(parentEl) : parentEl;
 
 	/**
@@ -35,7 +35,7 @@ vk2.tool.TimeSlider = function(parentEl, opt_timeInterval){
 	if (opt_timeInterval !== undefined) {
 		this.setTimeInterval(opt_timeInterval);
 	};
-	
+
 	goog.base(this);
 };
 goog.inherits(vk2.tool.TimeSlider, goog.events.EventTarget);
@@ -77,32 +77,7 @@ vk2.tool.TimeSlider.prototype.setTimeInterval = function(timeInterval) {
 	 * 	@param {number} value
 	 *	@param {Element} element
 	 */
-	var updatePosition = function(value, element){
-		var style_left = (value - timeInterval[0]) / (timeInterval[1] - timeInterval[0]) * 100;
-		element.style.left = style_left + '%';
-		element.innerHTML = value;
-	};
 
-	$(sliderEl_).slider({
-		'range': true,
-		'min': timeInterval[0],
-		'max': timeInterval[1],
-		'values': [timeInterval[0], timeInterval[1]],
-		'animate': 'slow',
-		'orientation': 'horizontal',
-		'step': 1,
-		'slide': function( event, ui ) {
-			var values = ui['values'];
-			updatePosition(values[0], minValueEl);
-			updatePosition(values[1], maxValueEl);
-		},
-		'change': goog.bind(function( event, ui ){
-			var values = ui['values'];
-			updatePosition(values[0], minValueEl);
-			updatePosition(values[1], maxValueEl);
-			this.dispatchEvent(new goog.events.Event(vk2.tool.TimeSliderEventType.TIMECHANGE,{'time':values}));
-		}, this)
-	});
 
 	// append tooltips
 	minValueEl = goog.dom.createDom('div',{

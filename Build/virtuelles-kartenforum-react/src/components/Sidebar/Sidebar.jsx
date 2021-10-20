@@ -6,9 +6,15 @@
  */
 
 import React from "react";
+import SpatialTemporalSearch from "../SpatialTemporalSearch/SpatialTemporalSearch";
+import "./Sidebar.scss";
 
 export const Sidebar = (props) => {
-  return <div className="sidebar"></div>;
+  return (
+    <div className="sidebar">
+      <SpatialTemporalSearch />
+    </div>
+  );
 };
 
 export default Sidebar;

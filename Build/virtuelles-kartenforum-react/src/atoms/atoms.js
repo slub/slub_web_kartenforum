@@ -11,3 +11,9 @@ export const map3dState = atom({
     key: "map3dState",
     default: false,
 });
+
+export const mapState = atom({
+    key: "mapState",
+    default: undefined,
+    dangerouslyAllowMutability: true,
+});
