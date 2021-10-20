@@ -14,7 +14,8 @@ import { MAP_SEARCH_HOVER_FEATURE } from "../../config/styles";
 import { mapState } from "../../atoms/atoms";
 import ServerPagination from "../Source/ServerPaginationSource";
 import { SettingsProvider } from "../../index";
-import { isDefined } from "../../util/util";
+import { addOpenCloseBehavior, isDefined, translate } from "../../util/util";
+import FacetedSearch from "../FacetedSearch/FacetedSearch";
 
 const SEARCH_COLS = ["time", "title", "georeference"];
 
@@ -24,6 +25,33 @@ export const MapSearch = (props) => {
   const map = useRecoilValue(mapState);
   const featureSourceRef = useRef();
   const featureOverlayRef = useRef();
+  const openButtonRef = useRef();
+  const containerRef = useRef();
+  const facetContainerRef = useRef();
+
+  const renderSearchCol = function (type) {
+    return (
+      <div className={`inner-col${type}`}>
+        <div className={`sort-element${type}`} datatype={type}>
+          {translate(`mapsearch-${type}`)}
+          <span className="caret caret-reversed" />
+        </div>
+      </div>
+    );
+  };
+
+  // var createSearchCol = function (type) {
+  //   var col = goog.dom.createDom("div", { class: "inner-col " + type });
+  //   var content = goog.dom.createDom("div", {
+  //     "data-type": type,
+  //     class: "sort-element " + type,
+  //     innerHTML:
+  //         vk2.utils.getMsg("mapsearch-" + type) +
+  //         ' <span class="caret caret-reversed"></span>',
+  //   });
+  //   goog.dom.appendChild(col, content);
+  //   return col;
+  // };
 
   useEffect(() => {
     if (map !== undefined) {
@@ -45,6 +73,28 @@ export const MapSearch = (props) => {
       });
 
       featureOverlayRef.current = featureOverlay;
+
+      map.addLayer(featureOverlay);
+
+      // hold the overlay layer on top of the historic map layers
+      map.getLayers().on(
+        "add",
+        (event) => {
+          const topLayer = event.target.getArray()[
+            event.target.getLength() - 1
+          ];
+          if (
+            // @TODO: MIGRATE VK2 LAYER
+            // topLayer instanceof vk2.layer.HistoricMap ||
+            // topLayer instanceof vk2.layer.HistoricMap3D ||
+            topLayer.get("type") == "click"
+          ) {
+            map.removeLayer(featureOverlay);
+            map.addLayer(featureOverlay);
+          }
+        },
+        this
+      );
     }
   }, [map]);
 
@@ -59,6 +109,17 @@ export const MapSearch = (props) => {
     }
   }, [is3dEnabled]);
 
+  useEffect(() => {
+    addOpenCloseBehavior(
+      openButtonRef.current,
+      facetContainerRef.current,
+      containerRef.current,
+      "facetedsearch-open",
+      translate("facetedsearch-open"),
+      translate("facetedsearch-close")
+    );
+  }, []);
+
   // goog.events.listen(
   //   this.featureSource_,
   //   "refresh",
@@ -70,7 +131,34 @@ export const MapSearch = (props) => {
   //   goog.bind(this.update_, this)
   // );
 
-  return <div></div>;
+  return (
+    <div className="mapsearch-container" ref={containerRef}>
+      <div className="panel panel-default searchTablePanel">
+        <div className="panel-heading">
+          <div className="content">
+            <div />
+            <a ref={openButtonRef} title={translate("facetedsearch-open")}>
+              o
+            </a>
+          </div>
+          <div className="facet-container" ref={facetContainerRef}>
+            <FacetedSearch georeferenceMode={false} />
+          </div>
+        </div>
+        <div className="panel-body">
+          <div className="mapsearch-list">
+            <div className="list-header">
+              {SEARCH_COLS.map(renderSearchCol)}
+            </div>
+            <ul
+              className="mapsearch-contentlist"
+              id="mapsearch-contentlist"
+            ></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default MapSearch;
@@ -90,28 +178,6 @@ export default MapSearch;
 //  * @extends {goog.events.EventTarget}
 //  */
 // vk2.module.MapSearchModule = function (parentEl, map) {
-//   map.addLayer(this.featureOverlay_);
-//
-//   // hold the overlay layer on top of the historic map layers
-//   map.getLayers().on(
-//     "add",
-//     function (event) {
-//       var topLayer = event.target.getArray()[event.target.getLength() - 1];
-//       if (
-//         topLayer instanceof vk2.layer.HistoricMap ||
-//         topLayer instanceof vk2.layer.HistoricMap3D ||
-//         topLayer.get("type") == "click"
-//       ) {
-//         map.removeLayer(this.featureOverlay_);
-//         map.addLayer(this.featureOverlay_);
-//       }
-//     },
-//     this
-//   );
-//
-//   // load html content
-//   this.loadHtmlContent_(this.parentEl_);
-//
 //   // append different events
 //   this.appendSortBehavior_(this.parentEl_);
 //   this.appendScrollBehavior_();
@@ -121,111 +187,7 @@ export default MapSearch;
 //   goog.base(this);
 // };
 // goog.inherits(vk2.module.MapSearchModule, goog.events.EventTarget);
-//
-// /**
-//  * @param {Element} parentEl
-//  * @private
-//  */
-// vk2.module.MapSearchModule.prototype.loadHtmlContent_ = function (parentEl) {
-//   /**
-//    * @param {string} type
-//    * @return {Element}
-//    */
-//   var createSearchCol = function (type) {
-//     var col = goog.dom.createDom("div", { class: "inner-col " + type });
-//     var content = goog.dom.createDom("div", {
-//       "data-type": type,
-//       class: "sort-element " + type,
-//       innerHTML:
-//         vk2.utils.getMsg("mapsearch-" + type) +
-//         ' <span class="caret caret-reversed"></span>',
-//     });
-//     goog.dom.appendChild(col, content);
-//     return col;
-//   };
-//
-//   var containerEl = goog.dom.createDom("div", { class: "mapsearch-container" });
-//   goog.dom.appendChild(parentEl, containerEl);
-//
-//   var panelEl = goog.dom.createDom("div", {
-//     class: "panel panel-default searchTablePanel",
-//   });
-//   goog.dom.appendChild(containerEl, panelEl);
-//
-//   //
-//   // add mapsearch heading
-//   //
-//   var headingEl = goog.dom.createDom("div", { class: "panel-heading" });
-//   goog.dom.appendChild(panelEl, headingEl);
-//
-//   var contentContainerEl = goog.dom.createDom("div", { class: "content" });
-//   goog.dom.appendChild(headingEl, contentContainerEl);
-//
-//   // add content header
-//   /**
-//    * @type {Element}
-//    * @private
-//    */
-//   this.headingContentEl_ = goog.dom.createDom("div");
-//   goog.dom.appendChild(contentContainerEl, this.headingContentEl_);
-//
-//   // add facetssearch to header
-//   var openCloseFacet = goog.dom.createDom("a", {
-//     innerHTML: "o",
-//     title: vk2.utils.getMsg("facetedsearch-open"),
-//   });
-//   goog.dom.appendChild(contentContainerEl, openCloseFacet);
-//
-//   var facetContainerEl = goog.dom.createDom("div", {
-//     class: "facet-container",
-//   });
-//   goog.dom.appendChild(headingEl, facetContainerEl);
-//
-//   vk2.utils.addOpenCloseBehavior(
-//     openCloseFacet,
-//     facetContainerEl,
-//     containerEl,
-//     "facetedsearch-open",
-//     vk2.utils.getMsg("facetedsearch-open"),
-//     vk2.utils.getMsg("facetedsearch-close")
-//   );
-//
-//   /**
-//    * @type {vk2.tool.FacetedSearch}
-//    * @private
-//    */
-//   this.facetSearch_ = new vk2.tool.FacetedSearch(facetContainerEl, false);
-//   // close it on init
-//   //$(facetContainerEl).slideToggle();
-//
-//   //
-//   // add mapsearch body
-//   //
-//   var body = goog.dom.createDom("div", { class: "panel-body" });
-//   goog.dom.appendChild(panelEl, body);
-//
-//   var listContainer = goog.dom.createDom("div", { class: "mapsearch-list" });
-//   goog.dom.appendChild(body, listContainer);
-//
-//   var listHeader = goog.dom.createDom("div", { class: "list-header" });
-//   goog.dom.appendChild(listContainer, listHeader);
-//
-//   // append heading cols
-//   for (var i = 0; i < this._searchCols.length; i++) {
-//     goog.dom.appendChild(listHeader, createSearchCol(this._searchCols[i]));
-//   }
-//
-//   /**
-//    * @type {Element}
-//    * @private
-//    */
-//   this.searchListEl_ = goog.dom.createDom("ul", {
-//     id: "mapsearch-contentlist",
-//     class: "mapsearch-contentlist",
-//   });
-//   goog.dom.appendChild(listContainer, this.searchListEl_);
-// };
-//
+
 // /**
 //  * @private
 //  */

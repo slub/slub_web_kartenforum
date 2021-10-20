@@ -19,8 +19,8 @@ export const SpatialTemporalSearch = (props) => {
       <div className="spatialsearch-content-panel">
         <div className="body-container">
           <GazetteerSearch searchUrl={settings.NOMINATIM_URL} />
-          <MapSearch />
           <TimeSlider timeInterval={timeInterval} />
+          <MapSearch />
         </div>
       </div>
     </div>

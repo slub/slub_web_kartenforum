@@ -7,9 +7,9 @@
 
 import React from "react";
 import MapWrapper from "../../components/MapWrapper/MapWrapper";
-import Sidebar from "../../components/Sidebar/Sidebar";
 import { SettingsProvider } from "../../index";
 import ToggleViewmode from "../../components/ToggleViewmode/ToggleViewmode";
+import SpatialTemporalSearch from "../../components/SpatialTemporalSearch/SpatialTemporalSearch";
 
 export const MainLayout = (props) => {
   const settings = SettingsProvider.getSettings();
@@ -17,7 +17,6 @@ export const MainLayout = (props) => {
   return (
     <React.Fragment>
       <ToggleViewmode />
-      <Sidebar />
       <MapWrapper
         baseMapUrl={settings["OSM_URLS"]}
         enable3d
@@ -25,6 +24,9 @@ export const MainLayout = (props) => {
         mapViewSettings={settings["MAPVIEW_PARAMS"]}
         terrainTilesUrl={settings["TERRAIN_TILES_URL"]}
       />
+      <div className="spatialsearch-container" id="spatialsearch-container">
+        <SpatialTemporalSearch />
+      </div>
     </React.Fragment>
   );
 };

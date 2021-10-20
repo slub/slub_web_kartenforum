@@ -60,7 +60,7 @@ export const GazetteerSearch = (props) => {
     },
   };
 
-  return <div></div>;
+  return <div className="gazetteersearch-container"></div>;
 };
 
 GazetteerSearch.propTypes = {

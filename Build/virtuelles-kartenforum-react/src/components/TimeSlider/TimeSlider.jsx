@@ -62,10 +62,10 @@ export const TimeSlider = (props) => {
       <label>{translate("timeslider-adjust-timeperiod")}</label>
       <div className="slider-container">
         <div className="slider" ref={sliderElRef}>
-          <div className="tooltip-min-value" ref={minValueElRef}>
+          <div className="tooltip min-value" ref={minValueElRef}>
             {timeInterval[0]}
           </div>
-          <div className="tooltip-max-value" ref={maxValueElRef}>
+          <div className="tooltip max-value" ref={maxValueElRef}>
             {timeInterval[1]}
           </div>
         </div>

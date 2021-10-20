@@ -21,11 +21,7 @@ export function translate(key) {
 
     const translation = dictionary[key];
 
-    if (translation === undefined) {
-        throw new Error("Translation is undefined.");
-    }
-
-    return translation;
+    return translation === undefined ? "" : translation;
 }
 
 /**
@@ -63,18 +59,18 @@ export const addOpenCloseBehavior = function (
     opt_titleOpen,
     opt_titleClose
 ) {
-    var className = goog.isDef(opt_className) ? opt_className : "active",
-        openTitle = goog.isDef(opt_titleOpen) ? opt_titleOpen : "",
-        closeTitle = goog.isDef(opt_titleClose) ? opt_titleClose : "";
+    const className = isDefined(opt_className) ? opt_className : "active",
+        openTitle = isDefined(opt_titleOpen) ? opt_titleOpen : "",
+        closeTitle = isDefined(opt_titleClose) ? opt_titleClose : "";
 
-    goog.events.listen(eventEl, "click", function (event) {
+    eventEl.addEventListener("click", function (event) {
         event.preventDefault();
 
-        if (goog.dom.classlist.contains(classEl, className)) {
-            goog.dom.classlist.remove(classEl, className);
+        if (classEl.classList.contains(className)) {
+            classEl.classList.remove(className);
             eventEl["title"] = openTitle;
         } else {
-            goog.dom.classlist.add(classEl, className);
+            classEl.classList.add(className);
             eventEl["title"] = closeTitle;
         }
     });

@@ -218,7 +218,14 @@ export function MapWrapper(props) {
   }, [is3dActive]);
 
   // render component
-  return <div ref={mapElement} className="map-container" />;
+  return (
+    <div
+      id="mapdiv"
+      ref={mapElement}
+      className="map-container olMap"
+      tabIndex={0}
+    />
+  );
 }
 
 const generateLimitCamera = function (mapView) {
