@@ -9,7 +9,7 @@ import { isDefined, translate } from "../../util/util";
 import { useRecoilValue } from "recoil";
 import { olcsMapState } from "../../atoms/atoms";
 
-const FALLBACK_SRC =
+export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";
 
 export const MapSearchListElement = (props) => {

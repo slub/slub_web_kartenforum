@@ -29,6 +29,8 @@ import {
 import "./MapWrapper.scss";
 import HistoricMap from "../layer/HistoricMapLayer";
 import { SettingsProvider } from "../../index";
+import HistoricMap3D from "../layer/HistoricMapLayer3d";
+import LayerManagement from "../LayerManagement/LayerManagement";
 
 export function MapWrapper(props) {
   const {
@@ -251,7 +253,9 @@ export function MapWrapper(props) {
       ref={mapElement}
       className="map-container olMap"
       tabIndex={0}
-    />
+    >
+      <LayerManagement />
+    </div>
   );
 }
 
@@ -306,16 +310,16 @@ export default MapWrapper;
 /**
  * @returns {Array.<vk2.layer.HistoricMap>}
  */
-const getHistoricMapLayer = function (map) {
-  var layers = map.getLayers().getArray();
-  var historicMapLayers = [];
-  for (var i = 0; i < layers.length; i++) {
-    if (vk2.utils.is3DMode()) {
-      if (layers[i] instanceof vk2.layer.HistoricMap3D) {
+export const getHistoricMapLayer = function (map, is3d) {
+  const layers = map.getLayers().getArray();
+  const historicMapLayers = [];
+  for (let i = 0; i < layers.length; i++) {
+    if (is3d) {
+      if (layers[i] instanceof HistoricMap3D) {
         historicMapLayers.push(layers[i]);
       }
     } else {
-      if (layers[i] instanceof vk2.layer.HistoricMap) {
+      if (layers[i] instanceof HistoricMap) {
         historicMapLayers.push(layers[i]);
       }
     }
@@ -356,6 +360,7 @@ export const createHistoricMapForFeature = function (feature, is3d, map) {
   const settings = SettingsProvider.getSettings();
 
   const tms_url_subdomains = settings["TMS_URL_SUBDOMAINS"];
+  const thumbnail = feature.get("thumb") ?? settings["THUMB_PATH"];
 
   const maxZoom =
     feature.get("denominator") == 0
@@ -370,13 +375,13 @@ export const createHistoricMapForFeature = function (feature, is3d, map) {
         {
           maxZoom: maxZoom,
           time: feature.get("time"),
-          thumbnail: feature.get("thumb"),
           title: feature.get("title"),
           objectid: feature.get("id"),
           id: feature.getId(),
           dataid: feature.get("dataid"),
           tms: feature.get("tms"),
           clip: feature.getGeometry().clone(),
+          thumbnail,
           tms_url_subdomains,
         },
         map
@@ -385,13 +390,13 @@ export const createHistoricMapForFeature = function (feature, is3d, map) {
         {
           time: feature.get("time"),
           maxZoom: maxZoom,
-          thumbnail: feature.get("thumb"),
           title: feature.get("title"),
           objectid: feature.get("id"),
           id: feature.getId(),
           dataid: feature.get("dataid"),
           tms: feature.get("tms"),
           clip: feature.getGeometry().clone(),
+          thumbnail,
           tms_url_subdomains,
         },
         map

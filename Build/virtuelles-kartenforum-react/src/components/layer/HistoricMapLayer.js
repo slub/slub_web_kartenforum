@@ -48,9 +48,7 @@ export const HistoricMap = function (settings, map) {
      * @private
      * @expose
      */
-    this.thumb_ = isDefined(settings.thumbnail)
-        ? settings.thumbnail
-        : undefined;
+    this.thumb_ = settings.thumbnail;
     //vk2.settings.THUMB_PATH
 
     this.tms_url_subdomains = settings.tms_url_subdomains;
