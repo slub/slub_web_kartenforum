@@ -7,6 +7,11 @@
 
 import { atom } from "recoil";
 
+export const selectedFeaturesState = atom({
+    key: "selectedFeatureState",
+    default: [],
+});
+
 export const featureState = atom({
     key: "featureState",
     default: { features: [], featureCount: 0 },

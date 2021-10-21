@@ -5,9 +5,9 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import { isDefined } from "../../util/util";
+import { inherits, isDefined } from "../../util/util";
 import { Group, Vector, Tile } from "ol/layer";
-import ol, { Feature } from "ol";
+import { Feature } from "ol";
 import { Vector as VectorSource, XYZ } from "ol/source";
 import { MESSTISCHBLATT_BORDER_STYLE } from "../../config/styles";
 
@@ -21,7 +21,7 @@ import { MESSTISCHBLATT_BORDER_STYLE } from "../../config/styles";
  * @constructor
  * @extends {ol.layer.Group}
  */
-const HistoricMap = function (settings, map) {
+export const HistoricMap = function (settings, map) {
     /**
      * @type {string}
      * @private
@@ -69,7 +69,7 @@ const HistoricMap = function (settings, map) {
      * @return {ol.Feature}
      * @private
      */
-    this.createClipFeature = function (clip, id, time, title) {
+    const createClipFeature = (clip, id, time, title) => {
         // create the clip feature
         const feature = new Feature(clip);
         feature.setProperties({
@@ -119,12 +119,15 @@ const HistoricMap = function (settings, map) {
             },
         });
 
-    settings["layers"] = [rasterLayer, borderLayer];
+    settings["layers"] = [
+        rasterLayer,
+        // borderLayer
+    ];
 
     Group.call(this, settings);
 };
 
-ol.inherits(HistoricMap, Group);
+inherits(HistoricMap, Group);
 
 /**
  * @return {number}
@@ -160,3 +163,5 @@ HistoricMap.prototype.getId = function () {
 //vk2.layer.HistoricMap.prototype.getMetadata = function(){
 //	return this._metadata;
 //};
+
+export default HistoricMap;

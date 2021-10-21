@@ -13,10 +13,14 @@ const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";
 
 export const MapSearchListElement = (props) => {
-  const { feature, featureOverlay, is3d } = props;
+  const { feature, featureOverlay, is3d, onClick } = props;
   const olcsMap = useRecoilValue(olcsMapState);
   const [src, setSrc] = useState(feature.get("thumb").replace("http:", ""));
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleClick = () => {
+    onClick(feature);
+  };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -53,6 +57,7 @@ export const MapSearchListElement = (props) => {
     <li
       className={`mapsearch-record type ${feature.get("maptype")}`}
       id={feature.get("id")}
+      onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

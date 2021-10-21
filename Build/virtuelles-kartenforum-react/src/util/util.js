@@ -6,6 +6,15 @@
  */
 import { SettingsProvider } from "../index";
 
+/*
+ * ol does not export an inherits function in the current version
+ * workaround from here: https://gis.stackexchange.com/questions/324606/ol-inherits-in-openlayers-6
+ */
+export function inherits(child, parent) {
+    child.prototype = Object.create(parent.prototype);
+    child.prototype.constructor = child;
+}
+
 export function isDefined(el) {
     return el !== null && el !== undefined;
 }

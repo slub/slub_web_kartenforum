@@ -17,14 +17,20 @@ import { Attribution, Zoom, FullScreen, ScaleLine } from "ol/control";
 import { defaults, DragRotateAndZoom } from "ol/interaction";
 import XYZ from "ol/source/XYZ";
 import OLCesium from "olcs/OLCesium";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { containsXY } from "ol/extent";
 
-import { mapState, map3dState, olcsMapState } from "../../atoms/atoms";
+import {
+  mapState,
+  map3dState,
+  olcsMapState,
+  selectedFeaturesState,
+} from "../../atoms/atoms";
 import "./MapWrapper.scss";
+import HistoricMap from "../layer/HistoricMapLayer";
+import { SettingsProvider } from "../../index";
 
 export function MapWrapper(props) {
-  console.log(props, props.mapViewSettings);
   const {
     baseMapUrl,
     enable3d,
@@ -37,13 +43,14 @@ export function MapWrapper(props) {
     terrainTilesUrl,
   } = props;
 
+  const selectedFeatures = useRecoilValue(selectedFeaturesState);
+
   const is3dActive = useRecoilValue(map3dState);
-  const setMapState = useSetRecoilState(mapState);
-  const setOlcsMapState = useSetRecoilState(olcsMapState);
+  const [map, setMap] = useRecoilState(mapState);
+  const [olcsMap, setOlcsMap] = useRecoilState(olcsMapState);
 
   // pull refs
   const mapElement = useRef();
-  const mapRef = useRef();
 
   // initialize map on first render - logic formerly put into componentDidMount
   useEffect(() => {
@@ -121,7 +128,7 @@ export function MapWrapper(props) {
       view: new View(mapViewSettings),
     });
 
-    setMapState(initialMap);
+    setMap(initialMap);
 
     if (enable3d && enableTerrain) {
       //
@@ -181,10 +188,7 @@ export function MapWrapper(props) {
       // scene.globe.lightingFadeInDistance = 1000000000;
       // scene.globe.lightingFadeOutDistance = 10000000;
 
-      setOlcsMapState(ol3d);
-      mapRef.current = ol3d;
-    } else {
-      mapRef.current = initialMap;
+      setOlcsMap(ol3d);
     }
 
     // register click handler
@@ -210,11 +214,32 @@ export function MapWrapper(props) {
   }, []);
 
   useEffect(() => {
-    if (mapRef.current !== undefined) {
+    selectedFeatures.forEach((selectedFeature) => {
+      const { displayedInMap = false, feature } = selectedFeature;
+
+      if (!displayedInMap && feature.get("georeference")) {
+        map.addLayer(createHistoricMapForFeature(feature));
+        if (is3dActive) {
+          const historicMapClipFeature = HistoricMap.createClipFeature(
+            feature.getGeometry().clone(),
+            feature.getId(),
+            feature.get("time"),
+            feature.get("title")
+          );
+          // historicMapClickLayer_.getSource().addFeature(historicMapClipFeature);
+        }
+
+        selectedFeature.displayedInMap = true;
+      }
+    });
+  }, [selectedFeatures]);
+
+  useEffect(() => {
+    if (olcsMap !== undefined) {
       if (is3dActive) {
-        mapRef.current.setEnabled(true);
+        olcsMap.setEnabled(true);
       } else {
-        mapRef.current.setEnabled(false);
+        olcsMap.setEnabled(false);
       }
     }
   }, [is3dActive]);
@@ -328,6 +353,10 @@ export const containsLayerWithId = function (id, layers) {
  * @private
  */
 export const createHistoricMapForFeature = function (feature, is3d, map) {
+  const settings = SettingsProvider.getSettings();
+
+  const tms_url_subdomains = settings["TMS_URL_SUBDOMAINS"];
+
   const maxZoom =
     feature.get("denominator") == 0
       ? 15
@@ -337,7 +366,7 @@ export const createHistoricMapForFeature = function (feature, is3d, map) {
       ? 16
       : 15;
   return is3d
-    ? new vk2.layer.HistoricMap3D(
+    ? new HistoricMap(
         {
           maxZoom: maxZoom,
           time: feature.get("time"),
@@ -348,10 +377,11 @@ export const createHistoricMapForFeature = function (feature, is3d, map) {
           dataid: feature.get("dataid"),
           tms: feature.get("tms"),
           clip: feature.getGeometry().clone(),
+          tms_url_subdomains,
         },
         map
       )
-    : new vk2.layer.HistoricMap(
+    : new HistoricMap(
         {
           time: feature.get("time"),
           maxZoom: maxZoom,
@@ -362,6 +392,7 @@ export const createHistoricMapForFeature = function (feature, is3d, map) {
           dataid: feature.get("dataid"),
           tms: feature.get("tms"),
           clip: feature.getGeometry().clone(),
+          tms_url_subdomains,
         },
         map
       );
@@ -458,52 +489,6 @@ const registerSpatialTemporalSearch = function (spatialTemporalSearchModule) {
 
     this.map_.addLayer(this.historicMapClickLayer_);
   }
-
-  // register event listener
-  goog.events.listen(
-    this.mapsearch_,
-    vk2.module.MapSearchModuleEventType.CLICK_RECORD,
-    function (event) {
-      var feature = event.target["feature"];
-
-      // checks if a layer for this features is already present
-      if (
-        vk2.module.MapModule.containsLayerWithId(
-          feature.getId(),
-          this.map_.getLayers()
-        )
-      ) {
-        if (goog.DEBUG) {
-          console.log("Map is already displayed");
-        }
-
-        return;
-      }
-
-      // add layer to map
-      if (feature.get("georeference")) {
-        if (goog.DEBUG) {
-          console.log("Add map to layer management.");
-        }
-
-        // display the map on top of the the base map
-        this.map_.addLayer(this.createHistoricMapForFeature_(feature));
-
-        if (vk2.settings.MODE_3D && window["ol3d"] !== undefined) {
-          // add vector geometry for the given historic map to a special layer for simulate 3d mode experience
-          var feature = vk2.layer.HistoricMap.createClipFeature(
-            feature.getGeometry().clone(),
-            feature.getId(),
-            feature.get("time"),
-            feature.get("title")
-          );
-          this.historicMapClickLayer_.getSource().addFeature(feature);
-        }
-      }
-    },
-    undefined,
-    this
-  );
 
   // register gazetteer tool
   goog.events.listen(

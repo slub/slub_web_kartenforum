@@ -8,8 +8,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { featureState, map3dState } from "../../atoms/atoms";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  featureState,
+  map3dState,
+  selectedFeaturesState,
+} from "../../atoms/atoms";
 import { MAP_SEARCH_HOVER_FEATURE } from "../../config/styles";
 import { mapState } from "../../atoms/atoms";
 import ServerPagination from "../Source/ServerPaginationSource";
@@ -38,6 +42,15 @@ export const MapSearch = (props) => {
   const [{ features, featureCount, id }, setFeatures] = useRecoilState(
     featureState
   );
+
+  const setSelectedFeatures = useSetRecoilState(selectedFeaturesState);
+
+  const handleElementClick = (feature) => {
+    setSelectedFeatures((selectedFeatures) => [
+      ...selectedFeatures,
+      { feature },
+    ]);
+  };
 
   const handleUpdate = (features) => {
     setFeatures(features);
@@ -203,6 +216,7 @@ export const MapSearch = (props) => {
             >
               {features.map((feature) => (
                 <MapSearchListElement
+                  onClick={handleElementClick}
                   feature={feature}
                   featureOverlay={featureOverlayRef.current}
                   is3d={is3dEnabled}
@@ -247,38 +261,7 @@ export default MapSearch;
 // /**
 //  * @private
 //  */
-// vk2.module.MapSearchModule.prototype.appendClickBehavior_ = function () {
-//   if (goog.isDef(this.searchListEl_)) {
-//     goog.events.listen(
-//       this.searchListEl_,
-//       goog.events.EventType.CLICK,
-//       function (event) {
-//         event.preventDefault();
-//
-//         // get proper feature to the event
-//         var origin_target = vk2.utils.getClosestParentElementForClass(
-//           event.getBrowserEvent().target,
-//           "mapsearch-record"
-//         );
-//
-//         // get the corresponding feature to this event
-//         var feature;
-//         var features = this.featureSource_.getFeatures();
-//         features.forEach(function (ft) {
-//           if (ft.get("id") == origin_target.id) feature = ft;
-//         });
-//         this.dispatchEvent(
-//           new goog.events.Event(
-//             vk2.module.MapSearchModuleEventType.CLICK_RECORD,
-//             { feature: feature }
-//           )
-//         );
-//       },
-//       undefined,
-//       this
-//     );
-//   }
-// };
+
 //
 // /**
 //  * @param {Element} parentEl
