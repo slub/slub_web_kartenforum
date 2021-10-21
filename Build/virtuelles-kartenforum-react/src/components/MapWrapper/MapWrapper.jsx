@@ -20,7 +20,7 @@ import OLCesium from "olcs/OLCesium";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { containsXY } from "ol/extent";
 
-import { mapState, map3dState } from "../../atoms/atoms";
+import { mapState, map3dState, olcsMapState } from "../../atoms/atoms";
 import "./MapWrapper.scss";
 
 export function MapWrapper(props) {
@@ -39,6 +39,7 @@ export function MapWrapper(props) {
 
   const is3dActive = useRecoilValue(map3dState);
   const setMapState = useSetRecoilState(mapState);
+  const setOlcsMapState = useSetRecoilState(olcsMapState);
 
   // pull refs
   const mapElement = useRef();
@@ -180,6 +181,7 @@ export function MapWrapper(props) {
       // scene.globe.lightingFadeInDistance = 1000000000;
       // scene.globe.lightingFadeOutDistance = 10000000;
 
+      setOlcsMapState(ol3d);
       mapRef.current = ol3d;
     } else {
       mapRef.current = initialMap;

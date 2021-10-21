@@ -18,6 +18,7 @@ import { isDefined } from "./util";
  * @param {Object} record
  * @param {string=} opt_source_projection
  * @param {string=} opt_target_projection
+ * @param {boolean} is3d
  * @return {ol.Feature}
  */
 export const readFeature = function (
@@ -134,11 +135,17 @@ export const readFeature = function (
  * @param {Array.<Object>} records
  * @return {Array.<ol.Feature>}
  */
-export const readFeatures = function (records, is3d) {
+export const readFeatures = function (records, srs_proj, trg_proj, is3d) {
     const features = [];
     for (let i = 0, ii = records.length; i < ii; i++) {
         features.push(
-            readFeature(records[i]["_id"], records[i]["_source"], is3d)
+            readFeature(
+                records[i]["_id"],
+                records[i]["_source"],
+                srs_proj,
+                trg_proj,
+                is3d
+            )
         );
     }
 

@@ -38,6 +38,7 @@ const ServerPaginationEventType = {
  */
 export class ServerPagination {
     constructor(options) {
+        this.updateCallback = options.updateCallback;
         this.elasticsearch_srs = options.elasticsearch_srs;
         this.elasticsearch_node = options.elasticsearch_node;
         this.is3d = options.is3d;
@@ -184,48 +185,14 @@ export class ServerPagination {
         }
     };
 
-    /**
-     * @param {Array.<ol.Feature>} features
-     * @private
-     */
-    dispatchRefreshEvent_ = function (features) {
-        //@TODO: PROPAGATE REFRESH EVENT
-        console.log(features);
-
-        // this.dispatchEvent(
-        //     new goog.events.Event(
-        //         vk2.source.ServerPaginationEventType.REFRESH,
-        //         {
-        //             features: features,
-        //             totalFeatureCount: this.totalFeatures_,
-        //         }
-        //     )
-        // );
-    };
-
-    /**
-     * @param {Array.<ol.Feature>} features
-     * @private
-     */
-    dispatchPaginateEvent_ = function (features) {
-        //@TODO: PROPAGATE DISPATCH EVENT
-        console.log(features);
-
-        // this.dispatchEvent(
-        //     new goog.events.Event(
-        //         vk2.source.ServerPaginationEventType.PAGINATE,
-        //         {
-        //             features: features,
-        //             totalFeatureCount: this.totalFeatures_,
-        //         }
-        //     )
-        // );
+    dispatch = (features) => {
+        this.updateCallback({ features, featureCount: this.totalFeatures_ });
     };
 
     /**
      * @return {ol.Collection}
      */
-    getFeatures = function () {
+    getFeatures = () => {
         return this.featureCol_;
     };
 
@@ -290,6 +257,7 @@ export class ServerPagination {
                 "&size=" +
                 this.maxFeatures_;
         axios.post(requestUrl, JSON.stringify(requestPayload)).then((resp) => {
+            console.log(resp);
             if (resp.status === 200) {
                 const data = resp.data;
                 this.totalFeatures_ = data["hits"]["total"];
@@ -304,7 +272,7 @@ export class ServerPagination {
                 this.featureCol_.extend(parsedFeatures);
                 this.index_ += parsedFeatures.length;
 
-                event_callback.call(this, parsedFeatures);
+                event_callback(parsedFeatures);
             }
         });
 
@@ -358,11 +326,7 @@ export class ServerPagination {
             this.index_ < this.MAX_PAGINATION_FEATURE
         ) {
             const spatialExtent = calculateMapExtentForPixelViewport(this.map_);
-            this.loadFeatures_(
-                spatialExtent,
-                this.projection_,
-                this.dispatchPaginateEvent_
-            );
+            this.loadFeatures_(spatialExtent, this.projection_, this.dispatch);
         }
     };
 
@@ -390,7 +354,7 @@ export class ServerPagination {
     refreshFeatures_ = (extent, projection) => {
         this.featureCol_.clear();
         this.index_ = 0;
-        this.loadFeatures_(extent, projection, this.dispatchRefreshEvent_);
+        this.loadFeatures_(extent, projection, this.dispatch);
     };
 
     /**

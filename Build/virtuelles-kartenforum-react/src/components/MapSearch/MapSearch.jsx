@@ -5,17 +5,18 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
-import { useRecoilValue } from "recoil";
-import { map3dState } from "../../atoms/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { featureState, map3dState } from "../../atoms/atoms";
 import { MAP_SEARCH_HOVER_FEATURE } from "../../config/styles";
 import { mapState } from "../../atoms/atoms";
 import ServerPagination from "../Source/ServerPaginationSource";
 import { SettingsProvider } from "../../index";
 import { addOpenCloseBehavior, isDefined, translate } from "../../util/util";
 import FacetedSearch from "../FacetedSearch/FacetedSearch";
+import MapSearchListElement from "./MapSearchListElement";
 
 const SEARCH_COLS = ["time", "title", "georeference"];
 
@@ -28,6 +29,19 @@ export const MapSearch = (props) => {
   const openButtonRef = useRef();
   const containerRef = useRef();
   const facetContainerRef = useRef();
+
+  const [{ features, featureCount }, setFeatures] = useRecoilState(
+    featureState
+  );
+
+  // vk2.module.MapSearchModule.prototype.update_ = function (event) {
+  //   if (goog.DEBUG) {
+  //     console.log("Refresh MapSearchModule.");
+  //   }
+  //
+  //   this.updateHeading_(event.target.totalFeatureCount);
+  //   this.appendFeaturesToList_(event.target["features"]);
+  // };
 
   const renderSearchCol = function (type) {
     return (
@@ -61,6 +75,7 @@ export const MapSearch = (props) => {
         elasticsearch_node: settings["ELASTICSEARCH_NODE"],
         projection: "EPSG:900913",
         map: map,
+        updateCallback: setFeatures,
       });
 
       featureSourceRef.current = featureSource;
@@ -105,7 +120,7 @@ export const MapSearch = (props) => {
 
     if (is3dEnabled) {
       // in case 3d mode is active add altitude value to coordinate
-      featureOverlay_.set("altitudeMode", "clampToGround");
+      featureOverlayRef.current.set("altitudeMode", "clampToGround");
     }
   }, [is3dEnabled]);
 
@@ -136,7 +151,7 @@ export const MapSearch = (props) => {
       <div className="panel panel-default searchTablePanel">
         <div className="panel-heading">
           <div className="content">
-            <div />
+            <div>{`${featureCount} ${translate("mapsearch-found-maps")}`}</div>
             <a ref={openButtonRef} title={translate("facetedsearch-open")}>
               o
             </a>
@@ -150,10 +165,16 @@ export const MapSearch = (props) => {
             <div className="list-header">
               {SEARCH_COLS.map(renderSearchCol)}
             </div>
-            <ul
-              className="mapsearch-contentlist"
-              id="mapsearch-contentlist"
-            ></ul>
+            <ul className="mapsearch-contentlist" id="mapsearch-contentlist">
+              {features.map((feature) => (
+                <MapSearchListElement
+                  feature={feature}
+                  featureOverlay={featureOverlayRef.current}
+                  is3d={is3dEnabled}
+                  key={feature.get("id")}
+                />
+              ))}
+            </ul>
           </div>
         </div>
       </div>
@@ -372,28 +393,13 @@ export default MapSearch;
 //  * @private
 //  * @param {Object} event
 //  */
-// vk2.module.MapSearchModule.prototype.refresh_ = function (event) {
-//   if (goog.DEBUG) {
-//     console.log("Refresh MapSearchModule.");
-//   }
-//
-//   this.updateHeading_(event.target["totalFeatureCount"]);
-//   this.searchListEl_.innerHTML = "";
-//   this.appendFeaturesToList_(event.target["features"]);
-// };
+
 //
 // /**
 //  * @private
 //  * @param {Object} event
 //  */
-// vk2.module.MapSearchModule.prototype.update_ = function (event) {
-//   if (goog.DEBUG) {
-//     console.log("Refresh MapSearchModule.");
-//   }
-//
-//   this.updateHeading_(event.target.totalFeatureCount);
-//   this.appendFeaturesToList_(event.target["features"]);
-// };
+
 //
 // /**
 //  * @param {number} count_features

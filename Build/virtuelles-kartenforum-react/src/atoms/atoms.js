@@ -7,9 +7,20 @@
 
 import { atom } from "recoil";
 
+export const featureState = atom({
+    key: "featureState",
+    default: { features: [], featureCount: 0 },
+});
+
 export const map3dState = atom({
     key: "map3dState",
     default: false,
+});
+
+export const olcsMapState = atom({
+    key: "olcsMapState",
+    default: undefined,
+    dangerouslyAllowMutability: true,
 });
 
 export const mapState = atom({
