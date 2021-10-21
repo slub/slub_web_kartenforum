@@ -65,16 +65,20 @@ export const MapSearchListElement = (props) => {
         </a>
         <div className="overview">
           <h2>{feature.get("title")}</h2>
+          <p className="details">
+            <div className="timestamp">{`${translate("time")} ${feature.get(
+              "time"
+            )}`}</div>
+            <div className="scale">{`${translate(
+              "factory-scale"
+            )} ${scale}`}</div>
+            {!feature.get("georeference") && (
+              <div className="georeference">
+                {translate("factory-no-georef")}
+              </div>
+            )}
+          </p>
         </div>
-        <p className="details">
-          <div className="timestamp">{`${translate("time")} ${feature.get(
-            "time"
-          )}`}</div>
-          <div className="scale">{`${translate(
-            "factory-scale"
-          )} ${scale}`}</div>
-          <div className="georeference">{translate("factory-no-georef")}</div>
-        </p>
       </div>
     </li>
   );

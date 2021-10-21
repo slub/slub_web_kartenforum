@@ -73,19 +73,10 @@ export const MapSearch = (props) => {
     }
   }, [id]);
 
-  // vk2.module.MapSearchModule.prototype.update_ = function (event) {
-  //   if (goog.DEBUG) {
-  //     console.log("Refresh MapSearchModule.");
-  //   }
-  //
-  //   this.updateHeading_(event.target.totalFeatureCount);
-  //   this.appendFeaturesToList_(event.target["features"]);
-  // };
-
   const renderSearchCol = function (type) {
     return (
-      <div className={`inner-col${type}`}>
-        <div className={`sort-element${type}`} datatype={type}>
+      <div className={`inner-col ${type}`}>
+        <div className={`sort-element ${type}`} datatype={type}>
           {translate(`mapsearch-${type}`)}
           <span className="caret caret-reversed" />
         </div>
