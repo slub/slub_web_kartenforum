@@ -185,8 +185,20 @@ export class ServerPagination {
         }
     };
 
-    dispatch = (features) => {
-        this.updateCallback({ features, featureCount: this.totalFeatures_ });
+    dispatchUpdate = (features) => {
+        this.updateCallback((oldState) => ({
+            features: oldState.features.concat(features),
+            featureCount: this.totalFeatures_,
+            id: oldState.id,
+        }));
+    };
+
+    dispatchRefresh = (features) => {
+        this.updateCallback({
+            features,
+            featureCount: this.totalFeatures_,
+            id: Date.now(),
+        });
     };
 
     /**
@@ -256,8 +268,8 @@ export class ServerPagination {
                 this.index_ +
                 "&size=" +
                 this.maxFeatures_;
+
         axios.post(requestUrl, JSON.stringify(requestPayload)).then((resp) => {
-            console.log(resp);
             if (resp.status === 200) {
                 const data = resp.data;
                 this.totalFeatures_ = data["hits"]["total"];
@@ -326,7 +338,11 @@ export class ServerPagination {
             this.index_ < this.MAX_PAGINATION_FEATURE
         ) {
             const spatialExtent = calculateMapExtentForPixelViewport(this.map_);
-            this.loadFeatures_(spatialExtent, this.projection_, this.dispatch);
+            this.loadFeatures_(
+                spatialExtent,
+                this.projection_,
+                this.dispatchUpdate
+            );
         }
     };
 
@@ -354,7 +370,7 @@ export class ServerPagination {
     refreshFeatures_ = (extent, projection) => {
         this.featureCol_.clear();
         this.index_ = 0;
-        this.loadFeatures_(extent, projection, this.dispatch);
+        this.loadFeatures_(extent, projection, this.dispatchRefresh);
     };
 
     /**

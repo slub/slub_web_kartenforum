@@ -20,19 +20,58 @@ import MapSearchListElement from "./MapSearchListElement";
 
 const SEARCH_COLS = ["time", "title", "georeference"];
 
+// approximated height of a view item
+const VIEW_ITEM_HEIGHT = 120;
+
 export const MapSearch = (props) => {
   const settings = SettingsProvider.getSettings();
   const is3dEnabled = useRecoilValue(map3dState);
+  const [blockUpdate, setBlockUpdate] = useState(false);
   const map = useRecoilValue(mapState);
   const featureSourceRef = useRef();
   const featureOverlayRef = useRef();
   const openButtonRef = useRef();
   const containerRef = useRef();
   const facetContainerRef = useRef();
+  const searchListRef = useRef();
 
-  const [{ features, featureCount }, setFeatures] = useRecoilState(
+  const [{ features, featureCount, id }, setFeatures] = useRecoilState(
     featureState
   );
+
+  const handleUpdate = (features) => {
+    setFeatures(features);
+    setBlockUpdate(false);
+  };
+
+  const handleScroll = () => {
+    if (
+      searchListRef.current === null ||
+      featureSourceRef.current === null ||
+      blockUpdate
+    )
+      return;
+
+    const scrollEl = searchListRef.current;
+    if (
+      scrollEl.offsetHeight + scrollEl.scrollTop >=
+      // start fetching when there are onlu 3 items left before hitting end of the list
+      scrollEl.scrollHeight - 3 * VIEW_ITEM_HEIGHT
+    ) {
+      setBlockUpdate(true);
+      // check if there are still features to append
+      if (!featureSourceRef.current.isComplete())
+        featureSourceRef.current.paginate_();
+    }
+  };
+
+  // reset scroll if id of feature set changes
+  useEffect(() => {
+    const scrollEl = searchListRef.current;
+    if (isDefined(scrollEl)) {
+      scrollEl.scrollTop = 0;
+    }
+  }, [id]);
 
   // vk2.module.MapSearchModule.prototype.update_ = function (event) {
   //   if (goog.DEBUG) {
@@ -75,7 +114,7 @@ export const MapSearch = (props) => {
         elasticsearch_node: settings["ELASTICSEARCH_NODE"],
         projection: "EPSG:900913",
         map: map,
-        updateCallback: setFeatures,
+        updateCallback: handleUpdate,
       });
 
       featureSourceRef.current = featureSource;
@@ -165,7 +204,12 @@ export const MapSearch = (props) => {
             <div className="list-header">
               {SEARCH_COLS.map(renderSearchCol)}
             </div>
-            <ul className="mapsearch-contentlist" id="mapsearch-contentlist">
+            <ul
+              onScroll={handleScroll}
+              className="mapsearch-contentlist"
+              id="mapsearch-contentlist"
+              ref={searchListRef}
+            >
               {features.map((feature) => (
                 <MapSearchListElement
                   feature={feature}
@@ -268,40 +312,7 @@ export default MapSearch;
 // /**
 //  * @private
 //  */
-// vk2.module.MapSearchModule.prototype.appendScrollBehavior_ = function () {
-//   // this variable blocks the append behavior if another appendFeatureToListRequest is
-//   // right now in the pipe
-//   var scroll_event_blocked = false;
-//   if (goog.isDef(this.searchListEl_)) {
-//     goog.events.listen(
-//       this.searchListEl_,
-//       goog.events.EventType.SCROLL,
-//       function (event) {
-//         // looks if another scroll event is already in the pipe
-//         if (!scroll_event_blocked) {
-//           scroll_event_blocked = true;
-//
-//           var scrollEl = event.currentTarget;
-//           // check if scrolled to end of list and if yes triggger append event
-//           if (
-//             scrollEl.offsetHeight + scrollEl.scrollTop >=
-//             scrollEl.scrollHeight
-//           ) {
-//             // check if there are still features to append
-//             if (!this.featureSource_.isComplete())
-//               this.featureSource_.paginate_();
-//           }
-//
-//           scroll_event_blocked = false;
-//         } else {
-//           if (goog.DEBUG) console.log("Scroll event fired but not used");
-//         }
-//       },
-//       undefined,
-//       this
-//     );
-//   }
-// };
+
 //
 // /**
 //  * Function appends the facet behavior
