@@ -31,6 +31,7 @@ import HistoricMap from "../layer/HistoricMapLayer";
 import { SettingsProvider } from "../../index";
 import HistoricMap3D from "../layer/HistoricMapLayer3d";
 import LayerManagement from "../LayerManagement/LayerManagement";
+import { MousePositionOnOff } from "./components/MousePositionOnOff";
 
 export function MapWrapper(props) {
   const {
@@ -70,6 +71,7 @@ export function MapWrapper(props) {
       new FullScreen(),
       new Rotate({ className: "rotate-north ol-unselectable" }),
       new ScaleLine(),
+      new MousePositionOnOff(),
       // new vk2.control.Permalink(),
       // new vk2.control.MousePositionOnOff(),
     ];

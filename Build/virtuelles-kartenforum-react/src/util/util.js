@@ -369,7 +369,7 @@ export const refresh3DView = function () {
  * @return {number}
  */
 export const round = function (x, opt_decimalPosition) {
-    var d = goog.isDef(opt_decimalPosition)
+    const d = isDefined(opt_decimalPosition)
         ? Math.pow(10, Math.ceil(opt_decimalPosition))
         : Math.pow(10, 2);
     return Math.round(x * d) / d;
