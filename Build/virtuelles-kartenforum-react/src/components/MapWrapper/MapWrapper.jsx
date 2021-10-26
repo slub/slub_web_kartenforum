@@ -32,6 +32,9 @@ import { SettingsProvider } from "../../index";
 import HistoricMap3D from "../layer/HistoricMapLayer3d";
 import LayerManagement from "../LayerManagement/LayerManagement";
 import { MousePositionOnOff } from "./components/MousePositionOnOff";
+import { isDefined } from "../../util/util";
+
+const TERRAIN_ATTRIBUTION_ID = "terrain-attribution";
 
 export function MapWrapper(props) {
   const {
@@ -73,7 +76,6 @@ export function MapWrapper(props) {
       new ScaleLine(),
       new MousePositionOnOff(),
       // new vk2.control.Permalink(),
-      // new vk2.control.MousePositionOnOff(),
     ];
 
     // Add spy layer
@@ -94,20 +96,14 @@ export function MapWrapper(props) {
 
     // create attribution
     const attribution = [
-      new Attribution({
-        html:
-          '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }),
+      '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     ];
 
     if (enableTerrain) {
       attribution.push(
-        new Attribution({
-          html:
-            '<a href="https://cesiumjs.org/data-and-assets/terrain/stk-world-terrain.html">© Analytical Graphics, Inc., © CGIAR-CSI, ' +
-            "Produced using Copernicus data and information funded by the European Union - EU-DEM layers, " +
-            " © Commonwealth of Australia (Geoscience Australia) 2012</a>",
-        })
+        `<a href="https://cesiumjs.org/data-and-assets/terrain/stk-world-terrain.html" id="${TERRAIN_ATTRIBUTION_ID}">© Analytical Graphics, Inc., © CGIAR-CSI, ` +
+          "Produced using Copernicus data and information funded by the European Union - EU-DEM layers, " +
+          " © Commonwealth of Australia (Geoscience Australia) 2012</a>"
       );
     }
 
@@ -140,14 +136,15 @@ export function MapWrapper(props) {
       //
 
       //// initialize the globe
-      var ol3d = new OLCesium({
+      const ol3d = new OLCesium({
         map: initialMap,
         sceneOptions: {
+          scene3DOnly: true,
           terrainExaggeration: 2.0,
         },
       });
 
-      // ol3d.enableAutoRenderLoop();
+      ol3d.enableAutoRenderLoop();
 
       // initialize a terrain map
       const scene = ol3d.getCesiumScene();
@@ -182,7 +179,7 @@ export function MapWrapper(props) {
       scene.fog.density = fogDensity;
       scene.fog.screenSpaceErrorFactor = fogSseFactor;
       // doesnt allow to set this
-      // scene.scene3DOnly = true;
+      // scene. = true;
 
       scene.postRender.addEventListener(generateLimitCamera(mapViewSettings));
 
@@ -240,9 +237,12 @@ export function MapWrapper(props) {
 
   useEffect(() => {
     if (olcsMap !== undefined) {
+      const attributionEl = document.getElementById(TERRAIN_ATTRIBUTION_ID);
       if (is3dActive) {
+        if (isDefined(attributionEl)) attributionEl.classList.remove("hide");
         olcsMap.setEnabled(true);
       } else {
+        if (isDefined(attributionEl)) attributionEl.classList.add("hide");
         olcsMap.setEnabled(false);
       }
     }

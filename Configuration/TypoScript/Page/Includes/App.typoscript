@@ -83,7 +83,7 @@ page {
                     },
                     "MODE_3D": 1 === 1 ? true : false,
                     "NOMINATIM_URL": "https://kartenforum.slub-dresden.de/nominatim/",
-                    "OSM_URLS": ["//osm-cdn1.slub-dresden.de/osm_tiles/{z}/{x}/{y}.png","//osm-cdn2.slub-dresden.de/osm_tiles/{z}/{x}/{y}.png","//osm-cdn3.slub-dresden.de/osm_tiles/{z}/{x}/{y}.png"],
+                    "OSM_URLS": ["https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png", "https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png", "https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"],
                     "TERRAIN_TILES_URL": "https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=kRAKrA0wcbZZFOT64bX5",
                     "THUMB_PATH":"/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
                     "TMS_URL_SUBDOMAINS": [ "1", "2", "3" ],

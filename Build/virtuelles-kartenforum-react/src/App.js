@@ -9,11 +9,13 @@ import React from "react";
 import { MainLayout } from "./layouts/MainLayout/MainLayout";
 import { RecoilRoot } from "recoil";
 import { SettingsProvider } from "./index";
+import StyleAppender from "./components/StyleAppender/StyleAppender";
 
 export const App = (props) => {
     return (
         <RecoilRoot>
             <MainLayout test={"test"} />
+            <StyleAppender />
         </RecoilRoot>
     );
 };
