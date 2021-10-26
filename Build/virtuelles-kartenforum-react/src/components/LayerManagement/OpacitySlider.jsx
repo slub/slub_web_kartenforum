@@ -9,6 +9,7 @@ import React, { useEffect, useRef } from "react";
 export const OpacitySlider = (props) => {
   const { orientation = "horizontal", layer } = props;
   const sliderRef = useRef();
+  const valueRef = useRef();
 
   const baseMin = 0,
     baseMax = 100;
@@ -33,7 +34,7 @@ export const OpacitySlider = (props) => {
 
   const handleOpacityChange = (event) => {
     const breakValue = 19;
-    var opacity = this.getOpacity() * 100;
+    const opacity = event.target.getOpacity() * 100;
     //console.log('Opacity: ' + opacity + ', Slider value: ' + $(sliderEl).slider('value'));
 
     if (Math.abs(opacity - $(sliderRef.current).slider("value")) > breakValue) {
@@ -58,14 +59,14 @@ export const OpacitySlider = (props) => {
       step: 1,
       slide: (event, ui) => {
         const value = ui["value"];
-        handleUpdatePosition(value, valueEl);
+        handleUpdatePosition(value, valueRef.current);
         layer.setOpacity(value / 100);
         // @TODO: REFRESH 3D VIEW HERE
         // vk2.utils.refresh3DView();
       },
       change: (event, ui) => {
         const value = ui["value"];
-        handleUpdatePosition(value, valueEl);
+        handleUpdatePosition(value, valueRef.current);
         layer.setOpacity(value / 100);
         // @TODO: REFRESH 3D VIEW HERE
         // vk2.utils.refresh3DView();
@@ -79,7 +80,9 @@ export const OpacitySlider = (props) => {
     <div className="opacity-container">
       <div className="slider-container opacity-slider">
         <div className="slider" ref={sliderRef}>
-          <div className="tooltip value">100%</div>
+          <div className="tooltip value" ref={valueRef}>
+            100%
+          </div>
         </div>
       </div>
     </div>

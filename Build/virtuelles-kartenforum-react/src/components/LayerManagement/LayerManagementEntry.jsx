@@ -45,7 +45,7 @@ export const LayerManagementEntry = (props) => {
   };
 
   const handleUpdateVisibility = () => {
-    const layerVisibility = !layer["getVisible"]();
+    const layerVisibility = layer["getVisible"]();
     if (layerVisibility !== isVisible) setIsVisible(layerVisibility);
   };
 
@@ -71,6 +71,7 @@ export const LayerManagementEntry = (props) => {
       <div className="control-container">
         <button
           className="move-layer-top minimize-tool"
+          onClick={handleMoveTop}
           type="button"
           title={translate("factory-move-top")}
         >
@@ -86,6 +87,7 @@ export const LayerManagementEntry = (props) => {
         </button>
         <button
           className="remove-layer minimize-tool"
+          onClick={handleRemoveLayer}
           type="button"
           title={translate("factory-rm-map")}
         >

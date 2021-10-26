@@ -16,10 +16,11 @@ import LayerManagementEntry from "./LayerManagementEntry";
 export const LayerManagement = (props) => {
   const map = useRecoilValue(mapState);
   const [displayedLayers, setDisplayedLayers] = useState(undefined);
-  const layers = map !== undefined ? map.getLayers() : [];
+  const layersRef = useRef();
   const bodyRef = useRef();
 
   const getLayers = () => {
+    const layers = layersRef.current;
     const allLayers = layers.getArray();
     const l = [];
     allLayers.forEach((layer) => {
@@ -31,21 +32,20 @@ export const LayerManagement = (props) => {
   };
 
   const getIndexToLayer = (layer) => {
+    const layers = layersRef.current;
     const l = layers.getArray();
-    for (var i = 0, ii = layers.length; i < ii; i++) {
-      if (layer === l[i]) {
-        return i;
-      }
-    }
+    return l.findIndex((lay) => lay === layer);
   };
 
   const handleRefresh = () => {
     const newLayers = getLayers();
-    setDisplayedLayers(newLayers);
+    setDisplayedLayers(newLayers.reverse());
   };
 
   useEffect(() => {
     if (map !== undefined) {
+      const layers = map.getLayers();
+      layersRef.current = layers;
       layers.on("add", handleRefresh);
       layers.on("remove", handleRefresh);
       return () => {
@@ -60,34 +60,36 @@ export const LayerManagement = (props) => {
       revert: true,
       handle: ".drag-btn",
       stop: (event, ui) => {
-        var layers = getLayers();
-        var listElements = document.getElementsByClassName(
+        const allLayers = layersRef.current.getArray();
+        const layers = getLayers();
+        const listElements = document.getElementsByClassName(
           "layermanagement-record",
           bodyRef.current
         );
-        var oldListIndex =
-          listElements.length -
-          parseInt(listElements[ui.item.index()].id, 0) -
-          1;
-        var newListIndex = ui.item.index();
-        var newLayerIndex = layers.length - 1 - newListIndex;
-        var oldLayerIndex = parseInt(listElements[newListIndex].id, 0);
 
+        const oldLayerIndex = parseInt(listElements[ui.item.index()].id, 0);
+        const newListIndex = ui.item.index();
+        const newLayerIndex = layers.length - newListIndex;
+
+        console.log(oldLayerIndex, oldListIndex, newListIndex);
         // prevent from removing/adding the layer if it was drag on the same place
         if (isDefined(oldLayerIndex) && oldListIndex != newListIndex) {
-          var layer = layers[oldLayerIndex];
+          const layer = layers[oldLayerIndex];
+          const mapLayers = layersRef.current;
 
           // remove old layer
-          var removeLayerIndex = getIndexToLayer(layer);
-          layers.removeAt(removeLayerIndex);
+          const removeLayerIndex = getIndexToLayer(layer);
+          console.log(removeLayerIndex);
+          mapLayers.removeAt(removeLayerIndex);
 
           // add new layer
-          var index = getIndexToLayer(layers[newLayerIndex]);
+          const index = getIndexToLayer(layers[newLayerIndex]);
+          console.log(index);
           if (newLayerIndex > oldLayerIndex) {
-            layers.insertAt(index + 1, layer);
+            mapLayers.insertAt(index + 1, layer);
             return;
           }
-          layers.insertAt(index, layer);
+          mapLayers.insertAt(index, layer);
         }
       },
     });
@@ -103,11 +105,15 @@ export const LayerManagement = (props) => {
         <DynamicMapVisualization />
       </div>
       <ul className="layermanagement-body" ref={bodyRef}>
-        {displayedLayers === undefined ? (
+        {displayedLayers === undefined || displayedLayers.length === 0 ? (
           <li className="empty">{translate("layermanagement-start-msg")}</li>
         ) : (
           displayedLayers.map((layer, index) => (
-            <LayerManagementEntry layer={layer} index={index} />
+            <LayerManagementEntry
+              layer={layer}
+              index={getIndexToLayer(layer)}
+              key={`${layer.getId()}-${index}`}
+            />
           ))
         )}
       </ul>
