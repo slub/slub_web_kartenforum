@@ -13,7 +13,7 @@ import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import { Attribution, Zoom, FullScreen, ScaleLine } from "ol/control";
+import { Attribution, FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
 import { defaults, DragRotateAndZoom } from "ol/interaction";
 import XYZ from "ol/source/XYZ";
 import OLCesium from "olcs/OLCesium";
@@ -68,7 +68,7 @@ export function MapWrapper(props) {
       }),
       new Zoom(),
       new FullScreen(),
-      // new vk2.control.RotateNorth(),
+      new Rotate({ className: "rotate-north ol-unselectable" }),
       new ScaleLine(),
       // new vk2.control.Permalink(),
       // new vk2.control.MousePositionOnOff(),

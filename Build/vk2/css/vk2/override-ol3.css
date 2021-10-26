@@ -14,13 +14,16 @@ button.ol-full-screen-false:after { content: ""; }
 	top: 95px;
 	left: .5em;
 }
-	  		
-.ol-layerspy a, .rotate-north a, .image-manipulation a, .mouse-position a { display: block; margin: 1px; padding: 0; color: white;
+
+.ol-layerspy a, a.rotate-north, span.ol-compass, button.rotate-north, .image-manipulation a, .mouse-position a { display: block; margin: 1px; padding: 0; color: white;
 	font-weight: bold; text-decoration: none; text-align: center; height: 22px;	width: 22px; text-indent: 200%;
 	white-space: nowrap; overflow: hidden; border-radius: 0; background-size: 22px 22px; }
 .ol-layerspy a { background: rgb(0,177,158) url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0xNC40IDEyLjhsLS4xLjFjLjUtLjcuNy0xLjUuNy0yLjUgMC0yLjUtMi00LjQtNC40LTQuNC0yLjUgMC00LjQgMi00LjQgNC40IDAgMi41IDIgNC40IDQuNCA0LjQuOSAwIDEuOC0uMyAyLjUtLjdsMi40IDIuNCAxLjQtMS40LTIuNS0yLjN6bS00LjYtLjRsLS43LS43IDIuNi0yLjcuNy43LTIuNiAyLjd6TTQuOTI1IDE0LjM1NWwyLjEyMSAyLjEyMS0yLjYxNiAyLjYxNi0yLjEyMS0yLjEyMXpNMTYuOTI1IDIuMzU1bDIuMTIxIDIuMTIxLTIuNjE2IDIuNjE2LTIuMTIxLTIuMTIxeiIvPjwvc3ZnPg==') no-repeat 0 0; }
-.rotate-north a { background: rgb(0,177,158) url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxwYXRoIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBkPSJNMTAuOCAxOC4zbC0zLjMtNyAzLjMtNyAzLjMgN3oiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTQgMTJsLTMuMy03LTMuMyA3eiIvPjwvc3ZnPg==') no-repeat 0 0; }	  		
+a.rotate-north { background: rgb(0,177,158) url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxwYXRoIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBkPSJNMTAuOCAxOC4zbC0zLjMtNyAzLjMtNyAzLjMgN3oiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTQgMTJsLTMuMy03LTMuMyA3eiIvPjwvc3ZnPg==') no-repeat 0 0; }
 .image-manipulation a { background: rgb(0,177,158) url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMiIgdmlld0JveD0iMCAwIDIyIDIyIj48Zz48cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBkPSJNNSA0djE0TTE3IDR2MTRNMTEgNHYxNCIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0zIDZoNHYyaC00ek05IDE0aDR2MmgtNHpNMTUgMTBoNHYyaC00eiIvPjwvZz48L3N2Zz4=') no-repeat 0 0; }
+
+span.ol-compass { background: rgba(0,0,0,0) url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxwYXRoIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBkPSJNMTAuOCAxOC4zbC0zLjMtNyAzLjMtNyAzLjMgN3oiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTQgMTJsLTMuMy03LTMuMyA3eiIvPjwvc3ZnPg==') no-repeat 0 0; margin: 0; }
+button.rotate-north { background: rgb(0,177,158)}
 
 .ol-layerspy a:hover,
 .rotate-north a:hover {
@@ -28,8 +31,8 @@ button.ol-full-screen-false:after { content: ""; }
 }
 
 .ol-unselectable a.active { background-color: #f33; }
-	  		
-.rotate-north {
+
+div.rotate-north {
     position: absolute;
     top: 125px;
     left: 8px;
@@ -37,12 +40,12 @@ button.ol-full-screen-false:after { content: ""; }
     border-radius: 4px;
     padding: 2px;
 }
-      
-.ol-touch .rotate-north {
+
+.ol-touch .rotate-north div {
     top: 80px;
 }
-   
-.ol-touch .rotate-north a {
+
+.ol-touch .rotate-north button {
     font-size: 20px;
     height: 30px;
     width: 30px;
@@ -50,7 +53,7 @@ button.ol-full-screen-false:after { content: ""; }
     border-radius: 0;
 }
 
-     
+
 
 /** ol3 overrides main page */
 .olMap .ol-attribution {
@@ -93,7 +96,7 @@ content: "\002194";
 .olMap .ol-full-screen {	top: 10px;	right: 7px; z-index: 402;}
 .olMap .ol-layerspy { left: 340px; top: 153px; border-radius: 0; }
 .georeferenced-map.olMap .ol-layerspy { left: 10px; top: 108px; }
-.olMap .rotate-north { left: 340px; top: 183px; border-radius: 0; }
+.olMap div.rotate-north  { left: 340px; top: 183px; border-radius: 0; }
 .olMap .ol-scale-line { right: 10px; bottom: 60px; left: auto; background: rgba(0,177,158,0.7); border-radius: 0;  }
 .unreferenced-map.olMap .ol-zoom, .georeferenced-map.olMap .ol-zoom { left: 10px; top: 10px; border-radius: 0; }
 .unreferenced-map.olMap .ol-full-screen, .georeferenced-map.olMap .ol-full-screen { right: .5em; top: .5em; border-radius: 0; }
@@ -101,26 +104,26 @@ content: "\002194";
 
 /* Position of ol control elements (with fullscreen) */
 .olMap:-webkit-full-screen .ol-attribution {right: .5em; bottom: 0px;}
-.olMap:-moz-full-screen .ol-attribution {right: .5em; bottom: 0px;} 
+.olMap:-moz-full-screen .ol-attribution {right: .5em; bottom: 0px;}
 .olMap:fullscreen .ol-attribution {right: .5em; bottom: 0px;}
 .olMap:-webkit-full-screen .ol-zoom {left: .5em; top: .5em;}
-.olMap:-moz-full-screen .ol-zoom {left: .5em; top: .5em;} 
-.olMap:fullscreen .ol-zoom {left: auto; top: .5em;} 
+.olMap:-moz-full-screen .ol-zoom {left: .5em; top: .5em;}
+.olMap:fullscreen .ol-zoom {left: auto; top: .5em;}
 .olMap:-webkit-full-screen .ol-full-screen { right: .5em; top: .5em;}
 .olMap:-moz-full-screen .ol-full-screen { right: .5em; top: .5em;}
 .olMap:fullscreen .ol-full-screen {right: .5em; top: .5em;}
 .olMap:-webkit-full-screen .ol-layerspy { left: .5em; top: 58px; }
-.olMap:-moz-full-screen .ol-layerspy { left: .5em; top: 58px; } 
+.olMap:-moz-full-screen .ol-layerspy { left: .5em; top: 58px; }
 .olMap:fullscreen .ol-layerspy { left: .5em; top: 58px; }
 .georeferenced-map.olMap:-webkit-full-screen .ol-layerspy { left: .5em; top: 97px; }
-.georeferenced-map.olMap:-moz-full-screen .ol-layerspy { left: .5em; top: 97px; } 
+.georeferenced-map.olMap:-moz-full-screen .ol-layerspy { left: .5em; top: 97px; }
 .georeferenced-map.olMap:fullscreen .ol-layerspy { left: .5em; top: 97px; }
 
-.olMap:-webkit-full-screen .rotate-north { left: .5em; top: 85px; }
-.olMap:-moz-full-screen .rotate-north { left: .5em; top: 85px; } 
-.olMap:fullscreen .rotate-north { left: .5em; top: 85px; }
+.olMap:-webkit-full-screen div.rotate-north { left: .5em; top: 85px; }
+.olMap:-moz-full-screen  div.rotate-north { left: .5em; top: 85px; }
+.olMap:fullscreen div.rotate-north { left: .5em; top: 85px; }
 .olMap:-webkit-full-screen .ol-scale-line {bottom: 28px;}
-.olMap:-moz-full-screen .ol-scale-line {bottom: 28px;} 
+.olMap:-moz-full-screen .ol-scale-line {bottom: 28px;}
 .olMap:fullscreen .ol-scale-line { bottom: 28px;}
 
 
@@ -154,7 +157,7 @@ content: "\002194";
 	border-radius: 0;
   background: rgb(0,177,158) url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxnIGZpbGw9IiNmZmYiPjxwYXRoIGQ9Ik0xNy4yIDExLjFsLTIuMS0yLjEtMS40IDEuNCAyLjEgMi4xYy45LjkuOSAyLjQgMCAzLjMtLjkuOS0yLjQuOS0zLjMgMGwtMi4xLTIuMS0xLjQgMS40IDIuMSAyLjFjLjguOCAxLjkgMS4zIDMgMS4zIDEuMiAwIDIuMi0uNCAzLTEuMyAxLjgtMS42IDEuOC00LjQuMS02LjF6TTguMyAxMS42bC0yLjEtMi4xYy0uOS0uOS0uOS0yLjQgMC0zLjMuNC0uNCAxLS43IDEuNi0uNy42IDAgMS4yLjIgMS42LjdsMi4xIDIuMSAxLjUtMS40LTIuMS0yLjFjLS44LS44LTEuOS0xLjItMy4xLTEuMi0xLjIgMC0yLjIuNC0zIDEuMy0xLjcgMS43LTEuNyA0LjQgMCA2LjFsMi4xIDIgMS40LTEuNHoiLz48L2c+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTkuMzc0IDcuOTU5bDQuNjY3IDQuNjY3LTEuNDE0IDEuNDE0LTQuNjY3LTQuNjY3eiIvPjwvc3ZnPg==') no-repeat center center;
   background-size: 22px 22px;
-}	  		
+}
 
 .ol-touch .permalink a {
     font-size: 20px;
@@ -172,7 +175,7 @@ content: "\002194";
 
 .olMap .permalink { left: 340px; top: 213px; border-radius: 0; }
 .olMap:-webkit-full-screen .permalink { left: .5em; top: 115px; }
-.olMap:-moz-full-screen .permalink { left: .5em; top: 115px; } 
+.olMap:-moz-full-screen .permalink { left: .5em; top: 115px; }
 .olMap:fullscreen .permalink { left: .5em; top: 115px; }
 .ol-attribution > button { display: none; }
 
@@ -181,7 +184,7 @@ content: "\002194";
 .image-manipulation a.active { background-color: #f33; }
 .unreferenced-map.olMap .image-manipulation { left: .7em; top: 113px; border-radius: 0; }
 .unreferenced-map.olMap:-webkit-full-screen .manipulation { left: .5em; top: 115px; }
-.unreferenced-map.olMap:-moz-full-screen .manipulation { left: .5em; top: 115px; } 
+.unreferenced-map.olMap:-moz-full-screen .manipulation { left: .5em; top: 115px; }
 .unreferenced-map.olMap:fullscreen .manipulation { left: .5em; top: 115px; }
 .unreferenced-map.ol-attribution > button { display: none; }
 .image-manipulation .slider-container { border: 5px solid transparent; content: "";	position: absolute;	left: 40px;

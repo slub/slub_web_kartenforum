@@ -1,13 +1,3 @@
-#app-container {
-  height: 100%;
-  width: 100%;
-}
-
-.map-container {
-  width: 100%;
-  height: 100%;
-}
-
 .switch-view-mode {
   background: none;
   background: #00b19e;
@@ -33,4 +23,14 @@
 
 #button-view-mode-toggle:hover {
   background: #138d8d;
+}
+
+#app-container {
+  height: 100%;
+  width: 100%;
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
 }
