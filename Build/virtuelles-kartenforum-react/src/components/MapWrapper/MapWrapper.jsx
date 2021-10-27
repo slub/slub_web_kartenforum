@@ -33,8 +33,7 @@ import HistoricMap3D from "../layer/HistoricMapLayer3d";
 import LayerManagement from "../LayerManagement/LayerManagement";
 import { MousePositionOnOff } from "./components/MousePositionOnOff";
 import { isDefined } from "../../util/util";
-
-const TERRAIN_ATTRIBUTION_ID = "terrain-attribution";
+import CustomAttribution from "./components/CustomAttribution";
 
 export function MapWrapper(props) {
   const {
@@ -66,10 +65,7 @@ export function MapWrapper(props) {
     });
 
     const controls = [
-      new Attribution({
-        collapsible: false,
-        collapsed: false,
-      }),
+      new CustomAttribution(),
       new Zoom(),
       new FullScreen(),
       new Rotate({ className: "rotate-north ol-unselectable" }),
@@ -94,19 +90,6 @@ export function MapWrapper(props) {
     //     );
     //   }
 
-    // create attribution
-    const attribution = [
-      '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    ];
-
-    if (enableTerrain) {
-      attribution.push(
-        `<a href="https://cesiumjs.org/data-and-assets/terrain/stk-world-terrain.html" id="${TERRAIN_ATTRIBUTION_ID}">© Analytical Graphics, Inc., © CGIAR-CSI, ` +
-          "Produced using Copernicus data and information funded by the European Union - EU-DEM layers, " +
-          " © Commonwealth of Australia (Geoscience Australia) 2012</a>"
-      );
-    }
-
     // create map
     const initialMap = new Map({
       controls,
@@ -114,7 +97,6 @@ export function MapWrapper(props) {
         // USGS Topo
         new TileLayer({
           source: new XYZ({
-            attributions: attribution,
             crossOrigin: "*",
             maxZoom: 18,
             urls: baseMapUrl,
@@ -178,8 +160,6 @@ export function MapWrapper(props) {
       scene.fog.enabled = fogEnabled;
       scene.fog.density = fogDensity;
       scene.fog.screenSpaceErrorFactor = fogSseFactor;
-      // doesnt allow to set this
-      // scene. = true;
 
       scene.postRender.addEventListener(generateLimitCamera(mapViewSettings));
 
@@ -237,12 +217,9 @@ export function MapWrapper(props) {
 
   useEffect(() => {
     if (olcsMap !== undefined) {
-      const attributionEl = document.getElementById(TERRAIN_ATTRIBUTION_ID);
       if (is3dActive) {
-        if (isDefined(attributionEl)) attributionEl.classList.remove("hide");
         olcsMap.setEnabled(true);
       } else {
-        if (isDefined(attributionEl)) attributionEl.classList.add("hide");
         olcsMap.setEnabled(false);
       }
     }
