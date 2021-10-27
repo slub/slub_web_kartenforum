@@ -28,6 +28,8 @@ export class MousePositionOnOff extends Control {
     tooltip.role = "tooltip";
     tooltip.innerHTML = translate("mouseposition-title");
 
+    anchor.appendChild(tooltip);
+
     element.appendChild(anchor);
 
     super({ element, target: options.target });

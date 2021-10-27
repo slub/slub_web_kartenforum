@@ -13,12 +13,13 @@ import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import { Attribution, FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
+import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
 import { defaults, DragRotateAndZoom } from "ol/interaction";
 import XYZ from "ol/source/XYZ";
 import OLCesium from "olcs/OLCesium";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { containsXY } from "ol/extent";
+import olcsCore from "olcs/core";
 
 import {
   mapState,
@@ -32,8 +33,8 @@ import { SettingsProvider } from "../../index";
 import HistoricMap3D from "../layer/HistoricMapLayer3d";
 import LayerManagement from "../LayerManagement/LayerManagement";
 import { MousePositionOnOff } from "./components/MousePositionOnOff";
-import { isDefined } from "../../util/util";
 import CustomAttribution from "./components/CustomAttribution";
+import ToggleViewMode from "../ToggleViewmode/ToggleViewmode";
 
 export function MapWrapper(props) {
   const {
@@ -50,7 +51,7 @@ export function MapWrapper(props) {
 
   const selectedFeatures = useRecoilValue(selectedFeaturesState);
 
-  const is3dActive = useRecoilValue(map3dState);
+  const [is3dActive, set3dActive] = useRecoilState(map3dState);
   const [map, setMap] = useRecoilState(mapState);
   const [olcsMap, setOlcsMap] = useRecoilState(olcsMapState);
 
@@ -69,6 +70,10 @@ export function MapWrapper(props) {
       new Zoom(),
       new FullScreen(),
       new Rotate({ className: "rotate-north ol-unselectable" }),
+      new ToggleViewMode({
+        initialState: is3dActive,
+        propagateViewMode: set3dActive,
+      }),
       new ScaleLine(),
       new MousePositionOnOff(),
       // new vk2.control.Permalink(),
@@ -218,9 +223,43 @@ export function MapWrapper(props) {
   useEffect(() => {
     if (olcsMap !== undefined) {
       if (is3dActive) {
-        olcsMap.setEnabled(true);
+        const ol3d = olcsMap,
+          scene = ol3d.getCesiumScene(),
+          camera = scene.camera,
+          bottom = olcsCore.pickBottomPoint(scene),
+          angle = Cesium.Math.toRadians(50),
+          transform = Cesium.Matrix4.fromTranslation(bottom);
+
+        if (ol3d.getEnabled()) return;
+        // 2d -> 3d transition
+        ol3d.setEnabled(true);
+
+        // take care that every time the view is reset when zoom out
+        olcsCore.rotateAroundAxis(camera, -angle, camera.right, transform, {
+          duration: 500,
+        });
       } else {
-        olcsMap.setEnabled(false);
+        const ol3d = olcsMap,
+          scene = ol3d.getCesiumScene(),
+          camera = scene.camera,
+          bottom = olcsCore.pickBottomPoint(scene),
+          transform = Cesium.Matrix4.fromTranslation(bottom),
+          angle = olcsCore.computeAngleToZenith(scene, bottom);
+
+        if (!ol3d.getEnabled()) return;
+
+        // 3d -> 2d transition
+        olcsCore.rotateAroundAxis(camera, -angle, camera.right, transform, {
+          callback: function () {
+            ol3d.setEnabled(false);
+            const view = ol3d.getOlMap().getView();
+            const resolution = view.getResolution();
+            const rotation = view.getRotation();
+
+            view.setResolution(view.constrainResolution(resolution));
+            view.setRotation(view.constrainRotation(rotation));
+          },
+        });
       }
     }
   }, [is3dActive]);

@@ -8,7 +8,6 @@
 import React from "react";
 import MapWrapper from "../../components/MapWrapper/MapWrapper";
 import { SettingsProvider } from "../../index";
-import ToggleViewmode from "../../components/ToggleViewmode/ToggleViewmode";
 import SpatialTemporalSearch from "../../components/SpatialTemporalSearch/SpatialTemporalSearch";
 
 export const MainLayout = (props) => {
@@ -16,7 +15,6 @@ export const MainLayout = (props) => {
 
   return (
     <React.Fragment>
-      <ToggleViewmode />
       <MapWrapper
         baseMapUrl={settings["OSM_URLS"]}
         enable3d
