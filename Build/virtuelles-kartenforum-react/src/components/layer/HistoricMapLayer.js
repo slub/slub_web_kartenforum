@@ -44,6 +44,15 @@ export const createClipFeature = (clip, id, time, title) => {
  */
 export const HistoricMap = function (settings, map) {
     /**
+     * Holds the id of the underlying feature
+     * @type {*|undefined}
+     * @private
+     */
+    this.featureId_ = isDefined(settings.objectid)
+        ? settings.objectid
+        : undefined;
+
+    /**
      * @type {string}
      * @private
      * @expose
@@ -153,6 +162,13 @@ HistoricMap.prototype.getThumbnail = function () {
  */
 HistoricMap.prototype.getId = function () {
     return this.id_;
+};
+
+/**
+ * @return {string}
+ */
+HistoricMap.prototype.getFeatureId = function () {
+    return this.featureId_;
 };
 
 /**

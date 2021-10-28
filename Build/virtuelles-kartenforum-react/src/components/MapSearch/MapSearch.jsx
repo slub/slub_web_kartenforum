@@ -8,7 +8,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   facetState,
   featureState,
@@ -30,6 +30,14 @@ const DEFAULT_TYPE = "title";
 // approximated height of a view item
 const VIEW_ITEM_HEIGHT = 120;
 
+const checkIfArrayContainsFeature = (array, feature) => {
+  return (
+    array.findIndex(
+      ({ feature: selFeature }) => selFeature.get("id") === feature.get("id")
+    ) !== -1
+  );
+};
+
 export const MapSearch = (props) => {
   const settings = SettingsProvider.getSettings();
   const is3dEnabled = useRecoilValue(map3dState);
@@ -48,13 +56,42 @@ export const MapSearch = (props) => {
     featureState
   );
 
-  const setSelectedFeatures = useSetRecoilState(selectedFeaturesState);
+  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
+    selectedFeaturesState
+  );
 
   const handleElementClick = (feature) => {
-    setSelectedFeatures((selectedFeatures) => [
-      ...selectedFeatures,
-      { feature },
-    ]);
+    const containsFeature = checkIfArrayContainsFeature(
+      selectedFeatures,
+      feature
+    );
+
+    // remove feature if it is already contained
+    if (containsFeature) {
+      // remove from selectedFeaturesList
+      setSelectedFeatures((selectedFeatures) =>
+        selectedFeatures.filter(
+          ({ feature: selFeature }) =>
+            selFeature.get("id") !== feature.get("id")
+        )
+      );
+
+      // remove map layer
+      const layers = map
+        .getLayers()
+        .getArray()
+        .filter((lay) => lay.allowUseInLayerManagement);
+      const layer = layers.find((layer) => {
+        return layer.getFeatureId() === feature.get("id");
+      });
+
+      map.removeLayer(layer);
+    } else {
+      setSelectedFeatures((selectedFeatures) => [
+        ...selectedFeatures,
+        { feature },
+      ]);
+    }
   };
 
   const handleUpdate = (features) => {
@@ -240,6 +277,10 @@ export const MapSearch = (props) => {
             >
               {features.map((feature) => (
                 <MapSearchListElement
+                  selected={checkIfArrayContainsFeature(
+                    selectedFeatures,
+                    feature
+                  )}
                   onClick={handleElementClick}
                   feature={feature}
                   featureOverlay={featureOverlayRef.current}
@@ -256,153 +297,3 @@ export const MapSearch = (props) => {
 };
 
 export default MapSearch;
-
-// /**
-//  * @enum {string}
-//  */
-// vk2.module.MapSearchModuleEventType = {
-//   ADDMAP: "addmap",
-//   CLICK_RECORD: "click-record",
-// };
-//
-// /**
-//  * @param {Element|string} parentEl
-//  * @param {ol.Map} map
-//  * @constructor
-//  * @extends {goog.events.EventTarget}
-//  */
-// vk2.module.MapSearchModule = function (parentEl, map) {
-//   // append different events
-//   this.appendSortBehavior_(this.parentEl_);
-//   this.appendScrollBehavior_();
-//   this.appendClickBehavior_();
-//   this.appendFacetBehavior_();
-//
-//   goog.base(this);
-// };
-// goog.inherits(vk2.module.MapSearchModule, goog.events.EventTarget);
-
-// /**
-//  * @private
-//  */
-
-//
-// /**
-//  * @private
-//  */
-
-//
-// /**
-//  * Function appends the facet behavior
-//  * @private
-//  */
-// vk2.module.MapSearchModule.prototype.appendFacetBehavior_ = function () {
-//   goog.events.listen(
-//     this.facetSearch_,
-//     vk2.tool.FacetedSearchEventType.FACET_CHANGE,
-//     function (event) {
-//       if (goog.DEBUG) {
-//         console.log(event.target);
-//       }
-//
-//       this.featureSource_.setFacets(event.target);
-//     },
-//     undefined,
-//     this
-//   );
-// };
-//
-// /**
-//  * @param {Array.<ol.Feature>} features
-//  * @private
-//  */
-// vk2.module.MapSearchModule.prototype.appendFeaturesToList_ = function (
-//   features
-// ) {
-//   for (var i = 0; i < features.length; i++) {
-//     var element = vk2.factory.MapSearchFactory.getMapSearchRecord(features[i]);
-//     goog.dom.appendChild(this.searchListEl_, element);
-//     if (goog.isDef(this.featureOverlay_))
-//       vk2.factory.MapSearchFactory.addHoverToMapSearchRecord(
-//         element,
-//         features[i],
-//         this.featureOverlay_
-//       );
-//   }
-// };
-//
-// /**
-//  * @return {ol.Collection}
-//  */
-// vk2.module.MapSearchModule.prototype.getFeatures = function () {
-//   return this.featureSource_.getFeatures();
-// };
-//
-// /**
-//  * @return {vk2.source.ServerPagination}
-//  */
-// vk2.module.MapSearchModule.prototype.getFeatureSource = function () {
-//   return this.featureSource_;
-// };
-//
-// /**
-//  * @private
-//  */
-// vk2.module.MapSearchModule.prototype.refreshMapSearchList_ = function () {
-//   this.searchListEl_.innerHTML = "";
-//   //this.appendFeaturesToList_();
-// };
-//
-// /**
-//  * @param {string} type
-//  * @private
-//  */
-// vk2.module.MapSearchModule.prototype.sort_ = function (type) {
-//   // get the sort control element and the sortOrder
-//   var sortControlEl = goog.dom.getElementByClass("sort-element " + type);
-//   var sortOrder = goog.dom.classlist.contains(sortControlEl, "ascending")
-//     ? "descending"
-//     : "ascending";
-//
-//   // remove old sort classes
-//   var sortElements = goog.dom.getElementsByClass("sort-element");
-//   for (var i = 0; i < sortElements.length; i++) {
-//     goog.dom.classlist.remove(sortElements[i], "descending");
-//     goog.dom.classlist.remove(sortElements[i], "ascending");
-//   }
-//
-//   // sort list
-//   goog.dom.classlist.add(sortControlEl, sortOrder);
-//   this.featureSource_.setSortAttribute(type);
-//   this.featureSource_.setSortOrder(sortOrder);
-//   this.featureSource_.refresh();
-// };
-//
-// /**
-//  * @private
-//  * @param {Object} event
-//  */
-
-//
-// /**
-//  * @private
-//  * @param {Object} event
-//  */
-
-//
-// /**
-//  * @param {number} count_features
-//  * @private
-//  */
-// vk2.module.MapSearchModule.prototype.updateHeading_ = function (
-//   count_features
-// ) {
-//   if (count_features > 0) {
-//     this.headingContentEl_.innerHTML =
-//       count_features + " " + vk2.utils.getMsg("mapsearch-found-maps");
-//     return undefined;
-//   }
-//   this.headingContentEl_.innerHTML = vk2.utils.getMsg(
-//     "mapsearch-found-no-maps"
-//   );
-// };

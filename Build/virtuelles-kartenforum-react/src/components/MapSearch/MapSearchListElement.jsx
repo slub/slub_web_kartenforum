@@ -8,12 +8,14 @@ import React, { useState } from "react";
 import { isDefined, translate } from "../../util/util";
 import { useRecoilValue } from "recoil";
 import { olcsMapState } from "../../atoms/atoms";
+import "./MapSearchListElement.scss";
+import PropTypes from "prop-types";
 
 export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";
 
 export const MapSearchListElement = (props) => {
-  const { feature, featureOverlay, is3d, onClick } = props;
+  const { feature, featureOverlay, is3d, onClick, selected } = props;
   const olcsMap = useRecoilValue(olcsMapState);
   const [src, setSrc] = useState(feature.get("thumb").replace("http:", ""));
   const [isHovered, setIsHovered] = useState(false);
@@ -55,7 +57,9 @@ export const MapSearchListElement = (props) => {
 
   return (
     <li
-      className={`mapsearch-record type ${feature.get("maptype")}`}
+      className={`mapsearch-record type ${feature.get("maptype")} ${
+        selected ? "selected" : ""
+      }`}
       id={feature.get("id")}
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
@@ -87,6 +91,14 @@ export const MapSearchListElement = (props) => {
       </div>
     </li>
   );
+};
+
+MapSearchListElement.propTypes = {
+  feature: PropTypes.object,
+  featureOverlay: PropTypes.object,
+  is3d: PropTypes.bool,
+  onClick: PropTypes.func,
+  selected: PropTypes.bool,
 };
 
 export default MapSearchListElement;

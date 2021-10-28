@@ -1,0 +1,8 @@
+.mapsearch-list {
+  .mapsearch-record.selected {
+    background: #00b19e80;
+  }
+  .mapsearch-record.selected:nth-child(odd) {
+    background: darken(#00b19e80, 10%);
+  }
+}

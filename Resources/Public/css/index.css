@@ -16,33 +16,6 @@
   display: none;
 }
 
-.switch-view-mode {
-  background: none;
-  background: #00b19e;
-  border: none;
-  border-radius: 0;
-  color: #fff;
-  display: block;
-  font-weight: 700;
-  height: 21px;
-  margin: 1px;
-  overflow: hidden;
-  outline: none;
-  padding: 0;
-  text-align: center;
-  text-decoration: none;
-  white-space: nowrap;
-  width: 40px;
-}
-
-#button-view-mode-toggle {
-  z-index: 2000;
-}
-
-#button-view-mode-toggle:hover {
-  background: #138d8d;
-}
-
 /* always background color white for the map viewport */
 .ol-viewport {
   background-color: white;
@@ -825,4 +798,38 @@ content: "\002194";
 
 .mode-3d .ol-scale-line {
   bottom: 70px;
+}
+
+.switch-view-mode {
+  background: none;
+  background: #00b19e;
+  border: none;
+  border-radius: 0;
+  color: #fff;
+  display: block;
+  font-weight: 700;
+  height: 21px;
+  margin: 1px;
+  overflow: hidden;
+  outline: none;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  width: 40px;
+}
+
+#button-view-mode-toggle {
+  z-index: 2000;
+}
+
+#button-view-mode-toggle:hover {
+  background: #138d8d;
+}
+
+.mapsearch-list .mapsearch-record.selected {
+  background: #00b19e80;
+}
+.mapsearch-list .mapsearch-record.selected:nth-child(odd) {
+  background: rgba(0, 126, 112, 0.5019607843);
 }
