@@ -71,6 +71,11 @@ export const MapSearchListElement = (props) => {
       <div className="view-item">
         <a className="thumbnail" href="#">
           <img alt="Thumbnail Image of Map" onError={handleError} src={src} />
+          {selected && (
+            <span className="badge selected-badge">
+              <span className="glyphicon glyphicon-ok" />{" "}
+            </span>
+          )}
         </a>
         <div className="overview">
           <h2>{feature.get("title")}</h2>

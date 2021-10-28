@@ -5,4 +5,14 @@
   .mapsearch-record.selected:nth-child(odd) {
     background: darken(#00b19e80, 10%);
   }
+
+  .mapsearch-record {
+    .selected-badge {
+      background-color: #00b19eed;
+      position: relative;
+      z-index: 200;
+      left: 60px;
+      bottom: 10px;
+    }
+  }
 }

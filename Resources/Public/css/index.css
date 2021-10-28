@@ -833,3 +833,10 @@ content: "\002194";
 .mapsearch-list .mapsearch-record.selected:nth-child(odd) {
   background: rgba(0, 126, 112, 0.5019607843);
 }
+.mapsearch-list .mapsearch-record .selected-badge {
+  background-color: #00b19eED;
+  position: relative;
+  z-index: 200;
+  left: 60px;
+  bottom: 10px;
+}
