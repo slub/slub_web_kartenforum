@@ -10,6 +10,7 @@ import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
+  facetState,
   featureState,
   map3dState,
   selectedFeaturesState,
@@ -34,6 +35,7 @@ export const MapSearch = (props) => {
   const is3dEnabled = useRecoilValue(map3dState);
   const [blockUpdate, setBlockUpdate] = useState(false);
   const timeExtent = useRecoilValue(timeExtentState);
+  const facets = useRecoilValue(facetState);
   const map = useRecoilValue(mapState);
   const featureSourceRef = useRef();
   const featureOverlayRef = useRef();
@@ -130,19 +132,6 @@ export const MapSearch = (props) => {
     );
   };
 
-  // var createSearchCol = function (type) {
-  //   var col = goog.dom.createDom("div", { class: "inner-col " + type });
-  //   var content = goog.dom.createDom("div", {
-  //     "data-type": type,
-  //     class: "sort-element " + type,
-  //     innerHTML:
-  //         vk2.utils.getMsg("mapsearch-" + type) +
-  //         ' <span class="caret caret-reversed"></span>',
-  //   });
-  //   goog.dom.appendChild(col, content);
-  //   return col;
-  // };
-
   useEffect(() => {
     if (map !== undefined) {
       const featureSource = new ServerPagination({
@@ -218,16 +207,11 @@ export const MapSearch = (props) => {
     }
   }, [featureSourceRef, timeExtent]);
 
-  // goog.events.listen(
-  //   this.featureSource_,
-  //   "refresh",
-  //   goog.bind(this.refresh_, this)
-  // );
-  // goog.events.listen(
-  //   this.featureSource_,
-  //   "paginate",
-  //   goog.bind(this.update_, this)
-  // );
+  useEffect(() => {
+    if (isDefined(featureSourceRef.current)) {
+      featureSourceRef.current.setFacets(facets);
+    }
+  }, [featureSourceRef, facets]);
 
   return (
     <div className="mapsearch-container" ref={containerRef}>

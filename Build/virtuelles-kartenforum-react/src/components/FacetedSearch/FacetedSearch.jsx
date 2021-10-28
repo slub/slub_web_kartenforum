@@ -7,6 +7,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { translate } from "../../util/util";
+import { useSetRecoilState } from "recoil";
+import { facetState } from "../../atoms/atoms";
 
 const FACETED_SEARCH_TYPES = {
   AE: "maptype-ae",
@@ -22,6 +24,7 @@ const FACETED_SEARCH_TYPES = {
 
 export const FacetedSearch = (props) => {
   const { georeferenceMode } = props;
+  const setFacets = useSetRecoilState(facetState);
 
   const handleClick = (event) => {
     // get all checked values
@@ -41,19 +44,12 @@ export const FacetedSearch = (props) => {
       }
     }
 
-    // @TODO: HANDLE EVENTS
-    // publish event with a list of active elements
-    // this.dispatchEvent(
-    //     new goog.events.Event(vk2.tool.FacetedSearchEventType.FACET_CHANGE, {
-    //         facets: checkedEl,
-    //         georeference: georeference,
-    //     })
-    // );
+    setFacets({ facets: checkedEl, georeference });
   };
 
   const renderLabel = (key) => {
     const title = translate(`facet-${key.toLowerCase()}`);
-    return georeferenceMode && key !== "toGeoref" ? (
+    return key !== "toGeoref" || (key === "toGeoref" && georeferenceMode) ? (
       <label className="checkbox-inline" title={title}>
         <input
           className="facet-search-el"
@@ -62,6 +58,7 @@ export const FacetedSearch = (props) => {
           title={title}
           value={FACETED_SEARCH_TYPES[key]}
         />
+        {title}
       </label>
     ) : (
       <></>
