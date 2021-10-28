@@ -13,6 +13,7 @@ import {
   featureState,
   map3dState,
   selectedFeaturesState,
+  timeExtentState,
 } from "../../atoms/atoms";
 import { MAP_SEARCH_HOVER_FEATURE } from "../../config/styles";
 import { mapState } from "../../atoms/atoms";
@@ -32,6 +33,7 @@ export const MapSearch = (props) => {
   const settings = SettingsProvider.getSettings();
   const is3dEnabled = useRecoilValue(map3dState);
   const [blockUpdate, setBlockUpdate] = useState(false);
+  const timeExtent = useRecoilValue(timeExtentState);
   const map = useRecoilValue(mapState);
   const featureSourceRef = useRef();
   const featureOverlayRef = useRef();
@@ -208,6 +210,13 @@ export const MapSearch = (props) => {
       translate("facetedsearch-close")
     );
   }, []);
+
+  useEffect(() => {
+    if (isDefined(featureSourceRef.current)) {
+      featureSourceRef.current.setTimeFilter(timeExtent[0], timeExtent[1]);
+      featureSourceRef.current.refresh();
+    }
+  }, [featureSourceRef, timeExtent]);
 
   // goog.events.listen(
   //   this.featureSource_,

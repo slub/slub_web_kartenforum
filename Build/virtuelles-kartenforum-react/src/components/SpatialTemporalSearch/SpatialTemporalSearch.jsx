@@ -4,15 +4,38 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import axios from "axios";
+
 import { SettingsProvider } from "../../index";
 import GazetteerSearch from "../GazetteerSearch/GazetteerSearch";
 import MapSearch from "../MapSearch/MapSearch";
 import TimeSlider from "../TimeSlider/TimeSlider";
+import { timeRangeState } from "../../atoms/atoms";
+import { createStatisticQuery } from "../../util/query";
 
 export const SpatialTemporalSearch = (props) => {
-  const [timeInterval, setTimeInterval] = useState([1850, 1970]);
+  const [timeRange, setTimeRange] = useRecoilState(timeRangeState);
   const settings = SettingsProvider.getSettings();
+
+  const loadInitialSettings = () => {
+    const requestUrl = `${settings.ELASTICSEARCH_NODE}/_search?`;
+    const payload = createStatisticQuery("time");
+    axios.post(requestUrl, JSON.stringify(payload)).then((resp) => {
+      if (resp.status === 200) {
+        const data = resp.data;
+        const max = new Date(data["aggregations"]["summary"]["max"]),
+          min = new Date(data["aggregations"]["summary"]["min"]);
+
+        setTimeRange([min.getUTCFullYear(), max.getUTCFullYear()]);
+      }
+    });
+  };
+
+  useEffect(() => {
+    loadInitialSettings();
+  }, []);
 
   return (
     <div className="spatialsearch-inner-container">
@@ -22,7 +45,7 @@ export const SpatialTemporalSearch = (props) => {
             projection={settings.MAPVIEW_PARAMS["projection"]}
             searchUrl={settings.NOMINATIM_URL}
           />
-          <TimeSlider timeInterval={timeInterval} />
+          <TimeSlider timeInterval={timeRange} />
           <MapSearch />
         </div>
       </div>
@@ -31,55 +54,3 @@ export const SpatialTemporalSearch = (props) => {
 };
 
 export default SpatialTemporalSearch;
-
-const loadTimeSlider = function (parentEl) {
-  // build elasticsearch request
-  var requestPayload = vk2.request.ElasticSearch.createStatisticQuery("time"),
-    requestUrl = vk2.settings.ELASTICSEARCH_NODE + "/_search",
-    timeSlider = new vk2.tool.TimeSlider(parentEl);
-
-  goog.net.XhrIo.send(
-    requestUrl,
-    function (e) {
-      var xhr = /** @type {goog.net.XhrIo} */ (e.target),
-        timeInterval;
-
-      if (xhr.getResponseJson()) {
-        var data = xhr.getResponseJson(),
-          max = new Date(data["aggregations"]["summary"]["max"]),
-          min = new Date(data["aggregations"]["summary"]["min"]);
-        timeInterval = [min.getUTCFullYear(), max.getUTCFullYear()];
-      } else {
-        timeInterval = [1850, 1970];
-      }
-
-      timeSlider.setTimeInterval(timeInterval);
-    },
-    "POST",
-    JSON.stringify(requestPayload)
-  );
-
-  return timeSlider;
-};
-
-const loadMapSearchModule = function (parentEl, map, timeSlider) {
-  /**
-   * @type {vk2.module.MapSearchModule}
-   * @private
-   */
-  this.mapsearch_ = new vk2.module.MapSearchModule(parentEl, map);
-
-  // bind mapsearch to timeslider tool
-  goog.events.listen(
-    timeSlider,
-    vk2.tool.TimeSliderEventType.TIMECHANGE,
-    function (event) {
-      this.mapsearch_
-        .getFeatureSource()
-        .setTimeFilter(event["target"]["time"][0], event["target"]["time"][1]);
-      this.mapsearch_.getFeatureSource().refresh();
-    },
-    undefined,
-    this
-  );
-};

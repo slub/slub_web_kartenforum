@@ -7,6 +7,16 @@
 
 import { atom } from "recoil";
 
+export const timeRangeState = atom({
+    key: "timeRangeState",
+    default: [1850, 1970],
+});
+
+export const timeExtentState = atom({
+    key: "timeExtentState",
+    default: [1850, 1970],
+});
+
 export const selectedFeaturesState = atom({
     key: "selectedFeatureState",
     default: [],
