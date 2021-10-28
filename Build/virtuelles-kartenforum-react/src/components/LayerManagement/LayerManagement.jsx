@@ -6,12 +6,14 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
+import { useRecoilValue } from "recoil";
+
 import { isDefined, translate } from "../../util/util";
 import { mapState } from "../../atoms/atoms";
-import { useRecoilValue } from "recoil";
 import DeactivateMapCollection from "./DeactiveMapCollection";
 import { DynamicMapVisualization } from "./DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry";
+import "./LayerManagement.scss";
 
 export const LayerManagement = (props) => {
   const map = useRecoilValue(mapState);
@@ -104,6 +106,9 @@ export const LayerManagement = (props) => {
         <DeactivateMapCollection />
         <DynamicMapVisualization />
       </div>
+      {displayedLayers !== undefined && displayedLayers.length !== 0 && (
+        <span className="badge">{displayedLayers.length}</span>
+      )}
       <ul className="layermanagement-body" ref={bodyRef}>
         {displayedLayers === undefined || displayedLayers.length === 0 ? (
           <li className="empty">{translate("layermanagement-start-msg")}</li>

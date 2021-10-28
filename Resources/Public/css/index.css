@@ -834,9 +834,28 @@ content: "\002194";
   background: rgba(0, 126, 112, 0.5019607843);
 }
 .mapsearch-list .mapsearch-record .selected-badge {
-  background-color: #00b19eED;
-  position: relative;
-  z-index: 200;
-  left: 60px;
+  background-color: #00b19eed;
+  border-radius: 25px;
   bottom: 10px;
+  height: 22px;
+  padding: 4px 5px;
+  position: relative;
+  left: 60px;
+  width: 22px;
+  z-index: 200;
+}
+
+.layermanagement-container .badge {
+  background-color: #00b19eed;
+  bottom: 36px;
+  display: inline;
+  height: 20px;
+  left: -10px;
+  padding: 4px 3px;
+  position: relative;
+  width: 20px;
+  text-align: center;
+  vertical-align: middle;
+  float: left;
+  z-index: 1000;
 }
