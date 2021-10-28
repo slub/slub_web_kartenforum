@@ -75,7 +75,12 @@ button.ol-full-screen-false:after {
   left: 0.5em;
 }
 
-.ol-layerspy a, a.rotate-north, span.ol-compass, button.rotate-north, .image-manipulation a, .mouse-position a {
+.ol-layerspy a,
+a.rotate-north,
+span.ol-compass,
+button.rotate-north,
+.image-manipulation a,
+.mouse-position a {
   display: block;
   margin: 1px;
   padding: 0;
@@ -155,7 +160,8 @@ div.rotate-north {
   border-radius: 0;
 }
 
-.ol-attribution a, .ol-attribution ul {
+.ol-attribution a,
+.ol-attribution ul {
   color: #fff !important;
   font-size: 10px;
 }
@@ -205,7 +211,8 @@ content: "\002194";
   border-radius: 0;
 }
 
-.ol-zoom .ol-zoom-out, .ol-zoom .ol-zoom-in {
+.ol-zoom .ol-zoom-out,
+.ol-zoom .ol-zoom-in {
   background: #00b19e;
   border-radius: 0;
 }
@@ -243,13 +250,15 @@ content: "\002194";
   border-radius: 0;
 }
 
-.unreferenced-map.olMap .ol-zoom, .georeferenced-map.olMap .ol-zoom {
+.unreferenced-map.olMap .ol-zoom,
+.georeferenced-map.olMap .ol-zoom {
   left: 10px;
   top: 10px;
   border-radius: 0;
 }
 
-.unreferenced-map.olMap .ol-full-screen, .georeferenced-map.olMap .ol-full-screen {
+.unreferenced-map.olMap .ol-full-screen,
+.georeferenced-map.olMap .ol-full-screen {
   right: 0.5em;
   top: 0.5em;
   border-radius: 0;
@@ -363,7 +372,11 @@ content: "\002194";
   bottom: 28px;
 }
 
-.ol-control a:hover, .ol-control button:hover, .ol-control button:focus, .permalink a:hover, .image-manipulation a:hover {
+.ol-control a:hover,
+.ol-control button:hover,
+.ol-control button:focus,
+.permalink a:hover,
+.image-manipulation a:hover {
   background-color: #138d8d;
 }
 
@@ -371,12 +384,16 @@ content: "\002194";
   border-radius: 0;
 }
 
-.ol-control button, .ol-attribution, .ol-scale-line-inner, .ol-has-tooltip [role=tooltip] {
+.ol-control button,
+.ol-attribution,
+.ol-scale-line-inner,
+.ol-has-tooltip [role=tooltip] {
   font-family: Helvetica, Arial, sans-serif;
   border-radius: 0;
 }
 
-.ol-has-tooltip:hover [role=tooltip], .ol-has-tooltip:focus [role=tooltip] {
+.ol-has-tooltip:hover [role=tooltip],
+.ol-has-tooltip:focus [role=tooltip] {
   border-radius: 0;
   font-family: Helvetica, Arial, sans-serif;
   color: #f33;
@@ -599,11 +616,13 @@ content: "\002194";
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.image-manipulation .slider-container .slider-contrast .tooltip, .image-manipulation .slider-container .slider-saturation .tooltip {
+.image-manipulation .slider-container .slider-contrast .tooltip,
+.image-manipulation .slider-container .slider-saturation .tooltip {
   left: 100%;
 }
 
-.image-manipulation .slider-container .slider-brightness .tooltip, .image-manipulation .slider-container .slider-hue .tooltip {
+.image-manipulation .slider-container .slider-brightness .tooltip,
+.image-manipulation .slider-container .slider-hue .tooltip {
   left: 50%;
 }
 

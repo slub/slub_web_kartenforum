@@ -23,6 +23,7 @@ import FacetedSearch from "../FacetedSearch/FacetedSearch";
 import MapSearchListElement from "./MapSearchListElement";
 
 const SEARCH_COLS = ["time", "title", "georeference"];
+const DEFAULT_TYPE = "title";
 
 // approximated height of a view item
 const VIEW_ITEM_HEIGHT = 120;
@@ -78,6 +79,30 @@ export const MapSearch = (props) => {
     }
   };
 
+  const sort = function (type) {
+    const featureSource = featureSourceRef.current;
+    // get the sort control element and the sortOrder
+    const sortControlEl = document.getElementsByClassName(
+      "sort-element " + type
+    )[0];
+    const sortOrder = sortControlEl.classList.contains("ascending")
+      ? "descending"
+      : "ascending";
+
+    // remove old sort classes
+    const sortElements = document.getElementsByClassName("sort-element");
+    for (let i = 0; i < sortElements.length; i++) {
+      sortElements[i].classList.remove("descending");
+      sortElements[i].classList.remove("ascending");
+    }
+
+    // sort list
+    sortControlEl.classList.add(sortOrder);
+    featureSource.setSortAttribute(type);
+    featureSource.setSortOrder(sortOrder);
+    featureSource.refresh();
+  };
+
   // reset scroll if id of feature set changes
   useEffect(() => {
     const scrollEl = searchListRef.current;
@@ -89,7 +114,13 @@ export const MapSearch = (props) => {
   const renderSearchCol = function (type) {
     return (
       <div className={`inner-col ${type}`}>
-        <div className={`sort-element ${type}`} datatype={type}>
+        <div
+          className={`sort-element ${type} ${
+            type === DEFAULT_TYPE ? "ascending" : ""
+          }`}
+          datatype={type}
+          onClick={() => sort(type)}
+        >
           {translate(`mapsearch-${type}`)}
           <span className="caret caret-reversed" />
         </div>
@@ -262,26 +293,6 @@ export default MapSearch;
 //  * @private
 //  */
 
-//
-// /**
-//  * @param {Element} parentEl
-//  * @private
-//  */
-// vk2.module.MapSearchModule.prototype.appendSortBehavior_ = function (parentEl) {
-//   var sortElements = goog.dom.getElementsByClass("sort-element", parentEl);
-//   for (var i = 0; i < sortElements.length; i++) {
-//     goog.events.listen(
-//       sortElements[i],
-//       goog.events.EventType.CLICK,
-//       function (event) {
-//         var sort_type = event.target.getAttribute("data-type");
-//         this.sort_(sort_type);
-//       },
-//       undefined,
-//       this
-//     );
-//   }
-// };
 //
 // /**
 //  * @private
