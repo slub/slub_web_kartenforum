@@ -1,0 +1,121 @@
+/* Header */
+
+.header {
+    background: rgba(255,52,52,.95);
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    height: 70px;
+    width: 100%;
+    top: 0;
+    z-index: 501;
+}
+
+/*
+Logo
+ */
+.header .navbar-brand {
+    width: 200px;
+    height: 50px;
+    margin: 10px 20px;
+    display: flex;
+    overflow: hidden;
+    text-indent: 200%;
+    white-space: nowrap;
+    background: url("../Images/vkf2Logo.svg") no-repeat;
+    background-size: contain;
+    color: white;
+    font-weight: bold;
+    font-size: 160%;
+}
+
+.header .navbar-brand:hover,
+.header .navbar-brand:focus {
+    color: #aae1e9;
+}
+
+/*
+Navigation links
+ */
+
+.header .navigation-links-container {
+    display: flex;
+    justify-content: right;
+    height: 30px;
+    margin: 20px;
+}
+
+.header .navigation-links-container .header-navigation-link {
+    color: white;
+    font-size: 18px;
+}
+
+.header .navigation-links-container .header-navigation-item {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 0 8px;
+}
+
+.header .navigation-links-container .header-navigation-link:hover {
+    text-decoration: none;
+}
+
+.header .navigation-links-container .header-navigation-item:hover {
+    transform: scale(1.1);
+}
+
+
+/*
+Language switcher
+ */
+
+.header .langswitch {
+    list-style-type: none;
+    margin-right: 5px;
+}
+
+.header .langswitch li {
+    width: 16px;
+    height: 11px;
+    overflow: hidden;
+    margin: 5px 3px 0 3px;
+    float: left;
+}
+
+.header .language_switcher {
+    position: relative;
+    float: left;
+    height: 11px;
+    width: 16px;
+    display: block;
+    overflow: hidden;
+    text-indent: -9000px;
+    background: url('../Images/flags.png') no-repeat
+}
+.language_switcher.switch_de-DE { background-position: 0 0 }
+.language_switcher.switch_en-GB { background-position: 0 -11px }
+
+
+/*
+User item
+ */
+
+.header > ul {
+    position: relative;
+    float: right;
+}
+
+.header .user-dropdown button {
+    padding: 0;
+    margin: 0 10px;
+}
+
+.header .user-dropdown > a.vk2-modal-anchor { font-weight: 500; }
+.header .user-dropdown a:hover, .user-header .user-dropdown a:focus { background: #f33; cursor: pointer; }
+
+.header .user-dropdown a.vk2-modal-anchor .caret, .dropdown-menu .glyphicon { display: none; }
+
+.header .user-dropdown .glyphicon.glyphicon-user {
+    font-size: 14px;
+}

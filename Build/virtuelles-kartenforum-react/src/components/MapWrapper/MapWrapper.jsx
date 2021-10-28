@@ -27,14 +27,14 @@ import {
   olcsMapState,
   selectedFeaturesState,
 } from "../../atoms/atoms";
-import "./MapWrapper.scss";
-import HistoricMap from "../layer/HistoricMapLayer";
+import HistoricMap, { createClipFeature } from "../layer/HistoricMapLayer";
 import { SettingsProvider } from "../../index";
 import HistoricMap3D from "../layer/HistoricMapLayer3d";
 import LayerManagement from "../LayerManagement/LayerManagement";
 import { MousePositionOnOff } from "./components/MousePositionOnOff";
 import CustomAttribution from "./components/CustomAttribution";
 import ToggleViewMode from "../ToggleViewmode/ToggleViewmode";
+import "./MapWrapper.scss";
 
 export function MapWrapper(props) {
   const {
@@ -206,7 +206,7 @@ export function MapWrapper(props) {
       if (!displayedInMap && feature.get("georeference")) {
         map.addLayer(createHistoricMapForFeature(feature));
         if (is3dActive) {
-          const historicMapClipFeature = HistoricMap.createClipFeature(
+          const historicMapClipFeature = createClipFeature(
             feature.getGeometry().clone(),
             feature.getId(),
             feature.get("time"),

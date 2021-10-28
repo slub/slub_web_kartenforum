@@ -28,6 +28,7 @@ const javascriptOutputDir = "JavaScript/Dist/";
 // https://rollupjs.org/guide/en/#configuration-files
 
 export const newVar = {
+    cache: true,
     input: "./src/index.js",
     output: {
         file: path.resolve(

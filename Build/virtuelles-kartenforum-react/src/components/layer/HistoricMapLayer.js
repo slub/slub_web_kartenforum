@@ -12,6 +12,27 @@ import { Vector as VectorSource, XYZ } from "ol/source";
 import { MESSTISCHBLATT_BORDER_STYLE } from "../../config/styles";
 
 /**
+ * @param {ol.geom.Polygon} clip
+ * @param {number} id
+ * @param {string} time
+ * @param {string} title
+ * @return {ol.Feature}
+ * @private
+ */
+export const createClipFeature = (clip, id, time, title) => {
+    // create the clip feature
+    const feature = new Feature(clip);
+    feature.setProperties({
+        objectid: id,
+        time: time,
+        title: title,
+    });
+    feature.setId(id);
+
+    return feature;
+};
+
+/**
  * Right now there are problems with the compiled version when using a ol3 compiled version. In that case
  * renamed variables of this object overwrite properties/function of the inherited object (ol.layer.Group). A
  * solution is to prevent renaming properties of this object through using the "expose" annotation.
@@ -58,27 +79,6 @@ export const HistoricMap = function (settings, map) {
      * @expose
      */
     this.allowUseInLayerManagement = true;
-
-    /**
-     * @param {ol.geom.Polygon} clip
-     * @param {number} id
-     * @param {string} time
-     * @param {string} title
-     * @return {ol.Feature}
-     * @private
-     */
-    const createClipFeature = (clip, id, time, title) => {
-        // create the clip feature
-        const feature = new Feature(clip);
-        feature.setProperties({
-            objectid: id,
-            time: time,
-            title: title,
-        });
-        feature.setId(id);
-
-        return feature;
-    };
 
     const urls = this.tms_url_subdomains.map((subdomain) => {
         const url = `${settings.tms.replace(

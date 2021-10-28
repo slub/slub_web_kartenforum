@@ -8,6 +8,7 @@ page {
         jquery-ui = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/jquery-ui.min.css
         jquery-ui.forceOnTop = true
         vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Css/ol.css
+        vk-header = EXT:slub_web_kartenforum/Resources/Public/Css/header.css
 		slub_web_kartenforum_layout = EXT:slub_web_kartenforum/Resources/Public/Css/layout.min.css
         slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/css/index.css
     }

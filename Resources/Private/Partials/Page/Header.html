@@ -1,74 +1,20 @@
 <!-- user header -->
-<div class="user-header">
-    <!-- user menu -->
-    <ul class="nav nav-pills vk2-navbar-user" id="vk2-navbar-user">
-            <f:security.ifAuthenticated>
-                <f:then>
-                    <li class="dropdown user-dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
-                            <f:if condition="{vk:username(field:'name')} == ''">
-                                <f:then>
-                                    <vk:username field="username" />
-                                </f:then>
-                                <f:else>
-                                    <vk:username field="name" />
-                                </f:else>
-                            </f:if>
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <f:link.page pageUid="{settings.georefhistoryPage}" data="{classes: 'georef-history'}" class="vk2-modal-anchor" title="{f:translate(key:'label.georefhistorypage', extensionName:'slubWebKartenforum')}">
-                                    <f:translate key="label.georefhistorypage" extensionName="slubWebKartenforum" />
-                                    <b class="caret"></b>
-                                </f:link.page>
-                            </li>
-                            <li>
-                                <f:link.page pageUid="{settings.georefchoosePage}" data="{classes: 'georef-chooser'}" class="vk2-modal-anchor" title="{f:translate(key:'label.georefchoosepage', extensionName:'slubWebKartenforum')}">
-                                    <f:translate key="label.georefchoosepage" extensionName="slubWebKartenforum" />
-                                    <b class="caret"></b>
-                                </f:link.page>
-                            </li>
-                            <f:security.ifHasRole role="vk2-admin">
-                                <li class="divider"></li>
-                                <!-- admin menu -->
-                                <li>
-                                    <f:link.page target="_blank" pageUid="{settings.evaluationPage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.evaluationpage', extensionName:'slubWebKartenforum')}">
-                                        <f:translate key="label.evaluationpage" extensionName="slubWebKartenforum" />
-                                        <b class="caret"></b>
-                                    </f:link.page>
-                                </li>
-                                <!-- admin menu end -->
-                            </f:security.ifHasRole>
-                            <li class="divider"></li>
-                            <li>
-                                <f:link.page pageUid="{settings.loginPage}" data="{classes: 'logout'}" class="vk2-modal-anchor" title="{f:translate(key:'label.logout', extensionName:'slubWebKartenforum')}">
-                                    <f:translate key="label.logout" extensionName="slubWebKartenforum" />
-                                    <b class="caret"></b>
-                                </f:link.page>
-                            </li>
-                        </ul>
-                    </li>
-                </f:then>
-                <f:else>
-                    <li>
-                    <f:link.page pageUid="{settings.loginPage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.login', extensionName:'slubWebKartenforum')}">
-                        <f:translate key="label.login" extensionName="slubWebKartenforum" />
-                        <b class="caret"></b>
-                    </f:link.page>
-                </li>
-                </f:else>
-            </f:security.ifAuthenticated>
-    </ul>
+<div class="header">
+    <a class="navbar-brand" href="#">Virtuelles Kartenforum 3.0</a>
+    <div class="navigation-links-container">
+        <f:render partial="Navigation/Elements/HeaderItem" arguments="{_all}" />
+        <f:render partial="Navigation/Elements/UserDropdown" arguments="{_all}" />
+        <f:render section="LanguageSwitch" partial="LanguageSwitch" arguments="{_all}" />
+    </div>
+
 
     <!-- language switcher -->
-    <f:render section="LanguageSwitch" partial="LanguageSwitch" arguments="{_all}" />
 
     <!-- switcher to 2.5d mode -->
-    <ul class="switch-view-mode mode-2d">
-        <li id="switch-view-mode-container">
-        </li>
-    </ul>
+<!--    <ul class="switch-view-mode mode-2d">-->
+<!--        <li id="switch-view-mode-container">-->
+<!--        </li>-->
+<!--    </ul>-->
 
 
 </div>
