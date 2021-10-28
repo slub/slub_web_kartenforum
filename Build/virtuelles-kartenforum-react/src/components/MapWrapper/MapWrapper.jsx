@@ -35,6 +35,7 @@ import { MousePositionOnOff } from "./components/MousePositionOnOff";
 import CustomAttribution from "./components/CustomAttribution";
 import ToggleViewMode from "../ToggleViewmode/ToggleViewmode";
 import "./MapWrapper.scss";
+import "./openlayer-overwrites.scss";
 
 export function MapWrapper(props) {
   const {

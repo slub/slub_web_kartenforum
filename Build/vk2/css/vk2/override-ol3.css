@@ -93,7 +93,7 @@ content: "\002194";
 .olMap .ol-attribution .ol-attribution-bing-tos{	padding-top: 0px; }
 .olMap .ol-zoom { left: 340px; top: 100px; border-radius: 0; }
 .ol-zoom .ol-zoom-out, .ol-zoom .ol-zoom-in { background: rgb(0,177,158); border-radius: 0; }
-.olMap .ol-full-screen {	top: 10px;	right: 7px; z-index: 402;}
+.olMap .ol-full-screen {	position: absolute; left: 340px; top: 400px;  z-index: 402;}
 .olMap .ol-layerspy { left: 340px; top: 153px; border-radius: 0; }
 .georeferenced-map.olMap .ol-layerspy { left: 10px; top: 108px; }
 .olMap div.rotate-north  { left: 340px; top: 183px; border-radius: 0; }

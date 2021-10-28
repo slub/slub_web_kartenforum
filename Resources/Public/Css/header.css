@@ -61,6 +61,10 @@ Navigation links
     text-decoration: none;
 }
 
+.header .navigation-links-container .header-navigation-item.no-hover:hover {
+    transform: none;
+}
+
 .header .navigation-links-container .header-navigation-item:hover {
     transform: scale(1.1);
 }
@@ -71,17 +75,24 @@ Language switcher
  */
 
 .header .langswitch {
+    display: flex;
     list-style-type: none;
     margin-right: 5px;
 }
 
 .header .langswitch li {
-    width: 16px;
+    display: flex;
+    margin: 0px 6px;
     height: 11px;
     overflow: hidden;
-    margin: 5px 3px 0 3px;
-    float: left;
+    width: 16px;
+    transform: scale(1.2);
 }
+
+.header .langswitch li:hover {
+    transform: scale(1.4);
+}
+
 
 .header .language_switcher {
     position: relative;
