@@ -12,7 +12,6 @@ import { timeExtentState } from "../../atoms/atoms";
 
 export const TimeSlider = (props) => {
   const { timeRange } = props;
-
   const [isInitialized, setIsInitialized] = useState(false);
   const setTimeExtent = useSetRecoilState(timeExtentState);
   const [values, setValues] = useState(timeRange);
@@ -36,13 +35,12 @@ export const TimeSlider = (props) => {
     updatePosition(values[1], maxValueElRef.current);
   }, [updatePosition, values]);
 
-  // update slider on change of time interval
+  // update slider on change of time range
   useEffect(() => {
     if (isInitialized) {
       $(sliderElRef.current).slider("option", "min", timeRange[0]);
       $(sliderElRef.current).slider("option", "max", timeRange[1]);
-
-      setValues(timeRange);
+      $(sliderElRef.current).slider("option", "values", timeRange.slice(0));
     }
   }, [isInitialized, timeRange]);
 
@@ -61,11 +59,11 @@ export const TimeSlider = (props) => {
         animate: "slow",
         orientation: "horizontal",
         step: 1,
-        slide: (event, ui) => {
+        slide: (_, ui) => {
           const values = ui["values"];
           setValues(values);
         },
-        change: (event, ui) => {
+        change: (_, ui) => {
           const values = ui["values"];
           setValues(values);
           setTimeExtent(values);
@@ -82,10 +80,10 @@ export const TimeSlider = (props) => {
       <div className="slider-container">
         <div className="slider" ref={sliderElRef}>
           <div className="tooltip min-value" ref={minValueElRef}>
-            {timeRange[0]}
+            {values[0]}
           </div>
           <div className="tooltip max-value" ref={maxValueElRef}>
-            {timeRange[1]}
+            {values[1]}
           </div>
         </div>
       </div>

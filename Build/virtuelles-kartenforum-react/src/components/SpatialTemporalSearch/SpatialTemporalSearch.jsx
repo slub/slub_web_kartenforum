@@ -27,7 +27,6 @@ export const SpatialTemporalSearch = (props) => {
         const data = resp.data;
         const max = new Date(data["aggregations"]["summary"]["max"]),
           min = new Date(data["aggregations"]["summary"]["min"]);
-
         setTimeRange([min.getUTCFullYear(), max.getUTCFullYear()]);
       }
     });
@@ -45,7 +44,7 @@ export const SpatialTemporalSearch = (props) => {
             projection={settings.MAPVIEW_PARAMS["projection"]}
             searchUrl={settings.NOMINATIM_URL}
           />
-          <TimeSlider timeInterval={timeRange} />
+          <TimeSlider timeRange={timeRange} />
           <MapSearch />
         </div>
       </div>
