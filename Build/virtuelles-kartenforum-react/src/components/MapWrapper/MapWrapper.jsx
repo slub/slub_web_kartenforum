@@ -34,6 +34,7 @@ import LayerManagement from "../LayerManagement/LayerManagement";
 import { MousePositionOnOff } from "./components/MousePositionOnOff";
 import CustomAttribution from "./components/CustomAttribution";
 import ToggleViewMode from "../ToggleViewmode/ToggleViewmode";
+import { LayerSpy } from "./components/LayerSpy";
 import "./MapWrapper.scss";
 import "./openlayer-overwrites.scss";
 
@@ -85,19 +86,18 @@ export function MapWrapper(props) {
 
     // Add spy layer
 
-    //     controls.push(
-    //       new vk2.control.LayerSpy({
-    //         spyLayer: new ol.layer.Tile({
-    //           attribution: undefined,
-    //           source: new ol.source.XYZ({
-    //             urls: vk2.settings.OSM_URLS,
-    //             crossOrigin: "*",
-    //             attributions: [],
-    //           }),
-    //         }),
-    //       })
-    //     );
-    //   }
+    controls.push(
+      new LayerSpy({
+        spyLayer: new TileLayer({
+          attribution: undefined,
+          source: new XYZ({
+            urls: baseMapUrl,
+            crossOrigin: "*",
+            attributions: [],
+          }),
+        }),
+      })
+    );
 
     // create map
     const initialMap = new Map({
