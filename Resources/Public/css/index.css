@@ -29,9 +29,10 @@ button.ol-full-screen-false:after {
   top: 95px;
   left: 0.5em;
 }
+.ol-layerspy > button {
+  background: #00b19e url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0xNC40IDEyLjhsLS4xLjFjLjUtLjcuNy0xLjUuNy0yLjUgMC0yLjUtMi00LjQtNC40LTQuNC0yLjUgMC00LjQgMi00LjQgNC40IDAgMi41IDIgNC40IDQuNCA0LjQuOSAwIDEuOC0uMyAyLjUtLjdsMi40IDIuNCAxLjQtMS40LTIuNS0yLjN6bS00LjYtLjRsLS43LS43IDIuNi0yLjcuNy43LTIuNiAyLjd6TTQuOTI1IDE0LjM1NWwyLjEyMSAyLjEyMS0yLjYxNiAyLjYxNi0yLjEyMS0yLjEyMXpNMTYuOTI1IDIuMzU1bDIuMTIxIDIuMTIxLTIuNjE2IDIuNjE2LTIuMTIxLTIuMTIxeiIvPjwvc3ZnPg==") no-repeat 0 0;
+}
 
-.ol-layerspy a,
-a.rotate-north,
 span.ol-compass,
 button.rotate-north,
 .image-manipulation a,
@@ -52,14 +53,6 @@ button.rotate-north,
   background-size: 22px 22px;
 }
 
-.ol-layerspy a {
-  background: #00b19e url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0xNC40IDEyLjhsLS4xLjFjLjUtLjcuNy0xLjUuNy0yLjUgMC0yLjUtMi00LjQtNC40LTQuNC0yLjUgMC00LjQgMi00LjQgNC40IDAgMi41IDIgNC40IDQuNCA0LjQuOSAwIDEuOC0uMyAyLjUtLjdsMi40IDIuNCAxLjQtMS40LTIuNS0yLjN6bS00LjYtLjRsLS43LS43IDIuNi0yLjcuNy43LTIuNiAyLjd6TTQuOTI1IDE0LjM1NWwyLjEyMSAyLjEyMS0yLjYxNiAyLjYxNi0yLjEyMS0yLjEyMXpNMTYuOTI1IDIuMzU1bDIuMTIxIDIuMTIxLTIuNjE2IDIuNjE2LTIuMTIxLTIuMTIxeiIvPjwvc3ZnPg==") no-repeat 0 0;
-}
-
-a.rotate-north {
-  background: #00b19e url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxwYXRoIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBkPSJNMTAuOCAxOC4zbC0zLjMtNyAzLjMtNyAzLjMgN3oiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTQgMTJsLTMuMy03LTMuMyA3eiIvPjwvc3ZnPg==") no-repeat 0 0;
-}
-
 .image-manipulation a {
   background: #00b19e url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMiIgdmlld0JveD0iMCAwIDIyIDIyIj48Zz48cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBkPSJNNSA0djE0TTE3IDR2MTRNMTEgNHYxNCIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0zIDZoNHYyaC00ek05IDE0aDR2MmgtNHpNMTUgMTBoNHYyaC00eiIvPjwvZz48L3N2Zz4=") no-repeat 0 0;
 }
@@ -69,7 +62,9 @@ span.ol-compass {
   margin: 0;
 }
 
-button.rotate-north {
+.rotate-north > button,
+.flip-view-mode > button,
+.mouse-position > button {
   background: #00b19e;
 }
 
@@ -182,7 +177,7 @@ content: "\002194";
 
 .olMap .ol-layerspy {
   left: 340px;
-  top: 153px;
+  top: 273px;
   border-radius: 0;
 }
 
@@ -624,21 +619,7 @@ content: "\002194";
   background: rgba(255, 255, 255, 0.4);
   padding: 2px;
 }
-
-.mouse-position a {
-  display: block;
-  margin: 1px;
-  padding: 0;
-  color: white;
-  font-weight: bold;
-  text-decoration: none;
-  text-align: center;
-  height: 22px;
-  width: 22px;
-  text-indent: 200%;
-  white-space: nowrap;
-  overflow: hidden;
-  border-radius: 0;
+.mouse-position > button {
   background: #00b19e url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMiIgdmlld0JveD0iMCAwIDIyIDIyIj48ZyBmaWxsPSIjZmZmIj48cGF0aCBkPSJNMTAgM2gydjE2aC0yek0zIDEwaDE2djJoLTE2ek03IDl2LTJoMnYtMWgtM3Yzek0xMyA3aDJ2Mmgxdi0zaC0zek05IDE1aC0ydi0yaC0xdjNoM3pNMTUgMTN2MmgtMnYxaDN2LTN6Ii8+PC9nPjwvc3ZnPg==") no-repeat center center;
   background-size: 22px 22px;
 }
@@ -691,7 +672,7 @@ content: "\002194";
 
 .flip-view-mode {
   position: absolute;
-  top: 273px;
+  top: 213px;
   left: 340px;
   background: rgba(255, 255, 255, 0.4);
   padding: 2px;
@@ -714,7 +695,7 @@ content: "\002194";
   background-size: 22px 22px;
 }
 
-.flip-view-mode a.flip-mode-3d {
+.flip-view-mode button.flip-mode-3d {
   background-color: #f33;
 }
 
@@ -771,15 +752,21 @@ content: "\002194";
   display: inline !important;
 }
 
+/* style overwrites when 3d mode is enabled */
 .mode-3d .ol-attribution {
   bottom: 30px;
   height: 2.5em;
   max-width: 550px;
   text-align: justify;
 }
-
 .mode-3d .ol-scale-line {
   bottom: 70px;
+}
+.mode-3d .ol-layerspy {
+  display: none;
+}
+.mode-3d .ol-layerspy > button {
+  pointer-events: none;
 }
 
 .ol-overlaycontainer-stopevent {
@@ -815,31 +802,8 @@ content: "\002194";
   z-index: 1000;
 }
 
-.switch-view-mode {
-  background: none;
-  background: #00b19e;
-  border: none;
-  border-radius: 0;
-  color: #fff;
-  display: block;
-  font-weight: 700;
-  height: 21px;
-  margin: 1px;
-  overflow: hidden;
-  outline: none;
-  padding: 0;
-  text-align: center;
-  text-decoration: none;
-  white-space: nowrap;
-  width: 40px;
-}
-
-#button-view-mode-toggle {
-  z-index: 2000;
-}
-
-#button-view-mode-toggle:hover {
-  background: #138d8d;
+.flip-view-mode .flipviewmode-button-label {
+  font-size: 14px;
 }
 
 .mapsearch-list .mapsearch-record.selected {
