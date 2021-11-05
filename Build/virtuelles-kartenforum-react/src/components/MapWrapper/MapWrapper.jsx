@@ -61,6 +61,8 @@ export function MapWrapper(props) {
 
   // initialize map on first render - logic formerly put into componentDidMount
   useEffect(() => {
+    const view = new View(mapViewSettings);
+
     // create and add vector source layer
     const initalFeaturesLayer = new VectorLayer({
       source: new VectorSource(),
@@ -74,6 +76,7 @@ export function MapWrapper(props) {
       new ToggleViewMode({
         initialState: is3dActive,
         propagateViewMode: set3dActive,
+        view,
       }),
       new ScaleLine(),
       new MousePositionOnOff(),
@@ -113,7 +116,7 @@ export function MapWrapper(props) {
       interactions: defaults().extend([new DragRotateAndZoom()]),
       renderer: "canvas",
       target: mapElement.current,
-      view: new View(mapViewSettings),
+      view,
     });
 
     setMap(initialMap);
