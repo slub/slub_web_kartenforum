@@ -11,7 +11,7 @@ import { useRecoilValue } from "recoil";
 import { isDefined, translate } from "../../util/util";
 import { mapState } from "../../atoms/atoms";
 import DeactivateMapCollection from "./DeactiveMapCollection";
-import { DynamicMapVisualization } from "./DynamicMapVisualization";
+import DynamicMapVisualization from "../DynamicMapVisualization/DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry";
 import "./LayerManagement.scss";
 

@@ -1,3 +1,21 @@
+.ol-overlaycontainer-stopevent {
+  z-index: 1 !important;
+}
+
+#app-container {
+  height: 100%;
+  width: 100%;
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+}
+
+.hide {
+  display: none;
+}
+
 /* always background color white for the map viewport */
 .ol-viewport {
   background-color: white;
@@ -769,24 +787,6 @@ content: "\002194";
   pointer-events: none;
 }
 
-.ol-overlaycontainer-stopevent {
-  z-index: 1 !important;
-}
-
-#app-container {
-  height: 100%;
-  width: 100%;
-}
-
-.map-container {
-  width: 100%;
-  height: 100%;
-}
-
-.hide {
-  display: none;
-}
-
 .layermanagement-container .badge {
   background-color: #00b19eed;
   bottom: 36px;
@@ -822,4 +822,97 @@ content: "\002194";
   left: 60px;
   width: 22px;
   z-index: 200;
+}
+
+.dyn-vis-control {
+  right: 10px;
+  top: 3px;
+  position: absolute;
+}
+.dyn-vis-control .open-dyn-vis {
+  position: relative;
+  margin: 2px 2px;
+  float: left;
+  background: transparent url("../Images/clockBtnStatic.gif") no-repeat 0 0;
+  opacity: 0.5;
+  cursor: pointer;
+}
+.dyn-vis-control .open-dyn-vis:hover {
+  opacity: 0.8;
+}
+.dyn-vis-control .content {
+  display: flex;
+}
+.dyn-vis-control .content div {
+  display: flex;
+}
+.dyn-vis-control .content .feedback {
+  font-weight: 700;
+  font-size: 11px;
+  margin: 4px 6px;
+  color: #f33;
+}
+.dyn-vis-control .content .start-container button,
+.dyn-vis-control .content .stop-container button {
+  position: relative;
+  background: #00b19e;
+  text-align: center;
+}
+.dyn-vis-control .content .start-container button:hover,
+.dyn-vis-control .content .stop-container button:hover {
+  background-color: #f33;
+}
+.dyn-vis-control .content .start-container button:after {
+  position: absolute;
+  top: 5px;
+  left: 8px;
+  width: 0;
+  height: 0;
+  content: "";
+  border: 6px solid transparent;
+  border-left-color: #fff;
+  border-right-width: 0;
+}
+.dyn-vis-control .content .stop-container button:after {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  content: "";
+}
+.dyn-vis-control button {
+  border: unset;
+  display: block;
+  margin: 1px 2px;
+  padding: 0;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  height: 22px;
+  width: 22px;
+  text-indent: 200%;
+  white-space: nowrap;
+  overflow: hidden;
+  border-radius: 0;
+  background-color: #00b19e;
+}
+
+.dyn-vis-control .dyn-vis-control.play .open-dyn-vis {
+  background: transparent url("../Images/clockBtnAnimated.gif") no-repeat 0 0;
+  opacity: 1;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2) {
+  .dyn-vis-control .open-dyn-vis {
+    background-image: url("../Images/clockBtnStatic@2x.gif");
+    background-size: 22px;
+  }
+
+  .dyn-vis-control.play .open-dyn-vis {
+    background-image: url("../Images/clockBtnAnimated@2x.gif");
+    background-size: 22px;
+  }
 }
