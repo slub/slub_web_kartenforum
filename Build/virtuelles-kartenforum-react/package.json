@@ -31,7 +31,10 @@
     "ol": "^6.7.0",
     "olcs": "^2.13.0",
     "prop-types": "^15.7.2",
+    "rdndmb-html5-to-touch": "^7.0.0-alpha.4",
     "react": "^17.0.1",
+    "react-dnd": "^14.0.4",
+    "react-dnd-multi-backend": "^7.0.0-alpha.4",
     "react-dom": "^17.0.1",
     "recoil": "^0.4.1",
     "sass": "^1.42.1"

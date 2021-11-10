@@ -20,6 +20,7 @@ export const LayerManagement = (props) => {
   const [displayedLayers, setDisplayedLayers] = useState(undefined);
   const layersRef = useRef();
   const bodyRef = useRef();
+  const blockRefreshRef = useRef(null);
 
   const getLayers = () => {
     const layers = layersRef.current;
@@ -40,8 +41,28 @@ export const LayerManagement = (props) => {
   };
 
   const handleRefresh = () => {
+    if (blockRefreshRef.current) return;
     const newLayers = getLayers();
     setDisplayedLayers(newLayers.reverse());
+  };
+
+  const handleMoveLayer = (dragIndex, hoverIndex) => {
+    // block all but the last refresh
+    blockRefreshRef.current = true;
+    const layers = layersRef.current;
+
+    const bigIndex = dragIndex > hoverIndex ? dragIndex : hoverIndex;
+    const smallIndex = dragIndex < hoverIndex ? dragIndex : hoverIndex;
+
+    const layerA = layers.item(bigIndex);
+    const layerB = layers.item(smallIndex);
+
+    layers.removeAt(bigIndex);
+    layers.removeAt(smallIndex);
+
+    layers.insertAt(smallIndex, layerA);
+    blockRefreshRef.current = false;
+    layers.insertAt(bigIndex, layerB);
   };
 
   useEffect(() => {
@@ -56,46 +77,6 @@ export const LayerManagement = (props) => {
       };
     }
   }, [map]);
-
-  useEffect(() => {
-    $(bodyRef.current).sortable({
-      revert: true,
-      handle: ".drag-btn",
-      stop: (event, ui) => {
-        const allLayers = layersRef.current.getArray();
-        const layers = getLayers();
-        const listElements = document.getElementsByClassName(
-          "layermanagement-record",
-          bodyRef.current
-        );
-
-        const oldLayerIndex = parseInt(listElements[ui.item.index()].id, 0);
-        const newListIndex = ui.item.index();
-        const newLayerIndex = layers.length - newListIndex;
-
-        console.log(oldLayerIndex, oldListIndex, newListIndex);
-        // prevent from removing/adding the layer if it was drag on the same place
-        if (isDefined(oldLayerIndex) && oldListIndex != newListIndex) {
-          const layer = layers[oldLayerIndex];
-          const mapLayers = layersRef.current;
-
-          // remove old layer
-          const removeLayerIndex = getIndexToLayer(layer);
-          console.log(removeLayerIndex);
-          mapLayers.removeAt(removeLayerIndex);
-
-          // add new layer
-          const index = getIndexToLayer(layers[newLayerIndex]);
-          console.log(index);
-          if (newLayerIndex > oldLayerIndex) {
-            mapLayers.insertAt(index + 1, layer);
-            return;
-          }
-          mapLayers.insertAt(index, layer);
-        }
-      },
-    });
-  }, []);
 
   return (
     <div className="layermanagement-container" id="layermanagement-container">
@@ -113,11 +94,13 @@ export const LayerManagement = (props) => {
         {displayedLayers === undefined || displayedLayers.length === 0 ? (
           <li className="empty">{translate("layermanagement-start-msg")}</li>
         ) : (
-          displayedLayers.map((layer, index) => (
+          displayedLayers.map((layer) => (
             <LayerManagementEntry
+              onMoveLayer={handleMoveLayer}
               layer={layer}
               index={getIndexToLayer(layer)}
-              key={`${layer.getId()}-${index}`}
+              key={layer.getId()}
+              id={layer.getId()}
             />
           ))
         )}
