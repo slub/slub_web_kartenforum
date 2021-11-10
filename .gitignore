@@ -4,3 +4,5 @@ package-lock.json
 Build/**/node_modules
 !Build/package-lock.json
 !Build/vk2/package-lock.json
+Resources/Public/css/index.css
+Resources/Public/Css/index.css

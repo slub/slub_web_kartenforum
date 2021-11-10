@@ -10,7 +10,7 @@ page {
         vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Css/ol.css
         vk-header = EXT:slub_web_kartenforum/Resources/Public/Css/header.css
 		slub_web_kartenforum_layout = EXT:slub_web_kartenforum/Resources/Public/Css/layout.min.css
-        slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/css/index.css
+        slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/Css/index.css
     }
 
     includeJSLibs {
@@ -49,6 +49,7 @@ page {
 
                 // update settings from typo3 flexform parameters
                 vk2.SettingsProvider.updateSettings({
+                    "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
                     "ELASTICSEARCH_NODE": "https://kartenforum.slub-dresden.de/spatialdocuments",
                     "ELASTICSEARCH_SRS": "EPSG:4326",
                     "EVALUATION_GETPROCESS": !WITH_SPEAKING_URLS ?

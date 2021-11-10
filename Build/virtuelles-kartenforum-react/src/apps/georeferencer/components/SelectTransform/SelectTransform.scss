@@ -1,0 +1,32 @@
+@import "../../../../_sass/variables";
+
+.vk-select-transform {
+  padding: 0;
+  cursor: pointer;
+
+  > a,
+  > div {
+    position: relative;
+    float: left;
+  }
+
+  a {
+    background-color: $primaryColorMain;
+    padding: 6px 0 1px 7px;
+    font-size: 16px;
+    cursor: pointer;
+    color: $primaryColorContrast;
+  }
+
+  select {
+    background-color: $primaryColorMain;
+    color: $primaryColorContrast;
+    border: none;
+    height: 29px;
+    &:focus {
+      outline: none;
+      box-shadow: unset;
+      border: none;
+    }
+  }
+}

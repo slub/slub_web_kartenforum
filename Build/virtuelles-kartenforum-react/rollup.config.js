@@ -18,7 +18,7 @@ import babel from "@rollup/plugin-babel";
 
 const outputDir = "../../Resources/Public/";
 
-const cssOutputDir = "css/";
+const cssOutputDir = "Css/";
 const javascriptOutputDir = "JavaScript/Dist/";
 
 // You can export an array from your config file to build bundles from
