@@ -4,16 +4,19 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Slider from "rc-slider";
+
+import "rc-slider/assets/index.css";
+import "./OpacitySlider.scss";
 
 export const OpacitySlider = (props) => {
   const { orientation = "horizontal", layer } = props;
-  const sliderRef = useRef();
-  const valueRef = useRef();
+  const [value, setValue] = useState(layer.getOpacity() * 100);
 
+  const valueRef = useRef(null);
   const baseMin = 0,
     baseMax = 100;
-  const startValue = layer.getOpacity() * 100;
 
   /**
    * 	@param {number} value
@@ -23,7 +26,7 @@ export const OpacitySlider = (props) => {
     if (orientation == "vertical") {
       var style_top = 100 - ((value - baseMin) / (baseMax - baseMin)) * 100;
       element.style.top = style_top + "%";
-      element.innerHTML = value + "%";
+      element.innerHTML = value.toFixed(0) + "%";
       return;
     }
 
@@ -33,14 +36,21 @@ export const OpacitySlider = (props) => {
   };
 
   const handleOpacityChange = (event) => {
-    const breakValue = 19;
     const opacity = event.target.getOpacity() * 100;
-    //console.log('Opacity: ' + opacity + ', Slider value: ' + $(sliderEl).slider('value'));
 
-    if (Math.abs(opacity - $(sliderRef.current).slider("value")) > breakValue) {
-      $(sliderRef.current).slider("value", opacity);
-    }
+    setValue(opacity);
   };
+
+  const handleSliderChange = (value) => {
+    setValue(value);
+    layer.setOpacity(value / 100);
+    // @TODO: REFRESH 3D VIEW HERE
+    // vk2.utils.refresh3DView();
+  };
+
+  useEffect(() => {
+    handleUpdatePosition(value, valueRef.current);
+  }, [value]);
 
   useEffect(() => {
     layer.on("change:opacity", handleOpacityChange);
@@ -49,40 +59,12 @@ export const OpacitySlider = (props) => {
     };
   });
 
-  useEffect(() => {
-    $(sliderRef.current).slider({
-      min: 0,
-      max: 100,
-      value: startValue,
-      animate: "slow",
-      orientation: orientation,
-      step: 1,
-      slide: (event, ui) => {
-        const value = ui["value"];
-        handleUpdatePosition(value, valueRef.current);
-        layer.setOpacity(value / 100);
-        // @TODO: REFRESH 3D VIEW HERE
-        // vk2.utils.refresh3DView();
-      },
-      change: (event, ui) => {
-        const value = ui["value"];
-        handleUpdatePosition(value, valueRef.current);
-        layer.setOpacity(value / 100);
-        // @TODO: REFRESH 3D VIEW HERE
-        // vk2.utils.refresh3DView();
-      },
-    });
-  }, []);
-
-  // append slide behavior
-
   return (
     <div className="opacity-container">
-      <div className="slider-container opacity-slider">
-        <div className="slider" ref={sliderRef}>
-          <div className="tooltip value" ref={valueRef}>
-            100%
-          </div>
+      <div className="slider-container">
+        <Slider onChange={handleSliderChange} value={value} vertical />
+        <div className="tooltip value" ref={valueRef}>
+          100%
         </div>
       </div>
     </div>
