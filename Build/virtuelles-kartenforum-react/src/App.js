@@ -6,17 +6,21 @@
  */
 
 import React from "react";
-import { MainLayout } from "./layouts/MainLayout/MainLayout";
 import { RecoilRoot } from "recoil";
-import { SettingsProvider } from "./index";
+import { DndProvider } from "react-dnd-multi-backend";
+import { HTML5toTouch } from "rdndmb-html5-to-touch";
+
+import { MainLayout } from "./layouts/MainLayout/MainLayout";
 import StyleAppender from "./components/StyleAppender/StyleAppender";
 
 export const App = (props) => {
     return (
-        <RecoilRoot>
-            <MainLayout test={"test"} />
-            <StyleAppender />
-        </RecoilRoot>
+        <DndProvider options={HTML5toTouch}>
+            <RecoilRoot>
+                <MainLayout test={"test"} />
+                <StyleAppender />
+            </RecoilRoot>
+        </DndProvider>
     );
 };
 

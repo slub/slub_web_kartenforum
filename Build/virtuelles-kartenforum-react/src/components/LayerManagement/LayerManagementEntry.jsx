@@ -6,18 +6,71 @@
  */
 
 import React from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useDrag, useDrop } from "react-dnd";
+
 import { translate } from "../../util/util";
-import { useEffect, useState } from "react";
-import { FALLBACK_SRC } from "../MapSearch/MapSearchListElement";
-import { useRecoilValue } from "recoil";
-import { mapState } from "../../atoms/atoms";
+import { mapState, selectedFeaturesState } from "../../atoms/atoms";
 import { OpacitySlider } from "./OpacitySlider";
+import { FALLBACK_SRC } from "../MapSearch/MapSearchListElement";
+
+export const ItemTypes = {
+  LAYER: "LAYER",
+};
 
 export const LayerManagementEntry = (props) => {
-  const { index, layer } = props;
+  const { id, index, layer, onMoveLayer } = props;
   const map = useRecoilValue(mapState);
+  const ref = useRef(null);
+  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
+    selectedFeaturesState
+  );
   const [src, setSrc] = useState(layer.getThumbnail());
   const [isVisible, setIsVisible] = useState(layer["getVisible"]());
+
+  // drag/drop handlers from: https://react-dnd.github.io/react-dnd/examples/sortable/simple
+  const [{ handlerId }, drop] = useDrop({
+    accept: ItemTypes.LAYER,
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      };
+    },
+    hover(item, monitor) {
+      if (!ref.current) {
+        return;
+      }
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      // Don't replace items with themselves
+      if (dragIndex === hoverIndex) {
+        return;
+      }
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
+      onMoveLayer(dragIndex, hoverIndex);
+      item.index = hoverIndex;
+    },
+  });
+  const [{ isDragging }, drag] = useDrag({
+    type: ItemTypes.LAYER,
+    item: () => {
+      return { id, index };
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
 
   const handleError = () => {
     if (src !== FALLBACK_SRC) {
@@ -40,6 +93,12 @@ export const LayerManagementEntry = (props) => {
   const handleRemoveLayer = (event) => {
     map.removeLayer(layer);
     event.stopPropagation();
+
+    setSelectedFeatures(
+      selectedFeatures.filter(
+        ({ feature }) => feature.getId() !== layer.getId()
+      )
+    );
     // @TODO: REFRESH 3D VIEW HERE
     // vk2.utils.refresh3DView();
   };
@@ -60,6 +119,10 @@ export const LayerManagementEntry = (props) => {
     layer["setVisible"](isVisible);
   }, [isVisible]);
 
+  // hide dragged item on drag
+  const opacity = isDragging ? 0 : 1;
+  drag(drop(ref));
+
   return (
     <li
       className={`layermanagement-record ${
@@ -67,6 +130,9 @@ export const LayerManagementEntry = (props) => {
       }`}
       id={index}
       data-id={layer.getId()}
+      data-handler-id={handlerId}
+      style={{ opacity }}
+      ref={ref}
     >
       <div className="control-container">
         <button

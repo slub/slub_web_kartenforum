@@ -34,6 +34,7 @@ import LayerManagement from "../LayerManagement/LayerManagement";
 import { MousePositionOnOff } from "./components/MousePositionOnOff";
 import CustomAttribution from "./components/CustomAttribution";
 import ToggleViewMode from "../ToggleViewmode/ToggleViewmode";
+import { LayerSpy } from "./components/LayerSpy";
 import "./MapWrapper.scss";
 import "./openlayer-overwrites.scss";
 
@@ -61,6 +62,8 @@ export function MapWrapper(props) {
 
   // initialize map on first render - logic formerly put into componentDidMount
   useEffect(() => {
+    const view = new View(mapViewSettings);
+
     // create and add vector source layer
     const initalFeaturesLayer = new VectorLayer({
       source: new VectorSource(),
@@ -74,6 +77,7 @@ export function MapWrapper(props) {
       new ToggleViewMode({
         initialState: is3dActive,
         propagateViewMode: set3dActive,
+        view,
       }),
       new ScaleLine(),
       new MousePositionOnOff(),
@@ -82,19 +86,18 @@ export function MapWrapper(props) {
 
     // Add spy layer
 
-    //     controls.push(
-    //       new vk2.control.LayerSpy({
-    //         spyLayer: new ol.layer.Tile({
-    //           attribution: undefined,
-    //           source: new ol.source.XYZ({
-    //             urls: vk2.settings.OSM_URLS,
-    //             crossOrigin: "*",
-    //             attributions: [],
-    //           }),
-    //         }),
-    //       })
-    //     );
-    //   }
+    controls.push(
+      new LayerSpy({
+        spyLayer: new TileLayer({
+          attribution: undefined,
+          source: new XYZ({
+            urls: baseMapUrl,
+            crossOrigin: "*",
+            attributions: [],
+          }),
+        }),
+      })
+    );
 
     // create map
     const initialMap = new Map({
@@ -113,7 +116,7 @@ export function MapWrapper(props) {
       interactions: defaults().extend([new DragRotateAndZoom()]),
       renderer: "canvas",
       target: mapElement.current,
-      view: new View(mapViewSettings),
+      view,
     });
 
     setMap(initialMap);

@@ -1,26 +1,5 @@
-.switch-view-mode {
-  background: none;
-  background: #00b19e;
-  border: none;
-  border-radius: 0;
-  color: #fff;
-  display: block;
-  font-weight: 700;
-  height: 21px;
-  margin: 1px;
-  overflow: hidden;
-  outline: none;
-  padding: 0;
-  text-align: center;
-  text-decoration: none;
-  white-space: nowrap;
-  width: 40px;
-}
-
-#button-view-mode-toggle {
-  z-index: 2000;
-}
-
-#button-view-mode-toggle:hover {
-  background: #138d8d;
+.flip-view-mode {
+  .flipviewmode-button-label {
+    font-size: 14px;
+  }
 }

@@ -5,9 +5,7 @@
 @import url(vk2/override-jquery.css);
 @import url(vk2/override-bootstrap.css);
 @import url(vk2/control/deactivatemapcollection.css);
-@import url(vk2/control/dynamicmapvisualization.css);
 @import url(vk2/module/spatialtemporalsearch.css);
-@import url(vk2/module/layermanagement.css);
 @import url(vk2/module/mapsearch.css);
 @import url(vk2/single/georeference_profile.css);
 @import url(vk2/template/evaluation.css);
@@ -21,7 +19,6 @@
 @import url(vk2/template/template.css);
 @import url(vk2/template/welcome.css);
 @import url(vk2/tool/gazetteersearch.css);
-@import url(vk2/tool/timeslider.css);
 @import url(vk2/tool/opacityslider.css);
 @import url(vk2/utils/modal.css);
 @import url(vk2/utils/slidecontainer.css);

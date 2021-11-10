@@ -17,24 +17,17 @@ export class MousePositionOnOff extends Control {
     const options = opt_options || {};
 
     const element = document.createElement("div");
-    element.className = "mouse-position ol-unselectable";
+    element.className = "mouse-position ol-unselectable ol-control";
 
-    const anchor = document.createElement("a");
-    anchor.href = "#mouse-position";
-    anchor.innerHTML = "M";
-    anchor.className = "ol-has-tooltip";
+    const button = document.createElement("button");
+    button.title = translate("mouseposition-title");
+    button.type = "button";
 
-    const tooltip = document.createElement("span");
-    tooltip.role = "tooltip";
-    tooltip.innerHTML = translate("mouseposition-title");
-
-    anchor.appendChild(tooltip);
-
-    element.appendChild(anchor);
+    element.appendChild(button);
 
     super({ element, target: options.target });
 
-    anchor.addEventListener("click", this.toggleMousePosition, false);
+    button.addEventListener("click", this.toggleMousePosition, false);
   }
 
   updatePosition = (event) => {

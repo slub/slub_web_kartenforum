@@ -5,16 +5,12 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import "./ToggleViewMode.scss";
-import { translate } from "../../util/util";
 import { Control } from "ol/control";
+import { translate } from "../../util/util";
+import "./ToggleViewMode.scss";
 
-// @TODO: Inject this from typo3 context
-const SWITCH_VIEW_MODE_CONTAINER_ID = "switch-view-mode-container";
-
-function updateAnchor(anchor, state) {
-  anchor.innerHTML = state ? "2D" : "3D";
-  anchor.className = state ? "ol-has-tooltip three-d" : "ol-has-tooltip two-d";
+function updateButtonText(button, state) {
+  button.innerHTML = state ? "2D" : "3D";
 }
 
 export class ToggleViewMode extends Control {
@@ -23,42 +19,52 @@ export class ToggleViewMode extends Control {
     const initialState = options.initialState;
 
     const element = document.createElement("div");
-    element.className = "flip-view-mode ol-unselectable";
+    element.className = "flip-view-mode ol-unselectable ol-control";
 
-    const anchor = document.createElement("a");
-    anchor.href = "#flip-view-mode";
-    updateAnchor(anchor, initialState);
+    const button = document.createElement("button");
 
-    const tooltip = document.createElement("span");
-    tooltip.role = "tooltip";
-    tooltip.innerHTML = translate("flipviewmode-title");
+    button.title = translate("flipviewmode-title");
+    button.type = "button";
 
-    anchor.appendChild(tooltip);
+    const buttonText = document.createElement("span");
+    buttonText.className = "flipviewmode-button-label";
+    buttonText.innerHTML = initialState ? "2D" : "3D";
 
     const infoMessage = document.createElement("div");
     infoMessage.className = "info-message";
     infoMessage.innerHTML = translate("flipviewmode-zoomin");
 
-    element.appendChild(anchor);
+    button.appendChild(buttonText);
+    element.appendChild(button);
+    element.appendChild(infoMessage);
 
     super({ element, target: options.target });
 
     this.propagateViewMode = options.propagateViewMode;
-    console.log(this.propagateViewMode, options.propagateViewMode);
     this.internalState = initialState;
-    this.anchor = anchor;
+    this.buttonText = buttonText;
+    this.view = options.view;
+    this.infoMessage = infoMessage;
 
-    anchor.addEventListener("click", this.handleUpdate, false);
+    button.addEventListener("click", this.handleUpdate, false);
   }
 
   handleUpdate = () => {
-    this.propagateViewMode((oldState) => {
-      const newState = !oldState;
-      this.internalState = newState;
-      return newState;
-    });
-
-    updateAnchor(this.anchor, this.internalState);
+    const min3DZoom = 3;
+    if (this.view.getZoom() > min3DZoom) {
+      this.propagateViewMode((oldState) => {
+        const newState = !oldState;
+        this.internalState = newState;
+        return newState;
+      });
+      updateButtonText(this.buttonText, this.internalState);
+    } else {
+      this.infoMessage.classList.add("open");
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        this.infoMessage.classList.remove("open");
+      }, 4000);
+    }
   };
 }
 
