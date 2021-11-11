@@ -1,4 +1,7 @@
 plugin.tx_slubwebkartenforum {
+	features {
+	    requireCHashArgumentForActionArguments = 0
+	}
 	persistence {
 		storagePid = {$config.userStoragePid}
 		classes {
@@ -19,5 +22,8 @@ plugin.tx_slubwebkartenforum {
         georefPageId = {$config.georefPage}
         elasticsearchNode = {$config.elasticsearch.node}
         welcomePage = {$config.welcomePage}
+        api_georeference = https://geo-slub.pikobytes.de
+        api_georeference_user = vk20_user
+        api_georeference_password = vk20_user_1234
 	}
 }

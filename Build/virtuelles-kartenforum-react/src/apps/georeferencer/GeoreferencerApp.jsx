@@ -8,6 +8,7 @@ import React from "react";
 import { RecoilRoot } from "recoil";
 import ControllerGeoreferencer from "./components/ControllerGeoreferencer/ControllerGeoreferencer";
 import Header from "./components/Header/Header";
+import MapSource from "./components/MapSource/MapSource";
 import SelectTransform from "./components/SelectTransform/SelectTransform";
 import "./GeoreferencerApp.scss";
 
@@ -19,6 +20,12 @@ export const GeoreferencerApp = () => {
         <Header>
           <SelectTransform />
         </Header>
+        <div className="row content-container">
+          <div className="col-sm-6 col-md-6 col-lg-6 outer-map-container">
+            <MapSource />
+          </div>
+          <div className="col-sm-6 col-md-6 col-lg-6 outer-map-container"></div>
+        </div>
       </div>
     </RecoilRoot>
   );

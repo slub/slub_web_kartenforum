@@ -24,9 +24,11 @@ page {
                 // update settings from typo3 flexform parameters
                 vk2.SettingsProvider.updateSettings({
                     "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
+                    "API_GEOREFERENCE_GET": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=get&type=9991",
+                    "API_GEOREFERENCE_TRANSFORMATION_BY_MAPID": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationByMapId&type=9991",
                 })
 			</script>
-        )
+		)
     }
 }
 
@@ -47,5 +49,5 @@ georef {
     xhtml_cleaning = 0
     debug = 0
   }
-  10 < tt_content.list.20.slubwebkartenforum_georeference
+  10 < tt_content.list.20.ie
 }

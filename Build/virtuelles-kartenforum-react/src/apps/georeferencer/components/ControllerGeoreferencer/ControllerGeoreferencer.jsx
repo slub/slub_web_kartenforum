@@ -5,17 +5,24 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
+import queryString from "query-string";
 import { queryDocument } from "../../../../util/apiEs";
+import { queryTransformationForMapId } from "../../../../util/apiGeo";
+import { transformationState } from "../../atoms/atoms";
 
 export const ControllerGeoreferencer = () => {
+  const setTransformation = useSetRecoilState(transformationState);
+
   // Effects which should be triggered on mount
   useEffect(async () => {
-    const mapDocument = await queryDocument(
-      "oai:de:slub-dresden:vk:id-10009482"
-    );
+    // Extract the query string and create the initial georeference object for it
+    // For testing use map_id=oai:de:slub-dresden:vk:id-10009482
+    const qs = queryString.parse(location.search);
 
-    if (mapDocument !== undefined) {
-      console.log(mapDocument);
+    if (qs.map_id !== undefined) {
+      const transformation = await queryTransformationForMapId(qs.map_id);
+      setTransformation(transformation);
     }
   }, []);
 

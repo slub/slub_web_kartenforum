@@ -170,7 +170,6 @@ class ElasticsearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCo
         }
     }
 
-
     /**
 	 * gets current logged in frontend user
 	 *
