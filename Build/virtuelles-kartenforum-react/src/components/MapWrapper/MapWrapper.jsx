@@ -202,10 +202,12 @@ export function MapWrapper(props) {
 
   useEffect(() => {
     selectedFeatures.forEach((selectedFeature) => {
-      const { displayedInMap = false, feature } = selectedFeature;
+      const { displayedInMap = false, feature, opacity = 1 } = selectedFeature;
 
       if (!displayedInMap && feature.get("georeference")) {
-        map.addLayer(createHistoricMapForFeature(feature));
+        const layer = createHistoricMapForFeature(feature);
+        layer.setOpacity(opacity);
+        map.addLayer(layer);
         if (is3dActive) {
           const historicMapClipFeature = createClipFeature(
             feature.getGeometry().clone(),

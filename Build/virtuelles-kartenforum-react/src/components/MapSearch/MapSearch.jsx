@@ -27,6 +27,8 @@ import MapSearchListElement from "./MapSearchListElement";
 const SEARCH_COLS = ["time", "title", "georeference"];
 const DEFAULT_TYPE = "title";
 
+export const MAP_PROJECTION = "EPSG:900913";
+
 // approximated height of a view item
 const VIEW_ITEM_HEIGHT = 120;
 
@@ -175,7 +177,7 @@ export const MapSearch = (props) => {
         is3d: is3dEnabled,
         elasticsearch_srs: settings["ELASTICSEARCH_SRS"],
         elasticsearch_node: settings["ELASTICSEARCH_NODE"],
-        projection: "EPSG:900913",
+        projection: MAP_PROJECTION,
         map: map,
         updateCallback: handleUpdate,
       });

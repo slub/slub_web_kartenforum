@@ -201,7 +201,7 @@ export const getFeatureForId = function (type, featureId) {
  * @param {Array.<string>} featureIds
  * @return {Object}
  */
-const getFeatureForIds = function (type, featureIds, callback) {
+export const getFeatureForIds = function (type, featureIds, callback) {
     const settings = SettingsProvider.getSettings();
 
     const url = settings["ELASTICSEARCH_NODE"] + "/" + type + "/_mget",

@@ -12,6 +12,7 @@ import { HTML5toTouch } from "rdndmb-html5-to-touch";
 
 import { MainLayout } from "./layouts/MainLayout/MainLayout";
 import StyleAppender from "./components/StyleAppender/StyleAppender";
+import { PersistenceController } from "./persistence/PersistenceController";
 
 export const App = (props) => {
     return (
@@ -19,6 +20,7 @@ export const App = (props) => {
             <RecoilRoot>
                 <MainLayout test={"test"} />
                 <StyleAppender />
+                <PersistenceController />
             </RecoilRoot>
         </DndProvider>
     );

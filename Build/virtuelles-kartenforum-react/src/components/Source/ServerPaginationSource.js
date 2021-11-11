@@ -16,16 +16,7 @@ import {
 } from "../../util/util";
 import { getSpatialQuery, getToGeorefQuery } from "../../util/query";
 import { readFeatures } from "../../util/parser";
-
-/**
- * @enum {string}
- */
-const ServerPaginationEventType = {
-    // Is triggered if there was a pagination event. Incrementel data is added.
-    PAGINATE: "paginate",
-    // Refresh is called when the complete search data is refreshed
-    REFRESH: "refresh",
-};
+import { MAP_PROJECTION } from "../MapSearch/MapSearch";
 
 /**
  * @classdesc
@@ -50,7 +41,7 @@ export class ServerPagination {
         this.projection_ =
             options.projection !== undefined
                 ? options.projection
-                : "EPSG:900913";
+                : MAP_PROJECTION;
 
         /**
          * @private
