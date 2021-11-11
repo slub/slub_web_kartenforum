@@ -9,10 +9,11 @@ import { useSetRecoilState } from "recoil";
 import queryString from "query-string";
 import { queryDocument } from "../../../../util/apiEs";
 import { queryTransformationForMapId } from "../../../../util/apiGeo";
-import { transformationState } from "../../atoms/atoms";
+import { mapMetadataState, transformationState } from "../../atoms/atoms";
 
 export const ControllerGeoreferencer = () => {
   const setTransformation = useSetRecoilState(transformationState);
+  const setMapMetadata = useSetRecoilState(mapMetadataState);
 
   // Effects which should be triggered on mount
   useEffect(async () => {
@@ -22,6 +23,9 @@ export const ControllerGeoreferencer = () => {
 
     if (qs.map_id !== undefined) {
       const transformation = await queryTransformationForMapId(qs.map_id);
+      const metadata = await queryDocument(qs.map_id);
+
+      setMapMetadata(metadata);
       setTransformation(transformation);
     }
   }, []);

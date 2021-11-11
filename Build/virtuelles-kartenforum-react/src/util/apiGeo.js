@@ -21,40 +21,40 @@ function checkIfGeoServiceIsMissing() {
 /**
  * The function queries the transformation information for a given mapId and returns a json object
  * @param {int|string} mapId
- * @returns {Promise<{{
+ * @returns {Promise<{
  *     active_transformation_id: number|null,
  *     extent: GeoJSONGeometry,
- *     default_srs: str,
+ *     default_srs: string,
  *     items: {
- *       map_id: str,
+ *       map_id: string,
  *       metadata: {
- *         time_published: str,
- *         title: str,
+ *         time_published: string,
+ *         title: string,
  *       },
  *       transformation: {
  *         clip: GeoJSONGeometry,
  *         overwrites: number,
  *         params: {
- *           source: str,
- *           target: str,
- *           algorithm: str,
+ *           source: string,
+ *           target: string,
+ *           algorithm: string,
  *           gcps: {
  *             source: [number,number],
  *             target: [number,number]
  *           }[]
  *         },
- *         submitted: str,
+ *         submitted: string,
  *         transformation_id: number,
- *         user_id: str,
+ *         user_id: string,
  *       }
  *     }[],
- *     map_id: str,
+ *     map_id: string,
  *     metadata: {
- *       time_published: str,
- *       title: str,
+ *       time_published: string,
+ *       title: string,
  *     },
  *     pending_jobs: boolean,
- * }}>}
+ * }>}
  */
 export async function queryTransformationForMapId(mapId) {
     checkIfGeoServiceIsMissing();

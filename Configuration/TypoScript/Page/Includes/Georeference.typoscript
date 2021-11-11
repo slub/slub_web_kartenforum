@@ -1,17 +1,14 @@
 page {
-    includeCSSLibs {
-        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/bootstrap-3.3.7.min.css
-    }
-
     includeCSS {
-        vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Css/ol.css
         vk2-header = EXT:slub_web_kartenforum/Resources/Public/Css/header.css
         slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/Css/vk2-georeference.css
     }
 
     includeJSLibs {
         proj4 = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/proj4-2.2.1.js
-        vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/ol-vk2.js
+    }
+
+    includeJS {
         vk2-min = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vk2-georeference-min.js
     }
 }

@@ -6,6 +6,11 @@
  */
 import { atom } from "recoil";
 
+export const mapMetadataState = atom({
+    key: "mapMetadataState",
+    default: null,
+});
+
 export const transformationState = atom({
     key: "transformationState",
     default: null,

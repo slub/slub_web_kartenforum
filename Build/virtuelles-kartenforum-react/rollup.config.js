@@ -14,6 +14,7 @@ import replace from "rollup-plugin-replace";
 import rollupJson from "rollup-plugin-json";
 import scss from "rollup-plugin-scss";
 import babel from "@rollup/plugin-babel";
+
 // Directory where to write the output
 
 const outputDir = "../../Resources/Public/";
@@ -40,11 +41,11 @@ export const configs = [
             name: "vk2",
             sourcemap: "inline",
         },
-        onwarn: function (warning) {
+        onwarn: function (warning, superOnWarn) {
             if (warning.code === "THIS_IS_UNDEFINED") {
                 return;
             }
-            console.error(warning.message);
+            superOnWarn(warning);
         },
         plugins: [
             babel({
@@ -87,11 +88,11 @@ export const configs = [
             name: "vk2",
             sourcemap: "inline",
         },
-        onwarn: function (warning) {
+        onwarn: function (warning, superOnWarn) {
             if (warning.code === "THIS_IS_UNDEFINED") {
                 return;
             }
-            console.error(warning.message);
+            superOnWarn(warning);
         },
         plugins: [
             babel({
