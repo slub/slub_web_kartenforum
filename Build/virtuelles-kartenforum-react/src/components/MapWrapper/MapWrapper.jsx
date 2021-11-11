@@ -32,6 +32,7 @@ import { SettingsProvider } from "../../index";
 import HistoricMap3D from "../layer/HistoricMapLayer3d";
 import LayerManagement from "../LayerManagement/LayerManagement";
 import { MousePositionOnOff } from "./components/MousePositionOnOff";
+import RestoreDefaultView from "./components/RestoreDefaultView";
 import CustomAttribution from "./components/CustomAttribution";
 import ToggleViewMode from "../ToggleViewmode/ToggleViewmode";
 import { LayerSpy } from "./components/LayerSpy";
@@ -79,14 +80,6 @@ export function MapWrapper(props) {
         propagateViewMode: set3dActive,
         view,
       }),
-      new ScaleLine(),
-      new MousePositionOnOff(),
-      // new vk2.control.Permalink(),
-    ];
-
-    // Add spy layer
-
-    controls.push(
       new LayerSpy({
         spyLayer: new TileLayer({
           attribution: undefined,
@@ -96,8 +89,12 @@ export function MapWrapper(props) {
             attributions: [],
           }),
         }),
-      })
-    );
+      }),
+      new RestoreDefaultView({ defaultView: mapViewSettings }),
+      new ScaleLine(),
+      new MousePositionOnOff(),
+      // new vk2.control.Permalink(),
+    ];
 
     // create map
     const initialMap = new Map({
@@ -319,6 +316,9 @@ const generateLimitCamera = function (mapView) {
 };
 
 MapWrapper.propTypes = {
+  baseMapUrl: PropTypes.arrayOf(PropTypes.string),
+  enable3d: PropTypes.bool,
+  enableTerrain: PropTypes.bool,
   mapViewSettings: {
     center: [PropTypes.number, PropTypes.number],
     projection: PropTypes.string,
@@ -458,82 +458,6 @@ export const registerPermalinkTool = function (permalink) {
 
   // parse permalink if one exists
   permalink.parsePermalink(this.map_);
-};
-
-/**
- * @param {vk2.module.SpatialTemporalSearchModule} spatialTemporalSearchModule
- */
-const registerSpatialTemporalSearch = function (spatialTemporalSearchModule) {
-  /**
-   * @type {vk2.module.MapSearchModule}
-   * @private
-   */
-  this.mapsearch_ = spatialTemporalSearchModule.getMapSearchModule();
-
-  //
-  // Initialize an historic map click layer which is only used in case of 3d mode
-  //
-
-  /**
-   * @type {ol.layer.Vector|undefined}
-   * @private
-   */
-  this.historicMapClickLayer_ = vk2.utils.is3DMode()
-    ? new ol.layer.Vector({
-        source: new ol.source.Vector(),
-        style: function (feature, resolution) {
-          return [
-            new ol.style.Style({
-              fill: new ol.style.Fill({
-                color: "rgba(255, 255, 255, 0.0)",
-              }),
-            }),
-          ];
-        },
-      })
-    : undefined;
-
-  if (this.historicMapClickLayer_ !== undefined) {
-    // in case 3d mode is active add altitude value to coordinate
-    this.historicMapClickLayer_.set("altitudeMode", "clampToGround");
-    this.historicMapClickLayer_.set("type", "click");
-
-    // hold the overlay layer on top of the historic map layers
-    this.map_.getLayers().on(
-      "add",
-      function (event) {
-        var topLayer = event.target.getArray()[event.target.getLength() - 1];
-        if (
-          topLayer instanceof vk2.layer.HistoricMap ||
-          topLayer instanceof vk2.layer.HistoricMap3D
-        ) {
-          this.map_.removeLayer(this.historicMapClickLayer_);
-          this.map_.addLayer(this.historicMapClickLayer_);
-        }
-      },
-      this
-    );
-
-    this.map_.addLayer(this.historicMapClickLayer_);
-  }
-
-  // register gazetteer tool
-  goog.events.listen(
-    spatialTemporalSearchModule.getGazetteerSearchTool(),
-    "jumpto",
-    function (event) {
-      var lonlat = event.target["lonlat"],
-        center = ol.proj.transform(
-          [parseFloat(lonlat[0]), parseFloat(lonlat[1])],
-          event.target["srs"],
-          vk2.settings.MAPVIEW_PARAMS["projection"]
-        );
-
-      this.map_.zoomTo(center, 6);
-    },
-    undefined,
-    this
-  );
 };
 
 /**

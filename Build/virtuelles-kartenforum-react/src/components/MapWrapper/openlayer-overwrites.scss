@@ -33,6 +33,7 @@ button.ol-full-screen-false:after {
 }
 
 span.ol-compass,
+button.zoom-default-extent,
 button.rotate-north,
 .image-manipulation a,
 .mouse-position a {
@@ -66,7 +67,8 @@ span.ol-compass {
 
 .rotate-north,
 .flip-view-mode,
-.mouse-position {
+.mouse-position,
+.ol-zoom-default-extent {
   > button {
     background: rgb(0, 177, 158);
   }
@@ -614,7 +616,43 @@ content: "\002194";
   left: 0.5em;
   bottom: 5px;
 }
-
+.ol-zoom-default-extent {
+  position: absolute;
+  top: 303px;
+  left: 340px;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 2px;
+}
+.ol-zoom-default-extent button {
+  display: block;
+  margin: 1px;
+  padding: 0px 3px 0px 2.5px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  height: 22px;
+  width: 22px;
+  white-space: nowrap;
+  overflow: hidden;
+  border-radius: 0;
+  background: rgb(0, 177, 158)
+    url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0xNCA4djZoLTZ2LTZoNm0xLTFoLTh2OGg4di04ek03LjYgNy42aDYuN3YxLjNoLTYuN3pNNyAyaC01djVsMi4xLTIuMSAxLjUgMS41LjgtLjgtMS41LTEuNXpNMjAgN3YtNWgtNWwyLjEgMi4xLTEuNSAxLjUuOC44IDEuNS0xLjV6TTE1IDIwaDV2LTVsLTIuMSAyLjEtMS41LTEuNS0uOC44IDEuNSAxLjV6TTIgMTV2NWg1bC0yLjEtMi4xIDEuNS0xLjUtLjgtLjgtMS41IDEuNXoiLz48L3N2Zz4=")
+    no-repeat 0 0;
+  background-size: 22px 22px;
+}
+.olMap:-webkit-full-screen .ol-zoom-default-extent {
+  left: 0.5em;
+  top: 175px;
+}
+.olMap:-moz-full-screen .ol-zoom-default-extent {
+  left: 0.5em;
+  top: 175px;
+}
+.olMap:fullscreen .ol-zoom-default-extent {
+  left: 0.5em;
+  top: 175px;
+}
 .flip-view-mode {
   position: absolute;
   top: 213px;
