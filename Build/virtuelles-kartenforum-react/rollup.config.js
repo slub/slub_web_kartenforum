@@ -27,52 +27,98 @@ const javascriptOutputDir = "JavaScript/Dist/";
 
 // https://rollupjs.org/guide/en/#configuration-files
 
-export const newVar = {
-    cache: true,
-    input: "./src/index.js",
-    output: {
-        file: path.resolve(
-            __dirname,
-            `${outputDir}${javascriptOutputDir}vk2-min.js`
-        ),
-        format: "iife",
-        name: "vk2",
-        sourcemap: "inline",
-    },
-    onwarn: function (warning) {
-        if (warning.code === "THIS_IS_UNDEFINED") {
-            return;
-        }
-        console.error(warning.message);
-    },
-    plugins: [
-        babel({
+export const configs = [
+    {
+        cache: true,
+        input: "./src/index.js",
+        output: {
+            file: path.resolve(
+                __dirname,
+                `${outputDir}${javascriptOutputDir}vk2-min.js`
+            ),
+            format: "iife",
+            name: "vk2",
+            sourcemap: "inline",
+        },
+        onwarn: function (warning) {
+            if (warning.code === "THIS_IS_UNDEFINED") {
+                return;
+            }
+            console.error(warning.message);
+        },
+        plugins: [
+            babel({
             babelHelpers: "bundled",
             sourceMaps: false,
             inputSourceMap: false,
-            presets: ["@babel/preset-react"],
-        }),
-        replace({
-            "process.env.NODE_ENV": JSON.stringify("production"),
-        }),
-        peerDepsExternal(),
-        resolve({
-            browser: true,
-            extensions: [".js", ".jsx", ".json"],
-            jsnext: true,
-            preferBuiltins: true,
-        }),
-        rollupJson(),
-        commonjs(),
-        scss({
-            output: path.resolve(
+                presets: ["@babel/preset-react"],
+            }),
+            replace({
+                "process.env.NODE_ENV": JSON.stringify("production"),
+            }),
+            peerDepsExternal(),
+            resolve({
+                browser: true,
+                extensions: [".js", ".jsx", ".json"],
+                jsnext: true,
+                preferBuiltins: true,
+            }),
+            rollupJson(),
+            commonjs(),
+            scss({
+                output: path.resolve(
+                    __dirname,
+                    `${outputDir}${cssOutputDir}index.css`
+                ),
+                // outputStyle: "compressed",
+            }),
+        ],
+        preserveEntrySignatures: "strict",
+    },
+    {
+        cache: true,
+        input: "./src/apps/georeferencer/index.js",
+        output: {
+            file: path.resolve(
                 __dirname,
-                `${outputDir}${cssOutputDir}index.css`
+                `${outputDir}${javascriptOutputDir}vk2-georeference-min.js`
             ),
-            // outputStyle: "compressed",
-        }),
-    ],
-    preserveEntrySignatures: "strict",
-};
+            format: "iife",
+            name: "vk2",
+            sourcemap: "inline",
+        },
+        onwarn: function (warning) {
+            if (warning.code === "THIS_IS_UNDEFINED") {
+                return;
+            }
+            console.error(warning.message);
+        },
+        plugins: [
+            babel({
+                presets: ["@babel/preset-react"],
+            }),
+            replace({
+                "process.env.NODE_ENV": JSON.stringify("production"),
+            }),
+            peerDepsExternal(),
+            resolve({
+                browser: true,
+                extensions: [".js", ".jsx", ".json"],
+                jsnext: true,
+                preferBuiltins: true,
+            }),
+            rollupJson(),
+            commonjs(),
+            scss({
+                output: path.resolve(
+                    __dirname,
+                    `${outputDir}${cssOutputDir}vk2-georeference.css`
+                ),
+                outputStyle: "compressed",
+            }),
+        ],
+        preserveEntrySignatures: "strict",
+    },
+];
 
-export default newVar;
+export default configs;

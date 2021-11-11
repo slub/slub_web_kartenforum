@@ -21,6 +21,9 @@
             <trans-unit id="backend_layout.app">
                 <source>App-Page</source>
             </trans-unit>
+            <trans-unit id="backend_layout.georeference">
+                <source>Georeference-Page</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

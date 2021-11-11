@@ -7,15 +7,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import AppGeoreferencer from "./apps/georeferencer/GeoreferencerApp";
 import settingsProvider from "./SettingsProvider";
 
 export const SettingsProvider = settingsProvider;
 
 export function renderApp(element) {
     ReactDOM.render(<App />, element);
-}
-
-export function renderGeoreferenceApp(element) {
-    ReactDOM.render(<AppGeoreferencer />, element);
 }
