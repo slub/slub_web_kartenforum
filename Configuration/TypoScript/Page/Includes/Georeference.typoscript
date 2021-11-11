@@ -1,15 +1,18 @@
 page {
+    includeCSSLibs {
+        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/bootstrap-3.3.7.min.css
+    }
+
     includeCSS {
-        vkf-header = EXT:slub_web_kartenforum/Resources/Public/Css/header.css
-        slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/Css/vkf-georeference.css
+        vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Css/ol.css
+        vk2-header = EXT:slub_web_kartenforum/Resources/Public/Css/header.css
+        slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/Css/vk2-georeference.css
     }
 
     includeJSLibs {
         proj4 = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/proj4-2.2.1.js
-    }
-
-    includeJS {
-        slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vkf-georeference-min.js
+        vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/ol-vk2.js
+        vk2-min = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vk2-georeference-min.js
     }
 }
 
@@ -21,19 +24,9 @@ page {
                 // update settings from typo3 flexform parameters
                 vk2.SettingsProvider.updateSettings({
                     "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
-                    "API_GEOREFERENCE_GET": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=get&type=9991",
-                    "API_GEOREFERENCE_TRANSFORMATION_BY_MAPID": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationByMapId&type=9991",
-                    "API_GEOREFERENCE_TRANSFORMATION_CONFIRM": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationByMapId&type=9991",
-                    "API_GEOREFERENCE_TRANSFORMATION_TRY": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationTry&type=9991",
-                    "NOMINATIM_URL": "https://kartenforum.slub-dresden.de/nominatim/",
-                    "OSM_URLS": [
-                        "https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
-                        "https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
-                        "https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"
-                    ],
                 })
 			</script>
-		)
+        )
     }
 }
 
@@ -54,5 +47,5 @@ georef {
     xhtml_cleaning = 0
     debug = 0
   }
-  10 < tt_content.list.20.ie
+  10 < tt_content.list.20.slubwebkartenforum_georeference
 }
