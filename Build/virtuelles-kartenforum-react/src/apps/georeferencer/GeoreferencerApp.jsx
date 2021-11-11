@@ -16,6 +16,7 @@ export const GeoreferencerApp = () => {
   const settings = SettingsProvider.getSettings();
   return (
     <RecoilRoot>
+      <ControllerGeoreferencer />
       <div className="vk-app-georeferencer">
         <Toolbar />
         <GeoreferenceView

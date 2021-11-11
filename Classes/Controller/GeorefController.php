@@ -258,6 +258,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         }
     }
 
+		if (!is_null($validationRequest)) {
 
     /**
      * Action for querying rectified image for a given mapId and params
@@ -273,6 +274,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         if (is_null($serviceUrl)) {
             throw new \UnexpectedValueException('Missing url for georeference service. Please contact an admin.');
         }
+    }
 
         // Build url and request service
         $response = $this->doPOST(

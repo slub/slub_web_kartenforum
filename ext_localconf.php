@@ -68,10 +68,10 @@ $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum'] = 'EXT:slu
 	'georeference',
 	[
 		'App' => 'georeference',
-        'Georef' => 'getTransformationByMapId, postTransformationByMapId, postTransformationTry',
+        'Georef' => 'getTransformationByMapId, getProcess, validateGeorefProcess',
     ],
 	// non-cacheable actions
 	[
-        'Georef' => 'getTransformationByMapId, postTransformationByMapId, postTransformationTry',
+        'Georef' => 'getTransformationByMapId, getProcess, validateGeorefProcess',
     ],
 );
