@@ -18,10 +18,11 @@ import Zoom from "ol/src/control/Zoom";
 import XYZ from "ol/src/source/XYZ";
 import "ol/ol.css";
 
+import ToolboxTargetMap from "../../components/ToolboxTargetMap/ToolboxTargetMap";
 import "./MapTargetView.scss";
 
 export const MapTargetView = (props) => {
-  const { urlsOsmBaseMap } = props;
+  const { urlNominatim, urlsOsmBaseMap } = props;
   const refMapContainer = useRef(null);
 
   // Effect for initial loading of the map with the zoomify layer
@@ -55,10 +56,16 @@ export const MapTargetView = (props) => {
     }
   }, []);
 
-  return <div className="vk-mapview-target" ref={refMapContainer}></div>;
+  return (
+    <div className="vk-mapview-target">
+      <div className="map-container" ref={refMapContainer} />
+      <ToolboxTargetMap />
+    </div>
+  );
 };
 
 MapTargetView.propTypes = {
+  urlNominatim: PropTypes.string,
   urlsOsmBaseMap: PropTypes.arrayOf(PropTypes.string),
 };
 

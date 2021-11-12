@@ -16,6 +16,8 @@ import "./GeoreferencerApp.scss";
 
 export const GeoreferencerApp = () => {
   const settings = SettingsProvider.getSettings();
+
+  console.log(settings);
   return (
     <RecoilRoot>
       <ControllerGeoreferencer />
@@ -28,7 +30,10 @@ export const GeoreferencerApp = () => {
             <MapSourceView />
           </div>
           <div className="col-sm-6 col-md-6 col-lg-6 outer-map-container">
-            <MapTargetView urlsOsmBaseMap={settings["OSM_URLS"]} />
+            <MapTargetView
+              urlsOsmBaseMap={settings["OSM_URLS"]}
+              urlNominatim={settings["NOMINATIM_URL"]}
+            />
           </div>
         </div>
       </div>

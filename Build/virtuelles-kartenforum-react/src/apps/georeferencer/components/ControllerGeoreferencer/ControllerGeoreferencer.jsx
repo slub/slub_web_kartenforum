@@ -25,8 +25,26 @@ export const ControllerGeoreferencer = () => {
       const transformation = await queryTransformationForMapId(qs.map_id);
       const metadata = await queryDocument(qs.map_id);
 
+      // @TODO - Remove log statements
+      console.log(transformation);
+      console.log(metadata);
+
+      // Extract active transformation
+      if (
+        transformation.items.length > 0 &&
+        transformation.active_transformation_id !== null
+      ) {
+        const activeTransformation = transformation.items.find(
+          (t) =>
+            t.transformation.transformation_id ===
+            transformation.active_transformation_id
+        );
+        setTransformation(activeTransformation.transformation);
+      } else {
+        throw new Error("This transformation type is not supported yet.");
+      }
+
       setMapMetadata(metadata);
-      setTransformation(transformation);
     }
   }, []);
 
