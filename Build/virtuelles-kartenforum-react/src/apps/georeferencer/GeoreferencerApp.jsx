@@ -8,11 +8,14 @@ import React from "react";
 import { RecoilRoot } from "recoil";
 import ControllerGeoreferencer from "./components/ControllerGeoreferencer/ControllerGeoreferencer";
 import Header from "./components/Header/Header";
-import MapSource from "./components/MapSource/MapSource";
+import MapSourceView from "./views/MapSourceView/MapSourceView";
+import MapTargetView from "./views/MapTargetView/MapTargetView";
 import SelectTransform from "./components/SelectTransform/SelectTransform";
+import SettingsProvider from "../../SettingsProvider";
 import "./GeoreferencerApp.scss";
 
 export const GeoreferencerApp = () => {
+  const settings = SettingsProvider.getSettings();
   return (
     <RecoilRoot>
       <ControllerGeoreferencer />
@@ -22,9 +25,11 @@ export const GeoreferencerApp = () => {
         </Header>
         <div className="row content-container">
           <div className="col-sm-6 col-md-6 col-lg-6 outer-map-container">
-            <MapSource />
+            <MapSourceView />
           </div>
-          <div className="col-sm-6 col-md-6 col-lg-6 outer-map-container"></div>
+          <div className="col-sm-6 col-md-6 col-lg-6 outer-map-container">
+            <MapTargetView urlsOsmBaseMap={settings["OSM_URLS"]} />
+          </div>
         </div>
       </div>
     </RecoilRoot>
