@@ -1,20 +1,56 @@
-<!-- user header -->
+<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
+
 <div class="header">
     <a class="navbar-brand" href="#">Virtuelles Kartenforum 3.0</a>
     <div class="navigation-links-container">
-        <f:render partial="HeaderItem" arguments="{_all}" />
-        <f:render partial="UserDropdown" arguments="{_all}" />
-        <f:render section="LanguageSwitch" partial="LanguageSwitch" arguments="{_all}" />
+
+        <f:comment><!-- MAIN MENU --></f:comment>
+        <f:if condition="{menuStatic}">
+            <f:for each="{menuStatic}" as="item">
+                <div class="header-navigation-item">
+                    <a href="{item.link}" target="{item.target}" title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}" class="header-navigation-link">
+                        <span title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}">{item.title}</span>
+                    </a>
+                </div>
+            </f:for>
+        </f:if>
+
+        <f:render partial="UserDropdown" arguments="{_all}"/>
+
+        <f:comment><!-- LANGUAGE SWITCH --></f:comment>
+        <f:if condition="{menuLanguage}">
+            <div class="header-navigation-item no-hover">
+                <ul id="language_menu" class="langswitch">
+                    <f:for each="{menuLanguage}" as="item">
+                        <li class="{f:if(condition: item.active, then: 'active')} {f:if(condition: item.available, else: 'text-muted')}">
+                            <f:switch expression="{item.languageUid}">
+                                <f:case value="1">
+                                    <f:variable name="languageTitle">English</f:variable>
+                                    <f:variable name="hreflang">en-GB</f:variable>
+                                </f:case>
+                                <f:defaultCase>
+                                    <f:variable name="languageTitle">Deutsch</f:variable>
+                                    <f:variable name="hreflang">de-DE</f:variable>
+                                </f:defaultCase>
+                            </f:switch>
+                            <f:if condition="{item.available}">
+                                <f:then>
+                                    <a href="{item.link}" hreflang="{hreflang}" title="{languageTitle}">
+                                        <span class="language_switcher switch_{hreflang}">{languageTitle}</span>
+                                    </a>
+                                </f:then>
+                                <f:else>
+                                    <span class="language_switcher switch_{hreflang}" title="{languageTitle}">{languageTitle}</span>
+                                </f:else>
+                            </f:if>
+                        </li>
+                    </f:for>
+                </ul>
+            </div>
+        </f:if>
+
     </div>
 
-
-    <!-- language switcher -->
-
-    <!-- switcher to 2.5d mode -->
-<!--    <ul class="switch-view-mode mode-2d">-->
-<!--        <li id="switch-view-mode-container">-->
-<!--        </li>-->
-<!--    </ul>-->
-
-
 </div>
+
+</html>

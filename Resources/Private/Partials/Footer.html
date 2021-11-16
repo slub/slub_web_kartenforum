@@ -1,22 +1,31 @@
-        <!-- Footer panel -->
-        <div class="vk2FooterPanel">
-            <div id="vk2Footer" class="vk2Footer">
-                <div class="footerContainer">
-                    <div class="leftside">
-                        <ul class="footerList">
-                            <li class="listelement thick leftborder">
-                                Virtuelles Kartenforum 2.0
-                            </li>
-                            <li class="listelement">
-                                ein Projekt der SLUB und der Universität Rostock
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="rightside">
-                        <ul class="footerList">
-                            <f:render partial="Item" arguments="{_all}" />
-                        </ul>
-                    </div>
-                </div>
+<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
+
+<div class="vk2FooterPanel">
+    <div id="vk2Footer" class="vk2Footer">
+        <div class="footerContainer">
+            <div class="leftside">
+                <ul class="footerList">
+                    <li class="listelement thick leftborder">
+                        Virtuelles Kartenforum 2.0
+                    </li>
+                    <li class="listelement">
+                        ein Projekt der SLUB und der Universität Rostock
+                    </li>
+                </ul>
+            </div>
+            <div class="rightside">
+                <ul class="footerList">
+                    <f:for each="{menuStatic}" as="item">
+                        <li class="listelement{f:if(condition:item.active, then:' active')}">
+                            <a href="{item.link}" class="vk2-modal-anchor" title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}">
+                                <span title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}">{item.title}</span>
+                            </a>
+                        </li>
+                    </f:for>
+                </ul>
             </div>
         </div>
+    </div>
+</div>
+
+</html>
