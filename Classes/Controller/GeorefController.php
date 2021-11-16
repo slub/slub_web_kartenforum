@@ -202,6 +202,8 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         // get mapid from GET parameter objectid
         $mapId = GeneralUtility::_GP('map_id');
 
+        debug($this->settings['flexform']['test']);
+
         // Extract settings for querying the georeference service
         $serviceUrl = empty($this->settings['api_georeference']) ? NULL : $this->settings['api_georeference'];
         $basicAuthUser = empty($this->settings['api_georeference_user']) ? NULL : $this->settings['api_georeference_user'];
