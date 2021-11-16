@@ -1,0 +1,76 @@
+.vkf-control-dropdown {
+  width: auto;
+  height: auto;
+  flex-shrink: 1;
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 2px;
+  margin-right: 10px;
+
+  .btn-dropdown-vkf-control {
+    .dropdown-toggle {
+      border-radius: 0;
+      background-color: $secondaryColorMain;
+      color: $secondaryColorContrast !important;
+      border: none;
+
+      &:hover {
+        background-color: $secondaryColorDark;
+      }
+
+      &:focus,
+      &:focus-visible {
+        outline: none;
+        border: none;
+        background-color: $secondaryColorDark !important;
+      }
+    }
+
+    &.open {
+      .dropdown-toggle {
+        background-color: $secondaryColorDark;
+      }
+
+      .dropdown-menu {
+        background-color: $secondaryColorMain;
+      }
+    }
+
+    .control-option a {
+      color: $secondaryColorContrast;
+      div {
+        display: flex;
+      }
+
+      span {
+        display: inline-block;
+        float: left;
+        line-height: 22px;
+        height: 22px;
+      }
+
+      .icon {
+        width: 22px;
+        background-size: 22px 22px;
+      }
+
+      &:hover {
+        background-color: $secondaryColorDark;
+      }
+
+      &:focus,
+      &:focus-visible {
+        outline: none;
+        border: none;
+        background-color: unset;
+      }
+    }
+  }
+
+  &.active {
+    .dropdown {
+      .btn-dropdown-vkf-control {
+        background-color: $primaryColorMain !important;
+      }
+    }
+  }
+}

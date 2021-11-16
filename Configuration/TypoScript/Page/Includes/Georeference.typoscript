@@ -1,7 +1,7 @@
 page {
     includeCSS {
-        vk2-header = EXT:slub_web_kartenforum/Resources/Public/Css/header.css
-        slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/Css/vk2-georeference.css
+        vkf-header = EXT:slub_web_kartenforum/Resources/Public/Css/header.css
+        slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/Css/vkf-georeference.css
     }
 
     includeJSLibs {
@@ -9,7 +9,7 @@ page {
     }
 
     includeJS {
-        vk2-min = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vk2-georeference-min.js
+        slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vkf-georeference-min.js
     }
 }
 

@@ -20,6 +20,5 @@ page {
     }
 
     includeJSFooter {
-        slub_web_kartenforum_scripts = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/scripts.js
     }
 }

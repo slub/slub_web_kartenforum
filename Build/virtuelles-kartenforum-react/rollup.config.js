@@ -29,67 +29,70 @@ const javascriptOutputDir = "JavaScript/Dist/";
 // https://rollupjs.org/guide/en/#configuration-files
 
 export const configs = [
-    {
-        cache: true,
-        input: "./src/index.js",
-        output: {
-            file: path.resolve(
-                __dirname,
-                `${outputDir}${javascriptOutputDir}vk2-min.js`
-            ),
-            format: "iife",
-            name: "vk2",
-            sourcemap: "inline",
-        },
-        onwarn: function (warning, superOnWarn) {
-            if (warning.code === "THIS_IS_UNDEFINED") {
-                return;
-            }
-            superOnWarn(warning);
-        },
-        plugins: [
-            babel({
-            babelHelpers: "bundled",
-            sourceMaps: false,
-            inputSourceMap: false,
-                presets: ["@babel/preset-react"],
-            }),
-            replace({
-                "process.env.NODE_ENV": JSON.stringify("production"),
-            }),
-            peerDepsExternal(),
-            resolve({
-                browser: true,
-                extensions: [".js", ".jsx", ".json"],
-                jsnext: true,
-                preferBuiltins: true,
-            }),
-            rollupJson(),
-            commonjs(),
-            scss({
-                output: path.resolve(
-                    __dirname,
-                    `${outputDir}${cssOutputDir}index.css`
-                ),
-                // outputStyle: "compressed",
-            }),
-        ],
-        preserveEntrySignatures: "strict",
-    },
+    // {
+    //     cache: true,
+    //     input: "./src/index.js",
+    //     output: {
+    //         file: path.resolve(
+    //             __dirname,
+    //             `${outputDir}${javascriptOutputDir}vk2-min.js`
+    //         ),
+    //         format: "iife",
+    //         name: "vk2",
+    //         sourcemap: "inline",
+    //     },
+    //     onwarn: function (warning, superOnWarn) {
+    //         if (warning.code === "THIS_IS_UNDEFINED") {
+    //             return;
+    //         }
+    //         superOnWarn(warning);
+    //     },
+    //     plugins: [
+    //         babel({
+    //        babelHelpers: "bundled",
+    //        sourceMaps: false,
+    //        inputSourceMap: false,
+    //             presets: ["@babel/preset-react"],
+    //         }),
+    //         replace({
+    //             "process.env.NODE_ENV": JSON.stringify("production"),
+    //         }),
+    //         peerDepsExternal(),
+    //         resolve({
+    //             browser: true,
+    //             extensions: [".js", ".jsx", ".json"],
+    //             jsnext: true,
+    //             preferBuiltins: true,
+    //         }),
+    //         rollupJson(),
+    //         commonjs(),
+    //         scss({
+    //             output: path.resolve(
+    //                 __dirname,
+    //                 `${outputDir}${cssOutputDir}index.css`
+    //             ),
+    //             // outputStyle: "compressed",
+    //         }),
+    //     ],
+    //     preserveEntrySignatures: "strict",
+    // },
     {
         cache: true,
         input: "./src/apps/georeferencer/index.js",
         output: {
             file: path.resolve(
                 __dirname,
-                `${outputDir}${javascriptOutputDir}vk2-georeference-min.js`
+                `${outputDir}${javascriptOutputDir}vkf-georeference-min.js`
             ),
             format: "iife",
             name: "vk2",
             sourcemap: "inline",
         },
         onwarn: function (warning, superOnWarn) {
-            if (warning.code === "THIS_IS_UNDEFINED") {
+            if (
+                warning.code === "THIS_IS_UNDEFINED" ||
+                warning.code === "SOURCEMAP_ERROR"
+            ) {
                 return;
             }
             superOnWarn(warning);
@@ -97,15 +100,15 @@ export const configs = [
         plugins: [
             babel({
                 presets: ["@babel/preset-react"],
+                babelHelpers: "bundled",
             }),
             replace({
                 "process.env.NODE_ENV": JSON.stringify("production"),
             }),
             peerDepsExternal(),
             resolve({
-                browser: true,
+                mainFields: ["browser", "jsnext"],
                 extensions: [".js", ".jsx", ".json"],
-                jsnext: true,
                 preferBuiltins: true,
             }),
             rollupJson(),
@@ -113,7 +116,7 @@ export const configs = [
             scss({
                 output: path.resolve(
                     __dirname,
-                    `${outputDir}${cssOutputDir}vk2-georeference.css`
+                    `${outputDir}${cssOutputDir}vkf-georeference.css`
                 ),
                 outputStyle: "compressed",
             }),

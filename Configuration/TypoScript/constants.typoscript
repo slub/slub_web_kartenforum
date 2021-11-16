@@ -69,7 +69,6 @@ config {
     georefPage =
     # cat=plugin.tx_slubwebkartenforum/links/0170; type=int+; label=Root of Static Pages (for Navigation)
     menuStatic =
-
     # cat=plugin.tx_slubwebkartenforum/advanced/0200; type=string; label=URL of the georeferencing backend
     georef.backend = http://example.com/georeference
 
@@ -85,4 +84,9 @@ config {
         # cat=plugin.tx_slubwebkartenforum/matomo/0230; type=string; label=Matomo Domains (optional)
         setDomains =
     }
+
+    # New settings
+    api_georeference = https://geo-slub.pikobytes.de
+    api_georeference_user = vk20_user
+    api_georeference_password = vk20_user_1234
 }

@@ -10,7 +10,6 @@ import "ol/ol.css";
 
 import { mapMetadataState } from "../../atoms/atoms";
 import ZoomifyMap from "../../../../components/ZoomifyMap/ZoomifyMap";
-import ToolboxSourceMap from "../../components/ToolboxSourceMap/ToolboxSourceMap";
 import "./MapSourceView.scss";
 
 export const MapSourceView = () => {
@@ -29,8 +28,6 @@ export const MapSourceView = () => {
           onLoad={handleOnLoad}
         />
       )}
-
-      <ToolboxSourceMap />
     </div>
   );
 };

@@ -93,6 +93,7 @@ page {
             rootPageId = {$config.rootPageId}
             welcomePage = {$config.welcomePage}
             loginPage = {$config.loginPage}
+            test = {$config.loginLogo}
             georefhistoryPage = {$config.georefhistoryPage}
             georefchoosePage = {$config.georefchoosePage}
             evaluationPage = {$config.evaluationPage}
@@ -102,6 +103,11 @@ page {
                 siteId = {$config.matomo.siteId}
                 setDomains = {$config.matomo.setDomains}
             }
+
+            # New settings
+            api_georeference = {$config.api_georeference}
+            api_georeference_user = {$config.api_georeference_user}
+            api_georeference_password = {$config.api_georeference_password}
         }
 
     }

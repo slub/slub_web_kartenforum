@@ -274,6 +274,9 @@
 			<trans-unit id="client.georeference.setGcp">
 				<source>Set ground control point</source>
 			</trans-unit>
+			<trans-unit id="client.georeference.editGcp">
+            	<source>Edit ground control points</source>
+            </trans-unit>
 			<trans-unit id="client.georeference.moveGcp">
 				<source>Move ground control point</source>
 			</trans-unit>
