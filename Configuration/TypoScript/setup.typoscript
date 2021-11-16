@@ -53,7 +53,7 @@ page {
             ifEmpty = Default
         }
         templateRootPaths {
-            0 = EXT:slub_web_kartenforum/Resources/Private/Templates/Page/
+            0 = EXT:slub_web_kartenforum/Resources/Private/Templates/
             1 = {$page.fluidtemplate.templateRootPath}
         }
         partialRootPaths {
@@ -61,7 +61,7 @@ page {
             1 = {$page.fluidtemplate.partialRootPath}
         }
         layoutRootPaths {
-            0 = EXT:slub_web_kartenforum/Resources/Private/Layouts/Page/
+            0 = EXT:slub_web_kartenforum/Resources/Private/Layouts/
             1 = {$page.fluidtemplate.layoutRootPath}
         }
         dataProcessing {

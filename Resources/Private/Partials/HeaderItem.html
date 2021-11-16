@@ -1,0 +1,19 @@
+<f:if condition="{menuStatic}">
+    <f:for each="{menuStatic}" as="item">
+        <div class="header-navigation-item">
+        <f:if condition="{item.current}">
+            <f:then>
+                <a href="{item.link}" target="{item.target}" title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}" class="header-navigation-link f:if(condition:item.current, then:' current')}">
+            </f:then>
+            <f:else if="{item.active}">
+                <a href="{item.link}" target="{item.target}" title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}" class="header-navigation-link listelement{f:if(condition:item.active, then:' active')}">
+            </f:else>
+            <f:else>
+                <a href="{item.link}" target="{item.target}" title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}" class="header-navigation-link">
+            </f:else>
+        </f:if>
+        <span title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}">{item.title}</span>
+        </a>
+        </div>
+    </f:for>
+</f:if>

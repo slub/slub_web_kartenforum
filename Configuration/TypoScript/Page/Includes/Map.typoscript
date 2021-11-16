@@ -1,0 +1,119 @@
+page {
+    includeCSSLibs {
+
+    }
+
+    includeCSS {
+        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/bootstrap-3.3.7.min.css
+        jquery-ui = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/jquery-ui.min.css
+        jquery-ui.forceOnTop = true
+        vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Css/ol.css
+        vk-header = EXT:slub_web_kartenforum/Resources/Public/Css/header.css
+		slub_web_kartenforum_layout = EXT:slub_web_kartenforum/Resources/Public/Css/layout.min.css
+        slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/Css/vkf-map.css
+    }
+
+    includeJSLibs {
+        jquery = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jQuery/jquery-3.6.0.min.js
+        jquery.forceOnTop = true
+        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/bootstrap-3.3.7.min.js
+        proj4 = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/proj4-2.2.1.js
+        jquery-ui = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jQueryUi/jquery-ui.min.js
+        #jquery.lazyload = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jquery.lazyload-1.9.1.min.js
+        glif = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/glif.min.js
+        vk2-params = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vk2-params.js
+        vk2-ol = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/ol-vk2.js
+        vk2-min = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vkf-map-min.js
+        Cesium = https://cesium.com/downloads/cesiumjs/releases/1.85/Build/Cesium/Cesium.js
+        Cesium.external = 1
+        Cesium.forceOnTop = 1
+    }
+
+    includeJS {
+
+    }
+
+    includeJSFooter {
+#        slub_web_kartenforum_scripts = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/scripts.js
+    }
+}
+
+page {
+    headerData {
+        10 = TEXT
+        10.value (
+            <!-- checks if the vk2.settings module is already loaded -->
+			<script>
+
+                const WITH_SPEAKING_URLS = true;
+
+                // update settings from typo3 flexform parameters
+                vk2.SettingsProvider.updateSettings({
+                    "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
+                    "ELASTICSEARCH_NODE": "https://kartenforum.slub-dresden.de/spatialdocuments",
+                    "ELASTICSEARCH_SRS": "EPSG:4326",
+                    "EVALUATION_GETPROCESS": !WITH_SPEAKING_URLS ?
+                        "tx_vk2_search[controller]=Evaluation&tx_vk2_search[action]=getProcess&type=999" :
+                        "/evaluation/getprocess?type=999",
+                    "EVALUATION_SETISINVALIDE": !WITH_SPEAKING_URLS ?
+                        "tx_vk2_search[controller]=Evaluation&tx_vk2_search[action]=setIsInValide&type=999" :
+                        "/evaluation/isinvalide?type=999",
+                    "EVALUATION_SETISVALIDE": !WITH_SPEAKING_URLS ?
+                        "tx_vk2_search[controller]=Evaluation&tx_vk2_search[action]=setIsValide&type=999" :
+                        "/evaluation/isvalide?type=999",
+                    "GEOREFERENCE_CONFIRM": !WITH_SPEAKING_URLS ?
+                        "tx_vk2_search[controller]=Georeference&tx_vk2_search[action]=confirmGeorefProcess&type=999" :
+                        "/georef/confirm?type=999",
+                    "GEOREFERENCE_EXTENT_SRS": "EPSG:4326",
+                    "GEOREFERENCE_GETPROCESS": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getProcess&type=9991",
+                    "GEOREFERENCE_ON": 1 === 1 ? true : false,
+                     "GEOREFERENCE_PAGE": !WITH_SPEAKING_URLS ?
+                                "tx_vk2_search[controller]=Static&tx_vk2_search[action]=georefPage" :
+                                "/static/georefpage?",
+                    "GEOREFERENCE_VALIDATION": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=validateGeorefProcess&type=9991",
+                    "MAIN_PAGE": "{$config.baseUrl}",
+                    "MAPPROFILE_PAGE": !WITH_SPEAKING_URLS ?
+                        "tx_vk2_search[controller]=Static&tx_vk2_search[action]=profileMap" :
+                        "/profile-map?",
+                    "MAPVIEW_PARAMS": {
+                        projection: "EPSG:3857",
+                        minResolution: 1.194328566789627,
+                        maxResolution: 2445.9849047851562,
+                        extent:
+                        [-20026376.39,-20048966.10,20026375.39,20048966.10],
+                        center: [1528150, 6630500],
+                        zoom: 2
+                    },
+                    "MODE_3D": 1 === 1 ? true : false,
+                    "NOMINATIM_URL": "https://kartenforum.slub-dresden.de/nominatim/",
+                    "OSM_URLS": ["https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png", "https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png", "https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"],
+                    "TERRAIN_TILES_URL": "https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=kRAKrA0wcbZZFOT64bX5",
+                    "THUMB_PATH":"/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
+                    "TMS_URL_SUBDOMAINS": [ "1", "2", "3" ],
+                    "WITH_SPEAKING_URLS": WITH_SPEAKING_URLS,
+                    "WMS_DYNAMIC_TEMPLATE": "https://kartenforum.slub-dresden.de/ows/dynamic-ows",
+                })
+			</script>
+        )
+    }
+}
+
+
+# georeferencing requests to the backend service.
+georef = PAGE
+georef {
+  typeNum = 9991
+  config {
+    disableAllHeaderCode = 1
+    admPanel = 0
+    additionalHeaders {
+      10 {
+        header = Content-Type: application/json
+        replace = 1
+      }
+    }
+    xhtml_cleaning = 0
+    debug = 0
+  }
+  10 < tt_content.list.20.slubwebkartenforum_georeference
+}

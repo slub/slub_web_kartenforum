@@ -69,24 +69,29 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 */
 	public function rankingAction()
     {
+        $this->view->assign('ranking', 'test');
+        return;
+        //$this->view->assign('ranking', "test");
+//         $this->view->assign('value', $this->settings['flexform.test']);
         /** @var RequestFactory $requestFactory */
-        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
-        $configuration = [
-            'timeout' => 10,
-            'headers' => [
-                'Accept' => 'application/json'
-            ],
-        ];
+//         $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+//         $configuration = [
+//             'timeout' => 10,
+//             'headers' => [
+//                 'Accept' => 'application/json'
+//             ],
+//         ];
 
+//         $this->view->assign('value', 'test');
         // get URL from flexform or TypoScript
-		$georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
-
-        $response = $requestFactory->request($georefBackend . '/user/information', 'GET', $configuration);
-        $content  = $response->getBody()->getContents();
-        $result = json_decode($content, true);
-        if ($result) {
-            $this->view->assign('ranking', $result);
-        }
+// 		$georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
+//
+//         $response = $requestFactory->request($georefBackend . '/user/information', 'GET', $configuration);
+//         $content  = $response->getBody()->getContents();
+//         $result = json_decode($content, true);
+//         if ($result) {
+//             //$this->view->assign('ranking', $result);
+//         }
     }
 
    	/**

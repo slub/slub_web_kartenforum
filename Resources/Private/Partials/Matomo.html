@@ -1,0 +1,18 @@
+<f:section name="Matomo">
+<script>
+  var _paq = _paq || [];
+  <f:if condition="{settings.matomo.setdomains}">
+  _paq.push(["setDomains", ["{settings.matomo.setdomains}"]]);
+  </f:if>
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//{settings.matomo.hostname}/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '{settings.matomo.siteId}']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//{settings.matomo.hostname}/matomo.php?idsite={settings.matomo.siteId}&rec=1" style="border:0;" alt="" /></p></noscript>
+</f:section>

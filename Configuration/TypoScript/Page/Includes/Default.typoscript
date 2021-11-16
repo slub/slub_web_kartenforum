@@ -20,5 +20,6 @@ page {
     }
 
     includeJSFooter {
+
     }
 }

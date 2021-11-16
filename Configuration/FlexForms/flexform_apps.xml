@@ -1,0 +1,23 @@
+<T3DataStructure>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Configuration of Plugin Apps.</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.flexform.test>
+                        <TCEforms>
+                            <label>Test</label>
+                            <config>
+                                <type>input</type>
+                                <size>128</size>
+                            </config>
+                        </TCEforms>
+                    </settings.flexform.test>
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>

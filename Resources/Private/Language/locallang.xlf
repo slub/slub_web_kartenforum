@@ -63,17 +63,8 @@
 		<trans-unit id="plugin.signup">
 			<source>Kartenforum: Signup Form</source>
 		</trans-unit>
-		<trans-unit id="plugin.georef">
-			<source>Kartenforum: Georef Ranking</source>
-		</trans-unit>
-		<trans-unit id="plugin.history">
-			<source>Kartenforum: Georef User History</source>
-		</trans-unit>
-		<trans-unit id="plugin.mapprofile">
-			<source>Kartenforum: Map Profile</source>
-		</trans-unit>
-		<trans-unit id="plugin.choosepage">
-			<source>Kartenforum: Unreferenced maps</source>
+		<trans-unit id="plugin.apps">
+			<source>Kartenforum: Apps</source>
 		</trans-unit>
 		<trans-unit id="plugin.map">
 			<source>Kartenforum: Main Map</source>

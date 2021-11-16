@@ -1,10 +1,13 @@
 <?php
 defined('TYPO3_MODE') || die();
 
+use Slub\SlubWebKartenforum\Controller\GeorefControoller;
+
 /***************
  * Add default RTE configuration
  */
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum'] = 'EXT:slub_web_kartenforum/Configuration/RTE/Default.yaml';
+
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'Slub.SlubWebKartenforum',
@@ -20,7 +23,7 @@ $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum'] = 'EXT:slu
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'Slub.SlubWebKartenforum',
-	'ranking',
+	'Apps',
 	[
 		'Georef' => 'ranking',
     ],
@@ -74,4 +77,16 @@ $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum'] = 'EXT:slu
 	[
         'Georef' => 'getTransformationByMapId, getProcess, validateGeorefProcess',
     ],
+);
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'Slub.SlubWebKartenforum',
+	'apps',
+	[
+   		'Georef' => 'ranking',
+    ],
+    [
+       	'Georef' => 'ranking',
+    ],
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );

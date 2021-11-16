@@ -23,9 +23,9 @@ styles {
 ############
 page {
      fluidtemplate {
-        layoutRootPath = EXT:slub_web_kartenforum/Resources/Private/Layouts/Page/
-        partialRootPath = EXT:slub_web_kartenforum/Resources/Private/Partials/Page/
-        templateRootPath = EXT:slub_web_kartenforum/Resources/Private/Templates/Page/
+        layoutRootPath = EXT:slub_web_kartenforum/Resources/Private/Layouts/
+        partialRootPath = EXT:slub_web_kartenforum/Resources/Private/Partials/
+        templateRootPath = EXT:slub_web_kartenforum/Resources/Private/Templates/
     }
     meta {
         description =
