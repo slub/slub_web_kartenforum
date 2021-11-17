@@ -5,19 +5,18 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React from "react";
-import { useRecoilValue } from "recoil";
-import "ol/ol.css";
-
-import { mapMetadataState } from "../../atoms/atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { mapMetadataState, sourceViewParamsState } from "../../atoms/atoms";
 import ZoomifyMap from "../../../../components/ZoomifyMap/ZoomifyMap";
 import "./MapSourceView.scss";
 
 export const MapSourceView = () => {
   const mapMetadata = useRecoilValue(mapMetadataState);
+  const setSourceViewParams = useSetRecoilState(sourceViewParamsState);
 
   // Handler for catching onLoad event
   const handleOnLoad = (o) => {
-    console.log(o);
+    setSourceViewParams(o);
   };
 
   return (

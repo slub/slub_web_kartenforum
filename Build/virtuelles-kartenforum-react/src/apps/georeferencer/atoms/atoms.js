@@ -11,6 +11,18 @@ export const mapMetadataState = atom({
     default: null,
 });
 
+export const sourceViewParamsState = atom({
+    key: "sourceViewParamsState",
+    default: null,
+    dangerouslyAllowMutability: true,
+});
+
+export const targetViewParamsState = atom({
+    key: "targetViewParamsState",
+    default: null,
+    dangerouslyAllowMutability: true,
+});
+
 export const transformationState = atom({
     key: "transformationState",
     default: null,
