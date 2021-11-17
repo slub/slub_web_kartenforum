@@ -8,7 +8,6 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Map } from "ol";
-import { transformExtent } from "ol/proj";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
@@ -18,7 +17,6 @@ import { defaults, DragRotateAndZoom } from "ol/interaction";
 import XYZ from "ol/source/XYZ";
 import OLCesium from "olcs/OLCesium";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { containsXY } from "ol/extent";
 import olcsCore from "olcs/core";
 
 import {
@@ -27,15 +25,16 @@ import {
   olcsMapState,
   selectedFeaturesState,
 } from "../../atoms/atoms";
-import HistoricMap, { createClipFeature } from "../layer/HistoricMapLayer";
+import HistoricMap from "../layer/HistoricMapLayer";
 import { SettingsProvider } from "../../index";
-import HistoricMap3D from "../layer/HistoricMapLayer3d";
 import LayerManagement from "../LayerManagement/LayerManagement";
 import { MousePositionOnOff } from "./components/MousePositionOnOff";
 import RestoreDefaultView from "./components/RestoreDefaultView";
 import CustomAttribution from "./components/CustomAttribution";
 import ToggleViewMode from "../ToggleViewmode/ToggleViewmode";
 import { LayerSpy } from "./components/LayerSpy";
+import { generateLimitCamera } from "./util";
+
 import "./MapWrapper.scss";
 import "./openlayer-overwrites.scss";
 
@@ -177,27 +176,6 @@ export function MapWrapper(props) {
 
       setOlcsMap(ol3d);
     }
-
-    // register click handler
-
-    // mapRef.current.on('singleclick', function(event){
-    //
-    //   const features = [];
-    //   if (is3dActive) {
-    //     // special behavior for mode 3d
-    //     const clickCoordinate = mapRef.current.getCoordinateFromPixel(event.pixel);
-    //     features = this.historicMapClickLayer_.getSource().getFeaturesAtCoordinate(clickCoordinate);
-    //   } else {
-    //     this.getMap().forEachFeatureAtPixel(event['pixel'], function(feature){
-    //       features.push(feature);
-    //     });
-    //   }
-    //
-    //   if (goog.DEBUG)
-    //     console.log(features);
-    //
-    //   vk2.module.MapModule.showMapProfile(features);
-    // }, this);
   }, []);
 
   useEffect(() => {
@@ -208,16 +186,6 @@ export function MapWrapper(props) {
         const layer = createHistoricMapForFeature(feature);
         layer.setOpacity(opacity);
         map.addLayer(layer);
-        if (is3dActive) {
-          const historicMapClipFeature = createClipFeature(
-            feature.getGeometry().clone(),
-            feature.getId(),
-            feature.get("time"),
-            feature.get("title")
-          );
-          // historicMapClickLayer_.getSource().addFeature(historicMapClipFeature);
-        }
-
         selectedFeature.displayedInMap = true;
       }
     });
@@ -280,43 +248,6 @@ export function MapWrapper(props) {
   );
 }
 
-const generateLimitCamera = function (mapView) {
-  console.log(mapView);
-  const extent4326 = transformExtent(
-    mapView.extent,
-    mapView.projection,
-    "EPSG:4326"
-  ).map(function (angle) {
-    return (angle * Math.PI) / 180;
-  });
-
-  return function (scene) {
-    const camera = scene.camera;
-    const screenSpaceCameraController = scene.screenSpaceCameraController;
-    const pos = camera.positionCartographic.clone();
-    const inside = containsXY(extent4326, pos.longitude, pos.latitude);
-    if (!inside) {
-      // add a padding based on the camera height
-      const maxHeight = screenSpaceCameraController.maximumZoomDistance;
-      const padding = (pos.height * 0.05) / maxHeight;
-      pos.longitude = Math.max(extent4326[0] - padding, pos.longitude);
-      pos.latitude = Math.max(extent4326[1] - padding, pos.latitude);
-      pos.longitude = Math.min(extent4326[2] + padding, pos.longitude);
-      pos.latitude = Math.min(extent4326[3] + padding, pos.latitude);
-      camera.setView({
-        destination: Cesium.Ellipsoid.WGS84.cartographicToCartesian(pos),
-        orientation: {
-          heading: camera.heading,
-          pitch: camera.pitch,
-        },
-      });
-    }
-    // Set the minimumZoomDistance according to the camera height
-    screenSpaceCameraController.minimumZoomDistance =
-      pos.height > 1800 ? 400 : 200;
-  };
-};
-
 MapWrapper.propTypes = {
   baseMapUrl: PropTypes.arrayOf(PropTypes.string),
   enable3d: PropTypes.bool,
@@ -330,27 +261,6 @@ MapWrapper.propTypes = {
 };
 
 export default MapWrapper;
-
-/**
- * @returns {Array.<vk2.layer.HistoricMap>}
- */
-export const getHistoricMapLayer = function (map, is3d) {
-  const layers = map.getLayers().getArray();
-  const historicMapLayers = [];
-  for (let i = 0; i < layers.length; i++) {
-    if (is3d) {
-      if (layers[i] instanceof HistoricMap3D) {
-        historicMapLayers.push(layers[i]);
-      }
-    } else {
-      if (layers[i] instanceof HistoricMap) {
-        historicMapLayers.push(layers[i]);
-      }
-    }
-  }
-  return historicMapLayers;
-};
-
 // @TODO: Correctly port this.
 
 /**

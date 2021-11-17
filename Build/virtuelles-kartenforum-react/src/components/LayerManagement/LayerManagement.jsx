@@ -8,14 +8,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 
-import { isDefined, translate } from "../../util/util";
+import { translate } from "../../util/util";
 import { mapState } from "../../atoms/atoms";
-import DeactivateMapCollection from "./DeactiveMapCollection";
+import DeactivateMapCollection from "./DeactivateMapCollection";
 import DynamicMapVisualization from "./DynamicMapVisualization/DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry";
 import "./LayerManagement.scss";
 
-export const LayerManagement = (props) => {
+export const LayerManagement = () => {
   const map = useRecoilValue(mapState);
   const [displayedLayers, setDisplayedLayers] = useState(undefined);
   const layersRef = useRef();

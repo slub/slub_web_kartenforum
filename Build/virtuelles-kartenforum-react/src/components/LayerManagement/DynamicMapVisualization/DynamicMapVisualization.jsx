@@ -7,9 +7,10 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRecoilValue } from "recoil";
+
 import { isDefined, translate } from "../../../util/util";
 import { mapState } from "../../../atoms/atoms";
-import { getHistoricMapLayer } from "../../MapWrapper/MapWrapper";
+import { getHistoricMapLayer } from "../../MapWrapper/util";
 import "./DynamicMapVisualization.scss";
 
 const setLayersToInitialState = (sortedLayers) => {
@@ -54,7 +55,7 @@ const sortLayers = (layers, map) => {
   return responseObj;
 };
 
-export const DynamicMapVisualization = (props) => {
+export const DynamicMapVisualization = () => {
   const [active, setActive] = useState(false);
   const [animatedLayer, setAnimatedLayer] = useState(undefined);
   const [open, setOpen] = useState(false);
@@ -95,7 +96,6 @@ export const DynamicMapVisualization = (props) => {
   const startAnimation = (options) => {
     const { sortedLayers, delay = 500 } = options;
     setLayersToInitialState(sortedLayers);
-    console.log(options, sortedLayers);
     if (activeRef.current) {
       const keys = Object.keys(sortedLayers);
       if (keys.length > 0) {
