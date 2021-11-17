@@ -39,7 +39,22 @@ export const ControllerGeoreferencer = () => {
             t.transformation.transformation_id ===
             transformation.active_transformation_id
         );
-        setTransformation(activeTransformation.transformation);
+        setTransformation({
+          clip: activeTransformation.transformation.clip,
+          overwrites: activeTransformation.transformation.overwrites,
+          params: activeTransformation.transformation.params,
+        });
+      } else if (transformation.active_transformation_id === null) {
+        setTransformation({
+          clip: null,
+          overwrites: 0,
+          params: {
+            source: "pixel",
+            target: transformation.default_srs,
+            algorithm: "affine",
+            gcps: [],
+          },
+        });
       } else {
         throw new Error("This transformation type is not supported yet.");
       }

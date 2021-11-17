@@ -8,8 +8,10 @@ import Observer from "../../../util/observer";
 import Collection from "ol/src/Collection";
 import Feature from "ol/src/Feature";
 import Point from "ol/src/geom/Point";
+import * as proj from "ol/src/proj";
 import VectorLayer from "ol/src/layer/Vector";
 import VectorSource from "ol/src/source/Vector";
+import { createGcpDefaultStyle } from "./styles";
 
 /**
  * Transforms the given pixel coordinates to geo pixel coordinate system.
@@ -42,13 +44,13 @@ export class ControllerGcps extends Observer {
          * @type {ol.Map}
          * @private
          */
-        this.sourceMap_ = options.sourceMap;
+        this.srcMap_ = options.sourceMap;
 
         /**
          * @type {ol.Map}
          * @private
          */
-        this.targetMap_ = options.targetMap;
+        this.trgMap_ = options.targetMap;
 
         /**
          * Transformation params
@@ -67,7 +69,7 @@ export class ControllerGcps extends Observer {
          * @type {ol.source.Vector}
          * @private
          */
-        this.srcSourceView_ = new VectorSource({
+        this.srcVectorSource_ = new VectorSource({
             features: new Collection(),
         });
 
@@ -76,15 +78,19 @@ export class ControllerGcps extends Observer {
          * @type {ol.source.Vector}
          * @private
          */
-        this.trgTargetView_ = new VectorSource({
+        this.trgVectorSource_ = new VectorSource({
             features: new Collection(),
         });
 
         // Add the sources and layer to the map
-        const sourceLayer = new VectorLayer({
-            source: this.srcSourceView_,
+        const srcLayer = new VectorLayer({
+            source: this.srcVectorSource_,
         });
-        this.sourceMap_.addLayer(sourceLayer);
+        this.srcMap_.addLayer(srcLayer);
+        const trgLayer = new VectorLayer({
+            source: this.trgVectorSource_,
+        });
+        this.trgMap_.addLayer(trgLayer);
 
         this.loadData();
     }
@@ -96,47 +102,36 @@ export class ControllerGcps extends Observer {
         // Add ground control points to the map
         if (this.params_.gcps.length > 0) {
             for (let i = 0, l = this.params_.gcps.length; i < l; i++) {
-                this.srcSourceView_.addFeature(
-                    new Feature(
-                        new Point(
-                            transformPixelToGeo(this.params_.gcps[i].source)
+                // Add source gcp
+                const srcFeature = new Feature(
+                    new Point(transformPixelToGeo(this.params_.gcps[i].source))
+                );
+                srcFeature.setStyle(createGcpDefaultStyle(`${i + 1}`));
+                this.srcVectorSource_.addFeature(srcFeature);
+
+                // Add target gcp
+                const trgFeature = new Feature(
+                    new Point(
+                        proj.transform(
+                            this.params_.gcps[i].target,
+                            this.params_.target,
+                            this.trgMap_.getView().getProjection()
                         )
                     )
                 );
+                trgFeature.setStyle(createGcpDefaultStyle(`${i + 1}`));
+                this.trgVectorSource_.addFeature(trgFeature);
             }
         }
 
         // Get extent of target source features and focus map to it
-        // @todo
+        if (this.trgVectorSource_.getFeatures().length > 0) {
+            this.trgMap_.getView().fit(this.trgVectorSource_.getExtent(), {
+                padding: [100, 100, 100, 100],
+                duration: 1000,
+            });
+        }
     }
 }
 
 export default ControllerGcps;
-
-// for (var i = 0; i < gcps['gcps'].length; i++) {
-//     var gcp = gcps['gcps'][i],
-//         // create src feature
-//         latlonSrs = vk2.utils.transformPixelToGeoCoords(gcp['source']),
-//         srcFeature = new ol.Feature(new ol.geom.Point(latlonSrs)),
-//         // create target (georef) feature
-//         latlonTarget = ol.proj.transform(gcp['target'], gcps['target'], projections['target']),
-//         targetFeature = new ol.Feature(new ol.geom.Point(latlonTarget));
-//
-//     gcpSources[0].addFeature(srcFeature);
-//     gcpSources[1].addFeature(targetFeature);
-// }
-// ;
-//gcpSources = [new ol.source.Vector({'features': new ol.Collection}), new ol.source.Vector({'features': new ol.Collection})],
-
-// unref: new ol.layer.Vector({
-//     'source': sources_.unref,
-//     'style': function(feature, resolution) {
-//         return [vk2.utils.Styles.GEOREFERENCE_POINT];
-//     }
-// }),
-//     georef: new ol.layer.Vector({
-//     'source': sources_.georef,
-//     'style': function(feature, resolution) {
-//         return [vk2.utils.Styles.GEOREFERENCE_POINT];
-//     }
-// })

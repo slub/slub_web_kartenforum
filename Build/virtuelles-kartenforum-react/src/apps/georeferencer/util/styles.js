@@ -4,17 +4,41 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
+import Circle from "ol/src/style/Circle";
+import Fill from "ol/src/style/Fill";
+import Stroke from "ol/src/style/Stroke";
+import Style from "ol/src/style/Style";
+import Text from "ol/src/style/Text";
 
-vk2.utils.Styles.GEOREFERENCE_POINT_HOVER = new ol.style.Style({
-    image: new ol.style.Circle({
-        radius: 7,
-        fill: new ol.style.Fill({
-            color: "rgba(255,0,0,0.1)",
+/**
+ * Creates a style object for a ol.Feature with a point geometry.
+ * @param {string} text
+ * @param {number|undefined} radius
+ * @returns {ol.style.Style}
+ */
+export function createGcpDefaultStyle(text, radius = 8) {
+    const dash = (2 * Math.PI * radius) / 6;
+    return new Style({
+        image: new Circle({
+            radius: radius,
+            fill: new Fill({
+                color: "rgba(255,255,255,0.6)",
+            }),
+            stroke: new Stroke({
+                color: "rgba(49,159,211,0.5)",
+                width: 15,
+                lineDash: [0, dash, dash, dash, dash, dash, dash],
+            }),
         }),
-        stroke: new ol.style.Stroke({
-            color: "#f00",
-            width: 1,
+        text: new Text({
+            textAlign: "start",
+            textBaseline: "bottom",
+            font: "12px Calibri,sans-serif",
+            text: text,
+            fill: new Fill({ color: "#aa3300" }),
+            stroke: new Stroke({ color: "#ffffff", width: 3 }),
+            offsetX: 10,
+            offsetY: -5,
         }),
-    }),
-    zIndex: 100000,
-});
+    });
+}
