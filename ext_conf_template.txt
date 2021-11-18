@@ -1,3 +1,9 @@
 #
 # Extension Configuration template
 #
+
+# cat=login; type=string; label=Basic user for georeference authentication
+georefAuthUser =
+
+# cat=login; type=string; label=Password for georeference authentication
+georefAuthPassword =

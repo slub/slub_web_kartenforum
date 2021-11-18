@@ -33,6 +33,10 @@ tt_content.slubwebkartenforum_georeference {
     variables {
         georefBackend = TEXT
         georefBackend.data = flexform:pi_flexform:settings.georefBackend
+        georefAuthUser = TEXT
+        georefAuthUser.value = {$plugin.tx_slubwebkartenforum.settings.georefAuthUser}
+        georefAuthPassword = TEXT
+        georefAuthPassword.value = {$plugin.tx_slubwebkartenforum.settings.georefAuthPassword}
     }
 }
 
