@@ -7,15 +7,33 @@
                 </TCEforms>
                 <type>array</type>
                 <el>
-                    <settings.flexform.test>
+                    <settings.importApp>
                         <TCEforms>
-                            <label>Test</label>
+                            <label>Select React App to import</label>
                             <config>
-                                <type>input</type>
-                                <size>128</size>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0"/>
+                                        <numIndex index="1"/>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">Georeference History</numIndex>
+                                        <numIndex index="1">georefHistory</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">Statusbar</numIndex>
+                                        <numIndex index="1">georefStatus</numIndex>
+                                    </numIndex>
+                                    <numIndex index="3">
+                                        <numIndex index="0">Georeference Ranking</numIndex>
+                                        <numIndex index="1">georefRanking</numIndex>
+                                    </numIndex>
+                                </items>
                             </config>
                         </TCEforms>
-                    </settings.flexform.test>
+                    </settings.importApp>
                 </el>
             </ROOT>
         </sDEF>
