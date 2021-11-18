@@ -1,0 +1,28 @@
+@import "../../../../_sass/variables";
+
+.vk-mapview-target {
+  .ol-control {
+    &.ol-full-screen {
+      right: 0.5em;
+      top: 0.5em;
+      border-radius: 0;
+    }
+
+    &.ol-zoom {
+      left: 10px;
+      top: 10px;
+      border-radius: 0;
+    }
+
+    > button {
+      background-color: $secondaryColorMain;
+      border-radius: 0;
+      width: 22px;
+      height: 22px;
+
+      &:hover {
+        background-color: $secondaryColorDark;
+      }
+    }
+  }
+}

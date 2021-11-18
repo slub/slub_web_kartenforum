@@ -1,0 +1,56 @@
+page {
+    includeCSS {
+        vkf-header = EXT:slub_web_kartenforum/Resources/Public/Css/header.css
+        slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/Css/vkf-georeference.css
+    }
+
+    includeJSLibs {
+        proj4 = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/proj4-2.2.1.js
+    }
+
+    includeJS {
+        slub_web_kartenforum = EXT:slub_web_kartenforum/Resources/Public/JavaScript/Dist/vkf-georeference-min.js
+    }
+}
+
+page {
+    headerData {
+        10 = TEXT
+        10.value (
+			<script>
+                // update settings from typo3 flexform parameters
+                vk2.SettingsProvider.updateSettings({
+                    "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
+                    "API_GEOREFERENCE_GET": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=get&type=9991",
+                    "API_GEOREFERENCE_TRANSFORMATION_BY_MAPID": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationByMapId&type=9991",
+                    "NOMINATIM_URL": "https://kartenforum.slub-dresden.de/nominatim/",
+                    "OSM_URLS": [
+                        "https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
+                        "https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
+                        "https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"
+                    ],
+                })
+			</script>
+		)
+    }
+}
+
+
+# georeferencing requests to the backend service.
+georef = PAGE
+georef {
+  typeNum = 9991
+  config {
+    disableAllHeaderCode = 1
+    admPanel = 0
+    additionalHeaders {
+      10 {
+        header = Content-Type: application/json
+        replace = 1
+      }
+    }
+    xhtml_cleaning = 0
+    debug = 0
+  }
+  10 < tt_content.list.20.ie
+}

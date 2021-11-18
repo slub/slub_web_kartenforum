@@ -120,6 +120,69 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     }
 
     /**
+     * This method is necessary for proper generation of json responses
+     */
+    public function initializeAction()
+    {
+        $this->defaultViewObjectName = \TYPO3\CMS\Extbase\Mvc\View\JsonView::class;
+    }
+
+    /**
+     * Performs http get request
+     * @var string
+     * @var string | NULL
+     * @var string | NULL
+     * @return HTTP Response object (ResponseInterface)
+     */
+    public function doGET($url, $basicAuthUser, $basicAuthPassword) {
+        /** @var RequestFactory $requestFactory */
+        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+        $configuration = [
+            'timeout' => 10,
+            'headers' => ['Accept' => 'application/json']
+        ];
+
+        if (!is_null($basicAuthUser)  && !is_null($basicAuthPassword)) {
+            // Perform GET Request without basic auth
+            $configuration['auth'] = [$basicAuthUser, $basicAuthPassword];
+        }
+
+        return $requestFactory->request($url, 'GET', $configuration);
+    }
+
+
+
+    /**
+     * Action for querying transformation processes for a given mapId
+     */
+    public function getTransformationByMapIdAction()
+    {
+        // get mapid from GET parameter objectid
+        $mapId = GeneralUtility::_GP('map_id');
+
+        // Extract settings for querying the georeference service
+        $serviceUrl = empty($this->settings['api_georeference']) ? NULL : $this->settings['api_georeference'];
+        $basicAuthUser = empty($this->settings['api_georeference_user']) ? NULL : $this->settings['api_georeference_user'];
+        $basicAuthPassword = empty($this->settings['api_georeference_password']) ? NULL : $this->settings['api_georeference_password'];
+
+        if (is_null($serviceUrl)) {
+            throw new \UnexpectedValueException('Missing url for georeference service. Please contact an admin.');
+        }
+
+        // Build url and request service
+        $response = $this->doGET(
+            $serviceUrl . '/transformations/maps/' . $mapId,
+            $basicAuthUser,
+            $basicAuthPassword
+        );
+
+        if ($response) {
+            $content  = $response->getBody()->getContents();
+            $this->view->assign('value', json_decode($content, true));
+        }
+    }
+
+    /**
      * initializeGetProcessAction
      *
      * initialize GetProcessAction with jsonView as default output format
@@ -133,6 +196,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * getProcessAction
      *
      * get information about the given process
+     * @deprecated - Use getAction instead
 	 */
     public function getProcessAction()
     {

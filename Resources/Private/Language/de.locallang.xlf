@@ -163,6 +163,10 @@
 				<source><![CDATA[Set ground control point]]></source>
 				<target><![CDATA[Passpunkt setzen]]></target>
 			</trans-unit>
+			<trans-unit id="client.georeference.editGcp" approved="yes">
+            	<source><![CDATA[Edit ground control points]]></source>
+            	<target><![CDATA[Passpunkte editieren]]></target>
+            </trans-unit>
 			<trans-unit id="client.georeference.validate" approved="yes">
 				<source><![CDATA[Update preview]]></source>
 				<target><![CDATA[Vorschau aktualisieren]]></target>

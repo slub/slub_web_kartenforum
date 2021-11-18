@@ -14,11 +14,12 @@ import replace from "rollup-plugin-replace";
 import rollupJson from "rollup-plugin-json";
 import scss from "rollup-plugin-scss";
 import babel from "@rollup/plugin-babel";
+
 // Directory where to write the output
 
 const outputDir = "../../Resources/Public/";
 
-const cssOutputDir = "css/";
+const cssOutputDir = "Css/";
 const javascriptOutputDir = "JavaScript/Dist/";
 
 // You can export an array from your config file to build bundles from
@@ -27,52 +28,101 @@ const javascriptOutputDir = "JavaScript/Dist/";
 
 // https://rollupjs.org/guide/en/#configuration-files
 
-export const newVar = {
-    cache: true,
-    input: "./src/index.js",
-    output: {
-        file: path.resolve(
-            __dirname,
-            `${outputDir}${javascriptOutputDir}vk2-min.js`
-        ),
-        format: "iife",
-        name: "vk2",
-        sourcemap: "inline",
-    },
-    onwarn: function (warning) {
-        if (warning.code === "THIS_IS_UNDEFINED") {
-            return;
-        }
-        console.error(warning.message);
-    },
-    plugins: [
-        babel({
-            babelHelpers: "bundled",
-            sourceMaps: false,
-            inputSourceMap: false,
-            presets: ["@babel/preset-react"],
-        }),
-        replace({
-            "process.env.NODE_ENV": JSON.stringify("production"),
-        }),
-        peerDepsExternal(),
-        resolve({
-            browser: true,
-            extensions: [".js", ".jsx", ".json"],
-            jsnext: true,
-            preferBuiltins: true,
-        }),
-        rollupJson(),
-        commonjs(),
-        scss({
-            output: path.resolve(
+export const configs = [
+    // {
+    //     cache: true,
+    //     input: "./src/index.js",
+    //     output: {
+    //         file: path.resolve(
+    //             __dirname,
+    //             `${outputDir}${javascriptOutputDir}vk2-min.js`
+    //         ),
+    //         format: "iife",
+    //         name: "vk2",
+    //         sourcemap: "inline",
+    //     },
+    //     onwarn: function (warning, superOnWarn) {
+    //         if (warning.code === "THIS_IS_UNDEFINED") {
+    //             return;
+    //         }
+    //         superOnWarn(warning);
+    //     },
+    //     plugins: [
+    //         babel({
+    //        babelHelpers: "bundled",
+    //        sourceMaps: false,
+    //        inputSourceMap: false,
+    //             presets: ["@babel/preset-react"],
+    //         }),
+    //         replace({
+    //             "process.env.NODE_ENV": JSON.stringify("production"),
+    //         }),
+    //         peerDepsExternal(),
+    //         resolve({
+    //             browser: true,
+    //             extensions: [".js", ".jsx", ".json"],
+    //             jsnext: true,
+    //             preferBuiltins: true,
+    //         }),
+    //         rollupJson(),
+    //         commonjs(),
+    //         scss({
+    //             output: path.resolve(
+    //                 __dirname,
+    //                 `${outputDir}${cssOutputDir}index.css`
+    //             ),
+    //             // outputStyle: "compressed",
+    //         }),
+    //     ],
+    //     preserveEntrySignatures: "strict",
+    // },
+    {
+        cache: true,
+        input: "./src/apps/georeferencer/index.js",
+        output: {
+            file: path.resolve(
                 __dirname,
-                `${outputDir}${cssOutputDir}index.css`
+                `${outputDir}${javascriptOutputDir}vkf-georeference-min.js`
             ),
-            // outputStyle: "compressed",
-        }),
-    ],
-    preserveEntrySignatures: "strict",
-};
+            format: "iife",
+            name: "vk2",
+            sourcemap: "inline",
+        },
+        onwarn: function (warning, superOnWarn) {
+            if (
+                warning.code === "THIS_IS_UNDEFINED" ||
+                warning.code === "SOURCEMAP_ERROR"
+            ) {
+                return;
+            }
+            superOnWarn(warning);
+        },
+        plugins: [
+            babel({
+                presets: ["@babel/preset-react"],
+                babelHelpers: "bundled",
+            }),
+            replace({
+                "process.env.NODE_ENV": JSON.stringify("production"),
+            }),
+            peerDepsExternal(),
+            resolve({
+                mainFields: ["browser", "jsnext"],
+                extensions: [".js", ".jsx", ".json"],
+                preferBuiltins: true,
+            }),
+            rollupJson(),
+            commonjs(),
+            scss({
+                output: path.resolve(
+                    __dirname,
+                    `${outputDir}${cssOutputDir}vkf-georeference.css`
+                ),
+                outputStyle: "compressed",
+            }),
+        ],
+        preserveEntrySignatures: "strict",
+    },
+];
 
-export default newVar;
+export default configs;

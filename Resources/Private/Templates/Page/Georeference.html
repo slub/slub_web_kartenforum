@@ -1,0 +1,20 @@
+{namespace vk=Slub\SlubWebKartenforum\ViewHelpers}
+
+<!-- language dictory must be before app initialize data -->
+<f:render partial="Language" />
+
+<!-- footermust be before app initialize data -->
+<f:render partial="Footer" arguments="{_all}" />
+
+<f:spaceless>
+    <f:render section="Main" />
+    <f:if condition="{settings.matomo.siteId}>0">
+        <f:render section="Matomo" partial="Matomo" arguments="{_all}" />
+    </f:if>
+</f:spaceless>
+
+<f:section name="Main">
+
+<f:cObject typoscriptObjectPath="lib.dynamicContent" data="{colPos: '0'}" />
+
+</f:section>
