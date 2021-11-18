@@ -18,9 +18,9 @@ import "./LayerManagement.scss";
 export const LayerManagement = () => {
   const map = useRecoilValue(mapState);
   const [displayedLayers, setDisplayedLayers] = useState(undefined);
-  const layersRef = useRef();
-  const bodyRef = useRef();
   const blockRefreshRef = useRef(null);
+  const bodyRef = useRef();
+  const layersRef = useRef();
 
   const getLayers = () => {
     const layers = layersRef.current;
@@ -40,12 +40,18 @@ export const LayerManagement = () => {
     return l.findIndex((lay) => lay === layer);
   };
 
+  ////
+  // Handler section
+  ////
+
+  // Handles changes on the layer container of the map
   const handleRefresh = () => {
     if (blockRefreshRef.current) return;
     const newLayers = getLayers();
     setDisplayedLayers(newLayers.reverse());
   };
 
+  // Handles drag and drop moves
   const handleMoveLayer = (dragIndex, hoverIndex) => {
     // block all but the last refresh
     blockRefreshRef.current = true;
@@ -65,6 +71,11 @@ export const LayerManagement = () => {
     layers.insertAt(bigIndex, layerB);
   };
 
+  ////
+  // Effect section
+  ////
+
+  // bind event handlers to layer container of the map
   useEffect(() => {
     if (map !== undefined) {
       const layers = map.getLayers();

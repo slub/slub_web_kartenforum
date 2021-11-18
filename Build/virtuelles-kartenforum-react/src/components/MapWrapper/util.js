@@ -4,12 +4,65 @@ import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
 import TileLayer from "ol/layer/Tile";
 import { XYZ } from "ol/source";
 
+import SettingsProvider from "../../SettingsProvider";
 import { MousePositionOnOff } from "./components/MousePositionOnOff";
 import RestoreDefaultView from "./components/RestoreDefaultView";
 import CustomAttribution from "./components/CustomAttribution";
 import ToggleViewMode from "../ToggleViewmode/ToggleViewmode";
 import { LayerSpy } from "./components/LayerSpy";
 import HistoricMap from "../layer/HistoricMapLayer";
+
+/**
+ * Checks if the layer collection already contains a layer with that id.
+ *
+ * @param {string} id
+ * @param {ol.Collection} layers
+ * @return {boolean}
+ */
+export const containsLayerWithId = function (id, layers) {
+    const array = layers.getArray();
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] instanceof HistoricMap) {
+            if (array[i].getId() == id) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
+/**
+ * @param {ol.Feature} feature
+ * @return {vk2.layer.HistoricMap}
+ * @private
+ */
+export const createHistoricMapForFeature = function (feature) {
+    const settings = SettingsProvider.getSettings();
+
+    const tms_url_subdomains = settings["TMS_URL_SUBDOMAINS"];
+    const thumbnail = feature.get("thumb") ?? settings["THUMB_PATH"];
+
+    const maxZoom =
+        feature.get("denominator") == 0
+            ? 15
+            : feature.get("denominator") <= 5000
+            ? 17
+            : feature.get("denominator") <= 15000
+            ? 16
+            : 15;
+    return new HistoricMap({
+        time: feature.get("time"),
+        maxZoom: maxZoom,
+        title: feature.get("title"),
+        objectid: feature.get("id"),
+        id: feature.getId(),
+        dataid: feature.get("dataid"),
+        tms: feature.get("tms"),
+        clip: feature.getGeometry().clone(),
+        thumbnail,
+        tms_url_subdomains,
+    });
+};
 
 export const generateLimitCamera = function (mapView) {
     const extent4326 = transformExtent(

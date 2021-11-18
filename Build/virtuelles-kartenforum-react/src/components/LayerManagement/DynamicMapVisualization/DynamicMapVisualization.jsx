@@ -119,16 +119,23 @@ export const DynamicMapVisualization = () => {
     }
   };
 
+  ////
+  // Handler section
+  ////
+
+  // handle animation start
   const handleStart = (e) => {
     e.preventDefault();
     setActive(true);
   };
 
+  // handle animation stop
   const handleStop = (e) => {
     e.preventDefault();
     setActive(false);
   };
 
+  // Toggle open state of the menu
   const handleToggleMenu = (e) => {
     e.preventDefault();
     if (open) {
@@ -139,6 +146,11 @@ export const DynamicMapVisualization = () => {
     }
   };
 
+  ////
+  //   Effect section
+  ////
+
+  // Handle start/stop of animation based on active state
   useEffect(() => {
     activeRef.current = active;
     if (active) {

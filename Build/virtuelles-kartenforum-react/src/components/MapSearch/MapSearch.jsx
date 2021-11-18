@@ -26,7 +26,6 @@ import { isDefined, translate } from "../../util/util";
 import FacetedSearch from "../FacetedSearch/FacetedSearch";
 import MapSearchListElement from "./MapSearchListElement";
 import HistoricMap from "../layer/HistoricMapLayer";
-import HistoricMap3D from "../layer/HistoricMapLayer3d";
 
 import "./MapSearch.scss";
 
@@ -222,7 +221,6 @@ export const MapSearch = () => {
           ];
           if (
             topLayer instanceof HistoricMap ||
-            topLayer instanceof HistoricMap3D ||
             topLayer.get("type") == "click"
           ) {
             map.removeLayer(featureOverlay);

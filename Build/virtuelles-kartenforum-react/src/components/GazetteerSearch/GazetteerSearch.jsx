@@ -22,20 +22,6 @@ export const GazetteerSearch = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const map = useRecoilValue(mapState);
 
-  const updateMapView = function (feature, srs) {
-    const epsg = isDefined(srs) ? srs : "EPSG:4326";
-    const lonlat = [feature["lonlat"]["x"], feature["lonlat"]["y"]];
-
-    const center = transform(
-      [parseFloat(lonlat[0]), parseFloat(lonlat[1])],
-      epsg,
-      projection
-    );
-
-    map.getView().setCenter(center);
-    map.getView().setZoom(12);
-  };
-
   const placenameToString = (placename) => (placename ? placename.label : "");
 
   /**
@@ -67,6 +53,20 @@ export const GazetteerSearch = (props) => {
       if (loadingBehaviour) setIsLoading(false);
       callback(parsedData);
     });
+  };
+
+  const updateMapView = function (feature, srs) {
+    const epsg = isDefined(srs) ? srs : "EPSG:4326";
+    const lonlat = [feature["lonlat"]["x"], feature["lonlat"]["y"]];
+
+    const center = transform(
+      [parseFloat(lonlat[0]), parseFloat(lonlat[1])],
+      epsg,
+      projection
+    );
+
+    map.getView().setCenter(center);
+    map.getView().setZoom(12);
   };
 
   const handleSubmitPlaceName = (selectedItem, inputValue) => {
