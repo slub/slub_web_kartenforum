@@ -19,19 +19,29 @@ const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
 export const PersistenceController = () => {
   const [mapIs3dEnabled, setMapIs3dEnabled] = useRecoilState(map3dState);
   const map = useRecoilValue(mapState);
+
+  /**
+   * @type {{
+   * is3dEnabled: boolean,
+   * mapView: { center: [number, number], resolution: number, zoom: number },
+   * operationalLayers: { coordinates: number[], id: string, properties: Object, opacity: number }[]
+   * }}
+   *
+   **/
   const [persistenceObject, setPersistenceObject] = useLocalStorage(
     PERSISTENCE_OBJECT_KEY,
     {
-      features: [],
+      operationalLayers: [],
       is3dEnabled: false,
     }
   );
+
   const [selectedFeatures, setSelectedFeatures] = useRecoilState(
     selectedFeaturesState
   );
 
   const {
-    features,
+    operationalLayers,
     is3dEnabled: persistenceIs3dEnabled,
     mapView,
   } = persistenceObject;
@@ -41,7 +51,7 @@ export const PersistenceController = () => {
     // Persist basic feature settings
     const newPersistenceObject = {
       is3dEnabled: mapIs3dEnabled,
-      features: selectedFeatures.map(({ feature }) => ({
+      operationalLayers: selectedFeatures.map(({ feature }) => ({
         id: feature.getId(),
         properties: feature.getProperties(),
         coordinates: feature.getGeometry().getCoordinates(),
@@ -67,11 +77,10 @@ export const PersistenceController = () => {
           const id = layer.getId();
           const opacity = layer.getOpacity();
 
-          const f = newPersistenceObject.features.find(
-            (feature) => feature.id === id
+          const f = newPersistenceObject.operationalLayers.find(
+            (operationalLayer) => operationalLayer.id === id
           );
 
-          console.log(f);
           if (f !== undefined) {
             f["opacity"] = opacity;
           }
@@ -83,6 +92,7 @@ export const PersistenceController = () => {
     setPersistenceObject(newPersistenceObject);
   }, [map, mapIs3dEnabled, selectedFeatures]);
 
+  // Write current state to localStorage
   useOnPageLeave(handlePageLeave);
 
   // restore 3d state from local storage
@@ -99,8 +109,8 @@ export const PersistenceController = () => {
       }
 
       // restore features if available
-      if (features.length > 0) {
-        const newSelectedFeatures = features.map(
+      if (operationalLayers.length > 0) {
+        const newOperationalLayers = operationalLayers.map(
           ({ coordinates, id, properties, opacity }) => {
             const feature = new Feature({ geometry: new Polygon(coordinates) });
             feature.setId(id);
@@ -110,7 +120,7 @@ export const PersistenceController = () => {
           }
         );
 
-        setSelectedFeatures(newSelectedFeatures);
+        setSelectedFeatures(newOperationalLayers);
       }
     }
   }, [map]);
