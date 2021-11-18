@@ -5,7 +5,6 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import defaultConfig from "./rollup.default.config";
 import geoRefConfig from "./rollup.georef.config";
 import mapViewConfig from "./rollup.mapview.config";
 
@@ -16,5 +15,5 @@ export default (commandlineArgs) => {
         return mapViewConfig;
     }
 
-    return defaultConfig;
+    return [geoRefConfig, mapViewConfig];
 };

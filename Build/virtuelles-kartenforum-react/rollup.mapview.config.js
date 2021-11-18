@@ -15,12 +15,11 @@ import rollupJson from "rollup-plugin-json";
 import scss from "rollup-plugin-scss";
 import babel from "@rollup/plugin-babel";
 
-// Directory where to write the output
-
-const outputDir = "../../Resources/Public/";
-
-const cssOutputDir = "Css/";
-const javascriptOutputDir = "JavaScript/Dist/";
+import {
+    cssOutputDir,
+    javascriptOutputDir,
+    outputDir,
+} from "./rollup.constants";
 
 // You can export an array from your config file to build bundles from
 // several unrelated inputs at once, even in watch mode. To build different
@@ -28,54 +27,52 @@ const javascriptOutputDir = "JavaScript/Dist/";
 
 // https://rollupjs.org/guide/en/#configuration-files
 
-export const configs = [
-    {
-        cache: true,
-        input: "./src/index.js",
-        output: {
-            file: path.resolve(
-                __dirname,
-                `${outputDir}${javascriptOutputDir}vk2-min.js`
-            ),
-            format: "iife",
-            name: "vk2",
-            sourcemap: "inline",
-        },
-        onwarn: function (warning, superOnWarn) {
-            if (warning.code === "THIS_IS_UNDEFINED") {
-                return;
-            }
-            superOnWarn(warning);
-        },
-        plugins: [
-            babel({
-                babelHelpers: "bundled",
-                sourceMaps: false,
-                inputSourceMap: false,
-                presets: ["@babel/preset-react"],
-            }),
-            replace({
-                "process.env.NODE_ENV": JSON.stringify("production"),
-            }),
-            peerDepsExternal(),
-            resolve({
-                browser: true,
-                extensions: [".js", ".jsx", ".json"],
-                jsnext: true,
-                preferBuiltins: true,
-            }),
-            rollupJson(),
-            commonjs(),
-            scss({
-                output: path.resolve(
-                    __dirname,
-                    `${outputDir}${cssOutputDir}index.css`
-                ),
-                // outputStyle: "compressed",
-            }),
-        ],
-        preserveEntrySignatures: "strict",
+export const configs = {
+    cache: true,
+    input: "./src/index.js",
+    output: {
+        file: path.resolve(
+            __dirname,
+            `${outputDir}${javascriptOutputDir}vk2-min.js`
+        ),
+        format: "iife",
+        name: "vk2",
+        sourcemap: "inline",
     },
-];
+    onwarn: function (warning, superOnWarn) {
+        if (warning.code === "THIS_IS_UNDEFINED") {
+            return;
+        }
+        superOnWarn(warning);
+    },
+    plugins: [
+        babel({
+            babelHelpers: "bundled",
+            sourceMaps: false,
+            inputSourceMap: false,
+            presets: ["@babel/preset-react"],
+        }),
+        replace({
+            "process.env.NODE_ENV": JSON.stringify("production"),
+        }),
+        peerDepsExternal(),
+        resolve({
+            browser: true,
+            extensions: [".js", ".jsx", ".json"],
+            jsnext: true,
+            preferBuiltins: true,
+        }),
+        rollupJson(),
+        commonjs(),
+        scss({
+            output: path.resolve(
+                __dirname,
+                `${outputDir}${cssOutputDir}index.css`
+            ),
+            // outputStyle: "compressed",
+        }),
+    ],
+    preserveEntrySignatures: "strict",
+};
 
 export default configs;
