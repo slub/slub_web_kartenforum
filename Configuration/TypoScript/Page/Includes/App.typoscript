@@ -77,7 +77,7 @@ page {
                     "MAPVIEW_PARAMS": {
                         projection: "EPSG:3857",
                         minResolution: 1.194328566789627,
-                        maxResolution: 22445.9849047851562,
+                        maxResolution: 2445.9849047851562,
                         extent:
                         [-20026376.39,-20048966.10,20026375.39,20048966.10],
                         center: [1528150, 6630500],
