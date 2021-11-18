@@ -258,7 +258,7 @@ export const containsLayerWithId = function (id, layers) {
  * @return {vk2.layer.HistoricMap}
  * @private
  */
-export const createHistoricMapForFeature = function (feature, is3d, map) {
+export const createHistoricMapForFeature = function (feature) {
   const settings = SettingsProvider.getSettings();
 
   const tms_url_subdomains = settings["TMS_URL_SUBDOMAINS"];
@@ -272,37 +272,18 @@ export const createHistoricMapForFeature = function (feature, is3d, map) {
       : feature.get("denominator") <= 15000
       ? 16
       : 15;
-  return is3d
-    ? new HistoricMap(
-        {
-          maxZoom: maxZoom,
-          time: feature.get("time"),
-          title: feature.get("title"),
-          objectid: feature.get("id"),
-          id: feature.getId(),
-          dataid: feature.get("dataid"),
-          tms: feature.get("tms"),
-          clip: feature.getGeometry().clone(),
-          thumbnail,
-          tms_url_subdomains,
-        },
-        map
-      )
-    : new HistoricMap(
-        {
-          time: feature.get("time"),
-          maxZoom: maxZoom,
-          title: feature.get("title"),
-          objectid: feature.get("id"),
-          id: feature.getId(),
-          dataid: feature.get("dataid"),
-          tms: feature.get("tms"),
-          clip: feature.getGeometry().clone(),
-          thumbnail,
-          tms_url_subdomains,
-        },
-        map
-      );
+  return new HistoricMap({
+    time: feature.get("time"),
+    maxZoom: maxZoom,
+    title: feature.get("title"),
+    objectid: feature.get("id"),
+    id: feature.getId(),
+    dataid: feature.get("dataid"),
+    tms: feature.get("tms"),
+    clip: feature.getGeometry().clone(),
+    thumbnail,
+    tms_url_subdomains,
+  });
 };
 
 /**

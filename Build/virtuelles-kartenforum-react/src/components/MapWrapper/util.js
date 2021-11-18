@@ -1,7 +1,14 @@
 import { transformExtent } from "ol/proj";
 import { containsXY } from "ol/extent";
+import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
+import TileLayer from "ol/layer/Tile";
+import { XYZ } from "ol/source";
 
-import HistoricMap3D from "../layer/HistoricMapLayer3d";
+import { MousePositionOnOff } from "./components/MousePositionOnOff";
+import RestoreDefaultView from "./components/RestoreDefaultView";
+import CustomAttribution from "./components/CustomAttribution";
+import ToggleViewMode from "../ToggleViewmode/ToggleViewmode";
+import { LayerSpy } from "./components/LayerSpy";
 import HistoricMap from "../layer/HistoricMapLayer";
 
 export const generateLimitCamera = function (mapView) {
@@ -43,21 +50,83 @@ export const generateLimitCamera = function (mapView) {
 };
 
 /**
+ * Returns the default controls for the map view
+ **/
+export const getDefaultControls = ({
+    baseMapUrl,
+    is3dActive,
+    mapViewSettings,
+    set3dActive,
+    toggleViewModeButtonRef,
+}) => [
+    new CustomAttribution(),
+    new Zoom(),
+    new FullScreen(),
+    new Rotate({ className: "rotate-north ol-unselectable" }),
+    new ToggleViewMode({
+        initialState: is3dActive,
+        propagateViewMode: set3dActive,
+        toggleViewModeButtonRef,
+    }),
+    new LayerSpy({
+        spyLayer: new TileLayer({
+            attribution: undefined,
+            source: new XYZ({
+                urls: baseMapUrl,
+                crossOrigin: "*",
+                attributions: [],
+            }),
+        }),
+    }),
+    new RestoreDefaultView({ defaultView: mapViewSettings }),
+    new ScaleLine(),
+    new MousePositionOnOff(),
+    // new vk2.control.Permalink(),
+];
+
+/**
  * @returns {Array.<vk2.layer.HistoricMap>}
  */
-export const getHistoricMapLayer = function (map, is3d) {
+export const getHistoricMapLayer = function (map) {
     const layers = map.getLayers().getArray();
     const historicMapLayers = [];
     for (let i = 0; i < layers.length; i++) {
-        if (is3d) {
-            if (layers[i] instanceof HistoricMap3D) {
-                historicMapLayers.push(layers[i]);
-            }
-        } else {
-            if (layers[i] instanceof HistoricMap) {
-                historicMapLayers.push(layers[i]);
-            }
+        if (layers[i] instanceof HistoricMap) {
+            historicMapLayers.push(layers[i]);
         }
     }
     return historicMapLayers;
+};
+
+export const setOptimizedCesiumSettings = (scene) => {
+    const { globe, screenSpaceCameraController } = scene;
+
+    const tileCacheSize = "100",
+        // The maximum screen-space error used to drive level-of-detail refinement. Higher values will provide better performance but lower visual quality.
+        // Default is 2
+        maximumScreenSpaceError = 1.5,
+        fogEnabled = true,
+        fogDensity = 0.000003880708760225126 * 20,
+        fogSseFactor = 25 * 2;
+
+    window["minimumRetrievingLevel"] = 8;
+    window["imageryAvailableLevels"] = undefined;
+    globe["baseColor"] = Cesium.Color.WHITE;
+    globe["tileCacheSize"] = tileCacheSize;
+    globe["maximumScreenSpaceError"] = maximumScreenSpaceError;
+    scene.backgroundColor = Cesium.Color.WHITE;
+    globe.depthTestAgainstTerrain = true;
+    screenSpaceCameraController.maximumZoomDistance = 300000; //4000000;
+
+    scene.fog.enabled = fogEnabled;
+    scene.fog.density = fogDensity;
+    scene.fog.screenSpaceErrorFactor = fogSseFactor;
+};
+
+export const setShadowsActivated = (scene) => {
+    // together with the "requestVertexNormals" flag (see terrainProvider) it enables the displaying
+    // of shadows on the map,
+    scene.globe.enableLighting = true;
+    scene.globe.lightingFadeInDistance = 1000000000;
+    scene.globe.lightingFadeOutDistance = 10000000;
 };
