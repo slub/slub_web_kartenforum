@@ -16,22 +16,22 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'] = [
     [
         'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.signup',
         'slubwebkartenforum_signup',
-        'EXT:slub_web_kartenforum/Resources/Public/Icons/Backend/Signup.svg'
+        'VkfSignup'
     ],
     [
         'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.map',
         'slubwebkartenforum_map',
-        'EXT:slub_web_kartenforum/Resources/Public/Icons/Backend/Map.svg'
+        'VkfMap'
     ],
     [
         'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.apps',
         'slubwebkartenforum_apps',
-        'EXT:slub_web_kartenforum/Resources/Public/Icons/Backend/Apps.svg'
+        'VkfApps'
     ],
     [
         'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georeference',
         'slubwebkartenforum_georeference',
-        'EXT:slub_web_kartenforum/Resources/Public/Icons/Backend/Georef.svg'
+        'VkfGeoref'
     ],
 ];
 foreach ($backupCTypeItems as $key => $value) {
