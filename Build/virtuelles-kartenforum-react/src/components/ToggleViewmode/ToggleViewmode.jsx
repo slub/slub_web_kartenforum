@@ -9,7 +9,7 @@ import { Control } from "ol/control";
 import { translate } from "../../util/util";
 import "./ToggleViewMode.scss";
 
-function updateButtonText(button, state) {
+export function updateButtonText(button, state) {
   button.innerHTML = state ? "2D" : "3D";
 }
 
@@ -26,6 +26,9 @@ export class ToggleViewMode extends Control {
     button.title = translate("flipviewmode-title");
     button.type = "button";
 
+    // write button element to ref
+    options.toggleViewModeButtonRef.current = button;
+
     const buttonText = document.createElement("span");
     buttonText.className = "flipviewmode-button-label";
     buttonText.innerHTML = initialState ? "2D" : "3D";
@@ -41,30 +44,29 @@ export class ToggleViewMode extends Control {
     super({ element, target: options.target });
 
     this.propagateViewMode = options.propagateViewMode;
-    this.internalState = initialState;
     this.buttonText = buttonText;
-    this.view = options.view;
     this.infoMessage = infoMessage;
 
     button.addEventListener("click", this.handleUpdate, false);
   }
 
   handleUpdate = () => {
-    const min3DZoom = 3;
-    if (this.view.getZoom() > min3DZoom) {
-      this.propagateViewMode((oldState) => {
-        const newState = !oldState;
-        this.internalState = newState;
+    const min3DZoom = 8;
+
+    this.propagateViewMode((oldState) => {
+      const newState = !oldState;
+
+      if (this.getMap().getView().getZoom() > min3DZoom) {
         return newState;
-      });
-      updateButtonText(this.buttonText, this.internalState);
-    } else {
-      this.infoMessage.classList.add("open");
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        this.infoMessage.classList.remove("open");
-      }, 4000);
-    }
+      } else {
+        this.infoMessage.classList.add("open");
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+          this.infoMessage.classList.remove("open");
+        }, 4000);
+        return oldState;
+      }
+    });
   };
 }
 

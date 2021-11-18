@@ -12,7 +12,6 @@ import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
 import { defaults, DragRotateAndZoom } from "ol/interaction";
 import XYZ from "ol/source/XYZ";
 import OLCesium from "olcs/OLCesium";
@@ -28,12 +27,14 @@ import {
 import HistoricMap from "../layer/HistoricMapLayer";
 import { SettingsProvider } from "../../index";
 import LayerManagement from "../LayerManagement/LayerManagement";
-import { MousePositionOnOff } from "./components/MousePositionOnOff";
-import RestoreDefaultView from "./components/RestoreDefaultView";
-import CustomAttribution from "./components/CustomAttribution";
-import ToggleViewMode from "../ToggleViewmode/ToggleViewmode";
-import { LayerSpy } from "./components/LayerSpy";
-import { generateLimitCamera } from "./util";
+import {
+  generateLimitCamera,
+  getDefaultControls,
+  setOptimizedCesiumSettings,
+  setShadowsActivated,
+} from "./util";
+import { isDefined } from "../../util/util";
+import { updateButtonText } from "../ToggleViewmode/ToggleViewmode";
 
 import "./MapWrapper.scss";
 import "./openlayer-overwrites.scss";
@@ -51,14 +52,19 @@ export function MapWrapper(props) {
     terrainTilesUrl,
   } = props;
 
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
-
+  // state
   const [is3dActive, set3dActive] = useRecoilState(map3dState);
   const [map, setMap] = useRecoilState(mapState);
   const [olcsMap, setOlcsMap] = useRecoilState(olcsMapState);
+  const selectedFeatures = useRecoilValue(selectedFeaturesState);
 
-  // pull refs
+  // refs
   const mapElement = useRef();
+  const toggleViewModeButtonRef = useRef();
+
+  ////
+  // Effect section
+  ////
 
   // initialize map on first render - logic formerly put into componentDidMount
   useEffect(() => {
@@ -69,31 +75,13 @@ export function MapWrapper(props) {
       source: new VectorSource(),
     });
 
-    const controls = [
-      new CustomAttribution(),
-      new Zoom(),
-      new FullScreen(),
-      new Rotate({ className: "rotate-north ol-unselectable" }),
-      new ToggleViewMode({
-        initialState: is3dActive,
-        propagateViewMode: set3dActive,
-        view,
-      }),
-      new LayerSpy({
-        spyLayer: new TileLayer({
-          attribution: undefined,
-          source: new XYZ({
-            urls: baseMapUrl,
-            crossOrigin: "*",
-            attributions: [],
-          }),
-        }),
-      }),
-      new RestoreDefaultView({ defaultView: mapViewSettings }),
-      new ScaleLine(),
-      new MousePositionOnOff(),
-      // new vk2.control.Permalink(),
-    ];
+    const controls = getDefaultControls({
+      baseMapUrl,
+      is3dActive,
+      mapViewSettings,
+      set3dActive,
+      toggleViewModeButtonRef,
+    });
 
     // create map
     const initialMap = new Map({
@@ -135,44 +123,17 @@ export function MapWrapper(props) {
 
       // initialize a terrain map
       const scene = ol3d.getCesiumScene();
-      const { globe, screenSpaceCameraController } = scene;
 
-      // // set this global because it is used by other application code
-      // window["ol3d"] = ol3d;
-
-      // some test code
-      const tileCacheSize = "100",
-        // The maximum screen-space error used to drive level-of-detail refinement. Higher values will provide better performance but lower visual quality.
-        // Default is 2
-        maximumScreenSpaceError = 1.5,
-        fogEnabled = true,
-        fogDensity = 0.000003880708760225126 * 20,
-        fogSseFactor = 25 * 2;
-
-      window["minimumRetrievingLevel"] = 8;
-      window["imageryAvailableLevels"] = undefined;
-      globe["baseColor"] = Cesium.Color.WHITE;
-      globe["tileCacheSize"] = tileCacheSize;
-      globe["maximumScreenSpaceError"] = maximumScreenSpaceError;
-      scene.backgroundColor = Cesium.Color.WHITE;
-      globe.depthTestAgainstTerrain = true;
-      screenSpaceCameraController.maximumZoomDistance = 300000; //4000000;
-
+      // set the terrain provider
       scene.terrainProvider = new Cesium.CesiumTerrainProvider({
         url: terrainTilesUrl,
         requestVertexNormals: true,
       });
-      scene.fog.enabled = fogEnabled;
-      scene.fog.density = fogDensity;
-      scene.fog.screenSpaceErrorFactor = fogSseFactor;
+
+      setOptimizedCesiumSettings(scene);
+      // setShadowsActivated(scene);
 
       scene.postRender.addEventListener(generateLimitCamera(mapViewSettings));
-
-      // together with the "requestVertexNormals" flag (see terrainProvider) it enables the displaying
-      // of shadows on the map,
-      // scene.globe.enableLighting = true;
-      // scene.globe.lightingFadeInDistance = 1000000000;
-      // scene.globe.lightingFadeOutDistance = 10000000;
 
       setOlcsMap(ol3d);
     }
@@ -227,11 +188,18 @@ export function MapWrapper(props) {
             const resolution = view.getResolution();
             const rotation = view.getRotation();
 
-            view.setResolution(view.constrainResolution(resolution));
-            view.setRotation(view.constrainRotation(rotation));
+            // constraints apply on setting them
+            view.setResolution(resolution);
+            view.setRotation(rotation);
           },
         });
       }
+    }
+  }, [is3dActive]);
+
+  useEffect(() => {
+    if (isDefined(toggleViewModeButtonRef.current)) {
+      updateButtonText(toggleViewModeButtonRef.current, is3dActive);
     }
   }, [is3dActive]);
 
