@@ -7,9 +7,10 @@
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 
-import { translate } from "../../util/util";
-import { getHistoricMapLayer } from "../MapWrapper/util";
-import { mapState } from "../../atoms/atoms";
+import { translate } from "../../../util/util";
+import { getHistoricMapLayer } from "../../MapWrapper/util";
+import { mapState } from "../../../atoms/atoms";
+import "./DeactivateMapCollection.scss";
 
 export const DeactivateMapCollection = () => {
   const [isActive, setIsActive] = useState(true);

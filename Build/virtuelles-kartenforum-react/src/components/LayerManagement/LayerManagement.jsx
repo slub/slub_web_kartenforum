@@ -10,7 +10,7 @@ import { useRecoilValue } from "recoil";
 
 import { translate } from "../../util/util";
 import { mapState } from "../../atoms/atoms";
-import DeactivateMapCollection from "./DeactivateMapCollection";
+import DeactivateMapCollection from "./DeactivateMapCollection/DeactivateMapCollection";
 import DynamicMapVisualization from "./DynamicMapVisualization/DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry";
 import "./LayerManagement.scss";
