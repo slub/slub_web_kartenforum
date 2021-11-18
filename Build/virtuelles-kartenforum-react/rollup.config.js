@@ -1,8 +1,8 @@
 /**
- * @class       : rollup.config
- * @author      : nicolas (nicolas.looschen@pikobytes.de)
- * @created     : Donnerstag Nov 18, 2021 15:37:17 CET
- * @description : rollup.config
+ * Created by nicolas.looschen@pikobytes.de on 16.09.21.
+ *
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
  */
 
 import defaultConfig from "./rollup.default.config";
