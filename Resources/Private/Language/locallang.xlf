@@ -233,7 +233,13 @@
 			</trans-unit>
 			<trans-unit id="client.permalink.msg">
 				<source>For copying the link push</source>
-			</trans-unit>
+      </trans-unit>
+
+
+            <!-- vk2.control.RestoreDefaultView -->
+			<trans-unit id="client.restoredefaultview.title">
+				<source>Restore default view</source>
+      </trans-unit>
 
             <!-- vk2.control.RotateNorthControl -->
 			<trans-unit id="client.roatenorth.title">

@@ -7,9 +7,10 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRecoilValue } from "recoil";
+
 import { isDefined, translate } from "../../../util/util";
 import { mapState } from "../../../atoms/atoms";
-import { getHistoricMapLayer } from "../../MapWrapper/MapWrapper";
+import { getHistoricMapLayer } from "../../MapWrapper/util";
 import "./DynamicMapVisualization.scss";
 
 const setLayersToInitialState = (sortedLayers) => {
@@ -54,7 +55,7 @@ const sortLayers = (layers, map) => {
   return responseObj;
 };
 
-export const DynamicMapVisualization = (props) => {
+export const DynamicMapVisualization = () => {
   const [active, setActive] = useState(false);
   const [animatedLayer, setAnimatedLayer] = useState(undefined);
   const [open, setOpen] = useState(false);
@@ -95,7 +96,6 @@ export const DynamicMapVisualization = (props) => {
   const startAnimation = (options) => {
     const { sortedLayers, delay = 500 } = options;
     setLayersToInitialState(sortedLayers);
-    console.log(options, sortedLayers);
     if (activeRef.current) {
       const keys = Object.keys(sortedLayers);
       if (keys.length > 0) {
@@ -119,16 +119,23 @@ export const DynamicMapVisualization = (props) => {
     }
   };
 
+  ////
+  // Handler section
+  ////
+
+  // handle animation start
   const handleStart = (e) => {
     e.preventDefault();
     setActive(true);
   };
 
+  // handle animation stop
   const handleStop = (e) => {
     e.preventDefault();
     setActive(false);
   };
 
+  // Toggle open state of the menu
   const handleToggleMenu = (e) => {
     e.preventDefault();
     if (open) {
@@ -139,6 +146,11 @@ export const DynamicMapVisualization = (props) => {
     }
   };
 
+  ////
+  //   Effect section
+  ////
+
+  // Handle start/stop of animation based on active state
   useEffect(() => {
     activeRef.current = active;
     if (active) {

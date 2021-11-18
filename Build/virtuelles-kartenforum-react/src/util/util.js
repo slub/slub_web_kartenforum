@@ -50,41 +50,6 @@ export const addLazyLoadingBehavior = function (elements) {
         };
 };
 
-/**
- * Functions adds an open close behavior to a given set of parameters.
- *
- * @param {Element} eventEl
- * @param {Element} displayEl
- * @param {Element} classEl
- * @param {string=} opt_className
- * @param {string=} opt_titleOpen
- * @param {string=} opt_titleClose
- */
-export const addOpenCloseBehavior = function (
-    eventEl,
-    displayEl,
-    classEl,
-    opt_className,
-    opt_titleOpen,
-    opt_titleClose
-) {
-    const className = isDefined(opt_className) ? opt_className : "active",
-        openTitle = isDefined(opt_titleOpen) ? opt_titleOpen : "",
-        closeTitle = isDefined(opt_titleClose) ? opt_titleClose : "";
-
-    eventEl.addEventListener("click", function (event) {
-        event.preventDefault();
-
-        if (classEl.classList.contains(className)) {
-            classEl.classList.remove(className);
-            eventEl["title"] = openTitle;
-        } else {
-            classEl.classList.add(className);
-            eventEl["title"] = closeTitle;
-        }
-    });
-};
-
 const getSizeForDomElement = (id) => {
     const el = document.getElementById(id);
     const elWidth = isDefined(el) ? el.offsetWidth : 0;

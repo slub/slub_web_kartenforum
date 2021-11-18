@@ -14,10 +14,13 @@ import MapSearch from "../MapSearch/MapSearch";
 import TimeSlider from "../TimeSlider/TimeSlider";
 import { timeRangeState } from "../../atoms/atoms";
 import { createStatisticQuery } from "../../util/query";
+import "./SpatialTemporalSearch.scss";
 
-export const SpatialTemporalSearch = (props) => {
-  const [timeRange, setTimeRange] = useRecoilState(timeRangeState);
+export const SpatialTemporalSearch = () => {
   const settings = SettingsProvider.getSettings();
+
+  // state
+  const [timeRange, setTimeRange] = useRecoilState(timeRangeState);
 
   const loadInitialSettings = () => {
     const requestUrl = `${settings.ELASTICSEARCH_NODE}/_search?`;

@@ -9,6 +9,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
 import { useRecoilState, useRecoilValue } from "recoil";
+import clsx from "clsx";
+
 import {
   facetState,
   featureState,
@@ -20,12 +22,16 @@ import { MAP_SEARCH_HOVER_FEATURE } from "../../config/styles";
 import { mapState } from "../../atoms/atoms";
 import ServerPagination from "../Source/ServerPaginationSource";
 import { SettingsProvider } from "../../index";
-import { addOpenCloseBehavior, isDefined, translate } from "../../util/util";
+import { isDefined, translate } from "../../util/util";
 import FacetedSearch from "../FacetedSearch/FacetedSearch";
 import MapSearchListElement from "./MapSearchListElement";
+import HistoricMap from "../layer/HistoricMapLayer";
 
-const SEARCH_COLS = ["time", "title", "georeference"];
+import "./MapSearch.scss";
+
 const DEFAULT_TYPE = "title";
+export const MAP_PROJECTION = "EPSG:900913";
+const SEARCH_COLS = ["time", "title", "georeference"];
 
 // approximated height of a view item
 const VIEW_ITEM_HEIGHT = 120;
@@ -38,27 +44,55 @@ const checkIfArrayContainsFeature = (array, feature) => {
   );
 };
 
-export const MapSearch = (props) => {
+export const MapSearch = () => {
   const settings = SettingsProvider.getSettings();
-  const is3dEnabled = useRecoilValue(map3dState);
-  const [blockUpdate, setBlockUpdate] = useState(false);
-  const timeExtent = useRecoilValue(timeExtentState);
-  const facets = useRecoilValue(facetState);
-  const map = useRecoilValue(mapState);
-  const featureSourceRef = useRef();
-  const featureOverlayRef = useRef();
-  const openButtonRef = useRef();
-  const containerRef = useRef();
-  const facetContainerRef = useRef();
-  const searchListRef = useRef();
 
+  // state
+  const [blockUpdate, setBlockUpdate] = useState(false);
+  const [isFacetedSearchOpen, setIsFacetedSearchOpen] = useState(false);
+  const facets = useRecoilValue(facetState);
   const [{ features, featureCount, id }, setFeatures] = useRecoilState(
     featureState
   );
-
+  const is3dEnabled = useRecoilValue(map3dState);
+  const map = useRecoilValue(mapState);
   const [selectedFeatures, setSelectedFeatures] = useRecoilState(
     selectedFeaturesState
   );
+  const timeExtent = useRecoilValue(timeExtentState);
+
+  // refs
+  const featureSourceRef = useRef();
+  const featureOverlayRef = useRef();
+  const searchListRef = useRef();
+
+  const sort = function (type) {
+    const featureSource = featureSourceRef.current;
+    // get the sort control element and the sortOrder
+    const sortControlEl = document.getElementsByClassName(
+      "sort-element " + type
+    )[0];
+    const sortOrder = sortControlEl.classList.contains("ascending")
+      ? "descending"
+      : "ascending";
+
+    // remove old sort classes
+    const sortElements = document.getElementsByClassName("sort-element");
+    for (let i = 0; i < sortElements.length; i++) {
+      sortElements[i].classList.remove("descending");
+      sortElements[i].classList.remove("ascending");
+    }
+
+    // sort list
+    sortControlEl.classList.add(sortOrder);
+    featureSource.setSortAttribute(type);
+    featureSource.setSortOrder(sortOrder);
+    featureSource.refresh();
+  };
+
+  ////
+  // Handler section
+  ////
 
   const handleElementClick = (feature) => {
     const containsFeature = checkIfArrayContainsFeature(
@@ -94,11 +128,6 @@ export const MapSearch = (props) => {
     }
   };
 
-  const handleUpdate = (features) => {
-    setFeatures(features);
-    setBlockUpdate(false);
-  };
-
   const handleScroll = () => {
     if (
       searchListRef.current === null ||
@@ -120,29 +149,18 @@ export const MapSearch = (props) => {
     }
   };
 
-  const sort = function (type) {
-    const featureSource = featureSourceRef.current;
-    // get the sort control element and the sortOrder
-    const sortControlEl = document.getElementsByClassName(
-      "sort-element " + type
-    )[0];
-    const sortOrder = sortControlEl.classList.contains("ascending")
-      ? "descending"
-      : "ascending";
-
-    // remove old sort classes
-    const sortElements = document.getElementsByClassName("sort-element");
-    for (let i = 0; i < sortElements.length; i++) {
-      sortElements[i].classList.remove("descending");
-      sortElements[i].classList.remove("ascending");
-    }
-
-    // sort list
-    sortControlEl.classList.add(sortOrder);
-    featureSource.setSortAttribute(type);
-    featureSource.setSortOrder(sortOrder);
-    featureSource.refresh();
+  const handleToggleFacetedSearch = () => {
+    setIsFacetedSearchOpen((prevState) => !prevState);
   };
+
+  const handleUpdate = (features) => {
+    setFeatures(features);
+    setBlockUpdate(false);
+  };
+
+  ////
+  // Effect section
+  ////
 
   // reset scroll if id of feature set changes
   useEffect(() => {
@@ -169,13 +187,14 @@ export const MapSearch = (props) => {
     );
   };
 
+  // Add feature overlay layer shown on hover
   useEffect(() => {
     if (map !== undefined) {
       const featureSource = new ServerPagination({
         is3d: is3dEnabled,
         elasticsearch_srs: settings["ELASTICSEARCH_SRS"],
         elasticsearch_node: settings["ELASTICSEARCH_NODE"],
-        projection: "EPSG:900913",
+        projection: MAP_PROJECTION,
         map: map,
         updateCallback: handleUpdate,
       });
@@ -201,9 +220,7 @@ export const MapSearch = (props) => {
             event.target.getLength() - 1
           ];
           if (
-            // @TODO: MIGRATE VK2 LAYER
-            // topLayer instanceof vk2.layer.HistoricMap ||
-            // topLayer instanceof vk2.layer.HistoricMap3D ||
+            topLayer instanceof HistoricMap ||
             topLayer.get("type") == "click"
           ) {
             map.removeLayer(featureOverlay);
@@ -215,6 +232,7 @@ export const MapSearch = (props) => {
     }
   }, [map]);
 
+  // Update featureOverlay on change of 3d state
   useEffect(() => {
     if (isDefined(featureSourceRef.current)) {
       featureSourceRef.current.update3dState(is3dEnabled);
@@ -225,17 +243,6 @@ export const MapSearch = (props) => {
       featureOverlayRef.current.set("altitudeMode", "clampToGround");
     }
   }, [is3dEnabled]);
-
-  useEffect(() => {
-    addOpenCloseBehavior(
-      openButtonRef.current,
-      facetContainerRef.current,
-      containerRef.current,
-      "facetedsearch-open",
-      translate("facetedsearch-open"),
-      translate("facetedsearch-close")
-    );
-  }, []);
 
   useEffect(() => {
     if (isDefined(featureSourceRef.current)) {
@@ -251,16 +258,24 @@ export const MapSearch = (props) => {
   }, [featureSourceRef, facets]);
 
   return (
-    <div className="mapsearch-container" ref={containerRef}>
+    <div
+      className={clsx(
+        "mapsearch-container",
+        isFacetedSearchOpen && "facetedsearch-open"
+      )}
+    >
       <div className="panel panel-default searchTablePanel">
         <div className="panel-heading">
           <div className="content">
             <div>{`${featureCount} ${translate("mapsearch-found-maps")}`}</div>
-            <a ref={openButtonRef} title={translate("facetedsearch-open")}>
-              o
-            </a>
+            <button
+              onClick={handleToggleFacetedSearch}
+              title={translate(
+                `facetedsearch-${isFacetedSearchOpen ? "close" : "open"}`
+              )}
+            />
           </div>
-          <div className="facet-container" ref={facetContainerRef}>
+          <div className="facet-container">
             <FacetedSearch georeferenceMode={false} />
           </div>
         </div>
@@ -277,15 +292,15 @@ export const MapSearch = (props) => {
             >
               {features.map((feature) => (
                 <MapSearchListElement
-                  selected={checkIfArrayContainsFeature(
-                    selectedFeatures,
-                    feature
-                  )}
-                  onClick={handleElementClick}
                   feature={feature}
                   featureOverlay={featureOverlayRef.current}
                   is3d={is3dEnabled}
                   key={feature.get("id")}
+                  onClick={handleElementClick}
+                  selected={checkIfArrayContainsFeature(
+                    selectedFeatures,
+                    feature
+                  )}
                 />
               ))}
             </ul>

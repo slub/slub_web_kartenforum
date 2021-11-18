@@ -47,6 +47,9 @@ export const newVar = {
     },
     plugins: [
         babel({
+            babelHelpers: "bundled",
+            sourceMaps: false,
+            inputSourceMap: false,
             presets: ["@babel/preset-react"],
         }),
         replace({

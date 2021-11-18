@@ -4,13 +4,14 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { translate } from "../../util/util";
+
 import { useSetRecoilState } from "recoil";
 import { facetState } from "../../atoms/atoms";
+import FacetedSearchEntry from "./FacetedSearchEntry";
 
-const FACETED_SEARCH_TYPES = {
+export const FACETED_SEARCH_TYPES = {
   AE: "maptype-ae",
   AK: "maptype-ak",
   CM: "maptype-cm",
@@ -22,52 +23,50 @@ const FACETED_SEARCH_TYPES = {
   ToGeoref: "georeference-false",
 };
 
+const initialCheckedState = {};
+Object.keys(FACETED_SEARCH_TYPES).forEach((key) => {
+  initialCheckedState[key] = false;
+});
+
 export const FacetedSearch = (props) => {
   const { georeferenceMode } = props;
+
+  const [checkedState, setCheckedState] = useState(initialCheckedState);
+
   const setFacets = useSetRecoilState(facetState);
 
-  const handleClick = (event) => {
-    // get all checked values
-
-    const elements = document.getElementsByClassName("facet-search-el"),
-      checkedEl = [];
-    let georeference = true;
-
-    for (let i = 0; i < elements.length; i++) {
-      if (elements[i].checked) {
-        const key = elements[i].value.split("-")[0],
-          value = elements[i].value.split("-")[1];
-
-        if (key !== "georeference") checkedEl.push({ key: key, value: value });
-
-        if (key === "georeference") georeference = false;
-      }
-    }
-
-    setFacets({ facets: checkedEl, georeference });
-  };
-
-  const renderLabel = (key) => {
-    const title = translate(`facet-${key.toLowerCase()}`);
-    return key !== "toGeoref" || (key === "toGeoref" && georeferenceMode) ? (
-      <label className="checkbox-inline" title={title}>
-        <input
-          className="facet-search-el"
-          type="checkbox"
-          id={key}
-          title={title}
-          value={FACETED_SEARCH_TYPES[key]}
-        />
-        {title}
-      </label>
-    ) : (
-      <></>
+  const handleToggleFacet = (key) => {
+    setCheckedState((oldCheckedState) =>
+      Object.assign({}, oldCheckedState, { [key]: !oldCheckedState[key] })
     );
   };
 
+  useEffect(() => {
+    const selected = Object.entries(checkedState)
+      .filter((entry) => entry[1])
+      .map((entry) => entry[0]);
+
+    const facets = [];
+    selected.forEach((key) => {
+      if (key === "ToGeoref") return;
+      const [facetKey, facetValue] = FACETED_SEARCH_TYPES[key].split("-");
+      facets.push({ key: facetKey, value: facetValue });
+    });
+
+    setFacets({ facets, georeference: !selected.includes("ToGeoref") });
+  }, [checkedState]);
+
   return (
-    <div className="search-facet" onClick={handleClick}>
-      {Object.keys(FACETED_SEARCH_TYPES).map(renderLabel)}
+    <div className="search-facet">
+      {Object.keys(FACETED_SEARCH_TYPES).map((key) => (
+        <FacetedSearchEntry
+          checked={checkedState[key]}
+          key={key}
+          georeferenceMode={georeferenceMode}
+          onClick={handleToggleFacet}
+          id={key}
+        />
+      ))}
     </div>
   );
 };

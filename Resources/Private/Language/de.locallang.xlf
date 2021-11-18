@@ -299,6 +299,10 @@
 				<source><![CDATA[Points]]></source>
 				<target><![CDATA[Punkte]]></target>
 			</trans-unit>
+			<trans-unit id="client.restoredefaultview.title" approved="yes">
+				<source><![CDATA[Restore default view]]></source>
+				<target><![CDATA[Stelle die initiale Ansicht wieder her]]></target>
+			</trans-unit>
 			<trans-unit id="client.roatenorth.title" approved="yes">
 				<source><![CDATA[Align map to north]]></source>
 				<target><![CDATA[Karte nach Norden ausrichten]]></target>

@@ -5,10 +5,12 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 import Slider from "rc-slider";
 
 import "rc-slider/assets/index.css";
 import "./OpacitySlider.scss";
+import HistoricMap from "../layer/HistoricMapLayer";
 
 export const OpacitySlider = (props) => {
   const { orientation = "horizontal", layer } = props;
@@ -62,13 +64,22 @@ export const OpacitySlider = (props) => {
   return (
     <div className="opacity-container">
       <div className="slider-container">
-        <Slider onChange={handleSliderChange} value={value} vertical />
+        <Slider
+          onChange={handleSliderChange}
+          value={value}
+          vertical={orientation === "vertical"}
+        />
         <div className="tooltip value" ref={valueRef}>
           100%
         </div>
       </div>
     </div>
   );
+};
+
+OpacitySlider.propTypes = {
+  layer: PropTypes.instanceOf(HistoricMap),
+  orientation: PropTypes.oneOf(["horizontal", "vertical"]),
 };
 
 export default OpacitySlider;

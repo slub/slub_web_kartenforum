@@ -9,6 +9,7 @@ import { Collection } from "ol";
 import { equals } from "ol/extent";
 import { transformExtent } from "ol/proj";
 import axios from "axios";
+
 import {
     calculateMapExtentForPixelViewport,
     getPolygonFromExtent,
@@ -16,16 +17,7 @@ import {
 } from "../../util/util";
 import { getSpatialQuery, getToGeorefQuery } from "../../util/query";
 import { readFeatures } from "../../util/parser";
-
-/**
- * @enum {string}
- */
-const ServerPaginationEventType = {
-    // Is triggered if there was a pagination event. Incrementel data is added.
-    PAGINATE: "paginate",
-    // Refresh is called when the complete search data is refreshed
-    REFRESH: "refresh",
-};
+import { MAP_PROJECTION } from "../MapSearch/MapSearch";
 
 /**
  * @classdesc
@@ -50,7 +42,7 @@ export class ServerPagination {
         this.projection_ =
             options.projection !== undefined
                 ? options.projection
-                : "EPSG:900913";
+                : MAP_PROJECTION;
 
         /**
          * @private
@@ -287,45 +279,6 @@ export class ServerPagination {
                 event_callback(parsedFeatures);
             }
         });
-
-        // var xhr = new goog.net.XhrIo();
-        // goog.events.listenOnce(
-        //     xhr,
-        //     "success",
-        //     function (e) {
-        //         //if (goog.DEBUG){
-        //         //	console.log('Receive features');
-        //         //};
-        //
-        //         var xhr = /** @type {goog.net.XhrIo} */ (e.target);
-        //         if (xhr.getResponseJson()) {
-        //             // parse response GeoJSON
-        //             var data = xhr.getResponseJson();
-        //             this.totalFeatures_ = data["hits"]["total"];
-        //             xhr.dispose();
-        //             var parsedFeatures = readFeatures(
-        //                 data["hits"]["hits"],
-        //                 this.elasticsearch_srs,
-        //                 projection
-        //             );
-        //
-        //             //if (goog.DEBUG){
-        //             //	console.log(parsedFeatures);
-        //             //};
-        //
-        //             // fill featureCol and increment startIndex
-        //             this.featureCol_.extend(parsedFeatures);
-        //             this.index_ += parsedFeatures.length;
-        //
-        //             event_callback.call(this, parsedFeatures);
-        //         } else {
-        //             console.log("Response is empty");
-        //         }
-        //     },
-        //     false,
-        //     this
-        // );
-        // xhr.send(requestUrl, "POST", JSON.stringify(requestPayload));
     };
 
     /**

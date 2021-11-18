@@ -6,11 +6,12 @@
  */
 
 import React from "react";
+
 import MapWrapper from "../../components/MapWrapper/MapWrapper";
 import { SettingsProvider } from "../../index";
 import SpatialTemporalSearch from "../../components/SpatialTemporalSearch/SpatialTemporalSearch";
 
-export const MainLayout = (props) => {
+export const MainLayout = () => {
   const settings = SettingsProvider.getSettings();
 
   return (

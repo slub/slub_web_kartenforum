@@ -8,17 +8,14 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Map } from "ol";
-import { transformExtent } from "ol/proj";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
 import { defaults, DragRotateAndZoom } from "ol/interaction";
 import XYZ from "ol/source/XYZ";
 import OLCesium from "olcs/OLCesium";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { containsXY } from "ol/extent";
 import olcsCore from "olcs/core";
 
 import {
@@ -27,14 +24,17 @@ import {
   olcsMapState,
   selectedFeaturesState,
 } from "../../atoms/atoms";
-import HistoricMap, { createClipFeature } from "../layer/HistoricMapLayer";
-import { SettingsProvider } from "../../index";
-import HistoricMap3D from "../layer/HistoricMapLayer3d";
 import LayerManagement from "../LayerManagement/LayerManagement";
-import { MousePositionOnOff } from "./components/MousePositionOnOff";
-import CustomAttribution from "./components/CustomAttribution";
-import ToggleViewMode from "../ToggleViewmode/ToggleViewmode";
-import { LayerSpy } from "./components/LayerSpy";
+import {
+  createHistoricMapForFeature,
+  generateLimitCamera,
+  getDefaultControls,
+  setOptimizedCesiumSettings,
+  setShadowsActivated,
+} from "./util";
+import { isDefined } from "../../util/util";
+import { updateButtonText } from "../ToggleViewmode/ToggleViewmode";
+
 import "./MapWrapper.scss";
 import "./openlayer-overwrites.scss";
 
@@ -51,14 +51,19 @@ export function MapWrapper(props) {
     terrainTilesUrl,
   } = props;
 
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
-
+  // state
   const [is3dActive, set3dActive] = useRecoilState(map3dState);
   const [map, setMap] = useRecoilState(mapState);
   const [olcsMap, setOlcsMap] = useRecoilState(olcsMapState);
+  const selectedFeatures = useRecoilValue(selectedFeaturesState);
 
-  // pull refs
+  // refs
   const mapElement = useRef();
+  const toggleViewModeButtonRef = useRef();
+
+  ////
+  // Effect section
+  ////
 
   // initialize map on first render - logic formerly put into componentDidMount
   useEffect(() => {
@@ -69,35 +74,13 @@ export function MapWrapper(props) {
       source: new VectorSource(),
     });
 
-    const controls = [
-      new CustomAttribution(),
-      new Zoom(),
-      new FullScreen(),
-      new Rotate({ className: "rotate-north ol-unselectable" }),
-      new ToggleViewMode({
-        initialState: is3dActive,
-        propagateViewMode: set3dActive,
-        view,
-      }),
-      new ScaleLine(),
-      new MousePositionOnOff(),
-      // new vk2.control.Permalink(),
-    ];
-
-    // Add spy layer
-
-    controls.push(
-      new LayerSpy({
-        spyLayer: new TileLayer({
-          attribution: undefined,
-          source: new XYZ({
-            urls: baseMapUrl,
-            crossOrigin: "*",
-            attributions: [],
-          }),
-        }),
-      })
-    );
+    const controls = getDefaultControls({
+      baseMapUrl,
+      is3dActive,
+      mapViewSettings,
+      set3dActive,
+      toggleViewModeButtonRef,
+    });
 
     // create map
     const initialMap = new Map({
@@ -139,86 +122,30 @@ export function MapWrapper(props) {
 
       // initialize a terrain map
       const scene = ol3d.getCesiumScene();
-      const { globe, screenSpaceCameraController } = scene;
 
-      // // set this global because it is used by other application code
-      // window["ol3d"] = ol3d;
-
-      // some test code
-      const tileCacheSize = "100",
-        // The maximum screen-space error used to drive level-of-detail refinement. Higher values will provide better performance but lower visual quality.
-        // Default is 2
-        maximumScreenSpaceError = 1.5,
-        fogEnabled = true,
-        fogDensity = 0.000003880708760225126 * 20,
-        fogSseFactor = 25 * 2;
-
-      window["minimumRetrievingLevel"] = 8;
-      window["imageryAvailableLevels"] = undefined;
-      globe["baseColor"] = Cesium.Color.WHITE;
-      globe["tileCacheSize"] = tileCacheSize;
-      globe["maximumScreenSpaceError"] = maximumScreenSpaceError;
-      scene.backgroundColor = Cesium.Color.WHITE;
-      globe.depthTestAgainstTerrain = true;
-      screenSpaceCameraController.maximumZoomDistance = 300000; //4000000;
-
+      // set the terrain provider
       scene.terrainProvider = new Cesium.CesiumTerrainProvider({
         url: terrainTilesUrl,
         requestVertexNormals: true,
       });
-      scene.fog.enabled = fogEnabled;
-      scene.fog.density = fogDensity;
-      scene.fog.screenSpaceErrorFactor = fogSseFactor;
+
+      setOptimizedCesiumSettings(scene);
+      // setShadowsActivated(scene);
 
       scene.postRender.addEventListener(generateLimitCamera(mapViewSettings));
 
-      // together with the "requestVertexNormals" flag (see terrainProvider) it enables the displaying
-      // of shadows on the map,
-      // scene.globe.enableLighting = true;
-      // scene.globe.lightingFadeInDistance = 1000000000;
-      // scene.globe.lightingFadeOutDistance = 10000000;
-
       setOlcsMap(ol3d);
     }
-
-    // register click handler
-
-    // mapRef.current.on('singleclick', function(event){
-    //
-    //   const features = [];
-    //   if (is3dActive) {
-    //     // special behavior for mode 3d
-    //     const clickCoordinate = mapRef.current.getCoordinateFromPixel(event.pixel);
-    //     features = this.historicMapClickLayer_.getSource().getFeaturesAtCoordinate(clickCoordinate);
-    //   } else {
-    //     this.getMap().forEachFeatureAtPixel(event['pixel'], function(feature){
-    //       features.push(feature);
-    //     });
-    //   }
-    //
-    //   if (goog.DEBUG)
-    //     console.log(features);
-    //
-    //   vk2.module.MapModule.showMapProfile(features);
-    // }, this);
   }, []);
 
   useEffect(() => {
     selectedFeatures.forEach((selectedFeature) => {
-      const { displayedInMap = false, feature } = selectedFeature;
+      const { displayedInMap = false, feature, opacity = 1 } = selectedFeature;
 
       if (!displayedInMap && feature.get("georeference")) {
-        map.addLayer(createHistoricMapForFeature(feature));
-        if (is3dActive) {
-          const historicMapClipFeature = createClipFeature(
-            feature.getGeometry().clone(),
-            feature.getId(),
-            feature.get("time"),
-            feature.get("title")
-          );
-          // historicMapClickLayer_.getSource().addFeature(historicMapClipFeature);
-        }
-
+        const layer = createHistoricMapForFeature(feature);
+        layer.setOpacity(opacity);
+        map.addLayer(layer);
         selectedFeature.displayedInMap = true;
       }
     });
@@ -260,15 +187,21 @@ export function MapWrapper(props) {
             const resolution = view.getResolution();
             const rotation = view.getRotation();
 
-            view.setResolution(view.constrainResolution(resolution));
-            view.setRotation(view.constrainRotation(rotation));
+            // constraints apply on setting them
+            view.setResolution(resolution);
+            view.setRotation(rotation);
           },
         });
       }
     }
   }, [is3dActive]);
 
-  // render component
+  useEffect(() => {
+    if (isDefined(toggleViewModeButtonRef.current)) {
+      updateButtonText(toggleViewModeButtonRef.current, is3dActive);
+    }
+  }, [is3dActive]);
+
   return (
     <div
       id="mapdiv"
@@ -281,44 +214,10 @@ export function MapWrapper(props) {
   );
 }
 
-const generateLimitCamera = function (mapView) {
-  console.log(mapView);
-  const extent4326 = transformExtent(
-    mapView.extent,
-    mapView.projection,
-    "EPSG:4326"
-  ).map(function (angle) {
-    return (angle * Math.PI) / 180;
-  });
-
-  return function (scene) {
-    const camera = scene.camera;
-    const screenSpaceCameraController = scene.screenSpaceCameraController;
-    const pos = camera.positionCartographic.clone();
-    const inside = containsXY(extent4326, pos.longitude, pos.latitude);
-    if (!inside) {
-      // add a padding based on the camera height
-      const maxHeight = screenSpaceCameraController.maximumZoomDistance;
-      const padding = (pos.height * 0.05) / maxHeight;
-      pos.longitude = Math.max(extent4326[0] - padding, pos.longitude);
-      pos.latitude = Math.max(extent4326[1] - padding, pos.latitude);
-      pos.longitude = Math.min(extent4326[2] + padding, pos.longitude);
-      pos.latitude = Math.min(extent4326[3] + padding, pos.latitude);
-      camera.setView({
-        destination: Cesium.Ellipsoid.WGS84.cartographicToCartesian(pos),
-        orientation: {
-          heading: camera.heading,
-          pitch: camera.pitch,
-        },
-      });
-    }
-    // Set the minimumZoomDistance according to the camera height
-    screenSpaceCameraController.minimumZoomDistance =
-      pos.height > 1800 ? 400 : 200;
-  };
-};
-
 MapWrapper.propTypes = {
+  baseMapUrl: PropTypes.arrayOf(PropTypes.string),
+  enable3d: PropTypes.bool,
+  enableTerrain: PropTypes.bool,
   mapViewSettings: {
     center: [PropTypes.number, PropTypes.number],
     projection: PropTypes.string,
@@ -329,234 +228,63 @@ MapWrapper.propTypes = {
 
 export default MapWrapper;
 
-/**
- * @returns {Array.<vk2.layer.HistoricMap>}
- */
-export const getHistoricMapLayer = function (map, is3d) {
-  const layers = map.getLayers().getArray();
-  const historicMapLayers = [];
-  for (let i = 0; i < layers.length; i++) {
-    if (is3d) {
-      if (layers[i] instanceof HistoricMap3D) {
-        historicMapLayers.push(layers[i]);
-      }
-    } else {
-      if (layers[i] instanceof HistoricMap) {
-        historicMapLayers.push(layers[i]);
-      }
-    }
-  }
-  return historicMapLayers;
-};
+// // @TODO: Correctly port this.
+// /**
+//  * @param {vk2.tool.Permalink} permalink
+//  */
+// export const registerPermalinkTool = function (permalink) {
+//   // couple permalink module with map
+//   goog.events.listen(
+//     permalink,
+//     vk2.tool.PermalinkEventType.ADDMAP,
+//     function (event) {
+//       var feature = event.target["feature"];
 
-// @TODO: Correctly port this.
+//       // request associated messtischblaetter for a blattnr
+//       if (feature.get("georeference") === true) {
+//         this.map_.addLayer(this.createHistoricMapForFeature_(feature));
 
-/**
- * Checks if the layer collection already contains a layer with that id.
- *
- * @param {string} id
- * @param {ol.Collection} layers
- * @return {boolean}
- */
-export const containsLayerWithId = function (id, layers) {
-  const array = layers.getArray();
-  for (let i = 0; i < array.length; i++) {
-    if (
-      array[i] instanceof vk2.layer.HistoricMap ||
-      array[i] instanceof vk2.layer.HistoricMap3D
-    ) {
-      if (array[i].getId() == id) {
-        return true;
-      }
-    }
-  }
-  return false;
-};
+//         if (vk2.utils.is3DMode()) {
+//           // add vector geometry for the given historic map to a special layer for simulate 3d mode experience
+//           var feature = vk2.layer.HistoricMap.createClipFeature(
+//             feature.getGeometry().clone(),
+//             feature.getId(),
+//             feature.get("time"),
+//             feature.get("title")
+//           );
+//           this.historicMapClickLayer_.getSource().addFeature(feature);
+//         }
+//       }
+//     },
+//     undefined,
+//     this
+//   );
 
-/**
- * @param {ol.Feature} feature
- * @return {vk2.layer.HistoricMap}
- * @private
- */
-export const createHistoricMapForFeature = function (feature, is3d, map) {
-  const settings = SettingsProvider.getSettings();
+//   // parse permalink if one exists
+//   permalink.parsePermalink(this.map_);
+// };
 
-  const tms_url_subdomains = settings["TMS_URL_SUBDOMAINS"];
-  const thumbnail = feature.get("thumb") ?? settings["THUMB_PATH"];
+// /**
+//  * @param {Array.<ol.Feature>} features
+//  * @static
+//  */
+// const showMapProfile = function (features) {
+//   if (features.length > 0) {
+//     var modal = new vk2.utils.Modal("vk2-overlay-modal", document.body, true);
+//     modal.open(undefined, "mapcontroller-click-modal");
 
-  const maxZoom =
-    feature.get("denominator") == 0
-      ? 15
-      : feature.get("denominator") <= 5000
-      ? 17
-      : feature.get("denominator") <= 15000
-      ? 16
-      : 15;
-  return is3d
-    ? new HistoricMap(
-        {
-          maxZoom: maxZoom,
-          time: feature.get("time"),
-          title: feature.get("title"),
-          objectid: feature.get("id"),
-          id: feature.getId(),
-          dataid: feature.get("dataid"),
-          tms: feature.get("tms"),
-          clip: feature.getGeometry().clone(),
-          thumbnail,
-          tms_url_subdomains,
-        },
-        map
-      )
-    : new HistoricMap(
-        {
-          time: feature.get("time"),
-          maxZoom: maxZoom,
-          title: feature.get("title"),
-          objectid: feature.get("id"),
-          id: feature.getId(),
-          dataid: feature.get("dataid"),
-          tms: feature.get("tms"),
-          clip: feature.getGeometry().clone(),
-          thumbnail,
-          tms_url_subdomains,
-        },
-        map
-      );
-};
+//     var section = goog.dom.createDom("section");
+//     for (var i = 0; i < features.length; i++) {
+//       var anchor = goog.dom.createDom("a", {
+//         href: vk2.utils.routing.getMapProfileRoute(features[i].getId()),
+//         innerHTML: features[i].get("title") + " " + features[i].get("time"),
+//         target: "_self",
+//       });
+//       goog.dom.appendChild(section, anchor);
+//       goog.dom.appendChild(section, goog.dom.createDom("br"));
+//     }
+//     modal.appendToBody(section, "map-profile");
 
-/**
- * @param {vk2.tool.Permalink} permalink
- */
-export const registerPermalinkTool = function (permalink) {
-  // couple permalink module with map
-  goog.events.listen(
-    permalink,
-    vk2.tool.PermalinkEventType.ADDMAP,
-    function (event) {
-      var feature = event.target["feature"];
-
-      // request associated messtischblaetter for a blattnr
-      if (feature.get("georeference") === true) {
-        this.map_.addLayer(this.createHistoricMapForFeature_(feature));
-
-        if (vk2.utils.is3DMode()) {
-          // add vector geometry for the given historic map to a special layer for simulate 3d mode experience
-          var feature = vk2.layer.HistoricMap.createClipFeature(
-            feature.getGeometry().clone(),
-            feature.getId(),
-            feature.get("time"),
-            feature.get("title")
-          );
-          this.historicMapClickLayer_.getSource().addFeature(feature);
-        }
-      }
-    },
-    undefined,
-    this
-  );
-
-  // parse permalink if one exists
-  permalink.parsePermalink(this.map_);
-};
-
-/**
- * @param {vk2.module.SpatialTemporalSearchModule} spatialTemporalSearchModule
- */
-const registerSpatialTemporalSearch = function (spatialTemporalSearchModule) {
-  /**
-   * @type {vk2.module.MapSearchModule}
-   * @private
-   */
-  this.mapsearch_ = spatialTemporalSearchModule.getMapSearchModule();
-
-  //
-  // Initialize an historic map click layer which is only used in case of 3d mode
-  //
-
-  /**
-   * @type {ol.layer.Vector|undefined}
-   * @private
-   */
-  this.historicMapClickLayer_ = vk2.utils.is3DMode()
-    ? new ol.layer.Vector({
-        source: new ol.source.Vector(),
-        style: function (feature, resolution) {
-          return [
-            new ol.style.Style({
-              fill: new ol.style.Fill({
-                color: "rgba(255, 255, 255, 0.0)",
-              }),
-            }),
-          ];
-        },
-      })
-    : undefined;
-
-  if (this.historicMapClickLayer_ !== undefined) {
-    // in case 3d mode is active add altitude value to coordinate
-    this.historicMapClickLayer_.set("altitudeMode", "clampToGround");
-    this.historicMapClickLayer_.set("type", "click");
-
-    // hold the overlay layer on top of the historic map layers
-    this.map_.getLayers().on(
-      "add",
-      function (event) {
-        var topLayer = event.target.getArray()[event.target.getLength() - 1];
-        if (
-          topLayer instanceof vk2.layer.HistoricMap ||
-          topLayer instanceof vk2.layer.HistoricMap3D
-        ) {
-          this.map_.removeLayer(this.historicMapClickLayer_);
-          this.map_.addLayer(this.historicMapClickLayer_);
-        }
-      },
-      this
-    );
-
-    this.map_.addLayer(this.historicMapClickLayer_);
-  }
-
-  // register gazetteer tool
-  goog.events.listen(
-    spatialTemporalSearchModule.getGazetteerSearchTool(),
-    "jumpto",
-    function (event) {
-      var lonlat = event.target["lonlat"],
-        center = ol.proj.transform(
-          [parseFloat(lonlat[0]), parseFloat(lonlat[1])],
-          event.target["srs"],
-          vk2.settings.MAPVIEW_PARAMS["projection"]
-        );
-
-      this.map_.zoomTo(center, 6);
-    },
-    undefined,
-    this
-  );
-};
-
-/**
- * @param {Array.<ol.Feature>} features
- * @static
- */
-const showMapProfile = function (features) {
-  if (features.length > 0) {
-    var modal = new vk2.utils.Modal("vk2-overlay-modal", document.body, true);
-    modal.open(undefined, "mapcontroller-click-modal");
-
-    var section = goog.dom.createDom("section");
-    for (var i = 0; i < features.length; i++) {
-      var anchor = goog.dom.createDom("a", {
-        href: vk2.utils.routing.getMapProfileRoute(features[i].getId()),
-        innerHTML: features[i].get("title") + " " + features[i].get("time"),
-        target: "_self",
-      });
-      goog.dom.appendChild(section, anchor);
-      goog.dom.appendChild(section, goog.dom.createDom("br"));
-    }
-    modal.appendToBody(section, "map-profile");
-
-    if (features.length == 1) anchor.click();
-  }
-};
+//     if (features.length == 1) anchor.click();
+//   }
+// };

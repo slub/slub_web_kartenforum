@@ -5,12 +5,14 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useState } from "react";
-import { translate } from "../../util/util";
 import { useRecoilValue } from "recoil";
-import { getHistoricMapLayer } from "../MapWrapper/MapWrapper";
-import { mapState } from "../../atoms/atoms";
 
-export const DeactivateMapCollection = (props) => {
+import { translate } from "../../../util/util";
+import { getHistoricMapLayer } from "../../MapWrapper/util";
+import { mapState } from "../../../atoms/atoms";
+import "./DeactivateMapCollection.scss";
+
+export const DeactivateMapCollection = () => {
   const [isActive, setIsActive] = useState(true);
   const map = useRecoilValue(mapState);
 

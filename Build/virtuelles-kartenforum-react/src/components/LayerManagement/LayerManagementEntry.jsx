@@ -9,11 +9,13 @@ import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useDrag, useDrop } from "react-dnd";
+import PropTypes from "prop-types";
 
 import { translate } from "../../util/util";
 import { mapState, selectedFeaturesState } from "../../atoms/atoms";
 import { OpacitySlider } from "./OpacitySlider";
 import { FALLBACK_SRC } from "../MapSearch/MapSearchListElement";
+import HistoricMap from "../layer/HistoricMapLayer";
 
 export const ItemTypes = {
   LAYER: "LAYER",
@@ -62,6 +64,7 @@ export const LayerManagementEntry = (props) => {
       item.index = hoverIndex;
     },
   });
+
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.LAYER,
     item: () => {
@@ -71,6 +74,10 @@ export const LayerManagementEntry = (props) => {
       isDragging: monitor.isDragging(),
     }),
   });
+
+  ////
+  // Handler section
+  ////
 
   const handleError = () => {
     if (src !== FALLBACK_SRC) {
@@ -108,6 +115,11 @@ export const LayerManagementEntry = (props) => {
     if (layerVisibility !== isVisible) setIsVisible(layerVisibility);
   };
 
+  ////
+  // Effect section
+  ////
+
+  // Add visibility change handler to layer
   useEffect(() => {
     layer.on("change:visible", handleUpdateVisibility);
     return () => {
@@ -115,11 +127,12 @@ export const LayerManagementEntry = (props) => {
     };
   });
 
+  // Set layer visibility on local change of visibility
   useEffect(() => {
     layer["setVisible"](isVisible);
   }, [isVisible]);
 
-  // hide dragged item on drag
+  // Hide dragged item on drag
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
 
@@ -177,8 +190,16 @@ export const LayerManagementEntry = (props) => {
   );
 };
 
+LayerManagementEntry.propTypes = {
+  id: PropTypes.string,
+  index: PropTypes.number,
+  layer: PropTypes.instanceOf(HistoricMap),
+  onMoveLayer: PropTypes.func,
+};
+
 export default LayerManagementEntry;
 
+// @TODO: PORT THIS ?
 // // add update georeference anchor if login
 // if (goog.net.cookies.get("vk2-auth")) {
 //   var anchorGeoreferenceUpdate = goog.dom.createDom("a", {

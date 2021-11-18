@@ -8,6 +8,7 @@ import { transform } from "ol/proj";
 import { Feature } from "ol";
 import { Polygon } from "ol/geom";
 import { isDefined } from "./util";
+import { MAP_PROJECTION } from "../components/MapSearch/MapSearch";
 
 /**
  * Function parses a search record from a elasticsearch query into
@@ -42,7 +43,7 @@ export const readFeature = function (
      */
     const targetProjection_ = isDefined(opt_target_projection)
         ? opt_target_projection
-        : "EPSG:900913";
+        : MAP_PROJECTION;
 
     /**
      * Functions parse the geometry of the search record.

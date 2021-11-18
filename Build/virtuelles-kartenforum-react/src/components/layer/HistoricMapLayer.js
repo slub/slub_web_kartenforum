@@ -5,11 +5,11 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import { inherits, isDefined } from "../../util/util";
-import { Group, Vector, Tile } from "ol/layer";
+import { Tile } from "ol/layer";
 import { Feature } from "ol";
-import { Vector as VectorSource, XYZ } from "ol/source";
-import { MESSTISCHBLATT_BORDER_STYLE } from "../../config/styles";
+import { XYZ } from "ol/source";
+
+import { inherits, isDefined } from "../../util/util";
 
 /**
  * @param {ol.geom.Polygon} clip
@@ -40,9 +40,9 @@ export const createClipFeature = (clip, id, time, title) => {
  * @param {vk2x.layer.HistoricMapOptions} settings
  * @param {ol.Map} map
  * @constructor
- * @extends {ol.layer.Group}
+ * @extends {ol.layer.Tile}
  */
-export const HistoricMap = function (settings, map) {
+export const HistoricMap = function (settings) {
     /**
      * Holds the id of the underlying feature
      * @type {*|undefined}
@@ -97,44 +97,17 @@ export const HistoricMap = function (settings, map) {
         return url.replace("http:", "");
     });
 
-    // var urls = [];
-    // for (var i = 0; i < vk2.settings.TMS_URL_SUBDOMAINS.length; i++){
-    //     var url = settings.tms.replace('{s}', vk2.settings.TMS_URL_SUBDOMAINS[i]) + '/{z}/{x}/{-y}.png';
-    //     urls.push(url.replace('http:', ''));
-    // };
+    settings["extent"] = settings["clip"].getExtent();
+    settings["source"] = new XYZ({
+        maxZoom: settings["maxZoom"],
+        urls: urls,
+        crossOrigin: "*",
+    });
 
-    const feature = createClipFeature(
-            settings["clip"],
-            this.id_,
-            this.time_,
-            this.title_
-        ),
-        rasterLayer = new Tile({
-            extent: settings["clip"].getExtent(),
-            source: new XYZ({
-                maxZoom: settings["maxZoom"],
-                urls: urls,
-                crossOrigin: "*",
-            }),
-        }),
-        borderLayer = new Vector({
-            source: new VectorSource({
-                features: [feature],
-            }),
-            style: function (feature, resolution) {
-                return [MESSTISCHBLATT_BORDER_STYLE];
-            },
-        });
-
-    settings["layers"] = [
-        rasterLayer,
-        // borderLayer
-    ];
-
-    Group.call(this, settings);
+    Tile.call(this, settings);
 };
 
-inherits(HistoricMap, Group);
+inherits(HistoricMap, Tile);
 
 /**
  * @return {number}

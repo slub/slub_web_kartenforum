@@ -5,27 +5,37 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useState } from "react";
-import { isDefined, translate } from "../../util/util";
-import { useRecoilValue } from "recoil";
-import { olcsMapState } from "../../atoms/atoms";
-import "./MapSearchListElement.scss";
 import PropTypes from "prop-types";
+import { useRecoilValue } from "recoil";
+
+import { olcsMapState } from "../../atoms/atoms";
+import { isDefined, translate } from "../../util/util";
+import "./MapSearchListElement.scss";
 
 export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";
 
+// @TODO: Rename feature to something less ambiguous
 export const MapSearchListElement = (props) => {
   const { feature, featureOverlay, is3d, onClick, selected } = props;
   const olcsMap = useRecoilValue(olcsMapState);
   const [src, setSrc] = useState(feature.get("thumb").replace("http:", ""));
-  const [isHovered, setIsHovered] = useState(false);
+
+  ////
+  // Effect section
+  ////
 
   const handleClick = () => {
     onClick(feature);
   };
 
+  const handleError = () => {
+    if (src !== FALLBACK_SRC) {
+      setSrc(FALLBACK_SRC);
+    }
+  };
+
   const handleMouseEnter = () => {
-    setIsHovered(true);
     if (isDefined(featureOverlay)) {
       // clear old features and add hover feature
       featureOverlay.getSource().clear();
@@ -38,15 +48,8 @@ export const MapSearchListElement = (props) => {
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
     if (isDefined(featureOverlay)) {
       featureOverlay.getSource().clear();
-    }
-  };
-
-  const handleError = () => {
-    if (src !== FALLBACK_SRC) {
-      setSrc(FALLBACK_SRC);
     }
   };
 
