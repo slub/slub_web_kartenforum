@@ -11,6 +11,7 @@ import React, { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 import { map3dState, mapState, selectedFeaturesState } from "../atoms/atoms";
+import { isDefined } from "../util/util";
 import { useLocalStorage, useOnPageLeave } from "./util";
 
 const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
@@ -93,7 +94,7 @@ export const PersistenceController = () => {
   useEffect(() => {
     if (map !== undefined) {
       // restore mapview if available
-      if (Object.keys(mapView).length > 0) {
+      if (isDefined(mapView) && Object.keys(mapView).length > 0) {
         map.setView(new View(mapView));
       }
 

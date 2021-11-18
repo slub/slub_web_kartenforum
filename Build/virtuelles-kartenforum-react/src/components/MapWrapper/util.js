@@ -138,7 +138,7 @@ export const getDefaultControls = ({
 ];
 
 /**
- * @returns {Array.<vk2.layer.HistoricMap>}
+ * @returns {vk2.layer.HistoricMap[]}
  */
 export const getHistoricMapLayer = function (map) {
     const layers = map.getLayers().getArray();

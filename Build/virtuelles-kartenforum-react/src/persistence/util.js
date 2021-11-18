@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 /**
  * Allow access to local storage
  * found here: https://usehooks-typescript.com/react-hook/use-local-storage
- * @param key
- * @param initialValue
+ * @param {String} key
+ * @param {Object} initialValue
  */
 export function useLocalStorage(key, initialValue) {
     // Get from local storage then
@@ -90,7 +90,7 @@ export function useLocalStorage(key, initialValue) {
  * Allows the invocation of an event handler before the window unloads
  * found here: https://stackoverflow.com/questions/66713004/react-execute-function-on-website-exit-without-giving-an-alert-warning
  *
- * @param handler - eventHandler called before unload of the window
+ * @param {function} handler - eventHandler called before unload of the window
  */
 export const useOnPageLeave = (handler) => {
     useEffect(() => {
