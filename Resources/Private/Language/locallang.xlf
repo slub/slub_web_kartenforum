@@ -236,8 +236,8 @@
       </trans-unit>
 
 
-            <!-- vk2.control.ResetDefaultView -->
-			<trans-unit id="client.resetdefaultview.title">
+            <!-- vk2.control.RestoreDefaultView -->
+			<trans-unit id="client.restoredefaultview.title">
 				<source>Restore default view</source>
       </trans-unit>
 

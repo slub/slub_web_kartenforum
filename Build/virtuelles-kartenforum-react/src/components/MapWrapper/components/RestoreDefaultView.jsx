@@ -18,7 +18,6 @@ export class RestoreDefaultView extends Control {
 
     const button = document.createElement("button");
     button.classname = "zoom-default-extent";
-    button.innerHTML = "Z";
     button.title = translate("restoredefaultview-title");
     button.type = "button";
 

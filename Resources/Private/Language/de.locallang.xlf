@@ -299,7 +299,7 @@
 				<source><![CDATA[Points]]></source>
 				<target><![CDATA[Punkte]]></target>
 			</trans-unit>
-			<trans-unit id="client.resetdefaultview.title" approved="yes">
+			<trans-unit id="client.restoredefaultview.title" approved="yes">
 				<source><![CDATA[Restore default view]]></source>
 				<target><![CDATA[Stelle die initiale Ansicht wieder her]]></target>
 			</trans-unit>
