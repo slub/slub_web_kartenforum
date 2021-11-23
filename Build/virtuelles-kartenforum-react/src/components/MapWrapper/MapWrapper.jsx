@@ -8,17 +8,14 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Map } from "ol";
-import { transformExtent } from "ol/proj";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
 import { defaults, DragRotateAndZoom } from "ol/interaction";
 import XYZ from "ol/source/XYZ";
 import OLCesium from "olcs/OLCesium";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { containsXY } from "ol/extent";
 import olcsCore from "olcs/core";
 
 import {
@@ -27,9 +24,6 @@ import {
   olcsMapState,
   selectedFeaturesState,
 } from "../../atoms/atoms";
-import HistoricMap, { createClipFeature } from "../layer/HistoricMapLayer";
-import { SettingsProvider } from "../../index";
-import HistoricMap3D from "../layer/HistoricMapLayer3d";
 import LayerManagement from "../LayerManagement/LayerManagement";
 import {
   createHistoricMapForFeature,
@@ -128,7 +122,6 @@ export function MapWrapper(props) {
 
       // initialize a terrain map
       const scene = ol3d.getCesiumScene();
-      const { globe, screenSpaceCameraController } = scene;
 
       // set the terrain provider
       scene.terrainProvider = new Cesium.CesiumTerrainProvider({
@@ -141,35 +134,8 @@ export function MapWrapper(props) {
 
       scene.postRender.addEventListener(generateLimitCamera(mapViewSettings));
 
-      // together with the "requestVertexNormals" flag (see terrainProvider) it enables the displaying
-      // of shadows on the map,
-      // scene.globe.enableLighting = true;
-      // scene.globe.lightingFadeInDistance = 1000000000;
-      // scene.globe.lightingFadeOutDistance = 10000000;
-
       setOlcsMap(ol3d);
     }
-
-    // register click handler
-
-    // mapRef.current.on('singleclick', function(event){
-    //
-    //   const features = [];
-    //   if (is3dActive) {
-    //     // special behavior for mode 3d
-    //     const clickCoordinate = mapRef.current.getCoordinateFromPixel(event.pixel);
-    //     features = this.historicMapClickLayer_.getSource().getFeaturesAtCoordinate(clickCoordinate);
-    //   } else {
-    //     this.getMap().forEachFeatureAtPixel(event['pixel'], function(feature){
-    //       features.push(feature);
-    //     });
-    //   }
-    //
-    //   if (goog.DEBUG)
-    //     console.log(features);
-    //
-    //   vk2.module.MapModule.showMapProfile(features);
-    // }, this);
   }, []);
 
   useEffect(() => {
@@ -247,43 +213,6 @@ export function MapWrapper(props) {
     </div>
   );
 }
-
-const generateLimitCamera = function (mapView) {
-  console.log(mapView);
-  const extent4326 = transformExtent(
-    mapView.extent,
-    mapView.projection,
-    "EPSG:4326"
-  ).map(function (angle) {
-    return (angle * Math.PI) / 180;
-  });
-
-  return function (scene) {
-    const camera = scene.camera;
-    const screenSpaceCameraController = scene.screenSpaceCameraController;
-    const pos = camera.positionCartographic.clone();
-    const inside = containsXY(extent4326, pos.longitude, pos.latitude);
-    if (!inside) {
-      // add a padding based on the camera height
-      const maxHeight = screenSpaceCameraController.maximumZoomDistance;
-      const padding = (pos.height * 0.05) / maxHeight;
-      pos.longitude = Math.max(extent4326[0] - padding, pos.longitude);
-      pos.latitude = Math.max(extent4326[1] - padding, pos.latitude);
-      pos.longitude = Math.min(extent4326[2] + padding, pos.longitude);
-      pos.latitude = Math.min(extent4326[3] + padding, pos.latitude);
-      camera.setView({
-        destination: Cesium.Ellipsoid.WGS84.cartographicToCartesian(pos),
-        orientation: {
-          heading: camera.heading,
-          pitch: camera.pitch,
-        },
-      });
-    }
-    // Set the minimumZoomDistance according to the camera height
-    screenSpaceCameraController.minimumZoomDistance =
-      pos.height > 1800 ? 400 : 200;
-  };
-};
 
 MapWrapper.propTypes = {
   baseMapUrl: PropTypes.arrayOf(PropTypes.string),

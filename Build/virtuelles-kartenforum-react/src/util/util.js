@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import SettingsProvider from "../SettingsProvider";
+import { SettingsProvider } from "../index";
 
 /*
  * ol does not export an inherits function in the current version

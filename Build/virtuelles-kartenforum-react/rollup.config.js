@@ -17,5 +17,3 @@ export default (commandlineArgs) => {
 
     return [geoRefConfig, mapViewConfig];
 };
-
-export default newVar;

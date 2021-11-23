@@ -8,7 +8,7 @@ import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import axios from "axios";
 
-import { SettingsProvider } from "../../SettingsProvider";
+import { SettingsProvider } from "../../index";
 import GazetteerSearch from "../GazetteerSearch/GazetteerSearch";
 import MapSearch from "../MapSearch/MapSearch";
 import TimeSlider from "../TimeSlider/TimeSlider";
