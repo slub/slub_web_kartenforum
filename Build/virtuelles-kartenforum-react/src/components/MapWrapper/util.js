@@ -9,7 +9,7 @@ import { MousePositionOnOff } from "./components/MousePositionOnOff";
 import RestoreDefaultView from "./components/RestoreDefaultView";
 import CustomAttribution from "./components/CustomAttribution";
 import ToggleViewMode from "../ToggleViewmode/ToggleViewmode";
-import { LayerSpy } from "./components/LayerSpy";
+import OlControlLayerSpy from "../OlControlLayerSpy/OlControlLayerSpy";
 import HistoricMap from "../layer/HistoricMapLayer";
 
 /**
@@ -87,9 +87,8 @@ export const generateLimitCamera = function (mapView) {
             pos.longitude = Math.min(extent4326[2] + padding, pos.longitude);
             pos.latitude = Math.min(extent4326[3] + padding, pos.latitude);
             camera.setView({
-                destination: Cesium.Ellipsoid.WGS84.cartographicToCartesian(
-                    pos
-                ),
+                destination:
+                    Cesium.Ellipsoid.WGS84.cartographicToCartesian(pos),
                 orientation: {
                     heading: camera.heading,
                     pitch: camera.pitch,
@@ -121,7 +120,7 @@ export const getDefaultControls = ({
         propagateViewMode: set3dActive,
         toggleViewModeButtonRef,
     }),
-    new LayerSpy({
+    new OlControlLayerSpy({
         spyLayer: new TileLayer({
             attribution: undefined,
             source: new XYZ({

@@ -23,6 +23,8 @@ page {
                     "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
                     "API_GEOREFERENCE_GET": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=get&type=9991",
                     "API_GEOREFERENCE_TRANSFORMATION_BY_MAPID": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationByMapId&type=9991",
+                    "API_GEOREFERENCE_TRANSFORMATION_CONFIRM": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationByMapId&type=9991",
+                    "API_GEOREFERENCE_TRANSFORMATION_TRY": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationTry&type=9991",
                     "NOMINATIM_URL": "https://kartenforum.slub-dresden.de/nominatim/",
                     "OSM_URLS": [
                         "https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",

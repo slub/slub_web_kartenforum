@@ -30,6 +30,7 @@
     "clsx": "^1.1.1",
     "downshift": "^6.1.7",
     "lint-staged": "^10.4.2",
+    "lodash.round": "^4.0.4",
     "ol": "^6.7.0",
     "olcs": "^2.13.0",
     "proj4js": "^10.0.0",

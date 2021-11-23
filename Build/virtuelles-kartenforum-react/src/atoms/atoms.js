@@ -37,6 +37,11 @@ export const map3dState = atom({
     default: false,
 });
 
+export const notificationState = atom({
+    key: "notificationState",
+    default: null,
+});
+
 export const olcsMapState = atom({
     key: "olcsMapState",
     default: undefined,

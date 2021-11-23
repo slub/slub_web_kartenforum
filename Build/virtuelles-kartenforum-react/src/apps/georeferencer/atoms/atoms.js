@@ -6,8 +6,23 @@
  */
 import { atom } from "recoil";
 
+export const helperMessageState = atom({
+    key: "helperMessageState",
+    default: null,
+});
+
+export const isLoadingState = atom({
+    key: "isLoadingState",
+    default: false,
+});
+
 export const mapMetadataState = atom({
     key: "mapMetadataState",
+    default: null,
+});
+
+export const rectifiedImageParamsState = atom({
+    key: "rectifiedImageParamsState",
     default: null,
 });
 

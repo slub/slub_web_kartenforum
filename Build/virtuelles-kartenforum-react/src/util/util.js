@@ -19,6 +19,10 @@ export function isDefined(el) {
     return el !== null && el !== undefined;
 }
 
+export function isString(el) {
+    return typeof el === "string" || el instanceof String;
+}
+
 export function translate(key) {
     const settings = SettingsProvider.getSettings();
 

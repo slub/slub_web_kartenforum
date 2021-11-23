@@ -1,4 +1,5 @@
 @import "../../_sass/variables";
+@import "../../_sass/overwrites-openlayers";
 
 .vk-mapview-zoomify {
   width: 100%;
@@ -6,42 +7,5 @@
 
   .ol-viewport {
     background: #ccc;
-  }
-
-  .ol-control {
-    padding: 2px;
-
-    &.ol-full-screen {
-      right: 0.5em;
-      top: 0.5em;
-      border-radius: 0;
-    }
-
-    &.ol-zoom {
-      left: 10px;
-      top: 10px;
-      border-radius: 0;
-    }
-
-    &.ol-zoom-extent {
-      left: 10px;
-      top: 70px;
-      > button {
-        background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0xNCA4djZoLTZ2LTZoNm0xLTFoLTh2OGg4di04ek03LjYgNy42aDYuN3YxLjNoLTYuN3pNNyAyaC01djVsMi4xLTIuMSAxLjUgMS41LjgtLjgtMS41LTEuNXpNMjAgN3YtNWgtNWwyLjEgMi4xLTEuNSAxLjUuOC44IDEuNS0xLjV6TTE1IDIwaDV2LTVsLTIuMSAyLjEtMS41LTEuNS0uOC44IDEuNSAxLjV6TTIgMTV2NWg1bC0yLjEtMi4xIDEuNS0xLjUtLjgtLjgtMS41IDEuNXoiLz48L3N2Zz4=)
-          no-repeat $secondaryColorMain;
-        background-size: 22px 22px;
-        text-indent: -50px;
-      }
-    }
-    > button {
-      background-color: $secondaryColorMain;
-      border-radius: 0;
-      width: 22px;
-      height: 22px;
-
-      &:hover {
-        background-color: $secondaryColorDark;
-      }
-    }
   }
 }
