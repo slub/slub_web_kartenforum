@@ -2,6 +2,7 @@
 # Page configuration
 ###################################################
 
+# THE BASIC PAGE ELEMENT FOR HTML OUTPUT
 page = PAGE
 page {
     typeNum = 0
@@ -9,18 +10,6 @@ page {
 
     10 = FLUIDTEMPLATE
     10 {
-        # Template names will be generated automatically by converting the applied
-        # backend_layout, there is no explicit mapping necessary anymore.
-        #
-        # BackendLayout Key
-        # subnavigation_right_2_columns -> SubnavigationRight2Columns.html
-        #
-        # Backend Record
-        # uid: 1 -> 1.html
-        #
-        # Database Entry
-        # value: -1 -> None.html
-        # value: pagets__subnavigation_right_2_columns -> SubnavigationRight2Columns.html
         templateName = TEXT
         templateName {
             cObject = TEXT
@@ -185,5 +174,24 @@ page {
 
     includeJSFooter {
 
+    }
+}
+
+# THE JSON API FOR THE GEOREFERENCE SERVICE
+jsonApi = PAGE
+jsonApi {
+    typeNum = 9991
+    config {
+        disableAllHeaderCode = 1
+        admPanel = 0
+        additionalHeaders {
+            10 {
+                header = Content-Type: application/json
+                replace = 1
+            }
+        }
+
+        xhtml_cleaning = 0
+        debug = 0
     }
 }
