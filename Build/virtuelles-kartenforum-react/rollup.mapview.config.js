@@ -33,7 +33,7 @@ export const configs = {
     output: {
         file: path.resolve(
             __dirname,
-            `${outputDir}${javascriptOutputDir}vk2-min.js`
+            `${outputDir}${javascriptOutputDir}plugin-map.js`
         ),
         format: "iife",
         name: "vk2",
@@ -67,7 +67,7 @@ export const configs = {
         scss({
             output: path.resolve(
                 __dirname,
-                `${outputDir}${cssOutputDir}index.css`
+                `${outputDir}${cssOutputDir}plugin-map.css`
             ),
             // outputStyle: "compressed",
         }),

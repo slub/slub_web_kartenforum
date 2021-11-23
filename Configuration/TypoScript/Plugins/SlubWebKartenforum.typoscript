@@ -14,7 +14,9 @@ tt_content.slubwebkartenforum_signup {
 
 // The main map content element with the core React application
 tt_content.slubwebkartenforum_map = FLUIDTEMPLATE
-tt_content.slubwebkartenforum_map.file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Map.html
+tt_content.slubwebkartenforum_map {
+    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Map.html
+}
 
 // The apps content Element which controls the minor React snippets
 tt_content.slubwebkartenforum_apps = FLUIDTEMPLATE
@@ -37,6 +39,11 @@ tt_content.slubwebkartenforum_georeference {
         georefAuthUser.value = {$plugin.tx_slubwebkartenforum.settings.georefAuthUser}
         georefAuthPassword = TEXT
         georefAuthPassword.value = {$plugin.tx_slubwebkartenforum.settings.georefAuthPassword}
+
+        // Configuration of parameters. The parameters should move to flexforms and the extension configuration
+        // in the future
+        apiSearch = TEXT
+        apiSearch.value = https://search-slub.pikobytes.de
     }
 }
 

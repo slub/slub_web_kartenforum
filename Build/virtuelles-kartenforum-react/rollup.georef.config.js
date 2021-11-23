@@ -33,7 +33,7 @@ export const configs = {
     output: {
         file: path.resolve(
             __dirname,
-            `${outputDir}${javascriptOutputDir}vkf-georeference-min.js`
+            `${outputDir}${javascriptOutputDir}plugin-georeference.js`
         ),
         format: "iife",
         name: "vk2",
@@ -69,7 +69,7 @@ export const configs = {
         scss({
             output: path.resolve(
                 __dirname,
-                `${outputDir}${cssOutputDir}vkf-georeference.css`
+                `${outputDir}${cssOutputDir}plugin-georeference.css`
             ),
             outputStyle: "compressed",
         }),

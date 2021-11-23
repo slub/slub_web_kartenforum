@@ -1,7 +1,61 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
 
+<script>
+    const WITH_SPEAKING_URLS = true;
+
+    // update settings from typo3 flexform parameters
+    vk2.SettingsProvider.updateSettings({
+        "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
+        "ELASTICSEARCH_NODE": "https://kartenforum.slub-dresden.de/spatialdocuments",
+        "ELASTICSEARCH_SRS": "EPSG:4326",
+        "EVALUATION_GETPROCESS": !WITH_SPEAKING_URLS ?
+            "tx_vk2_search[controller]=Evaluation&tx_vk2_search[action]=getProcess&type=999" :
+            "/evaluation/getprocess?type=999",
+        "EVALUATION_SETISINVALIDE": !WITH_SPEAKING_URLS ?
+            "tx_vk2_search[controller]=Evaluation&tx_vk2_search[action]=setIsInValide&type=999" :
+            "/evaluation/isinvalide?type=999",
+        "EVALUATION_SETISVALIDE": !WITH_SPEAKING_URLS ?
+            "tx_vk2_search[controller]=Evaluation&tx_vk2_search[action]=setIsValide&type=999" :
+            "/evaluation/isvalide?type=999",
+        "GEOREFERENCE_CONFIRM": !WITH_SPEAKING_URLS ?
+            "tx_vk2_search[controller]=Georeference&tx_vk2_search[action]=confirmGeorefProcess&type=999" :
+            "/georef/confirm?type=999",
+        "GEOREFERENCE_EXTENT_SRS": "EPSG:4326",
+        "GEOREFERENCE_GETPROCESS": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getProcess&type=9991",
+        "GEOREFERENCE_ON": 1 === 1 ? true : false,
+        "GEOREFERENCE_PAGE": !WITH_SPEAKING_URLS ?
+            "tx_vk2_search[controller]=Static&tx_vk2_search[action]=georefPage" :
+            "/static/georefpage?",
+        "GEOREFERENCE_VALIDATION": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=validateGeorefProcess&type=9991",
+        "MAIN_PAGE": "{$config.baseUrl}",
+        "MAPPROFILE_PAGE": !WITH_SPEAKING_URLS ?
+            "tx_vk2_search[controller]=Static&tx_vk2_search[action]=profileMap" :
+            "/profile-map?",
+        "MAPVIEW_PARAMS": {
+            projection: "EPSG:3857",
+            minResolution: 1.194328566789627,
+            maxResolution: 2445.9849047851562,
+            extent:
+                [-20026376.39,-20048966.10,20026375.39,20048966.10],
+            center: [1528150, 6630500],
+            zoom: 2
+        },
+        "MODE_3D": 1 === 1 ? true : false,
+        "NOMINATIM_URL": "https://kartenforum.slub-dresden.de/nominatim/",
+        "OSM_URLS": ["https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png", "https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png", "https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"],
+        "TERRAIN_TILES_URL": "https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=kRAKrA0wcbZZFOT64bX5",
+        "THUMB_PATH":"/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
+        "TMS_URL_SUBDOMAINS": [ "1", "2", "3" ],
+        "WITH_SPEAKING_URLS": WITH_SPEAKING_URLS,
+        "WMS_DYNAMIC_TEMPLATE": "https://kartenforum.slub-dresden.de/ows/dynamic-ows",
+    });
+
+    console.log()
+</script>
+
 <h3>The Map Element.</h3>
 <p>No imported Flexform variable.</p>
 <hr/>
+<p><strong>URL of the georeference backend:</strong> {georefAuthUser} (Flexform Variable)</p>
 
 </html>
