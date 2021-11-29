@@ -55,16 +55,12 @@ config {
     georefhistoryPage =
     # cat=plugin.tx_slubwebkartenforum/links/0150; type=int+; label=UID of Page with unreferenced maps
     georefchoosePage =
-    # cat=plugin.tx_slubwebkartenforum/links/0160; type=int+; label=UID of Page with Map Evaluation
-    evaluationPage =
     # cat=plugin.tx_slubwebkartenforum/links/0160; type=int+; label=UID of Page of the Georeferencer
     georefPage =
     # cat=plugin.tx_slubwebkartenforum/links/0170; type=int+; label=Root of Static Pages (for Navigation)
     menuStatic =
-    # cat=plugin.tx_slubwebkartenforum/advanced/0200; type=string; label=URL of the georeferencing backend
-    georef.backend = http://example.com/georeference
-    # cat=plugin.tx_slubwebkartenforum/advanced/0210; type=string; label=URL of the elasticsearch node
-    elasticsearch.node = http://example.com/spatialdocuments
+    # cat=plugin.tx_slubwebkartenforum/links/0180; type=int+; label=UID of Page with Map Evaluation
+    evaluationPage =
     matomo {
         # matomo configuration (maybe overwritten)
         # cat=plugin.tx_slubwebkartenforum/matomo/0210; type=string; label=Matomo Hostname
