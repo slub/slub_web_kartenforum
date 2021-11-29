@@ -1,9 +1,4 @@
 /* Toolbar */
-
-body {
-    padding-top: 100px;
-}
-
 .header {
     background: rgba(255,52,52,.95);
     display: flex;
@@ -134,3 +129,5 @@ User item
 .header .user-dropdown .glyphicon.glyphicon-user {
     font-size: 14px;
 }
+
+

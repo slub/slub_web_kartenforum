@@ -42,8 +42,12 @@ tt_content.slubwebkartenforum_georeference {
 
         // Configuration of parameters. The parameters should move to flexforms and the extension configuration
         // in the future
-        apiSearch = TEXT
-        apiSearch.value = https://search-slub.pikobytes.de
+        urlNominatim = TEXT
+        urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
+        urlOsmMaps = TEXT
+        urlOsmMaps.value = {$plugin.tx_slubwebkartenforum.settings.urlOsmMaps}
+        urlSearch = TEXT
+        urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
     }
 }
 

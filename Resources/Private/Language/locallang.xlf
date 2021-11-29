@@ -6,6 +6,10 @@
             <authorEmail>typo3@slub-dresden.de</authorEmail>
         </header>
         <body>
+
+        <trans-unit id="global.language_code">
+        	<source>en</source>
+        </trans-unit>
 		<trans-unit id="label.georefhistorypage">
 			<source>Georeference History</source>
 		</trans-unit>
@@ -383,40 +387,64 @@
 				<source>Adjust time periode</source>
 			</trans-unit>
 
-			<!-- georeference history -->
-			<trans-unit id="georeferencehistory.page.userHistory">
-				<source>History of user</source>
-			</trans-unit>
-			<trans-unit id="georeferencehistory.page.userPoints">
-				<source>Previous Georeferencing - Points</source>
-			</trans-unit>
-			<trans-unit id="georeferencehistory.page.processId">
-				<source>ProcessId</source>
-			</trans-unit>
-			<trans-unit id="georeferencehistory.page.isValidated">
-				<source>Result validated</source>
-			</trans-unit>
-			<trans-unit id="georeferencehistory.page.mapId">
-				<source>Map-ID</source>
-			</trans-unit>
-			<trans-unit id="georeferencehistory.page.validation">
-				<source>Validation</source>
-			</trans-unit>
-			<trans-unit id="georeferencehistory.page.mapSheetInfo">
-				<source>Map sheet information</source>
-			</trans-unit>
-			<trans-unit id="georeferencehistory.page.georefParams">
-				<source>Georeference parameter</source>
-			</trans-unit>
-			<trans-unit id="georeferencehistory.page.persistentAccess">
-				<source>Persistent access to georeference map</source>
-			</trans-unit>
-			<trans-unit id="georeferencehistory.page.beingGenerated">
-				<source>Being generated (duration approx. 15min)</source>
-			</trans-unit>
-			<trans-unit id="georeferencehistory.page.georeftime">
-				<source>Georeferenced</source>
-			</trans-unit>
+			<!-- Newly sorted -->
+
+     		<!-- Plugin Apps > GeoreferenceRanking -->
+			<trans-unit id="plugin.apps.georeferenceranking.label-place">
+            	<source>Rank</source>
+            </trans-unit>
+			<trans-unit id="plugin.apps.georeferenceranking.label-user">
+    			<source>Username</source>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.georeferenceranking.label-transformation-new">
+    			<source>New transformations</source>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.georeferenceranking.label-transformation-update">
+    			<source>Updated transformations</source>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.georeferenceranking.label-points">
+    			<source>Points</source>
+    		</trans-unit>
+
+			<!-- Plugin Apps > UserHistory -->
+			<trans-unit id="plugin.apps.userhistory.title">
+            	<source>History of user</source>
+            </trans-unit>
+			<trans-unit id="plugin.apps.userhistory.subtitle">
+    			<source>Previous Georeferencing - Points</source>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.userhistory.label-mapId">
+    			<source>Map Identifier</source>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.userhistory.label-validation">
+    			<source>Validation</source>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.userhistory.link-showMap">
+    			<source>Show map</source>
+    		</trans-unit>
+ 			<trans-unit id="plugin.apps.userhistory.link-goToProcess">
+     			<source>Show transformation</source>
+     		</trans-unit>
+
+     		<!-- Plugin Apps > UnreferencedMaps -->
+			<trans-unit id="plugin.apps.unreferencedmaps.title">
+            	<source>Choose a map for georeferencing</source>
+            </trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.subtitle">
+    			<source>Previous Georeferencing - Points</source>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.search-placehoder">
+    			<source>Map name</source>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.label-time">
+    			<source>Time of published</source>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.label-maptype">
+    			<source>Map type</source>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.btn-georeference">
+    			<source>Georeference</source>
+    		</trans-unit>
         </body>
     </file>
 </xliff>

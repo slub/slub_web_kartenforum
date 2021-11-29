@@ -163,7 +163,8 @@ page {
     }
 
     includeJSLibs {
-
+        jquery = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jquery-3.6.0.min.js
+        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/bootstrap-3.3.7.min.js
     }
 
     includeCSS {
@@ -194,4 +195,5 @@ jsonApi {
         xhtml_cleaning = 0
         debug = 0
     }
+    10 < tt_content.list.20.slubwebkartenforum_georeference
 }

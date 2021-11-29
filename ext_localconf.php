@@ -30,3 +30,22 @@ foreach ($icons as $icon) {
  */
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.georefAuthUser = " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['georefAuthUser']);
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.georefAuthPassword = " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['georefAuthPassword']);
+ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlNominatim= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlNominatim']);
+ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlOsmMaps= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlOsmMaps']);
+ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlSearch= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlSearch']);
+
+/***************
+ * Enable direct extension access through ajax requests
+ */
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+	'Slub.SlubWebKartenforum',
+	'georeference',
+	[
+        'Georef' => 'getTransformationByMapId, getStatistics, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, postTransformationTry',
+    ],
+	// non-cacheable actions
+	[
+        'Georef' => 'getTransformationByMapId, getStatistics, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, postTransformationTry',
+    ],
+);
+

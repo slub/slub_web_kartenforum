@@ -18,15 +18,13 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
                     <li>
-                        <f:link.page pageUid="{settings.georefhistoryPage}" data="{classes: 'georef-history'}" class="vk2-modal-anchor" title="{f:translate(key:'label.georefhistorypage', extensionName:'slubWebKartenforum')}">
+                        <f:link.page pageUid="{settings.georefhistoryPage}" class="vk2-modal-anchor" title="{f:translate(key:'label.georefhistorypage', extensionName:'slubWebKartenforum')}">
                             <f:translate key="label.georefhistorypage" extensionName="slubWebKartenforum"/>
-                            <b class="caret"></b>
                         </f:link.page>
                     </li>
                     <li>
-                        <f:link.page pageUid="{settings.georefchoosePage}" data="{classes: 'georef-chooser'}" class="vk2-modal-anchor" title="{f:translate(key:'label.georefchoosepage', extensionName:'slubWebKartenforum')}">
+                        <f:link.page pageUid="{settings.georefchoosePage}" class="vk2-modal-anchor" title="{f:translate(key:'label.georefchoosepage', extensionName:'slubWebKartenforum')}">
                             <f:translate key="label.georefchoosepage" extensionName="slubWebKartenforum"/>
-                            <b class="caret"></b>
                         </f:link.page>
                     </li>
                     <f:security.ifHasRole role="vk2-admin">
@@ -35,7 +33,6 @@
                         <li>
                             <f:link.page target="_blank" pageUid="{settings.evaluationPage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.evaluationpage', extensionName:'slubWebKartenforum')}">
                                 <f:translate key="label.evaluationpage" extensionName="slubWebKartenforum"/>
-                                <b class="caret"></b>
                             </f:link.page>
                         </li>
                         <!-- admin menu end -->

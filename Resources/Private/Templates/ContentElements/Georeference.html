@@ -7,12 +7,12 @@
     <script type="text/javascript" src="{f:uri.resource(path: 'JavaScript/plugin-georeference.js', extensionName: 'slub_web_kartenforum')}"></script>
 </f:section>
 
+
 <f:section name="FooterAssets">
     <script type="text/javascript">
         // update settings from typo3 flexform parameters
         vk2.SettingsProvider.updateSettings({
             "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
-            "API_GEOREFERENCE_GET": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=get&type=9991",
             "API_GEOREFERENCE_TRANSFORMATION_BY_MAPID": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationByMapId&type=9991",
             "API_GEOREFERENCE_TRANSFORMATION_CONFIRM": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationByMapId&type=9991",
             "API_GEOREFERENCE_TRANSFORMATION_TRY": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationTry&type=9991",
@@ -53,23 +53,9 @@
             );
         }
     </script>
-
-    <script type="text/javascript">
-        // We call the new ViewHelper just with a custom HTML tag inside the JS.
-        console.log("The year of publication of the comic: <vk:georeference requestedValue='year'/>");
-    </script>
-
-
 </f:section>
 
 <div id="vkf-app-georeference">
 </div>
-
-<f:comment><!-- At this point we call the ViewHelper again with another requested value and the flexform based variables --></f:comment>
-<pre style="position:absolute;top:5px;right:5px;left:5px;padding:15px;z-index:1000;background-color:rgba(0,0,0,0.85);color:white">
-    the external comic image: <vk:georeference requestedValue="img"/>
-    the backend (flexform): {georefBackend}
-    the extension settings: {georefAuthUser} / {georefAuthPassword}
-</pre>
 
 </html>

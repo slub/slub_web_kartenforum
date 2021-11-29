@@ -1,0 +1,84 @@
+@import "../../_sass/variables";
+
+.vkf-apps-progressbar {
+  .progressbar-container {
+    margin: 50px 0 5px;
+    padding: 0;
+
+    .text {
+      position: relative;
+      width: 100%;
+      height: 30px;
+      font-weight: 200;
+      color: #999;
+
+      > div {
+        float: right;
+
+        &::after {
+          border: 5px solid #ccc;
+          border-width: 5px 5px 0;
+          border-color: #ccc transparent transparent;
+          content: "";
+          position: absolute;
+          bottom: 8px;
+          right: 8px;
+        }
+      }
+    }
+
+    .bar {
+      width: 100%;
+      height: 3px;
+      overflow: hidden;
+      background: #ccc;
+      .done {
+        height: 100%;
+        margin-right: -1px;
+        border-right: 1px solid #fff;
+        background-color: $primaryColorMain;
+      }
+    }
+  }
+
+  .overview-ranking {
+    margin: 10px 0;
+    padding: 0;
+
+    > div > p {
+      color: #999;
+      margin: 5px 0;
+    }
+
+    ol {
+      list-style-position: inside;
+      margin: 0;
+      padding: 0;
+
+      > li {
+        float: left;
+        margin-right: 6px;
+        color: #999;
+        font-weight: 800;
+        > span {
+          font-weight: 300;
+        }
+      }
+    }
+
+    .forwarding {
+      opacity: 0.6;
+      margin-top: 2px;
+
+      p {
+        color: #333;
+        float: left;
+      }
+
+      a {
+        color: $secondaryColorDark;
+        margin-left: 2px;
+      }
+    }
+  }
+}

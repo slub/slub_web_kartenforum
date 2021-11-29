@@ -19,16 +19,24 @@
                                         <numIndex index="1"/>
                                     </numIndex>
                                     <numIndex index="1">
-                                        <numIndex index="0">Georeference History</numIndex>
-                                        <numIndex index="1">georefHistory</numIndex>
+                                        <numIndex index="0">User History</numIndex>
+                                        <numIndex index="1">UserHistory</numIndex>
                                     </numIndex>
                                     <numIndex index="2">
-                                        <numIndex index="0">Statusbar</numIndex>
-                                        <numIndex index="1">georefStatus</numIndex>
+                                        <numIndex index="0">Georeference ProgressBar</numIndex>
+                                        <numIndex index="1">ProgressBar</numIndex>
                                     </numIndex>
                                     <numIndex index="3">
                                         <numIndex index="0">Georeference Ranking</numIndex>
-                                        <numIndex index="1">georefRanking</numIndex>
+                                        <numIndex index="1">GeoreferenceRanking</numIndex>
+                                    </numIndex>
+                                    <numIndex index="4">
+                                        <numIndex index="0">Unreferenced Maps</numIndex>
+                                        <numIndex index="1">UnreferencedMaps</numIndex>
+                                    </numIndex>
+                                    <numIndex index="5">
+                                        <numIndex index="0">Evaluation Tool</numIndex>
+                                        <numIndex index="1">EvaluationTool</numIndex>
                                     </numIndex>
                                 </items>
                             </config>

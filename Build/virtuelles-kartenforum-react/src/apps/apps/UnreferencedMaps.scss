@@ -1,0 +1,93 @@
+@import "../../_sass/variables";
+
+.vkf-apps-unreferenced-maps {
+  overflow: hidden;
+  display: block;
+  position: absolute;
+  top: 90px;
+  bottom: 25px;
+  left: 0;
+  right: 0;
+  padding: 0 20px;
+
+  > div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    display: block;
+    margin-bottom: 10px;
+
+    h1 {
+      padding: 0;
+      color: $primaryColorMain;
+      font-size: 30px;
+      font-weight: 300;
+      margin: 15px 0 5px 0;
+    }
+
+    h2 {
+      color: #666;
+      font-weight: 600;
+      font-size: 16px;
+      text-transform: uppercase;
+      margin-bottom: 0;
+      padding-bottom: 10px;
+      border-bottom: 1px dotted #ccc;
+      position: relative;
+      line-height: 110%;
+    }
+  }
+
+  .form-group {
+    .form-control {
+      background: #eee;
+      border-radius: 0;
+      border: 1px solid #eee;
+      box-shadow: none;
+      line-height: 34px;
+      height: 44px;
+    }
+  }
+
+  .content-container {
+    flex-grow: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li.map-item {
+      width: 100%;
+      padding: 0;
+      margin: 2.5px 0;
+      > div {
+        border: 1px solid;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .image {
+        margin: 10px;
+        height: 120px;
+      }
+      .metadata {
+        flex-grow: 1;
+        padding: 10px;
+      }
+
+      .controls {
+        padding: 10px;
+      }
+    }
+  }
+}

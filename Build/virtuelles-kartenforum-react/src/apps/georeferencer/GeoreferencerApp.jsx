@@ -17,12 +17,14 @@ export const GeoreferencerApp = () => {
   return (
     <RecoilRoot>
       <div className="vk-app-georeferencer">
-        <Toolbar />
-        <GeoreferenceView
-          urlsOsmBaseMap={settings["OSM_URLS"]}
-          urlNominatim={settings["NOMINATIM_URL"]}
-        />
-        <Notifications />
+        <div>
+          <Toolbar />
+          <GeoreferenceView
+            urlsOsmBaseMap={settings["OSM_URLS"]}
+            urlNominatim={settings["NOMINATIM_URL"]}
+          />
+          <Notifications />
+        </div>
       </div>
     </RecoilRoot>
   );
