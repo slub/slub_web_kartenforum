@@ -7,7 +7,7 @@
                 </TCEforms>
                 <type>array</type>
                 <el>
-                    <settings.flexform.loginPage>
+                    <settings.loginPage>
                         <TCEforms>
                             <label>Login Page to redirect on successful registration</label>
                             <config>
@@ -25,7 +25,7 @@
                                 </wizards>
                             </config>
                         </TCEforms>
-                    </settings.flexform.loginPage>
+                    </settings.loginPage>
                 </el>
             </ROOT>
         </sDEF>

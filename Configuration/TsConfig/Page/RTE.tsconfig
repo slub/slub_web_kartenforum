@@ -1,6 +1,6 @@
-#############
-#### RTE ####
-#############
+#
+# Setup for the rich text editor
+#
 RTE {
     default {
         preset = slub_web_kartenforum

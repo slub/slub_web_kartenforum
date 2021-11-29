@@ -6,5 +6,5 @@
  */
 
 export const cssOutputDir = "Css/";
-export const javascriptOutputDir = "JavaScript/Dist/";
+export const javascriptOutputDir = "JavaScript/";
 export const outputDir = "../../Resources/Public/";

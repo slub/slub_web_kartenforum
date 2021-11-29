@@ -1,32 +1,27 @@
-######################
-#### DEPENDENCIES ####
-######################
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:fluid_styled_content/Configuration/TypoScript/constants.typoscript">
+###################################################
+# Extension constants for page and plugins
+###################################################
 
 
-##############################
-#### FLUID STYLED CONTENT ####
-##############################
+
+# FLUID STYLED CONTENT
 styles {
     templates {
         layoutRootPath = EXT:slub_web_kartenforum/Resources/Private/Layouts/ContentElements/
         partialRootPath = EXT:slub_web_kartenforum/Resources/Private/Partials/ContentElements/
         templateRootPath = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/
     }
-    # Override template file for FE login
     content.loginform.templateFile = EXT:slub_web_kartenforum/Resources/Private/Plugins/FELogin.html
 }
 
-
-############
-### PAGE ###
-############
+# PAGE
 page {
-     fluidtemplate {
-        layoutRootPath = EXT:slub_web_kartenforum/Resources/Private/Layouts/Page/
-        partialRootPath = EXT:slub_web_kartenforum/Resources/Private/Partials/Page/
-        templateRootPath = EXT:slub_web_kartenforum/Resources/Private/Templates/Page/
+    fluidtemplate {
+        layoutRootPath = EXT:slub_web_kartenforum/Resources/Private/Layouts/
+        partialRootPath = EXT:slub_web_kartenforum/Resources/Private/Partials/
+        templateRootPath = EXT:slub_web_kartenforum/Resources/Private/Templates/
     }
+
     meta {
         description =
         author =
@@ -38,10 +33,7 @@ page {
     }
 }
 
-
-##############
-### CONFIG ###
-##############
+# CONFIG
 config {
     no_cache = 0
     removeDefaultJS = 0
@@ -71,10 +63,8 @@ config {
     menuStatic =
     # cat=plugin.tx_slubwebkartenforum/advanced/0200; type=string; label=URL of the georeferencing backend
     georef.backend = http://example.com/georeference
-
     # cat=plugin.tx_slubwebkartenforum/advanced/0210; type=string; label=URL of the elasticsearch node
     elasticsearch.node = http://example.com/spatialdocuments
-
     matomo {
         # matomo configuration (maybe overwritten)
         # cat=plugin.tx_slubwebkartenforum/matomo/0210; type=string; label=Matomo Hostname
@@ -84,9 +74,4 @@ config {
         # cat=plugin.tx_slubwebkartenforum/matomo/0230; type=string; label=Matomo Domains (optional)
         setDomains =
     }
-
-    # New settings
-    api_georeference = https://geo-slub.pikobytes.de
-    api_georeference_user = vk20_user
-    api_georeference_password = vk20_user_1234
 }

@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import queryString from "query-string";
-import LoadingBar from "../../components/LoadingBar/LoadingBar";
+import LoadingBar from "../../../../components/LoadingBar/LoadingBar";
 import MapSourceView from "../MapSourceView/MapSourceView";
 import MapTargetView from "../MapTargetView/MapTargetView";
 import { notificationState } from "../../../../atoms/atoms";
@@ -37,10 +37,10 @@ export const GeoreferenceView = (props) => {
     const qs = queryString.parse(location.search);
 
     if (qs.map_id !== undefined) {
-      const transformation = await queryTransformationForMapId(qs.map_id);
+      const transformationData = await queryTransformationForMapId(qs.map_id);
       const metadata = await queryDocument(qs.map_id);
 
-      if (transformation.pending_jobs) {
+      if (transformationData.pending_jobs) {
         setNotification({
           id: "georeference-view",
           type: "warning",
@@ -49,29 +49,34 @@ export const GeoreferenceView = (props) => {
       }
 
       // Extract active transformation
+      const targetTransformationId =
+        qs.transformation_id !== undefined
+          ? parseInt(qs.transformation_id)
+          : transformationData.active_transformation_id;
+
       if (
-        transformation.items.length > 0 &&
-        transformation.active_transformation_id !== null
+        transformationData.transformations.length > 0 &&
+        targetTransformationId !== null
       ) {
-        const activeTransformation = transformation.items.find(
-          (t) =>
-            t.transformation.transformation_id ===
-            transformation.active_transformation_id
+        const activeTransformation = transformationData.transformations.find(
+          (t) => t.transformation_id === targetTransformationId
         );
+
+        console.log(activeTransformation);
         setTransformation({
           map_id: activeTransformation.map_id,
-          clip: activeTransformation.transformation.clip,
-          overwrites: activeTransformation.transformation.transformation_id,
-          params: activeTransformation.transformation.params,
+          clip: activeTransformation.clip,
+          overwrites: activeTransformation.transformation_id,
+          params: activeTransformation.params,
         });
-      } else if (transformation.active_transformation_id === null) {
+      } else if (transformationData.active_transformation_id === null) {
         setTransformation({
           map_id: qs.map_id,
           clip: null,
           overwrites: 0,
           params: {
             source: "pixel",
-            target: transformation.default_srs,
+            target: transformationData.default_srs,
             algorithm: "affine",
             gcps: [],
           },
@@ -81,7 +86,7 @@ export const GeoreferenceView = (props) => {
       }
 
       setMapMetadata(metadata);
-      setExtent(transformation.extent);
+      setExtent(transformationData.extent);
       setIsDataLoaded(true);
     }
   }, []);

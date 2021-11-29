@@ -1,0 +1,60 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:vk="http://typo3.org/ns/Slub/SlubWebKartenforum/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
+
+<div class="navigation-user-container header-navigation-item no-hover">
+    <f:security.ifAuthenticated>
+        <f:then>
+            <div class="dropdown user-dropdown">
+                <button class="btn btn-link header-navigation-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-user"> </span>
+                    <f:if condition="{vk:username(field:'name')} == ''">
+                        <f:then>
+                            <vk:username field="username"/>
+                        </f:then>
+                        <f:else>
+                            <vk:username field="name"/>
+                        </f:else>
+                    </f:if>
+                    <b class="caret"></b>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                    <li>
+                        <f:link.page pageUid="{settings.georefhistoryPage}" class="vk2-modal-anchor" title="{f:translate(key:'label.georefhistorypage', extensionName:'slubWebKartenforum')}">
+                            <f:translate key="label.georefhistorypage" extensionName="slubWebKartenforum"/>
+                        </f:link.page>
+                    </li>
+                    <li>
+                        <f:link.page pageUid="{settings.georefchoosePage}" class="vk2-modal-anchor" title="{f:translate(key:'label.georefchoosepage', extensionName:'slubWebKartenforum')}">
+                            <f:translate key="label.georefchoosepage" extensionName="slubWebKartenforum"/>
+                        </f:link.page>
+                    </li>
+                    <f:security.ifHasRole role="vk2-admin">
+                        <li class="divider"></li>
+                        <!-- admin menu -->
+                        <li>
+                            <f:link.page target="_blank" pageUid="{settings.evaluationPage}" data="{classes: 'login'}" class="vk2-modal-anchor" title="{f:translate(key:'label.evaluationpage', extensionName:'slubWebKartenforum')}">
+                                <f:translate key="label.evaluationpage" extensionName="slubWebKartenforum"/>
+                            </f:link.page>
+                        </li>
+                        <!-- admin menu end -->
+                    </f:security.ifHasRole>
+                    <li class="divider"></li>
+                    <li>
+                        <f:link.page pageUid="{settings.loginPage}" data="{classes: 'logout'}" class="vk2-modal-anchor" title="{f:translate(key:'label.logout', extensionName:'slubWebKartenforum')}">
+                            <f:translate key="label.logout" extensionName="slubWebKartenforum"/>
+                            <b class="caret"></b>
+                        </f:link.page>
+                    </li>
+                </ul>
+            </div>
+        </f:then>
+        <f:else>
+            <div class="header-navigation-item">
+                <f:link.page pageUid="{settings.loginPage}" data="{classes: 'login'}" class="header-navigation-link" title="{f:translate(key:'label.login', extensionName:'slubWebKartenforum')}">
+                    <f:translate key="label.login" extensionName="slubWebKartenforum"/>
+                </f:link.page>
+            </div>
+        </f:else>
+    </f:security.ifAuthenticated>
+</div>
+
+</html>

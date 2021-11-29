@@ -66,7 +66,7 @@ export const LayerRectifiedImage = (props) => {
           clipLayer.getSource().getFeatures()[0].getGeometry(),
           map
         );
-        const pxRatio = e.frameState.pixelRatio;
+        const pxRatio = 1; // e.frameState.pixelRatio;
 
         // Clip the given canvas context according to the pixel coordinates
         const canvasRenderingCxt = e.context;

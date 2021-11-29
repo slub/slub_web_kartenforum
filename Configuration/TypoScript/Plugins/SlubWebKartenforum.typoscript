@@ -1,29 +1,73 @@
+#######################################################
+# Configure VKF related content elements and plugins
+#######################################################
+
+// The Signup content element which handles to login template
+tt_content.slubwebkartenforum_signup = FLUIDTEMPLATE
+tt_content.slubwebkartenforum_signup {
+    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Signup.html
+    variables {
+        loginPage = TEXT
+        loginPage.data = flexform:pi_flexform:settings.loginPage
+    }
+}
+
+// The main map content element with the core React application
+tt_content.slubwebkartenforum_map = FLUIDTEMPLATE
+tt_content.slubwebkartenforum_map {
+    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Map.html
+}
+
+// The apps content Element which controls the minor React snippets
+tt_content.slubwebkartenforum_apps = FLUIDTEMPLATE
+tt_content.slubwebkartenforum_apps {
+    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Apps.html
+    variables {
+        importApp = TEXT
+        importApp.data = flexform:pi_flexform:settings.importApp
+    }
+}
+
+// The content element for the complex georeference UI
+tt_content.slubwebkartenforum_georeference = FLUIDTEMPLATE
+tt_content.slubwebkartenforum_georeference {
+    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Georeference.html
+    variables {
+        georefBackend = TEXT
+        georefBackend.data = flexform:pi_flexform:settings.georefBackend
+        georefAuthUser = TEXT
+        georefAuthUser.value = {$plugin.tx_slubwebkartenforum.settings.georefAuthUser}
+        georefAuthPassword = TEXT
+        georefAuthPassword.value = {$plugin.tx_slubwebkartenforum.settings.georefAuthPassword}
+
+        // Configuration of parameters. The parameters should move to flexforms and the extension configuration
+        // in the future
+        urlNominatim = TEXT
+        urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
+        urlOsmMaps = TEXT
+        urlOsmMaps.value = {$plugin.tx_slubwebkartenforum.settings.urlOsmMaps}
+        urlSearch = TEXT
+        urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
+    }
+}
+
+// Legacy code?!
 plugin.tx_slubwebkartenforum {
-	features {
-	    requireCHashArgumentForActionArguments = 0
-	}
-	persistence {
-		storagePid = {$config.userStoragePid}
-		classes {
-			Slub\SlubWebKartenforum\Domain\Model\User {
-				mapping {
-					tableName = fe_users
-					columns {
-						name.mapOnProperty = name
-					}
-				}
-			}
-		}
-	}
-    settings {
-        loginPage = {$config.loginPage}
-        georefBackend = {$config.georef.backend}
-        viewerPageId = {$config.rootPageId}
-        georefPageId = {$config.georefPage}
-        elasticsearchNode = {$config.elasticsearch.node}
-        welcomePage = {$config.welcomePage}
-        api_georeference = {$config.api_georeference}
-        api_georeference_user = {$config.api_georeference_user}
-        api_georeference_password = {$config.api_georeference_password}
-	}
+    features {
+        requireCHashArgumentForActionArguments = 0
+    }
+
+    persistence {
+        storagePid = {$config.userStoragePid}
+        classes {
+            Slub\SlubWebKartenforum\Domain\Model\User {
+                mapping {
+                    tableName = fe_users
+                    columns {
+                        name.mapOnProperty = name
+                    }
+                }
+            }
+        }
+    }
 }

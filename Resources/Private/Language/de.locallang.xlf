@@ -7,6 +7,10 @@
 			<generator>LFEditor</generator>
 		</header>
 		<body>
+		    <trans-unit id="global.language_code" approved="yes">
+            	<source><![CDATA[en]]></source>
+            	<target><![CDATA[de]]></target>
+            </trans-unit>
 			<trans-unit id="choosepage.amountUnreferencedMaps" approved="yes">
 				<source><![CDATA[Amount of unreferenced maps]]></source>
 				<target><![CDATA[Anzahl der unreferenzierten Karten]]></target>
@@ -503,6 +507,83 @@
 				<source><![CDATA[The username is already in use. Please choose another one.]]></source>
 				<target><![CDATA[Der Benutzername wird bereits verwendet. Bitte wählen Sie einen anderen.]]></target>
 			</trans-unit>
+
+
+			<!-- Newly sorted -->
+
+     		<!-- Plugin Apps > GeoreferenceRanking -->
+			<trans-unit id="plugin.apps.georeferenceranking.label-place" approved="yes">
+            	<source><![CDATA[Rank]]></source>
+            	<target><![CDATA[Rang]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.apps.georeferenceranking.label-user" approved="yes">
+    			<source><![CDATA[Username]]></source>
+    			<target><![CDATA[Nutzername]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.georeferenceranking.label-transformation-new" approved="yes">
+    			<source><![CDATA[New transformations]]></source>
+    			<target><![CDATA[Neue Georeferenzierungen]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.georeferenceranking.label-transformation-update" approved="yes">
+    			<source><![CDATA[Updated transformations]]></source>
+    			<target><![CDATA[Aktualisierte Georeferenzierungen]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.georeferenceranking.label-points" approved="yes">
+    			<source><![CDATA[Points]]></source>
+    			<target><![CDATA[Punkte]]></target>
+    		</trans-unit>
+
+			<!-- Plugin Apps > UserHistory -->
+			<trans-unit id="plugin.apps.userhistory.title" approved="yes">
+            	<source><![CDATA[History of user]]></source>
+            	<target><![CDATA[Nutzerhistorie]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.apps.userhistory.subtitle" approved="yes">
+    			<source><![CDATA[Previous Georeferencing - Points]]></source>
+    			<target><![CDATA[Bisherige Georeferenzierungen - Punkte]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.userhistory.label-mapId" approved="yes">
+    			<source><![CDATA[Map Identifier]]></source>
+    			<target><![CDATA[Karten-ID]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.userhistory.label-validation" approved="yes">
+    			<source><![CDATA[Validation]]></source>
+    			<target><![CDATA[Validierung]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.userhistory.link-showMap" approved="yes">
+    			<source><![CDATA[Show map]]></source>
+    			<target><![CDATA[Zeige Karte]]></target>
+    		</trans-unit>
+ 			<trans-unit id="plugin.apps.userhistory.link-goToProcess" approved="yes">
+     			<source><![CDATA[Show transformation]]></source>
+     			<target><![CDATA[Zeige Transformation]]></target>
+     		</trans-unit>
+
+     		<!-- Plugin Apps > UnreferencedMaps -->
+			<trans-unit id="plugin.apps.unreferencedmaps.title" approved="yes">
+            	<source><![CDATA[Choose a map for georeferencing]]></source>
+            	<target><![CDATA[Wähle Karte für Georeeferenzierung]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.subtitle" approved="yes">
+    			<source><![CDATA[Previous Georeferencing - Points]]></source>
+    			<target><![CDATA[Anzahl unreferenzierter Karten]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.search-placehoder" approved="yes">
+    			<source><![CDATA[Map name]]></source>
+    			<target><![CDATA[Kartenname]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.label-time" approved="yes">
+    			<source><![CDATA[Time of published]]></source>
+    			<target><![CDATA[Datum der Veröffentlichung]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.label-maptype" approved="yes">
+    			<source><![CDATA[Map type]]></source>
+    			<target><![CDATA[Kartentyp]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.btn-georeference" approved="yes">
+    			<source><![CDATA[Georeference]]></source>
+    			<target><![CDATA[Georeferenzierung]]></target>
+    		</trans-unit>
 		</body>
 	</file>
 </xliff>

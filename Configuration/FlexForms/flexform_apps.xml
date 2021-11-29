@@ -1,0 +1,49 @@
+<T3DataStructure>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>Configuration of Plugin Apps.</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.importApp>
+                        <TCEforms>
+                            <label>Select React App to import</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectSingle</renderType>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0"/>
+                                        <numIndex index="1"/>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">User History</numIndex>
+                                        <numIndex index="1">UserHistory</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">Georeference ProgressBar</numIndex>
+                                        <numIndex index="1">ProgressBar</numIndex>
+                                    </numIndex>
+                                    <numIndex index="3">
+                                        <numIndex index="0">Georeference Ranking</numIndex>
+                                        <numIndex index="1">GeoreferenceRanking</numIndex>
+                                    </numIndex>
+                                    <numIndex index="4">
+                                        <numIndex index="0">Unreferenced Maps</numIndex>
+                                        <numIndex index="1">UnreferencedMaps</numIndex>
+                                    </numIndex>
+                                    <numIndex index="5">
+                                        <numIndex index="0">Evaluation Tool</numIndex>
+                                        <numIndex index="1">EvaluationTool</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.importApp>
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>

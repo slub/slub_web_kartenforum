@@ -4,4 +4,5 @@
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TsConfig/Page/RTE.tsconfig">
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TsConfig/Page/TCEFORM.tsconfig">
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TsConfig/Page/TCEMAIN.tsconfig">
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TsConfig/Page/Mod/Wizards.tsconfig">
 <INCLUDE_TYPOSCRIPT: source="DIR:EXT:slub_web_kartenforum/Configuration/TsConfig/Page/Mod/WebLayout/BackendLayouts/" extensions="tsconfig">

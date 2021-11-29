@@ -1,3 +1,22 @@
 #
 # Extension Configuration template
 #
+
+# cat=Global; type=string; label=Url to the nominatim (placename) endpoint
+urlNominatim = https://kartenforum.slub-dresden.de/nominatim
+
+# cat=Global; type=string; label=Comma-separated list of urls of the osm base map service
+urlOsmMaps = https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png,https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png,https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png
+
+# cat=Global; type=string; label=Url to the search endpoint
+urlSearch = https://search-slub.pikobytes.de/vk20
+
+# cat=Georeference; type=string; label=API endpoint of the georeference service
+georefApi = https://geo-slub.pikobytes.de
+
+# cat=Georeference; type=string; label=Basic user for georeference authentication
+georefAuthUser =
+
+# cat=Georeference; type=string; label=Password for georeference authentication
+georefAuthPassword =
+

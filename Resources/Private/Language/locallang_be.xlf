@@ -9,11 +9,11 @@
             <trans-unit id="backend_layout.default">
                 <source>Default</source>
             </trans-unit>
-            <trans-unit id="backend_layout.extended">
-                <source>Extended (Default + JavaScript)</source>
+            <trans-unit id="backend_layout.apps">
+                <source>Apps (Plugin: Apps)</source>
             </trans-unit>
             <trans-unit id="backend_layout.map">
-                <source>Map View</source>
+                <source>Map (Plugin: Map)</source>
             </trans-unit>
             <trans-unit id="backend_layout.column.normal">
                 <source>Normal</source>
@@ -22,7 +22,7 @@
                 <source>App-Page</source>
             </trans-unit>
             <trans-unit id="backend_layout.georeference">
-                <source>Georeference-Page</source>
+                <source>Georeference (Plugin: Georeference)</source>
             </trans-unit>
         </body>
     </file>

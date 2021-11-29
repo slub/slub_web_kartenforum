@@ -1,17 +1,10 @@
-######################
-#### DEPENDENCIES ####
-######################
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:fluid_styled_content/Configuration/TypoScript/setup.typoscript">
+###################################################
+# Include all TypoScript files
+###################################################
 
-
-################
-#### HELPER ####
-################
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TypoScript/Config.typoscript">
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TypoScript/Helper/DynamicContent.typoscript">
-
-#################
-#### Plugins ####
-#################
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TypoScript/Page.typoscript">
 <INCLUDE_TYPOSCRIPT: source="DIR:EXT:slub_web_kartenforum/Configuration/TypoScript/Plugins/" extensions="typoscript">
 
 
@@ -53,7 +46,7 @@ page {
             ifEmpty = Default
         }
         templateRootPaths {
-            0 = EXT:slub_web_kartenforum/Resources/Private/Templates/Page/
+            0 = EXT:slub_web_kartenforum/Resources/Private/Templates/
             1 = {$page.fluidtemplate.templateRootPath}
         }
         partialRootPaths {
@@ -61,7 +54,7 @@ page {
             1 = {$page.fluidtemplate.partialRootPath}
         }
         layoutRootPaths {
-            0 = EXT:slub_web_kartenforum/Resources/Private/Layouts/Page/
+            0 = EXT:slub_web_kartenforum/Resources/Private/Layouts/
             1 = {$page.fluidtemplate.layoutRootPath}
         }
         dataProcessing {
@@ -93,7 +86,6 @@ page {
             rootPageId = {$config.rootPageId}
             welcomePage = {$config.welcomePage}
             loginPage = {$config.loginPage}
-            test = {$config.loginLogo}
             georefhistoryPage = {$config.georefhistoryPage}
             georefchoosePage = {$config.georefchoosePage}
             evaluationPage = {$config.evaluationPage}
@@ -103,11 +95,6 @@ page {
                 siteId = {$config.matomo.siteId}
                 setDomains = {$config.matomo.setDomains}
             }
-
-            # New settings
-            api_georeference = {$config.api_georeference}
-            api_georeference_user = {$config.api_georeference_user}
-            api_georeference_password = {$config.api_georeference_password}
         }
 
     }
@@ -179,8 +166,6 @@ page {
     }
 
 }
-
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TypoScript/Page/Page.typoscript">
 
 ################
 #### CONFIG ####

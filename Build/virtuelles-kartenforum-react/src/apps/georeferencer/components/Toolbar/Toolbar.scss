@@ -1,14 +1,10 @@
 @import "../../../../_sass/variables";
 
 .vk-georeference-toolbar {
-  height: 48px;
+  height: 50px;
   width: 100%;
   background: darken(#ccc, 10%);
   border-bottom: 0 none;
-  position: absolute;
-  top: 95px;
-  left: 0;
-  right: 0;
   padding: 5px 20px;
   overflow: visible;
   display: flex;

@@ -5,7 +5,9 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-let settingsObject = {};
+let settingsObject = {
+    LANGUAGE_CODE: "en",
+};
 
 export default {
     appendSettings(newSettings) {
