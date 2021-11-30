@@ -11,7 +11,7 @@ import mapViewConfig from "./rollup.mapview.config";
 export default (commandlineArgs) => {
     if (commandlineArgs.configGeoref === true) {
         return geoRefConfig;
-    } else if (commandlineArgs.configMapView === true) {
+    } else if (commandlineArgs.configMap === true) {
         return mapViewConfig;
     } else if (commandlineArgs.configApps == true) {
         return appsViewConfig;

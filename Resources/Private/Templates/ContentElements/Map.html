@@ -1,5 +1,8 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
 
+<input type="hidden" value="{urlOsmMaps}" id="setting-urlOsmMaps"/>
+<input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
+
 <f:section name="HeaderAssets">
     <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/ol.css', extensionName: 'slub_web_kartenforum')}" />
     <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/jquery-ui.min.css', extensionName: 'slub_web_kartenforum')}" />
@@ -15,31 +18,12 @@
 <f:section name="FooterAssets">
     <script type="text/javascript">
         const WITH_SPEAKING_URLS = true;
-
         // update settings from typo3 flexform parameters
         vk2.SettingsProvider.updateSettings({
-            "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
+            "API_SEARCH": document.getElementById("setting-urlSearch").value,
+            "LINK_TO_GEOREFERENCE": "/georeferenzierung",
             "ELASTICSEARCH_NODE": "https://kartenforum.slub-dresden.de/spatialdocuments",
             "ELASTICSEARCH_SRS": "EPSG:4326",
-            "EVALUATION_GETPROCESS": !WITH_SPEAKING_URLS ?
-                "tx_vk2_search[controller]=Evaluation&tx_vk2_search[action]=getProcess&type=999" :
-                "/evaluation/getprocess?type=999",
-            "EVALUATION_SETISINVALIDE": !WITH_SPEAKING_URLS ?
-                "tx_vk2_search[controller]=Evaluation&tx_vk2_search[action]=setIsInValide&type=999" :
-                "/evaluation/isinvalide?type=999",
-            "EVALUATION_SETISVALIDE": !WITH_SPEAKING_URLS ?
-                "tx_vk2_search[controller]=Evaluation&tx_vk2_search[action]=setIsValide&type=999" :
-                "/evaluation/isvalide?type=999",
-            "GEOREFERENCE_CONFIRM": !WITH_SPEAKING_URLS ?
-                "tx_vk2_search[controller]=Georeference&tx_vk2_search[action]=confirmGeorefProcess&type=999" :
-                "/georef/confirm?type=999",
-            "GEOREFERENCE_EXTENT_SRS": "EPSG:4326",
-            "GEOREFERENCE_GETPROCESS": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getProcess&type=9991",
-            "GEOREFERENCE_ON": 1 === 1 ? true : false,
-            "GEOREFERENCE_PAGE": !WITH_SPEAKING_URLS ?
-                "tx_vk2_search[controller]=Static&tx_vk2_search[action]=georefPage" :
-                "/static/georefpage?",
-            "GEOREFERENCE_VALIDATION": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=validateGeorefProcess&type=9991",
             "MAIN_PAGE": "{$config.baseUrl}",
             "MAPPROFILE_PAGE": !WITH_SPEAKING_URLS ?
                 "tx_vk2_search[controller]=Static&tx_vk2_search[action]=profileMap" :
@@ -55,7 +39,7 @@
             },
             "MODE_3D": 1 === 1 ? true : false,
             "NOMINATIM_URL": "https://kartenforum.slub-dresden.de/nominatim/",
-            "OSM_URLS": ["https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png", "https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png", "https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"],
+            "OSM_URLS": document.getElementById("setting-urlOsmMaps").value.split(","),
             "TERRAIN_TILES_URL": "https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=kRAKrA0wcbZZFOT64bX5",
             "THUMB_PATH":"/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
             "TMS_URL_SUBDOMAINS": [ "1", "2", "3" ],
@@ -104,7 +88,7 @@
                 "mapsearch-found-maps": "<f:translate key='client.mapsearchmodule.foundMaps' extensionName='SlubWebKartenforum' />",
                 "mapsearch-found-no-maps": "<f:translate key='client.mapsearchmodule.foundNoMaps' extensionName='SlubWebKartenforum' />",
                 "mapsearch-georeference": "<f:translate key='client.mapsearchmodule.georeference' extensionName='SlubWebKartenforum' />",
-                "mapsearch-time": "<f:translate key='client.mapsearchmodule.time' extensionName='SlubWebKartenforum' />",
+                "mapsearch-time_published": "<f:translate key='client.mapsearchmodule.time' extensionName='SlubWebKartenforum' />",
                 "mapsearch-title": "<f:translate key='client.mapsearchmodule.title' extensionName='SlubWebKartenforum' />",
                 "facet-ae": "<f:translate key='client.facetedsearch.titleAE' extensionName='SlubWebKartenforum' />",
                 "facet-ak": "<f:translate key='client.facetedsearch.titleAK' extensionName='SlubWebKartenforum' />",
@@ -123,6 +107,7 @@
                 "metadata-spatial-res": "<f:translate key='client.metadatabinding.spatialResolution' extensionName='SlubWebKartenforum' />",
                 "metadata-unqiue-id": "<f:translate key='client.metadatabinding.uniqueId' extensionName='SlubWebKartenforum' />",
                 "timeslider-adjust-timeperiod": "<f:translate key='client.timeslidertool.changeTimeperiod' extensionName='SlubWebKartenforum' />",
+                "georef-update": "<f:translate key='georef.update' extensionName='SlubWebKartenforum' />",
             }
         });
 

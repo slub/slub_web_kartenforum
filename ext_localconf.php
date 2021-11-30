@@ -28,8 +28,6 @@ foreach ($icons as $icon) {
 /***************
  * Pass some extension configuration variables to typoscript constants
  */
-ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.georefAuthUser = " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['georefAuthUser']);
-ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.georefAuthPassword = " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['georefAuthPassword']);
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlNominatim= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlNominatim']);
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlOsmMaps= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlOsmMaps']);
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlSearch= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlSearch']);
@@ -37,6 +35,18 @@ ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum
 /***************
  * Enable direct extension access through ajax requests
  */
+ \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+ 	'Slub.SlubWebKartenforum',
+ 	'signup',
+ 	[
+ 		'Auth' => 'login, signup, logout, loginError',
+    ],
+ 	// non-cacheable actions
+ 	[
+        'Auth' => 'login, signup, logout, loginError',
+    ]
+);
+
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	'Slub.SlubWebKartenforum',
 	'georeference',

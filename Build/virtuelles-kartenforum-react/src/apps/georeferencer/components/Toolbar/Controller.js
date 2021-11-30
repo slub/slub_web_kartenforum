@@ -220,6 +220,7 @@ export class Controller extends Observer {
                 this.srcVectorSource_.addFeature(srcFeature);
 
                 // Add target gcp
+                console.log(this.params_.target);
                 const trgFeature = new Feature(
                     new Point(
                         proj.transform(

@@ -12,10 +12,10 @@ export function initializeSupportedCRS() {
     //     "EPSG:3043",
     //     "+proj=utm +zone=31 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
     // );
-    // proj4.defs(
-    //     "EPSG:4314",
-    //     "+proj=longlat +ellps=bessel +datum=potsdam +no_defs"
-    // );
+    proj4.defs(
+        "EPSG:4314",
+        "+proj=longlat +ellps=bessel +datum=potsdam +no_defs"
+    );
     proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
     // proj4.defs(
     //     "EPSG:900913",

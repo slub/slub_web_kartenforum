@@ -142,7 +142,7 @@ export function MapWrapper(props) {
     selectedFeatures.forEach((selectedFeature) => {
       const { displayedInMap = false, feature, opacity = 1 } = selectedFeature;
 
-      if (!displayedInMap && feature.get("georeference")) {
+      if (!displayedInMap && feature.get("has_georeference")) {
         const layer = createHistoricMapForFeature(feature);
         layer.setOpacity(opacity);
         map.addLayer(layer);

@@ -15,9 +15,10 @@ import {
     getPolygonFromExtent,
     isDefined,
 } from "../../util/util";
-import { getSpatialQuery, getToGeorefQuery } from "../../util/query";
+import { getSpatialQuery } from "../../util/query";
 import { readFeatures } from "../../util/parser";
 import { MAP_PROJECTION } from "../MapSearch/MapSearch";
+import { initializeSupportedCRS } from "../../util/geo";
 
 /**
  * @classdesc
@@ -30,6 +31,8 @@ import { MAP_PROJECTION } from "../MapSearch/MapSearch";
  */
 export class ServerPagination {
     constructor(options) {
+        initializeSupportedCRS();
+
         this.updateCallback = options.updateCallback;
         this.elasticsearch_srs = options.elasticsearch_srs;
         this.elasticsearch_node = options.elasticsearch_node;
@@ -112,12 +115,6 @@ export class ServerPagination {
         this.facets_ = [];
 
         /**
-         * @private
-         * @type {boolean}
-         */
-        this.georeference_ = true;
-
-        /**
          * For preventing deep pagination
          * @type {number}
          * @private
@@ -152,29 +149,20 @@ export class ServerPagination {
             ],
             sortOrd_ = this.sortOrder_ === "ascending" ? "asc" : "desc";
 
-        if (this.georeference_) {
-            // build response with bbox filter
-            const bboxPolygon = getPolygonFromExtent(
-                transformExtent(extent, projection, this.elasticsearch_srs)
-            );
-            return getSpatialQuery(
-                "time",
-                timeValues,
-                "geometry",
-                bboxPolygon,
-                this.sortAttribute_,
-                sortOrd_,
-                this.facets_
-            );
-        } else {
-            return getToGeorefQuery(
-                "time",
-                timeValues,
-                this.sortAttribute_,
-                sortOrd_,
-                this.facets_
-            );
-        }
+        // build response with bbox filter
+        const bboxPolygon = getPolygonFromExtent(
+            transformExtent(extent, projection, this.elasticsearch_srs)
+        );
+
+        return getSpatialQuery(
+            "time_published",
+            timeValues,
+            "geometry",
+            bboxPolygon,
+            this.sortAttribute_,
+            sortOrd_,
+            this.facets_
+        );
     };
 
     dispatchUpdate = (features) => {
@@ -199,19 +187,6 @@ export class ServerPagination {
     getFeatures = () => {
         return this.featureCol_;
     };
-
-    ///**
-    //* @param {string} blattnr
-    //* @return {Array.<ol.Feature>}
-    //*/
-    //const getFeatureForBlattnr = function(blattnr){
-    //	var returnArr = [];
-    //	this.featureCol_.forEach(function(feature){
-    //		if (feature.get('blattnr') === blattnr)
-    //			returnArr.push(feature);
-    //	});
-    //	return returnArr;
-    //};
 
     /**
      *
@@ -261,24 +236,30 @@ export class ServerPagination {
                 "&size=" +
                 this.maxFeatures_;
 
-        axios.post(requestUrl, JSON.stringify(requestPayload)).then((resp) => {
-            if (resp.status === 200) {
-                const data = resp.data;
-                this.totalFeatures_ = data["hits"]["total"];
-                const parsedFeatures = readFeatures(
-                    data["hits"]["hits"],
-                    this.elasticsearch_srs,
-                    projection,
-                    this.is3d
-                );
+        axios
+            .post(requestUrl, JSON.stringify(requestPayload), {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((resp) => {
+                if (resp.status === 200) {
+                    const data = resp.data;
+                    this.totalFeatures_ = data["hits"]["total"]["value"];
+                    const parsedFeatures = readFeatures(
+                        data["hits"]["hits"],
+                        this.elasticsearch_srs,
+                        projection,
+                        this.is3d
+                    );
 
-                // fill featureCol and increment startIndex
-                this.featureCol_.extend(parsedFeatures);
-                this.index_ += parsedFeatures.length;
+                    // fill featureCol and increment startIndex
+                    this.featureCol_.extend(parsedFeatures);
+                    this.index_ += parsedFeatures.length;
 
-                event_callback(parsedFeatures);
-            }
-        });
+                    event_callback(parsedFeatures);
+                }
+            });
     };
 
     /**
@@ -330,7 +311,6 @@ export class ServerPagination {
      * @param {Object} newFacets
      */
     setFacets = (newFacets) => {
-        this.georeference_ = newFacets["georeference"];
         this.facets_ = newFacets["facets"];
         this.update_();
     };

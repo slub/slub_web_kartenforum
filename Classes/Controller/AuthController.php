@@ -113,7 +113,7 @@ class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 		);
 
 		// called for debugging
-		//DebuggerUtility::var_dump($this->vk2Config);
+		DebuggerUtility::var_dump($this->vk2Config);
 		//DebuggerUtility::var_dump($this->vk2Config['persistence']['storagePid']);
 		//DebuggerUtility::var_dump($this->vk2config['settings']['passwordSave']);
 		//DebuggerUtility::var_dump($GLOBALS['TSFE']->loginUser);
@@ -158,7 +158,7 @@ class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 */
 	public function initializeSignupAction()
     {
-//		debug($this->request->getArguments());
+		debug($this->request->getArguments());
 	}
 
 	/**
@@ -167,26 +167,28 @@ class AuthController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 */
 	public function signupAction(\Slub\SlubWebKartenforum\Domain\Model\User $user)
     {
-		// attached usergroup to user
-		$usergroup = $this->userGroupRepository->findByTitle('vk2-user')[0];
-		$user->addUsergroup($usergroup);
-
-        $saltFactory = GeneralUtility::makeInstance(PasswordHashFactory::class);
-		$defaultHashInstance = $saltFactory->getDefaultHashInstance(TYPO3_MODE);
-
-		// hash password
-		$user->setPassword($defaultHashInstance->getHashedPassword($user->getPassword()));
-
-		// add user to repository and persist
-		$user->setName($user->getFirstName() . ' ' . $user->getLastName());
-		$this->feUserRepository->add($user);
-		$this->persistenceManager->persistAll();
-
-		$uriBuilder = $this->uriBuilder;
-		$targetUid = empty($this->settings['flexform']['loginPage']) ? $this->settings['loginPage'] : $this->settings['flexform']['loginPage'];
-		$uri = $uriBuilder
-		  ->setTargetPageUid($targetUid)
-		  ->build();
-		$this->redirectToURI($uri, $delay=0, $statusCode=303);
+        $this->view->assign('value', "testeststes");
+//         debug("HALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+// 		// attached usergroup to user
+// 		$usergroup = $this->userGroupRepository->findByTitle('vk2-user')[0];
+// 		$user->addUsergroup($usergroup);
+//
+//         $saltFactory = GeneralUtility::makeInstance(PasswordHashFactory::class);
+// 		$defaultHashInstance = $saltFactory->getDefaultHashInstance(TYPO3_MODE);
+//
+// 		// hash password
+// 		$user->setPassword($defaultHashInstance->getHashedPassword($user->getPassword()));
+//
+// 		// add user to repository and persist
+// 		$user->setName($user->getFirstName() . ' ' . $user->getLastName());
+// 		$this->feUserRepository->add($user);
+// 		$this->persistenceManager->persistAll();
+//
+// 		$uriBuilder = $this->uriBuilder;
+// 		$targetUid = empty($this->settings['flexform']['loginPage']) ? $this->settings['loginPage'] : $this->settings['flexform']['loginPage'];
+// 		$uri = $uriBuilder
+// 		  ->setTargetPageUid($targetUid)
+// 		  ->build();
+// 		$this->redirectToURI($uri, $delay=0, $statusCode=303);
 	}
 }

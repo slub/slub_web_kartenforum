@@ -16,6 +16,7 @@ import { mapState, selectedFeaturesState } from "../../atoms/atoms";
 import { OpacitySlider } from "./OpacitySlider";
 import { FALLBACK_SRC } from "../MapSearch/MapSearchListElement";
 import HistoricMap from "../layer/HistoricMapLayer";
+import SettingsProvider from "../../SettingsProvider";
 
 export const ItemTypes = {
   LAYER: "LAYER",
@@ -30,6 +31,7 @@ export const LayerManagementEntry = (props) => {
   );
   const [src, setSrc] = useState(layer.getThumbnail());
   const [isVisible, setIsVisible] = useState(layer["getVisible"]());
+  const settings = SettingsProvider.getSettings();
 
   // drag/drop handlers from: https://react-dnd.github.io/react-dnd/examples/sortable/simple
   const [{ handlerId }, drop] = useDrop({
@@ -173,6 +175,14 @@ export const LayerManagementEntry = (props) => {
           {translate("factory-rm-map")}
         </button>
         <div className="drag-btn" />
+        <a
+          className="georeference-update"
+          title={`${translate("georef-update")} ...`}
+          target="_blank"
+          href={`${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layer.getId()}`}
+        >
+          ${translate("georef-update")} ...
+        </a>
       </div>
       <a href="#" className="thumbnail">
         <img onError={handleError} src={src} alt="Thumbnail Image of Map" />

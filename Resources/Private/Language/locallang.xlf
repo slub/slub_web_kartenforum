@@ -318,7 +318,7 @@
 			<trans-unit id="client.mapsearchmodule.georeference">
 				<source>Georeference</source>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.time">
+			<trans-unit id="client.mapsearchmodule.time_published">
 				<source>Time</source>
 			</trans-unit>
 			<trans-unit id="client.mapsearchmodule.title">

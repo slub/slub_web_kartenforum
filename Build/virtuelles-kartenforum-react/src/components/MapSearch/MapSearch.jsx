@@ -30,8 +30,8 @@ import HistoricMap from "../layer/HistoricMapLayer";
 import "./MapSearch.scss";
 
 const DEFAULT_TYPE = "title";
-export const MAP_PROJECTION = "EPSG:900913";
-const SEARCH_COLS = ["time", "title", "georeference"];
+export const MAP_PROJECTION = "EPSG:3857";
+const SEARCH_COLS = ["time_published", "title"];
 
 // approximated height of a view item
 const VIEW_ITEM_HEIGHT = 120;
@@ -39,7 +39,7 @@ const VIEW_ITEM_HEIGHT = 120;
 const checkIfArrayContainsFeature = (array, feature) => {
   return (
     array.findIndex(
-      ({ feature: selFeature }) => selFeature.get("id") === feature.get("id")
+      ({ feature: selFeature }) => selFeature.getId() === feature.getId()
     ) !== -1
   );
 };
@@ -51,9 +51,8 @@ export const MapSearch = () => {
   const [blockUpdate, setBlockUpdate] = useState(false);
   const [isFacetedSearchOpen, setIsFacetedSearchOpen] = useState(false);
   const facets = useRecoilValue(facetState);
-  const [{ features, featureCount, id }, setFeatures] = useRecoilState(
-    featureState
-  );
+  const [{ features, featureCount, id }, setFeatures] =
+    useRecoilState(featureState);
   const is3dEnabled = useRecoilValue(map3dState);
   const map = useRecoilValue(mapState);
   const [selectedFeatures, setSelectedFeatures] = useRecoilState(
@@ -100,13 +99,14 @@ export const MapSearch = () => {
       feature
     );
 
+    console.log(feature);
+
     // remove feature if it is already contained
     if (containsFeature) {
       // remove from selectedFeaturesList
       setSelectedFeatures((selectedFeatures) =>
         selectedFeatures.filter(
-          ({ feature: selFeature }) =>
-            selFeature.get("id") !== feature.get("id")
+          ({ feature: selFeature }) => selFeature.getId() !== feature.getId()
         )
       );
 
@@ -115,8 +115,9 @@ export const MapSearch = () => {
         .getLayers()
         .getArray()
         .filter((lay) => lay.allowUseInLayerManagement);
+
       const layer = layers.find((layer) => {
-        return layer.getFeatureId() === feature.get("id");
+        return layer.getFeatureId() === feature.getId();
       });
 
       map.removeLayer(layer);
@@ -192,8 +193,8 @@ export const MapSearch = () => {
     if (map !== undefined) {
       const featureSource = new ServerPagination({
         is3d: is3dEnabled,
-        elasticsearch_srs: settings["ELASTICSEARCH_SRS"],
-        elasticsearch_node: settings["ELASTICSEARCH_NODE"],
+        elasticsearch_node: SettingsProvider.getSettings().API_SEARCH,
+        elasticsearch_srs: "EPSG:4326",
         projection: MAP_PROJECTION,
         map: map,
         updateCallback: handleUpdate,
@@ -216,9 +217,8 @@ export const MapSearch = () => {
       map.getLayers().on(
         "add",
         (event) => {
-          const topLayer = event.target.getArray()[
-            event.target.getLength() - 1
-          ];
+          const topLayer =
+            event.target.getArray()[event.target.getLength() - 1];
           if (
             topLayer instanceof HistoricMap ||
             topLayer.get("type") == "click"
@@ -295,7 +295,7 @@ export const MapSearch = () => {
                   feature={feature}
                   featureOverlay={featureOverlayRef.current}
                   is3d={is3dEnabled}
-                  key={feature.get("id")}
+                  key={feature.getId()}
                   onClick={handleElementClick}
                   selected={checkIfArrayContainsFeature(
                     selectedFeatures,

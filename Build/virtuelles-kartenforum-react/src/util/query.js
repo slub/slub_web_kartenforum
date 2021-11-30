@@ -9,41 +9,6 @@ import axios from "axios";
 import { SettingsProvider } from "../index";
 
 /**
- * @return {Object}
- */
-export const ElasticSearchQuery = function () {
-    return {
-        query: {
-            filtered: {
-                filter: {
-                    bool: {
-                        must: [],
-                    },
-                },
-            },
-        },
-        sort: {},
-    };
-};
-
-/**
- * @param {string} fieldName
- * @param {Array.<number>} coordinates
- * @return {Object}
- */
-export const createBBoxQuery_ = function (fieldName, coordinates) {
-    const bbox_ = { geo_shape: {} };
-    bbox_["geo_shape"][fieldName] = {
-        relation: "intersects",
-        shape: {
-            type: "polygon",
-            coordinates: [coordinates],
-        },
-    };
-    return bbox_;
-};
-
-/**
  * @param {Array.<Object>} facets
  * @return {Object}
  */
@@ -59,34 +24,6 @@ export const createFacetQuery_ = function (facets) {
         facetsFilter_.push(searchTerm_);
     }
     return facets_;
-};
-
-/**
- * @return {Object}
- */
-export const createGeorefFalseQuery_ = function () {
-    return { term: { georeference: false } };
-};
-
-/**
- * @return {Object}
- */
-export const createGeorefTrueQuery_ = function () {
-    return { term: { georeference: true } };
-};
-
-/**
- * @param {string} fieldName
- * @param {Array.<string>} fieldValues
- * @return {Object}
- */
-export const createRangeQuery_ = function (fieldName, fieldValues) {
-    const time_ = { range: {} };
-    time_["range"][fieldName] = {
-        gte: fieldValues[0],
-        lte: fieldValues[1],
-    };
-    return time_;
 };
 
 /**
@@ -128,55 +65,40 @@ export const getSpatialQuery = function (
     sortValue,
     facets
 ) {
-    // this is the basic structure of the query
-    const filter_ = [],
-        query_ = ElasticSearchQuery();
-
-    // now create the logical filter
-    filter_.push(createRangeQuery_(timeFieldName, timeValues));
-    filter_.push(createBBoxQuery_(bboxFieldName, bboxPolygon));
-    filter_.push(createFacetQuery_(facets));
-    filter_.push(createGeorefTrueQuery_());
-
     // now append the sorting expression
-    query_["query"]["filtered"]["filter"]["bool"]["must"] = filter_;
-    query_["sort"][sortFieldName] = { order: sortValue };
-
-    return query_;
-};
-
-/**
- * Function builds a query to fetch records from the server which are not georeference yet.
- *
- * @static
- * @param {string} timeFieldName
- * @param {Array.<string>} timeValues | Must be [start (1900-01-01), end (1905-01-01)]
- * @param {string} sortFieldName
- * @param {string} sortValue | Must be {asc|desc}
- * @param {Array.<Object>} facets
- * @return {Object}
- */
-export const getToGeorefQuery = function (
-    timeFieldName,
-    timeValues,
-    sortFieldName,
-    sortValue,
-    facets
-) {
-    // this is the basic structure of the query
-    const filter_ = [],
-        query_ = ElasticSearchQuery();
-
-    // now create the logical filter
-    filter_.push(createRangeQuery_(timeFieldName, timeValues));
-    filter_.push(createFacetQuery_(facets));
-    filter_.push(createGeorefFalseQuery_());
-
-    // now append the sorting expression
-    query_["query"]["filtered"]["filter"]["bool"]["must"] = filter_;
-    query_["sort"][sortFieldName] = { order: sortValue };
-
-    return query_;
+    return {
+        query: {
+            bool: {
+                filter: [
+                    {
+                        range: {
+                            [timeFieldName]: {
+                                gte: timeValues[0],
+                                lte: timeValues[1],
+                            },
+                        },
+                    },
+                    {
+                        geo_shape: {
+                            [bboxFieldName]: {
+                                relation: "intersects",
+                                shape: {
+                                    type: "polygon",
+                                    coordinates: [bboxPolygon],
+                                },
+                            },
+                        },
+                    },
+                    createFacetQuery_(facets),
+                    { term: { has_georeference: true } },
+                ],
+                must: [{ match_all: {} }],
+            },
+        },
+        sort: {
+            [sortFieldName]: { order: sortValue },
+        },
+    };
 };
 
 /**
@@ -209,37 +131,4 @@ export const getFeatureForIds = function (type, featureIds, callback) {
 
     // send request
     axios.post(url, payload).then(callback);
-};
-
-/**
- * Function returns a elasticseach query for querying all features with a specific
- * id.
- *
- * @param {string} idFieldName
- * @param {Array.<number>} ids
- * @return {Object}
- * @deprecated
- */
-export const getFeaturesForIdsFilterQuery = function (idFieldName, ids) {
-    // this is the basic structure of the query
-    const filter_ = [];
-    const query_ = {
-        query: {
-            filtered: {
-                filter: {
-                    bool: {
-                        should: filter_,
-                    },
-                },
-            },
-        },
-    };
-
-    for (let i = 0, ii = ids.length; i < ii; i++) {
-        const term_ = { term: {} };
-        term_["term"][idFieldName] = ids[i];
-        filter_.push(term_);
-    }
-
-    return query_;
 };

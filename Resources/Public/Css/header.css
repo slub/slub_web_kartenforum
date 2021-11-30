@@ -130,4 +130,10 @@ User item
     font-size: 14px;
 }
 
-
+.content-main {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 25px;
+}

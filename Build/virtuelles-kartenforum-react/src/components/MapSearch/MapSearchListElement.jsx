@@ -19,7 +19,7 @@ export const FALLBACK_SRC =
 export const MapSearchListElement = (props) => {
   const { feature, featureOverlay, is3d, onClick, selected } = props;
   const olcsMap = useRecoilValue(olcsMapState);
-  const [src, setSrc] = useState(feature.get("thumb").replace("http:", ""));
+  const [src, setSrc] = useState(feature.get("thumb_url").replace("http:", ""));
 
   ////
   // Effect section
@@ -54,13 +54,13 @@ export const MapSearchListElement = (props) => {
   };
 
   const scale =
-    feature.get("denominator") === "0" || feature.get("denominator") === 0
+    feature.get("map_scale") === "0" || feature.get("map_scale") === 0
       ? "unknown"
-      : `1:${feature.get("denominator")}`;
+      : `1:${feature.get("map_scale")}`;
 
   return (
     <li
-      className={`mapsearch-record type ${feature.get("maptype")} ${
+      className={`mapsearch-record type ${feature.get("map_type")} ${
         selected ? "selected" : ""
       }`}
       id={feature.get("id")}
@@ -68,7 +68,9 @@ export const MapSearchListElement = (props) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <span className="data-col time">{parseInt(feature.get("time"), 0)}</span>
+      <span className="data-col time">
+        {parseInt(feature.get("time_published"), 0)}
+      </span>
       <span className="data-col title">{feature.get("title")}</span>
       <span className="data-col time">1</span>
       <div className="view-item">
@@ -84,12 +86,12 @@ export const MapSearchListElement = (props) => {
           <h2>{feature.get("title")}</h2>
           <p className="details">
             <div className="timestamp">{`${translate("time")} ${feature.get(
-              "time"
+              "time_published"
             )}`}</div>
             <div className="scale">{`${translate(
               "factory-scale"
             )} ${scale}`}</div>
-            {!feature.get("georeference") && (
+            {!feature.get("has_georeference") && (
               <div className="georeference">
                 {translate("factory-no-georef")}
               </div>

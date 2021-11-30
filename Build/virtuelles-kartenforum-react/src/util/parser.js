@@ -112,9 +112,9 @@ export const readFeature = function (
         geometry: geometry,
     });
 
-    for (var key in record) {
+    for (let key in record) {
         if (record.hasOwnProperty(key)) {
-            if (key === "time") {
+            if (key === "time_published") {
                 // parse time value in old format
                 const timeValue = record[key].split("-")[0];
                 feature.set(key, timeValue);
@@ -124,6 +124,7 @@ export const readFeature = function (
         }
     }
 
+    feature.set("id", id);
     feature.setId(id);
     return feature;
 };

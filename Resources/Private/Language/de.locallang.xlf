@@ -259,7 +259,7 @@
 				<source><![CDATA[Georeference]]></source>
 				<target><![CDATA[Georeferenzierung]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.time" approved="yes">
+			<trans-unit id="client.mapsearchmodule.time_published" approved="yes">
 				<source><![CDATA[Time]]></source>
 				<target><![CDATA[Zeit]]></target>
 			</trans-unit>

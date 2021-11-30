@@ -16,6 +16,14 @@ tt_content.slubwebkartenforum_signup {
 tt_content.slubwebkartenforum_map = FLUIDTEMPLATE
 tt_content.slubwebkartenforum_map {
     file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Map.html
+    variables {
+        urlNominatim = TEXT
+        urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
+        urlOsmMaps = TEXT
+        urlOsmMaps.value = {$plugin.tx_slubwebkartenforum.settings.urlOsmMaps}
+        urlSearch = TEXT
+        urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
+    }
 }
 
 // The apps content Element which controls the minor React snippets
@@ -25,6 +33,14 @@ tt_content.slubwebkartenforum_apps {
     variables {
         importApp = TEXT
         importApp.data = flexform:pi_flexform:settings.importApp
+        // Configuration of parameters. The parameters should move to flexforms and the extension configuration
+        // in the future
+        urlNominatim = TEXT
+        urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
+        urlOsmMaps = TEXT
+        urlOsmMaps.value = {$plugin.tx_slubwebkartenforum.settings.urlOsmMaps}
+        urlSearch = TEXT
+        urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
     }
 }
 
@@ -33,13 +49,6 @@ tt_content.slubwebkartenforum_georeference = FLUIDTEMPLATE
 tt_content.slubwebkartenforum_georeference {
     file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Georeference.html
     variables {
-        georefBackend = TEXT
-        georefBackend.data = flexform:pi_flexform:settings.georefBackend
-        georefAuthUser = TEXT
-        georefAuthUser.value = {$plugin.tx_slubwebkartenforum.settings.georefAuthUser}
-        georefAuthPassword = TEXT
-        georefAuthPassword.value = {$plugin.tx_slubwebkartenforum.settings.georefAuthPassword}
-
         // Configuration of parameters. The parameters should move to flexforms and the extension configuration
         // in the future
         urlNominatim = TEXT

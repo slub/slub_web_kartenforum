@@ -40,24 +40,24 @@ export const createHistoricMapForFeature = function (feature) {
     const settings = SettingsProvider.getSettings();
 
     const tms_url_subdomains = settings["TMS_URL_SUBDOMAINS"];
-    const thumbnail = feature.get("thumb") ?? settings["THUMB_PATH"];
+    const thumbnail = feature.get("thumb_url") ?? settings["THUMB_PATH"];
 
     const maxZoom =
-        feature.get("denominator") == 0
+        feature.get("map_scale") == 0
             ? 15
-            : feature.get("denominator") <= 5000
+            : feature.get("map_scale") <= 5000
             ? 17
-            : feature.get("denominator") <= 15000
+            : feature.get("map_scale") <= 15000
             ? 16
             : 15;
     return new HistoricMap({
-        time: feature.get("time"),
+        time: feature.get("time_published"),
         maxZoom: maxZoom,
         title: feature.get("title"),
-        objectid: feature.get("id"),
+        objectid: feature.getId(),
         id: feature.getId(),
-        dataid: feature.get("dataid"),
-        tms: feature.get("tms"),
+        dataid: feature.get("file_name"),
+        tms: feature.get("tms_url"),
         clip: feature.getGeometry().clone(),
         thumbnail,
         tms_url_subdomains,
