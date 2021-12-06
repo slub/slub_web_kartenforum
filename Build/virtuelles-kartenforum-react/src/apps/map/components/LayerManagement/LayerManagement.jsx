@@ -9,16 +9,34 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
+import { DndProvider } from "react-dnd-multi-backend";
+import { HTML5toTouch } from "rdndmb-html5-to-touch";
+import ReactDOM from "react-dom";
 
 import { isDefined, translate } from "../../../../util/util";
 import { displayedLayersCountState, mapState } from "../../atoms/atoms";
 import DeactivateMapCollection from "./DeactivateMapCollection/DeactivateMapCollection";
 import DynamicMapVisualization from "./DynamicMapVisualization/DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry/LayerManagementEntry";
-import "./LayerManagement.scss";
 import { getIndexToLayer, getLayers } from "./util";
 import { MAP_DIV_ID } from "../MapWrapper/MapWrapper";
-import ReactDOM from "react-dom";
+import "./LayerManagement.scss";
+
+const customBackends = HTML5toTouch.backends.map((backend) => {
+  if (backend.id === "touch") {
+    return {
+      ...backend,
+      options: {
+        ...backend.options,
+        scrollAngleRanges: [
+          { start: 30, end: 150 },
+          { start: 210, end: 330 },
+        ],
+      },
+    };
+  }
+  return backend;
+});
 
 export const LayerManagement = ({
   showControls = {
@@ -95,45 +113,51 @@ export const LayerManagement = ({
   }, [map, handleRefresh]);
 
   return (
-    <div className="vkf-layermanagement-root">
-      {showBadge && displayedLayersCount !== 0 && (
-        <span className="badge">{displayedLayersCount}</span>
-      )}
-      {showHeader && (
-        <div className="heading">
-          <span className="header-label">
-            {translate("layermanagement-header-lbl")}
-          </span>
-          {showHideButton && <DeactivateMapCollection />}
-          {showDynamicMapVisualization && (
-            <DynamicMapVisualization
-              animationOptions={{ delay: 30, steps: 0.01 }}
-            />
-          )}
-        </div>
-      )}
-      <ul className="layermanagement-body" ref={bodyRef}>
-        {displayedLayers === undefined || displayedLayers.length === 0 ? (
-          <li className="empty">{translate("layermanagement-start-msg")}</li>
-        ) : (
-          displayedLayers.map((layer) => {
-            const layerId = layer.getId();
-
-            return (
-              <LayerManagementEntry
-                hovered={layerId === hoveredLayerId}
-                onUpdateHover={setHoveredLayerId}
-                onMoveLayer={handleMoveLayer}
-                layer={layer}
-                index={getIndexToLayer(map, layer)}
-                key={layerId}
-                id={layerId}
-              />
-            );
-          })
+    <DndProvider
+      options={Object.assign({}, HTML5toTouch, {
+        backends: customBackends,
+      })}
+    >
+      <div className="vkf-layermanagement-root">
+        {showBadge && displayedLayersCount !== 0 && (
+          <span className="badge">{displayedLayersCount}</span>
         )}
-      </ul>
-    </div>
+        {showHeader && (
+          <div className="heading">
+            <span className="header-label">
+              {translate("layermanagement-header-lbl")}
+            </span>
+            {showHideButton && <DeactivateMapCollection />}
+            {showDynamicMapVisualization && (
+              <DynamicMapVisualization
+                animationOptions={{ delay: 30, steps: 0.01 }}
+              />
+            )}
+          </div>
+        )}
+        <ul className="layermanagement-body" ref={bodyRef}>
+          {displayedLayers === undefined || displayedLayers.length === 0 ? (
+            <li className="empty">{translate("layermanagement-start-msg")}</li>
+          ) : (
+            displayedLayers.map((layer) => {
+              const layerId = layer.getId();
+
+              return (
+                <LayerManagementEntry
+                  hovered={layerId === hoveredLayerId}
+                  onUpdateHover={setHoveredLayerId}
+                  onMoveLayer={handleMoveLayer}
+                  layer={layer}
+                  index={getIndexToLayer(map, layer)}
+                  key={layerId}
+                  id={layerId}
+                />
+              );
+            })
+          )}
+        </ul>
+      </div>
+    </DndProvider>
   );
 };
 

@@ -45,7 +45,14 @@ export function translate(key) {
 
     const translation = dictionary[key];
 
-    return translation === undefined ? "" : translation;
+    if (translation === undefined) {
+        console.warn(
+            `Translation for key "${key}" was not found in dictionary.`
+        );
+        return "";
+    } else {
+        return translation;
+    }
 }
 
 /**

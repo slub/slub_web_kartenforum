@@ -17,7 +17,7 @@ import ToggleFacetsButton from "./components/ToggleFacetsButton/ToggleFacetsButt
 
 import "./MapSearch.scss";
 
-export const MAP_PROJECTION = "EPSG:900913";
+export const MAP_PROJECTION = "EPSG:3857";
 
 // The general Map Search component for the main view
 export const MapSearch = () => {
