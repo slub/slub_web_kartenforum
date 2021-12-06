@@ -1,7 +1,7 @@
 {
   "name": "test",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "src/apps/map/index.js",
   "scripts": {
     "build": "rollup --config",
     "watch": "rollup -cw"
@@ -26,6 +26,7 @@
     "rollup-watch": "^4.3.1"
   },
   "dependencies": {
+    "@react-hook/window-size": "^3.0.7",
     "axios": "^0.21.4",
     "clsx": "^1.1.1",
     "downshift": "^6.1.7",

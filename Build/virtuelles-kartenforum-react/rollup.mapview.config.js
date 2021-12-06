@@ -29,7 +29,7 @@ import {
 
 export const configs = {
     cache: true,
-    input: "./src/index.js",
+    input: "./src/apps/map/index.js",
     output: {
         file: path.resolve(
             __dirname,

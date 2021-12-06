@@ -4,7 +4,18 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { SettingsProvider } from "../index";
+
+import TileLayer from "ol/layer/Tile";
+import { XYZ } from "ol/source";
+import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
+
+import { SettingsProvider } from "../apps/map";
+import CustomAttribution from "../apps/map/components/MapWrapper/components/CustomAttribution";
+import ToggleViewMode from "../components/ToggleViewmode/ToggleViewmode";
+import OlControlLayerSpy from "../components/OlControlLayerSpy/OlControlLayerSpy";
+import RestoreDefaultView from "../apps/map/components/MapWrapper/components/RestoreDefaultView";
+import { MousePositionOnOff } from "../apps/map/components/MapWrapper/components/MousePositionOnOff";
+import { LAYOUT_TYPES } from "../apps/map/layouts/util";
 
 /*
  * ol does not export an inherits function in the current version
@@ -36,6 +47,53 @@ export function translate(key) {
 
     return translation === undefined ? "" : translation;
 }
+
+/**
+ * Returns the default controls for the map view
+ **/
+export const getDefaultControls = (params) => {
+    const {
+        baseMapUrl,
+        is3dActive,
+        layout,
+        mapViewSettings,
+        set3dActive,
+        toggleViewModeButtonRef,
+    } = params;
+
+    const defaultControls = [
+        new CustomAttribution(),
+        new FullScreen(),
+        new Rotate({ className: "rotate-north ol-unselectable" }),
+        new RestoreDefaultView({ defaultView: mapViewSettings }),
+        new ScaleLine(),
+        // new vk2.control.Permalink(),
+    ];
+
+    if (layout === LAYOUT_TYPES.HORIZONTAL) {
+        defaultControls.push(
+            new Zoom(),
+            new OlControlLayerSpy({
+                spyLayer: new TileLayer({
+                    attribution: undefined,
+                    source: new XYZ({
+                        urls: baseMapUrl,
+                        crossOrigin: "*",
+                        attributions: [],
+                    }),
+                }),
+            }),
+            new ToggleViewMode({
+                initialState: is3dActive,
+                propagateViewMode: set3dActive,
+                toggleViewModeButtonRef,
+            }),
+            new MousePositionOnOff()
+        );
+    }
+
+    return defaultControls;
+};
 
 /**
  * Functions adds a lazy loading behavior to a given array of elements

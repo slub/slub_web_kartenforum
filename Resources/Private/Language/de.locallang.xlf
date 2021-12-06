@@ -119,6 +119,10 @@
 				<source><![CDATA[Update georeferenced map]]></source>
 				<target><![CDATA[Aktualisiere Georeferenzierung]]></target>
 			</trans-unit>
+            <trans-unit id="client.factory.zoomToMap" approved="yes">
+                <source><![CDATA[Zoom to map]]></source>
+                <target><![CDATA[Zoome auf die Karte]]></target>
+            </trans-unit>
 			<trans-unit id="client.flipviewmode.title" approved="yes">
 				<source><![CDATA[Switch between 2D and 3D view]]></source>
 				<target><![CDATA[Wechsel zwischen 2D. und 3D-Ansicht]]></target>

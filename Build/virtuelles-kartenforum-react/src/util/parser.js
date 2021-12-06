@@ -8,7 +8,7 @@ import { transform } from "ol/proj";
 import { Feature } from "ol";
 import { Polygon } from "ol/geom";
 import { isDefined } from "./util";
-import { MAP_PROJECTION } from "../components/MapSearch/MapSearch";
+import { MAP_PROJECTION } from "../apps/map/components/MapSearch/MapSearch";
 
 /**
  * Function parses a search record from a elasticsearch query into

@@ -261,6 +261,9 @@
 			<trans-unit id="client.factory.updateGeoref">
 				<source>Update georeferenced map</source>
 			</trans-unit>
+			<trans-unit id="client.factory.zoomToMap">
+                <source>Zoom to map</source>
+            </trans-unit>
 
             <!-- vk2.georeference.* -->
 			<trans-unit id="client.georeference.moveMap">

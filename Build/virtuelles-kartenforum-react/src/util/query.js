@@ -6,7 +6,7 @@
  */
 
 import axios from "axios";
-import { SettingsProvider } from "../index";
+import { SettingsProvider } from "../apps/map";
 
 /**
  * @param {Array.<Object>} facets

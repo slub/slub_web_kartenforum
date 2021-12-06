@@ -1,0 +1,56 @@
+.vkf-toggle-search-result-list {
+  > button {
+    border: none;
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+
+    width: 0;
+    height: 0;
+    border-left: 23px solid transparent;
+    border-right: 23px solid transparent;
+
+    &:after {
+      content: "";
+      width: 0;
+      height: 0;
+      border-left: 21px solid transparent;
+      border-right: 21px solid transparent;
+      position: absolute;
+    }
+
+    &.open {
+      border-bottom: 23px solid black;
+
+      &:after {
+        border-bottom: 21px solid #dddddd;
+        left: 2px;
+        position: absolute;
+        top: 2px;
+      }
+    }
+
+    &.closed {
+      border-top: 23px solid black;
+
+      &.disabled {
+        border-top: 23px solid lightgrey;
+        cursor: default;
+      }
+
+      &:after {
+        border-top: 21px solid white;
+        left: 2px;
+        position: absolute;
+        top: 0;
+      }
+    }
+  }
+}

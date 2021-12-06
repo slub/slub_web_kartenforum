@@ -1,0 +1,21 @@
+.ol-overlaycontainer-stopevent {
+  z-index: 1 !important;
+}
+
+#app-container {
+  height: 100%;
+  width: 100%;
+}
+
+.map-container {
+  display: flex;
+  flex-grow: 1;
+  .map-div {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.hide {
+  display: none;
+}
