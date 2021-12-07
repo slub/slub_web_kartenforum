@@ -150,10 +150,6 @@ Style controls for mobile
   }
 }
 
-.ol-touch .ol-control button {
-  font-size: inherit;
-}
-
 /** ol3 overrides main page */
 .olMap .ol-attribution {
   position: absolute;
@@ -349,16 +345,16 @@ content: "\002194";
   bottom: 28px;
 }
 
-.ol-control a:hover,
-.ol-control button:hover,
-.ol-control button:focus,
-.permalink a:hover,
-.image-manipulation a:hover {
-  background-color: rgb(19, 141, 141);
-}
-.ol-control {
-  border-radius: 0;
-}
+//.ol-control a:hover,
+//.ol-control button:hover,
+//.ol-control button:focus,
+//.permalink a:hover,
+//.image-manipulation a:hover {
+//  background-color: rgb(19, 141, 141);
+//}
+//.ol-control {
+//  border-radius: 0;
+//}
 .ol-control button,
 .ol-attribution,
 .ol-scale-line-inner,

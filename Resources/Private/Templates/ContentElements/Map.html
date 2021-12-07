@@ -1,17 +1,18 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:vk="http://typo3.org/ns/Slub/SlubWebKartenforum/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
 
 <input type="hidden" value="{urlOsmMaps}" id="setting-urlOsmMaps"/>
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
+<f:security.ifAuthenticated>
+    <f:then>
+        <input type="hidden" id="setting-is-auth"/>
+    </f:then>
+</f:security.ifAuthenticated>
 
 <f:section name="HeaderAssets">
     <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/ol.css', extensionName: 'slub_web_kartenforum')}" />
-    <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/jquery-ui.min.css', extensionName: 'slub_web_kartenforum')}" />
     <link rel="stylesheet" href="{f:uri.resource(path: 'Css/plugin-map.css', extensionName: 'slub_web_kartenforum')}" />
-    <script type="text/javascript" src="{f:uri.resource(path: 'Contrib/JavaScript/jQuery/jquery-3.6.0.min.js', extensionName: 'slub_web_kartenforum')}"></script>
-    <script type="text/javascript" src="{f:uri.resource(path: 'Contrib/JavaScript/jQueryUi/jquery-ui.min.js', extensionName: 'slub_web_kartenforum')}"></script>
     <script type="text/javascript" src="{f:uri.resource(path: 'Contrib/JavaScript/glif.min.js', extensionName: 'slub_web_kartenforum')}"></script>
     <script type="text/javascript" src="https://cesium.com/downloads/cesiumjs/releases/1.85/Build/Cesium/Cesium.js"></script>
-    <script type="text/javascript" src="{f:uri.resource(path: 'Contrib/JavaScript/proj4-2.2.1.js', extensionName: 'slub_web_kartenforum')}"></script>
     <script type="text/javascript" src="{f:uri.resource(path: 'JavaScript/plugin-map.js', extensionName: 'slub_web_kartenforum')}"></script>
 </f:section>
 
@@ -21,13 +22,10 @@
         // update settings from typo3 flexform parameters
         vk2.SettingsProvider.updateSettings({
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
-            "LINK_TO_GEOREFERENCE": "/georeferenzierung",
+            "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
             "ELASTICSEARCH_NODE": "https://kartenforum.slub-dresden.de/spatialdocuments",
             "ELASTICSEARCH_SRS": "EPSG:4326",
             "MAIN_PAGE": "{$config.baseUrl}",
-            "MAPPROFILE_PAGE": !WITH_SPEAKING_URLS ?
-                "tx_vk2_search[controller]=Static&tx_vk2_search[action]=profileMap" :
-                "/profile-map?",
             "MAPVIEW_PARAMS": {
                 projection: "EPSG:3857",
                 minResolution: 1.194328566789627,
@@ -44,11 +42,24 @@
             "THUMB_PATH":"/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
             "TMS_URL_SUBDOMAINS": [ "1", "2", "3" ],
             "WITH_SPEAKING_URLS": WITH_SPEAKING_URLS,
-            "WMS_DYNAMIC_TEMPLATE": "https://kartenforum.slub-dresden.de/ows/dynamic-ows",
+            "WMS_DYNAMIC_TEMPLATE": "https://kartenforum.slub-dresden.de/ows/dynamic-ows"
         });
 
         vk2.SettingsProvider.appendSettings({
             dictionary: {
+                "control-imagemanipulation-open": "<f:translate key='global.map.control-imagemanipulation-open' extensionName='SlubWebKartenforum' />",
+                "control-imagemanipulation-saturation": "<f:translate key='global.map.control-imagemanipulation-saturation' extensionName='SlubWebKartenforum' />",
+                "control-imagemanipulation-contrast": "<f:translate key='global.map.control-imagemanipulation-contrast' extensionName='SlubWebKartenforum' />",
+                "control-imagemanipulation-brightness": "<f:translate key='global.map.control-imagemanipulation-brightness' extensionName='SlubWebKartenforum' />",
+                "control-imagemanipulation-reset": "<f:translate key='global.map.control-imagemanipulation-reset' extensionName='SlubWebKartenforum' />",
+                "originalview-title": "<f:translate key='plugin.map.originalview.title' extensionName='SlubWebKartenforum' />",
+                "originalview-label-desc": "<f:translate key='plugin.map.originalview.label-desc' extensionName='SlubWebKartenforum' />",
+                "originalview-label-identifier": "<f:translate key='plugin.map.originalview.label-identifier' extensionName='SlubWebKartenforum' />",
+                "originalview-label-scale": "<f:translate key='plugin.map.originalview.label-scale' extensionName='SlubWebKartenforum' />",
+                "originalview-label-keywords": "<f:translate key='plugin.map.originalview.label-keywords' extensionName='SlubWebKartenforum' />",
+                "originalview-label-services": "<f:translate key='plugin.map.originalview.label-services' extensionName='SlubWebKartenforum' />",
+                "originalview-link-download-label": "<f:translate key='plugin.map.originalview.link-download-label' extensionName='SlubWebKartenforum' />",
+                "originalview-link-slub-label": "<f:translate key='plugin.map.originalview.link-slub-label' extensionName='SlubWebKartenforum' />",
                 "time": "<f:translate key='client.time' extensionName='SlubWebKartenforum' />",
                 "timestamp": "<f:translate key='client.timestamp' extensionName='SlubWebKartenforum' />",
                 "deactivatemap-all": "<f:translate key='client.deactivemap.deactiveAll' extensionName='SlubWebKartenforum' />",
@@ -68,6 +79,7 @@
                 "factory-move-top": "<f:translate key='client.factory.moveToTop' extensionName='SlubWebKartenforum' />",
                 "factory-update-georef": "<f:translate key='client.factory.updateGeoref' extensionName='SlubWebKartenforum' />",
                 "factory-zoom-to-map": "<f:translate key='client.factory.zoomToMap' extensionName='SlubWebKartenforum' />",
+                "factory-show-original": "<f:translate key='client.factory.showOriginal' extensionName='SlubWebKartenforum' />",
                 "facetedsearch-open": "<f:translate key='client.mapsearchmodule.facetsearch.open' extensionName='SlubWebKartenforum' />",
                 "facetedsearch-close": "<f:translate key='client.mapsearchmodule.facetsearch.close' extensionName='SlubWebKartenforum' />",
                 "flipviewmode-title": "<f:translate key='client.flipviewmode.title' extensionName='SlubWebKartenforum' />",
@@ -95,16 +107,17 @@
             }
         });
 
-        // render Application
+        // Render map plugin
         if(vk2 !== undefined){
-            console.log("render app")
-            vk2.renderApp(document.getElementById("vk2MapPanel"));
+            vk2.renderApp(
+                document.getElementById("vkf-app-map")
+            );
         }
     </script>
 </f:section>
 
 <div class="container main-page content-container">
-    <div id="vk2MapPanel" class="vk2MapPanel"></div>
+    <div id="vkf-app-map"></div>
 </div>
 
 </html>

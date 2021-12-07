@@ -7,7 +7,6 @@
 import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
-import "ol/ol.css";
 import {
   rectifiedImageParamsState,
   targetViewParamsState,
@@ -24,7 +23,7 @@ export const MapTargetView = (props) => {
   );
 
   return (
-    <div className="vk-mapview-target">
+    <div className="vkf-mapview-target">
       <Map2D
         extent={extent}
         onLoad={(m) => setTargetViewParams(m)}

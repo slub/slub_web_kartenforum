@@ -7,17 +7,21 @@
 
 import React from "react";
 import { useEffect, useRef, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useDrag, useDrop } from "react-dnd";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { fromExtent } from "ol/geom/Polygon";
 
 import { isDefined, translate } from "../../../../../util/util";
-import { mapState, selectedFeaturesState } from "../../../atoms/atoms";
+import {
+  mapState,
+  selectedFeaturesState,
+  selectedOriginalMapIdState,
+} from "../../../atoms/atoms";
 import { OpacitySlider } from "../OpacitySlider/OpacitySlider";
 import { FALLBACK_SRC } from "../../MapSearch/components/MapSearchListElement/MapSearchListElement";
-import HistoricMap from "../../layer/HistoricMapLayer";
+import HistoricMap from "../../HistoricMapLayer/HistoricMapLayer";
 import SettingsProvider from "../../../../../SettingsProvider";
 import "./LayerManagementEntry.scss";
 
@@ -31,6 +35,9 @@ export const LayerManagementEntry = (props) => {
   const ref = useRef(null);
   const [selectedFeatures, setSelectedFeatures] = useRecoilState(
     selectedFeaturesState
+  );
+  const setSelectedOriginalMapId = useSetRecoilState(
+    selectedOriginalMapIdState
   );
   const [src, setSrc] = useState(layer.getThumbnail());
   const [isVisible, setIsVisible] = useState(layer["getVisible"]());
@@ -150,6 +157,11 @@ export const LayerManagementEntry = (props) => {
     }
   };
 
+  // Open original map
+  const handleOriginalMap = () => {
+    setSelectedOriginalMapId(id);
+  };
+
   ////
   // Effect section
   ////
@@ -219,15 +231,26 @@ export const LayerManagementEntry = (props) => {
         >
           {translate("factory-zoom-to-map")}
         </button>
-        <div className="drag-btn" />
-        <a
-          className="georeference-update"
-          title={`${translate("georef-update")} ...`}
-          target="_blank"
-          href={`${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layer.getId()}`}
+        <button
+          className="show-original"
+          onClick={handleOriginalMap}
+          type="button"
+          title={translate("factory-show-original")}
         >
-          ${translate("georef-update")} ...
-        </a>
+          {translate("factory-show-original")}
+        </button>
+        <div className="drag-btn" />
+        {settings["LINK_TO_GEOREFERENCE"] !== undefined && (
+          <a
+            className="georeference-update"
+            title={`${translate("georef-update")} ...`}
+            target="_blank"
+            rel="noreferrer"
+            href={`${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layer.getId()}`}
+          >
+            ${translate("georef-update")} ...
+          </a>
+        )}
       </div>
       <a href="#" className="thumbnail">
         <img onError={handleError} src={src} alt="Thumbnail Image of Map" />
@@ -255,16 +278,3 @@ LayerManagementEntry.propTypes = {
 };
 
 export default LayerManagementEntry;
-
-// @TODO: PORT THIS ?
-// // add update georeference anchor if login
-// if (goog.net.cookies.get("vk2-auth")) {
-//   var anchorGeoreferenceUpdate = goog.dom.createDom("a", {
-//     class: "georeference-update",
-//     title: vk2.utils.getMsg("factory-update-georef") + " ...",
-//     innerHTML: vk2.utils.getMsg("factory-update-georef") + " ...",
-//     target: "_blank",
-//     href: vk2.utils.routing.getGeorefPageRoute(layer.getId()),
-//   });
-//   goog.dom.appendChild(controlContainer, anchorGeoreferenceUpdate);
-// }

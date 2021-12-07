@@ -15,7 +15,7 @@ import {
   mapState,
   timeExtentState,
 } from "../../../../atoms/atoms";
-import HistoricMap from "../../../layer/HistoricMapLayer";
+import HistoricMap from "../../../HistoricMapLayer/HistoricMapLayer";
 import ServerPagination from "../../../Source/ServerPaginationSource";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";

@@ -1,10 +1,9 @@
 @import "../../../../../../_sass/variables";
 
 .vkf-mapsearch-result-list {
-  display: flex;
-  flex-direction: column;
   height: 100%;
   width: 100%;
+  position: relative;
 
   .list-header {
     position: relative;
@@ -75,8 +74,11 @@
 
   &.vertical {
     .mapsearch-contentlist-container {
-      display: flex;
-      flex-grow: 1;
+      position: absolute;
+      top: 34px;
+      left: 0;
+      right: 0;
+      bottom: 0;
 
       ul {
         width: 100%;

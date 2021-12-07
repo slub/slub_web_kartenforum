@@ -16,7 +16,6 @@ import View from "ol/src/View";
 import Zoom from "ol/src/control/Zoom";
 import ZoomToExtent from "ol/src/control/ZoomToExtent";
 import XYZ from "ol/src/source/XYZ";
-import "ol/ol.css";
 import OlControlLayerSpy from "../OlControlLayerSpy/OlControlLayerSpy";
 import "./Map2D.scss";
 import TileLayer from "ol/layer/Tile";

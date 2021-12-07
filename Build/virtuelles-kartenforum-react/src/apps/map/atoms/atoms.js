@@ -50,6 +50,11 @@ export const selectedFeaturesState = atom({
     default: [],
 });
 
+export const selectedOriginalMapIdState = atom({
+    key: "selectedOriginalMapIdState",
+    default: undefined,
+});
+
 export const timeExtentState = atom({
     key: "timeExtentState",
     default: [1850, 1970],

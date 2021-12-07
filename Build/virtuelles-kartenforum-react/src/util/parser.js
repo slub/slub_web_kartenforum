@@ -88,23 +88,14 @@ export const readFeature = function (
     // In bothe cases the geometry attribute has to be deleted from the record afterwards for proper working of the
     // following code
     let geometry =
-        "clippolygon" in record
-            ? readGeometry(
-                  record["clippolygon"],
-                  "polygon",
-                  sourceProjection_,
-                  targetProjection_
-              )
-            : undefined;
-    geometry =
-        geometry === undefined && "geometry" in record
+        "geometry" in record
             ? readGeometry(
                   record["geometry"]["coordinates"][0],
                   record["geometry"]["type"],
                   sourceProjection_,
                   targetProjection_
               )
-            : geometry;
+            : undefined;
     delete record["geometry"];
 
     // create feature and append properties

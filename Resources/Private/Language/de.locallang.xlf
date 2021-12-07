@@ -123,6 +123,10 @@
                 <source><![CDATA[Zoom to map]]></source>
                 <target><![CDATA[Zoome auf die Karte]]></target>
             </trans-unit>
+            <trans-unit id="client.factory.showOriginal" approved="yes">
+                <source><![CDATA[Show Original]]></source>
+                <target><![CDATA[Zeige Original]]></target>
+            </trans-unit>
 			<trans-unit id="client.flipviewmode.title" approved="yes">
 				<source><![CDATA[Switch between 2D and 3D view]]></source>
 				<target><![CDATA[Wechsel zwischen 2D. und 3D-Ansicht]]></target>
@@ -203,30 +207,7 @@
 				<source><![CDATA[Go to original view]]></source>
 				<target><![CDATA[Gehe zur Originalansicht]]></target>
 			</trans-unit>
-			<trans-unit id="client.imagemanipulation.brightness" approved="yes">
-				<source><![CDATA[Brightness]]></source>
-				<target><![CDATA[Helligkeit]]></target>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.contrast" approved="yes">
-				<source><![CDATA[Contrast]]></source>
-				<target><![CDATA[Kontrast]]></target>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.hue" approved="yes">
-				<source><![CDATA[Hue]]></source>
-				<target><![CDATA[Farbton]]></target>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.open" approved="yes">
-				<source><![CDATA[Open image manipulation toolbox]]></source>
-				<target><![CDATA[Öffne Bildbearbeitungswerkzeug]]></target>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.reset" approved="yes">
-				<source><![CDATA[Reset]]></source>
-				<target><![CDATA[Zurücksetzen]]></target>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.saturation" approved="yes">
-				<source><![CDATA[Saturation]]></source>
-				<target><![CDATA[Sättigung]]></target>
-			</trans-unit>
+
 			<trans-unit id="client.layermanagementmodule.headerLbl" approved="yes">
 				<source><![CDATA[My maps]]></source>
 				<target><![CDATA[Meine Karten]]></target>
@@ -515,6 +496,62 @@
 
 			<!-- Newly sorted -->
 
+            <!-- Global > Map > Control > ImageManipulation -->
+            <trans-unit id="global.map.control-imagemanipulation-brightness" approved="yes">
+				<source><![CDATA[Brightness]]></source>
+				<target><![CDATA[Helligkeit]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-imagemanipulation-contrast" approved="yes">
+				<source><![CDATA[Contrast]]></source>
+				<target><![CDATA[Kontrast]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-imagemanipulation-open" approved="yes">
+				<source><![CDATA[Open image manipulation toolbox]]></source>
+				<target><![CDATA[Öffne Bildbearbeitungswerkzeug]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-imagemanipulation-reset" approved="yes">
+				<source><![CDATA[Reset]]></source>
+				<target><![CDATA[Zurücksetzen]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-imagemanipulation-saturation" approved="yes">
+				<source><![CDATA[Saturation]]></source>
+				<target><![CDATA[Sättigung]]></target>
+			</trans-unit>
+
+			<!-- Plugin Map > OriginalMapview -->
+			<trans-unit id="plugin.map.originalview.title" approved="yes">
+                <source><![CDATA[Original map]]></source>
+                <target><![CDATA[Originale Karte]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-desc" approved="yes">
+                <source><![CDATA[Description]]></source>
+                <target><![CDATA[Beschreibung]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-identifier" approved="yes">
+                <source><![CDATA[Identifier]]></source>
+                <target><![CDATA[Identifier]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-scale" approved="yes">
+                <source><![CDATA[Scale]]></source>
+                <target><![CDATA[Maßstab]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-keywords" approved="yes">
+                <source><![CDATA[Keywords]]></source>
+                <target><![CDATA[Schlagworte]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-services" approved="yes">
+                <source><![CDATA[Services]]></source>
+                <target><![CDATA[Dienste]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.link-download-label" approved="yes">
+                <source><![CDATA[Download map]]></source>
+                <target><![CDATA[Download Karte]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.link-slub-label" approved="yes">
+                <source><![CDATA[Go to SLUB]]></source>
+                <target><![CDATA[Gehe zu SLUB]]></target>
+            </trans-unit>
+
      		<!-- Plugin Apps > GeoreferenceRanking -->
 			<trans-unit id="plugin.apps.georeferenceranking.label-place" approved="yes">
             	<source><![CDATA[Rank]]></source>
@@ -587,6 +624,24 @@
 			<trans-unit id="plugin.apps.unreferencedmaps.btn-georeference" approved="yes">
     			<source><![CDATA[Georeference]]></source>
     			<target><![CDATA[Georeferenzierung]]></target>
+    		</trans-unit>
+
+    		<!-- Plugin Georeference > Submit Dialog -->
+            <trans-unit id="plugin.georeference.submit-dialog.title" approved="yes">
+    			<source><![CDATA[Save your georeference]]></source>
+    			<target><![CDATA[Speichern Sie ihre Georeferenzierung]]></target>
+    		</trans-unit>
+    		<trans-unit id="plugin.georeference.submit-dialog.content" approved="yes">
+                <source><![CDATA[Clicking Save will save your georeferencing results. In a few minutes they will be available to everyone via the Virtual Map Forum. If your georeferencing is still not published on the Virtual Map Forum after several hours, please contact an administrator.]]></source>
+                <target><![CDATA[Mit Klicken auf Speichern werden ihre Georeferenzierungsergebnisse gespeichert. In ein paar Minuten sind diese über das Virtuelle Kartenforum dann für alle erreichbar. Ist ihre Georeferenzierung auch nach mehreren Stunden nicht über das Virtuelle Kartenforum publiziert, kontaktieren Sie gerne einen Administrator.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.submit-dialog.btn-cancel" approved="yes">
+    			<source><![CDATA[Cancel]]></source>
+    			<target><![CDATA[Abbrechen]]></target>
+    		</trans-unit>
+            <trans-unit id="plugin.georeference.submit-dialog.btn-submit" approved="yes">
+    			<source><![CDATA[Save georeference]]></source>
+    			<target><![CDATA[Georeferenzierung speichern]]></target>
     		</trans-unit>
 		</body>
 	</file>

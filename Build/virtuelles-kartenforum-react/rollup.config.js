@@ -17,5 +17,5 @@ export default (commandlineArgs) => {
         return appsViewConfig;
     }
 
-    return [geoRefConfig, mapViewConfig];
+    return [geoRefConfig, mapViewConfig, appsViewConfig];
 };

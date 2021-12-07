@@ -20,7 +20,7 @@ export const MapSourceView = () => {
   };
 
   return (
-    <div className="vk-mapview-source">
+    <div className="vkf-mapview-source">
       {mapMetadata !== null && (
         <ZoomifyMap
           urlImageProperties={mapMetadata.zoomify_url}

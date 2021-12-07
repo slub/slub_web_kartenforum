@@ -12,5 +12,5 @@ import settingsProvider from "../../SettingsProvider";
 export const SettingsProvider = settingsProvider;
 
 export function renderApp(element) {
-    ReactDOM.render(<App />, element);
+    ReactDOM.render(<App id={element.id} />, element);
 }

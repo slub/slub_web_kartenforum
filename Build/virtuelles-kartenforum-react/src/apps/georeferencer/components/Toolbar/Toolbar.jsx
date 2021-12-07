@@ -22,6 +22,7 @@ import {
 } from "../../atoms/atoms";
 import ControlButton from "../ControlButton/ControlButton";
 import ControlDropDown from "../ControlDropDown/ControlDropDown";
+import DialogConfirm from "../DialogConfirm/DialogConfirm";
 import { usePrevious } from "../../../../util/hooks";
 import { Controller } from "./Controller";
 import { activateZoomPanAction } from "./actions";
@@ -76,6 +77,7 @@ export const Toolbar = () => {
   const setNotification = useSetRecoilState(notificationState);
   const setRectifiedImageParams = useSetRecoilState(rectifiedImageParamsState);
   const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
+  const [pendingParams, setPendingParams] = useState(null);
   const [activeControl, setActiveControl] = useState(null);
   const [activeAction, setActiveAction] = useState(null);
   const prevActiveControl = usePrevious(activeControl);
@@ -122,15 +124,6 @@ export const Toolbar = () => {
   // Handle get rectified image
   const handleClickConfirm = () => {
     if (refController.current !== null) {
-      const confirmData = async (map_id, params) => {
-        await postTransformation(map_id, params);
-
-        // If there is redirect path set use it and if not redirect to main
-        const qs = queryString.parse(location.search);
-        const path = qs.redirect !== undefined ? qs.redirect : "/";
-        window.location.href = `${window.location.origin}${path}`;
-      };
-
       const newParams = {
         clip: refController.current.getClip(),
         params: Object.assign(refController.current.getParams(), {
@@ -138,8 +131,30 @@ export const Toolbar = () => {
         }),
         overwrites: transformation.overwrites,
       };
-      console.log(newParams);
-      confirmData(transformation.map_id, newParams);
+
+      setPendingParams({
+        map_id: transformation.map_id,
+        params: newParams,
+      });
+    }
+  };
+
+  // Handle confirm
+  const handleConfirm = () => {
+    if (pendingParams !== null) {
+      const confirmData = async (map_id, params) => {
+        await postTransformation(map_id, params);
+        setIsLoading(false);
+
+        // If there is redirect path set use it and if not redirect to main
+        const qs = queryString.parse(location.search);
+        const path = qs.redirect !== undefined ? qs.redirect : "/";
+        window.location.href = `${window.location.origin}${path}`;
+      };
+
+      setPendingParams(null);
+      setIsLoading(true);
+      confirmData(pendingParams.map_id, pendingParams.params);
     }
   };
 
@@ -293,6 +308,13 @@ export const Toolbar = () => {
           title={translate("georef-confirm")}
         />
       </div>
+
+      {pendingParams !== null && (
+        <DialogConfirm
+          onClose={() => setPendingParams(null)}
+          onSubmit={handleConfirm}
+        />
+      )}
     </div>
   );
 };

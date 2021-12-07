@@ -220,7 +220,6 @@ export class Controller extends Observer {
                 this.srcVectorSource_.addFeature(srcFeature);
 
                 // Add target gcp
-                console.log(this.params_.target);
                 const trgFeature = new Feature(
                     new Point(
                         proj.transform(
@@ -239,7 +238,7 @@ export class Controller extends Observer {
         // Add the clip polygon to the map
         if (this.clip_) {
             const newFeature = new GeoJSON().readFeature(this.clip_, {
-                dataProjection: "EPSG:4326",
+                dataProjection: this.clip_.crs.properties.name,
                 featureProjection: this.trgMap_.getView().getProjection(),
             });
 

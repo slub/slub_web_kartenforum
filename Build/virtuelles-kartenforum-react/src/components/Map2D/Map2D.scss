@@ -1,7 +1,13 @@
+@import "../../_sass/overwrites-openlayers";
+
 .map-container {
   .ol-control {
+    &.ol-layerspy,
+    &.ol-zoom {
+      left: 340px;
+    }
+
     &.ol-layerspy {
-      left: 10px;
       top: 110px;
     }
   }

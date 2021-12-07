@@ -6,6 +6,7 @@
  */
 import React, { useEffect } from "react";
 import { useRecoilValue } from "recoil";
+import PropTypes from "prop-types";
 import { map3dState, mapState } from "../../atoms/atoms";
 import { TERRAIN_ATTRIBUTION_ID } from "../MapWrapper/components/CustomAttribution";
 import { isDefined } from "../../../../util/util";
@@ -15,7 +16,8 @@ import { isDefined } from "../../../../util/util";
  * @returns {JSX.Element}
  * @constructor
  */
-export const StyleAppender = () => {
+export const StyleAppender = (props) => {
+  const { mapContainerId } = props;
   const is3d = useRecoilValue(map3dState);
   const map = useRecoilValue(mapState);
 
@@ -34,8 +36,8 @@ export const StyleAppender = () => {
 
   // add mode-3d class to root container in order to apply legacy styles
   useEffect(() => {
-    const el = document.getElementById("vk2MapPanel");
-
+    const el = document.getElementById(mapContainerId);
+    console.log(el);
     if (is3d) {
       // Remove 3d-mode from map container
       el.classList.add("mode-3d");
@@ -58,6 +60,10 @@ export const StyleAppender = () => {
   }, [is3d, map]);
 
   return <></>;
+};
+
+StyleAppender.propTypes = {
+  mapContainerId: PropTypes.string.isRequired,
 };
 
 export default StyleAppender;

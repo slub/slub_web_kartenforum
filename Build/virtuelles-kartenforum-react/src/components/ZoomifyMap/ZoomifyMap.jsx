@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -12,12 +12,14 @@ import DragZoom from "ol/src/interaction/DragZoom";
 import Fullscreen from "ol/src/control/FullScreen";
 import { defaults as defaultInteractions } from "ol/src/interaction";
 import Map from "ol/src/Map";
-import TileLayer from "ol/src/layer/Tile";
+import TileLayer from "ol/src/layer/WebGLTile";
 import View from "ol/src/View";
 import Zoom from "ol/src/control/Zoom";
 import Zoomify from "ol/src/source/Zoomify";
 import ZoomToExtent from "ol/src/control/ZoomToExtent";
-import "ol/ol.css";
+import ImageManipulationControl, {
+  variables,
+} from "../Controls/ImageManipulationControl";
 import "./ZoomifyMap.scss";
 
 /**
@@ -56,7 +58,12 @@ async function queryZoomifyProps(urlImageProperties) {
 }
 
 export const ZoomifyMap = (props) => {
-  const { className = "", onLoad, urlImageProperties } = props;
+  const {
+    className = "",
+    onLoad,
+    urlImageProperties,
+    withImageManipulation = false,
+  } = props;
   const refMapContainer = useRef(null);
 
   // Effect for initial loading of the map with the zoomify layer
@@ -77,6 +84,12 @@ export const ZoomifyMap = (props) => {
 
       // Add source to the map
       const layer = new TileLayer({
+        style: {
+          brightness: ["var", "brightness"],
+          contrast: ["var", "contrast"],
+          saturation: ["var", "saturation"],
+          variables: { ...variables },
+        },
         source: zoomifySource,
       });
 
@@ -108,6 +121,11 @@ export const ZoomifyMap = (props) => {
         })
       );
 
+      // If withImageManipulation is set load it
+      if (withImageManipulation) {
+        map.addControl(new ImageManipulationControl({ layer: layer }));
+      }
+
       // In case a onLoad listener is defined call it after all is loaded
       if (onLoad) {
         onLoad({
@@ -134,6 +152,7 @@ ZoomifyMap.propTypes = {
   className: PropTypes.string,
   onLoad: PropTypes.func,
   urlImageProperties: PropTypes.string.isRequired,
+  withImageManipulation: PropTypes.bool,
 };
 
 export default ZoomifyMap;

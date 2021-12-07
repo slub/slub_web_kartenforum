@@ -64,7 +64,7 @@ export class MousePositionOnOff extends Control {
     if (this.targetEl === undefined) {
       const viewport = map.getViewport();
       targetEl = document.createElement("div");
-      targetEl.className = "mouse-position-box";
+      targetEl.className = "ol-control ol-mouse-position-box";
       targetEl.innerHTML = "";
 
       viewport.appendChild(targetEl);

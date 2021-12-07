@@ -59,20 +59,12 @@ export function translate(key) {
  * Returns the default controls for the map view
  **/
 export const getDefaultControls = (params) => {
-    const {
-        baseMapUrl,
-        is3dActive,
-        layout,
-        mapViewSettings,
-        set3dActive,
-        toggleViewModeButtonRef,
-    } = params;
+    const { baseMapUrl, is3dActive, layout, set3dActive } = params;
 
     const defaultControls = [
         new CustomAttribution(),
         new FullScreen(),
         new Rotate({ className: "rotate-north ol-unselectable" }),
-        new RestoreDefaultView({ defaultView: mapViewSettings }),
         new ScaleLine(),
         // new vk2.control.Permalink(),
     ];
@@ -93,7 +85,6 @@ export const getDefaultControls = (params) => {
             new ToggleViewMode({
                 initialState: is3dActive,
                 propagateViewMode: set3dActive,
-                toggleViewModeButtonRef,
             }),
             new MousePositionOnOff()
         );

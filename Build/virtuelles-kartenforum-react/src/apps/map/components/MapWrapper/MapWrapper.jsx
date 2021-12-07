@@ -30,14 +30,10 @@ import {
   createHistoricMapForFeature,
   generateLimitCamera,
   setOptimizedCesiumSettings,
-  setShadowsActivated,
 } from "./util";
 import { getDefaultControls, isDefined } from "../../../../util/util";
-import { updateButtonText } from "../../../../components/ToggleViewmode/ToggleViewmode";
 import { getMapClassNameForLayout } from "../../layouts/util";
-
 import "./MapWrapper.scss";
-import "./openlayer-overwrites.scss";
 
 export const MAP_DIV_ID = "mapdiv";
 
@@ -65,7 +61,6 @@ export function MapWrapper(props) {
   // refs
   const controlsRef = useRef();
   const mapElement = useRef();
-  const toggleViewModeButtonRef = useRef();
 
   ////
   // Effect section
@@ -194,12 +189,6 @@ export function MapWrapper(props) {
     }
   }, [is3dActive]);
 
-  useEffect(() => {
-    if (isDefined(toggleViewModeButtonRef.current)) {
-      updateButtonText(toggleViewModeButtonRef.current, is3dActive);
-    }
-  }, [is3dActive]);
-
   // update controls on layout change
   useEffect(() => {
     if (isDefined(map)) {
@@ -213,9 +202,7 @@ export function MapWrapper(props) {
         baseMapUrl,
         is3dActive,
         layout,
-        mapViewSettings,
         set3dActive,
-        toggleViewModeButtonRef,
       });
 
       newControls.forEach((control) => {

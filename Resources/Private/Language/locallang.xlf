@@ -192,25 +192,7 @@
 				<source>Switch to 3D is not possible for this resolution. Please zoom in.</source>
 			</trans-unit>
 
-            <!-- vk2.control.ImageManipulationControl -->
-			<trans-unit id="client.imagemanipulation.open">
-				<source>Open image manipulation toolbox</source>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.hue">
-				<source>Hue</source>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.saturation">
-				<source>Saturation</source>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.contrast">
-				<source>Contrast</source>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.brightness">
-				<source>Brightness</source>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.reset">
-				<source>Reset</source>
-			</trans-unit>
+
 
             <!-- vk2.control.LayerSpyControl -->
 			<trans-unit id="client.layerspy.title">
@@ -263,6 +245,9 @@
 			</trans-unit>
 			<trans-unit id="client.factory.zoomToMap">
                 <source>Zoom to map</source>
+            </trans-unit>
+			<trans-unit id="client.factory.showOriginal">
+                <source>Show Original</source>
             </trans-unit>
 
             <!-- vk2.georeference.* -->
@@ -392,6 +377,49 @@
 
 			<!-- Newly sorted -->
 
+            <!-- Global > Map > Control > ImageManipulation -->
+			<trans-unit id="global.map.control-imagemanipulation-open">
+				<source>Open image manipulation toolbox</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-imagemanipulation-saturation">
+				<source>Saturation</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-imagemanipulation-contrast">
+				<source>Contrast</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-imagemanipulation-brightness">
+				<source>Brightness</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-imagemanipulation-reset">
+				<source>Reset</source>
+			</trans-unit>
+
+			<!-- Plugin Map > OriginalMapview -->
+			<trans-unit id="plugin.map.originalview.title">
+                <source>Original map</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-desc">
+                <source>Description</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-identifier">
+                <source>Identifier</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-scale">
+                <source>Scale</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-keywords">
+                <source>Keywords</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-services">
+                <source>Services</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.link-download-label">
+                <source>Download map</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.link-slub-label">
+                <source>Go to SLUB</source>
+            </trans-unit>
+
      		<!-- Plugin Apps > GeoreferenceRanking -->
 			<trans-unit id="plugin.apps.georeferenceranking.label-place">
             	<source>Rank</source>
@@ -447,6 +475,20 @@
     		</trans-unit>
 			<trans-unit id="plugin.apps.unreferencedmaps.btn-georeference">
     			<source>Georeference</source>
+    		</trans-unit>
+
+    		<!-- Plugin Georeference > Submit Dialog -->
+            <trans-unit id="plugin.georeference.submit-dialog.title">
+    			<source>Save your georeference</source>
+    		</trans-unit>
+    		<trans-unit id="plugin.georeference.submit-dialog.content">
+                <source>Clicking Save will save your georeferencing results. In a few minutes they will be available to everyone via the Virtual Map Forum. If your georeferencing is still not published on the Virtual Map Forum after several hours, please contact an administrator.</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.submit-dialog.btn-cancel">
+    			<source>Cancel</source>
+    		</trans-unit>
+            <trans-unit id="plugin.georeference.submit-dialog.btn-submit">
+    			<source>Save georeference</source>
     		</trans-unit>
         </body>
     </file>

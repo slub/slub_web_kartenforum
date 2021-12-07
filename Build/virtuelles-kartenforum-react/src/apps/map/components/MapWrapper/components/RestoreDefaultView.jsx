@@ -14,10 +14,10 @@ export class RestoreDefaultView extends Control {
     const options = opt_options || {};
 
     const element = document.createElement("div");
-    element.className = "ol-zoom-default-extent ol-unselectable ol-control";
+    element.className = "ol-zoom-extent ol-unselectable ol-control";
 
     const button = document.createElement("button");
-    button.classname = "zoom-default-extent";
+    button.classname = "zoom-extent";
     button.title = translate("restoredefaultview-title");
     button.type = "button";
 

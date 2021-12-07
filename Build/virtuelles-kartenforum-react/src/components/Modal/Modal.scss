@@ -1,0 +1,33 @@
+@import "../../_sass/variables";
+
+.vkf-modal {
+  .modal-header {
+    background: #eee;
+    border: 0;
+    padding: 6px 15px;
+    display: block !important;
+
+    button {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      padding: 3px 7px 5px;
+      background: $secondaryColorDark;
+      border: 1px solid #eee;
+      opacity: 1;
+      text-shadow: none;
+      color: $secondaryColorContrast;
+      z-index: 901;
+      margin-top: -2px;
+      float: right;
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1;
+    }
+  }
+
+  .modal-content {
+    margin: 0;
+    border: 0;
+  }
+}

@@ -8,4 +8,26 @@
   .ol-viewport {
     background: #ccc;
   }
+
+  .ol-control {
+    &.ol-full-screen {
+      right: 10px;
+      top: 10px;
+    }
+
+    &.ol-zoom {
+      left: 10px;
+      top: 10px;
+    }
+
+    &.ol-zoom-extent {
+      left: 10px;
+      top: 70px;
+    }
+
+    &.image-manipulation {
+      left: 10px;
+      top: 113px;
+    }
+  }
 }

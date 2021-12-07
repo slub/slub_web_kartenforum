@@ -167,7 +167,7 @@ export const DetachedLayerManagement = () => {
 
   return isDefined(map) ? (
     ReactDOM.createPortal(
-      <div className="layermanagement-container">
+      <div id="layermanagement-container" className="layermanagement-container">
         <LayerManagement />{" "}
       </div>,
       mapDiv

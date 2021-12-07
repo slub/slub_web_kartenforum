@@ -102,6 +102,11 @@
         no-repeat center center;
     }
 
+    button.show-original {
+      left: 270px;
+      background: #00b19e;
+    }
+
     .drag-btn {
       position: absolute;
       left: 40px;
@@ -163,6 +168,7 @@
   button.remove-layer,
   button.move-layer-top,
   button.zoom-layer,
+  button.show-original,
   a.georeference-update {
     position: absolute;
     top: 35px;
@@ -221,6 +227,7 @@
       button.remove-layer,
       button.move-layer-top,
       button.zoom-layer,
+      button.show-original,
       a.georeference-update {
         opacity: 1;
       }
@@ -306,6 +313,7 @@
       button.remove-layer,
       button.move-layer-top,
       button.zoom-layer,
+      button.show-original,
       a.georeference-update {
         height: 30px;
         width: 30px;

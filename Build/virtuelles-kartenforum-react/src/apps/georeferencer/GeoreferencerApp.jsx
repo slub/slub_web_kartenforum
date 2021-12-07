@@ -14,6 +14,7 @@ import "./GeoreferencerApp.scss";
 
 export const GeoreferencerApp = () => {
   const settings = SettingsProvider.getSettings();
+
   return (
     <RecoilRoot>
       <div className="vk-app-georeferencer">

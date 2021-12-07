@@ -2,7 +2,7 @@ import { transformExtent } from "ol/proj";
 import { containsXY } from "ol/extent";
 
 import SettingsProvider from "../../../../SettingsProvider";
-import HistoricMap from "../layer/HistoricMapLayer";
+import HistoricMap from "../HistoricMapLayer/HistoricMapLayer";
 
 /**
  * Checks if the layer collection already contains a layer with that id.
@@ -42,6 +42,7 @@ export const createHistoricMapForFeature = function (feature) {
             : feature.get("map_scale") <= 15000
             ? 16
             : 15;
+
     return new HistoricMap({
         time: feature.get("time_published"),
         maxZoom: maxZoom,

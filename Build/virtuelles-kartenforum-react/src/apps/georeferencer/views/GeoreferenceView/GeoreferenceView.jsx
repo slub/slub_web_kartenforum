@@ -62,7 +62,6 @@ export const GeoreferenceView = (props) => {
           (t) => t.transformation_id === targetTransformationId
         );
 
-        console.log(activeTransformation);
         setTransformation({
           map_id: activeTransformation.map_id,
           clip: activeTransformation.clip,

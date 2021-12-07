@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
-import HistoricMap from "../../layer/HistoricMapLayer";
+import HistoricMap from "../../HistoricMapLayer/HistoricMapLayer";
 import "./OpacitySlider.scss";
 
 export const OpacitySlider = (props) => {
