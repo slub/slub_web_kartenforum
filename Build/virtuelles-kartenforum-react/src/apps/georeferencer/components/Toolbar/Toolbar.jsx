@@ -111,13 +111,20 @@ export const Toolbar = () => {
     };
 
     if (!isLoading) {
-      setIsLoading(true);
-      fetchData(
-        transformation.map_id,
-        Object.assign(refController.current.getParams(), {
-          algorithm: selectedAlgorithm,
-        })
-      );
+      const newParams = Object.assign(refController.current.getParams(), {
+        algorithm: selectedAlgorithm,
+      });
+
+      if (newParams.gcps.length < 4) {
+        setNotification({
+          id: "toolbar-info",
+          type: "warning",
+          text: translate("georef-confirm-warn-gcp"),
+        });
+      } else {
+        setIsLoading(true);
+        fetchData(transformation.map_id, newParams);
+      }
     }
   };
 
@@ -132,10 +139,18 @@ export const Toolbar = () => {
         overwrites: transformation.overwrites,
       };
 
-      setPendingParams({
-        map_id: transformation.map_id,
-        params: newParams,
-      });
+      if (newParams.params.gcps.length < 4) {
+        setNotification({
+          id: "toolbar-info",
+          type: "warning",
+          text: translate("georef-confirm-warn-gcp"),
+        });
+      } else {
+        setPendingParams({
+          map_id: transformation.map_id,
+          params: newParams,
+        });
+      }
     }
   };
 

@@ -12,7 +12,7 @@ import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
 import { SettingsProvider } from "../apps/map";
 import CustomAttribution from "../apps/map/components/MapWrapper/components/CustomAttribution";
 import ToggleViewMode from "../components/ToggleViewmode/ToggleViewmode";
-import OlControlLayerSpy from "../components/OlControlLayerSpy/OlControlLayerSpy";
+import ControlLayerSpy from "../components/Controls/ControlLayerSpy";
 import RestoreDefaultView from "../apps/map/components/MapWrapper/components/RestoreDefaultView";
 import { MousePositionOnOff } from "../apps/map/components/MapWrapper/components/MousePositionOnOff";
 import { LAYOUT_TYPES } from "../apps/map/layouts/util";
@@ -72,7 +72,7 @@ export const getDefaultControls = (params) => {
     if (layout === LAYOUT_TYPES.HORIZONTAL) {
         defaultControls.push(
             new Zoom(),
-            new OlControlLayerSpy({
+            new ControlLayerSpy({
                 spyLayer: new TileLayer({
                     attribution: undefined,
                     source: new XYZ({

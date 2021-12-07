@@ -11,7 +11,7 @@
 <f:section name="FooterAssets">
     <script type="text/javascript">
         // update settings from typo3 flexform parameters
-        vk2.SettingsProvider.updateSettings({
+        vk2.SettingsProvider.appendSettings({
             "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
             "API_GEOREFERENCE_TRANSFORMATION_BY_MAPID": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationByMapId&type=9991",
             "API_GEOREFERENCE_TRANSFORMATION_CONFIRM": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationByMapId&type=9991",
@@ -25,30 +25,28 @@
         });
 
         vk2.SettingsProvider.appendSettings({
-            dictionary: {
-                "layerspy-title": "<f:translate key='client.layerspy.title' extensionName='SlubWebKartenforum' />",
-                "georef-search-field": "<f:translate key='client.georeferencechoose.searchField' extensionName='SlubWebKartenforum' />",
-                "georef-choose-goToGeoreference": "<f:translate key='client.georeferencechoose.goToGeoreference' extensionName='SlubWebKartenforum' />",
-                "georef-movemap": "<f:translate key='client.georeference.moveMap' extensionName='SlubWebKartenforum' />",
-                "georef-setgcp": "<f:translate key='client.georeference.setGcp' extensionName='SlubWebKartenforum' />",
-                "georef-editgcp": "<f:translate key='client.georeference.editGcp' extensionName='SlubWebKartenforum' />",
-                "georef-movegcp": "<f:translate key='client.georeference.moveGcp' extensionName='SlubWebKartenforum' />",
-                "georef-delgcp": "<f:translate key='client.georeference.deleteGcp' extensionName='SlubWebKartenforum' />",
-                "georef-drawclip": "<f:translate key='client.georeference.drawClip' extensionName='SlubWebKartenforum' />",
-                "georef-validate": "<f:translate key='client.georeference.validate' extensionName='SlubWebKartenforum' />",
-                "georef-confirm": "<f:translate key='client.georeference.confirm' extensionName='SlubWebKartenforum' />",
-                "georef-confirm-clip-title": "<f:translate key='client.georeference.confirmWithoutClipTitle' extensionName='SlubWebKartenforum' />",
-                "georef-confirm-clip-msg": "<f:translate key='client.georeference.confirmWithoutClipMsg' extensionName='SlubWebKartenforum' />",
-                "georef-confirm-warn-gcp": "<f:translate key='client.georeference.warnMissingGCPs' extensionName='SlubWebKartenforum' />",
-                "georef-confirm-warn-clippolygon": "<f:translate key='client.georeference.warnWrongClipPolygon' extensionName='SlubWebKartenforum' />",
-                "gazetteer-placeholder": "<f:translate key='client.gazetteer.placeholder' extensionName='SlubWebKartenforum' />",
-                "gazetteer-submit": "<f:translate key='client.gazetteer.submit' extensionName='SlubWebKartenforum' />",
-
-                "georef-dialog-title": "<f:translate key='plugin.georeference.submit-dialog.title' extensionName='SlubWebKartenforum' />",
-                "georef-dialog-content": "<f:translate key='plugin.georeference.submit-dialog.content' extensionName='SlubWebKartenforum' />",
-                "georef-dialog-btn-cancel": "<f:translate key='plugin.georeference.submit-dialog.btn-cancel' extensionName='SlubWebKartenforum' />",
-                "georef-dialog-btn-submit": "<f:translate key='plugin.georeference.submit-dialog.btn-submit' extensionName='SlubWebKartenforum' />",
-            }
+            dictionary: Object.assign(
+                {},
+                vk2.SettingsProvider.getSettings().dictionary,
+                {
+                    "georef-movemap": "<f:translate key='plugin.georeference.moveMap' extensionName='SlubWebKartenforum' />",
+                    "georef-setgcp": "<f:translate key='plugin.georeference.setGcp' extensionName='SlubWebKartenforum' />",
+                    "georef-editgcp": "<f:translate key='plugin.georeference.editGcp' extensionName='SlubWebKartenforum' />",
+                    "georef-movegcp": "<f:translate key='plugin.georeference.moveGcp' extensionName='SlubWebKartenforum' />",
+                    "georef-delgcp": "<f:translate key='plugin.georeference.deleteGcp' extensionName='SlubWebKartenforum' />",
+                    "georef-drawclip": "<f:translate key='plugin.georeference.drawClip' extensionName='SlubWebKartenforum' />",
+                    "georef-validate": "<f:translate key='plugin.georeference.validate' extensionName='SlubWebKartenforum' />",
+                    "georef-confirm": "<f:translate key='plugin.georeference.confirm' extensionName='SlubWebKartenforum' />",
+                    "georef-confirm-clip-title": "<f:translate key='plugin.georeference.confirmWithoutClipTitle' extensionName='SlubWebKartenforum' />",
+                    "georef-confirm-clip-msg": "<f:translate key='plugin.georeference.confirmWithoutClipMsg' extensionName='SlubWebKartenforum' />",
+                    "georef-confirm-warn-gcp": "<f:translate key='plugin.georeference.warnMissingGCPs' extensionName='SlubWebKartenforum' />",
+                    "georef-confirm-warn-clippolygon": "<f:translate key='plugin.georeference.warnWrongClipPolygon' extensionName='SlubWebKartenforum' />",
+                    "georef-dialog-title": "<f:translate key='plugin.georeference.submit-dialog.title' extensionName='SlubWebKartenforum' />",
+                    "georef-dialog-content": "<f:translate key='plugin.georeference.submit-dialog.content' extensionName='SlubWebKartenforum' />",
+                    "georef-dialog-btn-cancel": "<f:translate key='plugin.georeference.submit-dialog.btn-cancel' extensionName='SlubWebKartenforum' />",
+                    "georef-dialog-btn-submit": "<f:translate key='plugin.georeference.submit-dialog.btn-submit' extensionName='SlubWebKartenforum' />",
+                }
+            )
         });
 
         // render Application

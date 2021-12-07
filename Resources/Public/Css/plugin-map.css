@@ -271,10 +271,6 @@
   margin: 0;
 }
 
-.flip-view-mode .flipviewmode-button-label {
-  font-size: 14px;
-}
-
 /*
  * Variables for frontend design
  * -----------------------------------------------
@@ -292,6 +288,10 @@
 }
 .ol-control.ol-layerspy > button.active {
   background-color: rgba(255, 51, 51, 0.9);
+}
+
+.flip-view-mode .flipviewmode-button-label {
+  font-size: 14px;
 }
 
 /*
@@ -1003,83 +1003,6 @@
   border-left-width: 0;
 }
 
-.timeslider-container {
-  position: relative;
-  margin-bottom: 20px;
-}
-.timeslider-container:after {
-  position: absolute;
-  bottom: 0;
-  left: -15px;
-  right: -15px;
-  height: 1px;
-  background: rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  content: "";
-}
-.timeslider-container label {
-  width: 100%;
-  text-align: center;
-  font-size: 11px;
-  margin: 10px 0 0 0;
-  color: rgba(0, 177, 158, 0.4);
-  text-transform: uppercase;
-  font-weight: 500;
-}
-.timeslider-container .slider-container {
-  padding: 25px 5px;
-  margin-top: -7px;
-}
-.timeslider-container .slider-container.labels-too-close .rc-slider .rc-slider-handle.rc-slider-handle-2:after {
-  position: absolute;
-  top: -3px;
-  bottom: unset;
-  transform: rotate(180deg);
-}
-.timeslider-container .slider-container .rc-slider .rc-slider-handle {
-  width: 12px;
-  height: 12px;
-  background: #00b19e;
-  border: 0 none;
-  border-radius: 0;
-  box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.2);
-  cursor: col-resize;
-}
-.timeslider-container .slider-container .rc-slider .rc-slider-handle:focus, .timeslider-container .slider-container .rc-slider .rc-slider-handle:active {
-  border: 0;
-  outline: none;
-}
-.timeslider-container .slider-container .rc-slider .rc-slider-handle:after {
-  position: absolute;
-  bottom: -3px;
-  left: 3px;
-  width: 0;
-  height: 0;
-  content: "";
-  border: 3px solid transparent;
-  border-bottom-width: 0;
-  border-top-color: #00b19e;
-}
-.timeslider-container .slider-container .rc-slider .rc-slider-track {
-  background: rgba(0, 177, 158, 0.5);
-}
-.timeslider-container .slider-container .tooltip {
-  margin-top: 6px;
-  opacity: 1;
-  font-size: 10px;
-  color: #385c5c;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 500;
-}
-.timeslider-container .slider-container .tooltip.min-value {
-  margin-left: -12px;
-  left: 0%;
-}
-.timeslider-container .slider-container .tooltip.max-value {
-  left: 100%;
-  margin-left: -12px;
-}
-
 .mapsearch-container {
   height: auto;
   background: transparent;
@@ -1161,6 +1084,83 @@
   display: flex;
   padding: 0;
   flex-grow: 1;
+}
+
+.timeslider-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+.timeslider-container:after {
+  position: absolute;
+  bottom: 0;
+  left: -15px;
+  right: -15px;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  content: "";
+}
+.timeslider-container label {
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
+  margin: 10px 0 0 0;
+  color: rgba(0, 177, 158, 0.4);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.timeslider-container .slider-container {
+  padding: 25px 5px;
+  margin-top: -7px;
+}
+.timeslider-container .slider-container.labels-too-close .rc-slider .rc-slider-handle.rc-slider-handle-2:after {
+  position: absolute;
+  top: -3px;
+  bottom: unset;
+  transform: rotate(180deg);
+}
+.timeslider-container .slider-container .rc-slider .rc-slider-handle {
+  width: 12px;
+  height: 12px;
+  background: #00b19e;
+  border: 0 none;
+  border-radius: 0;
+  box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.2);
+  cursor: col-resize;
+}
+.timeslider-container .slider-container .rc-slider .rc-slider-handle:focus, .timeslider-container .slider-container .rc-slider .rc-slider-handle:active {
+  border: 0;
+  outline: none;
+}
+.timeslider-container .slider-container .rc-slider .rc-slider-handle:after {
+  position: absolute;
+  bottom: -3px;
+  left: 3px;
+  width: 0;
+  height: 0;
+  content: "";
+  border: 3px solid transparent;
+  border-bottom-width: 0;
+  border-top-color: #00b19e;
+}
+.timeslider-container .slider-container .rc-slider .rc-slider-track {
+  background: rgba(0, 177, 158, 0.5);
+}
+.timeslider-container .slider-container .tooltip {
+  margin-top: 6px;
+  opacity: 1;
+  font-size: 10px;
+  color: #385c5c;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+}
+.timeslider-container .slider-container .tooltip.min-value {
+  margin-left: -12px;
+  left: 0%;
+}
+.timeslider-container .slider-container .tooltip.max-value {
+  left: 100%;
+  margin-left: -12px;
 }
 
 .deactivate-map-col-control {
@@ -1571,36 +1571,6 @@
   opacity: 1;
 }
 
-/*
- * Variables for frontend design
- * -----------------------------------------------
- */
-.vkf-toggle-search-button {
-  border: none;
-  color: #333333;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-  float: right;
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-indent: 100%;
-  transform: scale(1);
-  -webkit-transition: transform 0.3s ease-out;
-  -moz-transition: transform 0.3s ease-out;
-  -o-transition: transform 0.3s ease-out;
-  -ms-transition: transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
-  background-color: #c8c8c8;
-  -webkit-mask-image: url("../Images/searchBtn.svg");
-  mask-image: url("../Images/searchBtn.svg");
-}
-
 .vkf-toggle-search-result-list > button {
   border: none;
   background: transparent;
@@ -1647,6 +1617,36 @@
   left: 2px;
   position: absolute;
   top: 0;
+}
+
+/*
+ * Variables for frontend design
+ * -----------------------------------------------
+ */
+.vkf-toggle-search-button {
+  border: none;
+  color: #333333;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  float: right;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: 100%;
+  transform: scale(1);
+  -webkit-transition: transform 0.3s ease-out;
+  -moz-transition: transform 0.3s ease-out;
+  -o-transition: transform 0.3s ease-out;
+  -ms-transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+  background-color: #c8c8c8;
+  -webkit-mask-image: url("../Images/searchBtn.svg");
+  mask-image: url("../Images/searchBtn.svg");
 }
 
 .vkf-toggle-facets {

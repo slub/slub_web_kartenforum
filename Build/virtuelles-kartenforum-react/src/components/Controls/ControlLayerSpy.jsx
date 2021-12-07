@@ -8,9 +8,9 @@ import TileLayer from "ol/layer/Tile";
 import OSMSource from "ol/source/OSM";
 import { Control } from "ol/control";
 import { isDefined, translate } from "../../util/util";
-import "./OlControlLayerSpy.scss";
+import "./ControlLayerSpy.scss";
 
-export class OlControlLayerSpy extends Control {
+export class ControlLayerSpy extends Control {
   mousePosition = null;
 
   constructor(opt_options) {
@@ -20,7 +20,7 @@ export class OlControlLayerSpy extends Control {
     element.className = "ol-layerspy ol-unselectable ol-control";
 
     const button = document.createElement("button");
-    button.title = translate("layerspy-title");
+    button.title = translate("control-layerspy-title");
     button.type = "button";
 
     element.appendChild(button);
@@ -137,4 +137,4 @@ export class OlControlLayerSpy extends Control {
   };
 }
 
-export default OlControlLayerSpy;
+export default ControlLayerSpy;

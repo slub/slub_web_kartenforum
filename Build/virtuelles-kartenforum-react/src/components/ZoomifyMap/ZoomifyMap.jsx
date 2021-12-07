@@ -17,6 +17,7 @@ import View from "ol/src/View";
 import Zoom from "ol/src/control/Zoom";
 import Zoomify from "ol/src/source/Zoomify";
 import ZoomToExtent from "ol/src/control/ZoomToExtent";
+import { translate } from "../../util/util";
 import ImageManipulationControl, {
   variables,
 } from "../Controls/ImageManipulationControl";
@@ -103,7 +104,15 @@ export const ZoomifyMap = (props) => {
       });
 
       const map = new Map({
-        controls: [new Fullscreen(), new Zoom()],
+        controls: [
+          new Fullscreen({
+            tipLabel: translate("control-fullscreen-title"),
+          }),
+          new Zoom({
+            zoomInTipLabel: translate("control-zoom-in"),
+            zoomOutTipLabel: translate("control-zoom-in"),
+          }),
+        ],
         interactions: defaultInteractions().extend([new DragZoom()]),
         layers: [layer],
         target: refMapContainer.current,
@@ -117,6 +126,7 @@ export const ZoomifyMap = (props) => {
       const size = map.getSize();
       map.addControl(
         new ZoomToExtent({
+          tipLabel: translate("control-zoomtoextent-title"),
           extent: view.calculateExtent([size[0] + padding, size[1] + padding]),
         })
       );

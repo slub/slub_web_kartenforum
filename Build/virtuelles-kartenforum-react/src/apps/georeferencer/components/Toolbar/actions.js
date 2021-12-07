@@ -321,9 +321,13 @@ export function activateDelGcpAction(
 
     // Remove handler
     const deleteFeature = (feature) => {
+        const featureId = feature.getId();
+        if (featureId === undefined) {
+            return;
+        }
+
         const srcFt = srcVecSou.getFeatureById(feature.getId());
         const trgFt = trgVecSou.getFeatureById(feature.getId());
-
         if (srcFt !== null && trgFt !== null) {
             srcVecSou.removeFeature(srcFt);
             trgVecSou.removeFeature(trgFt);

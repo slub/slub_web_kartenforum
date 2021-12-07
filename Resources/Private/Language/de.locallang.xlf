@@ -143,62 +143,15 @@
 				<source><![CDATA[Search]]></source>
 				<target><![CDATA[Suchen]]></target>
 			</trans-unit>
-			<trans-unit id="client.georeference.confirm" approved="yes">
-				<source><![CDATA[Confirm georeferencing]]></source>
-				<target><![CDATA[Georeferenzierung speichern]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.confirmWithoutClipMsg" approved="yes">
-				<source><![CDATA[Confirm georeference params without clip params?]]></source>
-				<target><![CDATA[Georeferenzierungsparameter ohne Clip-Polygon speichern?]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.confirmWithoutClipTitle" approved="yes">
-				<source><![CDATA[Confirm georeference params]]></source>
-				<target><![CDATA[Georeferenzierungsparameter speichern]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.deleteGcp" approved="yes">
-				<source><![CDATA[Delete ground control point]]></source>
-				<target><![CDATA[Passpunkt löschen]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.drawClip" approved="yes">
-				<source><![CDATA[Draw clip polygon]]></source>
-				<target><![CDATA[Zeichne Clip-Polygon]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.moveGcp" approved="yes">
-				<source><![CDATA[Move ground control point]]></source>
-				<target><![CDATA[Passpunkt verschieben]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.moveMap" approved="yes">
-				<source><![CDATA[Move Map]]></source>
-				<target><![CDATA[Karte verschieben]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.setGcp" approved="yes">
-				<source><![CDATA[Set ground control point]]></source>
-				<target><![CDATA[Passpunkt setzen]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.editGcp" approved="yes">
-            	<source><![CDATA[Edit ground control points]]></source>
-            	<target><![CDATA[Passpunkte editieren]]></target>
-            </trans-unit>
-			<trans-unit id="client.georeference.validate" approved="yes">
-				<source><![CDATA[Update preview]]></source>
-				<target><![CDATA[Vorschau aktualisieren]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.warnMissingGCPs" approved="yes">
-				<source><![CDATA[For producing a georeference preview you need at least 4 ground control points.]]></source>
-				<target><![CDATA[Für das Erzeugen eines Vorschaubildes werden mindestes 4 Passpunkte benötigt.]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.warnWrongClipPolygon" approved="yes">
-				<source><![CDATA[Your clip polygon seems to be malformed. Please check it again or try to contact the administrator.]]></source>
-				<target><![CDATA[Das erzeugte Clip-Polygon scheint defomiert zu sein. Bitte prüfen Sie dieses noch einmal oder kontaktieren Sie den Seiten-Administrator.]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeferencechoose.goToGeoreference" approved="yes">
-				<source><![CDATA[Georeference]]></source>
-				<target><![CDATA[Georeferenzierung]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeferencechoose.searchField" approved="yes">
-				<source><![CDATA[Map name]]></source>
-				<target><![CDATA[Kartenname]]></target>
-			</trans-unit>
+
+<!-- 			<trans-unit id="client.georeferencechoose.goToGeoreference" approved="yes"> -->
+<!-- 				<source><![CDATA[Georeference]]></source> -->
+<!-- 				<target><![CDATA[Georeferenzierung]]></target> -->
+<!-- 			</trans-unit> -->
+<!-- 			<trans-unit id="client.georeferencechoose.searchField" approved="yes"> -->
+<!-- 				<source><![CDATA[Map name]]></source> -->
+<!-- 				<target><![CDATA[Kartenname]]></target> -->
+<!-- 			</trans-unit> -->
 			<trans-unit id="client.goToGeoref" approved="yes">
 				<source><![CDATA[Go to georeference view]]></source>
 				<target><![CDATA[Gehe zur Georeferenzierungsansicht]]></target>
@@ -216,10 +169,7 @@
 				<source><![CDATA[Welcome to the Virtual Map Forum 2.0.<br> Please choose your map collection in the search menu on the left side]]></source>
 				<target><![CDATA[Herzlich Willkommen im Virtuellen Kartenforum 2.0. <br>Bitte wählen Sie zunächst links im Suchbereich einige Karten aus]]></target>
 			</trans-unit>
-			<trans-unit id="client.layerspy.title" approved="yes">
-				<source><![CDATA[Get a magnifier for the map]]></source>
-				<target><![CDATA[Aktiviere Kartenlupe]]></target>
-			</trans-unit>
+
 			<trans-unit id="client.mapType" approved="yes">
 				<source><![CDATA[Map type]]></source>
 				<target><![CDATA[Kartentyp]]></target>
@@ -518,6 +468,34 @@
 				<target><![CDATA[Sättigung]]></target>
 			</trans-unit>
 
+            <!-- Global > Map > Control > Layerspy -->
+			<trans-unit id="global.map.control-layerspy.title" approved="yes">
+				<source><![CDATA[Get a magnifier for the map]]></source>
+				<target><![CDATA[Aktiviere Kartenlupe]]></target>
+			</trans-unit>
+
+            <!-- Global > Map > Control > Zoom -->
+            <trans-unit id="global.map.control-zoom.out" approved="yes">
+				<source><![CDATA[Zoom out]]></source>
+				<target><![CDATA[Herauszoomen]]></target>
+			</trans-unit>
+            <trans-unit id="global.map.control-zoom.in" approved="yes">
+				<source><![CDATA[Zoom in]]></source>
+				<target><![CDATA[Hereinzoomen]]></target>
+			</trans-unit>
+
+            <!-- Global > Map > Control > Zoom to extent -->
+			<trans-unit id="global.map.control-zoomtoextent.title" approved="yes">
+				<source><![CDATA[Fit to extent]]></source>
+				<target><![CDATA[Zum Kartenausschnitt zoomen]]></target>
+			</trans-unit>
+
+           <!-- Global > Map > Control > Fullscreen -->
+			<trans-unit id="global.map.control-fullscreen.title" approved="yes">
+				<source><![CDATA[Toggle full-screen]]></source>
+				<target><![CDATA[Umschalten zu Vollbild]]></target>
+			</trans-unit>
+
 			<!-- Plugin Map > OriginalMapview -->
 			<trans-unit id="plugin.map.originalview.title" approved="yes">
                 <source><![CDATA[Original map]]></source>
@@ -625,6 +603,56 @@
     			<source><![CDATA[Georeference]]></source>
     			<target><![CDATA[Georeferenzierung]]></target>
     		</trans-unit>
+
+            <!-- Plugin Georeference -->
+            <trans-unit id="plugin.georeference.confirm" approved="yes">
+				<source><![CDATA[Confirm georeferencing]]></source>
+				<target><![CDATA[Georeferenzierung speichern]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.confirmWithoutClipMsg" approved="yes">
+				<source><![CDATA[Confirm georeference params without clip params?]]></source>
+				<target><![CDATA[Georeferenzierungsparameter ohne Clip-Polygon speichern?]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.confirmWithoutClipTitle" approved="yes">
+				<source><![CDATA[Confirm georeference params]]></source>
+				<target><![CDATA[Georeferenzierungsparameter speichern]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.deleteGcp" approved="yes">
+				<source><![CDATA[Delete ground control point]]></source>
+				<target><![CDATA[Passpunkt löschen]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.drawClip" approved="yes">
+				<source><![CDATA[Draw clip polygon]]></source>
+				<target><![CDATA[Zeichne Clip-Polygon]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.moveGcp" approved="yes">
+				<source><![CDATA[Move ground control point]]></source>
+				<target><![CDATA[Passpunkt verschieben]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.moveMap" approved="yes">
+				<source><![CDATA[Move Map]]></source>
+				<target><![CDATA[Karte verschieben]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.setGcp" approved="yes">
+				<source><![CDATA[Set ground control point]]></source>
+				<target><![CDATA[Passpunkt setzen]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.editGcp" approved="yes">
+            	<source><![CDATA[Edit ground control points]]></source>
+            	<target><![CDATA[Passpunkte editieren]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.georeference.validate" approved="yes">
+				<source><![CDATA[Update preview]]></source>
+				<target><![CDATA[Vorschau aktualisieren]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.warnMissingGCPs" approved="yes">
+				<source><![CDATA[For producing a georeference preview you need at least 4 ground control points.]]></source>
+				<target><![CDATA[Für das Erzeugen eines Vorschaubildes werden mindestes 4 Passpunkte benötigt.]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.warnWrongClipPolygon" approved="yes">
+				<source><![CDATA[Your clip polygon seems to be malformed. Please check it again or try to contact the administrator.]]></source>
+				<target><![CDATA[Das erzeugte Clip-Polygon scheint defomiert zu sein. Bitte prüfen Sie dieses noch einmal oder kontaktieren Sie den Seiten-Administrator.]]></target>
+			</trans-unit>
 
     		<!-- Plugin Georeference > Submit Dialog -->
             <trans-unit id="plugin.georeference.submit-dialog.title" approved="yes">

@@ -142,12 +142,12 @@
 				<source>Amount of unreferenced maps</source>
 			</trans-unit>
 
-			<trans-unit id="client.georeferencechoose.searchField">
-            	<source>Map name</source>
-            </trans-unit>
-			<trans-unit id="client.georeferencechoose.goToGeoreference">
-				<source>Georeference</source>
-			</trans-unit>
+<!-- 			<trans-unit id="client.georeferencechoose.searchField"> -->
+<!--             	<source>Map name</source> -->
+<!--             </trans-unit> -->
+<!-- 			<trans-unit id="client.georeferencechoose.goToGeoreference"> -->
+<!-- 				<source>Georeference</source> -->
+<!-- 			</trans-unit> -->
 
 			<!-- vk2.app.AdminEvaluationApp -->
             <trans-unit id="client.evaluation.btnIsValid">
@@ -250,43 +250,7 @@
                 <source>Show Original</source>
             </trans-unit>
 
-            <!-- vk2.georeference.* -->
-			<trans-unit id="client.georeference.moveMap">
-				<source>Move Map</source>
-			</trans-unit>
-			<trans-unit id="client.georeference.setGcp">
-				<source>Set ground control point</source>
-			</trans-unit>
-			<trans-unit id="client.georeference.editGcp">
-            	<source>Edit ground control points</source>
-            </trans-unit>
-			<trans-unit id="client.georeference.moveGcp">
-				<source>Move ground control point</source>
-			</trans-unit>
-			<trans-unit id="client.georeference.deleteGcp">
-				<source>Delete ground control point</source>
-			</trans-unit>
-			<trans-unit id="client.georeference.drawClip">
-				<source>Draw clip polygon</source>
-			</trans-unit>
-			<trans-unit id="client.georeference.validate">
-				<source>Update preview</source>
-			</trans-unit>
-			<trans-unit id="client.georeference.confirm">
-				<source>Confirm georeferencing</source>
-			</trans-unit>
-			<trans-unit id="client.georeference.confirmWithoutClipTitle">
-				<source>Confirm georeference params</source>
-			</trans-unit>
-			<trans-unit id="client.georeference.confirmWithoutClipMsg">
-				<source>Confirm georeference params without clip params?</source>
-			</trans-unit>
-			<trans-unit id="client.georeference.warnMissingGCPs">
-				<source>For producing a georeference preview you need at least 4 ground control points.</source>
-			</trans-unit>
-			<trans-unit id="client.georeference.warnWrongClipPolygon">
-				<source>Your clip polygon seems to be malformed. Please check it again or try to contact the administrator.</source>
-			</trans-unit>
+
 
 			<!-- vk2.module.LayerManagementModule -->
 			<trans-unit id="client.layermanagementmodule.startMessage">
@@ -394,6 +358,29 @@
 				<source>Reset</source>
 			</trans-unit>
 
+            <!-- Global > Map > Control > Layerspy -->
+			<trans-unit id="global.map.control-layerspy.title">
+				<source>Get a magnifier for the map</source>
+			</trans-unit>
+
+            <!-- Global > Map > Control > Zoom -->
+            <trans-unit id="global.map.control-zoom.out">
+				<source>Zoom out</source>
+			</trans-unit>
+            <trans-unit id="global.map.control-zoom.in">
+				<source>Zoom in</source>
+			</trans-unit>
+
+           <!-- Global > Map > Control > Zoom to extent -->
+			<trans-unit id="global.map.control-zoomtoextent.title">
+				<source>Fit to extent</source>
+			</trans-unit>
+
+           <!-- Global > Map > Control > Fullscreen -->
+			<trans-unit id="global.map.control-fullscreen.title">
+				<source>Toggle full-screen</source>
+			</trans-unit>
+
 			<!-- Plugin Map > OriginalMapview -->
 			<trans-unit id="plugin.map.originalview.title">
                 <source>Original map</source>
@@ -476,6 +463,44 @@
 			<trans-unit id="plugin.apps.unreferencedmaps.btn-georeference">
     			<source>Georeference</source>
     		</trans-unit>
+
+            <!-- Plugin Georeference -->
+			<trans-unit id="plugin.georeference.moveMap">
+				<source>Move Map</source>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.setGcp">
+				<source>Set ground control point</source>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.editGcp">
+            	<source>Edit ground control points</source>
+            </trans-unit>
+			<trans-unit id="plugin.georeference.moveGcp">
+				<source>Move ground control point</source>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.deleteGcp">
+				<source>Delete ground control point</source>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.drawClip">
+				<source>Draw clip polygon</source>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.validate">
+				<source>Update preview</source>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.confirm">
+				<source>Confirm georeferencing</source>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.confirmWithoutClipTitle">
+				<source>Confirm georeference params</source>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.confirmWithoutClipMsg">
+				<source>Confirm georeference params without clip params?</source>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.warnMissingGCPs">
+				<source>For producing a georeference preview you need at least 4 ground control points.</source>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.warnWrongClipPolygon">
+				<source>Your clip polygon seems to be malformed. Please check it again or try to contact the administrator.</source>
+			</trans-unit>
 
     		<!-- Plugin Georeference > Submit Dialog -->
             <trans-unit id="plugin.georeference.submit-dialog.title">

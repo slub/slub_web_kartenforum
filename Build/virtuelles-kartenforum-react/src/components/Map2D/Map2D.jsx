@@ -16,9 +16,9 @@ import View from "ol/src/View";
 import Zoom from "ol/src/control/Zoom";
 import ZoomToExtent from "ol/src/control/ZoomToExtent";
 import XYZ from "ol/src/source/XYZ";
-import OlControlLayerSpy from "../OlControlLayerSpy/OlControlLayerSpy";
+import { translate } from "../../util/util";
+import ControlLayerSpy from "../Controls/ControlLayerSpy";
 import "./Map2D.scss";
-import TileLayer from "ol/layer/Tile";
 
 export const Map2D = (props) => {
   const {
@@ -44,7 +44,15 @@ export const Map2D = (props) => {
 
       // Create the map object
       const map = new Map({
-        controls: [new Fullscreen(), new Zoom()],
+        controls: [
+          new Fullscreen({
+            tipLabel: translate("control-fullscreen-title"),
+          }),
+          new Zoom({
+            zoomInTipLabel: translate("control-zoom-in"),
+            zoomOutTipLabel: translate("control-zoom-in"),
+          }),
+        ],
         interactions: defaultInteractions().extend([new DragZoom()]),
         layers: [baseLayer],
         target: refMapContainer.current,
@@ -74,6 +82,7 @@ export const Map2D = (props) => {
         // Add a zoom to extent control
         map.addControl(
           new ZoomToExtent({
+            tipLabel: translate("control-zoomtoextent-title"),
             extent: polygon.getExtent(),
           })
         );
@@ -81,8 +90,8 @@ export const Map2D = (props) => {
 
       // Add a layer spy control
       map.addControl(
-        new OlControlLayerSpy({
-          spyLayer: new TileLayer({
+        new ControlLayerSpy({
+          spyLayer: new Tile({
             zIndex: 10,
             attribution: undefined,
             source: new XYZ({
