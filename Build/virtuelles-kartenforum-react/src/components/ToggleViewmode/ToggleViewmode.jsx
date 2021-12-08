@@ -14,7 +14,6 @@ export class ToggleViewMode extends Control {
     const options = opt_options || {};
     const defaultClass = "flip-view-mode ol-unselectable ol-control";
     const initialState = options.initialState;
-    console.log(initialState);
     const element = document.createElement("div");
     element.className = !initialState ? defaultClass : `${defaultClass} active`;
 
@@ -48,26 +47,38 @@ export class ToggleViewMode extends Control {
           ? defaultClass
           : `${defaultClass} active`;
 
-        if (!newIs3dActive && this.getMap().getView().getZoom() <= min3DZoom) {
+        if (!newIs3dActive && !currentIs3dActive) {
           // In this case we expect that the 3d view can not be activated because of not meeting the
           // zoom level condition
           infoMessage.classList.add("open");
-          clearTimeout(timeout);
           timeout = setTimeout(() => {
             infoMessage.classList.remove("open");
           }, 4000);
 
           return false;
+        } else {
+          // if the 3d mode was activated successfully close the message
+          clearTimeout(timeout);
+          infoMessage.classList.remove("open");
         }
 
         return newIs3dActive;
       });
     };
+
     button.addEventListener("click", handleUpdate, false);
     button.addEventListener("touchstart", handleUpdate, false);
 
-    // Necessary for proper inheritence from control
+    // Necessary for proper inheritance from control
     super({ element, target: options.target });
+
+    this.handleExternal3dStateUpdate = (newIs3dActive) => {
+      if (newIs3dActive && !element.classList.contains("active")) {
+        element.classList.add("active");
+      } else if (!newIs3dActive && element.classList.contains("active")) {
+        element.classList.remove("active");
+      }
+    };
   }
 }
 

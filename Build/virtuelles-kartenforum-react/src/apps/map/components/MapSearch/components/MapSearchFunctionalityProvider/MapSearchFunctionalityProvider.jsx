@@ -92,11 +92,11 @@ export const MapSearchFunctionalityProvider = (props) => {
       mapPaginationSource.update3dState(is3dEnabled);
     }
 
-    if (is3dEnabled) {
+    if (is3dEnabled && isDefined(mapOverlayLayer)) {
       // in case 3d mode is active add altitude value to coordinate
       mapOverlayLayer.set("altitudeMode", "clampToGround");
     }
-  }, [is3dEnabled]);
+  }, [is3dEnabled, mapPaginationSource, mapOverlayLayer]);
 
   // Propagate the timeExtent from global state to the pagination source
   useEffect(() => {

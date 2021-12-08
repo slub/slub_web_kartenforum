@@ -183,6 +183,17 @@ export function MapWrapper(props) {
     }
   }, [is3dActive]);
 
+  useEffect(() => {
+    if (isDefined(controlsRef.current)) {
+      controlsRef.current.forEach((control) => {
+        const updateFn = control.handleExternal3dStateUpdate;
+        if (updateFn !== undefined) {
+          updateFn(is3dActive);
+        }
+      });
+    }
+  }, [is3dActive]);
+
   // update controls on layout change
   useEffect(() => {
     if (isDefined(map)) {

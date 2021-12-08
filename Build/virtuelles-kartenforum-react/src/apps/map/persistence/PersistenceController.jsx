@@ -9,8 +9,14 @@ import { Feature, View } from "ol";
 import { Polygon } from "ol/geom";
 import React, { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
+import olcsCore from "olcs/core";
 
-import { map3dState, mapState, selectedFeaturesState } from "../atoms/atoms";
+import {
+  map3dState,
+  mapState,
+  olcsMapState,
+  selectedFeaturesState,
+} from "../atoms/atoms";
 import { isDefined } from "../../../util/util";
 import { useLocalStorage, useOnPageLeave } from "./util";
 
@@ -19,6 +25,7 @@ const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
 export const PersistenceController = () => {
   const [mapIs3dEnabled, setMapIs3dEnabled] = useRecoilState(map3dState);
   const map = useRecoilValue(mapState);
+  const olcsMap = useRecoilValue(olcsMapState);
 
   /**
    * @type {{
@@ -60,15 +67,42 @@ export const PersistenceController = () => {
 
     if (map !== undefined) {
       // Persist map view
-      const view = map.getView();
+      let view;
 
-      const newPersistedView = {
+      if (mapIs3dEnabled && isDefined(olcsMap) && olcsMap.getEnabled()) {
+        // for the 3d case perform the rotation back into 2d view to persist the not-rotated coordinates
+        const ol3d = olcsMap,
+          scene = ol3d.getCesiumScene(),
+          csCamera = scene.camera,
+          bottom = olcsCore.pickBottomPoint(scene),
+          transform = Cesium.Matrix4.fromTranslation(bottom),
+          angle = olcsCore.computeAngleToZenith(scene, bottom),
+          olCsCamera = ol3d.getCamera();
+
+        // perform the rotation on the cesium camera => "rotateAroundAxis"
+        const oldTransform = new Cesium.Matrix4();
+        csCamera.transform.clone(oldTransform);
+        csCamera.lookAtTransform(transform);
+        csCamera.rotate(csCamera.right, -angle);
+        csCamera.lookAtTransform(oldTransform);
+
+        // use the olcs camera representation to update the ol map view
+        olCsCamera.updateView();
+        // access the private internal view which equals the ol map view
+        view = olCsCamera.view_;
+
+        // apply the resolution and rotation constraints
+        view.setResolution(view.getResolution());
+        view.setRotation(view.getRotation());
+      } else {
+        view = map.getView();
+      }
+
+      newPersistenceObject.mapView = {
         center: view.getCenter(),
         resolution: view.getResolution(),
         zoom: view.getZoom(),
       };
-
-      newPersistenceObject["mapView"] = newPersistedView;
 
       // Persist opacities if they are available
       const layers = map.getLayers().getArray();
@@ -82,7 +116,7 @@ export const PersistenceController = () => {
           );
 
           if (f !== undefined) {
-            f["opacity"] = opacity;
+            f.opacity = opacity;
           }
         }
       });
@@ -95,11 +129,6 @@ export const PersistenceController = () => {
   // Write current state to localStorage
   useOnPageLeave(handlePageLeave);
 
-  // restore 3d state from local storage
-  useEffect(() => {
-    setMapIs3dEnabled(persistenceIs3dEnabled);
-  }, []);
-
   // restore other map/layer related settings from local storage
   useEffect(() => {
     if (map !== undefined) {
@@ -107,6 +136,9 @@ export const PersistenceController = () => {
       if (isDefined(mapView) && Object.keys(mapView).length > 0) {
         map.setView(new View(mapView));
       }
+
+      // only set the 3d state after the map was initialized in order to handle correct view initalization
+      setMapIs3dEnabled(persistenceIs3dEnabled);
 
       // restore features if available
       if (operationalLayers.length > 0) {
