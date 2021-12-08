@@ -17,7 +17,7 @@ import Zoom from "ol/src/control/Zoom";
 import ZoomToExtent from "ol/src/control/ZoomToExtent";
 import XYZ from "ol/src/source/XYZ";
 import { translate } from "../../util/util";
-import ControlLayerSpy from "../Controls/ControlLayerSpy";
+import LayerSpyControl from "../Controls/LayerSpyControl";
 import "./Map2D.scss";
 
 export const Map2D = (props) => {
@@ -90,7 +90,7 @@ export const Map2D = (props) => {
 
       // Add a layer spy control
       map.addControl(
-        new ControlLayerSpy({
+        new LayerSpyControl({
           spyLayer: new Tile({
             zIndex: 10,
             attribution: undefined,

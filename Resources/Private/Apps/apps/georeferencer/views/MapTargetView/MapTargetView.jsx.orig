@@ -23,7 +23,7 @@ import {
   rectifiedImageParamsState,
   targetViewParamsState,
 } from "../../atoms/atoms";
-import ControlLayerSpy from "../../../../components/ControlLayerSpy/ControlLayerSpy";
+import LayerSpyControl from "../../../../components/LayerSpyControl/LayerSpyControl";
 import LayerRectifiedImage from "../../components/LayerRectifiedImage/LayerRectifiedImage";
 =======
 
@@ -90,7 +90,7 @@ export const MapTargetView = (props) => {
 
       // Add a layer spy control
       map.addControl(
-        new ControlLayerSpy({
+        new LayerSpyControl({
           spyLayer: new TileLayer({
             zIndex: 10,
             attribution: undefined,

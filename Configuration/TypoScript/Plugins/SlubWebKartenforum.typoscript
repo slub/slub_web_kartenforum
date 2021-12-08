@@ -17,6 +17,8 @@ tt_content.slubwebkartenforum_map = FLUIDTEMPLATE
 tt_content.slubwebkartenforum_map {
     file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Map.html
     variables {
+        basemapsConfig = TEXT
+        basemapsConfig.value = {$plugin.tx_slubwebkartenforum.settings.basemapsConfig}
         urlNominatim = TEXT
         urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
         urlOsmMaps = TEXT

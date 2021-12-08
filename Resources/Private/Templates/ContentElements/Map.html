@@ -2,6 +2,7 @@
 
 <input type="hidden" value="{urlOsmMaps}" id="setting-urlOsmMaps"/>
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
+<input type="hidden" value="{basemapsConfig}" id="setting-basemapsConfig"/>
 <f:security.ifAuthenticated>
     <f:then>
         <input type="hidden" id="setting-is-auth"/>
@@ -22,6 +23,7 @@
         // update settings from typo3 flexform parameters
         vk2.SettingsProvider.appendSettings({
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
+            "BASEMAP_CONFIG": JSON.parse(document.getElementById("setting-basemapsConfig").value),
             "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
             "ELASTICSEARCH_NODE": "https://kartenforum.slub-dresden.de/spatialdocuments",
             "ELASTICSEARCH_SRS": "EPSG:4326",
@@ -106,6 +108,7 @@
             )
         });
 
+        console.log(document.getElementById("setting-basemapsConfig").value)
 
 
         // Render map plugin

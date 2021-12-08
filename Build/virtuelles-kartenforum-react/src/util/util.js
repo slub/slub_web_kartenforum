@@ -12,8 +12,8 @@ import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
 import { SettingsProvider } from "../apps/map";
 import CustomAttribution from "../apps/map/components/MapWrapper/components/CustomAttribution";
 import ToggleViewMode from "../components/ToggleViewmode/ToggleViewmode";
-import ControlLayerSpy from "../components/Controls/ControlLayerSpy";
-import RestoreDefaultView from "../apps/map/components/MapWrapper/components/RestoreDefaultView";
+import LayerSpy from "../components/Controls/LayerSpyControl";
+import BasemapSelector from "../apps/map/components/Controls/BasemapSelectorControl";
 import { MousePositionOnOff } from "../apps/map/components/MapWrapper/components/MousePositionOnOff";
 import { LAYOUT_TYPES } from "../apps/map/layouts/util";
 
@@ -59,7 +59,7 @@ export function translate(key) {
  * Returns the default controls for the map view
  **/
 export const getDefaultControls = (params) => {
-    const { baseMapUrl, is3dActive, layout, set3dActive } = params;
+    const { baseMapUrl, is3dActive, layout, map, set3dActive } = params;
 
     const defaultControls = [
         new CustomAttribution(),
@@ -72,7 +72,7 @@ export const getDefaultControls = (params) => {
     if (layout === LAYOUT_TYPES.HORIZONTAL) {
         defaultControls.push(
             new Zoom(),
-            new ControlLayerSpy({
+            new LayerSpy({
                 spyLayer: new TileLayer({
                     attribution: undefined,
                     source: new XYZ({
@@ -86,7 +86,10 @@ export const getDefaultControls = (params) => {
                 initialState: is3dActive,
                 propagateViewMode: set3dActive,
             }),
-            new MousePositionOnOff()
+            new MousePositionOnOff(),
+            new BasemapSelector({
+                map: map,
+            })
         );
     }
 

@@ -137,6 +137,7 @@
   &.flip-view-mode button,
   &.rotate-north button,
   &.mouse-position button,
+  &.basemap-selector button,
   button {
     background-color: $secondaryColorMain;
     border-radius: 0;
@@ -144,7 +145,8 @@
     height: 22px;
     overflow: hidden;
 
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: $secondaryColorDark;
     }
   }

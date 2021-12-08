@@ -27,6 +27,7 @@
       &.mouse-position,
       &.flip-view-mode,
       &.ol-mouse-position-box,
+      &.basemap-selector,
       &.ol-zoom {
         left: 340px;
       }
@@ -55,6 +56,10 @@
       &.flip-view-mode {
         top: 240px;
       }
+
+      &.basemap-selector {
+        top: 276px;
+      }
     }
 
     &:fullscreen {
@@ -66,6 +71,7 @@
         &.mouse-position,
         &.flip-view-mode,
         &.ol-mouse-position-box,
+        &.basemap-selector,
         &.ol-zoom {
           left: 10px;
         }

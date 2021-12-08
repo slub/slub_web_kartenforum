@@ -19,7 +19,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import olcsCore from "olcs/core";
 import clsx from "clsx";
 import { useWindowWidth } from "@react-hook/window-size";
-
+import { createBaseMapLayer } from "../../../../util/geo";
+import { getDefaultControls, isDefined } from "../../../../util/util";
 import {
   mapState,
   map3dState,
@@ -31,7 +32,6 @@ import {
   generateLimitCamera,
   setOptimizedCesiumSettings,
 } from "./util";
-import { getDefaultControls, isDefined } from "../../../../util/util";
 import { getMapClassNameForLayout } from "../../layouts/util";
 import "./MapWrapper.scss";
 
@@ -79,14 +79,8 @@ export function MapWrapper(props) {
     const initialMap = new Map({
       controls: [],
       layers: [
-        // USGS Topo
-        new TileLayer({
-          source: new XYZ({
-            crossOrigin: "*",
-            maxZoom: 18,
-            urls: baseMapUrl,
-          }),
-        }),
+        createBaseMapLayer("slub-osm", "xyz", baseMapUrl),
+
         initalFeaturesLayer,
       ],
       interactions: defaults().extend([new DragRotateAndZoom()]),
@@ -199,6 +193,7 @@ export function MapWrapper(props) {
       }
 
       const newControls = getDefaultControls({
+        map,
         baseMapUrl,
         is3dActive,
         layout,
