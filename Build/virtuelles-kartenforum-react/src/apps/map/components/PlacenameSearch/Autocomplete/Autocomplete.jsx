@@ -8,6 +8,7 @@
 import React, { useRef, useState } from "react";
 import { useCombobox } from "downshift";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 
 import "./Autocomplete.scss";
 
@@ -60,6 +61,7 @@ export function Autocomplete({
     getInputProps,
     getComboboxProps,
     getItemProps,
+    highlightedIndex,
   } = useCombobox({
     items: inputItems,
     itemToString: itemToString,
@@ -105,9 +107,16 @@ export function Autocomplete({
           {isOpen &&
             inputItems.map((item, index) => (
               <li
-                className="ui-menu-item"
+                className={clsx(
+                  "ui-menu-item",
+                  highlightedIndex === index && "highlighted",
+                  selectedItem === item && "selected"
+                )}
                 key={`${item.label}${index}`}
-                {...getItemProps({ item, index })}
+                {...getItemProps({
+                  item,
+                  index,
+                })}
               >
                 {item.label}
               </li>
