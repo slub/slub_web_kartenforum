@@ -381,6 +381,11 @@
 				<source>Toggle full-screen</source>
 			</trans-unit>
 
+           <!-- Global > Map > Control > LocateMe -->
+			<trans-unit id="global.map.control-locateme.title">
+				<source>Locate me</source>
+			</trans-unit>
+
 			<!-- Plugin Map > OriginalMapview -->
 			<trans-unit id="plugin.map.originalview.title">
                 <source>Original map</source>

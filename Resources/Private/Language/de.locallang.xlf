@@ -496,6 +496,12 @@
 				<target><![CDATA[Umschalten zu Vollbild]]></target>
 			</trans-unit>
 
+           <!-- Global > Map > Control > LocateMe -->
+			<trans-unit id="global.map.control-locateme.title"  approved="yes">
+				<source><![CDATA[Locate me]]></source>
+				<target><![CDATA[Lokalisiere mich]]></target>
+			</trans-unit>
+
 			<!-- Plugin Map > OriginalMapview -->
 			<trans-unit id="plugin.map.originalview.title" approved="yes">
                 <source><![CDATA[Original map]]></source>

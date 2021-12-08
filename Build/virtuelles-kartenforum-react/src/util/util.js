@@ -11,6 +11,7 @@ import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
 
 import { SettingsProvider } from "../apps/map";
 import CustomAttribution from "../apps/map/components/MapWrapper/components/CustomAttribution";
+import LocateMeControl from "../components/Controls/LocateMeControl";
 import ToggleViewMode from "../components/ToggleViewmode/ToggleViewmode";
 import LayerSpy from "../components/Controls/LayerSpyControl";
 import BasemapSelector from "../apps/map/components/Controls/BasemapSelectorControl";
@@ -71,6 +72,9 @@ export const getDefaultControls = (params) => {
 
     if (layout === LAYOUT_TYPES.HORIZONTAL) {
         defaultControls.push(
+            new LocateMeControl({
+                map: map,
+            }),
             new Zoom(),
             new LayerSpy({
                 spyLayer: new TileLayer({

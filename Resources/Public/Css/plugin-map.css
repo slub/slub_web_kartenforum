@@ -121,7 +121,7 @@
   background-size: 22px 22px;
   text-indent: -50px;
 }
-.ol-control.ol-zoom-extent button, .ol-control.ol-zoom button, .ol-control.ol-full-screen button, .ol-control.ol-layerspy button, .ol-control.flip-view-mode button, .ol-control.rotate-north button, .ol-control.mouse-position button, .ol-control.basemap-selector button,
+.ol-control.ol-zoom-extent button, .ol-control.ol-zoom button, .ol-control.ol-full-screen button, .ol-control.ol-layerspy button, .ol-control.ol-locate-me button, .ol-control.flip-view-mode button, .ol-control.rotate-north button, .ol-control.mouse-position button, .ol-control.basemap-selector button,
 .ol-control button {
   background-color: #00b19e;
   border-radius: 0;
@@ -129,7 +129,7 @@
   height: 22px;
   overflow: hidden;
 }
-.ol-control.ol-zoom-extent button:hover, .ol-control.ol-zoom-extent button:focus, .ol-control.ol-zoom button:hover, .ol-control.ol-zoom button:focus, .ol-control.ol-full-screen button:hover, .ol-control.ol-full-screen button:focus, .ol-control.ol-layerspy button:hover, .ol-control.ol-layerspy button:focus, .ol-control.flip-view-mode button:hover, .ol-control.flip-view-mode button:focus, .ol-control.rotate-north button:hover, .ol-control.rotate-north button:focus, .ol-control.mouse-position button:hover, .ol-control.mouse-position button:focus, .ol-control.basemap-selector button:hover, .ol-control.basemap-selector button:focus,
+.ol-control.ol-zoom-extent button:hover, .ol-control.ol-zoom-extent button:focus, .ol-control.ol-zoom button:hover, .ol-control.ol-zoom button:focus, .ol-control.ol-full-screen button:hover, .ol-control.ol-full-screen button:focus, .ol-control.ol-layerspy button:hover, .ol-control.ol-layerspy button:focus, .ol-control.ol-locate-me button:hover, .ol-control.ol-locate-me button:focus, .ol-control.flip-view-mode button:hover, .ol-control.flip-view-mode button:focus, .ol-control.rotate-north button:hover, .ol-control.rotate-north button:focus, .ol-control.mouse-position button:hover, .ol-control.mouse-position button:focus, .ol-control.basemap-selector button:hover, .ol-control.basemap-selector button:focus,
 .ol-control button:hover,
 .ol-control button:focus {
   background-color: #138d8d;
@@ -163,7 +163,7 @@
 .map-container .ol-map-small .ol-control.ol-full-screen {
   top: 20px;
 }
-.map-container .ol-map-large .ol-control.ol-zoom-extent, .map-container .ol-map-large .ol-control.rotate-north, .map-container .ol-map-large .ol-control.ol-full-screen, .map-container .ol-map-large .ol-control.ol-layerspy, .map-container .ol-map-large .ol-control.mouse-position, .map-container .ol-map-large .ol-control.flip-view-mode, .map-container .ol-map-large .ol-control.ol-mouse-position-box, .map-container .ol-map-large .ol-control.basemap-selector, .map-container .ol-map-large .ol-control.ol-zoom {
+.map-container .ol-map-large .ol-control.ol-zoom-extent, .map-container .ol-map-large .ol-control.rotate-north, .map-container .ol-map-large .ol-control.ol-full-screen, .map-container .ol-map-large .ol-control.ol-layerspy, .map-container .ol-map-large .ol-control.mouse-position, .map-container .ol-map-large .ol-control.flip-view-mode, .map-container .ol-map-large .ol-control.ol-mouse-position-box, .map-container .ol-map-large .ol-control.basemap-selector, .map-container .ol-map-large .ol-control.ol-locate-me, .map-container .ol-map-large .ol-control.ol-zoom {
   left: 340px;
 }
 .map-container .ol-map-large .ol-control.ol-zoom {
@@ -188,7 +188,10 @@
 .map-container .ol-map-large .ol-control.basemap-selector {
   top: 276px;
 }
-.map-container .ol-map-large:fullscreen .ol-control.ol-zoom-extent, .map-container .ol-map-large:fullscreen .ol-control.rotate-north, .map-container .ol-map-large:fullscreen .ol-control.ol-full-screen, .map-container .ol-map-large:fullscreen .ol-control.ol-layerspy, .map-container .ol-map-large:fullscreen .ol-control.mouse-position, .map-container .ol-map-large:fullscreen .ol-control.flip-view-mode, .map-container .ol-map-large:fullscreen .ol-control.ol-mouse-position-box, .map-container .ol-map-large:fullscreen .ol-control.basemap-selector, .map-container .ol-map-large:fullscreen .ol-control.ol-zoom {
+.map-container .ol-map-large .ol-control.ol-locate-me {
+  top: 312px;
+}
+.map-container .ol-map-large:fullscreen .ol-control.ol-zoom-extent, .map-container .ol-map-large:fullscreen .ol-control.rotate-north, .map-container .ol-map-large:fullscreen .ol-control.ol-full-screen, .map-container .ol-map-large:fullscreen .ol-control.ol-layerspy, .map-container .ol-map-large:fullscreen .ol-control.mouse-position, .map-container .ol-map-large:fullscreen .ol-control.flip-view-mode, .map-container .ol-map-large:fullscreen .ol-control.ol-mouse-position-box, .map-container .ol-map-large:fullscreen .ol-control.basemap-selector, .map-container .ol-map-large:fullscreen .ol-control.ol-locate-me, .map-container .ol-map-large:fullscreen .ol-control.ol-zoom {
   left: 10px;
 }
 .map-container .ol-map-large .ol-scale-line {
@@ -208,6 +211,36 @@
 
 .hide {
   display: none;
+}
+
+.ol-map-large .layermanagement-container {
+  position: absolute;
+  top: 92px;
+  bottom: 130px;
+  right: 10px;
+  border: 0 none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.9);
+  width: 320px;
+  z-index: 310;
+}
+
+.vkf-modal .vkf-modal-original-map.modal-dialog {
+  width: 90%;
+  height: 90%;
+  margin: 50px auto;
+}
+.vkf-modal .vkf-modal-original-map .modal-content {
+  display: flex;
+  flex-direction: column;
+}
+.vkf-modal .vkf-modal-original-map .modal-body {
+  flex-grow: 1;
+}
+.vkf-modal .vkf-modal-original-map > div {
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
 
 /*
@@ -245,38 +278,17 @@
   background-color: #f5f5f5;
 }
 
-.ol-map-large .layermanagement-container {
+/*
+ * Variables for frontend design
+ * -----------------------------------------------
+ */
+.ol-control.ol-locate-me {
   position: absolute;
-  top: 92px;
-  bottom: 130px;
-  right: 10px;
-  border: 0 none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-  background: rgba(255, 255, 255, 0.9);
-  width: 320px;
-  z-index: 310;
-}
-
-.vkf-modal .vkf-modal-original-map.modal-dialog {
-  width: 90%;
-  height: 90%;
-  margin: 50px auto;
-}
-.vkf-modal .vkf-modal-original-map .modal-content {
-  display: flex;
-  flex-direction: column;
-}
-.vkf-modal .vkf-modal-original-map .modal-body {
-  flex-grow: 1;
-}
-.vkf-modal .vkf-modal-original-map > div {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-}
-
-.flip-view-mode .flipviewmode-button-label {
-  font-size: 14px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  padding: 2px;
+  top: 95px;
+  left: 0.5em;
 }
 
 /*
@@ -296,6 +308,10 @@
 }
 .ol-control.ol-layerspy > button.active {
   background-color: rgba(255, 51, 51, 0.9);
+}
+
+.flip-view-mode .flipviewmode-button-label {
+  font-size: 14px;
 }
 
 /*
@@ -521,7 +537,7 @@
   background-size: 22px 22px;
   text-indent: -50px;
 }
-.ol-control.ol-zoom-extent button, .ol-control.ol-zoom button, .ol-control.ol-full-screen button, .ol-control.ol-layerspy button, .ol-control.flip-view-mode button, .ol-control.rotate-north button, .ol-control.mouse-position button, .ol-control.basemap-selector button,
+.ol-control.ol-zoom-extent button, .ol-control.ol-zoom button, .ol-control.ol-full-screen button, .ol-control.ol-layerspy button, .ol-control.ol-locate-me button, .ol-control.flip-view-mode button, .ol-control.rotate-north button, .ol-control.mouse-position button, .ol-control.basemap-selector button,
 .ol-control button {
   background-color: #00b19e;
   border-radius: 0;
@@ -529,7 +545,7 @@
   height: 22px;
   overflow: hidden;
 }
-.ol-control.ol-zoom-extent button:hover, .ol-control.ol-zoom-extent button:focus, .ol-control.ol-zoom button:hover, .ol-control.ol-zoom button:focus, .ol-control.ol-full-screen button:hover, .ol-control.ol-full-screen button:focus, .ol-control.ol-layerspy button:hover, .ol-control.ol-layerspy button:focus, .ol-control.flip-view-mode button:hover, .ol-control.flip-view-mode button:focus, .ol-control.rotate-north button:hover, .ol-control.rotate-north button:focus, .ol-control.mouse-position button:hover, .ol-control.mouse-position button:focus, .ol-control.basemap-selector button:hover, .ol-control.basemap-selector button:focus,
+.ol-control.ol-zoom-extent button:hover, .ol-control.ol-zoom-extent button:focus, .ol-control.ol-zoom button:hover, .ol-control.ol-zoom button:focus, .ol-control.ol-full-screen button:hover, .ol-control.ol-full-screen button:focus, .ol-control.ol-layerspy button:hover, .ol-control.ol-layerspy button:focus, .ol-control.ol-locate-me button:hover, .ol-control.ol-locate-me button:focus, .ol-control.flip-view-mode button:hover, .ol-control.flip-view-mode button:focus, .ol-control.rotate-north button:hover, .ol-control.rotate-north button:focus, .ol-control.mouse-position button:hover, .ol-control.mouse-position button:focus, .ol-control.basemap-selector button:hover, .ol-control.basemap-selector button:focus,
 .ol-control button:hover,
 .ol-control button:focus {
   background-color: #138d8d;
@@ -961,7 +977,7 @@
   background-size: 22px 22px;
   text-indent: -50px;
 }
-.ol-control.ol-zoom-extent button, .ol-control.ol-zoom button, .ol-control.ol-full-screen button, .ol-control.ol-layerspy button, .ol-control.flip-view-mode button, .ol-control.rotate-north button, .ol-control.mouse-position button, .ol-control.basemap-selector button,
+.ol-control.ol-zoom-extent button, .ol-control.ol-zoom button, .ol-control.ol-full-screen button, .ol-control.ol-layerspy button, .ol-control.ol-locate-me button, .ol-control.flip-view-mode button, .ol-control.rotate-north button, .ol-control.mouse-position button, .ol-control.basemap-selector button,
 .ol-control button {
   background-color: #00b19e;
   border-radius: 0;
@@ -969,7 +985,7 @@
   height: 22px;
   overflow: hidden;
 }
-.ol-control.ol-zoom-extent button:hover, .ol-control.ol-zoom-extent button:focus, .ol-control.ol-zoom button:hover, .ol-control.ol-zoom button:focus, .ol-control.ol-full-screen button:hover, .ol-control.ol-full-screen button:focus, .ol-control.ol-layerspy button:hover, .ol-control.ol-layerspy button:focus, .ol-control.flip-view-mode button:hover, .ol-control.flip-view-mode button:focus, .ol-control.rotate-north button:hover, .ol-control.rotate-north button:focus, .ol-control.mouse-position button:hover, .ol-control.mouse-position button:focus, .ol-control.basemap-selector button:hover, .ol-control.basemap-selector button:focus,
+.ol-control.ol-zoom-extent button:hover, .ol-control.ol-zoom-extent button:focus, .ol-control.ol-zoom button:hover, .ol-control.ol-zoom button:focus, .ol-control.ol-full-screen button:hover, .ol-control.ol-full-screen button:focus, .ol-control.ol-layerspy button:hover, .ol-control.ol-layerspy button:focus, .ol-control.ol-locate-me button:hover, .ol-control.ol-locate-me button:focus, .ol-control.flip-view-mode button:hover, .ol-control.flip-view-mode button:focus, .ol-control.rotate-north button:hover, .ol-control.rotate-north button:focus, .ol-control.mouse-position button:hover, .ol-control.mouse-position button:focus, .ol-control.basemap-selector button:hover, .ol-control.basemap-selector button:focus,
 .ol-control button:hover,
 .ol-control button:focus {
   background-color: #138d8d;
@@ -1014,83 +1030,6 @@
 .vk-mapview-zoomify .ol-control.image-manipulation {
   left: 10px;
   top: 113px;
-}
-
-.timeslider-container {
-  position: relative;
-  margin-bottom: 20px;
-}
-.timeslider-container:after {
-  position: absolute;
-  bottom: 0;
-  left: -15px;
-  right: -15px;
-  height: 1px;
-  background: rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  content: "";
-}
-.timeslider-container label {
-  width: 100%;
-  text-align: center;
-  font-size: 11px;
-  margin: 10px 0 0 0;
-  color: rgba(0, 177, 158, 0.4);
-  text-transform: uppercase;
-  font-weight: 500;
-}
-.timeslider-container .slider-container {
-  padding: 25px 5px;
-  margin-top: -7px;
-}
-.timeslider-container .slider-container.labels-too-close .rc-slider .rc-slider-handle.rc-slider-handle-2:after {
-  position: absolute;
-  top: -3px;
-  bottom: unset;
-  transform: rotate(180deg);
-}
-.timeslider-container .slider-container .rc-slider .rc-slider-handle {
-  width: 12px;
-  height: 12px;
-  background: #00b19e;
-  border: 0 none;
-  border-radius: 0;
-  box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.2);
-  cursor: col-resize;
-}
-.timeslider-container .slider-container .rc-slider .rc-slider-handle:focus, .timeslider-container .slider-container .rc-slider .rc-slider-handle:active {
-  border: 0;
-  outline: none;
-}
-.timeslider-container .slider-container .rc-slider .rc-slider-handle:after {
-  position: absolute;
-  bottom: -3px;
-  left: 3px;
-  width: 0;
-  height: 0;
-  content: "";
-  border: 3px solid transparent;
-  border-bottom-width: 0;
-  border-top-color: #00b19e;
-}
-.timeslider-container .slider-container .rc-slider .rc-slider-track {
-  background: rgba(0, 177, 158, 0.5);
-}
-.timeslider-container .slider-container .tooltip {
-  margin-top: 6px;
-  opacity: 1;
-  font-size: 10px;
-  color: #385c5c;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 500;
-}
-.timeslider-container .slider-container .tooltip.min-value {
-  margin-left: -12px;
-  left: 0%;
-}
-.timeslider-container .slider-container .tooltip.max-value {
-  left: 100%;
-  margin-left: -12px;
 }
 
 .gazetteersearch-container {
@@ -1229,6 +1168,83 @@
   display: flex;
   padding: 0;
   flex-grow: 1;
+}
+
+.timeslider-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+.timeslider-container:after {
+  position: absolute;
+  bottom: 0;
+  left: -15px;
+  right: -15px;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  content: "";
+}
+.timeslider-container label {
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
+  margin: 10px 0 0 0;
+  color: rgba(0, 177, 158, 0.4);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.timeslider-container .slider-container {
+  padding: 25px 5px;
+  margin-top: -7px;
+}
+.timeslider-container .slider-container.labels-too-close .rc-slider .rc-slider-handle.rc-slider-handle-2:after {
+  position: absolute;
+  top: -3px;
+  bottom: unset;
+  transform: rotate(180deg);
+}
+.timeslider-container .slider-container .rc-slider .rc-slider-handle {
+  width: 12px;
+  height: 12px;
+  background: #00b19e;
+  border: 0 none;
+  border-radius: 0;
+  box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.2);
+  cursor: col-resize;
+}
+.timeslider-container .slider-container .rc-slider .rc-slider-handle:focus, .timeslider-container .slider-container .rc-slider .rc-slider-handle:active {
+  border: 0;
+  outline: none;
+}
+.timeslider-container .slider-container .rc-slider .rc-slider-handle:after {
+  position: absolute;
+  bottom: -3px;
+  left: 3px;
+  width: 0;
+  height: 0;
+  content: "";
+  border: 3px solid transparent;
+  border-bottom-width: 0;
+  border-top-color: #00b19e;
+}
+.timeslider-container .slider-container .rc-slider .rc-slider-track {
+  background: rgba(0, 177, 158, 0.5);
+}
+.timeslider-container .slider-container .tooltip {
+  margin-top: 6px;
+  opacity: 1;
+  font-size: 10px;
+  color: #385c5c;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+}
+.timeslider-container .slider-container .tooltip.min-value {
+  margin-left: -12px;
+  left: 0%;
+}
+.timeslider-container .slider-container .tooltip.max-value {
+  left: 100%;
+  margin-left: -12px;
 }
 
 .vkf-dyn-vis-control {
