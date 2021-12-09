@@ -5,6 +5,29 @@
  * file 'LICENSE.txt', which is part of this source code package
  */
 import { useEffect, useState } from "react";
+import { Feature } from "ol";
+import { Polygon } from "ol/geom";
+
+/**
+ * Deserializes an operationalLayer from a supplied persistence object
+ * @param coordinates
+ * @param id
+ * @param properties
+ * @param opacity
+ * @return {{displayedInMap: boolean, feature: Feature, opacity}}
+ */
+export const deSerializeOperationalLayer = ({
+    coordinates,
+    id,
+    properties,
+    opacity,
+}) => {
+    const feature = new Feature({ geometry: new Polygon(coordinates) });
+    feature.setId(id);
+    const { geometry, ...rest } = properties;
+    feature.setProperties(rest);
+    return { feature, displayedInMap: false, opacity };
+};
 
 /**
  * Allow access to local storage

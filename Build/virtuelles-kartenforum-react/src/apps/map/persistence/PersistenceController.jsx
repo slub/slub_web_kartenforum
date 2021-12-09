@@ -5,11 +5,11 @@
  * file 'LICENSE.txt', which is part of this source code package
  */
 
-import { Feature, View } from "ol";
-import { Polygon } from "ol/geom";
+import { View } from "ol";
 import React, { useCallback, useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import olcsCore from "olcs/core";
+import { parse } from "query-string";
 
 import {
   map3dState,
@@ -18,7 +18,14 @@ import {
   selectedFeaturesState,
 } from "../atoms/atoms";
 import { isDefined } from "../../../util/util";
-import { useLocalStorage, useOnPageLeave } from "./util";
+import {
+  deSerializeOperationalLayer,
+  useLocalStorage,
+  useOnPageLeave,
+} from "./util";
+import { queryDocument } from "../../../util/apiEs";
+import { readFeature } from "../../../util/parser";
+import { notificationState } from "../../../atoms/atoms";
 
 const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
 
@@ -26,6 +33,7 @@ export const PersistenceController = () => {
   const [mapIs3dEnabled, setMapIs3dEnabled] = useRecoilState(map3dState);
   const map = useRecoilValue(mapState);
   const olcsMap = useRecoilValue(olcsMapState);
+  const setNotification = useSetRecoilState(notificationState);
 
   /**
    * @type {{
@@ -140,19 +148,42 @@ export const PersistenceController = () => {
       // only set the 3d state after the map was initialized in order to handle correct view initalization
       setMapIs3dEnabled(persistenceIs3dEnabled);
 
-      // restore features if available
-      if (operationalLayers.length > 0) {
+      const { map_id } = parse(location.search);
+      // restore features if available and no query param for map_id is specified
+      if (operationalLayers.length > 0 && map_id === undefined) {
         const newOperationalLayers = operationalLayers.map(
-          ({ coordinates, id, properties, opacity }) => {
-            const feature = new Feature({ geometry: new Polygon(coordinates) });
-            feature.setId(id);
-            const { geometry, ...rest } = properties;
-            feature.setProperties(rest);
-            return { feature, displayedInMap: false, opacity };
-          }
+          deSerializeOperationalLayer
         );
 
         setSelectedFeatures(newOperationalLayers);
+      } else if (map_id !== undefined) {
+        // restore feature from map_id
+        queryDocument(map_id)
+          .then((res) => {
+            const feature = readFeature(
+              map_id,
+              res,
+              undefined,
+              undefined,
+              mapIs3dEnabled
+            );
+
+            // activate fetched layer
+            setSelectedFeatures([{ feature, displayedInMap: false }]);
+
+            // focus the map on the layer
+            const newMapViewGeometry = feature.getGeometry().clone();
+            newMapViewGeometry.scale(1.5);
+            map.getView().fit(newMapViewGeometry);
+          })
+          .catch((e) => {
+            console.warn(e);
+            setNotification({
+              id: "persistence-controller",
+              type: "warning",
+              text: "Die ausgewählte Karte konnte nicht geladen werden.",
+            });
+          });
       }
     }
   }, [map]);
