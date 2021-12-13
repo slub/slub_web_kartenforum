@@ -11,18 +11,37 @@ import PropTypes from "prop-types";
 import { LAYOUT_TYPES } from "./util";
 import { HorizontalLayout } from "./HorizontalLayout/HorizontalLayout";
 import VerticalLayout from "./VerticalLayout/VerticalLayout";
+import MapWrapper from "../components/MapWrapper/MapWrapper";
+import SettingsProvider from "../../../SettingsProvider";
+
+const getLayoutComponent = (layout) => {
+  switch (layout) {
+    case LAYOUT_TYPES.HORIZONTAL:
+      return HorizontalLayout;
+    case LAYOUT_TYPES.VERTICAL:
+      return VerticalLayout;
+    default:
+      return VerticalLayout;
+  }
+};
 
 export const LayoutSwitcher = (props) => {
   const { layout } = props;
 
-  switch (layout) {
-    case LAYOUT_TYPES.HORIZONTAL:
-      return <HorizontalLayout />;
-    case LAYOUT_TYPES.VERTICAL:
-      return <VerticalLayout />;
-    default:
-      return <VerticalLayout />;
-  }
+  const settings = SettingsProvider.getSettings();
+  let LayoutComponent = getLayoutComponent(layout);
+
+  return (
+    <MapWrapper
+      baseMapUrl={settings["OSM_URLS"]}
+      enable3d
+      enableTerrain
+      layout={layout}
+      mapViewSettings={settings["MAPVIEW_PARAMS"]}
+      terrainTilesUrl={settings["TERRAIN_TILES_URL"]}
+      ChildComponent={LayoutComponent}
+    />
+  );
 };
 
 LayoutSwitcher.propTypes = {

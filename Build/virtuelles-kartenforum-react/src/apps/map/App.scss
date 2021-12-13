@@ -6,4 +6,8 @@
   right: 0;
   display: flex;
   flex-direction: column;
+
+  .vkf-notifications {
+    z-index: 1001;
+  }
 }

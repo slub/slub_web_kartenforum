@@ -13,7 +13,7 @@ import React, {
   useState,
 } from "react";
 import PropTypes from "prop-types";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import clsx from "clsx";
 
 import MapSearchListElement from "../MapSearchListElement/MapSearchListElement";
@@ -21,13 +21,13 @@ import { isDefined } from "../../../../../../util/util";
 import {
   mapsInViewportState,
   map3dState,
-  mapSearchListFunctionalityProvidersState,
   mapState,
   selectedFeaturesState,
 } from "../../../../atoms/atoms";
 import { checkIfArrayContainsFeature } from "../../util";
 import MapSearchSortColumn from "../MapSearchSortColumn/MapSearchSortColumn";
-import MapSearchFunctionalityProvider from "../MapSearchFunctionalityProvider/MapSearchFunctionalityProvider";
+import MapSearchOverlayLayer from "../MapSearchOverlayLayer/MapSearchOverlayLayer";
+import PaginatingDataController from "../../../PaginatingDataController/PaginatingDataController";
 import "./MapSearchResultList.scss";
 
 const SEARCH_COLS = ["time", "title", "georeference"];
@@ -43,19 +43,17 @@ const SORT_ORDERS = {
 export const MapSearchResultList = ({
   blockUpdate,
   direction = "vertical",
+  onPaginate,
   onStartFetching,
+  onUpdateSortType,
   renderHeader = true,
+  sortSettings,
 }) => {
+  const { activeType, sortOrder } = sortSettings;
+
   // state
-  const [{ activeType, sortOrder }, setSortOrder] = useState({
-    activeType: DEFAULT_TYPE,
-    sortOrder: SORT_ORDERS.ASCENDING,
-  });
   const { maps, id } = useRecoilValue(mapsInViewportState);
   const map = useRecoilValue(mapState);
-  const { mapPaginationSource } = useRecoilValue(
-    mapSearchListFunctionalityProvidersState
-  );
   const is3dEnabled = useRecoilValue(map3dState);
   const [selectedFeatures, setSelectedFeatures] = useRecoilState(
     selectedFeaturesState
@@ -105,11 +103,7 @@ export const MapSearchResultList = ({
 
   // Start prefetching new elements on scroll
   const handleScroll = useCallback(() => {
-    if (
-      searchListRef.current === null ||
-      !isDefined(mapPaginationSource) ||
-      blockUpdate
-    )
+    if (searchListRef.current === null || !isDefined(onPaginate) || blockUpdate)
       return;
 
     const scrollEl = searchListRef.current;
@@ -120,28 +114,9 @@ export const MapSearchResultList = ({
     ) {
       onStartFetching();
       // check if there are still features to append
-      if (!mapPaginationSource.isComplete()) mapPaginationSource.paginate_();
+      onPaginate();
     }
-  }, [blockUpdate, mapPaginationSource, searchListRef]);
-
-  // Set field by which is sorted and toggle sort oder
-  const handleUpdateSortType = (type) => {
-    const newSortOrder =
-      type === activeType
-        ? sortOrder === SORT_ORDERS.ASCENDING
-          ? SORT_ORDERS.DESCENDING
-          : SORT_ORDERS.ASCENDING
-        : SORT_ORDERS.ASCENDING;
-
-    setSortOrder({
-      sortOrder: newSortOrder,
-      activeType: type,
-    });
-
-    mapPaginationSource.setSortAttribute(type);
-    mapPaginationSource.setSortOrder(newSortOrder);
-    mapPaginationSource.refresh();
-  };
+  }, [blockUpdate, onPaginate, searchListRef]);
 
   ////
   // Effect section
@@ -162,7 +137,7 @@ export const MapSearchResultList = ({
           {SEARCH_COLS.map((type) => (
             <MapSearchSortColumn
               key={type}
-              onClick={handleUpdateSortType}
+              onClick={onUpdateSortType}
               sortOrder={activeType === type ? sortOrder : ""}
               type={type}
             />
@@ -195,8 +170,14 @@ export const MapSearchResultList = ({
 MapSearchResultList.propTypes = {
   blockUpdate: PropTypes.bool,
   direction: PropTypes.oneOf(["horizontal", "vertical"]),
-  onStartFetching: PropTypes.func,
   renderHeader: PropTypes.bool,
+  onPaginate: PropTypes.func,
+  onStartFetching: PropTypes.func,
+  onUpdateSortType: PropTypes.func,
+  sortSettings: PropTypes.shape({
+    activeType: PropTypes.string,
+    sortOrder: PropTypes.string,
+  }),
 };
 
 /**
@@ -205,24 +186,72 @@ MapSearchResultList.propTypes = {
  * @constructor
  */
 export const WrappedMapSearchResultList = (props) => {
+  // state
+  const [sortSettings, setSortOrder] = useState({
+    activeType: DEFAULT_TYPE,
+    sortOrder: SORT_ORDERS.ASCENDING,
+  });
   const [blockUpdate, setBlockUpdate] = useState(false);
-  const setMapsInViewport = useSetRecoilState(mapsInViewportState);
 
-  // update the global feature state
-  const handleUpdate = (maps) => {
-    setMapsInViewport(maps);
+  // derived
+  const { activeType, sortOrder } = sortSettings;
+
+  ////
+  // Handler section
+  ////
+
+  // signalizes the start of a fetching process
+  const handleStartFetching = () => {
+    setBlockUpdate(true);
+  };
+
+  // signalizes the end of a fetching process
+  const handleUpdate = () => {
     setBlockUpdate(false);
+  };
+
+  // Set field by which is sorted and toggle sort oder
+  const handleUpdateSortType = (type) => {
+    const newSortOrder =
+      type === activeType
+        ? sortOrder === SORT_ORDERS.ASCENDING
+          ? SORT_ORDERS.DESCENDING
+          : SORT_ORDERS.ASCENDING
+        : SORT_ORDERS.ASCENDING;
+
+    setSortOrder({
+      sortOrder: newSortOrder,
+      activeType: type,
+    });
+  };
+
+  ////
+  // Render helper
+  ////
+
+  const renderMapSearchResultList = (extraProps) => {
+    return (
+      <MapSearchResultList
+        blockUpdate={blockUpdate}
+        onStartFetching={handleStartFetching}
+        onUpdateSortType={handleUpdateSortType}
+        sortSettings={sortSettings}
+        {...props}
+        {...extraProps}
+      />
+    );
   };
 
   return (
     <Fragment>
-      <MapSearchFunctionalityProvider onUpdate={handleUpdate} />
-      <MapSearchResultList
-        blockUpdate={blockUpdate}
-        onStartFetching={() => {
-          setBlockUpdate(true);
-        }}
-        {...props}
+      <MapSearchOverlayLayer
+        onUpdate={handleUpdate}
+        sortSettings={sortSettings}
+      />
+      <PaginatingDataController
+        renderConsumer={renderMapSearchResultList}
+        onUpdate={handleUpdate}
+        sortSettings={sortSettings}
       />
     </Fragment>
   );

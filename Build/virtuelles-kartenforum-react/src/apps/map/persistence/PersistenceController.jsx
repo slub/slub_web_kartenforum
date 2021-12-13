@@ -18,6 +18,7 @@ import {
   selectedFeaturesState,
 } from "../atoms/atoms";
 import { isDefined } from "../../../util/util";
+import SettingsProvider from "../../../SettingsProvider";
 import {
   deSerializeOperationalLayer,
   useLocalStorage,
@@ -33,6 +34,7 @@ export const PersistenceController = () => {
   const [mapIs3dEnabled, setMapIs3dEnabled] = useRecoilState(map3dState);
   const map = useRecoilValue(mapState);
   const olcsMap = useRecoilValue(olcsMapState);
+  const settings = SettingsProvider.getSettings();
   const setNotification = useSetRecoilState(notificationState);
 
   /**
@@ -142,7 +144,9 @@ export const PersistenceController = () => {
     if (map !== undefined) {
       // restore mapview if available
       if (isDefined(mapView) && Object.keys(mapView).length > 0) {
-        map.setView(new View(mapView));
+        map.setView(
+          new View(Object.assign({}, settings.MAPVIEW_PARAMS, mapView))
+        );
       }
 
       // only set the 3d state after the map was initialized in order to handle correct view initalization

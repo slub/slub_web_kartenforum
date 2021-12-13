@@ -14,6 +14,7 @@ import MapSearchResultList from "../../../../components/MapSearch/components/Map
 import {
   mapsInViewportState,
   selectedFeaturesState,
+  timeRangeState,
 } from "../../../../atoms/atoms";
 import ToggleFacetsButton from "../../../../components/MapSearch/components/ToggleFacetsButton/ToggleFacetsButton";
 import ToggleSearchButton from "../ToggleSearchButton/ToggleSearchButton";
@@ -34,6 +35,7 @@ export const SearchHeader = ({
   const [wasResultListOpen, setWasResultListOpen] = useState(false);
   const { mapCount } = useRecoilValue(mapsInViewportState);
   const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const timeRange = useRecoilValue(timeRangeState);
 
   const settings = SettingsProvider.getSettings();
 
@@ -84,7 +86,7 @@ export const SearchHeader = ({
               projection={settings.MAPVIEW_PARAMS["projection"]}
               searchUrl={settings.NOMINATIM_URL}
             />
-            <TimeSlider />
+            <TimeSlider timeRange={timeRange} />
           </div>
         )}
       </div>

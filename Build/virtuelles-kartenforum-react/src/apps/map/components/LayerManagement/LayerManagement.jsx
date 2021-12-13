@@ -11,7 +11,6 @@ import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
 import { DndProvider } from "react-dnd-multi-backend";
 import { HTML5toTouch } from "rdndmb-html5-to-touch";
-import ReactDOM from "react-dom";
 
 import { isDefined, translate } from "../../../../util/util";
 import { displayedLayersCountState, mapState } from "../../atoms/atoms";
@@ -19,7 +18,6 @@ import DeactivateMapCollection from "./DeactivateMapCollection/DeactivateMapColl
 import DynamicMapVisualization from "./DynamicMapVisualization/DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry/LayerManagementEntry";
 import { getIndexToLayer, getLayers } from "./util";
-import { MAP_DIV_ID } from "../MapWrapper/MapWrapper";
 import "./LayerManagement.scss";
 
 const customBackends = HTML5toTouch.backends.map((backend) => {
@@ -56,7 +54,6 @@ export const LayerManagement = ({
   );
   const [hoveredLayerId, setHoveredLayerId] = useState(undefined);
   const blockRefreshRef = useRef(null);
-  const bodyRef = useRef();
 
   ////
   // Handler section
@@ -135,7 +132,7 @@ export const LayerManagement = ({
             )}
           </div>
         )}
-        <ul className="layermanagement-body" ref={bodyRef}>
+        <ul className="layermanagement-body">
           {displayedLayers === undefined || displayedLayers.length === 0 ? (
             <li className="empty">{translate("layermanagement-start-msg")}</li>
           ) : (
@@ -158,22 +155,6 @@ export const LayerManagement = ({
         </ul>
       </div>
     </DndProvider>
-  );
-};
-
-export const DetachedLayerManagement = () => {
-  const mapDiv = document.getElementById(MAP_DIV_ID);
-  const map = useRecoilValue(mapState);
-
-  return isDefined(map) ? (
-    ReactDOM.createPortal(
-      <div id="layermanagement-container" className="layermanagement-container">
-        <LayerManagement />{" "}
-      </div>,
-      mapDiv
-    )
-  ) : (
-    <></>
   );
 };
 

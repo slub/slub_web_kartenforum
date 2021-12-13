@@ -17,9 +17,20 @@ export const facetState = atom({
     default: { facets: [], georeference: false },
 });
 
-export const mapSearchListFunctionalityProvidersState = atom({
-    key: "mapSearchListFunctionalityProviders",
-    default: { mapOverlayLayer: undefined, mapPaginationSource: undefined },
+export const elementsScreenSizeState = atom({
+    key: "elementScreenSize",
+    default: {
+        map: { height: 0, width: 0 },
+        layermanagement: { height: 0, width: 0 },
+        padding: { height: 30, width: 30 },
+        offset: { height: 15, width: 0 },
+        spatialtemporalsearch: { height: 0, width: 0 },
+    },
+});
+
+export const mapSearchOverlayLayerState = atom({
+    key: "mapSearchOverlayLayer",
+    default: undefined,
     dangerouslyAllowMutability: true,
 });
 

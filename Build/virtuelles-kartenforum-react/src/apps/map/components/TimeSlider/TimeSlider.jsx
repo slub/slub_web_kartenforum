@@ -62,7 +62,6 @@ export const TimeSlider = (props) => {
 
   useEffect(() => {
     setValues(timeRange);
-    setTimeExtent(timeRange);
   }, [timeRange]);
 
   return (

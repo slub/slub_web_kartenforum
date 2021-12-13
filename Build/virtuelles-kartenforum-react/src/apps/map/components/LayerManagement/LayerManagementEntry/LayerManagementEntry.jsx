@@ -106,7 +106,7 @@ export const LayerManagementEntry = (props) => {
 
   // propagate hovered layer id if no drag is in progress
   const handleMouseEnter = () => {
-    if (draggedItem === null) {
+    if (draggedItem === null && !hovered) {
       onUpdateHover(layer.getId());
     }
   };
@@ -195,6 +195,7 @@ export const LayerManagementEntry = (props) => {
       data-id={layer.getId()}
       data-handler-id={handlerId}
       onMouseEnter={handleMouseEnter}
+      onMouseOver={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       ref={ref}
     >

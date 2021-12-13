@@ -5,14 +5,15 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React from "react";
+import React, { useRef } from "react";
 import { useRecoilState } from "recoil";
 import { translate } from "../../../../util/util";
 import Modal from "../../../../components/Modal/Modal";
 import { selectedOriginalMapIdState } from "../../atoms/atoms";
-import { DetachedLayerManagement } from "../../components/LayerManagement/LayerManagement";
+import LayerManagement from "../../components/LayerManagement/LayerManagement";
 import SpatialTemporalSearch from "../../components/SpatialTemporalSearch/SpatialTemporalSearch";
 import OriginalMapView from "../../views/OriginalMapView/OriginalMapView";
+import { useSetElementScreenSize } from "../../../../util/hooks";
 import "./HorizontalLayout.scss";
 
 export const HorizontalLayout = () => {
@@ -20,13 +21,31 @@ export const HorizontalLayout = () => {
     selectedOriginalMapIdState
   );
 
-  return (
-    <div className="vkf-horizontal-layout">
-      <div className="spatialsearch-container" id="spatialsearch-container">
-        <SpatialTemporalSearch />
-      </div>
-      <DetachedLayerManagement />
+  //refs
+  const spatialSearchRef = useRef(null);
+  const layermanagementRef = useRef(null);
 
+  useSetElementScreenSize(spatialSearchRef, "spatialtemporalsearch");
+  useSetElementScreenSize(layermanagementRef, "layermanagement");
+
+  return (
+    <React.Fragment>
+      <div className="vkf-horizontal-layout">
+        <div
+          className="spatialsearch-container"
+          id="spatialsearch-container"
+          ref={spatialSearchRef}
+        >
+          <SpatialTemporalSearch />
+        </div>
+        <div
+          className="layermanagement-container"
+          id="layermanagement-container"
+          ref={layermanagementRef}
+        >
+          <LayerManagement />
+        </div>
+      </div>
       {selectedOriginalMapId !== undefined && (
         <Modal
           key={selectedOriginalMapId}
@@ -39,6 +58,6 @@ export const HorizontalLayout = () => {
           title={translate("originalview-title")}
         />
       )}
-    </div>
+    </React.Fragment>
   );
 };

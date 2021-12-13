@@ -31,6 +31,7 @@ import {
   setOptimizedCesiumSettings,
 } from "./util";
 import { getMapClassNameForLayout } from "../../layouts/util";
+import { useSetElementScreenSize } from "../../../../util/hooks";
 import "./MapWrapper.scss";
 
 export const MAP_DIV_ID = "mapdiv";
@@ -38,6 +39,7 @@ export const MAP_DIV_ID = "mapdiv";
 export function MapWrapper(props) {
   const {
     baseMapUrl,
+    ChildComponent,
     enable3d,
     enableTerrain,
     layout,
@@ -59,6 +61,9 @@ export function MapWrapper(props) {
   // refs
   const controlsRef = useRef();
   const mapElement = useRef();
+
+  // publish elements size to global state
+  useSetElementScreenSize(mapElement, "map");
 
   ////
   // Effect section
@@ -236,13 +241,16 @@ export function MapWrapper(props) {
         ref={mapElement}
         className={clsx("map-div", "olMap", getMapClassNameForLayout(layout))}
         tabIndex={0}
-      />
+      >
+        {isDefined(map) && <ChildComponent />}
+      </div>
     </div>
   );
 }
 
 MapWrapper.propTypes = {
   baseMapUrl: PropTypes.arrayOf(PropTypes.string),
+  ChildComponent: PropTypes.node,
   enable3d: PropTypes.bool,
   enableTerrain: PropTypes.bool,
   layout: PropTypes.string,
@@ -255,64 +263,3 @@ MapWrapper.propTypes = {
 };
 
 export default MapWrapper;
-
-// // @TODO: Correctly port this.
-// /**
-//  * @param {vk2.tool.Permalink} permalink
-//  */
-// export const registerPermalinkTool = function (permalink) {
-//   // couple permalink module with map
-//   goog.events.listen(
-//     permalink,
-//     vk2.tool.PermalinkEventType.ADDMAP,
-//     function (event) {
-//       var feature = event.target["feature"];
-
-//       // request associated messtischblaetter for a blattnr
-//       if (feature.get("georeference") === true) {
-//         this.map_.addLayer(this.createHistoricMapForFeature_(feature));
-
-//         if (vk2.utils.is3DMode()) {
-//           // add vector geometry for the given historic map to a special layer for simulate 3d mode experience
-//           var feature = vk2.layer.HistoricMap.createClipFeature(
-//             feature.getGeometry().clone(),
-//             feature.getId(),
-//             feature.get("time"),
-//             feature.get("title")
-//           );
-//           this.historicMapClickLayer_.getSource().addFeature(feature);
-//         }
-//       }
-//     },
-//     undefined,
-//     this
-//   );
-
-//   // parse permalink if one exists
-//   permalink.parsePermalink(this.map_);
-// };
-
-// /**
-//  * @param {Array.<ol.Feature>} features
-//  * @static
-//  */
-// const showMapProfile = function (features) {
-//   if (features.length > 0) {
-//     var modal = new vk2.utils.Modal("vk2-overlay-modal", document.body, true);
-//     modal.open(undefined, "mapcontroller-click-modal");
-
-//     var section = goog.dom.createDom("section");
-//     for (var i = 0; i < features.length; i++) {
-//       var anchor = goog.dom.createDom("a", {
-//         href: vk2.utils.routing.getMapProfileRoute(features[i].getId()),
-//         innerHTML: features[i].get("title") + " " + features[i].get("time"),
-//         target: "_self",
-//       });
-//       goog.dom.appendChild(section, anchor);
-//       goog.dom.appendChild(section, goog.dom.createDom("br"));
-//     }
-//     modal.appendToBody(section, "map-profile");
-
-//     if (features.length == 1) anchor.click();
-//   }
-// };

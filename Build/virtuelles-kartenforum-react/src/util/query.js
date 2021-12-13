@@ -20,7 +20,7 @@ export const createFacetQuery_ = function (facets) {
         const facet_ = facets[i],
             searchTerm_ = { term: {} };
 
-        searchTerm_["term"][facet_["key"]] = facet_["value"].toLowerCase();
+        searchTerm_["term"][facet_["key"]] = facet_["value"].toUpperCase();
         facetsFilter_.push(searchTerm_);
     }
     return facets_;
@@ -83,8 +83,8 @@ export const getSpatialQuery = function (
                             [bboxFieldName]: {
                                 relation: "intersects",
                                 shape: {
-                                    type: "polygon",
-                                    coordinates: [bboxPolygon],
+                                    type: "envelope",
+                                    coordinates: bboxPolygon,
                                 },
                             },
                         },

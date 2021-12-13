@@ -10,7 +10,7 @@ import { useRecoilValue } from "recoil";
 import clsx from "clsx";
 
 import {
-  mapSearchListFunctionalityProvidersState,
+  mapSearchOverlayLayerState,
   olcsMapState,
 } from "../../../../atoms/atoms";
 import { isDefined, translate } from "../../../../../../util/util";
@@ -23,9 +23,7 @@ export const FALLBACK_SRC =
 export const MapSearchListElement = (props) => {
   const { direction, feature, is3d, onClick, selected } = props;
   const olcsMap = useRecoilValue(olcsMapState);
-  const { mapOverlayLayer } = useRecoilValue(
-    mapSearchListFunctionalityProvidersState
-  );
+  const mapOverlayLayer = useRecoilValue(mapSearchOverlayLayerState);
   const [src, setSrc] = useState(feature.get("thumb_url").replace("http:", ""));
 
   ////

@@ -12,14 +12,14 @@ import { facetState } from "../../atoms/atoms";
 import FacetedSearchEntry from "./FacetedSearchEntry";
 
 export const FACETED_SEARCH_TYPES = {
-  AE: "maptype-ae",
-  AK: "maptype-ak",
-  CM: "maptype-cm",
-  GL: "maptype-gl",
-  MB: "maptype-mb",
-  MTB: "maptype-mtb",
-  TK: "maptype-tk",
-  TKX: "maptype-tkx",
+  AE: "map_type-ae",
+  AK: "map_type-ak",
+  CM: "map_type-cm",
+  GL: "map_type-gl",
+  MB: "map_type-mb",
+  MTB: "map_type-mtb",
+  TK: "map_type-tk",
+  TKX: "map_type-tkx",
   ToGeoref: "georeference-false",
 };
 

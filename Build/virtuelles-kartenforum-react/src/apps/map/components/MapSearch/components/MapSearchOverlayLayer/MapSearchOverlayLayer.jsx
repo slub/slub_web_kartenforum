@@ -4,38 +4,28 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { Fragment, useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
-
-import {
-  facetState,
-  map3dState,
-  mapSearchListFunctionalityProvidersState,
-  mapState,
-  timeExtentState,
-} from "../../../../atoms/atoms";
-import HistoricMap from "../../../HistoricMapLayer/HistoricMapLayer";
-import ServerPagination from "../../../Source/ServerPaginationSource";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
+
+import {
+  map3dState,
+  mapSearchOverlayLayerState,
+  mapState,
+} from "../../../../atoms/atoms";
+import HistoricMap from "../../../HistoricMapLayer/HistoricMapLayer";
 import { MAP_SEARCH_HOVER_FEATURE } from "../../../../config/styles";
-import { MAP_PROJECTION } from "../../MapSearch";
 import { isDefined } from "../../../../../../util/util";
-import { SettingsProvider } from "../../../../index";
 
-export const MapSearchFunctionalityProvider = (props) => {
-  const { onUpdate } = props;
-
+export const MapSearchOverlayLayer = () => {
   // State
-  const facets = useRecoilValue(facetState);
   const is3dEnabled = useRecoilValue(map3dState);
   const map = useRecoilValue(mapState);
-  const [
-    { mapPaginationSource, mapOverlayLayer },
-    setMapFunctionalityProviders,
-  ] = useRecoilState(mapSearchListFunctionalityProvidersState);
-  const timeExtent = useRecoilValue(timeExtentState);
+  const [mapOverlayLayer, setMapOverlayLayer] = useRecoilState(
+    mapSearchOverlayLayerState
+  );
 
   ////
   // Handler section
@@ -61,15 +51,6 @@ export const MapSearchFunctionalityProvider = (props) => {
   // Add feature overlay layer shown on hover and the source for the backend fatches
   useEffect(() => {
     if (map !== undefined) {
-      const newMapPaginationSource = new ServerPagination({
-        is3d: is3dEnabled,
-        elasticsearch_node: SettingsProvider.getSettings().API_SEARCH,
-        elasticsearch_srs: "EPSG:4326",
-        projection: MAP_PROJECTION,
-        map: map,
-        updateCallback: onUpdate,
-      });
-
       const newMapOverlayLayer = new VectorLayer({
         source: new VectorSource(),
         style: function () {
@@ -79,39 +60,17 @@ export const MapSearchFunctionalityProvider = (props) => {
 
       map.addLayer(newMapOverlayLayer);
 
-      setMapFunctionalityProviders({
-        mapPaginationSource: newMapPaginationSource,
-        mapOverlayLayer: newMapOverlayLayer,
-      });
+      setMapOverlayLayer(newMapOverlayLayer);
     }
   }, [map]);
 
   // Update featureOverlay on change of 3d state
   useEffect(() => {
-    if (isDefined(mapPaginationSource)) {
-      mapPaginationSource.update3dState(is3dEnabled);
-    }
-
     if (is3dEnabled && isDefined(mapOverlayLayer)) {
       // in case 3d mode is active add altitude value to coordinate
       mapOverlayLayer.set("altitudeMode", "clampToGround");
     }
-  }, [is3dEnabled, mapPaginationSource, mapOverlayLayer]);
-
-  // Propagate the timeExtent from global state to the pagination source
-  useEffect(() => {
-    if (isDefined(mapPaginationSource)) {
-      mapPaginationSource.setTimeFilter(timeExtent[0], timeExtent[1]);
-      mapPaginationSource.refresh();
-    }
-  }, [mapPaginationSource, timeExtent]);
-
-  // Propagate the facet state to the pagination source
-  useEffect(() => {
-    if (isDefined(mapPaginationSource)) {
-      mapPaginationSource.setFacets(facets);
-    }
-  }, [mapPaginationSource, facets]);
+  }, [is3dEnabled, mapOverlayLayer]);
 
   // Add map handler to keep overlay layer on top of the layer stack
   useEffect(() => {
@@ -120,12 +79,11 @@ export const MapSearchFunctionalityProvider = (props) => {
       map.getLayers().on("add", handleMapLayerChange);
     }
   }, [mapOverlayLayer, map, handleMapLayerChange]);
-
-  return <Fragment />;
+  return <></>;
 };
 
-MapSearchFunctionalityProvider.propTypes = {
+MapSearchOverlayLayer.propTypes = {
   onUpdate: PropTypes.func,
 };
 
-export default MapSearchFunctionalityProvider;
+export default MapSearchOverlayLayer;

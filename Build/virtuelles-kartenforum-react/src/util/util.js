@@ -125,36 +125,6 @@ const getSizeForDomElement = (id) => {
 };
 
 /**
- * @static
- * @param {ol.Map} map
- * @return {Array.<number>}
- */
-export const calculateMapExtentForPixelViewport = function (map) {
-    const padding = 30;
-    const offsetTop = 5;
-    const offsetBottom = 25;
-
-    // this is a premise
-
-    const spatialsearchSize = getSizeForDomElement("spatialsearch-container");
-    const layermanagementSize = getSizeForDomElement(
-        "layermanagement-container"
-    );
-    const mapSize = getSizeForDomElement("mapdiv");
-
-    // calculate pixelextent
-    const lowX = 0 + spatialsearchSize.width + padding;
-    const lowY = mapSize.height - offsetBottom - padding;
-    const highX = mapSize.width - layermanagementSize.width - padding;
-    const highY = offsetTop + padding;
-
-    // get equivalent coordinates
-    const llc = map.getCoordinateFromPixel([lowX, lowY]);
-    const urc = map.getCoordinateFromPixel([highX, highY]);
-    return [llc[0], llc[1], urc[0], urc[1]];
-};
-
-/**
  * This function checks if cookies are enabled
  * @static
  */
