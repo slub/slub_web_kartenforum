@@ -7,10 +7,10 @@
 import React, { useEffect, useState } from "react";
 import { FormGroup, Radio } from "react-bootstrap";
 import PropTypes from "prop-types";
-
 import SettingsProvider from "../../../../SettingsProvider";
 import { createBaseMapLayer } from "../../../../util/geo";
-import { isDefined } from "../../../../util/util";
+import { isDefined, translate } from "../../../../util/util";
+import DialogAddWms from "./DialogAddWms";
 import "./BasemapSelector.scss";
 
 // Test configuration
@@ -42,12 +42,15 @@ const defaultConf = [
  * @returns {JSX.Element}
  * @constructor
  */
-export const BasemapSelector = ({ initialBasemapId, map, onBasemapChange }) => {
-  const layers =
+export const BasemapSelector = (props) => {
+  const { initialBasemapId, map, onBasemapChange } = props;
+  const [layers, setLayers] = useState(
     SettingsProvider.getSettings()["BASEMAP_CONFIG"] !== undefined
       ? SettingsProvider.getSettings()["BASEMAP_CONFIG"]
-      : defaultConf;
+      : defaultConf
+  );
   const [activeLayer, setActiveLayer] = useState(layers[0]);
+  const [showAddWmsDialog, setShowAddWmsDialog] = useState(false);
 
   // Handler for performing an update of the basemap
   const handleChangeBaseMapLayer = (newLayer) => {
@@ -73,6 +76,20 @@ export const BasemapSelector = ({ initialBasemapId, map, onBasemapChange }) => {
     setActiveLayer(newLayer);
   };
 
+  // Handler for opening the add wms dialog
+  const handleClickShowAddWmsDialog = () => {
+    setShowAddWmsDialog(true);
+  };
+
+  // Handler for updating the radio options
+  const handleAddNewLayer = (newLayer) => {
+    // Check if layer does already exist
+    const layerExists = layers.find((l) => l.id === newLayer.id);
+    if (!layerExists) {
+      setLayers([...layers, newLayer]);
+    }
+  };
+
   // Synchronize internal state with external state
   useEffect(() => {
     if (activeLayer !== undefined) {
@@ -92,24 +109,36 @@ export const BasemapSelector = ({ initialBasemapId, map, onBasemapChange }) => {
     }
   }, []);
 
-  // @TODO: ADD TRANSLATION
   return (
-    <div className="vkf-basemap-selector">
-      <p>Select Basemap:</p>
-      <FormGroup>
-        {layers.map((l) => (
-          <Radio
-            key={l.id}
-            onClick={() => handleChangeBaseMapLayer(l)}
-            name={l.id}
-            value={l.id}
-            checked={activeLayer.id === l.id}
-          >
-            {l.label}
-          </Radio>
-        ))}
-      </FormGroup>
-    </div>
+    <React.Fragment>
+      <div className="vkf-basemap-selector">
+        <p>{translate("control-basemapselector-label")}:</p>
+        <FormGroup>
+          {layers.map((l) => (
+            <Radio
+              key={l.id}
+              onClick={() => handleChangeBaseMapLayer(l)}
+              name={l.id}
+              value={l.id}
+              checked={activeLayer.id === l.id}
+            >
+              {l.label}
+            </Radio>
+          ))}
+        </FormGroup>
+        <div className="controls-container">
+          <button className="btn" onClick={handleClickShowAddWmsDialog}>
+            {translate("control-basemapselector-btn-addwms")}
+          </button>
+        </div>
+      </div>
+      {showAddWmsDialog && (
+        <DialogAddWms
+          onClose={() => setShowAddWmsDialog(false)}
+          onSubmit={handleAddNewLayer}
+        />
+      )}
+    </React.Fragment>
   );
 };
 

@@ -73,6 +73,9 @@
 		<trans-unit id="plugin.map">
 			<source>Kartenforum: Main Map</source>
 		</trans-unit>
+		<trans-unit id="plugin.admin">
+			<source>Kartenforum: Admin</source>
+		</trans-unit>
 		<trans-unit id="plugin.georeference">
 			<source>Kartenforum: Georeferencing</source>
 		</trans-unit>
@@ -384,6 +387,38 @@
            <!-- Global > Map > Control > LocateMe -->
 			<trans-unit id="global.map.control-locateme.title">
 				<source>Locate me</source>
+			</trans-unit>
+
+            <!-- Global > Map > Control > BaseMapSelector -->
+			<trans-unit id="global.map.control-basemapselector.addwms-title">
+				<source>Add WMS</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-input-label">
+				<source>WMS URL Capabilities</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-input-description">
+				<source>Please insert a URL to a WMS Capabilities for adding an WMS as a base map. A WMS GetCapabilities URL should look like a Capabilities-Request.</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-btn-load-capabilities">
+				<source>Load capabilities</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-select-label">
+				<source>WMS Layer</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-select-description">
+				<source>Please select the wms layer which should be used as a base map.</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-btn-cancel">
+				<source>Cancel</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-btn-submit">
+				<source>Add WMS</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.label">
+				<source>Select base map</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.btn-addwms">
+				<source>Add WMS</source>
 			</trans-unit>
 
 			<!-- Plugin Map > OriginalMapview -->

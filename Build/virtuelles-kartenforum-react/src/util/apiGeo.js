@@ -81,7 +81,8 @@ export async function queryStatistics() {
  */
 export async function queryTransformationForMapId(mapId) {
     const baseUrl =
-        SettingsProvider.getSettings().API_GEOREFERENCE_TRANSFORMATION_BY_MAPID;
+        SettingsProvider.getSettings()
+            .API_GEOREFERENCE_TRANSFORMATION_FOR_MAPID;
 
     if (baseUrl === undefined) {
         throw new Error("The url for the transformation endpoint is not set.");
@@ -95,6 +96,59 @@ export async function queryTransformationForMapId(mapId) {
     } else {
         console.error(
             "Something went wrong while trying to fetch transformation for given map_id."
+        );
+        return undefined;
+    }
+}
+
+/**
+ * The function queries the transformation information for a given mapId returns a json object
+ * @param {string} userId
+ * @returns {Promise<{
+ *     is_active: boolean,
+ *     validation: string,
+ *     transformations: {
+ *       map_id: string,
+ *       metadata: {
+ *         time_published: string,
+ *         title: string,
+ *         title_short: string,
+ *       },
+ *       clip: GeoJSONGeometry,
+ *       overwrites: number,
+ *       params: {
+ *         source: string,
+ *         target: string,
+ *         algorithm: string,
+ *         gcps: {
+ *           source: [number,number],
+ *           target: [number,number]
+ *         }[]
+ *       },
+ *       submitted: string,
+ *       transformation_id: number,
+ *       user_id: string,
+ *       validation: string
+ *     }[],
+ * }>}
+ */
+export async function queryTransformationForUserId(userId) {
+    const baseUrl =
+        SettingsProvider.getSettings()
+            .API_GEOREFERENCE_TRANSFORMATION_FOR_USERID;
+
+    if (baseUrl === undefined) {
+        throw new Error("The url for the transformation endpoint is not set.");
+    }
+
+    // Build url and query it
+    const response = await axios.get(`${baseUrl}&user_id=${userId}`);
+
+    if (response.status === 200) {
+        return response.data;
+    } else {
+        console.error(
+            "Something went wrong while trying to fetch transformation for given user id."
         );
         return undefined;
     }

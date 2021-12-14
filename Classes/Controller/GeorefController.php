@@ -160,21 +160,39 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     }
 
     /**
-     * Action for querying transformation processes for a given mapId
+     * Action for querying transformation processes for a given mapId includes also invalids
      */
-    public function getTransformationByMapIdAction()
+    public function getTransformationForMapIdAction()
     {
         // get mapid from GET parameter
         $mapId = GeneralUtility::_GP('map_id');
 
         // Build url and request service
-        $response = $this->doGET('/transformations/maps/' . $mapId);
+        $response = $this->doGET('/transformations/maps/' . $mapId . '?return_all=True');
 
         if ($response) {
             $content  = $response->getBody()->getContents();
             $this->view->assign('value', json_decode($content, true));
         }
     }
+
+    /**
+     * Action for querying transformation processes for a given userId
+     */
+    public function getTransformationForUserIdAction()
+    {
+        // get mapid from GET parameter
+        $userId = GeneralUtility::_GP('user_id');
+
+        // Build url and request service
+        $response = $this->doGET('/transformations/users/' . $userId);
+
+        if ($response) {
+            $content  = $response->getBody()->getContents();
+            $this->view->assign('value', json_decode($content, true));
+        }
+    }
+
 
     /**
      * Action for querying transformations by a validation input
@@ -200,7 +218,6 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     {
         // get mapid from GET parameter objectid
         $mapId = GeneralUtility::_GP('map_id');
-        $requestParams = GeneralUtility::_GP('req');
 
         // Extract settings for querying the georeference service
         $serviceUrl = empty($this->settings['api_georeference']) ? NULL : $this->settings['api_georeference'];

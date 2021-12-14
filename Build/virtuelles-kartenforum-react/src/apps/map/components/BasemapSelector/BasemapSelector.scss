@@ -2,23 +2,15 @@
   width: 300px;
   color: #fff;
 
-  .custom-wms-input {
-    .help-block {
-      display: none;
-
-      &.has-error {
-        display: block;
-      }
-    }
-
-    button {
+  .controls-container {
+    button.btn {
+      float: right;
       height: 34px;
       margin: 0;
       overflow: visible;
-      width: 70px;
+      width: auto;
       color: #333;
       background-image: none;
-      border: 1px solid transparent;
       border-radius: 4px;
       cursor: pointer;
       display: inline-block;

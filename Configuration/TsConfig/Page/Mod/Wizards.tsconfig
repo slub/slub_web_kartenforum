@@ -35,6 +35,15 @@ mod.wizards {
                         }
                     }
 
+                    slubwebkartenforum_admin {
+                        iconIdentifier = VkfAdmin
+                        title = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.admin
+                        description = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.admin.description
+                        tt_content_defValues {
+                            CType = slubwebkartenforum_admin
+                        }
+                    }
+
                     slubwebkartenforum_georeference {
                         iconIdentifier = VkfGeoref
                         title = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georeference
@@ -45,7 +54,7 @@ mod.wizards {
                     }
                 }
 
-                show = slubwebkartenforum_signup, slubwebkartenforum_map, slubwebkartenforum_apps, slubwebkartenforum_georeference
+                show = slubwebkartenforum_signup, slubwebkartenforum_map, slubwebkartenforum_apps, slubwebkartenforum_georeference, slubwebkartenforum_admin
             }
         }
     }

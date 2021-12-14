@@ -19,6 +19,10 @@ import {
   mapMetadataState,
   transformationState,
 } from "../../atoms/atoms";
+import {
+  geoJsonExtentFromTransformation,
+  geoJsonExtentFromGeoJsonPolygon,
+} from "../../util/util";
 import "./GeoreferenceView.scss";
 
 export const GeoreferenceView = (props) => {
@@ -39,6 +43,10 @@ export const GeoreferenceView = (props) => {
     if (qs.map_id !== undefined) {
       const transformationData = await queryTransformationForMapId(qs.map_id);
       const metadata = await queryDocument(qs.map_id);
+      let extent =
+        transformationData.extent !== null
+          ? geoJsonExtentFromGeoJsonPolygon(transformationData.extent)
+          : null;
 
       if (transformationData.pending_jobs) {
         setNotification({
@@ -61,6 +69,7 @@ export const GeoreferenceView = (props) => {
         const activeTransformation = transformationData.transformations.find(
           (t) => t.transformation_id === targetTransformationId
         );
+        extent = geoJsonExtentFromTransformation(activeTransformation);
 
         setTransformation({
           map_id: activeTransformation.map_id,
@@ -85,7 +94,7 @@ export const GeoreferenceView = (props) => {
       }
 
       setMapMetadata(metadata);
-      setExtent(transformationData.extent);
+      setExtent(extent);
       setIsDataLoaded(true);
     }
   }, []);

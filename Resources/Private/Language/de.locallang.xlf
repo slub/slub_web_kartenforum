@@ -502,6 +502,48 @@
 				<target><![CDATA[Lokalisiere mich]]></target>
 			</trans-unit>
 
+            <!-- Global > Map > Control > BaseMapSelector -->
+			<trans-unit id="global.map.control-basemapselector.addwms-title" approved="yes">
+				<source><![CDATA[Add WMS]]></source>
+				<target><![CDATA[WMS hinzufügen]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-input-label" approved="yes">
+				<source><![CDATA[WMS URL Capabilities]]></source>
+				<target><![CDATA[URL zur WMS Capabilities]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-input-description" approved="yes">
+				<source><![CDATA[Please insert a URL to a WMS Capabilities for adding an WMS as a base map. A WMS GetCapabilities URL should look like a Capabilities-Request]]></source>
+				<target><![CDATA[Um den WMS als Basiskarte zu verwenden, fügen Sie Bitte eine URL zur WMS Capabilities hinzu. Die URL sollte der Form einer Capabilities-Anfrage entsprechen.]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-btn-load-capabilities" approved="yes">
+				<source><![CDATA[Load capabilities]]></source>
+				<target><![CDATA[Lade Capabilities]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-select-label" approved="yes">
+				<source><![CDATA[WMS Layer]]></source>
+				<target><![CDATA[WMS Layer]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-select-description" approved="yes">
+				<source><![CDATA[Please select the wms layer which should be used as a base map.]]></source>
+				<target><![CDATA[Wählen Sie bitte ein Layer aus, der als Basiskarte verwendet soll und klicken Sie auf hinzufügen.]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-btn-cancel" approved="yes">
+				<source><![CDATA[Cancel]]></source>
+				<target><![CDATA[Abbrechen]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-btn-submit" approved="yes">
+				<source><![CDATA[Add WMS]]></source>
+				<target><![CDATA[WMS hinzufügen]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.label" approved="yes">
+				<source><![CDATA[Select base map]]></source>
+				<target><![CDATA[Auswahl der Basiskarte]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.btn-addwms" approved="yes">
+				<source><![CDATA[Add WMS]]></source>
+				<target><![CDATA[WMS hinzufügen]]></target>
+			</trans-unit>
+
 			<!-- Plugin Map > OriginalMapview -->
 			<trans-unit id="plugin.map.originalview.title" approved="yes">
                 <source><![CDATA[Original map]]></source>

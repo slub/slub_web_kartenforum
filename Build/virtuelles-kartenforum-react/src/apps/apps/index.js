@@ -7,17 +7,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import settingsProvider from "../../SettingsProvider";
-import Evaluation from "./Evaluation";
 import GeoreferenceRanking from "./GeoreferenceRanking";
 import ProgressBarApp from "./ProgressBarApp";
 import UnreferencedMaps from "./UnreferencedMaps";
 import UserHistory from "./UserHistory";
 
 export const SettingsProvider = settingsProvider;
-
-export function renderEvaluation(element) {
-    ReactDOM.render(<Evaluation />, element);
-}
 
 export function renderGeoreferenceRanking(element) {
     ReactDOM.render(<GeoreferenceRanking />, element);

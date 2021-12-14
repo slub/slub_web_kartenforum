@@ -16,7 +16,7 @@ $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum'] = 'EXT:slu
  * Register some icons to use them in the backend via IconIdentifiers
  */
 $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
-$icons = ['Signup', 'Map', 'Apps', 'Georef'];
+$icons = ['Signup', 'Map', 'Apps', 'Georef', 'Admin'];
 foreach ($icons as $icon) {
     $iconRegistry->registerIcon(
         'Vkf' . $icon,
@@ -52,11 +52,11 @@ ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum
 	'Slub.SlubWebKartenforum',
 	'georeference',
 	[
-        'Georef' => 'getTransformationByMapId, getStatistics, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, postTransformationTry',
+        'Georef' => 'getStatistics, getTransformationForMapId, getTransformationForUserId, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, postTransformationTry',
     ],
 	// non-cacheable actions
 	[
-        'Georef' => 'getTransformationByMapId, getStatistics, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, postTransformationTry',
+        'Georef' => 'getStatistics, getTransformationForMapId, getTransformationForUserId, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, postTransformationTry',
     ],
 );
 

@@ -46,6 +46,22 @@ tt_content.slubwebkartenforum_apps {
     }
 }
 
+// The admin content Element which controls the minor React snippets
+tt_content.slubwebkartenforum_admin = FLUIDTEMPLATE
+tt_content.slubwebkartenforum_admin {
+    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Admin.html
+    variables {
+        // Configuration of parameters. The parameters should move to flexforms and the extension configuration
+        // in the future
+        urlNominatim = TEXT
+        urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
+        urlOsmMaps = TEXT
+        urlOsmMaps.value = {$plugin.tx_slubwebkartenforum.settings.urlOsmMaps}
+        urlSearch = TEXT
+        urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
+    }
+}
+
 // The content element for the complex georeference UI
 tt_content.slubwebkartenforum_georeference = FLUIDTEMPLATE
 tt_content.slubwebkartenforum_georeference {

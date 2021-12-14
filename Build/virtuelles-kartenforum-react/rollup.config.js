@@ -4,6 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
+import adminConfig from "./rollup.admin.config";
 import appsViewConfig from "./rollup.apps.config";
 import geoRefConfig from "./rollup.georef.config";
 import mapViewConfig from "./rollup.mapview.config";
@@ -15,7 +16,9 @@ export default (commandlineArgs) => {
         return mapViewConfig;
     } else if (commandlineArgs.configApps == true) {
         return appsViewConfig;
+    } else if (commandlineArgs.configAdmin == true) {
+        return adminConfig;
     }
 
-    return [geoRefConfig, mapViewConfig, appsViewConfig];
+    return [geoRefConfig, mapViewConfig, appsViewConfig, adminConfig];
 };

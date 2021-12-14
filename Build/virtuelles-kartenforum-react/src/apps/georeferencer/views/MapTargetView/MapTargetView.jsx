@@ -12,7 +12,7 @@ import {
   targetViewParamsState,
 } from "../../atoms/atoms";
 import Map2D from "../../../../components/Map2D/Map2D";
-import LayerRectifiedImage from "../../components/LayerRectifiedImage/LayerRectifiedImage";
+import LayerRectifiedImage from "../../../../components/LayerRectifiedImage/LayerRectifiedImage";
 import "./MapTargetView.scss";
 
 export const MapTargetView = (props) => {

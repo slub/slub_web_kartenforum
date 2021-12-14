@@ -4,11 +4,11 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import Circle from "ol/src/style/Circle";
-import Fill from "ol/src/style/Fill";
-import Stroke from "ol/src/style/Stroke";
-import Style from "ol/src/style/Style";
-import Text from "ol/src/style/Text";
+import Circle from "ol/style/Circle";
+import Fill from "ol/style/Fill";
+import Stroke from "ol/style/Stroke";
+import Style from "ol/style/Style";
+import Text from "ol/style/Text";
 import { isString } from "../../../util/util";
 
 /**

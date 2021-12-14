@@ -20,6 +20,7 @@
     "prop-types": "^15.7.2",
     "rollup": "^2.61.0",
     "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-scss": "^3.0.0",

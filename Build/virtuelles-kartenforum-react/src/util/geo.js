@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import proj4 from "proj4";
-import { register } from "ol/src/proj/proj4";
+import { register } from "ol/proj/proj4";
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
 import TileWMS from "ol/source/TileWMS";

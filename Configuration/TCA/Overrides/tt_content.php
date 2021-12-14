@@ -29,6 +29,11 @@ $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'] = [
         'VkfApps'
     ],
     [
+        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.admin',
+        'slubwebkartenforum_admin',
+        'VkfAdmin'
+    ],
+    [
         'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georeference',
         'slubwebkartenforum_georeference',
         'VkfGeoref'
@@ -56,6 +61,7 @@ $GLOBALS['TCA']['tt_content']['types']['slubwebkartenforum_signup'] = $contentEl
 $GLOBALS['TCA']['tt_content']['types']['slubwebkartenforum_map'] = $contentElementConfig;
 $GLOBALS['TCA']['tt_content']['types']['slubwebkartenforum_apps'] = $contentElementConfig;
 $GLOBALS['TCA']['tt_content']['types']['slubwebkartenforum_georeference'] = $contentElementConfig;
+$GLOBALS['TCA']['tt_content']['types']['slubwebkartenforum_admin'] = $contentElementConfig;
 
 /***************
  * Add dedicated flexform setups for the new content elements

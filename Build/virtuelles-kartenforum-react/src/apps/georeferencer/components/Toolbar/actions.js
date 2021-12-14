@@ -5,10 +5,10 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import round from "lodash.round";
-import Draw from "ol/src/interaction/Draw";
-import Modify from "ol/src/interaction/Modify";
-import Select from "ol/src/interaction/Select";
-import Polygon from "ol/src/geom/Polygon";
+import Draw from "ol/interaction/Draw";
+import Modify from "ol/interaction/Modify";
+import Select from "ol/interaction/Select";
+import Polygon from "ol/geom/Polygon";
 import { shiftKeyOnly, singleClick } from "ol/events/condition";
 import { createGcpDefaultStyle, createGcpHoverStyle } from "../../util/styles";
 

@@ -4,13 +4,13 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import Collection from "ol/src/Collection";
-import Feature from "ol/src/Feature";
-import GeoJSON from "ol/src/format/GeoJSON";
-import Point from "ol/src/geom/Point";
-import * as proj from "ol/src/proj";
-import VectorLayer from "ol/src/layer/Vector";
-import VectorSource from "ol/src/source/Vector";
+import Collection from "ol/Collection";
+import Feature from "ol/Feature";
+import GeoJSON from "ol/format/GeoJSON";
+import Point from "ol/geom/Point";
+import * as proj from "ol/proj";
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
 import round from "lodash.round";
 import Observer from "../../../../util/observer";
 import { initializeSupportedCRS } from "../../../../util/geo";

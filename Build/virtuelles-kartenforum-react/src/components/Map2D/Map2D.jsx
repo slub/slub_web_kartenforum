@@ -16,6 +16,7 @@ import View from "ol/src/View";
 import Zoom from "ol/src/control/Zoom";
 import ZoomToExtent from "ol/src/control/ZoomToExtent";
 import XYZ from "ol/src/source/XYZ";
+import { transformExtent } from "ol/proj";
 import { translate } from "../../util/util";
 import LayerSpyControl from "../Controls/LayerSpyControl";
 import "./Map2D.scss";
@@ -68,14 +69,15 @@ export const Map2D = (props) => {
       });
 
       // Set extent if set
-      if (extent !== undefined) {
-        const polygon = new GeoJSON().readGeometry(extent, {
-          dataProjection: "EPSG:4326",
-          featureProjection: "EPSG:3857",
-        });
+      if (extent !== undefined && extent !== null) {
+        const targetExtent = transformExtent(
+          extent,
+          "EPSG:4326",
+          map.getView().getProjection()
+        );
 
         // Get extent of target source features and focus map to it
-        map.getView().fit(polygon.getExtent(), {
+        map.getView().fit(targetExtent, {
           padding: [100, 100, 100, 100],
         });
 
@@ -83,7 +85,7 @@ export const Map2D = (props) => {
         map.addControl(
           new ZoomToExtent({
             tipLabel: translate("control-zoomtoextent-title"),
-            extent: polygon.getExtent(),
+            extent: targetExtent,
           })
         );
       }
@@ -114,7 +116,8 @@ export const Map2D = (props) => {
 };
 
 Map2D.propTypes = {
-  extent: PropTypes.object,
+  // It is expected that the extent is passed in EPSG:4326
+  extent: PropTypes.arrayOf(PropTypes.number),
   onLoad: PropTypes.func,
   urlNominatim: PropTypes.string,
   urlsOsmBaseMap: PropTypes.arrayOf(PropTypes.string),
