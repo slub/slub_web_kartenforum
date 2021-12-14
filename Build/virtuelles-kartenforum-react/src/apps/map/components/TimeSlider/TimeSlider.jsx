@@ -6,7 +6,7 @@
  */
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { Range } from "rc-slider";
 
 import { translate } from "../../../../util/util";
@@ -16,7 +16,7 @@ import "./TimeSlider.scss";
 
 export const TimeSlider = (props) => {
   const { timeRange } = props;
-  const setTimeExtent = useSetRecoilState(timeExtentState);
+  const [timeExtent, setTimeExtent] = useRecoilState(timeExtentState);
   const [values, setValues] = useState(timeRange);
   const [areLabelsToClose, setAreLabelsToClose] = useState(false);
   const maxValueElRef = useRef();
@@ -60,9 +60,12 @@ export const TimeSlider = (props) => {
     updatePositions();
   }, [updatePositions, values]);
 
+  // synchronize external state with internal state
   useEffect(() => {
-    setValues(timeRange);
-  }, [timeRange]);
+    if (timeExtent[0] !== values[0] || timeExtent[1] !== values[1]) {
+      setValues(timeExtent);
+    }
+  }, [timeExtent]);
 
   return (
     <div className="timeslider-container">

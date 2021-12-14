@@ -13,12 +13,14 @@ import { Polygon } from "ol/geom";
  * @param coordinates
  * @param id
  * @param properties
+ * @param isVisible
  * @param opacity
- * @return {{displayedInMap: boolean, feature: Feature, opacity}}
+ * @return {{displayedInMap: boolean, feature: Feature, isVisible: boolean, opacity}}
  */
 export const deSerializeOperationalLayer = ({
     coordinates,
     id,
+    isVisible,
     properties,
     opacity,
 }) => {
@@ -26,7 +28,26 @@ export const deSerializeOperationalLayer = ({
     feature.setId(id);
     const { geometry, ...rest } = properties;
     feature.setProperties(rest);
-    return { feature, displayedInMap: false, opacity };
+    return { displayedInMap: false, feature, isVisible, opacity };
+};
+
+/**
+ * Serializes an operational layer
+ * @param feature
+ * @param mapLayer
+ * @return {{coordinates: *, id: *, isVisible: *, opacity: *, properties: *}}
+ */
+export const serializeOperationalLayer = ({ feature }, mapLayer) => {
+    const isVisible = mapLayer.getVisible();
+    const opacity = mapLayer.getOpacity();
+
+    return {
+        id: feature.getId(),
+        coordinates: feature.getGeometry().getCoordinates(),
+        isVisible,
+        opacity,
+        properties: feature.getProperties(),
+    };
 };
 
 /**

@@ -13,15 +13,17 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { defaults, DragRotateAndZoom } from "ol/interaction";
 import OLCesium from "olcs/OLCesium";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import olcsCore from "olcs/core";
 import clsx from "clsx";
 import { useWindowWidth } from "@react-hook/window-size";
+
 import { createBaseMapLayer } from "../../../../util/geo";
 import { getDefaultControls, isDefined } from "../../../../util/util";
 import {
-  mapState,
+  activeBasemapIdState,
   map3dState,
+  mapState,
   olcsMapState,
   selectedFeaturesState,
 } from "../../atoms/atoms";
@@ -52,18 +54,80 @@ export function MapWrapper(props) {
   } = props;
 
   // state
+  const [activeBasemapId, setActiveBasemapId] =
+    useRecoilState(activeBasemapIdState);
   const [is3dActive, set3dActive] = useRecoilState(map3dState);
   const [map, setMap] = useRecoilState(mapState);
-  const [olcsMap, setOlcsMap] = useRecoilState(olcsMapState);
+  const setOlcsMap = useSetRecoilState(olcsMapState);
   const selectedFeatures = useRecoilValue(selectedFeaturesState);
   const width = useWindowWidth();
 
   // refs
   const controlsRef = useRef();
   const mapElement = useRef();
+  const olcsMapRef = useRef();
 
   // publish elements size to global state
   useSetElementScreenSize(mapElement, "map");
+
+  ////
+  // Handler section
+  ////
+
+  const handleBasemapChange = (newBasemapLayer) => {
+    setActiveBasemapId(newBasemapLayer.id);
+  };
+
+  const handleChangeViewMode = (new3dStateGenerator) => {
+    let new3dState;
+    set3dActive((oldState) => {
+      new3dState = new3dStateGenerator(oldState);
+      return new3dState;
+    });
+
+    const ol3d = olcsMapRef.current;
+
+    if (ol3d !== undefined) {
+      if (new3dState) {
+        const scene = ol3d.getCesiumScene(),
+          camera = scene.camera,
+          bottom = olcsCore.pickBottomPoint(scene),
+          angle = Cesium.Math.toRadians(50),
+          transform = Cesium.Matrix4.fromTranslation(bottom);
+
+        if (ol3d.getEnabled()) return;
+        // 2d -> 3d transition
+        ol3d.setEnabled(true);
+
+        // take care that every time the view is reset when zoom out
+        olcsCore.rotateAroundAxis(camera, -angle, camera.right, transform, {
+          duration: 500,
+        });
+      } else {
+        const scene = ol3d.getCesiumScene(),
+          camera = scene.camera,
+          bottom = olcsCore.pickBottomPoint(scene),
+          transform = Cesium.Matrix4.fromTranslation(bottom),
+          angle = olcsCore.computeAngleToZenith(scene, bottom);
+
+        if (!ol3d.getEnabled()) return;
+
+        // 3d -> 2d transition
+        olcsCore.rotateAroundAxis(camera, -angle, camera.right, transform, {
+          callback: function () {
+            ol3d.setEnabled(false);
+            const view = ol3d.getOlMap().getView();
+            const resolution = view.getResolution();
+            const rotation = view.getRotation();
+
+            // constraints apply on setting them
+            view.setResolution(resolution);
+            view.setRotation(rotation);
+          },
+        });
+      }
+    }
+  };
 
   ////
   // Effect section
@@ -104,9 +168,11 @@ export function MapWrapper(props) {
         map: initialMap,
         sceneOptions: {
           scene3DOnly: true,
-          terrainExaggeration: 2.0,
         },
       });
+
+      // update terrain Exaggeration
+      ol3d.getCesiumScene().globe.terrainExaggeration = 3.0;
 
       ol3d.enableAutoRenderLoop();
 
@@ -125,66 +191,31 @@ export function MapWrapper(props) {
       scene.postRender.addEventListener(generateLimitCamera(mapViewSettings));
 
       setOlcsMap(ol3d);
+      olcsMapRef.current = ol3d;
+
+      // preload 3d mode in order to improve start up time
+      ol3d.warmUp(ol3d.getCamera().getAltitude(), 5000);
     }
   }, []);
 
   useEffect(() => {
     selectedFeatures.forEach((selectedFeature) => {
-      const { displayedInMap = false, feature, opacity = 1 } = selectedFeature;
+      const {
+        displayedInMap = false,
+        feature,
+        isVisible = true,
+        opacity = 1,
+      } = selectedFeature;
 
       if (!displayedInMap && feature.get("has_georeference")) {
         const layer = createHistoricMapForFeature(feature);
         layer.setOpacity(opacity);
+        layer.setVisible(isVisible);
         map.addLayer(layer);
         selectedFeature.displayedInMap = true;
       }
     });
   }, [selectedFeatures]);
-
-  useEffect(() => {
-    if (olcsMap !== undefined) {
-      if (is3dActive) {
-        const ol3d = olcsMap,
-          scene = ol3d.getCesiumScene(),
-          camera = scene.camera,
-          bottom = olcsCore.pickBottomPoint(scene),
-          angle = Cesium.Math.toRadians(50),
-          transform = Cesium.Matrix4.fromTranslation(bottom);
-
-        if (ol3d.getEnabled()) return;
-        // 2d -> 3d transition
-        ol3d.setEnabled(true);
-
-        // take care that every time the view is reset when zoom out
-        olcsCore.rotateAroundAxis(camera, -angle, camera.right, transform, {
-          duration: 500,
-        });
-      } else {
-        const ol3d = olcsMap,
-          scene = ol3d.getCesiumScene(),
-          camera = scene.camera,
-          bottom = olcsCore.pickBottomPoint(scene),
-          transform = Cesium.Matrix4.fromTranslation(bottom),
-          angle = olcsCore.computeAngleToZenith(scene, bottom);
-
-        if (!ol3d.getEnabled()) return;
-
-        // 3d -> 2d transition
-        olcsCore.rotateAroundAxis(camera, -angle, camera.right, transform, {
-          callback: function () {
-            ol3d.setEnabled(false);
-            const view = ol3d.getOlMap().getView();
-            const resolution = view.getResolution();
-            const rotation = view.getRotation();
-
-            // constraints apply on setting them
-            view.setResolution(resolution);
-            view.setRotation(rotation);
-          },
-        });
-      }
-    }
-  }, [is3dActive]);
 
   useEffect(() => {
     if (isDefined(controlsRef.current)) {
@@ -207,11 +238,12 @@ export function MapWrapper(props) {
       }
 
       const newControls = getDefaultControls({
-        map,
         baseMapUrl,
+        initialBasemapId: activeBasemapId,
         is3dActive,
         layout,
-        set3dActive,
+        onBasemapChange: handleBasemapChange,
+        onViewModeChange: handleChangeViewMode,
       });
 
       newControls.forEach((control) => {

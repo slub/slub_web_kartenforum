@@ -25,12 +25,12 @@ export const FacetedSearchEntry = ({
   return id !== "ToGeoref" || (id === "toGeoref" && georeferenceMode) ? (
     <label className="checkbox-inline" title={title}>
       <input
+        checked={checked}
         className="facet-search-el"
         onClick={handleClick}
         id={id}
         title={title}
         type="checkbox"
-        value={checked}
       />
       {title}
     </label>

@@ -1,4 +1,4 @@
- .vkf-toggle-facets {
+.vkf-toggle-facets {
   border: none;
   color: inherit;
   padding: 0;
@@ -20,9 +20,14 @@
   -ms-transition: transform 0.3s ease-out;
   transition: transform 0.3s ease-out;
   background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48Zz48ZWxsaXBzZSBzdHJva2U9IiNCMkIyQjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBjeD0iOC42NSIgY3k9IjMuNDUiIHJ4PSI2LjY1IiByeT0iMi40NSIgZmlsbD0ibm9uZSIvPjxwYXRoIHN0cm9rZT0iI0IyQjJCMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGQ9Ik0yIDMuNDV2MS43NWMwIC43Ny40NDYgMS44NDYuOTkgMi4zOWw0LjYxIDQuNjFNMTUuMyAzLjQ1djEuNzVjMCAuNzctLjQ0NiAxLjg0Ni0uOTkgMi4zOWwtNC42MSA0LjYxTTkuNyAxMi4ydjQuMmMwIC4zODUtLjMxNC43LS43LjdoLS43Yy0uMzg1IDAtLjctLjMxNS0uNy0uN3YtNC4yTTkuNyAxMy42NzRjLjYwNC4zOTQgMS4zMjUuNjI2IDIuMS42MjYgMi4xMjYgMCAzLjg1LTEuNzI0IDMuODUtMy44NSAwLTEuMTUyLS41MDktMi4xODMtMS4zMTEtMi44ODkiIGZpbGw9Im5vbmUiLz48L2c+PC9zdmc+")
-  no-repeat center center;
+    no-repeat center center;
 
-   &:hover {
-     transform: scale(1.2);
-   }
+  &.active {
+    background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48Zz48ZWxsaXBzZSBzdHJva2U9IiNGRjMzMzMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBjeD0iOC42NSIgY3k9IjMuNDUiIHJ4PSI2LjY1IiByeT0iMi40NSIgZmlsbD0ibm9uZSIvPjxwYXRoIHN0cm9rZT0iI0ZGMzMzMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGQ9Ik0yIDMuNDV2MS43NWMwIC43Ny40NDYgMS44NDYuOTkgMi4zOWw0LjYxIDQuNjFNMTUuMyAzLjQ1djEuNzVjMCAuNzctLjQ0NiAxLjg0Ni0uOTkgMi4zOWwtNC42MSA0LjYxTTkuNyAxMi4ydjQuMmMwIC4zODUtLjMxNC43LS43LjdoLS43Yy0uMzg1IDAtLjctLjMxNS0uNy0uN3YtNC4yTTkuNyAxMy42NzRjLjYwNC4zOTQgMS4zMjUuNjI2IDIuMS42MjYgMi4xMjYgMCAzLjg1LTEuNzI0IDMuODUtMy44NSAwLTEuMTUyLS41MDktMi4xODMtMS4zMTEtMi44ODkiIGZpbGw9Im5vbmUiLz48L2c+PC9zdmc+")
+      no-repeat center center;
+  }
+
+  &:hover {
+    transform: scale(1.2);
+  }
 }

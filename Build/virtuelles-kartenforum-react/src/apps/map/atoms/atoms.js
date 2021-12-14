@@ -7,6 +7,11 @@
 
 import { atom } from "recoil";
 
+export const activeBasemapIdState = atom({
+    key: "activeBasemapId",
+    default: null,
+});
+
 export const displayedLayersCountState = atom({
     key: "displayedLayersCount",
     default: 0,

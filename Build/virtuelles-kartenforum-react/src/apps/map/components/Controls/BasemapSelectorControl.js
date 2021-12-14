@@ -15,7 +15,8 @@ export class BasemapSelectorControl extends Control {
     /**
      *
      * @param {{
-     *     map: ol.Map
+     * initialBasemapId: string,
+     * onBasemapChange: function,
      * }} options
      */
     constructor(options) {
@@ -38,26 +39,62 @@ export class BasemapSelectorControl extends Control {
         contentContainer.style.display = "none";
         element.appendChild(contentContainer);
 
-        // Define the handler
-        const handleToggleControl = () => {
-            const isActive = contentContainer.style.display === "block";
-            element.className = isActive
-                ? defaultClass
-                : `${defaultClass} active`;
-            contentContainer.style.display = isActive ? "none" : "block";
-        };
+        super({ element, target: options.target });
+
+        // Add event listeners
+        button.addEventListener("click", this.handleToggleControl, false);
+        button.addEventListener("touchstart", this.handleToggleControl, false);
+
+        this.renderOptions = Object.assign({}, options, {
+            contentContainer,
+            defaultClass,
+            element,
+        });
+    }
+
+    // Handle closing of control on outside click
+    handleClickAway = (event) => {
+        const { contentContainer } = this.renderOptions;
+        const isClickInside = contentContainer.contains(event.target);
+
+        if (!isClickInside) {
+            this.handleToggleControl();
+        }
+    };
+
+    // Define the handler
+    handleToggleControl = (e) => {
+        const { contentContainer, defaultClass, element } = this.renderOptions;
+        const isActive = contentContainer.style.display === "block";
+
+        if (e !== undefined) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        if (!isActive) {
+            document.addEventListener("click", this.handleClickAway);
+        } else {
+            document.removeEventListener("click", this.handleClickAway);
+        }
+
+        element.className = isActive ? defaultClass : `${defaultClass} active`;
+        contentContainer.style.display = isActive ? "none" : "block";
+    };
+
+    render() {
+        const { initialBasemapId, onBasemapChange, contentContainer } =
+            this.renderOptions;
 
         // Attach the image manipulation tool
         ReactDOM.render(
-            <BasemapSelector map={options.map} />,
+            <BasemapSelector
+                map={this.getMap()}
+                initialBasemapId={initialBasemapId}
+                onBasemapChange={onBasemapChange}
+            />,
             contentContainer
         );
-
-        // Add event listeners
-        button.addEventListener("click", handleToggleControl, false);
-        button.addEventListener("touchstart", handleToggleControl, false);
-
-        super({ element, target: options.target });
     }
 }
 

@@ -6,8 +6,8 @@
  */
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useRecoilState } from "recoil";
 
-import { useSetRecoilState } from "recoil";
 import { facetState } from "../../atoms/atoms";
 import FacetedSearchEntry from "./FacetedSearchEntry";
 
@@ -33,7 +33,7 @@ export const FacetedSearch = (props) => {
 
   const [checkedState, setCheckedState] = useState(initialCheckedState);
 
-  const setFacets = useSetRecoilState(facetState);
+  const [facets, setFacets] = useRecoilState(facetState);
 
   const handleToggleFacet = (key) => {
     setCheckedState((oldCheckedState) =>
@@ -41,6 +41,11 @@ export const FacetedSearch = (props) => {
     );
   };
 
+  ////
+  // Effect section
+  ////
+
+  // Publish from internal state to global state
   useEffect(() => {
     const selected = Object.entries(checkedState)
       .filter((entry) => entry[1])
@@ -50,11 +55,22 @@ export const FacetedSearch = (props) => {
     selected.forEach((key) => {
       if (key === "ToGeoref") return;
       const [facetKey, facetValue] = FACETED_SEARCH_TYPES[key].split("-");
-      facets.push({ key: facetKey, value: facetValue });
+      facets.push({ key: facetKey, value: facetValue, id: key });
     });
 
     setFacets({ facets, georeference: !selected.includes("ToGeoref") });
   }, [checkedState]);
+
+  // Synchronize external facets with internal facets on mount
+  useEffect(() => {
+    const externalFacets = facets.facets.map((facet) => facet.id);
+    const newCheckedState = {};
+    Object.keys(FACETED_SEARCH_TYPES).forEach(
+      (key) => (newCheckedState[key] = externalFacets.includes(key))
+    );
+
+    setCheckedState(newCheckedState);
+  }, []);
 
   return (
     <div className="search-facet">

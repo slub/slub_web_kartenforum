@@ -45,7 +45,6 @@ export const PaginatingDataController = ({
   const map = useRecoilValue(mapState);
   const [mapView, setMapView] = useState(undefined);
   const setMapsInViewport = useSetRecoilState(mapsInViewportState);
-  const setTimeExtent = useSetRecoilState(timeExtentState);
   const setTimeRange = useSetRecoilState(timeRangeState);
   const timeExtent = useRecoilValue(timeExtentState);
 
@@ -241,7 +240,6 @@ export const PaginatingDataController = ({
 
         const newRange = [min.getUTCFullYear(), max.getUTCFullYear()];
         setTimeRange(newRange);
-        setTimeExtent(newRange);
       }
     });
   }, []);

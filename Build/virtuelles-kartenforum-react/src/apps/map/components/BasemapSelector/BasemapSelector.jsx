@@ -4,11 +4,13 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormGroup, Radio } from "react-bootstrap";
 import PropTypes from "prop-types";
+
 import SettingsProvider from "../../../../SettingsProvider";
 import { createBaseMapLayer } from "../../../../util/geo";
+import { isDefined } from "../../../../util/util";
 import "./BasemapSelector.scss";
 
 // Test configuration
@@ -40,13 +42,12 @@ const defaultConf = [
  * @returns {JSX.Element}
  * @constructor
  */
-export const BasemapSelector = (props) => {
+export const BasemapSelector = ({ initialBasemapId, map, onBasemapChange }) => {
   const layers =
     SettingsProvider.getSettings()["BASEMAP_CONFIG"] !== undefined
       ? SettingsProvider.getSettings()["BASEMAP_CONFIG"]
       : defaultConf;
   const [activeLayer, setActiveLayer] = useState(layers[0]);
-  const map = props.map;
 
   // Handler for performing an update of the basemap
   const handleChangeBaseMapLayer = (newLayer) => {
@@ -72,6 +73,26 @@ export const BasemapSelector = (props) => {
     setActiveLayer(newLayer);
   };
 
+  // Synchronize internal state with external state
+  useEffect(() => {
+    if (activeLayer !== undefined) {
+      onBasemapChange(activeLayer);
+    }
+  }, [activeLayer]);
+
+  // On mount set basemap from global state
+  useEffect(() => {
+    if (isDefined(initialBasemapId)) {
+      const newActiveLayer = layers.find(
+        (layer) => layer.id === initialBasemapId
+      );
+      if (newActiveLayer !== undefined) {
+        handleChangeBaseMapLayer(newActiveLayer);
+      }
+    }
+  }, []);
+
+  // @TODO: ADD TRANSLATION
   return (
     <div className="vkf-basemap-selector">
       <p>Select Basemap:</p>
@@ -93,7 +114,9 @@ export const BasemapSelector = (props) => {
 };
 
 BasemapSelector.propTypes = {
+  initialBasemapId: PropTypes.string,
   map: PropTypes.map,
+  onBasemapChange: PropTypes.func,
 };
 
 export default BasemapSelector;

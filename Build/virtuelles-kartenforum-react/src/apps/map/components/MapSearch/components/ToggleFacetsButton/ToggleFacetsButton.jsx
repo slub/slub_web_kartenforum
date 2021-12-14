@@ -7,14 +7,22 @@
 
 import React from "react";
 import PropTypes from "prop-types";
+import { useRecoilValue } from "recoil";
+import clsx from "clsx";
 
 import { translate } from "../../../../../../util/util";
+import { facetState } from "../../../../atoms/atoms";
 import "./ToggleFacetsButton.scss";
 
 export const ToggleFacetsButton = ({ onClick, isOpen }) => {
+  const facets = useRecoilValue(facetState);
+
   return (
     <button
-      className="vkf-toggle-facets"
+      className={clsx(
+        "vkf-toggle-facets",
+        facets.facets.length > 0 && "active"
+      )}
       onClick={onClick}
       title={translate(`facetedsearch-${isOpen ? "close" : "open"}`)}
     />

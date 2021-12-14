@@ -40,8 +40,7 @@ export class LocateMeControl extends Control {
      *     map: ol.Map,
      * }} options
      */
-    constructor(options) {
-        const map = options.map;
+    constructor(options = {}) {
         const defaultClass = "ol-unselectable ol-control ol-locate-me";
 
         // Load default html and behavior
@@ -61,28 +60,27 @@ export class LocateMeControl extends Control {
         contentContainer.style.display = "none";
         element.appendChild(contentContainer);
 
-        // Define the handler
-        const handleClickControl = () => {
-            getCurrentPosition(
-                ({ center, zoom }) => {
-                    map.getView().animate({
-                        center: fromLonLat(
-                            center,
-                            map.getView().getProjection()
-                        ),
-                        zoom: zoom,
-                    });
-                },
-                (e) => console.error(e)
-            );
-        };
+        super({ element, target: options.target });
 
         // Add event listeners
-        button.addEventListener("click", handleClickControl, false);
-        button.addEventListener("touchstart", handleClickControl, false);
-
-        super({ element, target: options.target });
+        button.addEventListener("click", this.handleClickControl, false);
+        button.addEventListener("touchstart", this.handleClickControl, false);
     }
+
+    // Define the handler
+    handleClickControl = () => {
+        const map = this.getMap();
+
+        getCurrentPosition(
+            ({ center, zoom }) => {
+                map.getView().animate({
+                    center: fromLonLat(center, map.getView().getProjection()),
+                    zoom: zoom,
+                });
+            },
+            (e) => console.error(e)
+        );
+    };
 }
 
 export default LocateMeControl;

@@ -37,7 +37,7 @@ export class ToggleViewMode extends Control {
     const handleUpdate = () => {
       const min3DZoom = 8;
 
-      options.propagateViewMode((currentIs3dActive) => {
+      options.onViewModeChange((currentIs3dActive) => {
         // If newState == true, we signal that we should activate the 3d view
         const newIs3dActive =
           !currentIs3dActive && this.getMap().getView().getZoom() > min3DZoom;

@@ -60,7 +60,14 @@ export function translate(key) {
  * Returns the default controls for the map view
  **/
 export const getDefaultControls = (params) => {
-    const { baseMapUrl, is3dActive, layout, map, set3dActive } = params;
+    const {
+        baseMapUrl,
+        initialBasemapId,
+        is3dActive,
+        layout,
+        onBasemapChange,
+        onViewModeChange,
+    } = params;
 
     const defaultControls = [
         new CustomAttribution(),
@@ -72,9 +79,7 @@ export const getDefaultControls = (params) => {
 
     if (layout === LAYOUT_TYPES.HORIZONTAL) {
         defaultControls.push(
-            new LocateMeControl({
-                map: map,
-            }),
+            new LocateMeControl(),
             new Zoom(),
             new LayerSpy({
                 spyLayer: new TileLayer({
@@ -88,11 +93,12 @@ export const getDefaultControls = (params) => {
             }),
             new ToggleViewMode({
                 initialState: is3dActive,
-                propagateViewMode: set3dActive,
+                onViewModeChange,
             }),
             new MousePositionOnOff(),
             new BasemapSelector({
-                map: map,
+                initialBasemapId,
+                onBasemapChange,
             })
         );
     }
