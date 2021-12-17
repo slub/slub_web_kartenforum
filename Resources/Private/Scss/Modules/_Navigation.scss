@@ -1,0 +1,444 @@
+/*
+ *
+ * SLUB Kartenforum - Navigation
+ * =========================================================
+ * All the navigation elements like main and sub-
+ * navigation or the language switch as well
+ *
+ * Author: Thomas Jung <thomas@jung.digital>
+ *
+ */
+
+
+// Basic navigation styles ---------------------------------------------------------------------------------------------
+.navigation-container {
+    position: fixed;
+    top: 70px;
+    right: 0;
+    left: 0;
+    height: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    background: rgba($secondary-color-dark, .9);
+    @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+        background: rgba($secondary-color-dark, .7);
+        backdrop-filter: blur(6px);
+    }
+    z-index: 100;
+    padding: 0;
+    visibility: hidden;
+    overflow: hidden;
+    overflow-x: auto;
+    opacity: 0;
+    pointer-events: none;
+    transition: $transition;
+    align-items: center;
+    justify-content: center;
+
+    &:before {
+        position: absolute;
+        top: -30px;
+        right: 28px;
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+        border-top-color: white;
+        border-bottom-width: 0;
+        transition: $transition;
+        content: " ";
+    }
+
+    .main-navigation-active & {
+        border-top: 2px solid white;
+        opacity: 1;
+        padding: 15px 15px 50px 15px;
+        pointer-events: auto;
+        visibility: visible;
+        height: calc(100% - 70px);
+
+        &:before {
+            top: 0;
+        }
+    }
+
+    nav {
+        width: 100%;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+            padding: 5px 0;
+
+            a, button {
+                color: white;
+                text-transform: uppercase;
+                text-decoration: none;
+                font-size: 20px;
+            }
+
+            &.has-submenu {
+                button {
+                    appearance: none;
+                    border: 0;
+                    background: transparent;
+
+                    .caret {
+                        transition: $transition;
+                    }
+                }
+
+                ul.submenu {
+                    position: relative;
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: $transition;
+                    pointer-events: none;
+                    background: rgba(255, 255, 255, .2);
+
+                    li {
+                        a {
+                            font-size: 16px;
+                            font-weight: 700;
+                        }
+                    }
+                }
+
+                &.submenu-active {
+                    button {
+                        .caret {
+                            transform: rotate(180deg);
+                        }
+                    }
+
+                    ul.submenu {
+                        max-height: 500px;
+                        padding: 15px 0;
+                        margin-top: 5px;
+                        pointer-events: auto;
+                    }
+                }
+            }
+
+            &.user-menu {
+                border-top: 1px solid rgba(255, 255, 255, .4);
+
+                .usermenu-label {
+                    font-weight: 400;
+                    margin: 0 5px;
+                }
+            }
+        }
+    }
+
+    @media screen and (min-width: $tabletViewportWidth) {
+        top: 85px;
+        nav.main-navigation {
+            width: 60%;
+        }
+        ul li {
+            padding: 10px 0;
+        }
+        .main-navigation-active & {
+            &:before {
+                right: 42px;
+            }
+        }
+    }
+    @media screen and (min-width: $tabletLandscapeViewportWidth) {
+        position: relative;
+        inset: auto;
+        margin-right: 25px;
+        opacity: 1;
+        overflow: visible;
+        visibility: visible;
+        padding: 0;
+        pointer-events: auto;
+        background: transparent;
+        nav.main-navigation {
+            width: auto;
+
+            > ul {
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+        &:before {
+            display: none;
+        }
+        ul {
+            margin: 0;
+
+            li {
+                padding: 0 10px;
+
+                a, button {
+                    font-size: 16px;
+                    font-weight: 700;
+                }
+
+                &.user-menu {
+                    border: 0;
+
+                    .usermenu-label {
+                        margin: 0 3px 0 2px;
+                    }
+                }
+
+                &.metanav-item {
+                    display: none;
+                }
+
+                &.has-submenu {
+                    ul.submenu {
+                        position: absolute;
+                        right: 0;
+                        top: -100px;
+                        background: rgba($secondary-color-dark, .95);
+                        box-shadow: $shadow;
+                        overflow: visible;
+                        opacity: 0;
+                        border: 1px solid white;
+
+                        &:before {
+                            position: absolute;
+                            top: -5px;
+                            right: 18px;
+                            height: 0;
+                            width: 0;
+                            border: 5px solid transparent;
+                            border-top-width: 0;
+                            border-bottom-color: white;
+                            content: " ";
+                        }
+
+                        li {
+                            padding: 0;
+
+                            a {
+                                padding: 10px 25px;
+                                text-transform: none;
+                                letter-spacing: normal;
+                            }
+                        }
+                    }
+
+                    &.submenu-active {
+                        ul.submenu {
+                            top: 15px;
+                            opacity: 1;
+                            padding: 10px 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @media screen and (min-width: $desktopViewportWidth) {
+        ul {
+            li {
+                padding: 0 20px;
+            }
+        }
+    }
+    @media (hover: hover) {
+        ul li {
+            a {
+                display: block;
+            }
+
+            a, button {
+                position: relative;
+                transition: $transition;
+
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+
+            &.has-submenu {
+                a {
+                    &:hover {
+                        transform: none;
+                        background: rgba(255, 255, 255, .2);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Navigation toggle on smaller devices --------------------------------------------------------------------------------
+button.main-navigation-toggle {
+    position: absolute;
+    top: 7px;
+    right: 15px;
+    width: 45px;
+    height: 50px;
+    background: transparent;
+    border: 0 none;
+    padding: 0;
+    z-index: 105;
+
+    .icon-bar {
+        position: relative;
+        top: 0;
+        width: 100%;
+        height: 0;
+        border-bottom: 3px solid white;
+        margin: 12px 0;
+        display: block;
+        transition: $transition;
+
+        &:nth-child(3) {
+            height: 3px;
+            border: solid white;
+            border-width: 0 4px;
+        }
+    }
+
+    .menu-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -28%);
+        color: white;
+        font-weight: 700;
+        font-size: 10px;
+        letter-spacing: .1ex;
+        line-height: 1;
+        text-transform: uppercase;
+        padding: 4px;
+        transition: $transition;
+    }
+
+    .main-navigation-active & {
+        .icon-bar {
+            border-bottom-color: white;
+
+            &:nth-child(2) {
+                top: 15px;
+                transform: rotate(45deg);
+            }
+
+            &:nth-child(3) {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            &:nth-child(4) {
+                top: -15px;
+                transform: rotate(-45deg);
+            }
+        }
+
+        .menu-label {
+            z-index: 100;
+            opacity: 0;
+        }
+    }
+
+    @media screen and (min-width: $tabletViewportWidth) {
+        right: 30px;
+        top: 15px;
+    }
+    @media screen and (min-width: $tabletLandscapeViewportWidth) {
+        display: none;
+    }
+}
+
+// Language navigation -------------------------------------------------------------------------------------------------
+.language-navigation {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    left: 0;
+
+    ul {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+
+        li {
+            margin: 0 10px;
+
+            a, span {
+                position: relative;
+                display: flex;
+                align-items: center;
+                font-size: 16px;
+                font-weight: 700;
+                text-transform: uppercase;
+                color: white;
+
+                &:before {
+                    position: relative;
+                    margin-right: 3px;
+                    width: 25px;
+                    height: 25px;
+                    line-height: 25px;
+                    background: white;
+                    display: inline-block;
+                    content: " ";
+                    background-size: 100% auto;
+                }
+            }
+
+            &.lang_de {
+                :before {
+                    background: url("../Icons/FlagDe.svg") no-repeat center center;
+                }
+            }
+
+            &.lang_en {
+                :before {
+                    background: url("../Icons/FlagGb.svg") no-repeat center center;
+                }
+            }
+
+            span {
+                opacity: .5;
+            }
+        }
+    }
+
+    @media screen and (min-width: $tabletLandscapeViewportWidth) {
+        display: none;
+    }
+}
+
+// Footer navigation ---------------------------------------------------------------------------------------------------
+.footer-navigation {
+    display: none;
+    @media screen and (min-width: $tabletLandscapeViewportWidth) {
+        position: relative;
+        display: block;
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+
+            li {
+                padding: 0 10px;
+
+                a {
+                    color: white;
+                    text-transform: uppercase;
+                    @media (hover: hover) {
+                        display: block;
+                        transition: $transition;
+                        &:hover {
+                            transform: scale(1.2);
+                            text-decoration: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

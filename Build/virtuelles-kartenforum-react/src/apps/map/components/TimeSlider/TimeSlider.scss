@@ -1,93 +1,93 @@
 .timeslider-container {
-  position: relative;
-  margin-bottom: 20px;
-  &:after {
-    position: absolute;
-    bottom: 0;
-    left: -15px;
-    right: -15px;
-    height: 1px;
-    background: rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    content: "";
-  }
-
-  label {
-    width: 100%;
-    text-align: center;
-    font-size: 11px;
-    margin: 10px 0 0 0;
-    color: rgba(0, 177, 158, 0.4);
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  .slider-container {
-    padding: 25px 5px;
-    margin-top: -7px;
-
-    &.labels-too-close {
-      .rc-slider {
-        .rc-slider-handle.rc-slider-handle-2 {
-          &:after {
-            position: absolute;
-            top: -3px;
-            bottom: unset;
-            transform: rotate(180deg);
-          }
-        }
-      }
+    position: relative;
+    margin-bottom: 20px;
+    &:after {
+        position: absolute;
+        bottom: 0;
+        left: -15px;
+        right: -15px;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        content: "";
     }
 
-    .rc-slider {
-      .rc-slider-handle {
-        width: 12px;
-        height: 12px;
-        background: rgb(0, 177, 158);
-        border: 0 none;
-        border-radius: 0;
-        box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.2);
-        cursor: col-resize;
-
-        &:focus,
-        &:active {
-          border: 0;
-          outline: none;
-        }
-        &:after {
-          position: absolute;
-          bottom: -3px;
-          left: 3px;
-          width: 0;
-          height: 0;
-          content: "";
-          border: 3px solid transparent;
-          border-bottom-width: 0;
-          border-top-color: rgb(0, 177, 158);
-        }
-      }
-
-      .rc-slider-track {
-        background: rgba(0, 177, 158, 0.5);
-      }
+    label {
+        width: 100%;
+        text-align: center;
+        font-size: 11px;
+        margin: 10px 0 0 0;
+        color: rgba(0, 177, 158, 0.4);
+        text-transform: uppercase;
+        font-weight: 500;
     }
 
-    .tooltip {
-      margin-top: 6px;
-      opacity: 1;
-      font-size: 10px;
-      color: rgb(56, 92, 92);
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-weight: 500;
+    .slider-container {
+        padding: 25px 5px;
+        margin-top: -7px;
 
-      &.min-value {
-        margin-left: -12px;
-        left: 0%;
-      }
-      &.max-value {
-        left: 100%;
-        margin-left: -12px;
-      }
+        &.labels-too-close {
+            .rc-slider {
+                .rc-slider-handle.rc-slider-handle-2 {
+                    &:after {
+                        position: absolute;
+                        top: -3px;
+                        bottom: unset;
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+        }
+
+        .rc-slider {
+            .rc-slider-handle {
+                width: 12px;
+                height: 12px;
+                background: rgb(0, 177, 158);
+                border: 0 none;
+                border-radius: 0;
+                box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.2);
+                cursor: col-resize;
+
+                &:focus,
+                &:active {
+                    border: 0;
+                    outline: none;
+                }
+                &:after {
+                    position: absolute;
+                    bottom: -3px;
+                    left: 3px;
+                    width: 0;
+                    height: 0;
+                    content: "";
+                    border: 3px solid transparent;
+                    border-bottom-width: 0;
+                    border-top-color: rgb(0, 177, 158);
+                }
+            }
+
+            .rc-slider-track {
+                background: rgba(0, 177, 158, 0.5);
+            }
+        }
+
+        .tooltip {
+            margin-top: 6px;
+            opacity: 1;
+            font-size: 10px;
+            color: rgb(56, 92, 92);
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-weight: 500;
+
+            &.min-value {
+                margin-left: -12px;
+                left: 0%;
+            }
+            &.max-value {
+                left: 100%;
+                margin-left: -12px;
+            }
+        }
     }
-  }
 }

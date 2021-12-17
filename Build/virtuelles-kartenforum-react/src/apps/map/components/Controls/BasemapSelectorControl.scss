@@ -1,25 +1,25 @@
 .basemap-selector {
-  .content-container {
-    border: 5px solid transparent;
-    position: absolute;
-    left: 40px;
-    top: -52px;
-    content: "";
-    background: rgba(51, 85, 85, 0.7);
-    padding: 20px 20px 5px 20px;
-    box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+    .content-container {
+        border: 5px solid transparent;
+        position: absolute;
+        left: 40px;
+        top: -52px;
+        content: "";
+        background: rgba(51, 85, 85, 0.7);
+        padding: 20px 20px 5px 20px;
+        box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
 
-    &:before {
-      left: -15px;
-      top: 50%;
-      margin-top: -15px;
-      width: 0;
-      border: 10px solid transparent;
-      border-left-width: 0;
-      border-right-color: rgba(51, 85, 85, 0.7);
-      position: absolute;
-      height: 0;
-      content: "";
+        &:before {
+            left: -15px;
+            top: 50%;
+            margin-top: -15px;
+            width: 0;
+            border: 10px solid transparent;
+            border-left-width: 0;
+            border-right-color: rgba(51, 85, 85, 0.7);
+            position: absolute;
+            height: 0;
+            content: "";
+        }
     }
-  }
 }

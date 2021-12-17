@@ -1,51 +1,51 @@
 .vkf-admin-evaluation {
-  padding: 0 20px;
-  position: absolute;
-  top: 0;
-  bottom: 25px;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  .content {
-    flex-grow: 1;
-    position: relative;
-  }
-  .row {
-    height: 100%;
-    .view-col {
-      height: 100%;
-      position: relative;
-
-      > div {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        overflow-y: auto;
-      }
+    padding: 0 20px;
+    position: absolute;
+    top: 0;
+    bottom: 25px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    .content {
+        flex-grow: 1;
+        position: relative;
     }
+    .row {
+        height: 100%;
+        .view-col {
+            height: 100%;
+            position: relative;
 
-    .custom-map-container {
-      display: flex;
-      .map-container {
-        .ol-control {
-          &.ol-zoom {
-            left: 10px;
-          }
-          &.ol-layerspy {
-            left: 10px;
-          }
+            > div {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                overflow-y: auto;
+            }
         }
-      }
-    }
-  }
 
-  .vkf-loading-bar-panel {
-    .progress {
-      margin: 45% 10%;
+        .custom-map-container {
+            display: flex;
+            .map-container {
+                .ol-control {
+                    &.ol-zoom {
+                        left: 10px;
+                    }
+                    &.ol-layerspy {
+                        left: 10px;
+                    }
+                }
+            }
+        }
     }
-  }
+
+    .vkf-loading-bar-panel {
+        .progress {
+            margin: 45% 10%;
+        }
+    }
 }

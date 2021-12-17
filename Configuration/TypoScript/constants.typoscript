@@ -57,8 +57,8 @@ config {
     georefchoosePage =
     # cat=plugin.tx_slubwebkartenforum/links/0160; type=int+; label=UID of Page of the Georeferencer
     georefPage =
-    # cat=plugin.tx_slubwebkartenforum/links/0170; type=int+; label=Root of Static Pages (for Navigation)
-    menuStatic =
+    # cat=plugin.tx_slubwebkartenforum/links/0170; type=int+; label=UID of Meta Navigation
+    menuMeta =
     # cat=plugin.tx_slubwebkartenforum/links/0180; type=int+; label=UID of Page with Map Evaluation
     evaluationPage =
     matomo {

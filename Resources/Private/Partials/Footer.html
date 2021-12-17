@@ -1,31 +1,30 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
 
-<div class="vk2FooterPanel">
-    <div id="vk2Footer" class="vk2Footer">
-        <div class="footerContainer">
-            <div class="leftside">
-                <ul class="footerList">
-                    <li class="listelement thick leftborder">
-                        Virtuelles Kartenforum 2.0
+<footer class="site-footer">
+    <f:if condition="{metanavigation}">
+        <nav aria-label="Footer Navigation" class="footer-navigation">
+            <ul>
+                <f:for each="{metanavigation}" as="item">
+                    <li>
+                        <a href="{item.link}" target="{item.target}" title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}" class="header-navigation-link">
+                            <span title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}">{item.title}</span>
+                        </a>
                     </li>
-                    <li class="listelement">
-                        ein Projekt der SLUB und der Universität Rostock
-                    </li>
-                </ul>
-            </div>
-            <div class="rightside">
-                <ul class="footerList">
-                    <f:for each="{menuStatic}" as="item">
-                        <li class="listelement{f:if(condition:item.active, then:' active')}">
-                            <a href="{item.link}" class="vk2-modal-anchor" title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}">
-                                <span title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}">{item.title}</span>
-                            </a>
-                        </li>
-                    </f:for>
-                </ul>
-            </div>
-        </div>
+                </f:for>
+            </ul>
+        </nav>
+    </f:if>
+    <div class="attribution">
+        <p><strong>Virtuelles Kartenforum 3.0</strong>
+            <span class="full-attribution">ein Projekt der SLUB Dresden und der Universität Rostock</span>
+        </p>
     </div>
-</div>
+    <div class="copyright">
+        <p>
+            &copy; SLUB Dresden
+            <f:format.date format="Y">NOW</f:format.date>
+        </p>
+    </div>
+</footer>
 
 </html>

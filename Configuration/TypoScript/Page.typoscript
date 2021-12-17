@@ -2,11 +2,10 @@
 # Page configuration
 ###################################################
 
-# THE BASIC PAGE ELEMENT FOR HTML OUTPUT
 page = PAGE
 page {
     typeNum = 0
-    shortcutIcon = EXT:slub_web_kartenforum/Resources/Public/Icons/favicon.ico
+    shortcutIcon = EXT:slub_web_kartenforum/Resources/Public/Icons/Extension.svg
 
     10 = FLUIDTEMPLATE
     10 {
@@ -51,22 +50,19 @@ page {
             20 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
             20 {
                 levels = 2
-                includeSpacer = 1
                 as = mainnavigation
             }
 
             30 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
             30 {
                 special = directory
-                special.value = {$config.menuStatic}
-                as = menuStatic
+                special.value = {$config.menuMeta}
+                as = metanavigation
             }
 
-            40 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
+            40 = TYPO3\CMS\Frontend\DataProcessing\LanguageMenuProcessor
             40 {
-                special = language
-                # 0 == German/Default, 1 == English
-                special.value = 0,1
+                languages = auto
                 as = menuLanguage
             }
         }
@@ -169,12 +165,11 @@ page {
 
     includeCSS {
         bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/bootstrap-3.3.7.min.css
-        slub_web_kartenforum_layout = EXT:slub_web_kartenforum/Resources/Public/Css/layout.min.css
-        slub_web_kartenforum_tempheader = EXT:slub_web_kartenforum/Resources/Public/Css/header.css
+        slub_web_kartenforum_styling = EXT:slub_web_kartenforum/Resources/Public/Css/frontend.css
     }
 
     includeJSFooter {
-
+        slub_web_kartenforum_js = EXT:slub_web_kartenforum/Resources/Public/JavaScript/frontend.js
     }
 }
 
@@ -195,5 +190,6 @@ jsonApi {
         xhtml_cleaning = 0
         debug = 0
     }
+
     10 < tt_content.list.20.slubwebkartenforum_georeference
 }

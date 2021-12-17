@@ -1,75 +1,75 @@
 @import "../../../../_sass/variables";
 
 .vkf-transformation-item {
-  margin: 2.5px;
-  border: 1px solid #333;
+    margin: 2.5px;
+    border: 1px solid #333;
 
-  &.preview-on {
-    border: 3px solid $primaryColorMain;
-  }
-
-  .panel-heading {
-    .state-signal {
-      float: right;
-      width: 10px;
-      height: 10px;
-      border-radius: 10px;
-      position: relative;
-      background-color: black;
-      margin-top: 5px;
-      &.warning {
-        background-color: #f0ad4e;
-      }
-      &.danger {
-        background-color: #d9534f;
-      }
-      &.success {
-        background-color: #5cb85c;
-      }
-    }
-  }
-
-  .panel-body {
-    padding: 10px;
-
-    .georef-params {
-      max-height: 20px;
-      overflow: hidden;
-      transition: max-height 0.25s;
-
-      &.all {
-        max-height: 450px;
-        overflow-y: auto;
-      }
+    &.preview-on {
+        border: 3px solid $primaryColorMain;
     }
 
-    .btn-georef {
-      background: $primaryColorMain;
-      color: $primaryColorContrast;
-      line-height: 25px;
-      float: right;
-
-      &:focus {
-        outline: none;
-      }
-      .icon {
-        display: block;
-        float: left;
-        width: 25px;
-        height: 25px;
-        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQCAQAAABnqj2yAAABDUlEQVR4AUXJscsMcADG8YdzlxOljkFMzqDLGc4/8BaLBZtNkUnKoBThBsNlu1LXUZbXIrK8JSwYlAklt12deg+pC6nLoLuP4lee7/LUJ/9mxSMzSz88cVxEIipu+eaKAxr2u+CTB+oS0TOyW5Rs98o9iZa5ptil77nb9okdZlaibyga1t13ytB3TXHdw3jrhLjsmYi4ayA6vsZnHTFws9B5a2In8cERcdrIFlH1UlfsNY9VPVH11MSqkTe2iTNexFFf1MVGx1x1Uu3vf+dsxGs3VF3TktI5Y7WIg35Zt7C5QNtPhyW2GlhgWmCPj7oiccl7vy09LjB2xwaRiNikrS0OmRqqiEL/m7goSn8AP/oQKAbuNT0AAAAASUVORK5CYII=)
-          center center no-repeat $primaryColorMain;
-      }
-    }
-  }
-
-  .panel-footer {
-    .btn-default {
-      margin-right: 5px;
+    .panel-heading {
+        .state-signal {
+            float: right;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            position: relative;
+            background-color: black;
+            margin-top: 5px;
+            &.warning {
+                background-color: #f0ad4e;
+            }
+            &.danger {
+                background-color: #d9534f;
+            }
+            &.success {
+                background-color: #5cb85c;
+            }
+        }
     }
 
-    .dropdown {
-      float: right;
+    .panel-body {
+        padding: 10px;
+
+        .georef-params {
+            max-height: 20px;
+            overflow: hidden;
+            transition: max-height 0.25s;
+
+            &.all {
+                max-height: 450px;
+                overflow-y: auto;
+            }
+        }
+
+        .btn-georef {
+            background: $primaryColorMain;
+            color: $primaryColorContrast;
+            line-height: 25px;
+            float: right;
+
+            &:focus {
+                outline: none;
+            }
+            .icon {
+                display: block;
+                float: left;
+                width: 25px;
+                height: 25px;
+                background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQCAQAAABnqj2yAAABDUlEQVR4AUXJscsMcADG8YdzlxOljkFMzqDLGc4/8BaLBZtNkUnKoBThBsNlu1LXUZbXIrK8JSwYlAklt12deg+pC6nLoLuP4lee7/LUJ/9mxSMzSz88cVxEIipu+eaKAxr2u+CTB+oS0TOyW5Rs98o9iZa5ptil77nb9okdZlaibyga1t13ytB3TXHdw3jrhLjsmYi4ayA6vsZnHTFws9B5a2In8cERcdrIFlH1UlfsNY9VPVH11MSqkTe2iTNexFFf1MVGx1x1Uu3vf+dsxGs3VF3TktI5Y7WIg35Zt7C5QNtPhyW2GlhgWmCPj7oiccl7vy09LjB2xwaRiNikrS0OmRqqiEL/m7goSn8AP/oQKAbuNT0AAAAASUVORK5CYII=)
+                    center center no-repeat $primaryColorMain;
+            }
+        }
     }
-  }
+
+    .panel-footer {
+        .btn-default {
+            margin-right: 5px;
+        }
+
+        .dropdown {
+            float: right;
+        }
+    }
 }

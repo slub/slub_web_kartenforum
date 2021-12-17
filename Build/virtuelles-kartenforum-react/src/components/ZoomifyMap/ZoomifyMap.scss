@@ -2,32 +2,32 @@
 @import "../../_sass/overwrites-openlayers";
 
 .vk-mapview-zoomify {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 
-  .ol-viewport {
-    background: #ccc;
-  }
-
-  .ol-control {
-    &.ol-full-screen {
-      right: 10px;
-      top: 10px;
+    .ol-viewport {
+        background: #ccc;
     }
 
-    &.ol-zoom {
-      left: 10px;
-      top: 10px;
-    }
+    .ol-control {
+        &.ol-full-screen {
+            right: 10px;
+            top: 10px;
+        }
 
-    &.ol-zoom-extent {
-      left: 10px;
-      top: 70px;
-    }
+        &.ol-zoom {
+            left: 10px;
+            top: 10px;
+        }
 
-    &.image-manipulation {
-      left: 10px;
-      top: 113px;
+        &.ol-zoom-extent {
+            left: 10px;
+            top: 70px;
+        }
+
+        &.image-manipulation {
+            left: 10px;
+            top: 113px;
+        }
     }
-  }
 }

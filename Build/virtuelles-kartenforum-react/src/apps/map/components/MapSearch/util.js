@@ -8,9 +8,8 @@
 export const checkIfArrayContainsFeature = (array, feature) => {
     return (
         array.findIndex(
-            ({ feature: selFeature }) => selFeature.get("id") === feature.get("id")
+            ({ feature: selFeature }) =>
+                selFeature.get("id") === feature.get("id")
         ) !== -1
     );
 };
-
-

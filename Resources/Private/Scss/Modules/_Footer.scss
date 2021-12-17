@@ -1,0 +1,37 @@
+/*
+ *
+ * SLUB Kartenforum - Footer
+ * =========================================================
+ * Guess what, the styling for the websites footer
+ * area with logos and meta nav
+ *
+ * Author: Thomas Jung <thomas@jung.digital>
+ *
+ */
+
+.site-footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 10px 15px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $secondary-color-dark;
+    color: white;
+    font-size: 12px;
+    z-index: 1;
+    p {
+        margin: 0;
+    }
+    .attribution {
+        position: relative;
+        text-transform: uppercase;
+        letter-spacing: .05ex;
+        .full-attribution {
+            display: none;
+        }
+    }
+}

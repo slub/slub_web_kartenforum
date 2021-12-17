@@ -1,54 +1,54 @@
 @import "../../../../_sass/variables";
 
 .vkf-basemap-selector {
-  width: 300px;
-  color: #fff;
+    width: 300px;
+    color: #fff;
 
-  .controls-container {
-    button.btn {
-      float: right;
-      height: 34px;
-      margin: 0;
-      overflow: visible;
-      width: auto;
-      color: #333;
-      background-image: none;
-      border-radius: 4px;
-      cursor: pointer;
-      display: inline-block;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.42857143;
-      padding: 6px 12px;
-      text-align: center;
-      touch-action: manipulation;
-      user-select: none;
-      vertical-align: middle;
-      white-space: nowrap;
-      background-color: #fff;
-      border-color: #ccc;
+    .controls-container {
+        button.btn {
+            float: right;
+            height: 34px;
+            margin: 0;
+            overflow: visible;
+            width: auto;
+            color: #333;
+            background-image: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            padding: 6px 12px;
+            text-align: center;
+            touch-action: manipulation;
+            user-select: none;
+            vertical-align: middle;
+            white-space: nowrap;
+            background-color: #fff;
+            border-color: #ccc;
 
-      &:hover {
-        background-color: #e6e6e6;
-        border-color: #adadad;
-        color: #333;
-      }
+            &:hover {
+                background-color: #e6e6e6;
+                border-color: #adadad;
+                color: #333;
+            }
+        }
     }
-  }
 }
 
 .ol-control {
-  .vkf-basemap-selector {
-    .basemap-selector-entry {
-      align-items: center;
-      display: flex;
+    .vkf-basemap-selector {
+        .basemap-selector-entry {
+            align-items: center;
+            display: flex;
 
-      button.delete-basemap-button {
-        color: $primaryColorMain;
-        margin: 10px 0;
-        height: 20px;
-        background: transparent;
-      }
+            button.delete-basemap-button {
+                color: $primaryColorMain;
+                margin: 10px 0;
+                height: 20px;
+                background: transparent;
+            }
+        }
     }
-  }
 }

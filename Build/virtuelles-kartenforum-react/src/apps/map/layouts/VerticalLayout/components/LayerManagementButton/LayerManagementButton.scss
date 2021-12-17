@@ -1,52 +1,52 @@
 @import "../../../../../../_sass/variables";
 
 .vkf-toggle-layermanagement-container {
-  bottom: 5%;
-  left: 0;
-  margin-left: auto;
-  margin-right: auto;
-  position: absolute;
-  right: 0;
-  width: 52px;
-  z-index: 3;
-
-  .toggle-layermanagement-button {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    text-align: center;
-    display: block;
-    padding: 0;
-    color: $secondaryColorContrast;
-    font-weight: bold;
-    text-decoration: none;
-    white-space: nowrap;
-    overflow: hidden;
-    border: 0;
-    background-color: $secondaryColorMain;
-    cursor: pointer;
-    line-height: 52px;
-    font-size: 2em;
-  }
-
-  transition: transform 0.3s ease-in;
-  transform: translateY(0);
-
-  &.opened {
-    transform: translateY(-42.5vh);
-    transition: transform 0.5s ease-in;
-  }
-
-  &.disabled {
-    .toggle-layermanagement-button {
-      background-color: darken($alternatingListColorDark, 20);
-      color: $alternatingListColorDark;
-    }
-  }
-
-  .badge {
+    bottom: 5%;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
     position: absolute;
-    background-color: $primaryColorMain;
-    color: $primaryColorContrast;
-  }
+    right: 0;
+    width: 52px;
+    z-index: 3;
+
+    .toggle-layermanagement-button {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        text-align: center;
+        display: block;
+        padding: 0;
+        color: $secondaryColorContrast;
+        font-weight: bold;
+        text-decoration: none;
+        white-space: nowrap;
+        overflow: hidden;
+        border: 0;
+        background-color: $secondaryColorMain;
+        cursor: pointer;
+        line-height: 52px;
+        font-size: 2em;
+    }
+
+    transition: transform 0.3s ease-in;
+    transform: translateY(0);
+
+    &.opened {
+        transform: translateY(-42.5vh);
+        transition: transform 0.5s ease-in;
+    }
+
+    &.disabled {
+        .toggle-layermanagement-button {
+            background-color: darken($alternatingListColorDark, 20);
+            color: $alternatingListColorDark;
+        }
+    }
+
+    .badge {
+        position: absolute;
+        background-color: $primaryColorMain;
+        color: $primaryColorContrast;
+    }
 }

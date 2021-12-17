@@ -1,0 +1,40 @@
+/*
+ *
+ * SLUB Kartenforum - Typography
+ * =========================================================
+ * Basic typographic settings
+ *
+ * Author: Thomas Jung <thomas@jung.digital>
+ *
+ */
+
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 200;
+    src: local(''), url('../Fonts/titillium-web-v10-latin-200.woff2') format('woff2'), url('../Fonts/titillium-web-v10-latin-200.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''), url('../Fonts/titillium-web-v10-latin-regular.woff2') format('woff2'), url('../Fonts/titillium-web-v10-latin-regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 700;
+    src: local(''), url('../Fonts/titillium-web-v10-latin-700.woff2') format('woff2'), url('../Fonts/titillium-web-v10-latin-700.woff') format('woff');
+}
+
+body {
+    font-weight: 400;
+    font-family: "Titillium Web", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: black;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}

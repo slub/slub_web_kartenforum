@@ -1,56 +1,56 @@
 .gazetteersearch-container {
-  position: relative;
-  height: auto;
+    position: relative;
+    height: auto;
 }
 
 .gazetteersearch-container .form-group {
-  margin: 0;
+    margin: 0;
 }
 
 .gazetteersearch-container .gazetteersearch-input {
-  width: 100%;
-  position: relative;
-  border-radius: 0;
-  font-weight: 300;
+    width: 100%;
+    position: relative;
+    border-radius: 0;
+    font-weight: 300;
 }
 
 .gazetteersearch-container .gazetteersearch-input:focus,
 .gazetteersearch-container .gazetteersearch-submit:focus {
-  border-color: #766;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-    0 0 8px rgba(0, 0, 0, 0.2);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 0, 0, 0.2);
+    border-color: #766;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+        0 0 8px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
 .gazetteersearch-container .gazetteersearch-input.loading {
-  background: #fff url("../Images/loader.gif") 220px center no-repeat;
+    background: #fff url("../Images/loader.gif") 220px center no-repeat;
 }
 
 .gazetteersearch-container .gazetteersearch-submit {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 40px;
-  height: 34px;
-  border-radius: 0;
-  background: rgb(0, 177, 158) url("../Images/searchBtn.svg") no-repeat center
-    center;
-  background-size: 18px 18px;
-  overflow: hidden;
-  text-indent: 100%;
-  white-space: nowrap;
-  padding: 0;
-  border-left: 0 none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 34px;
+    border-radius: 0;
+    background: rgb(0, 177, 158) url("../Images/searchBtn.svg") no-repeat center
+        center;
+    background-size: 18px 18px;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+    padding: 0;
+    border-left: 0 none;
 }
 
 .gazetteersearch-container .form-group:after {
-  position: absolute;
-  right: 40px;
-  top: 11px;
-  width: 0;
-  height: 0;
-  content: "";
-  border: 6px solid rgb(0, 177, 158);
-  border-color: transparent rgb(0, 177, 158) transparent transparent;
-  border-left-width: 0;
+    position: absolute;
+    right: 40px;
+    top: 11px;
+    width: 0;
+    height: 0;
+    content: "";
+    border: 6px solid rgb(0, 177, 158);
+    border-color: transparent rgb(0, 177, 158) transparent transparent;
+    border-left-width: 0;
 }

@@ -2,33 +2,33 @@
 @import "../../../../_sass/overwrites-openlayers";
 
 .vkf-mapview-target {
-  .map-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
+    .map-container {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
 
-    .ol-control {
-      &.ol-zoom,
-      &.ol-zoom-extent,
-      &.ol-full-screen,
-      &.ol-layerspy {
-        left: 10px;
-      }
+        .ol-control {
+            &.ol-zoom,
+            &.ol-zoom-extent,
+            &.ol-full-screen,
+            &.ol-layerspy {
+                left: 10px;
+            }
 
-      &.ol-full-screen {
-        top: 74px;
-        right: unset;
-      }
+            &.ol-full-screen {
+                top: 74px;
+                right: unset;
+            }
 
-      &.ol-zoom-extent {
-        top: 110px;
-      }
+            &.ol-zoom-extent {
+                top: 110px;
+            }
 
-      &.ol-layerspy {
-        top: 146px;
-      }
+            &.ol-layerspy {
+                top: 146px;
+            }
+        }
     }
-  }
 }

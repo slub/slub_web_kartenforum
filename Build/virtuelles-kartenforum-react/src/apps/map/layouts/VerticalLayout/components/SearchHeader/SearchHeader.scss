@@ -1,86 +1,86 @@
 @import "../../../../../../_sass/variables";
 
 .vkf-search-header {
-  flex-direction: column;
-  display: flex;
-  position: relative;
-  background: $primaryColorContrast;
-  width: 100%;
-  z-index: 101;
-  border-bottom: 2px solid #c8c8c8;
-  @include box-shadow;
-
-  .top-container {
+    flex-direction: column;
     display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 12px;
-    height: 36px;
-  }
+    position: relative;
+    background: $primaryColorContrast;
+    width: 100%;
+    z-index: 101;
+    border-bottom: 2px solid #c8c8c8;
+    @include box-shadow;
 
-  .bottom-container {
-    height: 108px;
-    padding: 5px 15px;
-
-    .timeslider-container {
-      label {
-        font-size: 14px;
-      }
-
-      &:after {
-        display: none;
-      }
-
-      .slider-container {
-        padding: 10px;
-      }
+    .top-container {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        height: 36px;
     }
-  }
+
+    .bottom-container {
+        height: 108px;
+        padding: 5px 15px;
+
+        .timeslider-container {
+            label {
+                font-size: 14px;
+            }
+
+            &:after {
+                display: none;
+            }
+
+            .slider-container {
+                padding: 10px;
+            }
+        }
+    }
 }
 
 .vkf-toggle-result-list-container {
-  position: relative;
-  height: 0;
-  z-index: 102;
-  /**
+    position: relative;
+    height: 0;
+    z-index: 102;
+    /**
  Center absolutely positioned div
  **/
-  margin-left: auto;
-  margin-right: auto;
-  width: 46px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  margin-top: -10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 46px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin-top: -10px;
 
-  &.hide-search-result-list {
-    transition: transform 0.3s ease-in;
-    transform: translateY(0);
-  }
+    &.hide-search-result-list {
+        transition: transform 0.3s ease-in;
+        transform: translateY(0);
+    }
 
-  &.show-search-result-list {
-    transition: transform 0.43s ease-in 0.07s;
-    transform: translateY(245px);
-  }
+    &.show-search-result-list {
+        transition: transform 0.43s ease-in 0.07s;
+        transform: translateY(245px);
+    }
 }
 
 .vkf-search-result-container {
-  @include box-shadow;
-  background: #fff;
-  overflow: auto;
-  position: absolute;
-  width: 100%;
-  z-index: 100;
+    @include box-shadow;
+    background: #fff;
+    overflow: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
 
-  &.hide-search-result-list {
-    transition: transform 0.3s ease-in;
-    transform: translateY(-300px);
-  }
+    &.hide-search-result-list {
+        transition: transform 0.3s ease-in;
+        transform: translateY(-300px);
+    }
 
-  &.show-search-result-list {
-    transition: transform 0.5s ease-in;
-    transform: translateY(0);
-  }
+    &.show-search-result-list {
+        transition: transform 0.5s ease-in;
+        transform: translateY(0);
+    }
 }

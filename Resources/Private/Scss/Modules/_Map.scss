@@ -1,0 +1,19 @@
+/**
+ *
+ * SLUB Kartenforum - Map styling
+ * =========================================================
+ * Additional styles for positioning and
+ * assistive design
+ *
+ * Author: Thomas Jung <thomas@jung.digital>
+ *
+ */
+
+#vkf-app-map {
+    position: absolute;
+    inset: 70px 0 40px 0;
+    overflow: hidden;
+    @media screen and (min-width: $tabletViewportWidth) {
+        top: 85px;
+    }
+}

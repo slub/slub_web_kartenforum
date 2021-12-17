@@ -406,6 +406,10 @@
 				<source><![CDATA[Username]]></source>
 				<target><![CDATA[Benutzername]]></target>
 			</trans-unit>
+			<trans-unit id="login.shortusername" approved="yes">
+				<source><![CDATA[User]]></source>
+				<target><![CDATA[Benutzer]]></target>
+			</trans-unit>
 			<trans-unit id="plugin.choosepage" approved="yes">
 				<source><![CDATA[Kartenforum: Unreferenced maps]]></source>
 				<target><![CDATA[Kartenforum: Unreferenzierte Karten]]></target>
