@@ -4,54 +4,21 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-
 import { Tile } from "ol/layer";
-import { Feature } from "ol";
 import { XYZ } from "ol/source";
-
 import { inherits, isDefined } from "../../../../util/util";
 
 /**
- * @param {ol.geom.Polygon} clip
- * @param {number} id
- * @param {string} time
- * @param {string} title
- * @return {ol.Feature}
- * @private
- */
-export const createClipFeature = (clip, id, time, title) => {
-    // create the clip feature
-    const feature = new Feature(clip);
-    feature.setProperties({
-        objectid: id,
-        time: time,
-        title: title,
-    });
-    feature.setId(id);
-
-    return feature;
-};
-
-/**
- * Right now there are problems with the compiled version when using a ol3 compiled version. In that case
- * renamed variables of this object overwrite properties/function of the inherited object (ol.layer.Group). A
- * solution is to prevent renaming properties of this object through using the "expose" annotation.
+ * Wrapper class / function representing a HistoricMap layer based on the tms protocol.
  *
- * @param {vk2x.layer.HistoricMapOptions} settings
+ * @param {{
+ *
+ * }} settings
  * @param {ol.Map} map
  * @constructor
  * @extends {ol.layer.Tile}
  */
 export const HistoricMap = function (settings) {
-    /**
-     * Holds the id of the underlying feature
-     * @type {*|undefined}
-     * @private
-     */
-    this.featureId_ = isDefined(settings.objectid)
-        ? settings.objectid
-        : undefined;
-
     /**
      * @type {string}
      * @private
@@ -64,7 +31,7 @@ export const HistoricMap = function (settings) {
      * @private
      * @expose
      */
-    this.time_ = settings.time;
+    this.time_ = settings.time_published;
 
     /**
      * @type {string}
@@ -78,10 +45,7 @@ export const HistoricMap = function (settings) {
      * @private
      * @expose
      */
-    this.thumb_ = settings.thumbnail;
-    //vk2.settings.THUMB_PATH
-
-    this.tms_url_subdomains = settings.tms_url_subdomains;
+    this.thumb_ = settings.thumb_url;
 
     /**
      * @type {boolean}
@@ -89,19 +53,18 @@ export const HistoricMap = function (settings) {
      */
     this.allowUseInLayerManagement = true;
 
-    const urls = this.tms_url_subdomains.map((subdomain) => {
-        const url = `${settings.tms.replace(
-            "{s}",
-            subdomain
-        )}/{z}/{x}/{-y}.png`;
-        return url.replace("http:", "");
-    });
-
     Tile.call(this, {
         extent: settings["clip"].getExtent(),
         source: new XYZ({
-            maxZoom: settings["maxZoom"],
-            urls: urls,
+            maxZoom:
+                settings.scale == 0
+                    ? 15
+                    : settings.scale <= 5000
+                    ? 17
+                    : settings.scale <= 15000
+                    ? 16
+                    : 15,
+            urls: settings.urls.map((url) => `${url}/{z}/{x}/{-y}.png`),
             crossOrigin: "*",
         }),
     });
@@ -112,7 +75,7 @@ inherits(HistoricMap, Tile);
 /**
  * @return {number}
  */
-HistoricMap.prototype.getTime = function () {
+HistoricMap.prototype.getTimePublished = function () {
     return this.time_;
 };
 
@@ -127,7 +90,7 @@ HistoricMap.prototype.getTitle = function () {
  * @return {string}
  */
 HistoricMap.prototype.getThumbnail = function () {
-    return this.thumb_.replace("http:", "");
+    return this.thumb_;
 };
 
 /**
@@ -136,19 +99,5 @@ HistoricMap.prototype.getThumbnail = function () {
 HistoricMap.prototype.getId = function () {
     return this.id_;
 };
-
-/**
- * @return {string}
- */
-HistoricMap.prototype.getFeatureId = function () {
-    return this.featureId_;
-};
-
-/**
- * @return {Object}
- */
-//vk2.layer.HistoricMap.prototype.getMetadata = function(){
-//	return this._metadata;
-//};
 
 export default HistoricMap;

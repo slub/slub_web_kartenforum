@@ -261,7 +261,7 @@ export const LayerManagementEntry = (props) => {
         <div className="timestamps">
           <span className="timestamps-label">{`${translate(
             "timestamp"
-          )} ${layer.getTime()}`}</span>
+          )} ${layer.getTimePublished()}`}</span>
         </div>
       </div>
       <OpacitySlider orientation="vertical" layer={layer} />

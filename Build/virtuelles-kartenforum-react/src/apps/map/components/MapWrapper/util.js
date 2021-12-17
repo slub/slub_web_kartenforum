@@ -29,31 +29,16 @@ export const containsLayerWithId = function (id, layers) {
  * @private
  */
 export const createHistoricMapForFeature = function (feature) {
-    const settings = SettingsProvider.getSettings();
-
-    const tms_url_subdomains = settings["TMS_URL_SUBDOMAINS"];
-    const thumbnail = feature.get("thumb_url") ?? settings["THUMB_PATH"];
-
-    const maxZoom =
-        feature.get("map_scale") == 0
-            ? 15
-            : feature.get("map_scale") <= 5000
-            ? 17
-            : feature.get("map_scale") <= 15000
-            ? 16
-            : 15;
-
     return new HistoricMap({
-        time: feature.get("time_published"),
-        maxZoom: maxZoom,
-        title: feature.get("title"),
-        objectid: feature.getId(),
-        id: feature.getId(),
-        dataid: feature.get("file_name"),
-        tms: feature.get("tms_url"),
         clip: feature.getGeometry().clone(),
-        thumbnail,
-        tms_url_subdomains,
+        id: feature.getId(),
+        scale: feature.get("map_scale"),
+        thumb_url:
+            feature.get("thumb_url") ??
+            SettingsProvider.getSettings()["FALLBACK_THUMBNAIL"],
+        title: feature.get("title"),
+        time_published: feature.get("time_published"),
+        urls: feature.get("tms_urls"),
     });
 };
 

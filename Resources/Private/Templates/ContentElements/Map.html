@@ -24,6 +24,8 @@
         vk2.SettingsProvider.appendSettings({
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
             "BASEMAP_CONFIG": JSON.parse(document.getElementById("setting-basemapsConfig").value),
+            "FALLBACK_THUMBNAIL": "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
+
             "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
             "ELASTICSEARCH_NODE": "https://kartenforum.slub-dresden.de/spatialdocuments",
             "ELASTICSEARCH_SRS": "EPSG:4326",
@@ -41,7 +43,6 @@
             "NOMINATIM_URL": "https://kartenforum.slub-dresden.de/nominatim/",
             "OSM_URLS": document.getElementById("setting-urlOsmMaps").value.split(","),
             "TERRAIN_TILES_URL": "https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=kRAKrA0wcbZZFOT64bX5",
-            "THUMB_PATH":"/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
             "TMS_URL_SUBDOMAINS": [ "1", "2", "3" ],
             "WITH_SPEAKING_URLS": WITH_SPEAKING_URLS,
             "WMS_DYNAMIC_TEMPLATE": "https://kartenforum.slub-dresden.de/ows/dynamic-ows"

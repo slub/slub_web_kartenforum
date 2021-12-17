@@ -89,7 +89,7 @@ export const MapSearchResultList = ({
         .getArray()
         .filter((lay) => lay.allowUseInLayerManagement);
       const layer = layers.find((layer) => {
-        return layer.getFeatureId() === feature.get("id");
+        return layer.getId() === feature.get("id");
       });
 
       map.removeLayer(layer);
