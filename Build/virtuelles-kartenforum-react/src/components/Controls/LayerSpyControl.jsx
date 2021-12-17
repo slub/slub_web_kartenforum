@@ -135,6 +135,16 @@ export class LayerSpyControl extends Control {
       this.getMap().addLayer(this.layer);
     }
   };
+
+  handleExternal3dStateUpdate = (new3dState) => {
+    this.containerEl.disabled = new3dState;
+
+    if (new3dState) {
+      this.containerEl.classList.add("disabled");
+    } else {
+      this.containerEl.classList.remove("disabled");
+    }
+  };
 }
 
 export default LayerSpyControl;
