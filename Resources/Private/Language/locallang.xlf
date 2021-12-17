@@ -97,7 +97,7 @@
         <trans-unit id="georef.new">
             <source>New georeference processes</source>
         </trans-unit>
-        <trans-unit id="georef.update">
+        <trans-unit id="plugin.map.layermanagement.georefUpdate">
             <source>Update georeference processes</source>
         </trans-unit>
         <trans-unit id="georef.points">
@@ -127,10 +127,10 @@
 			<trans-unit id="client.points">
 				<source>Points</source>
 			</trans-unit>
-			<trans-unit id="client.timestamp">
+			<trans-unit id="plugin.map.layermanagement.timestamp">
 				<source>Timestamp</source>
 			</trans-unit>
-			<trans-unit id="client.time">
+			<trans-unit id="plugin.map.mapsearchlistelement.time">
 				<source>Time</source>
 			</trans-unit>
 			<trans-unit id="client.yes">
@@ -169,32 +169,32 @@
 				<source>Set 'invalide'</source>
 			</trans-unit>
             <!-- vk2.control.DeactiveMapVisualizationControl -->
-			<trans-unit id="client.deactivemap.deactiveAll">
+			<trans-unit id="plugin.map.layermanagement.deactivateAll">
 				<source>Deactivate all maps</source>
 			</trans-unit>
-			<trans-unit id="client.deactivemap.activeAll">
+			<trans-unit id="plugin.map.layermanagement.activateAll">
 				<source>Activate all maps</source>
 			</trans-unit>
 
             <!-- vk2.control.DynamicMapVisualizationControl -->
-			<trans-unit id="client.dynamicmapvis.start">
+			<trans-unit id="plugin.map.dynamicmapvis.start">
 				<source>Start timeseries visualization</source>
 			</trans-unit>
-			<trans-unit id="client.dynamicmapvis.stop">
+			<trans-unit id="plugin.map.dynamicmapvis.stop">
 				<source>Stop timeseries visualization</source>
 			</trans-unit>
-			<trans-unit id="client.dynamicmapvis.open">
+			<trans-unit id="plugin.map.dynamicmapvis.open">
 				<source>Open dynamic map visualization tool</source>
 			</trans-unit>
-			<trans-unit id="client.dynamicmapvis.close">
+			<trans-unit id="plugin.map.dynamicmapvis.close">
 				<source>Close dynamic map visualization tool</source>
 			</trans-unit>
 
             <!-- vk2.control.FlipViewMode -->
-			<trans-unit id="client.flipviewmode.title">
+			<trans-unit id="global.map.control-toggleviewmode.title">
 				<source>Switch between 2D and 3D view</source>
 			</trans-unit>
-			<trans-unit id="client.flipviewmode.zoomin">
+			<trans-unit id="global.map.control-toggleviewmode.zoomin">
 				<source>Switch to 3D is not possible for this resolution. Please zoom in.</source>
 			</trans-unit>
 
@@ -206,7 +206,7 @@
 			</trans-unit>
 
             <!-- vk2.control.MousePositionControl -->
-			<trans-unit id="client.mouseposition.title">
+			<trans-unit id="global.map.control-mouseposition-title">
 				<source>Mouse position</source>
 			</trans-unit>
 
@@ -220,7 +220,7 @@
 
 
             <!-- vk2.control.RestoreDefaultView -->
-			<trans-unit id="client.restoredefaultview.title">
+			<trans-unit id="global.map.control-restoredefaultview-title">
 				<source>Restore default view</source>
       </trans-unit>
 
@@ -231,97 +231,100 @@
 
 
             <!-- vk2.factory.MapSearchFactory / vk2.factory.LayerManagementFactory-->
-			<trans-unit id="client.factory.scale">
+			<trans-unit id="plugin.map.mapsearchlistelement.scale">
 				<source>Scale</source>
 			</trans-unit>
-			<trans-unit id="client.factory.notGeoref">
+			<trans-unit id="plugin.map.mapsearchlistelement.notGeoref">
             	<source>Not georeferenced</source>
             </trans-unit>
-			<trans-unit id="client.factory.showMap">
+			<trans-unit id="plugin.map.layermanagement.showMap">
 				<source>Display map</source>
 			</trans-unit>
-			<trans-unit id="client.factory.removeMap">
+			<trans-unit id="plugin.map.layermanagement.removeMap">
 				<source>Remove map</source>
 			</trans-unit>
-			<trans-unit id="client.factory.moveToTop">
+			<trans-unit id="plugin.map.layermanagement.moveToTop">
 				<source>Move map to top</source>
 			</trans-unit>
-			<trans-unit id="client.factory.updateGeoref">
+			<trans-unit id="plugin.map.layermanagement.updateGeoref">
 				<source>Update georeferenced map</source>
 			</trans-unit>
-			<trans-unit id="client.factory.zoomToMap">
+			<trans-unit id="plugin.map.layermanagement.zoomToMap">
                 <source>Zoom to map</source>
             </trans-unit>
-			<trans-unit id="client.factory.showOriginal">
+			<trans-unit id="plugin.map.layermanagement.showOriginal">
                 <source>Show Original</source>
             </trans-unit>
 
 
 
 			<!-- vk2.module.LayerManagementModule -->
-			<trans-unit id="client.layermanagementmodule.startMessage">
+			<trans-unit id="plugin.map.layermanagement.startMessage">
 				<source><![CDATA[Welcome to the Virtual Map Forum 2.0.<br> Please choose your map collection in the search menu on the left side]]></source>
 			</trans-unit>
-			<trans-unit id="client.layermanagementmodule.headerLbl">
+			<trans-unit id="plugin.map.layermanagement.headerLbl">
 				<source>My maps</source>
 			</trans-unit>
 
 			<!-- vk2.module.MapSearchModule -->
-			<trans-unit id="client.mapsearchmodule.foundMaps">
+			<trans-unit id="plugin.map.mapsearch.foundMaps">
 				<source>Maps available</source>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.foundNoMaps">
+			<trans-unit id="plugin.map.mapsearch.foundNoMaps">
 				<source>No maps available</source>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.georeference">
+			<trans-unit id="plugin.map.mapsearch.georeference">
 				<source>Georeference</source>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.time_published">
+			<trans-unit id="plugin.map.mapsearch.time_published">
 				<source>Time</source>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.title">
+			<trans-unit id="plugin.map.mapsearch.title">
 				<source>Title</source>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.facetsearch.open">
+			<trans-unit id="plugin.map.mapsearch.facetsearch.open">
 			    <source>Open faceted search</source>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.facetsearch.close">
+			<trans-unit id="plugin.map.mapsearch.facetsearch.close">
                 <source>Close faceted search</source>
             </trans-unit>
 
 			<!-- vk2.tool.FacetedSearchTool -->
-			<trans-unit id="client.facetedsearch.titleAE">
+			<trans-unit id="plugin.map.facetedsearch.titleAE">
 				<source>Topological maps (1:25.000)</source>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleAK">
+			<trans-unit id="plugin.map.facetedsearch.titleAK">
 				<source>Other historic maps</source>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleAK">
+			<trans-unit id="plugin.map.facetedsearch.titleAK">
 				<source>Other historic maps</source>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleCM">
+			<trans-unit id="plugin.map.facetedsearch.titleCM">
 				<source>City Map</source>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleMB">
+			<trans-unit id="plugin.map.facetedsearch.titleMB">
 				<source>Meilenblätter (1:12.000)</source>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleMTB">
+			<trans-unit id="plugin.map.facetedsearch.titleMTB">
 				<source>Plane survey sheets (1:25.000)</source>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleTK">
+			<trans-unit id="plugin.map.facetedsearch.titleTK">
 				<source>Topological maps (1:100.000)</source>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleTKX">
+			<trans-unit id="plugin.map.facetedsearch.titleTKX">
 				<source>Topological maps (&lt; 1:50.000)</source>
 			</trans-unit>
 
-			<!-- vk2.tool.GazetteerSearchTool -->
-			<trans-unit id="client.gazetteer.placeholder">
+			<!-- PlacenameSearch -->
+			<trans-unit id="plugin.map.placenamesearch.placeholder">
 				<source>Placename</source>
 			</trans-unit>
-			<trans-unit id="client.gazetteer.submit">
+			<trans-unit id="plugin.map.placenamesearch.submit">
 				<source>Search</source>
 			</trans-unit>
+            <trans-unit id="plugin.map.placenamesearch.unknownPlacename">
+                <source>The chosen placename is unknown.</source>
+            </trans-unit>
 
             <!-- vk2.tool.MetadataBindingTool -->
 			<trans-unit id="client.metadatabinding.keyword">
@@ -341,7 +344,7 @@
 			</trans-unit>
 
 			<!-- vk2.tool.TimeSliderTool -->
-			<trans-unit id="client.timeslidertool.changeTimeperiod">
+			<trans-unit id="plugin.map.timeslider.adjustTimePeriod">
 				<source>Adjust time periode</source>
 			</trans-unit>
 

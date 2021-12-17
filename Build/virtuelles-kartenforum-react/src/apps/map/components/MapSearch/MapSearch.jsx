@@ -45,7 +45,11 @@ export const MapSearch = () => {
       <div className="panel panel-default searchTablePanel">
         <div className="panel-heading">
           <div className="content">
-            <div>{`${mapCount} ${translate("mapsearch-found-maps")}`}</div>
+            <div>
+              {mapCount === 0
+                ? translate("mapsearch-found-no-maps")
+                : `${mapCount} ${translate("mapsearch-found-maps")}`}
+            </div>
             <ToggleFacetsButton
               onClick={handleToggleFacetedSearch}
               isOpen={isFacetedSearchOpen}

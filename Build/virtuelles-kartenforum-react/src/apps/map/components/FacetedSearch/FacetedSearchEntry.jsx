@@ -27,7 +27,7 @@ export const FacetedSearchEntry = ({
       <input
         checked={checked}
         className="facet-search-el"
-        onClick={handleClick}
+        onChange={handleClick}
         id={id}
         title={title}
         type="checkbox"

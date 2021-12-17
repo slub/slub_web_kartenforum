@@ -11,17 +11,14 @@ import { useRecoilValue } from "recoil";
 import clsx from "clsx";
 
 import MapSearchResultList from "../../../../components/MapSearch/components/MapSearchResultList/MapSearchResultList";
-import {
-  mapsInViewportState,
-  selectedFeaturesState,
-  timeRangeState,
-} from "../../../../atoms/atoms";
+import { mapsInViewportState, timeRangeState } from "../../../../atoms/atoms";
 import ToggleFacetsButton from "../../../../components/MapSearch/components/ToggleFacetsButton/ToggleFacetsButton";
 import ToggleSearchButton from "../ToggleSearchButton/ToggleSearchButton";
 import { ToggleResultListButton } from "../ToggleResultListButton/ToggleResultListButton";
 import PlacenameSearch from "../../../../components/PlacenameSearch/PlacenameSearch";
 import TimeSlider from "../../../../components/TimeSlider/TimeSlider";
 import SettingsProvider from "../../../../../../SettingsProvider";
+import { translate } from "../../../../../../util/util";
 
 import "./SearchHeader.scss";
 
@@ -34,7 +31,6 @@ export const SearchHeader = ({
   const [showSearch, setShowSearch] = useState(false);
   const [wasResultListOpen, setWasResultListOpen] = useState(false);
   const { mapCount } = useRecoilValue(mapsInViewportState);
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
   const timeRange = useRecoilValue(timeRangeState);
 
   const settings = SettingsProvider.getSettings();
@@ -68,9 +64,9 @@ export const SearchHeader = ({
       <div className="vkf-search-header">
         <div className="top-container">
           <div className="result-summary">
-            {selectedFeatures.length === 0
-              ? `${mapCount} Karten verfügbar`
-              : `${selectedFeatures.length}/${mapCount} Karten verfügbar`}
+            {mapCount === 0
+              ? translate("mapsearch-found-no-maps")
+              : `${mapCount} ${translate("mapsearch-found-maps")}`}
           </div>
           <div className="controls-container">
             <ToggleFacetsButton onClick={onToggleFacets} isOpen={showFacets} />

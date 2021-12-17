@@ -105,7 +105,7 @@ TimeSlider.defaultProps = {
 };
 
 TimeSlider.propTypes = {
-  timeRange: [PropTypes.number, PropTypes.number],
+  timeRange: PropTypes.arrayOf(PropTypes.number),
 };
 
 export default TimeSlider;

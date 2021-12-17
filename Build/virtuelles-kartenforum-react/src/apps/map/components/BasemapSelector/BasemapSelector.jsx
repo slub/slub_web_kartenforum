@@ -184,7 +184,7 @@ export const BasemapSelector = (props) => {
 
 BasemapSelector.propTypes = {
   initialBasemapId: PropTypes.string,
-  map: PropTypes.map,
+  map: PropTypes.object,
   onBasemapChange: PropTypes.func,
 };
 

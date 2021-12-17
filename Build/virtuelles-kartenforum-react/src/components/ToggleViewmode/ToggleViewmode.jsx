@@ -18,7 +18,7 @@ export class ToggleViewMode extends Control {
     element.className = !initialState ? defaultClass : `${defaultClass} active`;
 
     const button = document.createElement("button");
-    button.title = translate("flipviewmode-title");
+    button.title = translate("control-toggleviewmode-title");
     button.type = "button";
     element.appendChild(button);
 
@@ -29,13 +29,13 @@ export class ToggleViewMode extends Control {
 
     const infoMessage = document.createElement("div");
     infoMessage.className = "info-message";
-    infoMessage.innerHTML = translate("flipviewmode-zoomin");
+    infoMessage.innerHTML = translate("control-toggleviewmode-zoomin");
     element.appendChild(infoMessage);
 
     // Handle click or touchevent
     let timeout;
     const handleUpdate = () => {
-      const min3DZoom = 8;
+      const min3DZoom = 3;
 
       options.onViewModeChange((currentIs3dActive) => {
         // If newState == true, we signal that we should activate the 3d view

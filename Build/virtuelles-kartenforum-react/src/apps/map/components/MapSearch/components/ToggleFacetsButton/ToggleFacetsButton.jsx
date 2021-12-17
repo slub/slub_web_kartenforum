@@ -24,7 +24,7 @@ export const ToggleFacetsButton = ({ onClick, isOpen }) => {
         facets.facets.length > 0 && "active"
       )}
       onClick={onClick}
-      title={translate(`facetedsearch-${isOpen ? "close" : "open"}`)}
+      title={translate(`mapsearch-facetedsearch-${isOpen ? "close" : "open"}`)}
     />
   );
 };

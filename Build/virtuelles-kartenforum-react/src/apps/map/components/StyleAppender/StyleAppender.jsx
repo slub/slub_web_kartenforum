@@ -7,9 +7,7 @@
 import React, { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
-import { map3dState, mapState } from "../../atoms/atoms";
-import { TERRAIN_ATTRIBUTION_ID } from "../MapWrapper/components/CustomAttribution";
-import { isDefined } from "../../../../util/util";
+import { map3dState } from "../../atoms/atoms";
 
 /**
  * Handles some styling issues by updating styles where the global state is not available
@@ -19,7 +17,6 @@ import { isDefined } from "../../../../util/util";
 export const StyleAppender = (props) => {
   const { mapContainerId } = props;
   const is3d = useRecoilValue(map3dState);
-  const map = useRecoilValue(mapState);
 
   // remove olcs-hideoverlay which hides the open layer controls
   useEffect(() => {
@@ -45,19 +42,6 @@ export const StyleAppender = (props) => {
       el.classList.remove("mode-3d");
     }
   }, [is3d]);
-
-  // hide/unhide terrain attribution on mode change
-  useEffect(() => {
-    const attributionEl = document.getElementById(TERRAIN_ATTRIBUTION_ID);
-
-    if (isDefined(attributionEl)) {
-      if (is3d) {
-        attributionEl.style.display = "";
-      } else {
-        attributionEl.setAttribute("style", "display:none !important");
-      }
-    }
-  }, [is3d, map]);
 
   return <></>;
 };

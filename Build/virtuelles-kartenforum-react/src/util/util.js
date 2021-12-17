@@ -70,7 +70,7 @@ export const getDefaultControls = (params) => {
     } = params;
 
     const defaultControls = [
-        new CustomAttribution(),
+        new CustomAttribution({ is3d: is3dActive }),
         new FullScreen(),
         new Rotate({ className: "rotate-north ol-unselectable" }),
         new ScaleLine(),

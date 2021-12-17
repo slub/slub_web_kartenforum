@@ -6,9 +6,10 @@
  */
 import React from "react";
 import { Control } from "ol/control";
-import { round, translate } from "../../../../../util/util";
 import { transform } from "ol/proj";
-import { SettingsProvider } from "../../../index";
+
+import { round, translate } from "../../../../../util/util";
+import SettingsProvider from "../../../../../SettingsProvider";
 
 export class MousePositionOnOff extends Control {
   targetEl = undefined;
@@ -20,7 +21,7 @@ export class MousePositionOnOff extends Control {
     element.className = "mouse-position ol-unselectable ol-control";
 
     const button = document.createElement("button");
-    button.title = translate("mouseposition-title");
+    button.title = translate("control-mouseposition-title");
     button.type = "button";
 
     element.appendChild(button);

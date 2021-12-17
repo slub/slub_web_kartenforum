@@ -71,13 +71,18 @@ export function Autocomplete({
 
   const { onClick, ...restButtonProps } = buttonProps ?? {};
 
+  const { ref, ...rest } = getInputProps();
+
   return (
     <div className="vkf-autocomplete-container">
       {label !== undefined && <label {...getLabelProps()}>{label}</label>}
       <div className="form-group" {...getComboboxProps()}>
         <input
-          {...getInputProps()}
-          ref={inputRef}
+          {...rest}
+          ref={(el) => {
+            ref(el);
+            inputRef.current = el;
+          }}
           type="text"
           {...inputProps}
         />

@@ -8,8 +8,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { transform } from "ol/proj";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
+import { notificationState } from "../../../../atoms/atoms";
 import { isDefined, translate } from "../../../../util/util";
 import { mapState } from "../../atoms/atoms";
 import { Autocomplete } from "./Autocomplete/Autocomplete";
@@ -21,6 +22,7 @@ export const PlacenameSearch = (props) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const map = useRecoilValue(mapState);
+  const setNotification = useSetRecoilState(notificationState);
 
   const placenameToString = (placename) => (placename ? placename.label : "");
 
@@ -57,15 +59,22 @@ export const PlacenameSearch = (props) => {
     if (selectedItem !== undefined) {
       updateMapView(selectedItem);
     } else {
-      requestPlacenameData(inputValue).then((data) => {
-        // select the first hit if there are any hits
-        if (data.length > 0) {
-          updateMapView(data[0]);
-        } else {
-          // @TODO: ADD TRANSLATION
-          alert("The choosen placename is unknown");
-        }
-      });
+      requestPlacenameData(searchUrl, inputValue)
+        .then((data) => {
+          // select the first hit if there are any hits
+          if (data.length > 0) {
+            updateMapView(data[0]);
+          } else {
+            throw new Error(translate("placenamesearch-unknown-placename"));
+          }
+        })
+        .catch(() => {
+          setNotification({
+            id: "placenamesearch",
+            type: "warning",
+            text: translate("placenamesearch-unknown-placename"),
+          });
+        });
     }
   };
 
@@ -75,14 +84,15 @@ export const PlacenameSearch = (props) => {
         buttonProps={{
           className: "form-control gazetteersearch-submit",
           onClick: handleSubmitPlaceName,
-          "aria-label": translate("gazetteer-submit"),
+          "aria-label": translate("placenamesearch-submit"),
+          title: translate("placenamesearch-submit"),
         }}
         fetchInputItems={handleFetchAutocompleteResults}
         inputProps={{
           className: `form-control gazetteersearch-input ${
             isLoading ? "loading" : ""
           }`,
-          placeholder: translate("gazetteer-placeholder"),
+          placeholder: translate("placenamesearch-placeholder"),
         }}
         itemToString={placenameToString}
         onSelectedItemChange={handleSubmitPlaceName}

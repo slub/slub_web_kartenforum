@@ -16,6 +16,7 @@ import { fromExtent } from "ol/geom/Polygon";
 import { isDefined, translate } from "../../../../../util/util";
 import {
   mapState,
+  olcsMapState,
   selectedFeaturesState,
   selectedOriginalMapIdState,
 } from "../../../atoms/atoms";
@@ -32,6 +33,7 @@ export const ItemTypes = {
 export const LayerManagementEntry = (props) => {
   const { hovered, id, index, layer, onMoveLayer, onUpdateHover } = props;
   const map = useRecoilValue(mapState);
+  const olcsMap = useRecoilValue(olcsMapState);
   const ref = useRef(null);
   const [selectedFeatures, setSelectedFeatures] = useRecoilState(
     selectedFeaturesState
@@ -123,8 +125,9 @@ export const LayerManagementEntry = (props) => {
     map.removeLayer(layer);
     map.addLayer(layer);
     event.stopPropagation();
-    // @TODO: REFRESH 3D VIEW HERE
-    // vk2.utils.refresh3DView();
+    if (olcsMap !== undefined) {
+      olcsMap.getAutoRenderLoop().restartRenderLoop();
+    }
   };
 
   // Remove layer from layer stack
@@ -137,8 +140,10 @@ export const LayerManagementEntry = (props) => {
         ({ feature }) => feature.getId() !== layer.getId()
       )
     );
-    // @TODO: REFRESH 3D VIEW HERE
-    // vk2.utils.refresh3DView();
+
+    if (olcsMap !== undefined) {
+      olcsMap.getAutoRenderLoop().restartRenderLoop();
+    }
   };
 
   // Update visibility from layer if it is different from the internal state
@@ -204,52 +209,52 @@ export const LayerManagementEntry = (props) => {
           className="move-layer-top minimize-tool"
           onClick={handleMoveTop}
           type="button"
-          title={translate("factory-move-top")}
+          title={translate("layermanagement-move-top")}
         >
-          {translate("factory-move-top")}
+          {translate("layermanagement-move-top")}
         </button>
         <button
           className="disable-layer minimize-tool"
           onClick={handleChangeVisibility}
           type="button"
-          title={translate("factory-show-map")}
+          title={translate("layermanagement-show-map")}
         >
-          {translate("factory-show-map")}
+          {translate("layermanagement-show-map")}
         </button>
         <button
           className="remove-layer minimize-tool"
           onClick={handleRemoveLayer}
           type="button"
-          title={translate("factory-rm-map")}
+          title={translate("layermanagement-remove-map")}
         >
-          {translate("factory-rm-map")}
+          {translate("layermanagement-remove-map")}
         </button>
         <button
           className="zoom-layer minimize-tool"
           onClick={handleZoomToExtent}
           type="button"
-          title={translate("factory-zoom-to-map")}
+          title={translate("layermanagement-zoom-to-map")}
         >
-          {translate("factory-zoom-to-map")}
+          {translate("layermanagement-zoom-to-map")}
         </button>
         <button
           className="show-original"
           onClick={handleOriginalMap}
           type="button"
-          title={translate("factory-show-original")}
+          title={translate("layermanagement-show-original")}
         >
-          {translate("factory-show-original")}
+          {translate("layermanagement-show-original")}
         </button>
         <div className="drag-btn" />
         {settings["LINK_TO_GEOREFERENCE"] !== undefined && (
           <a
             className="georeference-update"
-            title={`${translate("georef-update")} ...`}
+            title={`${translate("layermangement-georef-update")} ...`}
             target="_blank"
             rel="noreferrer"
             href={`${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layer.getId()}`}
           >
-            ${translate("georef-update")} ...
+            ${translate("layermangement-georef-update")} ...
           </a>
         )}
       </div>
@@ -260,7 +265,7 @@ export const LayerManagementEntry = (props) => {
         <h4>{layer.getTitle()}</h4>
         <div className="timestamps">
           <span className="timestamps-label">{`${translate(
-            "timestamp"
+            "layermanagement-timestamp"
           )} ${layer.getTimePublished()}`}</span>
         </div>
       </div>

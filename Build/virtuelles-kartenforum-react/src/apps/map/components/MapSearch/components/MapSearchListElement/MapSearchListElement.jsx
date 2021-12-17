@@ -92,19 +92,19 @@ export const MapSearchListElement = (props) => {
         </a>
         <div className="overview">
           <h2>{feature.get("title")}</h2>
-          <p className="details">
-            <div className="timestamp">{`${translate("time")} ${feature.get(
-              "time_published"
-            )}`}</div>
+          <div className="details">
+            <div className="timestamp">{`${translate(
+              "mapsearch-listelement-time"
+            )} ${feature.get("time_published")}`}</div>
             <div className="scale">{`${translate(
-              "factory-scale"
+              "mapsearch-listelement-scale"
             )} ${scale}`}</div>
             {!feature.get("has_georeference") && (
               <div className="georeference">
-                {translate("factory-no-georef")}
+                {translate("mapsearch-listelement-no-georef")}
               </div>
             )}
-          </p>
+          </div>
         </div>
       </div>
     </li>

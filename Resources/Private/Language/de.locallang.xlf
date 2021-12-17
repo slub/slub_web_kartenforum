@@ -23,27 +23,27 @@
 				<source><![CDATA[back to main page ...]]></source>
 				<target><![CDATA[zurück zur Hauptseite ...]]></target>
 			</trans-unit>
-			<trans-unit id="client.deactivemap.activeAll" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.activateAll" approved="yes">
 				<source><![CDATA[Activate all maps]]></source>
 				<target><![CDATA[Aktiviere alle Karten]]></target>
 			</trans-unit>
-			<trans-unit id="client.deactivemap.deactiveAll" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.deactivateAll" approved="yes">
 				<source><![CDATA[Deactivate all maps]]></source>
 				<target><![CDATA[Deaktiviere alle Karten]]></target>
 			</trans-unit>
-			<trans-unit id="client.dynamicmapvis.close" approved="yes">
+			<trans-unit id="plugin.map.dynamicmapvis.close" approved="yes">
 				<source><![CDATA[Close dynamic map visualization tool]]></source>
 				<target><![CDATA[Schließe dynamische Kartenvisualisierung]]></target>
 			</trans-unit>
-			<trans-unit id="client.dynamicmapvis.open" approved="yes">
+			<trans-unit id="plugin.map.dynamicmapvis.open" approved="yes">
 				<source><![CDATA[Open dynamic map visualization tool]]></source>
 				<target><![CDATA[Öffne dynamische Kartenvisualisierung]]></target>
 			</trans-unit>
-			<trans-unit id="client.dynamicmapvis.start" approved="yes">
+			<trans-unit id="plugin.map.dynamicmapvis.start" approved="yes">
 				<source><![CDATA[Start timeseries visualization]]></source>
 				<target><![CDATA[Starte Zeitreihenvisualisierung der Kartenauswahl]]></target>
 			</trans-unit>
-			<trans-unit id="client.dynamicmapvis.stop" approved="yes">
+			<trans-unit id="plugin.map.dynamicmapvis.stop" approved="yes">
 				<source><![CDATA[Stop timeseries visualization]]></source>
 				<target><![CDATA[Stoppe Zeitreihenvisualisierung der Kartenauswahl]]></target>
 			</trans-unit>
@@ -63,86 +63,91 @@
 				<source><![CDATA[Show map]]></source>
 				<target><![CDATA[Zeige Karte]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleAE" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleAE" approved="yes">
 				<source><![CDATA[Topological maps (1:25.000)]]></source>
 				<target><![CDATA[Äquidistantenkarten (1:25.000)]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleAK" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleAK" approved="yes">
 				<source><![CDATA[Other historic maps]]></source>
 				<target><![CDATA[Andere Altkartentypen]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleCM" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleCM" approved="yes">
 				<source><![CDATA[City Map]]></source>
 				<target><![CDATA[Stadtpläne]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleGL" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleGL" approved="yes">
 				<source><![CDATA[]]></source>
 				<target><![CDATA[Geologische Karten (1:25.000)]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleMB" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleMB" approved="yes">
 				<source><![CDATA[Meilenblätter (1:12.000)]]></source>
 				<target><![CDATA[Meilenblätter (1:12.000)]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleMTB" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleMTB" approved="yes">
 				<source><![CDATA[Plane survey sheets (1:25.000)]]></source>
 				<target><![CDATA[Messtischblätter (1:25.000)]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleTK" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleTK" approved="yes">
 				<source><![CDATA[Topological maps (1:100.000)]]></source>
 				<target><![CDATA[Karten des Deutschen Reiches (1:100.000)]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleTKX" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleTKX" approved="yes">
 				<source><![CDATA[Topological maps (< 1:50.000)]]></source>
 				<target><![CDATA[Topographische Karten (< 1:50.000)]]></target>
 			</trans-unit>
-			<trans-unit id="client.factory.moveToTop" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.moveToTop" approved="yes">
 				<source><![CDATA[Move map to top]]></source>
 				<target><![CDATA[Karte in den Vordergrund ]]></target>
 			</trans-unit>
-			<trans-unit id="client.factory.notGeoref" approved="yes">
+			<trans-unit id="plugin.map.mapsearchlistelement.notGeoref" approved="yes">
 				<source><![CDATA[Not georeferenced]]></source>
 				<target><![CDATA[Georeferenzierung fehlt]]></target>
 			</trans-unit>
-			<trans-unit id="client.factory.removeMap" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.removeMap" approved="yes">
 				<source><![CDATA[Remove map]]></source>
 				<target><![CDATA[Verwerfe Karte]]></target>
 			</trans-unit>
-			<trans-unit id="client.factory.scale" approved="yes">
+			<trans-unit id="plugin.map.mapsearchlistelement.scale" approved="yes">
 				<source><![CDATA[Scale]]></source>
 				<target><![CDATA[Maßstab]]></target>
 			</trans-unit>
-			<trans-unit id="client.factory.showMap" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.showMap" approved="yes">
 				<source><![CDATA[Display map]]></source>
 				<target><![CDATA[Zeige Karte]]></target>
 			</trans-unit>
-			<trans-unit id="client.factory.updateGeoref" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.updateGeoref" approved="yes">
 				<source><![CDATA[Update georeferenced map]]></source>
 				<target><![CDATA[Aktualisiere Georeferenzierung]]></target>
 			</trans-unit>
-            <trans-unit id="client.factory.zoomToMap" approved="yes">
+            <trans-unit id="plugin.map.layermanagement.zoomToMap" approved="yes">
                 <source><![CDATA[Zoom to map]]></source>
                 <target><![CDATA[Zoome auf die Karte]]></target>
             </trans-unit>
-            <trans-unit id="client.factory.showOriginal" approved="yes">
+            <trans-unit id="plugin.map.layermanagement.showOriginal" approved="yes">
                 <source><![CDATA[Show Original]]></source>
                 <target><![CDATA[Zeige Original]]></target>
             </trans-unit>
-			<trans-unit id="client.flipviewmode.title" approved="yes">
+			<trans-unit id="global.map.control-toggleviewmode.title" approved="yes">
 				<source><![CDATA[Switch between 2D and 3D view]]></source>
 				<target><![CDATA[Wechsel zwischen 2D. und 3D-Ansicht]]></target>
 			</trans-unit>
-			<trans-unit id="client.flipviewmode.zoomin" approved="yes">
+			<trans-unit id="global.map.control-toggleviewmode.zoomin" approved="yes">
 				<source><![CDATA[Switch to 3D is not possible for this resolution. Please zoom in.]]></source>
 				<target><![CDATA[Wechsel zur 3D-Ansicht für diese Zoomstufe nicht möglich. Bitte zoomen sie rein.]]></target>
 			</trans-unit>
-			<trans-unit id="client.gazetteer.placeholder" approved="yes">
+			<trans-unit id="plugin.map.placenamesearch.placeholder" approved="yes">
 				<source><![CDATA[Placename]]></source>
 				<target><![CDATA[Ortsname]]></target>
 			</trans-unit>
-			<trans-unit id="client.gazetteer.submit" approved="yes">
+			<trans-unit id="plugin.map.placenamesearch.submit" approved="yes">
 				<source><![CDATA[Search]]></source>
 				<target><![CDATA[Suchen]]></target>
 			</trans-unit>
+			<trans-unit id="plugin.map.placenamesearch.unknownPlacename" approved="yes">
+                <source><![CDATA[The chosen placename is unknown.]]></source>
+                <target><![CDATA[Der ausgewählte Ortsname ist unbekannt.]]></target>
+            </trans-unit>
+
 
 <!-- 			<trans-unit id="client.georeferencechoose.goToGeoreference" approved="yes"> -->
 <!-- 				<source><![CDATA[Georeference]]></source> -->
@@ -161,11 +166,11 @@
 				<target><![CDATA[Gehe zur Originalansicht]]></target>
 			</trans-unit>
 
-			<trans-unit id="client.layermanagementmodule.headerLbl" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.headerLbl" approved="yes">
 				<source><![CDATA[My maps]]></source>
 				<target><![CDATA[Meine Karten]]></target>
 			</trans-unit>
-			<trans-unit id="client.layermanagementmodule.startMessage" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.startMessage" approved="yes">
 				<source><![CDATA[Welcome to the Virtual Map Forum 2.0.<br> Please choose your map collection in the search menu on the left side]]></source>
 				<target><![CDATA[Herzlich Willkommen im Virtuellen Kartenforum 2.0. <br>Bitte wählen Sie zunächst links im Suchbereich einige Karten aus]]></target>
 			</trans-unit>
@@ -174,31 +179,31 @@
 				<source><![CDATA[Map type]]></source>
 				<target><![CDATA[Kartentyp]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.facetsearch.close" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.facetsearch.close" approved="yes">
 				<source><![CDATA[Close faceted search]]></source>
 				<target><![CDATA[Schließe Facettensuche]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.facetsearch.open" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.facetsearch.open" approved="yes">
 				<source><![CDATA[Open faceted search]]></source>
 				<target><![CDATA[Öffne Facettensuche]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.foundMaps" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.foundMaps" approved="yes">
 				<source><![CDATA[Maps available]]></source>
 				<target><![CDATA[Karten gefunden]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.foundNoMaps" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.foundNoMaps" approved="yes">
 				<source><![CDATA[No maps available]]></source>
 				<target><![CDATA[Keine Karten gefunden]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.georeference" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.georeference" approved="yes">
 				<source><![CDATA[Georeference]]></source>
 				<target><![CDATA[Georeferenzierung]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.time_published" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.time_published" approved="yes">
 				<source><![CDATA[Time]]></source>
 				<target><![CDATA[Zeit]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.title" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.title" approved="yes">
 				<source><![CDATA[Title]]></source>
 				<target><![CDATA[Titel]]></target>
 			</trans-unit>
@@ -222,7 +227,7 @@
 				<source><![CDATA[Unqiue Identifier]]></source>
 				<target><![CDATA[Eindeutiger Identifier]]></target>
 			</trans-unit>
-			<trans-unit id="client.mouseposition.title" approved="yes">
+			<trans-unit id="global.map.control-mouseposition-title" approved="yes">
 				<source><![CDATA[Mouse position]]></source>
 				<target><![CDATA[Cursor Position]]></target>
 			</trans-unit>
@@ -242,7 +247,7 @@
 				<source><![CDATA[Points]]></source>
 				<target><![CDATA[Punkte]]></target>
 			</trans-unit>
-			<trans-unit id="client.restoredefaultview.title" approved="yes">
+			<trans-unit id="global.map.control-restoredefaultview-title" approved="yes">
 				<source><![CDATA[Restore default view]]></source>
 				<target><![CDATA[Stelle die initiale Ansicht wieder her]]></target>
 			</trans-unit>
@@ -250,15 +255,15 @@
 				<source><![CDATA[Align map to north]]></source>
 				<target><![CDATA[Karte nach Norden ausrichten]]></target>
 			</trans-unit>
-			<trans-unit id="client.time" approved="yes">
+			<trans-unit id="plugin.map.mapsearchlistelement.time" approved="yes">
 				<source><![CDATA[Time]]></source>
 				<target><![CDATA[Zeit]]></target>
 			</trans-unit>
-			<trans-unit id="client.timeslidertool.changeTimeperiod" approved="yes">
+			<trans-unit id="plugin.map.timeslider.adjustTimePeriod" approved="yes">
 				<source><![CDATA[Adjust time periode]]></source>
 				<target><![CDATA[Definiere Suchzeitraum]]></target>
 			</trans-unit>
-			<trans-unit id="client.timestamp" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.timestamp" approved="yes">
 				<source><![CDATA[Timestamp]]></source>
 				<target><![CDATA[Zeitstempel]]></target>
 			</trans-unit>
@@ -282,7 +287,7 @@
 				<source><![CDATA[Updated]]></source>
 				<target><![CDATA[Aktualisierung]]></target>
 			</trans-unit>
-			<trans-unit id="georef.update" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.georefUpdate" approved="yes">
 				<source><![CDATA[Update georeference processes]]></source>
 				<target><![CDATA[Aktualisierte Georeferenzierungen]]></target>
 			</trans-unit>

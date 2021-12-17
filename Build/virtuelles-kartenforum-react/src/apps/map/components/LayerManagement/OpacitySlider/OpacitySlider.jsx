@@ -7,13 +7,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Slider from "rc-slider";
+import { useRecoilValue } from "recoil";
 import "rc-slider/assets/index.css";
 
 import HistoricMap from "../../HistoricMapLayer/HistoricMapLayer";
+import { olcsMapState } from "../../../atoms/atoms";
 import "./OpacitySlider.scss";
 
 export const OpacitySlider = (props) => {
   const { orientation = "horizontal", layer } = props;
+  const olcsMap = useRecoilValue(olcsMapState);
   const [value, setValue] = useState(layer.getOpacity() * 100);
 
   const valueRef = useRef(null);
@@ -46,8 +49,10 @@ export const OpacitySlider = (props) => {
   const handleSliderChange = (value) => {
     setValue(value);
     layer.setOpacity(value / 100);
-    // @TODO: REFRESH 3D VIEW HERE
-    // vk2.utils.refresh3DView();
+
+    if (olcsMap !== undefined) {
+      olcsMap.getAutoRenderLoop().restartRenderLoop();
+    }
   };
 
   useEffect(() => {

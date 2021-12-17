@@ -64,6 +64,7 @@ export const olcsMapState = atom({
 export const selectedFeaturesState = atom({
     key: "selectedFeatureState",
     default: [],
+    dangerouslyAllowMutability: true,
 });
 
 export const selectedOriginalMapIdState = atom({

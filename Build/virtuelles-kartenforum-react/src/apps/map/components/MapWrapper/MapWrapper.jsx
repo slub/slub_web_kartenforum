@@ -286,15 +286,15 @@ export function MapWrapper(props) {
 
 MapWrapper.propTypes = {
   baseMapUrl: PropTypes.arrayOf(PropTypes.string),
-  ChildComponent: PropTypes.node,
+  ChildComponent: PropTypes.func,
   enable3d: PropTypes.bool,
   enableTerrain: PropTypes.bool,
   layout: PropTypes.string,
-  mapViewSettings: {
-    center: [PropTypes.number, PropTypes.number],
+  mapViewSettings: PropTypes.shape({
+    center: PropTypes.arrayOf(PropTypes.number),
     projection: PropTypes.string,
     zoom: PropTypes.number,
-  },
+  }),
   terrainTilesUrl: PropTypes.string,
 };
 
