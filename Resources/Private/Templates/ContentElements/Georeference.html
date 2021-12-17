@@ -1,5 +1,9 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:vk="http://typo3.org/ns/Slub/SlubWebKartenforum/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
 
+<input type="hidden" value="{basemaps}" id="setting-basemaps"/>
+<input type="hidden" value="{urlNominatim}" id="setting-urlNominatim" />
+<input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
+
 <f:section name="HeaderAssets">
     <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/ol.css', extensionName: 'slub_web_kartenforum')}"/>
     <link rel="stylesheet" href="{f:uri.resource(path: 'Css/plugin-georeference.css', extensionName: 'slub_web_kartenforum')}"/>
@@ -10,18 +14,13 @@
 
 <f:section name="FooterAssets">
     <script type="text/javascript">
-        // update settings from typo3 flexform parameters
         vk2.SettingsProvider.appendSettings({
-            "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
+            "API_SEARCH": document.getElementById("setting-urlSearch").value,
             "API_GEOREFERENCE_TRANSFORMATION_FOR_MAPID": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationForMapId&type=9991",
             "API_GEOREFERENCE_TRANSFORMATION_CONFIRM": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationByMapId&type=9991",
             "API_GEOREFERENCE_TRANSFORMATION_TRY": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationTry&type=9991",
-            "NOMINATIM_URL": "https://kartenforum.slub-dresden.de/nominatim/",
-            "OSM_URLS": [
-                "https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
-                "https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
-                "https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"
-            ],
+            "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
+            "NOMINATIM_URL": document.getElementById("setting-urlNominatim").value,
         });
 
         vk2.SettingsProvider.appendSettings({
@@ -49,6 +48,7 @@
             )
         });
 
+        console.log(vk2.SettingsProvider.getSettings())
         // render Application
         if (vk2 !== undefined) {
             vk2.renderGeoreferenceApp(

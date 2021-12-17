@@ -5,9 +5,6 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import axios from "axios";
-import { SettingsProvider } from "../apps/map";
-
 /**
  * @param {Array.<Object>} facets
  * @return {Object}
@@ -99,36 +96,4 @@ export const getSpatialQuery = function (
             [sortFieldName]: { order: sortValue },
         },
     };
-};
-
-/**
- * The function returns the requests url for getting
- * feature record for a given id.
- *
- * @param {string} type
- * @param {string} featureid
- * @return {string}
- */
-export const getFeatureForId = function (type, featureId) {
-    const settings = SettingsProvider.getSettings();
-
-    return settings["ELASTICSEARCH_NODE"] + "/" + type + "/" + featureId;
-};
-
-/**
- * The function returns the requests url for getting
- * feature records for a given ids.
- *
- * @param {string} type
- * @param {Array.<string>} featureIds
- * @return {Object}
- */
-export const getFeatureForIds = function (type, featureIds, callback) {
-    const settings = SettingsProvider.getSettings();
-
-    const url = settings["ELASTICSEARCH_NODE"] + "/" + type + "/_mget",
-        payload = JSON.stringify({ ids: featureIds });
-
-    // send request
-    axios.post(url, payload).then(callback);
 };

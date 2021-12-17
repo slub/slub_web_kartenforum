@@ -13,16 +13,14 @@ import SettingsProvider from "../../SettingsProvider";
 import "./GeoreferencerApp.scss";
 
 export const GeoreferencerApp = () => {
-  const settings = SettingsProvider.getSettings();
-
   return (
     <RecoilRoot>
       <div className="vk-app-georeferencer">
         <div>
           <Toolbar />
           <GeoreferenceView
-            urlsOsmBaseMap={settings["OSM_URLS"]}
-            urlNominatim={settings["NOMINATIM_URL"]}
+            urlsOsmBaseMap={SettingsProvider.getDefaultBaseMapUrls()}
+            urlNominatim={SettingsProvider.getNominatimUrl()}
           />
           <Notifications />
         </div>

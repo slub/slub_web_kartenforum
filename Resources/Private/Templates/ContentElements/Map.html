@@ -1,8 +1,10 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
 
-<input type="hidden" value="{urlOsmMaps}" id="setting-urlOsmMaps"/>
+<input type="hidden" value="{basemaps}" id="setting-basemaps"/>
+<input type="hidden" value="{mapView}" id="setting-mapView"/>
+<input type="hidden" value="{urlNominatim}" id="setting-urlNominatim" />
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
-<input type="hidden" value="{basemapsConfig}" id="setting-basemapsConfig"/>
+<input type="hidden" value="{urlTerrain}" id="setting-urlTerrain"/>
 <f:security.ifAuthenticated>
     <f:then>
         <input type="hidden" id="setting-is-auth"/>
@@ -19,33 +21,14 @@
 
 <f:section name="FooterAssets">
     <script type="text/javascript">
-        const WITH_SPEAKING_URLS = true;
-        // update settings from typo3 flexform parameters
         vk2.SettingsProvider.appendSettings({
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
-            "BASEMAP_CONFIG": JSON.parse(document.getElementById("setting-basemapsConfig").value),
+            "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
             "FALLBACK_THUMBNAIL": "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
-
             "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
-            "ELASTICSEARCH_NODE": "https://kartenforum.slub-dresden.de/spatialdocuments",
-            "ELASTICSEARCH_SRS": "EPSG:4326",
-            "MAIN_PAGE": "{$config.baseUrl}",
-            "MAPVIEW_PARAMS": {
-                projection: "EPSG:3857",
-                minResolution: 1.194328566789627,
-                maxResolution: 2445.9849047851562,
-                extent:
-                    [-20026376.39,-20048966.10,20026375.39,20048966.10],
-                center: [1528150, 6630500],
-                zoom: 2
-            },
-            "MODE_3D": 1 === 1 ? true : false,
-            "NOMINATIM_URL": "https://kartenforum.slub-dresden.de/nominatim/",
-            "OSM_URLS": document.getElementById("setting-urlOsmMaps").value.split(","),
-            "TERRAIN_TILES_URL": "https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=kRAKrA0wcbZZFOT64bX5",
-            "TMS_URL_SUBDOMAINS": [ "1", "2", "3" ],
-            "WITH_SPEAKING_URLS": WITH_SPEAKING_URLS,
-            "WMS_DYNAMIC_TEMPLATE": "https://kartenforum.slub-dresden.de/ows/dynamic-ows"
+            "MAPVIEW_PARAMS": JSON.parse(document.getElementById("setting-mapView").value),
+            "NOMINATIM_URL": document.getElementById("setting-urlNominatim").value,
+            "TERRAIN_TILES_URL": document.getElementById("setting-urlTerrain").value,
         });
 
         vk2.SettingsProvider.appendSettings({
@@ -118,9 +101,6 @@
                 }
             )
         });
-
-        console.log(document.getElementById("setting-basemapsConfig").value)
-
 
         // Render map plugin
         if(vk2 !== undefined){

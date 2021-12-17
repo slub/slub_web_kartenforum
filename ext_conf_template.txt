@@ -2,14 +2,20 @@
 # Extension Configuration template
 #
 
+# cat=Global; type=string; label=JSON string containing the base map configuration
+basemaps = [{"id":"slub-osm","label":"SLUB OSM","urls":["https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png","https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png","https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"],"type":"xyz","tileSize":256},{"id":"maptiler-satellite","label":"MapTiler Satellite","urls":["https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=9wghD5zlvdu13A81zHqB"],"type":"xyz","tileSize":512},{"id":"bkg-topoplus","label":"BKG TopoPlus","urls":["https://sgx.geodatenzentrum.de/wms_topplus_open"],"type":"wms", "layers": "web", "tileSize":512}]
+
+# cat= Global; type=string; label=JSON string containing the default map view configuration
+mapView = { "extent": [-20026376.39,-20048966.10,20026375.39,20048966.10], "center": [1528150, 6630500], "zoom": 2 }
+
 # cat=Global; type=string; label=Url to the nominatim (placename) endpoint
 urlNominatim = https://kartenforum.slub-dresden.de/nominatim
 
-# cat=Global; type=string; label=Comma-separated list of urls of the osm base map service
-urlOsmMaps = https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png,https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png,https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png
-
 # cat=Global; type=string; label=Url to the search endpoint
 urlSearch = https://search-slub.pikobytes.de/vk20
+
+# cat=Global; type=string; label=Url of the terrain tiles provider
+urlTerrain = https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=kRAKrA0wcbZZFOT64bX5
 
 # cat=Georeference; type=string; label=API endpoint of the georeference service
 georefApi = https://geo-slub.pikobytes.de
@@ -19,6 +25,3 @@ georefAuthUser =
 
 # cat=Georeference; type=string; label=Password for georeference authentication
 georefAuthPassword =
-
-# cat=Plugin Map; type=string; label=JSON string containing the base map configuration
-basemapsConfig = [{"id":"slub-osm","label":"SLUB OSM","urls":["https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png","https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png","https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"],"type":"xyz","tileSize":256},{"id":"maptiler-satellite","label":"MapTiler Satellite","urls":["https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=9wghD5zlvdu13A81zHqB"],"type":"xyz","tileSize":512},{"id":"bkg-topoplus","label":"BKG TopoPlus","urls":["https://sgx.geodatenzentrum.de/wms_topplus_open"],"type":"wms", "layers": "web", "tileSize":512}]

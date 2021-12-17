@@ -28,10 +28,11 @@ foreach ($icons as $icon) {
 /***************
  * Pass some extension configuration variables to typoscript constants
  */
+ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.basemaps= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['basemaps']);
+ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.mapView= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['mapView']);
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlNominatim= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlNominatim']);
-ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlOsmMaps= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlOsmMaps']);
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlSearch= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlSearch']);
-ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.basemapsConfig= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['basemapsConfig']);
+ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlTerrain= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlTerrain']);
 
 /***************
  * Enable direct extension access through ajax requests

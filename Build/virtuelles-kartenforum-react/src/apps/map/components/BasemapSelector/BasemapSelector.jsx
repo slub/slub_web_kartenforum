@@ -14,29 +14,6 @@ import DialogAddWms from "./DialogAddWms";
 import { useLocalStorage } from "../../persistence/util";
 import "./BasemapSelector.scss";
 
-// Test configuration
-const defaultConf = [
-  {
-    id: "slub-osm",
-    label: "SLUB OSM",
-    urls: [
-      "https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}@2x.png",
-      "https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}@2x.png",
-      "https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}@2x.png",
-    ],
-    type: "xyz",
-    tileSize: 512,
-  },
-  {
-    id: "bkg-topoplus",
-    label: "BKG TopoPlus",
-    urls: ["https://sgx.geodatenzentrum.de/wms_topplus_open"],
-    type: "wms",
-    layers: "web",
-    tileSize: 512,
-  },
-];
-
 /**
  * Component for rendering a basemap selector tools
  * @param props
@@ -49,10 +26,7 @@ export const BasemapSelector = (props) => {
     "vkf-custom-basemaps",
     []
   );
-  const layers =
-    SettingsProvider.getSettings()["BASEMAP_CONFIG"] !== undefined
-      ? SettingsProvider.getSettings()["BASEMAP_CONFIG"]
-      : defaultConf;
+  const layers = SettingsProvider.getBaseMaps();
   const [activeLayer, setActiveLayer] = useState(layers[0]);
   const [showAddWmsDialog, setShowAddWmsDialog] = useState(false);
 

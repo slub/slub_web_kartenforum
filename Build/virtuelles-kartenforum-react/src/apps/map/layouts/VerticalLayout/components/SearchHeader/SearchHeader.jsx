@@ -33,8 +33,6 @@ export const SearchHeader = ({
   const { mapCount } = useRecoilValue(mapsInViewportState);
   const timeRange = useRecoilValue(timeRangeState);
 
-  const settings = SettingsProvider.getSettings();
-
   const handleToggleSearchResultListButton = () => {
     setShowSearchResultList((oldState) => !oldState);
   };
@@ -79,8 +77,8 @@ export const SearchHeader = ({
         {showSearch && (
           <div className="bottom-container">
             <PlacenameSearch
-              projection={settings.MAPVIEW_PARAMS["projection"]}
-              searchUrl={settings.NOMINATIM_URL}
+              projection={SettingsProvider.getDefaultMapView().projection}
+              searchUrl={SettingsProvider.getNominatimUrl()}
             />
             <TimeSlider timeRange={timeRange} />
           </div>

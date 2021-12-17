@@ -1,5 +1,9 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:vk="http://typo3.org/ns/Slub/SlubWebKartenforum/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
 
+<input type="hidden" value="{basemaps}" id="setting-basemaps"/>
+<input type="hidden" value="{urlNominatim}" id="setting-urlNominatim" />
+<input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
+
 <f:section name="HeaderAssets">
     <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/ol.css', extensionName: 'slub_web_kartenforum')}" />
     <link rel="stylesheet" href="{f:uri.resource(path: 'Css/plugin-admin.css', extensionName: 'slub_web_kartenforum')}" />
@@ -16,17 +20,17 @@
 
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
-            "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
+            "API_SEARCH": document.getElementById("setting-urlSearch").value,
             "API_GEOREFERENCE_JOB":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postJob&type=9991",
             "API_GEOREFERENCE_TRANSFORMATION_FOR_MAPID":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationForMapId&type=9991",
             "API_GEOREFERENCE_TRANSFORMATION_FOR_USERID":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationForUserId&type=9991",
             "API_GEOREFERENCE_TRANSFORMATION_FOR_VALIDATION":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationForValidation&type=9991",
             "API_GEOREFERENCE_TRANSFORMATION_TRY": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationTry&type=9991",
+            "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
             "LINK_TO_FAQ":  "/faq",
             "LINK_TO_GEOREFERENCE": "/georeferenzierung",
             "LINK_TO_MAIN":  "/",
-            "NOMINATIM_URL": "https://kartenforum.slub-dresden.de/nominatim/",
-            "OSM_URLS": ["https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png", "https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png", "https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"],
+            "NOMINATIM_URL": document.getElementById("setting-urlNominatim").value,
             "USERNAME": "<vk:username field='username'/>",
         });
 

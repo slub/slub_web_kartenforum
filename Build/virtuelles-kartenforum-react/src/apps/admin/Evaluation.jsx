@@ -16,7 +16,6 @@ import TransformationItem from "./components/TransformationItem/TransformationIt
 import "./Evaluation.scss";
 
 export const Evaluation = () => {
-  const settings = SettingsProvider.getSettings();
   const [transformations, setTransformations] = useState([]);
   const [currentPreview, setCurrentPreview] = useState(null);
   const [map2D, setMap2D] = useState(null);
@@ -57,7 +56,9 @@ export const Evaluation = () => {
 
   return (
     <div className="vkf-admin-evaluation">
-      <h1>Willkommen auf der Evaluierungsseite #{settings["USERNAME"]}</h1>
+      <h1>
+        Willkommen auf der Evaluierungsseite #{SettingsProvider.getUsername()}
+      </h1>
       <p>
         Die Evaluierungsseite bietet Ihnen die Möglichkeit bestehende
         Transformationen zu validieren und ggf. zurückzusetzen. Sie können
@@ -86,8 +87,8 @@ export const Evaluation = () => {
               <Map2D
                 extent={null}
                 onLoad={(o) => setMap2D(o)}
-                urlsOsmBaseMap={settings["OSM_URLS"]}
-                urlNominatim={settings["NOMINATIM_URL"]}
+                urlsOsmBaseMap={SettingsProvider.getDefaultBaseMapUrls()}
+                urlNominatim={SettingsProvider.getNominatimUrl()}
               />
 
               {currentPreview !== null && map2D !== null && (

@@ -17,14 +17,16 @@ tt_content.slubwebkartenforum_map = FLUIDTEMPLATE
 tt_content.slubwebkartenforum_map {
     file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Map.html
     variables {
-        basemapsConfig = TEXT
-        basemapsConfig.value = {$plugin.tx_slubwebkartenforum.settings.basemapsConfig}
+        basemaps = TEXT
+        basemaps.value = {$plugin.tx_slubwebkartenforum.settings.basemaps}
+        mapView = TEXT
+        mapView.value = {$plugin.tx_slubwebkartenforum.settings.mapView}
         urlNominatim = TEXT
         urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
-        urlOsmMaps = TEXT
-        urlOsmMaps.value = {$plugin.tx_slubwebkartenforum.settings.urlOsmMaps}
         urlSearch = TEXT
         urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
+        urlTerrain = TEXT
+        urlTerrain.value = {$plugin.tx_slubwebkartenforum.settings.urlTerrain}
     }
 }
 
@@ -35,12 +37,6 @@ tt_content.slubwebkartenforum_apps {
     variables {
         importApp = TEXT
         importApp.data = flexform:pi_flexform:settings.importApp
-        // Configuration of parameters. The parameters should move to flexforms and the extension configuration
-        // in the future
-        urlNominatim = TEXT
-        urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
-        urlOsmMaps = TEXT
-        urlOsmMaps.value = {$plugin.tx_slubwebkartenforum.settings.urlOsmMaps}
         urlSearch = TEXT
         urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
     }
@@ -51,12 +47,10 @@ tt_content.slubwebkartenforum_admin = FLUIDTEMPLATE
 tt_content.slubwebkartenforum_admin {
     file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Admin.html
     variables {
-        // Configuration of parameters. The parameters should move to flexforms and the extension configuration
-        // in the future
+        basemaps = TEXT
+        basemaps.value = {$plugin.tx_slubwebkartenforum.settings.basemaps}
         urlNominatim = TEXT
         urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
-        urlOsmMaps = TEXT
-        urlOsmMaps.value = {$plugin.tx_slubwebkartenforum.settings.urlOsmMaps}
         urlSearch = TEXT
         urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
     }
@@ -67,12 +61,10 @@ tt_content.slubwebkartenforum_georeference = FLUIDTEMPLATE
 tt_content.slubwebkartenforum_georeference {
     file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Georeference.html
     variables {
-        // Configuration of parameters. The parameters should move to flexforms and the extension configuration
-        // in the future
+        basemaps = TEXT
+        basemaps.value = {$plugin.tx_slubwebkartenforum.settings.basemaps}
         urlNominatim = TEXT
         urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
-        urlOsmMaps = TEXT
-        urlOsmMaps.value = {$plugin.tx_slubwebkartenforum.settings.urlOsmMaps}
         urlSearch = TEXT
         urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
     }

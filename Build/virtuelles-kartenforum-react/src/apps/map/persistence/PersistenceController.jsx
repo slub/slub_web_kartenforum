@@ -41,7 +41,6 @@ export const PersistenceController = () => {
   const timeRange = useRecoilValue(timeRangeState);
   const map = useRecoilValue(mapState);
   const olcsMap = useRecoilValue(olcsMapState);
-  const settings = SettingsProvider.getSettings();
   const setNotification = useSetRecoilState(notificationState);
   const [activeBasemapId, setActiveBasemapId] =
     useRecoilState(activeBasemapIdState);
@@ -161,7 +160,9 @@ export const PersistenceController = () => {
           camera.right = mapView.right;
         } else {
           map.setView(
-            new View(Object.assign({}, settings.MAPVIEW_PARAMS, mapView))
+            new View(
+              Object.assign({}, SettingsProvider.getDefaultMapView(), mapView)
+            )
           );
         }
       }

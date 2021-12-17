@@ -4,12 +4,11 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React from "react";
+import round from "lodash.round";
 import { Control } from "ol/control";
 import { transform } from "ol/proj";
-
-import { round, translate } from "../../../../../util/util";
-import SettingsProvider from "../../../../../SettingsProvider";
+import { translate } from "../../../../../util/util";
+import { SettingsProvider } from "../../../index";
 
 export class MousePositionOnOff extends Control {
   targetEl = undefined;
@@ -32,13 +31,11 @@ export class MousePositionOnOff extends Control {
   }
 
   updatePosition = (event) => {
-    const settings = SettingsProvider.getSettings();
-
     const targetEl = this.targetEl;
     const map = this.getMap();
     const coordinate = transform(
       map.getEventCoordinate(event),
-      settings.MAPVIEW_PARAMS["projection"],
+      SettingsProvider.getDefaultMapView().projection,
       "EPSG:4326"
     );
     const roundPos = 3;

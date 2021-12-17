@@ -9,7 +9,6 @@ import PropTypes from "prop-types";
 import DragZoom from "ol/src/interaction/DragZoom";
 import Fullscreen from "ol/src/control/FullScreen";
 import { defaults as defaultInteractions } from "ol/src/interaction";
-import GeoJSON from "ol/src/format/GeoJSON";
 import Map from "ol/src/Map";
 import Tile from "ol/src/layer/Tile";
 import View from "ol/src/View";

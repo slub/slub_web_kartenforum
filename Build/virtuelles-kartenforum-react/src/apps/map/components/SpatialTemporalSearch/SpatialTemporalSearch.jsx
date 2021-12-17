@@ -6,17 +6,14 @@
  */
 import React from "react";
 import { useRecoilValue } from "recoil";
-
+import { timeRangeState } from "../../atoms/atoms";
 import PlacenameSearch from "../PlacenameSearch/PlacenameSearch";
 import MapSearch from "../MapSearch/MapSearch";
 import TimeSlider from "../TimeSlider/TimeSlider";
-import "./SpatialTemporalSearch.scss";
-import { timeRangeState } from "../../atoms/atoms";
 import { SettingsProvider } from "../../index";
+import "./SpatialTemporalSearch.scss";
 
 export const SpatialTemporalSearch = () => {
-  const settings = SettingsProvider.getSettings();
-
   const timeRange = useRecoilValue(timeRangeState);
 
   return (
@@ -24,8 +21,8 @@ export const SpatialTemporalSearch = () => {
       <div className="spatialsearch-content-panel">
         <div className="body-container">
           <PlacenameSearch
-            projection={settings.MAPVIEW_PARAMS["projection"]}
-            searchUrl={settings.NOMINATIM_URL}
+            projection={SettingsProvider.getDefaultMapView().projection}
+            searchUrl={SettingsProvider.getNominatimUrl()}
           />
           <TimeSlider timeRange={timeRange} />
           <MapSearch />

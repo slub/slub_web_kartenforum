@@ -7,12 +7,11 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-
+import MapWrapper from "../components/MapWrapper/MapWrapper";
+import SettingsProvider from "../../../SettingsProvider";
 import { LAYOUT_TYPES } from "./util";
 import { HorizontalLayout } from "./HorizontalLayout/HorizontalLayout";
 import VerticalLayout from "./VerticalLayout/VerticalLayout";
-import MapWrapper from "../components/MapWrapper/MapWrapper";
-import SettingsProvider from "../../../SettingsProvider";
 
 const getLayoutComponent = (layout) => {
   switch (layout) {
@@ -27,18 +26,16 @@ const getLayoutComponent = (layout) => {
 
 export const LayoutSwitcher = (props) => {
   const { layout } = props;
-
-  const settings = SettingsProvider.getSettings();
   let LayoutComponent = getLayoutComponent(layout);
 
   return (
     <MapWrapper
-      baseMapUrl={settings["OSM_URLS"]}
+      baseMapUrl={SettingsProvider.getDefaultBaseMapUrls()}
       enable3d
       enableTerrain
       layout={layout}
-      mapViewSettings={settings["MAPVIEW_PARAMS"]}
-      terrainTilesUrl={settings["TERRAIN_TILES_URL"]}
+      mapViewSettings={SettingsProvider.getDefaultMapView()}
+      terrainTilesUrl={SettingsProvider.getTerrainUrls()}
       ChildComponent={LayoutComponent}
     />
   );

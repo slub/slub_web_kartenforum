@@ -6,7 +6,13 @@
  */
 import { fromLonLat } from "ol/proj";
 import { Control } from "ol/control";
+import Feature from "ol/Feature";
+import Point from "ol/geom/Point";
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
+import { Icon, Style } from "ol/style";
 import { translate } from "../../util/util";
+import markerImg from "./LocateMeMarker.png";
 import "./LocateMeControl.scss";
 
 /**
@@ -73,10 +79,51 @@ export class LocateMeControl extends Control {
 
         getCurrentPosition(
             ({ center, zoom }) => {
+                const position = fromLonLat(
+                    center,
+                    map.getView().getProjection()
+                );
+
+                // Temporary create an image tag for loading the marker image
+                const imageContainer = document.createElement("div");
+                imageContainer.className = "image-container";
+                imageContainer.style.display = "none";
+                imageContainer.appendChild(markerImg);
+                document.body.appendChild(imageContainer);
+
+                // Place marker at the position
+                const markerLayer = new VectorLayer({
+                    source: new VectorSource({
+                        features: [
+                            new Feature({
+                                geometry: new Point(position),
+                            }),
+                        ],
+                    }),
+                    style: () => [
+                        new Style({
+                            image: new Icon({
+                                anchor: [0.5, 1],
+                                img: imageContainer.firstElementChild,
+                                imgSize: [240, 240],
+                                scale: 1 / 7,
+                            }),
+                        }),
+                    ],
+                });
+                map.addLayer(markerLayer);
+
+                // Center map
                 map.getView().animate({
-                    center: fromLonLat(center, map.getView().getProjection()),
+                    center: position,
                     zoom: zoom,
                 });
+
+                // Clean up after a 10 seconds
+                setTimeout(() => {
+                    map.removeLayer(markerLayer);
+                    imageContainer.remove();
+                }, 10000);
             },
             (e) => console.error(e)
         );
