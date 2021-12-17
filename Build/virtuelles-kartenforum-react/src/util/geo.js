@@ -21,13 +21,13 @@ import TileWMS from "ol/source/TileWMS";
  * @param {string} layers
  * @returns {ol.layer.Tile}
  */
-export function createBaseMapLayer(
+export function createBaseMapLayer({
     id,
     type,
     urls,
     tileSize = 256,
-    layers = ""
-) {
+    layers = "",
+}) {
     if (type !== "xyz" && type !== "wms") {
         throw new Error(
             "Currently only 'xyz' and 'wms' schema are supported as basemaps."

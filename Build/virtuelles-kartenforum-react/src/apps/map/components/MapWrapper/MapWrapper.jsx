@@ -146,7 +146,11 @@ export function MapWrapper(props) {
     const initialMap = new Map({
       controls: [],
       layers: [
-        createBaseMapLayer("slub-osm", "xyz", baseMapUrl),
+        createBaseMapLayer({
+          id: "slub-osm",
+          type: "xyz",
+          urls: baseMapUrl,
+        }),
 
         initalFeaturesLayer,
       ],

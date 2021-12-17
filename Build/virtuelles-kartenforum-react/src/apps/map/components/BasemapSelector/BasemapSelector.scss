@@ -1,3 +1,5 @@
+@import "../../../../_sass/variables";
+
 .vkf-basemap-selector {
   width: 300px;
   color: #fff;
@@ -30,6 +32,22 @@
         background-color: #e6e6e6;
         border-color: #adadad;
         color: #333;
+      }
+    }
+  }
+}
+
+.ol-control {
+  .vkf-basemap-selector {
+    .basemap-selector-entry {
+      align-items: center;
+      display: flex;
+
+      button.delete-basemap-button {
+        color: $primaryColorMain;
+        margin: 10px 0;
+        height: 20px;
+        background: transparent;
       }
     }
   }
