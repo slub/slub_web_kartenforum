@@ -365,7 +365,7 @@
 			</trans-unit>
 			<trans-unit id="login.email" approved="yes">
 				<source><![CDATA[Email]]></source>
-				<target><![CDATA[Email]]></target>
+				<target><![CDATA[E-Mail]]></target>
 			</trans-unit>
 			<trans-unit id="login.firstname" approved="yes">
 				<source><![CDATA[First name]]></source>

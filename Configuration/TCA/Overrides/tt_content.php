@@ -5,46 +5,6 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 defined('TYPO3_MODE') || die();
 
 /***************
- * Make new content elements selectable in TYPO3 backend
- */
-$backupCTypeItems = $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'];
-$GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'] = [
-    [
-        'SLUB Kartenforum',
-        '--div--'
-    ],
-    [
-        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.signup',
-        'slubwebkartenforum_signup',
-        'VkfSignup'
-    ],
-    [
-        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.map',
-        'slubwebkartenforum_map',
-        'VkfMap'
-    ],
-    [
-        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.apps',
-        'slubwebkartenforum_apps',
-        'VkfApps'
-    ],
-    [
-        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.admin',
-        'slubwebkartenforum_admin',
-        'VkfAdmin'
-    ],
-    [
-        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georeference',
-        'slubwebkartenforum_georeference',
-        'VkfGeoref'
-    ],
-];
-foreach ($backupCTypeItems as $key => $value) {
-    $GLOBALS['TCA']['tt_content']['columns']['CType']['config']['items'][] = $value;
-}
-unset($key, $value, $backupCTypeItems);
-
-/***************
  * Configure backend tabs and palettes for the new content elements
  */
 $contentElementConfig = [
@@ -57,11 +17,67 @@ $contentElementConfig = [
     '
 ];
 
-$GLOBALS['TCA']['tt_content']['types']['slubwebkartenforum_signup'] = $contentElementConfig;
-$GLOBALS['TCA']['tt_content']['types']['slubwebkartenforum_map'] = $contentElementConfig;
-$GLOBALS['TCA']['tt_content']['types']['slubwebkartenforum_apps'] = $contentElementConfig;
-$GLOBALS['TCA']['tt_content']['types']['slubwebkartenforum_georeference'] = $contentElementConfig;
-$GLOBALS['TCA']['tt_content']['types']['slubwebkartenforum_admin'] = $contentElementConfig;
+/***************
+ * Enhance available content elements
+ */
+$orgTca = $GLOBALS['TCA']['tt_content'];
+$overrideTca = [
+    'ctrl' => [
+        'typeicon_classes' => [
+            'slubwebkartenforum_signup' => 'VkfSignup',
+            'slubwebkartenforum_map' => 'VkfMap',
+            'slubwebkartenforum_apps' => 'VkfApps',
+            'slubwebkartenforum_georeference' => 'VkfGeoref',
+            'slubwebkartenforum_admin' => 'VkfAdmin'
+        ],
+    ],
+    'types' => [
+        'slubwebkartenforum_signup' => $contentElementConfig,
+        'slubwebkartenforum_map' => $contentElementConfig,
+        'slubwebkartenforum_apps' => $contentElementConfig,
+        'slubwebkartenforum_georeference' => $contentElementConfig,
+        'slubwebkartenforum_admin' => $contentElementConfig,
+    ],
+    'columns' => [
+        'CType' => [
+            'config' => [
+                'items' => [
+                    [
+                        'SLUB Kartenforum',
+                        '--div--'
+                    ],
+                    [
+                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.signup',
+                        'slubwebkartenforum_signup',
+                        'VkfSignup'
+                    ],
+                    [
+                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.map',
+                        'slubwebkartenforum_map',
+                        'VkfMap'
+                    ],
+                    [
+                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.apps',
+                        'slubwebkartenforum_apps',
+                        'VkfApps'
+                    ],
+                    [
+                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.admin',
+                        'slubwebkartenforum_admin',
+                        'VkfAdmin'
+                    ],
+                    [
+                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georeference',
+                        'slubwebkartenforum_georeference',
+                        'VkfGeoref'
+                    ],
+                ]
+            ]
+        ]
+    ]
+];
+$GLOBALS['TCA']['tt_content'] = array_merge_recursive($orgTca, $overrideTca);
+
 
 /***************
  * Add dedicated flexform setups for the new content elements

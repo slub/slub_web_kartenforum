@@ -2,16 +2,6 @@
 # Configure VKF related content elements and plugins
 #######################################################
 
-// The Signup content element which handles to login template
-tt_content.slubwebkartenforum_signup = FLUIDTEMPLATE
-tt_content.slubwebkartenforum_signup {
-    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Signup.html
-    variables {
-        loginPage = TEXT
-        loginPage.data = flexform:pi_flexform:settings.loginPage
-    }
-}
-
 // The main map content element with the core React application
 tt_content.slubwebkartenforum_map = FLUIDTEMPLATE
 tt_content.slubwebkartenforum_map {
@@ -70,8 +60,9 @@ tt_content.slubwebkartenforum_georeference {
     }
 }
 
-// Legacy code?!
-plugin.tx_slubwebkartenforum {
+// The signup content element
+plugin.tx_slubwebkartenforum_signup {
+    view.templateRootPaths.10 = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/
     features {
         requireCHashArgumentForActionArguments = 0
     }

@@ -4,6 +4,7 @@ use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Core\Imaging\IconRegistry;
 use \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
 defined('TYPO3_MODE') || die();
 
@@ -37,27 +38,29 @@ ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum
 /***************
  * Enable direct extension access through ajax requests
  */
- \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
- 	'Slub.SlubWebKartenforum',
- 	'signup',
- 	[
- 		'Auth' => 'login, signup, logout, loginError',
+ExtensionUtility::configurePlugin(
+    'Slub.SlubWebKartenforum',
+    'signup',
+    [
+        'Auth' => 'signup, addUser',
     ],
- 	// non-cacheable actions
- 	[
-        'Auth' => 'login, signup, logout, loginError',
-    ]
+    // non-cacheable actions
+    [
+        'Auth' => '',
+    ],
+    ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
 
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-	'Slub.SlubWebKartenforum',
-	'georeference',
-	[
+ExtensionUtility::configurePlugin(
+    'Slub.SlubWebKartenforum',
+    'georeference',
+    [
         'Georef' => 'getStatistics, getTransformationForMapId, getTransformationForUserId, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, postTransformationTry',
     ],
-	// non-cacheable actions
-	[
+    // non-cacheable actions
+    [
         'Georef' => 'getStatistics, getTransformationForMapId, getTransformationForUserId, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, postTransformationTry',
     ],
+    ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
 

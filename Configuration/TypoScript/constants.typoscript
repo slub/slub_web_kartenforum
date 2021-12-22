@@ -2,8 +2,6 @@
 # Extension constants for page and plugins
 ###################################################
 
-
-
 # FLUID STYLED CONTENT
 styles {
     templates {
@@ -11,7 +9,6 @@ styles {
         partialRootPath = EXT:slub_web_kartenforum/Resources/Private/Partials/ContentElements/
         templateRootPath = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/
     }
-    content.loginform.templateFile = EXT:slub_web_kartenforum/Resources/Private/Plugins/FELogin.html
 }
 
 # PAGE

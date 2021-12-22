@@ -1,0 +1,116 @@
+<!--###TEMPLATE_LOGIN###-->
+
+<!-- ###LOGIN_FORM### -->
+<form action="###ACTION_URI###" target="_top" method="post" onsubmit="###ON_SUBMIT###" id="vk2-login-form">
+    <fieldset>
+        <legend>###LEGEND###</legend>
+
+        ###STATUS_MESSAGE###
+
+        <div class="form-group">
+            <label for="user" class="control-label">###USERNAME_LABEL###</label>
+            <input type="text" id="user" name="user" value="" class="form-control" placeholder="###USERNAME_LABEL###"/>
+        </div>
+        <div class="form-group">
+            <label for="pass" class="control-label">###PASSWORD_LABEL###</label>
+            <input type="password" id="pass" name="pass" value="" class="form-control" placeholder="###PASSWORD_LABEL###"/>
+        </div>
+
+        <!--###PERMALOGIN_VALID###-->
+        <div>
+            <label for="permalogin">###PERMALOGIN###</label>
+            <input name="permalogin" value="0" type="hidden" ###PERMALOGIN_HIDDENFIELD_ATTRIBUTES### id="permaloginHiddenField"/>
+            <input name="permalogin" value="1" type="checkbox" ###PERMALOGIN_CHECKBOX_ATTRIBUTES### id="permalogin" onclick="document.getElementById('permaloginHiddenField').disabled = this.checked;"/>
+        </div>
+        <!--###PERMALOGIN_VALID###-->
+
+        <button type="submit" name="form.submitted" value="###LOGIN_LABEL###" class="btn btn-primary">###LOGIN_LABEL###</button>
+
+        <div class="felogin-hidden">
+            <input type="hidden" name="logintype" value="login"/>
+            <input type="hidden" name="pid" value="###STORAGE_PID###"/>
+            <input type="hidden" name="redirect_url" value="###REDIRECT_URL###"/>
+            <input type="hidden" name="###PREFIXID###[noredirect]" value="###NOREDIRECT###"/>
+            ###EXTRA_HIDDEN###
+        </div>
+    </fieldset>
+</form>
+<!--###FORGOTP_VALID###-->
+<p><!--###FORGOT_PASSWORD_LINK###-->###FORGOT_PASSWORD###<!--###FORGOT_PASSWORD_LINK###--></p>
+<!--###FORGOTP_VALID###-->
+
+<!-- ###LOGIN_FORM### -->
+
+<!--###TEMPLATE_LOGIN###-->
+
+<!--###TEMPLATE_LOGOUT###-->
+
+<form action="###ACTION_URI###" target="_top" method="post">
+    <fieldset>
+        <legend>###LEGEND###</legend>
+        <div>
+            <button type="submit" name="submit" value="###LOGOUT_LABEL###" class="btn btn-primary">###LOGOUT_LABEL###</button>
+        </div>
+
+        <div class="felogin-hidden">
+            <input type="hidden" name="logintype" value="logout"/>
+            <input type="hidden" name="pid" value="###STORAGE_PID###"/>
+            <input type="hidden" name="###PREFIXID###[noredirect]" value="###NOREDIRECT###"/>
+        </div>
+    </fieldset>
+</form>
+
+<!--###TEMPLATE_LOGOUT###-->
+
+<!--###TEMPLATE_FORGOT###-->
+
+
+<!-- ###FORGOT_FORM### -->
+<form action="###ACTION_URI###" method="post" id="vk2-forget-form" class="reset-password-form">
+    <div class="felogin-hidden">
+        <input type="hidden" name="tx_felogin_pi1[forgot_hash]" value="###FORGOTHASH###"/>
+    </div>
+    <fieldset>
+        <legend>###LEGEND###</legend>
+        ###STATUS_MESSAGE###
+
+        <div class="form-group text-input">
+            <label for="tx_felogin_pi1-forgot-email">###DATA_LABEL###</label>
+            <input type="text" name="###FORGOT_EMAIL###" id="tx_felogin_pi1-forgot-email" class="form-control"/>
+        </div>
+        <div>
+            <input type="submit" name="submit" value="###SEND_PASSWORD###" class="btn-submit btn btn-primary"/>
+        </div>
+    </fieldset>
+</form>
+<!-- ###FORGOT_FORM### -->
+<p>###BACKLINK_LOGIN###&nbsp;</p>
+<!--###TEMPLATE_FORGOT###-->
+
+<!--###TEMPLATE_CHANGEPASSWORD###-->
+
+###STATUS_HEADER###
+###STATUS_MESSAGE###
+
+
+<!-- ###CHANGEPASSWORD_FORM### -->
+<form action="###ACTION_URI###&redirectReferrer=off" method="post" id="vk2-change-form" class="change-password-form">
+    <fieldset>
+        <legend>###LEGEND###</legend>
+        <div class="form-group">
+            <label for="tx_felogin_pi1-newpassword1">###NEWPASSWORD1_LABEL###</label>
+            <input type="password" name="###NEWPASSWORD1###" id="tx_felogin_pi1-newpassword1" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="tx_felogin_pi1-newpassword2">###NEWPASSWORD2_LABEL###</label>
+            <input type="password" name="###NEWPASSWORD2###" id="tx_felogin_pi1-newpassword2" class="form-control"/>
+        </div>
+        <div>
+            <input type="submit" name="tx_felogin_pi1[changepasswordsubmit]" value="###SEND_PASSWORD###" class="btn btn-primary"/>
+        </div>
+    </fieldset>
+
+</form>
+<!-- ###CHANGEPASSWORD_FORM### -->
+###BACKLINK_LOGIN###
+<!--###TEMPLATE_CHANGEPASSWORD###-->

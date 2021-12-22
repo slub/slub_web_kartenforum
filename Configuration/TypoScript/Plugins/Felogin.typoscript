@@ -1,7 +1,14 @@
-plugin.tx_felogin_pi1.domains = kartenforum.slub-dresden.de
-plugin.tx_felogin_pi1.exposeNonexistentUserInForgotPasswordDialog = 1
-plugin.tx_felogin_pi1.email_from = no-reply@slub-dresden.de
-plugin.tx_felogin_pi1.email_fromName = Virtuelles Kartenforum VK 2.0
+#######################################################
+# Configure FE Login to the VKF needs
+#######################################################
+
+plugin.tx_felogin_pi1 {
+    domains = kartenforum.slub-dresden.de
+    exposeNonexistentUserInForgotPasswordDialog = 1
+    email_from = no-reply@slub-dresden.de
+    email_fromName = Virtuelles Kartenforum VK 2.0
+    templateFile = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Login.html
+}
 
 # redirect to login page if requested page is restricted
 # https://docs.typo3.org/typo3cms/extensions/felogin/7.6/Examples/
