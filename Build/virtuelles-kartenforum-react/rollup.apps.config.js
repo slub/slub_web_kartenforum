@@ -15,6 +15,7 @@ import rollupJson from "rollup-plugin-json";
 import scss from "rollup-plugin-scss";
 import babel from "@rollup/plugin-babel";
 import builtins from "rollup-plugin-node-builtins";
+import image from "@rollup/plugin-image";
 
 import {
     cssOutputDir,
@@ -75,6 +76,7 @@ export const configs = {
             ),
             outputStyle: "compressed",
         }),
+        image({dom: true}),
     ],
     preserveEntrySignatures: "strict",
 };
