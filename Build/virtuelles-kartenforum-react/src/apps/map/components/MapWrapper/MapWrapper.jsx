@@ -4,8 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Map } from "ol";
 import View from "ol/View";
@@ -13,10 +12,13 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { defaults, DragRotateAndZoom } from "ol/interaction";
 import OLCesium from "olcs/OLCesium";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import olcsCore from "olcs/core";
 import clsx from "clsx";
 import { useWindowWidth } from "@react-hook/window-size";
+import Overlay from "ol/Overlay";
+import RasterSynchronizer from "olcs/RasterSynchronizer";
+import VectorSynchronizer from "olcs/VectorSynchronizer";
 
 import { createBaseMapLayer } from "../../../../util/geo";
 import { getDefaultControls, isDefined } from "../../../../util/util";
@@ -34,9 +36,12 @@ import {
 } from "./util";
 import { getMapClassNameForLayout } from "../../layouts/util";
 import { useSetElementScreenSize } from "../../../../util/hooks";
+import GeoJsonLayer from "../CustomLayers/GeoJsonLayer";
+import DialogEditFeature from "./components/DialogEditFeature/DialogEditFeature";
+import CustomOverlaySynchronizer from "./components/customOverlaySynchronizer/customOverlaySynchronizer";
+import customFeatureConverter from "./components/customFeatureConverter/customFeatureConverter";
+import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
 import "./MapWrapper.scss";
-
-export const MAP_DIV_ID = "mapdiv";
 
 export function MapWrapper(props) {
   const {
@@ -56,9 +61,11 @@ export function MapWrapper(props) {
   // state
   const [activeBasemapId, setActiveBasemapId] =
     useRecoilState(activeBasemapIdState);
+  const [hideOverlayContents, setHideOverlayContents] = useState(true);
   const [is3dActive, set3dActive] = useRecoilState(map3dState);
   const [map, setMap] = useRecoilState(mapState);
   const setOlcsMap = useSetRecoilState(olcsMapState);
+  const [selectedFeature, setSelectedFeature] = useState(undefined);
   const selectedFeatures = useRecoilValue(selectedFeaturesState);
   const width = useWindowWidth();
 
@@ -66,6 +73,9 @@ export function MapWrapper(props) {
   const controlsRef = useRef();
   const mapElement = useRef();
   const olcsMapRef = useRef();
+  const overlayRef = useRef();
+  const overlayContainerRef = useRef();
+  const timeoutRef = useRef();
 
   // publish elements size to global state
   useSetElementScreenSize(mapElement, "map");
@@ -74,10 +84,12 @@ export function MapWrapper(props) {
   // Handler section
   ////
 
+  // update active basemap
   const handleBasemapChange = (newBasemapLayer) => {
     setActiveBasemapId(newBasemapLayer.id);
   };
 
+  // toggle viewmode from 2d to 3d and vice versa
   const handleChangeViewMode = (new3dStateGenerator) => {
     let new3dState;
     set3dActive((oldState) => {
@@ -129,6 +141,72 @@ export function MapWrapper(props) {
     }
   };
 
+  // deletes a feature from the map and closes the overlay afterwards
+  const handleFeatureDelete = (feature) => {
+    map.getLayers().forEach((layer) => {
+      const source = layer.getSource();
+      if (source instanceof VectorSource) {
+        const features = source.getFeatures();
+        const containsFeature = features.includes(feature);
+        if (containsFeature) {
+          source.removeFeature(feature);
+        }
+      }
+    });
+
+    handleOverlayClose();
+  };
+
+  // open overlay on map click and supply it with the first feature under the cursor
+  const handleMapClick = useCallback(
+    (e) => {
+      const overlay = overlayRef.current;
+      const pixel = e.pixel;
+
+      let newSelectedFeature;
+
+      // handle selection process depending on viewmode
+      if (!is3dActive) {
+        // use ol api for 2d
+        newSelectedFeature = map.forEachFeatureAtPixel(
+          pixel,
+          (feature) => feature
+        );
+      } else {
+        // use cesium api for 3d
+        const pickedFeature = olcsMapRef.current
+          .getCesiumScene()
+          .pick(new Cesium.Cartesian2(pixel[0], pixel[1]));
+
+        if (pickedFeature !== undefined)
+          newSelectedFeature = pickedFeature.primitive.olFeature;
+      }
+
+      clearTimeout(timeoutRef.current);
+      if (isDefined(newSelectedFeature)) {
+        // fade in overlay after short delay
+        setHideOverlayContents(true);
+        timeoutRef.current = setTimeout(() => {
+          setHideOverlayContents(false);
+        }, 5);
+
+        setSelectedFeature(newSelectedFeature);
+        overlay.setPosition(e.coordinate);
+      } else {
+        // hide overlay
+        setSelectedFeature(undefined);
+        overlay.setPosition(undefined);
+      }
+    },
+    [is3dActive, map]
+  );
+
+  // Close the map overlay
+  const handleOverlayClose = () => {
+    overlayRef.current.setPosition(undefined);
+    setSelectedFeature(undefined);
+  };
+
   ////
   // Effect section
   ////
@@ -141,6 +219,13 @@ export function MapWrapper(props) {
     const initalFeaturesLayer = new VectorLayer({
       source: new VectorSource(),
     });
+
+    const overlay = new Overlay({
+      element: overlayContainerRef.current,
+    });
+
+    // make overlay accessible
+    overlayRef.current = overlay;
 
     // create map
     const initialMap = new Map({
@@ -155,6 +240,7 @@ export function MapWrapper(props) {
         initalFeaturesLayer,
       ],
       interactions: defaults().extend([new DragRotateAndZoom()]),
+      overlays: [overlay],
       renderer: "canvas",
       target: mapElement.current,
       view,
@@ -169,6 +255,11 @@ export function MapWrapper(props) {
 
       //// initialize the globe
       const ol3d = new OLCesium({
+        createSynchronizers: (map, scene) => [
+          new RasterSynchronizer(map, scene),
+          new VectorSynchronizer(map, scene, new customFeatureConverter(scene)),
+          new CustomOverlaySynchronizer(map, scene),
+        ],
         map: initialMap,
         sceneOptions: {
           scene3DOnly: true,
@@ -209,10 +300,17 @@ export function MapWrapper(props) {
         feature,
         isVisible = true,
         opacity = 1,
+        type,
       } = selectedFeature;
 
       if (!displayedInMap && feature.get("has_georeference")) {
-        const layer = createHistoricMapForFeature(feature);
+        const layer =
+          type === LAYER_TYPES.GEOJSON
+            ? new GeoJsonLayer({ feature })
+            : createHistoricMapForFeature(feature);
+
+        layer.allowUseInLayerManagement = true;
+
         layer.setOpacity(opacity);
         layer.setVisible(isVisible);
         map.addLayer(layer);
@@ -270,10 +368,35 @@ export function MapWrapper(props) {
     }
   }, [map, width]);
 
+  // bind click handler to map
+  useEffect(() => {
+    if (map !== undefined) {
+      map.on("click", handleMapClick);
+
+      return () => {
+        map.un("click", handleMapClick);
+      };
+    }
+  }, [handleMapClick, map]);
+
   return (
     <div className="map-container">
       <div
-        id={MAP_DIV_ID}
+        className={clsx(
+          "vkf-map-overlay",
+          !hideOverlayContents && "animation-show"
+        )}
+        ref={overlayContainerRef}
+      >
+        {selectedFeature !== undefined && (
+          <DialogEditFeature
+            onClose={handleOverlayClose}
+            onDelete={handleFeatureDelete}
+            feature={selectedFeature}
+          />
+        )}
+      </div>
+      <div
         ref={mapElement}
         className={clsx("map-div", "olMap", getMapClassNameForLayout(layout))}
         tabIndex={0}

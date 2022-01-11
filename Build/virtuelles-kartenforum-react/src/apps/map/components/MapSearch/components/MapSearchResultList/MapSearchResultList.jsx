@@ -30,7 +30,7 @@ import MapSearchOverlayLayer from "../MapSearchOverlayLayer/MapSearchOverlayLaye
 import PaginatingDataController from "../../../PaginatingDataController/PaginatingDataController";
 import "./MapSearchResultList.scss";
 
-const SEARCH_COLS = ["time", "title", "georeference"];
+const SEARCH_COLS = ["time_published", "title", "georeference"];
 const DEFAULT_TYPE = "title";
 // approximated height of a view item -> used for prefetching
 const VIEW_ITEM_HEIGHT = 120;

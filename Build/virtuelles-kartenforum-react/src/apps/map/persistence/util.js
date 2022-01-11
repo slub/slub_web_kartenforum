@@ -8,46 +8,95 @@ import { useEffect, useState } from "react";
 import { Feature } from "ol";
 import { Polygon } from "ol/geom";
 
+import {
+    deserializeGeojson,
+    serializeGeojson,
+} from "../components/MapWrapper/components/DialogEditFeature/util/geojsonSerializer";
+import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
+
 /**
  * Deserializes an operationalLayer from a supplied persistence object
  * @param coordinates
- * @param id
- * @param properties
  * @param isVisible
  * @param opacity
  * @return {{displayedInMap: boolean, feature: Feature, isVisible: boolean, opacity}}
  */
 export const deSerializeOperationalLayer = ({
-    coordinates,
-    id,
     isVisible,
-    properties,
     opacity,
+    type,
+    ...featureSpecific
 }) => {
+    return {
+        displayedInMap: false,
+        feature:
+            type === LAYER_TYPES.GEOJSON
+                ? deserializeGeojsonLayer(featureSpecific)
+                : deserializeMapLayer(featureSpecific),
+        isVisible,
+        opacity,
+        type,
+    };
+};
+
+export const deserializeGeojsonLayer = ({ id, geojson, properties }) => {
+    const { geometry, ...rest } = properties;
+
+    const feature = new Feature({
+        geojsonFeatures: deserializeGeojson(geojson),
+        ...rest,
+    });
+
+    feature.setId(id);
+
+    return feature;
+};
+
+export const deserializeMapLayer = ({ coordinates, id, properties }) => {
     const feature = new Feature({ geometry: new Polygon(coordinates) });
     feature.setId(id);
     const { geometry, ...rest } = properties;
     feature.setProperties(rest);
-    return { displayedInMap: false, feature, isVisible, opacity };
+    return feature;
 };
 
 /**
  * Serializes an operational layer
  * @param feature
+ * @param type - type of the layer
  * @param mapLayer
  * @return {{coordinates: *, id: *, isVisible: *, opacity: *, properties: *}}
  */
-export const serializeOperationalLayer = ({ feature }, mapLayer) => {
+export const serializeOperationalLayer = ({ feature, type }, mapLayer) => {
     const isVisible = mapLayer.getVisible();
     const opacity = mapLayer.getOpacity();
 
-    return {
+    const base = {
         id: feature.getId(),
-        coordinates: feature.getGeometry().getCoordinates(),
         isVisible,
         opacity,
         properties: feature.getProperties(),
     };
+
+    if (type === LAYER_TYPES.GEOJSON) {
+        const {
+            properties: { geojsonFeatures, ...rest },
+        } = base;
+
+        const newGeojsonFeatures = mapLayer.getSource().getFeatures();
+
+        // add in geojson specific parts
+        return Object.assign(base, {
+            geojson: serializeGeojson(newGeojsonFeatures),
+            type: LAYER_TYPES.GEOJSON,
+            properties: rest,
+        });
+    } else {
+        // add in map specific parts
+        return Object.assign(base, {
+            coordinates: feature.getGeometry().getCoordinates(),
+        });
+    }
 };
 
 /**

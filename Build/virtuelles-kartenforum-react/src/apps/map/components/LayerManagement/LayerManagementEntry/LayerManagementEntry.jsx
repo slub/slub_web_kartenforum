@@ -22,8 +22,11 @@ import {
 } from "../../../atoms/atoms";
 import { OpacitySlider } from "../OpacitySlider/OpacitySlider";
 import { FALLBACK_SRC } from "../../MapSearch/components/MapSearchListElement/MapSearchListElement";
-import HistoricMap from "../../HistoricMapLayer/HistoricMapLayer";
+import HistoricMap from "../../CustomLayers/HistoricMapLayer";
 import SettingsProvider from "../../../../../SettingsProvider";
+import { serializeOperationalLayer } from "../../../persistence/util";
+import { triggerJsonDownload } from "../util";
+import { LAYER_TYPES } from "../../CustomLayers/LayerTypes";
 import "./LayerManagementEntry.scss";
 
 export const ItemTypes = {
@@ -106,6 +109,20 @@ export const LayerManagementEntry = (props) => {
     setIsVisible(!isVisible);
   };
 
+  // triggers the download of a geojson file name like the clicked layer
+  const handleExportGeojson = () => {
+    const id = layer.getId();
+    const selectedFeature = selectedFeatures.find(
+      (selFeature) => selFeature.feature.getId() === id
+    );
+    const serializedLayer = serializeOperationalLayer(selectedFeature, layer);
+
+    triggerJsonDownload(
+      serializedLayer.properties.title,
+      JSON.stringify(serializedLayer.geojson)
+    );
+  };
+
   // propagate hovered layer id if no drag is in progress
   const handleMouseEnter = () => {
     if (draggedItem === null && !hovered) {
@@ -155,7 +172,11 @@ export const LayerManagementEntry = (props) => {
   // zoom to the layer
   const handleZoomToExtent = () => {
     if (isDefined(map)) {
-      const geometry = fromExtent(layer.getExtent());
+      const geometry = fromExtent(
+        layer.get("type") === LAYER_TYPES.GEOJSON
+          ? layer.getSource().getExtent()
+          : layer.getExtent()
+      );
       // add percentage based padding
       geometry.scale(1.5);
       map.getView().fit(geometry);
@@ -237,14 +258,25 @@ export const LayerManagementEntry = (props) => {
         >
           {translate("layermanagement-zoom-to-map")}
         </button>
-        <button
-          className="show-original"
-          onClick={handleOriginalMap}
-          type="button"
-          title={translate("layermanagement-show-original")}
-        >
-          {translate("layermanagement-show-original")}
-        </button>
+        {layer.get("type") !== LAYER_TYPES.GEOJSON ? (
+          <button
+            className="show-original"
+            onClick={handleOriginalMap}
+            type="button"
+            title={translate("layermanagement-show-original")}
+          >
+            {translate("layermanagement-show-original")}
+          </button>
+        ) : (
+          <button
+            className="export-geojson"
+            onClick={handleExportGeojson}
+            type="button"
+            title="export"
+          >
+            Export
+          </button>
+        )}
         <div className="drag-btn" />
         {settings["LINK_TO_GEOREFERENCE"] !== undefined && (
           <a
@@ -258,9 +290,11 @@ export const LayerManagementEntry = (props) => {
           </a>
         )}
       </div>
-      <a href="#" className="thumbnail">
-        <img onError={handleError} src={src} alt="Thumbnail Image of Map" />
-      </a>
+      {layer.get("type") !== LAYER_TYPES.GEOJSON && (
+        <a href="#" className="thumbnail">
+          <img onError={handleError} src={src} alt="Thumbnail Image of Map" />
+        </a>
+      )}
       <div className="metadata-container">
         <h4>{layer.getTitle()}</h4>
         <div className="timestamps">

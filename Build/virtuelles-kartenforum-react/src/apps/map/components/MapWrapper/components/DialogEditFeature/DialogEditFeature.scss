@@ -1,0 +1,18 @@
+.vkf-feature-edit-dialog-root {
+    .feature-edit-dialog-content {
+        .table-container {
+            overflow-y: auto;
+            max-height: 250px;
+        }
+        .error-message {
+            color: #ff0000;
+        }
+    }
+
+    .feature-edit-dialog-footer {
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

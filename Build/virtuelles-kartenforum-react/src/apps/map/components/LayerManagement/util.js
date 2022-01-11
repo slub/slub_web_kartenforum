@@ -22,3 +22,20 @@ export const getIndexToLayer = (map, layer) => {
     const l = layers.getArray();
     return l.findIndex((lay) => lay === layer);
 };
+
+/**
+ * Automatically downloads a json string as file
+ * @param fileName - name of the file
+ * @param jsonString - contents of the file
+ */
+export const triggerJsonDownload = (fileName, jsonString) => {
+    // set file contents
+    const dataStr =
+        "data:text/json;charset=utf-8," + encodeURIComponent(jsonString);
+
+    // automatically trigger download
+    const downloadAnchor = document.createElement("a");
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `${fileName}.json`);
+    downloadAnchor.click();
+};

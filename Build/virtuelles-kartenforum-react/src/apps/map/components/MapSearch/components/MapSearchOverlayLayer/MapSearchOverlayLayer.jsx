@@ -15,7 +15,7 @@ import {
   mapSearchOverlayLayerState,
   mapState,
 } from "../../../../atoms/atoms";
-import HistoricMap from "../../../HistoricMapLayer/HistoricMapLayer";
+import HistoricMap from "../../../CustomLayers/HistoricMapLayer";
 import { MAP_SEARCH_HOVER_FEATURE } from "../../../../config/styles";
 import { isDefined } from "../../../../../../util/util";
 

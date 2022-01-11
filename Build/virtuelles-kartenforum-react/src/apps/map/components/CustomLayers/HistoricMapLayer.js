@@ -6,7 +6,9 @@
  */
 import { Tile } from "ol/layer";
 import { XYZ } from "ol/source";
+
 import { inherits, isDefined } from "../../../../util/util";
+import { LAYER_TYPES } from "./LayerTypes";
 
 /**
  * Wrapper class / function representing a HistoricMap layer based on the tms protocol.
@@ -14,7 +16,6 @@ import { inherits, isDefined } from "../../../../util/util";
  * @param {{
  *
  * }} settings
- * @param {ol.Map} map
  * @constructor
  * @extends {ol.layer.Tile}
  */
@@ -67,6 +68,9 @@ export const HistoricMap = function (settings) {
             urls: settings.urls.map((url) => `${url}/{z}/{x}/{-y}.png`),
             crossOrigin: "*",
         }),
+        properties: {
+            type: LAYER_TYPES.HISTORIC_MAP,
+        },
     });
 };
 

@@ -127,6 +127,10 @@
                 <source><![CDATA[Show Original]]></source>
                 <target><![CDATA[Zeige Original]]></target>
             </trans-unit>
+            <trans-unit id="plugin.map.mapwrapper.parseError" approved="yes">
+                <source><![CDATA[The supplied geojson file could not be parsed]]></source>
+                <target><![CDATA[Die bereitgestellte geojson Datei konnte nicht gelesen werden]]></target>
+            </trans-unit>
 			<trans-unit id="global.map.control-toggleviewmode.title" approved="yes">
 				<source><![CDATA[Switch between 2D and 3D view]]></source>
 				<target><![CDATA[Wechsel zwischen 2D. und 3D-Ansicht]]></target>
@@ -263,7 +267,67 @@
 				<source><![CDATA[Adjust time periode]]></source>
 				<target><![CDATA[Definiere Suchzeitraum]]></target>
 			</trans-unit>
-			<trans-unit id="plugin.map.layermanagement.timestamp" approved="yes">
+			<trans-unit id="plugin.map.editdialog.nonUniqueKey" approved="yes">
+				<source><![CDATA[Non unique property key]]></source>
+				<target><![CDATA[Nicht einzigartiger Eigenschaftenschlüssel]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.editdialog.styleKeyInCustomProperties" approved="yes">
+				<source><![CDATA[Style keys are not allowed in custom properties]]></source>
+				<target><![CDATA[Stylingschlüssel sind in den Eigenschaften nicht erlaubt]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.editdialog.predefinedKeyInCustomProperties" approved="yes">
+                <source><![CDATA[Predefined keys are not allowed in custom properties]]></source>
+                <target><![CDATA[Vordefinierte Schlüssel sind in den Eigenschaften nicht erlaubt]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.editdialog.addRow" approved="yes">
+				<source><![CDATA[Add Row]]></source>
+				<target><![CDATA[Füge Zeile hinzu]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.editdialog.save" approved="yes">
+				<source><![CDATA[Save]]></source>
+				<target><![CDATA[Speichern]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.editdialog.cancel" approved="yes">
+				<source><![CDATA[Cancel]]></source>
+				<target><![CDATA[Abbrechen]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.editdialog.delete" approved="yes">
+                <source><![CDATA[Delete]]></source>
+                <target><![CDATA[Löschen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.title" approved="yes">
+                <source><![CDATA[Edit]]></source>
+                <target><![CDATA[Bearbeite]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.confirm" approved="yes">
+                <source><![CDATA[Add]]></source>
+                <target><![CDATA[Hinzufügen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.cancel" approved="yes">
+                <source><![CDATA[Cancel]]></source>
+                <target><![CDATA[Abbrechen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.title" approved="yes">
+                <source><![CDATA[Add geojson layer]]></source>
+                <target><![CDATA[Füge Geojson Ebene hinzu]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.layerTitleLabel" approved="yes">
+                <source><![CDATA[Geojson Layer Title]]></source>
+                <target><![CDATA[Name des Geojson Layers]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.projectionLabel" approved="yes">
+                <source><![CDATA[Projection]]></source>
+                <target><![CDATA[Projektion]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.dropzone.wrongFiletype" approved="yes">
+                <source><![CDATA[Wrong filetype]]></source>
+                <target><![CDATA[Falscher Dateityp]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.dropzone.drop" approved="yes">
+                <source><![CDATA[Drop geojson file]]></source>
+                <target><![CDATA[Geojson Datei ablegen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.timestamp" approved="yes">
 				<source><![CDATA[Timestamp]]></source>
 				<target><![CDATA[Zeitstempel]]></target>
 			</trans-unit>

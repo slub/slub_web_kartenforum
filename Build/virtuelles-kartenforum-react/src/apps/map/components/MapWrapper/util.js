@@ -2,7 +2,7 @@ import { transformExtent } from "ol/proj";
 import { containsXY } from "ol/extent";
 
 import SettingsProvider from "../../../../SettingsProvider";
-import HistoricMap from "../HistoricMapLayer/HistoricMapLayer";
+import HistoricMap from "../CustomLayers/HistoricMapLayer";
 
 /**
  * Checks if the layer collection already contains a layer with that id.

@@ -10,7 +10,7 @@ import Slider from "rc-slider";
 import { useRecoilValue } from "recoil";
 import "rc-slider/assets/index.css";
 
-import HistoricMap from "../../HistoricMapLayer/HistoricMapLayer";
+import HistoricMap from "../../CustomLayers/HistoricMapLayer";
 import { olcsMapState } from "../../../atoms/atoms";
 import "./OpacitySlider.scss";
 

@@ -85,9 +85,12 @@ export const PersistenceController = () => {
       activeBasemapId,
       is3dEnabled: mapIs3dEnabled,
       operationalLayers: selectedFeatures.map((selectedFeature) => {
-        const layers = map.getLayers().getArray();
+        const layers = map
+          .getLayers()
+          .getArray()
+          .filter((layer) => layer.getId !== undefined);
         const mapLayer = layers.find(
-          (layer) => layer.id === selectedFeature.feature.id
+          (layer) => layer.getId() === selectedFeature.feature.getId()
         );
 
         return serializeOperationalLayer(selectedFeature, mapLayer);

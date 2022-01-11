@@ -7,11 +7,11 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import MapWrapper from "../components/MapWrapper/MapWrapper";
 import SettingsProvider from "../../../SettingsProvider";
 import { LAYOUT_TYPES } from "./util";
 import { HorizontalLayout } from "./HorizontalLayout/HorizontalLayout";
 import VerticalLayout from "./VerticalLayout/VerticalLayout";
+import { MapWrapperWithGeojsonSupport } from "../components/MapWrapper/MapWrapperWithGeojsonSupport";
 
 const getLayoutComponent = (layout) => {
   switch (layout) {
@@ -29,14 +29,16 @@ export const LayoutSwitcher = (props) => {
   let LayoutComponent = getLayoutComponent(layout);
 
   return (
-    <MapWrapper
-      baseMapUrl={SettingsProvider.getDefaultBaseMapUrls()}
-      enable3d
-      enableTerrain
-      layout={layout}
-      mapViewSettings={SettingsProvider.getDefaultMapView()}
-      terrainTilesUrl={SettingsProvider.getTerrainUrls()}
-      ChildComponent={LayoutComponent}
+    <MapWrapperWithGeojsonSupport
+      mapWrapperProps={{
+        baseMapUrl: SettingsProvider.getDefaultBaseMapUrls(),
+        enable3d: true,
+        enableTerrain: true,
+        layout,
+        mapViewSettings: SettingsProvider.getDefaultMapView(),
+        terrainTilesUrl: SettingsProvider.getTerrainUrls(),
+        ChildComponent: LayoutComponent,
+      }}
     />
   );
 };

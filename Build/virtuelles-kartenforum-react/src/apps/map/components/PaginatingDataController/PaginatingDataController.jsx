@@ -198,6 +198,11 @@ export const PaginatingDataController = ({
       const llc = map.getCoordinateFromPixel([lowX, lowY]);
       const urc = map.getCoordinateFromPixel([highX, highY]);
 
+      // if the map is for whatever reason not available, just skip the update and try again later
+      if (llc === null || urc === null) {
+        return;
+      }
+
       const newMapView = [llc[0], llc[1], urc[0], urc[1]];
 
       if (mapView === undefined || !equals(newMapView, mapView)) {

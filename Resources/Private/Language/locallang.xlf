@@ -256,6 +256,11 @@
                 <source>Show Original</source>
             </trans-unit>
 
+            <!-- Global > Map > MapWrapper -->
+            <trans-unit id="plugin.map.mapwrapper.parseError">
+                <source>The supplied geojson file could not be parsed</source>
+            </trans-unit>
+
 
 
 			<!-- vk2.module.LayerManagementModule -->
@@ -347,6 +352,61 @@
 			<trans-unit id="plugin.map.timeslider.adjustTimePeriod">
 				<source>Adjust time periode</source>
 			</trans-unit>
+
+			<!-- Global > Map > DialogEditFeature -->
+			<trans-unit id="plugin.map.editdialog.nonUniqueKey">
+                <source>Non unique property key</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.editdialog.styleKeyInCustomProperties">
+                <source>Style keys are not allowed in custom properties</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.predefinedKeyInCustomProperties">
+                <source>Predefined keys are not allowed in custom properties</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.addRow">
+                <source>Add Row</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.save">
+                <source>Save</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.cancel">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.delete">
+                <source>Delete</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.title">
+                <source>Edit</source>
+            </trans-unit>
+
+            <!-- Global > Map > DialogAddGeoJson -->
+
+            <trans-unit id="plugin.map.adddialog.confirm">
+                <source>Add</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.cancel">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.title">
+                <source>Add geojson layer</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.layerTitleLabel">
+                <source>Geojson Layer Title</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.projectionLabel">
+                <source>Projection</source>
+            </trans-unit>
+
+            <!-- Global > Map > Dropzone -->
+            <trans-unit id="plugin.map.dropzone.wrongFiletype">
+                <source>Wrong filetype</source>
+            </trans-unit>
+
+            <trans-unit id="plugin.map.dropzone.drop">
+                <source>Drop geojson file</source>
+            </trans-unit>
+
+
 
 			<!-- Newly sorted -->
 

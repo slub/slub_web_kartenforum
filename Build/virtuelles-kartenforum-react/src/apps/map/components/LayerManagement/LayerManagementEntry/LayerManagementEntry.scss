@@ -102,7 +102,8 @@
                 no-repeat center center;
         }
 
-        button.show-original {
+        button.show-original,
+        button.export-geojson {
             left: 270px;
             background: #00b19e;
         }
@@ -110,7 +111,7 @@
         .drag-btn {
             position: absolute;
             left: 40px;
-            top: 0px;
+            top: 0;
             width: 250px;
             height: 100px;
             background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAABUCAYAAADNjBSxAAADYElEQVR42u2b30uTURjHF96tzV+bPza3MpHlZXRV3kRgd4FBV1k3EfU/dFFBP7TIpLxQUzIrySDUsroySyKVDKYRmEEgkbrlUufc3Ob2bj2PPIO1IbPtrZ0jzwNfzvvsnPNyPu/Zc95zXng0/8WaL+pAtSCjRmYjGD3oBKgadBKhZIbJJZgq8s2gU6BiGWHyQXUgW8LvpTRTpVLB0KArN6kvoXqTDDCFNNiKFO2KqF2ZyDAGGuSeLbY3UnuLiDBGCvjdaT6EXSLBFBOMNc3+BbSAlIsAU0IwFpVWxYpsA9WAzCrdKw90QMPGxsampuVEo9H57SBkQSDtNgLSIpB+GwHpGYiBGIiBGIiBGIiBsgT0Zcm1sK+nZR2O1VEsp8GXDqjv29Ti+dHBVSwR4tybAe+c1+M8O/Tch36svhdK4YEujA15DO3XldOD/T4scWY8wYAD61agRD9WX9xxQwEwj9BA2pYrkffz3114jSUCxNejH6v/4Jx1YXuhgeIBItHIhp+qfn9Pa0KMCQm0df/M62e++BiTHsgd9P8RYxIDJfvCAPlC645F/5pTeqDpuBdnTBDs8gIhDAYzvWuSBnR7csyd6AsNFHtxpjugIni5CgeU6YAYiIEyGEDTxKhbaqAdzZfiFgWSzEC2h3dCL2a+qnKuCYbD2Qe6PD7sOdTbGVDrdJvbdi2SVSDcWJrv3Qx3TtmXMwVqtI+sHO67H8j6Xg7/cjtbr0bGHD9c6d7Dux50lHU2hrunPy0JsTm9ZR9xF9xtUN7Ozvz6q7500Dv+6sla9dOOIFyLc2Jt/Tzu1sFM1X98txKOKKn70Bmo9uVjf3lXU9jhW3UKdwQfhhna+6g5hMKNKO7G8ViRqEmXYwEXFNzLYdz8XPM6hf2MFVKU+a6pieUj/Q8CeW31Ci7FiSpsb1CODnT78ZMWfzllIAZiIAZiIAZiIAZioHggLcgKskkuK7FocuhCL7m0GyxsbGxsaqfbHATlqXQvM6gm20AVlKuan+F9LJRYVSrCLJVTdlZBmv2twiXsYlIgJQca0uiHMEYR48lCUMatzmwijIhQZQRVlCr2qF2hDCufiZ58ySb1lQSTLzhJ6iR28G2gOrlgknNcTeRX0RKfKx9MchJ7NcHoNbIb5YkfA+k0/9h+Axz70LyKEdWRAAAAAElFTkSuQmCC")
@@ -169,6 +170,7 @@
     button.move-layer-top,
     button.zoom-layer,
     button.show-original,
+    button.export-geojson,
     a.georeference-update {
         position: absolute;
         top: 35px;
@@ -176,7 +178,6 @@
         width: 25px;
         display: block;
         overflow: hidden;
-        background: #d33;
         white-space: nowrap;
         text-indent: 200%;
         margin: 0;
@@ -228,6 +229,7 @@
             button.move-layer-top,
             button.zoom-layer,
             button.show-original,
+            button.export-geojson,
             a.georeference-update {
                 opacity: 1;
             }
@@ -314,6 +316,7 @@
             button.move-layer-top,
             button.zoom-layer,
             button.show-original,
+            button.export-geojson,
             a.georeference-update {
                 height: 30px;
                 width: 30px;
