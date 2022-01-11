@@ -68,6 +68,7 @@
 
 .vkf-search-result-container {
     @include box-shadow;
+    height: 260px;
     background: #fff;
     overflow: auto;
     position: absolute;
@@ -82,5 +83,14 @@
     &.show-search-result-list {
         transition: transform 0.5s ease-in;
         transform: translateY(0);
+    }
+
+    .mapsearch-contentlist-container {
+        height: 100%;
+        width: 100%;
+
+        .vkf-mapsearch-record {
+            padding: 30px 10px 0 10px;
+        }
     }
 }

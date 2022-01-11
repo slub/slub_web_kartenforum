@@ -39,11 +39,6 @@ export const mapSearchOverlayLayerState = atom({
     dangerouslyAllowMutability: true,
 });
 
-export const mapsInViewportState = atom({
-    key: "mapsInViewportState",
-    default: { maps: [], mapCount: 0 },
-});
-
 export const mapState = atom({
     key: "mapState",
     default: undefined,
@@ -59,6 +54,16 @@ export const olcsMapState = atom({
     key: "olcsMapState",
     default: undefined,
     dangerouslyAllowMutability: true,
+});
+
+export const searchIsLoadingState = atom({
+    key: "searchIsLoadingState",
+    default: false,
+});
+
+export const searchResultDescriptorState = atom({
+    key: "searchResultDescriptorState",
+    default: { mapCount: 10, id: Date.now() },
 });
 
 export const selectedFeaturesState = atom({

@@ -6,7 +6,6 @@
  */
 import React, { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import PropTypes from "prop-types";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
 
@@ -82,8 +81,6 @@ export const MapSearchOverlayLayer = () => {
   return <></>;
 };
 
-MapSearchOverlayLayer.propTypes = {
-  onUpdate: PropTypes.func,
-};
+MapSearchOverlayLayer.propTypes = {};
 
 export default MapSearchOverlayLayer;

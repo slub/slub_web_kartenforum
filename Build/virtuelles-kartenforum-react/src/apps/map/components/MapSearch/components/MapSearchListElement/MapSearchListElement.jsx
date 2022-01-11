@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
 import clsx from "clsx";
@@ -12,30 +12,39 @@ import clsx from "clsx";
 import {
   mapSearchOverlayLayerState,
   olcsMapState,
+  selectedFeaturesState,
 } from "../../../../atoms/atoms";
 import { isDefined, translate } from "../../../../../../util/util";
+import { checkIfArrayContainsFeature } from "../../util";
+import { LOADING_FEATURE } from "../MapSearchResultList/MapSearchResultList";
 import "./MapSearchListElement.scss";
 
 export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";
 
-// @TODO: Rename feature to something less ambiguous
-export const MapSearchListElement = (props) => {
-  const { direction, feature, is3d, onClick, selected } = props;
+export const MapSearchListElement = ({ data, index, style }) => {
+  const { direction, maps, is3d, onClick } = data;
+  const operationalLayer = maps[index] ?? LOADING_FEATURE;
+
   const olcsMap = useRecoilValue(olcsMapState);
   const mapOverlayLayer = useRecoilValue(mapSearchOverlayLayerState);
-  const [src, setSrc] = useState(feature.get("thumb_url").replace("http:", ""));
+  const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const [src, setSrc] = useState(
+    operationalLayer.get("thumb_url") === undefined
+      ? ""
+      : operationalLayer.get("thumb_url").replace("http:", "")
+  );
 
   ////
   // Handler section
   ////
 
   const handleClick = () => {
-    onClick(feature);
+    onClick(operationalLayer);
   };
 
   const handleError = () => {
-    if (src !== FALLBACK_SRC) {
+    if (src !== "" && src !== FALLBACK_SRC) {
       setSrc(FALLBACK_SRC);
     }
   };
@@ -44,7 +53,7 @@ export const MapSearchListElement = (props) => {
     if (isDefined(mapOverlayLayer)) {
       // clear old features and add hover feature
       mapOverlayLayer.getSource().clear();
-      mapOverlayLayer.getSource().addFeature(feature);
+      mapOverlayLayer.getSource().addFeature(operationalLayer);
       if (is3d && olcsMap !== undefined) {
         // for updating the vector layer
         olcsMap.getAutoRenderLoop().restartRenderLoop();
@@ -58,48 +67,70 @@ export const MapSearchListElement = (props) => {
     }
   };
 
+  ///
+  // Effect section
+  ///
+
+  // update thumb url if feature changes
+  useEffect(() => {
+    setSrc(operationalLayer.get("thumb_url"));
+  }, [operationalLayer]);
+
+  const isSelected = checkIfArrayContainsFeature(
+    selectedFeatures,
+    operationalLayer
+  );
+
   const scale =
-    feature.get("map_scale") === "0" || feature.get("map_scale") === 0
-      ? "unknown"
-      : `1:${feature.get("map_scale")}`;
+    operationalLayer.get("map_scale") === "0" ||
+    operationalLayer.get("map_scale") === 0
+      ? translate("mapsearch-listelement-unknown")
+      : `1:${operationalLayer.get("map_scale")}`;
 
   return (
     <li
+      style={style}
       className={clsx(
         "vkf-mapsearch-record",
-        feature.get("maptype"),
-        selected && "selected",
-        direction
+        operationalLayer.get("maptype"),
+        isSelected && "selected",
+        direction,
+        index % 2 === 1 && "odd",
+        operationalLayer === LOADING_FEATURE && "loading"
       )}
-      id={feature.get("id")}
+      id={operationalLayer.get("id")}
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <span className="data-col time">
-        {parseInt(feature.get("time_published"), 0)}
+        {parseInt(operationalLayer.get("time_published"), 0)}
       </span>
-      <span className="data-col title">{feature.get("title")}</span>
+      <span className="data-col title">{operationalLayer.get("title")}</span>
       <span className="data-col time">1</span>
       <div className="view-item">
         <a className="thumbnail" href="#">
-          <img alt="Thumbnail Image of Map" onError={handleError} src={src} />
-          {selected && (
+          {src === "" ? (
+            <div className="placeholder" />
+          ) : (
+            <img alt="Thumbnail Image of Map" onError={handleError} src={src} />
+          )}
+          {isSelected && (
             <span className="badge selected-badge">
               <span className="glyphicon glyphicon-ok" />{" "}
             </span>
           )}
         </a>
         <div className="overview">
-          <h2>{feature.get("title")}</h2>
+          <h2>{operationalLayer.get("title")}</h2>
           <div className="details">
             <div className="timestamp">{`${translate(
               "mapsearch-listelement-time"
-            )} ${feature.get("time_published")}`}</div>
+            )} ${operationalLayer.get("time_published")}`}</div>
             <div className="scale">{`${translate(
               "mapsearch-listelement-scale"
             )} ${scale}`}</div>
-            {!feature.get("has_georeference") && (
+            {!operationalLayer.get("has_georeference") && (
               <div className="georeference">
                 {translate("mapsearch-listelement-no-georef")}
               </div>
@@ -112,11 +143,16 @@ export const MapSearchListElement = (props) => {
 };
 
 MapSearchListElement.propTypes = {
-  direction: PropTypes.oneOf(["horizontal", "vertical"]),
-  feature: PropTypes.object,
-  is3d: PropTypes.bool,
-  onClick: PropTypes.func,
-  selected: PropTypes.bool,
+  data: PropTypes.shape({
+    direction: PropTypes.oneOf(["horizontal", "vertical"]),
+    feature: PropTypes.object,
+    is3d: PropTypes.bool,
+    onClick: PropTypes.func,
+    maps: PropTypes.arrayOf(PropTypes.object),
+    selected: PropTypes.bool,
+  }),
+  index: PropTypes.number,
+  style: PropTypes.object,
 };
 
 export default MapSearchListElement;

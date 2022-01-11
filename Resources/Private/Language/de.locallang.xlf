@@ -103,6 +103,14 @@
 				<source><![CDATA[Not georeferenced]]></source>
 				<target><![CDATA[Georeferenzierung fehlt]]></target>
 			</trans-unit>
+			<trans-unit id="plugin.map.mapsearchlistelement.loading" approved="yes">
+                <source><![CDATA[Loading]]></source>
+                <target><![CDATA[Lädt]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapsearchlistelement.unknown" approved="yes">
+                <source><![CDATA[Unknown]]></source>
+                <target><![CDATA[Unbekannt]]></target>
+            </trans-unit>
 			<trans-unit id="plugin.map.layermanagement.removeMap" approved="yes">
 				<source><![CDATA[Remove map]]></source>
 				<target><![CDATA[Verwerfe Karte]]></target>

@@ -11,7 +11,10 @@ import { useRecoilValue } from "recoil";
 import clsx from "clsx";
 
 import MapSearchResultList from "../../../../components/MapSearch/components/MapSearchResultList/MapSearchResultList";
-import { mapsInViewportState, timeRangeState } from "../../../../atoms/atoms";
+import {
+  searchResultDescriptorState,
+  timeRangeState,
+} from "../../../../atoms/atoms";
 import ToggleFacetsButton from "../../../../components/MapSearch/components/ToggleFacetsButton/ToggleFacetsButton";
 import ToggleSearchButton from "../ToggleSearchButton/ToggleSearchButton";
 import { ToggleResultListButton } from "../ToggleResultListButton/ToggleResultListButton";
@@ -30,7 +33,7 @@ export const SearchHeader = ({
   const [showSearchResultList, setShowSearchResultList] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [wasResultListOpen, setWasResultListOpen] = useState(false);
-  const { mapCount } = useRecoilValue(mapsInViewportState);
+  const { mapCount } = useRecoilValue(searchResultDescriptorState);
   const timeRange = useRecoilValue(timeRangeState);
 
   const handleToggleSearchResultListButton = () => {
@@ -95,7 +98,11 @@ export const SearchHeader = ({
       </div>
 
       <div className={clsx("vkf-search-result-container", transitionClass)}>
-        <MapSearchResultList direction="horizontal" renderHeader={false} />
+        <MapSearchResultList
+          direction="horizontal"
+          itemSize={170}
+          renderHeader={false}
+        />
       </div>
     </Fragment>
   );

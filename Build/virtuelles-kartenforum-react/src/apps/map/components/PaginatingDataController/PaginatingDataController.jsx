@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import axios from "axios";
@@ -15,10 +15,11 @@ import {
   elementsScreenSizeState,
   facetState,
   map3dState,
-  mapsInViewportState,
+  searchResultDescriptorState,
   mapState,
   timeExtentState,
   timeRangeState,
+  searchIsLoadingState,
 } from "../../atoms/atoms";
 import { isDefined } from "../../../../util/util";
 import { createStatisticQuery, getSpatialQuery } from "../../../../util/query";
@@ -26,12 +27,11 @@ import { readFeatures } from "../../../../util/parser";
 import { SettingsProvider } from "../../index";
 import { MAP_PROJECTION } from "../MapSearch/MapSearch";
 import { limitExtent } from "./util";
+import { useDebounce } from "../../../../util/hooks";
 
 export const PaginatingDataController = ({
   projection = MAP_PROJECTION,
-  onUpdate,
-  maxFeatures = 20,
-  maxPaginationFeatures = 500,
+  minimumBatchSize = 20,
   renderConsumer,
   sortSettings,
 }) => {
@@ -44,7 +44,8 @@ export const PaginatingDataController = ({
   const is3dEnabled = useRecoilValue(map3dState);
   const map = useRecoilValue(mapState);
   const [mapView, setMapView] = useState(undefined);
-  const setMapsInViewport = useSetRecoilState(mapsInViewportState);
+  const setIsSearchLoading = useSetRecoilState(searchIsLoadingState);
+  const setMapsInViewport = useSetRecoilState(searchResultDescriptorState);
   const setTimeRange = useSetRecoilState(timeRangeState);
   const timeExtent = useRecoilValue(timeExtentState);
 
@@ -52,12 +53,6 @@ export const PaginatingDataController = ({
   const settings = SettingsProvider.getSettings();
   const elasticsearch_node = settings.API_SEARCH;
   const elasticsearch_srs = "EPSG:4326";
-
-  // refs
-  const abortControllerRef = useRef(new AbortController());
-  const indexRef = useRef(0);
-  const runningRequestRef = useRef(false);
-  const totalFeatureRef = useRef(0);
 
   /**
    * @param {Array.<number>} extent An array of numbers representing an extent: [minx, miny, maxx, maxy]
@@ -91,54 +86,37 @@ export const PaginatingDataController = ({
   };
 
   // fetch the results from the index
-  const fetchResults = () => {
-    if (mapView === undefined)
-      return new Promise((res) => res({ mapCount: 0, maps: [] }));
+  const fetchResults = (start, size, opt_raw = false) => {
+    if (mapView === undefined) return new Promise((res) => res([]));
     // build elasticsearch request
     const requestPayload = createSearchRequest(mapView, projection),
       requestUrl =
-        elasticsearch_node +
-        "/_search?from=" +
-        indexRef.current +
-        "&size=" +
-        maxFeatures;
+        elasticsearch_node + "/_search?from=" + start + "&size=" + size;
 
-    // cancel already running request
-    if (runningRequestRef.current) {
-      abortControllerRef.current.abort();
-      abortControllerRef.current = new AbortController();
-    }
-
-    runningRequestRef.current = true;
+    // signalize a fetch process is about to begin
+    setIsSearchLoading(true);
     return axios
-      .post(requestUrl, requestPayload, {
-        signal: abortControllerRef.current.signal,
-      })
+      .post(requestUrl, requestPayload)
       .then((resp) => {
-        runningRequestRef.current = false;
         if (resp.status === 200) {
           const data = resp.data;
 
-          const mapCount = data["hits"]["total"]["value"];
-
-          totalFeatureRef.current = mapCount;
-          const parsedFeatures = readFeatures(
-            data["hits"]["hits"],
-            elasticsearch_srs,
-            projection,
-            is3dEnabled
-          );
-
-          // fill featureCol and increment startIndex
-          indexRef.current += parsedFeatures.length;
-          return {
-            mapCount,
-            maps: parsedFeatures,
-          };
+          return opt_raw
+            ? data
+            : readFeatures(
+                data["hits"]["hits"],
+                elasticsearch_srs,
+                projection,
+                is3dEnabled
+              );
         }
       })
       .catch((e) => {
         console.warn(e);
+      })
+      .finally(() => {
+        // signalize the search process has ended
+        setIsSearchLoading(false);
       });
   };
 
@@ -146,35 +124,13 @@ export const PaginatingDataController = ({
   // Handler section
   ////
 
-  // fetch results beginning at current index
-  const handlePaginate = () => {
-    // check if there are anymore features to paginate and if yes gramp them
-    if (
-      indexRef.current < totalFeatureRef.current &&
-      indexRef.current < maxPaginationFeatures
-    ) {
-      onUpdate();
-
-      fetchResults().then((res) => {
-        if (res !== undefined) {
-          setMapsInViewport((oldState) =>
-            Object.assign(res, { id: oldState.id })
-          );
-        }
-      });
-    }
-  };
-
-  // fetch results beginning by 0
-  const handleRefresh = () => {
-    indexRef.current = 0;
-    onUpdate();
-    fetchResults().then((res) => {
-      if (res !== undefined) {
-        setMapsInViewport(Object.assign(res, { id: Date.now }));
-      }
+  // Update search result set id on reset of any of the search parameters, but only do it every so often
+  const handleRefresh = useDebounce(() => {
+    fetchResults(0, 0, true).then((data) => {
+      const mapCount = data["hits"]["total"]["value"];
+      setMapsInViewport({ mapCount, id: Date.now() });
     });
-  };
+  }, 50);
 
   // handles an update of the internally kept map extent
   // either triggered by a map move or a resize of some component
@@ -214,6 +170,8 @@ export const PaginatingDataController = ({
   ////
   // Effect section
   ////
+
+  // bind event handler on map
   useEffect(() => {
     if (isDefined(map)) {
       map.on("moveend", handleUpdateMapView);
@@ -251,16 +209,18 @@ export const PaginatingDataController = ({
 
   return (
     <React.Fragment>
-      {renderConsumer({ onPaginate: handlePaginate, onRefresh: handleRefresh })}
+      {renderConsumer({
+        minimumBatchSize,
+        onRefresh: handleRefresh,
+        onFetchResults: fetchResults,
+      })}
     </React.Fragment>
   );
 };
 
 PaginatingDataController.propTypes = {
-  maxFeatures: PropTypes.number,
-  maxPaginationFeatures: PropTypes.number,
+  minimumBatchSize: PropTypes.number,
   projection: PropTypes.string,
-  onUpdate: PropTypes.func,
   renderConsumer: PropTypes.func,
   sortSettings: PropTypes.shape({
     activeType: PropTypes.string,

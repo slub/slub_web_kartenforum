@@ -4,7 +4,6 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-
 import React, {
   Fragment,
   useCallback,
@@ -15,11 +14,13 @@ import React, {
 import PropTypes from "prop-types";
 import { useRecoilState, useRecoilValue } from "recoil";
 import clsx from "clsx";
+import { FixedSizeList as List } from "react-window";
+import InfiniteLoader from "react-window-infinite-loader";
+import Feature from "ol/Feature";
 
 import MapSearchListElement from "../MapSearchListElement/MapSearchListElement";
-import { isDefined } from "../../../../../../util/util";
 import {
-  mapsInViewportState,
+  searchResultDescriptorState,
   map3dState,
   mapState,
   selectedFeaturesState,
@@ -28,23 +29,29 @@ import { checkIfArrayContainsFeature } from "../../util";
 import MapSearchSortColumn from "../MapSearchSortColumn/MapSearchSortColumn";
 import MapSearchOverlayLayer from "../MapSearchOverlayLayer/MapSearchOverlayLayer";
 import PaginatingDataController from "../../../PaginatingDataController/PaginatingDataController";
+import { useSize } from "../../../../../../util/hooks";
+import { translate } from "../../../../../../util/util";
 import "./MapSearchResultList.scss";
 
-const SEARCH_COLS = ["time_published", "title", "georeference"];
 const DEFAULT_TYPE = "title";
-// approximated height of a view item -> used for prefetching
-const VIEW_ITEM_HEIGHT = 120;
-
+const SEARCH_COLS = ["time_published", "title", "georeference"];
 const SORT_ORDERS = {
   ASCENDING: "ascending",
   DESCENDING: "descending",
 };
+export let LOADING_FEATURE = new Feature({
+  has_georeference: true,
+  map_scale: "0",
+  thumb_url: "",
+  time_published: "",
+  title: "Loading",
+});
 
 export const MapSearchResultList = ({
-  blockUpdate,
   direction = "vertical",
-  onPaginate,
-  onStartFetching,
+  itemSize = 100,
+  minimumBatchSize,
+  onFetchResults,
   onUpdateSortType,
   renderHeader = true,
   sortSettings,
@@ -52,15 +59,56 @@ export const MapSearchResultList = ({
   const { activeType, sortOrder } = sortSettings;
 
   // state
-  const { maps, id } = useRecoilValue(mapsInViewportState);
+  const { mapCount, id } = useRecoilValue(searchResultDescriptorState);
   const map = useRecoilValue(mapState);
   const is3dEnabled = useRecoilValue(map3dState);
+  const [items, setItems] = useState({});
   const [selectedFeatures, setSelectedFeatures] = useRecoilState(
     selectedFeaturesState
   );
 
   // Refs
-  const searchListRef = useRef();
+  const refClearResults = useRef(false);
+  const refInfiniteLoader = useRef();
+  const refSearchList = useRef();
+
+  const { height, width } = useSize(refSearchList);
+
+  // determines whether an item has to be fetched or not
+  const isItemLoaded = useCallback(
+    (index) =>
+      !refClearResults.current &&
+      items[index] !== undefined &&
+      items[index] !== LOADING_FEATURE,
+    [items]
+  );
+
+  // fetches all items from startIndex to stopIndex (both ends inclusive)
+  const loadMoreItems = (startIndex, stopIndex) => {
+    if (
+      startIndex !== undefined &&
+      stopIndex !== undefined &&
+      stopIndex - startIndex > 1
+    ) {
+      // store indices for later usage
+      const size = stopIndex - startIndex + 1;
+
+      return onFetchResults(startIndex, size).then((res) => {
+        setItems((oldItems) => {
+          const newItems = refClearResults.current
+            ? {}
+            : Object.assign({}, oldItems);
+
+          refClearResults.current = false;
+
+          res.forEach((map, index) => {
+            newItems[startIndex + index] = map;
+          });
+          return newItems;
+        });
+      });
+    }
+  };
 
   ////
   // Handler section
@@ -101,33 +149,19 @@ export const MapSearchResultList = ({
     }
   };
 
-  // Start prefetching new elements on scroll
-  const handleScroll = useCallback(() => {
-    if (searchListRef.current === null || !isDefined(onPaginate) || blockUpdate)
-      return;
-
-    const scrollEl = searchListRef.current;
-    if (
-      scrollEl.offsetHeight + scrollEl.scrollTop >=
-      // start fetching when there are onlu 3 items left before hitting end of the list
-      scrollEl.scrollHeight - 3 * VIEW_ITEM_HEIGHT
-    ) {
-      onStartFetching();
-      // check if there are still features to append
-      onPaginate();
-    }
-  }, [blockUpdate, onPaginate, searchListRef]);
-
   ////
   // Effect section
   ////
 
-  // reset scroll if id of feature set changes
+  // initialize title of the loading feature (has to be done here, because of translation)
   useEffect(() => {
-    const scrollEl = searchListRef.current;
-    if (!isDefined(scrollEl)) {
-      scrollEl.scrollTop = 0;
-    }
+    LOADING_FEATURE.set("title", translate("mapsearch-listelement-loading"));
+  }, []);
+
+  // reset state on change of search result set
+  useEffect(() => {
+    refClearResults.current = true;
+    refInfiniteLoader.current.resetloadMoreItemsCache(true);
   }, [id]);
 
   return (
@@ -144,35 +178,45 @@ export const MapSearchResultList = ({
           ))}
         </div>
       )}
-      <div className="mapsearch-contentlist-container">
-        <ul
-          onScroll={handleScroll}
-          className="mapsearch-contentlist"
-          id="mapsearch-contentlist"
-          ref={searchListRef}
+      <div className="mapsearch-contentlist-container" ref={refSearchList}>
+        <InfiniteLoader
+          isItemLoaded={isItemLoaded}
+          itemCount={mapCount}
+          loadMoreItems={loadMoreItems}
+          minimumBatchSize={minimumBatchSize}
+          ref={refInfiniteLoader}
         >
-          {maps.map((feature) => (
-            <MapSearchListElement
-              direction={direction}
-              feature={feature}
-              is3d={is3dEnabled}
-              key={feature.get("id")}
-              onClick={handleElementClick}
-              selected={checkIfArrayContainsFeature(selectedFeatures, feature)}
-            />
-          ))}
-        </ul>
+          {({ onItemsRendered, ref }) => (
+            <List
+              layout={direction}
+              height={height}
+              width={width}
+              onItemsRendered={onItemsRendered}
+              itemCount={mapCount}
+              itemSize={itemSize}
+              itemData={{
+                direction,
+                maps: items,
+                is3d: is3dEnabled,
+                onClick: handleElementClick,
+              }}
+              ref={ref}
+            >
+              {MapSearchListElement}
+            </List>
+          )}
+        </InfiniteLoader>
       </div>
     </div>
   );
 };
 
 MapSearchResultList.propTypes = {
-  blockUpdate: PropTypes.bool,
   direction: PropTypes.oneOf(["horizontal", "vertical"]),
+  itemSize: PropTypes.number.isRequired,
+  minimumBatchSize: PropTypes.number,
   renderHeader: PropTypes.bool,
-  onPaginate: PropTypes.func,
-  onStartFetching: PropTypes.func,
+  onFetchResults: PropTypes.func,
   onUpdateSortType: PropTypes.func,
   sortSettings: PropTypes.shape({
     activeType: PropTypes.string,
@@ -191,7 +235,6 @@ export const WrappedMapSearchResultList = (props) => {
     activeType: DEFAULT_TYPE,
     sortOrder: SORT_ORDERS.ASCENDING,
   });
-  const [blockUpdate, setBlockUpdate] = useState(false);
 
   // derived
   const { activeType, sortOrder } = sortSettings;
@@ -199,16 +242,6 @@ export const WrappedMapSearchResultList = (props) => {
   ////
   // Handler section
   ////
-
-  // signalizes the start of a fetching process
-  const handleStartFetching = () => {
-    setBlockUpdate(true);
-  };
-
-  // signalizes the end of a fetching process
-  const handleUpdate = () => {
-    setBlockUpdate(false);
-  };
 
   // Set field by which is sorted and toggle sort oder
   const handleUpdateSortType = (type) => {
@@ -232,8 +265,6 @@ export const WrappedMapSearchResultList = (props) => {
   const renderMapSearchResultList = (extraProps) => {
     return (
       <MapSearchResultList
-        blockUpdate={blockUpdate}
-        onStartFetching={handleStartFetching}
         onUpdateSortType={handleUpdateSortType}
         sortSettings={sortSettings}
         {...props}
@@ -244,13 +275,9 @@ export const WrappedMapSearchResultList = (props) => {
 
   return (
     <Fragment>
-      <MapSearchOverlayLayer
-        onUpdate={handleUpdate}
-        sortSettings={sortSettings}
-      />
+      <MapSearchOverlayLayer sortSettings={sortSettings} />
       <PaginatingDataController
         renderConsumer={renderMapSearchResultList}
-        onUpdate={handleUpdate}
         sortSettings={sortSettings}
       />
     </Fragment>

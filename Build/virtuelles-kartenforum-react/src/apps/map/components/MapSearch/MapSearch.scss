@@ -41,6 +41,13 @@
                 position: relative;
                 float: left;
             }
+
+            .loading-spinner {
+                .lds-roller {
+                    top: -10px;
+                    transform: scale(0.26);
+                }
+            }
         }
 
         .search-facet {

@@ -4,11 +4,31 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useResizeObserver from "@react-hook/resize-observer";
 import { useSetRecoilState } from "recoil";
 
 import { elementsScreenSizeState } from "../apps/map/atoms/atoms";
+
+/**
+ * Debounces a function call for the specificed delay
+ * @param fn
+ * @param debounceDelay
+ * @return {(function(...[*]): void)|*}
+ */
+export function useDebounce(fn, debounceDelay = 250) {
+    const timeout = useRef();
+
+    useEffect(() => {
+        clearTimeout(timeout.current);
+    }, [fn]);
+
+    return (...args) => {
+        timeout.current = window.setTimeout(() => {
+            fn.apply(this, args);
+        }, debounceDelay);
+    };
+}
 
 /**
  * Hook for preserving the previous state.

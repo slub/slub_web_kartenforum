@@ -9,11 +9,15 @@ import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import clsx from "clsx";
 
-import { mapsInViewportState } from "../../atoms/atoms";
+import {
+  searchIsLoadingState,
+  searchResultDescriptorState,
+} from "../../atoms/atoms";
 import { translate } from "../../../../util/util";
 import FacetedSearch from "../FacetedSearch/FacetedSearch";
 import MapSearchResultList from "./components/MapSearchResultList/MapSearchResultList";
 import ToggleFacetsButton from "./components/ToggleFacetsButton/ToggleFacetsButton";
+import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner";
 
 import "./MapSearch.scss";
 
@@ -24,7 +28,8 @@ export const MapSearch = () => {
   // state
 
   const [isFacetedSearchOpen, setIsFacetedSearchOpen] = useState(false);
-  const { mapCount } = useRecoilValue(mapsInViewportState);
+  const isSearchLoading = useRecoilValue(searchIsLoadingState);
+  const { mapCount } = useRecoilValue(searchResultDescriptorState);
 
   ////
   // Handler section
@@ -50,6 +55,11 @@ export const MapSearch = () => {
                 ? translate("mapsearch-found-no-maps")
                 : `${mapCount} ${translate("mapsearch-found-maps")}`}
             </div>
+            {isSearchLoading && (
+              <div className="loading-spinner">
+                <LoadingSpinner />
+              </div>
+            )}
             <ToggleFacetsButton
               onClick={handleToggleFacetedSearch}
               isOpen={isFacetedSearchOpen}

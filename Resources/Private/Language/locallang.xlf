@@ -237,6 +237,12 @@
 			<trans-unit id="plugin.map.mapsearchlistelement.notGeoref">
             	<source>Not georeferenced</source>
             </trans-unit>
+            <trans-unit id="plugin.map.mapsearchlistelement.loading">
+                <source>Loading</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapsearchlistelement.unknown">
+                <source>Unknown</source>
+            </trans-unit>
 			<trans-unit id="plugin.map.layermanagement.showMap">
 				<source>Display map</source>
 			</trans-unit>
