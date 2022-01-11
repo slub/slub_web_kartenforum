@@ -2,17 +2,13 @@
 # Configure FE Login to the VKF needs
 #######################################################
 
-plugin.tx_felogin_pi1 {
+plugin.tx_felogin_login {
     domains = kartenforum.slub-dresden.de
     exposeNonexistentUserInForgotPasswordDialog = 1
     email_from = no-reply@slub-dresden.de
     email_fromName = Virtuelles Kartenforum VK 2.0
-    templateFile = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Login.html
-}
-
-# redirect to login page if requested page is restricted
-# https://docs.typo3.org/typo3cms/extensions/felogin/7.6/Examples/
-config {
-    typolinkLinkAccessRestrictedPages = {$config.loginPage}
-    typolinkLinkAccessRestrictedPages_addParams = &return_url=###RETURN_URL###
+    view.templateRootPaths {
+        0 = EXT:felogin/Resources/Private/Templates/
+        10 = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/
+    }
 }

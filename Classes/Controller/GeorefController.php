@@ -1,4 +1,5 @@
 <?php
+
 namespace Slub\SlubWebKartenforum\Controller;
 
 /***************************************************************
@@ -29,22 +30,24 @@ namespace Slub\SlubWebKartenforum\Controller;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\View\JsonView;
 
 /**
  * GeorefController
  */
-class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class GeorefController extends ActionController
 {
 
     /**
-	 * feUserRepository
-	 *
-	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
-	 */
-	protected $feUserRepository;
+     * feUserRepository
+     *
+     * @var FrontendUserRepository
+     */
+    protected $feUserRepository;
 
-	/**
-     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $feUserRepository
+    /**
+     * @param FrontendUserRepository $feUserRepository
      */
     public function injectfeUserRepository(FrontendUserRepository $feUserRepository)
     {
@@ -65,24 +68,24 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * Returns the global settings from the extension
      */
-    private function getSettings() {
+    private function getSettings()
+    {
         return $settings = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum'];
     }
 
     /**
-     * This method is necessary for proper generation of json responses
+     * Create JSON response
+     * @var string
      */
-    public function initializeAction()
-    {
-        $this->defaultViewObjectName = \TYPO3\CMS\Extbase\Mvc\View\JsonView::class;
-    }
+    protected $defaultViewObjectName = JsonView::class;
 
     /**
      * Performs http get request to the georeference service
+     * @return \Psr\Http\Message\ResponseInterface Response object (ResponseInterface)
      * @var string
-     * @return HTTP Response object (ResponseInterface)
      */
-    public function doGET($path) {
+    public function doGET($path)
+    {
         // Extract settings for querying the georeference service
         $settings = $this->getSettings();
         $serviceUrl = empty($settings['georefApi']) ? NULL : $settings['georefApi'];
@@ -100,7 +103,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             'headers' => ['Accept' => 'application/json']
         ];
 
-        if (!is_null($basicAuthUser)  && !is_null($basicAuthPassword)) {
+        if (!is_null($basicAuthUser) && !is_null($basicAuthPassword)) {
             // Perform GET Request without basic auth
             $configuration['auth'] = [$basicAuthUser, $basicAuthPassword];
         }
@@ -110,11 +113,12 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
     /**
      * Performs http get request
-     * @var string
+     * @return \Psr\Http\Message\ResponseInterface Response object (ResponseInterface)
      * @var any
-     * @return HTTP Response object (ResponseInterface)
+     * @var string
      */
-    public function doPOST($path, $json_request) {
+    public function doPOST($path, $json_request)
+    {
         // Extract settings for querying the georeference service
         $settings = $this->getSettings();
         $serviceUrl = empty($settings['georefApi']) ? NULL : $settings['georefApi'];
@@ -137,7 +141,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             $configuration['json'] = $jsonRequest;
         }
 
-        if (!is_null($basicAuthUser)  && !is_null($basicAuthPassword)) {
+        if (!is_null($basicAuthUser) && !is_null($basicAuthPassword)) {
             // Perform GET Request without basic auth
             $configuration['auth'] = [$basicAuthUser, $basicAuthPassword];
         }
@@ -154,7 +158,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $response = $this->doGET('/statistics');
 
         if ($response) {
-            $content  = $response->getBody()->getContents();
+            $content = $response->getBody()->getContents();
             $this->view->assign('value', json_decode($content, true));
         }
     }
@@ -171,7 +175,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $response = $this->doGET('/transformations/maps/' . $mapId . '?return_all=True');
 
         if ($response) {
-            $content  = $response->getBody()->getContents();
+            $content = $response->getBody()->getContents();
             $this->view->assign('value', json_decode($content, true));
         }
     }
@@ -188,7 +192,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $response = $this->doGET('/transformations/users/' . $userId);
 
         if ($response) {
-            $content  = $response->getBody()->getContents();
+            $content = $response->getBody()->getContents();
             $this->view->assign('value', json_decode($content, true));
         }
     }
@@ -206,7 +210,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $response = $this->doGET('/transformations/validations/' . $validation);
 
         if ($response) {
-            $content  = $response->getBody()->getContents();
+            $content = $response->getBody()->getContents();
             $this->view->assign('value', json_decode($content, true));
         }
     }
@@ -233,7 +237,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $response = $this->doGET('/user/' . $feUserObj->getUsername() . '/history');
 
         if ($response) {
-            $content  = $response->getBody()->getContents();
+            $content = $response->getBody()->getContents();
             $this->view->assign('value', json_decode($content, true));
         }
     }
@@ -260,7 +264,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             );
 
             if ($response) {
-                $content  = $response->getBody()->getContents();
+                $content = $response->getBody()->getContents();
                 $this->view->assign('value', json_decode($content, true));
             }
         } else {
@@ -291,7 +295,7 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             );
 
             if ($response) {
-                $content  = $response->getBody()->getContents();
+                $content = $response->getBody()->getContents();
                 $this->view->assign('value', json_decode($content, true));
             }
         } else {
@@ -302,7 +306,8 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * Action for querying rectified image for a given mapId and params
      */
-    public function postTransformationTryAction() {
+    public function postTransformationTryAction()
+    {
         $requestParams = GeneralUtility::_GP('req');
 
         // Build url and request service
@@ -312,8 +317,8 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         );
 
         if ($response) {
-            $content  = $response->getBody()->getContents();
+            $content = $response->getBody()->getContents();
             $this->view->assign('value', json_decode($content, true));
         }
-     }
+    }
 }

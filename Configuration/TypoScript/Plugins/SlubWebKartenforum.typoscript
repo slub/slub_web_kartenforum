@@ -46,7 +46,7 @@ tt_content.slubwebkartenforum_admin {
     }
 }
 
-// The content element for the complex georeference UI
+// The content element setup for the complex georeference UI
 tt_content.slubwebkartenforum_georeference = FLUIDTEMPLATE
 tt_content.slubwebkartenforum_georeference {
     file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Georeference.html
@@ -60,6 +60,12 @@ tt_content.slubwebkartenforum_georeference {
     }
 }
 
+// The georeference plugin itself
+plugin.tx_slubwebkartenforum_georeference {
+    view.templateRootPaths.10 = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/
+    features.requireCHashArgumentForActionArguments = 0
+}
+
 // The signup content element
 plugin.tx_slubwebkartenforum_signup {
     view.templateRootPaths.10 = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/
@@ -69,15 +75,5 @@ plugin.tx_slubwebkartenforum_signup {
 
     persistence {
         storagePid = {$config.userStoragePid}
-        classes {
-            Slub\SlubWebKartenforum\Domain\Model\User {
-                mapping {
-                    tableName = fe_users
-                    columns {
-                        name.mapOnProperty = name
-                    }
-                }
-            }
-        }
     }
 }

@@ -64,7 +64,7 @@ class AuthController extends ActionController
      * userGroupRepository
      *
      * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserGroupRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $userGroupRepository;
 
@@ -72,7 +72,7 @@ class AuthController extends ActionController
      * persistenceManager
      *
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $persistenceManager;
 

@@ -190,6 +190,5 @@ jsonApi {
         xhtml_cleaning = 0
         debug = 0
     }
-
-    10 < tt_content.list.20.slubwebkartenforum_georeference
+    10 < tt_content.slubwebkartenforum_georeference.20
 }
