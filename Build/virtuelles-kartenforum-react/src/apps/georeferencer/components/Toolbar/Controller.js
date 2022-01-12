@@ -8,7 +8,7 @@ import Collection from "ol/Collection";
 import Feature from "ol/Feature";
 import GeoJSON from "ol/format/GeoJSON";
 import Point from "ol/geom/Point";
-import * as proj from "ol/proj";
+import { transform } from "ol/proj";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import round from "lodash.round";
@@ -222,7 +222,7 @@ export class Controller extends Observer {
                 // Add target gcp
                 const trgFeature = new Feature(
                     new Point(
-                        proj.transform(
+                        transform(
                             this.params_.gcps[i].target,
                             this.params_.target,
                             this.trgMap_.getView().getProjection()
@@ -340,7 +340,7 @@ export class Controller extends Observer {
                 source: transformGeoToPixel(
                     srcFt.getGeometry().getCoordinates()
                 ),
-                target: proj.transform(
+                target: transform(
                     trgFt.getGeometry().getCoordinates(),
                     this.trgMap_.getView().getProjection(),
                     this.params_.target

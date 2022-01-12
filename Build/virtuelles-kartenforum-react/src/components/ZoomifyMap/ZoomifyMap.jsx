@@ -8,15 +8,15 @@ import React, { useRef, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import DragZoom from "ol/src/interaction/DragZoom";
-import Fullscreen from "ol/src/control/FullScreen";
-import { defaults as defaultInteractions } from "ol/src/interaction";
-import Map from "ol/src/Map";
-import TileLayer from "ol/src/layer/WebGLTile";
-import View from "ol/src/View";
-import Zoom from "ol/src/control/Zoom";
-import Zoomify from "ol/src/source/Zoomify";
-import ZoomToExtent from "ol/src/control/ZoomToExtent";
+import DragZoom from "ol/interaction/DragZoom";
+import Fullscreen from "ol/control/FullScreen";
+import { defaults as defaultInteractions } from "ol/interaction";
+import Map from "ol/Map";
+import TileLayer from "ol/layer/WebGLTile";
+import View from "ol/View";
+import Zoom from "ol/control/Zoom";
+import Zoomify from "ol/source/Zoomify";
+import ZoomToExtent from "ol/control/ZoomToExtent";
 import { translate } from "../../util/util";
 import ImageManipulationControl, {
   variables,

@@ -7,7 +7,7 @@
 import { initializeSupportedCRS } from "../../../util/geo";
 import { boundingExtent } from "ol/extent";
 import { toLonLat } from "ol/proj";
-import GeoJSON from "ol/src/format/GeoJSON";
+import GeoJSON from "ol/format/GeoJSON";
 
 /**
  * Extracts a extent from a given transformation. The extent is always computed in EPSG:4326

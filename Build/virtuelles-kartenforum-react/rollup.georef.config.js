@@ -16,9 +16,11 @@ import scss from "rollup-plugin-scss";
 import babel from "@rollup/plugin-babel";
 import builtins from "rollup-plugin-node-builtins";
 import image from "@rollup/plugin-image";
+import { terser } from "rollup-plugin-terser";
 
 import {
     cssOutputDir,
+    isProduction,
     javascriptOutputDir,
     outputDir,
 } from "./rollup.constants";
@@ -51,24 +53,28 @@ export const configs = {
         superOnWarn(warning);
     },
     plugins: [
-        builtins(),
-        babel({
-            sourceMaps: false,
-            inputSourceMap: false,
-            presets: ["@babel/preset-react"],
-            babelHelpers: "bundled",
-        }),
-        replace({
-            "process.env.NODE_ENV": JSON.stringify("production"),
-        }),
-        peerDepsExternal(),
+        commonjs({ sourceMap: false }),
         resolve({
             mainFields: ["browser", "jsnext"],
-            extensions: [".js", ".jsx", ".json"],
+            extensions: [".mjs", ".js", ".jsx", ".json"],
             preferBuiltins: true,
         }),
+        builtins(),
+        babel({
+            babelHelpers: "bundled",
+            exclude: "node_modules/**",
+            inputSourceMap: false,
+            presets: ["@babel/preset-react"],
+            sourceMaps: false,
+        }),
+        replace({
+            "process.env.NODE_ENV": isProduction
+                ? JSON.stringify("production")
+                : JSON.stringify("development"),
+        }),
+        peerDepsExternal(),
+
         rollupJson(),
-        commonjs(),
         scss({
             output: path.resolve(
                 __dirname,
@@ -76,7 +82,8 @@ export const configs = {
             ),
             outputStyle: "compressed",
         }),
-        image({dom: true}),
+        image({ dom: true }),
+        isProduction && terser(),
     ],
     preserveEntrySignatures: "strict",
 };

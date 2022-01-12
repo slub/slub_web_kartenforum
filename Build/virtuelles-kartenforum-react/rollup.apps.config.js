@@ -16,9 +16,11 @@ import scss from "rollup-plugin-scss";
 import babel from "@rollup/plugin-babel";
 import builtins from "rollup-plugin-node-builtins";
 import image from "@rollup/plugin-image";
+import { terser } from "rollup-plugin-terser";
 
 import {
     cssOutputDir,
+    isProduction,
     javascriptOutputDir,
     outputDir,
 } from "./rollup.constants";
@@ -53,13 +55,16 @@ export const configs = {
     plugins: [
         builtins(),
         babel({
-            sourceMaps: false,
+            babelHelpers: "bundled",
+            exclude: "node_modules/**",
             inputSourceMap: false,
             presets: ["@babel/preset-react"],
-            babelHelpers: "bundled",
+            sourceMaps: false,
         }),
         replace({
-            "process.env.NODE_ENV": JSON.stringify("production"),
+            "process.env.NODE_ENV": isProduction
+                ? JSON.stringify("production")
+                : JSON.stringify("development"),
         }),
         peerDepsExternal(),
         resolve({
@@ -76,7 +81,8 @@ export const configs = {
             ),
             outputStyle: "compressed",
         }),
-        image({dom: true}),
+        image({ dom: true }),
+        isProduction && terser(),
     ],
     preserveEntrySignatures: "strict",
 };

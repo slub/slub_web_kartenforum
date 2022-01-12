@@ -8,3 +8,4 @@
 export const cssOutputDir = "Css/";
 export const javascriptOutputDir = "JavaScript/";
 export const outputDir = "../../Resources/Public/";
+export const isProduction = process.env.NODE_ENV === "production";

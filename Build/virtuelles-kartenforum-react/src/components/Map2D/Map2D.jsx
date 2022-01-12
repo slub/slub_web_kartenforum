@@ -6,15 +6,15 @@
  */
 import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import DragZoom from "ol/src/interaction/DragZoom";
-import Fullscreen from "ol/src/control/FullScreen";
-import { defaults as defaultInteractions } from "ol/src/interaction";
-import Map from "ol/src/Map";
-import Tile from "ol/src/layer/Tile";
-import View from "ol/src/View";
-import Zoom from "ol/src/control/Zoom";
-import ZoomToExtent from "ol/src/control/ZoomToExtent";
-import XYZ from "ol/src/source/XYZ";
+import DragZoom from "ol/interaction/DragZoom";
+import Fullscreen from "ol/control/FullScreen";
+import { defaults as defaultInteractions } from "ol/interaction";
+import Map from "ol/Map";
+import Tile from "ol/layer/Tile";
+import View from "ol/View";
+import Zoom from "ol/control/Zoom";
+import ZoomToExtent from "ol/control/ZoomToExtent";
+import XYZ from "ol/source/XYZ";
 import { transformExtent } from "ol/proj";
 import { translate } from "../../util/util";
 import LayerSpyControl from "../Controls/LayerSpyControl";

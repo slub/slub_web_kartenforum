@@ -16,9 +16,11 @@ import scss from "rollup-plugin-scss";
 import babel from "@rollup/plugin-babel";
 import builtins from "rollup-plugin-node-builtins";
 import image from "@rollup/plugin-image";
+import { terser } from "rollup-plugin-terser";
 
 import {
     cssOutputDir,
+    isProduction,
     javascriptOutputDir,
     outputDir,
 } from "./rollup.constants";
@@ -39,7 +41,7 @@ export const configs = {
         ),
         format: "iife",
         name: "vk2",
-        sourcemap: "inline",
+        sourcemap: isProduction ? false : "inline",
     },
     onwarn: function (warning, superOnWarn) {
         if (warning.code === "THIS_IS_UNDEFINED") {
@@ -51,12 +53,15 @@ export const configs = {
         builtins(),
         babel({
             babelHelpers: "bundled",
+            exclude: "node_modules/**",
             sourceMaps: false,
             inputSourceMap: false,
             presets: ["@babel/preset-react"],
         }),
         replace({
-            "process.env.NODE_ENV": JSON.stringify("production"),
+            "process.env.NODE_ENV": isProduction
+                ? JSON.stringify("production")
+                : JSON.stringify("development"),
         }),
         peerDepsExternal(),
         resolve({
@@ -66,7 +71,7 @@ export const configs = {
             preferBuiltins: true,
         }),
         rollupJson(),
-        commonjs(),
+        commonjs({ sourceMap: false }),
         scss({
             output: path.resolve(
                 __dirname,
@@ -77,6 +82,7 @@ export const configs = {
         image({
             dom: true,
         }),
+        isProduction && terser(),
     ],
     preserveEntrySignatures: "strict",
 };

@@ -6,10 +6,10 @@
  */
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import Map from "ol/src/Map";
-import Polygon from "ol/src/geom/Polygon";
-import Tile from "ol/src/layer/Tile";
-import TileWMS from "ol/src/source/TileWMS";
+import Map from "ol/Map";
+import Polygon from "ol/geom/Polygon";
+import Tile from "ol/layer/Tile";
+import TileWMS from "ol/source/TileWMS";
 
 /**
  * Transforms a given polygon geometry to a array of clip pixel.
