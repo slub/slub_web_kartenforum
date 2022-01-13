@@ -53,12 +53,6 @@ export const configs = {
         superOnWarn(warning);
     },
     plugins: [
-        commonjs({ sourceMap: false }),
-        resolve({
-            mainFields: ["browser", "jsnext"],
-            extensions: [".mjs", ".js", ".jsx", ".json"],
-            preferBuiltins: true,
-        }),
         builtins(),
         babel({
             babelHelpers: "bundled",
@@ -73,8 +67,13 @@ export const configs = {
                 : JSON.stringify("development"),
         }),
         peerDepsExternal(),
-
+        resolve({
+            mainFields: ["browser", "jsnext"],
+            extensions: [".mjs", ".js", ".jsx", ".json"],
+            preferBuiltins: true,
+        }),
         rollupJson(),
+        commonjs({ sourceMap: false }),
         scss({
             output: path.resolve(
                 __dirname,
