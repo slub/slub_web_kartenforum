@@ -403,6 +403,14 @@
                 <source>Projection</source>
             </trans-unit>
 
+            <!-- Global > Map > MarkerPicker -->
+            <trans-unit id="plugin.map.markerpicker.select">
+                <source>Select marker</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.markerpicker.preview">
+                <source>Preview of the selected marker</source>
+            </trans-unit>
+
             <!-- Global > Map > Dropzone -->
             <trans-unit id="plugin.map.dropzone.wrongFiletype">
                 <source>Wrong filetype</source>
@@ -411,7 +419,6 @@
             <trans-unit id="plugin.map.dropzone.drop">
                 <source>Drop geojson file</source>
             </trans-unit>
-
 
 
 			<!-- Newly sorted -->

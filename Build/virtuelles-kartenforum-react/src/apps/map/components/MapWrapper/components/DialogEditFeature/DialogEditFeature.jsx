@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Feature from "ol/Feature";
 import { Button, Modal, Table } from "react-bootstrap";
+import { useRecoilValue } from "recoil";
 
 import DialogEditFeatureRow from "./DialogEditFeatureRow/DialogEditFeatureRow";
 import {
@@ -23,6 +24,7 @@ import {
   getNonUniqueRows,
 } from "./util/util";
 import { translate } from "../../../../../../util/util";
+import { map3dState } from "../../../../atoms/atoms";
 
 import "./DialogEditFeature.scss";
 
@@ -36,6 +38,7 @@ export const DialogEditFeature = ({ feature, onClose, onDelete }) => {
   // state
   const [errorRowIndices, setErrorRowIndices] = useState([]);
   const [errorMessage, setErrorMessage] = useState(undefined);
+  const is3dEnabled = useRecoilValue(map3dState);
   const [rows, setRows] = useState(filterCustomProperties(feature));
   const styles = feature.getStyle();
 
@@ -213,6 +216,7 @@ export const DialogEditFeature = ({ feature, onClose, onDelete }) => {
                   return (
                     geometryTypes.includes(feature.getGeometry().getType()) && (
                       <DialogEditFeatureRow
+                        debounceChanges={is3dEnabled}
                         onChange={handleStyleChange(changeHandler)}
                         key={`${sk}_${feature.ol_uid}`}
                         isHeaderEditable={false}
@@ -234,6 +238,7 @@ export const DialogEditFeature = ({ feature, onClose, onDelete }) => {
 
                   return (
                     <DialogEditFeatureRow
+                      debounceChanges={is3dEnabled}
                       onChange={handleStyleChange(changeHandler)}
                       key={`${pk}_${feature.ol_uid}`}
                       isHeaderEditable={false}

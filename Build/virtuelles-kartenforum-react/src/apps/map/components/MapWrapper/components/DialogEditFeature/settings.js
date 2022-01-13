@@ -4,6 +4,8 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
+import { Icon, Style } from "ol/style";
+
 import {
     generateFillChangeHandler,
     generateStrokeChangeHandler,
@@ -11,11 +13,27 @@ import {
     updateAlphaChannel,
     updateColorChannels,
 } from "./util/util";
+import { defaultIconSettings } from "../../defaultStyles";
 
 /**
  * Configure styling fields of the geojson edit dialog
  */
 export const styleFieldSettings = {
+    marker: {
+        changeHandler: (feature, newValue) => {
+            const newStyle = new Style({
+                image: new Icon(
+                    Object.assign({}, defaultIconSettings, { src: newValue })
+                ),
+            });
+            feature.setStyle(newStyle);
+        },
+        geometryTypes: ["Point", "MultiPoint"],
+        type: "marker",
+        valueExtractor: (style) => {
+            return style.getImage().getSrc();
+        },
+    },
     fill: {
         changeHandler: generateFillChangeHandler(updateColorChannels),
         geometryTypes: [

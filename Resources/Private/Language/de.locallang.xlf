@@ -327,6 +327,14 @@
                 <source><![CDATA[Projection]]></source>
                 <target><![CDATA[Projektion]]></target>
             </trans-unit>
+            <trans-unit id="plugin.map.markerpicker.select" approved="yes">
+                <source><![CDATA[Select marker]]></source>
+                <target><![CDATA[Marker auswählen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.markerpicker.preview" approved="yes">
+                <source><![CDATA[Preview of the selected marker]]></source>
+                <target><![CDATA[Vorschaubild des ausgewählten Markers]]></target>
+            </trans-unit>
             <trans-unit id="plugin.map.dropzone.wrongFiletype" approved="yes">
                 <source><![CDATA[Wrong filetype]]></source>
                 <target><![CDATA[Falscher Dateityp]]></target>

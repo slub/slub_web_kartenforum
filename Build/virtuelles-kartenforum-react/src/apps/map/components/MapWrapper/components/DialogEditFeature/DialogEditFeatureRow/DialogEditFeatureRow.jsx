@@ -4,13 +4,15 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
 import "./DialogEditFeatureRow.scss";
+import MarkerPicker from "./components/MarkerPicker";
 
 export const DialogEditFeatureRow = ({
+  debounceChanges,
   error,
   onBlur,
   onChange,
@@ -20,6 +22,7 @@ export const DialogEditFeatureRow = ({
   value,
 }) => {
   const headerInputRef = useRef();
+  const timeoutRef = useRef();
   const valueInputRef = useRef();
 
   ///
@@ -61,11 +64,21 @@ export const DialogEditFeatureRow = ({
    * Propagate changes
    * @param e
    */
-  const handleChange = (e) => {
-    if (onChange !== undefined) {
-      onChange(e.target.value);
-    }
-  };
+  const handleChange = useCallback(
+    (e) => {
+      if (onChange !== undefined) {
+        if (debounceChanges) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = setTimeout(() => {
+            onChange(e.target.value);
+          }, 300);
+        } else {
+          onChange(e.target.value);
+        }
+      }
+    },
+    [debounceChanges]
+  );
 
   return (
     <tr className="vkf-feature-edit-dialog-row">
@@ -79,19 +92,24 @@ export const DialogEditFeatureRow = ({
         />
       </th>
       <td className={clsx(error && "error")}>
-        <input
-          {...inputProps}
-          defaultValue={value}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          ref={valueInputRef}
-        />
+        {inputProps.type === "marker" ? (
+          <MarkerPicker onChange={onChange} src={value} />
+        ) : (
+          <input
+            {...inputProps}
+            defaultValue={value}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            ref={valueInputRef}
+          />
+        )}
       </td>
     </tr>
   );
 };
 
 DialogEditFeatureRow.propTypes = {
+  debounceChanges: PropTypes.bool,
   error: PropTypes.bool,
   inputProps: PropTypes.shape({
     max: PropTypes.number,

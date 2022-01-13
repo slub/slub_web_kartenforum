@@ -4,20 +4,27 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-
 import { Circle as CircleStyle, Icon, Fill, Stroke, Style } from "ol/style";
 
-const image = new Icon({
+import {
+    getMarkerUrl,
+    MARKERS,
+} from "./components/DialogEditFeature/DialogEditFeatureRow/components/MarkerPicker";
+
+export const defaultIconSettings = {
     anchor: [0.5, 46],
     anchorOrigin: "bottom-left",
     anchorXUnits: "fraction",
     anchorYUnits: "pixels",
-    src: "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/defaultMarker.png",
-});
+    src: getMarkerUrl(MARKERS[0]),
+    scale: 0.75,
+};
+
+const image = new Icon(defaultIconSettings);
 
 export const defaultStyles = {
     Point: new Style({
-        image: image,
+        image,
     }),
     LineString: new Style({
         stroke: new Stroke({
@@ -32,7 +39,7 @@ export const defaultStyles = {
         }),
     }),
     MultiPoint: new Style({
-        image: image,
+        image,
     }),
     MultiPolygon: new Style({
         stroke: new Stroke({
