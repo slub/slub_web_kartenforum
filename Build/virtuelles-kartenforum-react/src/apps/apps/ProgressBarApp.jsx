@@ -11,37 +11,6 @@ import SettingsProvider from "../../SettingsProvider";
 import "./ProgressBarApp.scss";
 
 /**
- * @param {*} props
- * @returns {JSX.Element}
- * @constructor
- */
-function ProgressText(props) {
-  const marginLeft = `-${props.progress}%`;
-  if (props.languageCode === "de") {
-    return (
-      <div style={{ marginLeft: marginLeft }}>
-        Bereits <b>{props.mapsDone}</b> von <b>{props.totalPoints}</b> Karten
-        georeferenziert.
-      </div>
-    );
-  } else {
-    return (
-      <div style={{ marginLeft: marginLeft }}>
-        Already <b>{props.mapsDone}</b> of <b>{props.totalPoints}</b> maps
-        georeferenced.
-      </div>
-    );
-  }
-}
-
-ProgressText.propTypes = {
-  languageCode: PropTypes.oneOf(["de", "en"]),
-  mapsDone: PropTypes.number,
-  progress: PropTypes.number,
-  totalPoints: PropTypes.number,
-};
-
-/**
  * This React components is bilingual and works with the language codes "en" and "de"
  * @returns {JSX.Element}
  * @constructor
@@ -69,58 +38,71 @@ export const ProgressBarApp = () => {
     fetchData();
   }, [setStatistics]);
 
-  console.log(statistics);
   return (
     <div className="vkf-apps-progressbar">
       {statistics !== null && (
         <div>
           <div className="progressbar-container">
-            <div className="text">
-              <ProgressText {...statistics} languageCode={languageCode} />
-            </div>
+            <h4>
+              {languageCode === "de"
+                ? "Fortschritt in der Georeferenzierung"
+                : "Progress in georeferencing"}
+            </h4>
+            <p className="results">
+              {languageCode === "de" ? (
+                <span>
+                  Bereits <strong>{statistics.mapsDone}</strong> von{" "}
+                  <strong>{statistics.totalPoints}</strong> Karten
+                  georeferenziert.
+                </span>
+              ) : (
+                <span>
+                  Already <strong>{statistics.mapsDone}</strong> of{" "}
+                  <strong>{statistics.totalPoints}</strong> maps georeferenced.
+                </span>
+              )}
+            </p>
             <div className="bar">
               <div
                 className="done"
                 style={{ width: `${statistics.progress}%` }}
-              ></div>
-              <div
-                className="todo"
-                style={{ marginLeft: `${statistics.progress}%` }}
-              ></div>
+              />
             </div>
           </div>
           <div className="overview-ranking">
             <div>
-              <p>
+              <h4>
                 {languageCode === "de"
-                  ? "Die Top-Georeferenzierer:"
-                  : "The Top-Georeferencer:"}
-              </p>
+                  ? "Die Top-Georeferenzierer"
+                  : "The Top-Georeferencer"}
+              </h4>
               <ol>
-                {statistics.ranking.length > 3 && (
-                  <span className="further-items">[...]</span>
-                )}
                 {statistics.ranking.slice(0, 3).map((u, i) => (
                   <li key={i}>
                     <span>
-                      <b>{u.user_id}:</b> {u.total_points}{" "}
+                      <strong className="user">{u.user_id}:</strong>{" "}
+                      {u.total_points}{" "}
                       {languageCode === "de" ? "Punkte" : "points"}
                     </span>
                   </li>
                 ))}
+                {statistics.ranking.length > 3 && (
+                  <li className="further-items">[...]</li>
+                )}
               </ol>
               <div className="forwarding">
                 <p>
                   {languageCode === "de"
                     ? "Jetzt mithelfen und selbst Punkte sammeln."
                     : "Take part and collect points."}
+                  &nbsp;
+                  <a
+                    title="Frequently Asked Questions (FAQ)"
+                    href={SettingsProvider.getSettings().LINK_TO_FAQ}
+                  >
+                    {languageCode === "de" ? "So einfach geht's" : "Start now."}
+                  </a>
                 </p>
-                <a
-                  title="Frequently Asked Questions (FAQ)"
-                  href={SettingsProvider.getSettings().LINK_TO_FAQ}
-                >
-                  {languageCode === "de" ? "So einfach geht's" : "Start now."}
-                </a>
               </div>
             </div>
           </div>

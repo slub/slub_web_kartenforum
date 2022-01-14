@@ -1,76 +1,101 @@
+@import "../../Resources/Private/Scss/Variables";
+
 .vkf-control-dropdown {
-  width: auto;
-  height: auto;
-  flex-shrink: 1;
-  background-color: rgba(255, 255, 255, 0.4);
-  padding: 2px;
-  margin-right: 10px;
+    .btn-dropdown-vkf-control {
+        .dropdown-toggle {
+            position: relative;
+            border: 1px solid rgba(white, 0.5);
+            background: transparent;
+            padding: 5px 10px 5px 25px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: white;
+            appearance: none;
+            border-radius: 0;
+            margin: 0 5px;
+            transition: $transition;
 
-  .btn-dropdown-vkf-control {
-    .dropdown-toggle {
-      border-radius: 0;
-      background-color: $secondaryColorMain;
-      color: $secondaryColorContrast !important;
-      border: none;
+            .caret {
+                transition: $transition;
+            }
 
-      &:hover {
-        background-color: $secondaryColorDark;
-      }
+            &:hover {
+                background-color: rgba(white, 0.2);
+            }
 
-      &:focus,
-      &:focus-visible {
-        outline: none;
-        border: none;
-        background-color: $secondaryColorDark !important;
-      }
+            &:focus,
+            &:focus-visible {
+                background-color: rgba(white, 0.4);
+                color: white;
+                border-color: white;
+                box-shadow: none;
+            }
+        }
+
+        svg.icon {
+            position: absolute;
+            top: 50%;
+            left: 5px;
+            margin-top: -8px;
+            height: 16px;
+            width: auto;
+            vertical-align: middle;
+            fill: white;
+        }
+
+        ul.dropdown-menu {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            background: white;
+            border-radius: 0;
+
+            li {
+                padding: 0;
+
+                &:before {
+                    display: none;
+                    content: none;
+                }
+
+                a {
+                    padding: 10px 15px 10px 30px;
+                    color: $secondary-color-dark;
+
+                    &:hover {
+                        background: transparent;
+                    }
+
+                    svg.icon {
+                        left: 8px;
+                        fill: $secondary-color-dark;
+                    }
+                }
+            }
+        }
+
+        &.open {
+            .dropdown-toggle {
+                background-color: rgba(white, 0.4);
+
+                .caret {
+                    transform: rotate(-180deg);
+                }
+            }
+        }
     }
 
-    &.open {
-      .dropdown-toggle {
-        background-color: $secondaryColorDark;
-      }
+    &.active {
+        .dropdown {
+            .dropdown-toggle {
+                background: white;
+                color: $secondary-color-dark;
 
-      .dropdown-menu {
-        background-color: $secondaryColorMain;
-      }
+                svg.icon {
+                    fill: $secondary-color-dark;
+                }
+            }
+        }
     }
-
-    .control-option a {
-      color: $secondaryColorContrast;
-      div {
-        display: flex;
-      }
-
-      span {
-        display: inline-block;
-        float: left;
-        line-height: 22px;
-        height: 22px;
-      }
-
-      .icon {
-        width: 22px;
-        background-size: 22px 22px;
-      }
-
-      &:hover {
-        background-color: $secondaryColorDark;
-      }
-
-      &:focus,
-      &:focus-visible {
-        outline: none;
-        border: none;
-        background-color: unset;
-      }
-    }
-  }
-
-  &.active {
-    .dropdown {
-      .dropdown-toggle {
-        background-color: $primaryColorMain !important;
-      }
-    }
-  }
 }

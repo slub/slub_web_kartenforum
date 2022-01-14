@@ -1,0 +1,15 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" lang="en" data-namespace-typo3-fluid="true">
+
+<f:if condition="{gallery.rows}">
+    <div class="image-wrap{f:if(condition: data.imageborder, then: ' has-border')}{f:if(condition: '{gallery.count.files} > 5', then: ' multiline-gallery')}{f:if(condition: '{gallery.count.files} > 1', then: ' multiple-images')}" data-columns="{gallery.count.columns}" data-images="{gallery.count.files}">
+        <f:for each="{gallery.rows}" as="row">
+            <f:for each="{row.columns}" as="column">
+                <f:if condition="{column.media}">
+                    <f:render partial="Media/Type" arguments="{file: column.media, dimensions: column.dimensions, data: data, settings: settings}"/>
+                </f:if>
+            </f:for>
+        </f:for>
+    </div>
+</f:if>
+
+</html>

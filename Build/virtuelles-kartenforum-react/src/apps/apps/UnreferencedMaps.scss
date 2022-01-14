@@ -1,93 +1,179 @@
-@import "../../_sass/variables";
+@import "../../Resources/Private/Scss/Variables";
 
 .vkf-apps-unreferenced-maps {
-  overflow: hidden;
-  display: block;
-  position: absolute;
-  top: 90px;
-  bottom: 25px;
-  left: 0;
-  right: 0;
-  padding: 0 20px;
+    .quick-search {
+        position: relative;
+        max-width: 700px;
+        padding-top: 10px;
 
-  > div {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+        label {
+            position: absolute;
+            top: 30px;
+            left: 5px;
+            font-size: 12px;
+            color: $color-midgrey;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 0;
+            padding: 2px 5px;
+            background: white;
+            z-index: 2;
+            opacity: 0;
+            transition: $transition;
+        }
 
-  header {
-    display: block;
-    margin-bottom: 10px;
+        input {
+            position: relative;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid $color-midgrey;
+            appearance: none;
+            transition: $transition;
+        }
 
-    h1 {
-      padding: 0;
-      color: $primaryColorMain;
-      font-size: 30px;
-      font-weight: 300;
-      margin: 15px 0 5px 0;
+        &:focus-within {
+            label {
+                top: 0;
+                opacity: 1;
+            }
+
+            input {
+                &::placeholder {
+                    color: transparent;
+                }
+            }
+        }
+
+        &:after {
+            position: absolute;
+            top: 18px;
+            right: 10px;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: block;
+            background-color: $color-grey;
+            -webkit-mask-image: url("../Images/searchBtn.svg");
+            mask-image: url("../Images/searchBtn.svg");
+            content: " ";
+        }
     }
 
-    h2 {
-      color: #666;
-      font-weight: 600;
-      font-size: 16px;
-      text-transform: uppercase;
-      margin-bottom: 0;
-      padding-bottom: 10px;
-      border-bottom: 1px dotted #ccc;
-      position: relative;
-      line-height: 110%;
+    .maps-list {
+        position: relative;
+        margin-top: 20px;
+
+        li {
+            padding: 15px 0;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            border-bottom: 1px solid $color-lightgrey;
+
+            &:first-child {
+                border-top: 1px solid $color-lightgrey;
+            }
+
+            &:before {
+                display: none;
+                content: none;
+            }
+
+            .map-image {
+                flex: 0 0 100%;
+
+                img {
+                    max-width: 120px;
+                }
+            }
+
+            .map-meta {
+                padding: 15px 0 0 0;
+
+                h4 {
+                    margin: 0 0 10px 0;
+                    text-transform: none;
+                    line-height: 1.2;
+                    font-weight: 700;
+                    font-size: 18px;
+                }
+
+                p {
+                    margin: 5px 0;
+                    line-height: 1.2;
+                }
+
+                .map-meta-label {
+                    font-size: 12px;
+                    display: block;
+                    text-transform: uppercase;
+                    color: $color-grey;
+                }
+            }
+
+            .map-link {
+                display: none;
+            }
+        }
+
+        @media screen and (min-width: $tabletLandscapeViewportWidth) {
+            margin-top: 60px;
+            li {
+                padding: 25px 0;
+                flex-wrap: nowrap;
+
+                .map-image {
+                    flex: 0 1 auto;
+                }
+
+                .map-meta {
+                    padding: 0 30px;
+                    flex: 1 0 auto;
+
+                    .map-meta-label {
+                        font-size: 16px;
+                        display: inline;
+                        text-transform: none;
+                    }
+
+                    .map-meta-value {
+                        font-size: 16px;
+                    }
+                }
+
+                .map-links {
+                    display: block;
+                    max-width: 200px;
+
+                    a {
+                        position: relative;
+                        background: $secondary-color-dark;
+                        color: white;
+                        padding: 6px 10px;
+                        text-transform: uppercase;
+                        font-size: 12px;
+                        white-space: nowrap;
+                        margin: 5px 0;
+                        line-height: 1;
+                        font-weight: 700;
+                        border-bottom: 2px solid
+                            darken($secondary-color-dark, 10%);
+                        text-align: center;
+                        display: block;
+
+                        .no-touchevents & {
+                            &:hover {
+                                background: $secondary-color;
+                                border-bottom-color: darken(
+                                    $secondary-color,
+                                    5%
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-  }
-
-  .form-group {
-    .form-control {
-      background: #eee;
-      border-radius: 0;
-      border: 1px solid #eee;
-      box-shadow: none;
-      line-height: 34px;
-      height: 44px;
-    }
-  }
-
-  .content-container {
-    flex-grow: 1;
-    overflow-x: hidden;
-    overflow-y: scroll;
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    li.map-item {
-      width: 100%;
-      padding: 0;
-      margin: 2.5px 0;
-      > div {
-        border: 1px solid;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .image {
-        margin: 10px;
-        height: 120px;
-      }
-      .metadata {
-        flex-grow: 1;
-        padding: 10px;
-      }
-
-      .controls {
-        padding: 10px;
-      }
-    }
-  }
 }

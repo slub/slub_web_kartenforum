@@ -173,6 +173,13 @@ page {
     }
 }
 
+# ADD CUSTOM MARKUP TO FSC CONTENT ELEMENTS
+lib.contentElement {
+    templateRootPaths.55 = EXT:slub_web_kartenforum/Resources/Private/Plugins/fluid_styled_content/Templates/
+    partialRootPaths.55 = EXT:slub_web_kartenforum/Resources/Private/Plugins/fluid_styled_content/Partials/
+    layoutRootPaths.55 = EXT:slub_web_kartenforum/Resources/Private/Plugins/fluid_styled_content/Layouts/
+}
+
 # THE JSON API FOR THE GEOREFERENCE SERVICE
 jsonApi = PAGE
 jsonApi {

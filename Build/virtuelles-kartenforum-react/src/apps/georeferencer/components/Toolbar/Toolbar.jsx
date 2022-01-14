@@ -47,26 +47,38 @@ function getDropDownOptions() {
     {
       id: ID_CONTROLS.ADD_GCP,
       title: translate("georef-setgcp"),
-      iconClassName: "icon-add-gcp",
+      iconClassName: "icon-point-add",
     },
     {
       id: ID_CONTROLS.MOVE_GCP,
       title: translate("georef-movegcp"),
-      iconClassName: "icon-move-gcp",
+      iconClassName: "icon-point-move",
     },
     {
       id: ID_CONTROLS.DEL_GCP,
       title: translate("georef-delgcp"),
-      iconClassName: "icon-del-gcp",
+      iconClassName: "icon-point-remove",
     },
   ];
 }
 
 function getTransformationOptions() {
   return [
-    { id: ID_TRANSFORMATIONS.AFFINE, title: "Affine", iconClassName: "" },
-    { id: ID_TRANSFORMATIONS.POLYNOM, title: "Polynom", iconClassName: "" },
-    { id: ID_TRANSFORMATIONS.TPS, title: "TPS", iconClassName: "" },
+    {
+      id: ID_TRANSFORMATIONS.AFFINE,
+      title: "Affine",
+      iconClassName: "icon-layercalc",
+    },
+    {
+      id: ID_TRANSFORMATIONS.POLYNOM,
+      title: "Polynom",
+      iconClassName: "icon-layercalc",
+    },
+    {
+      id: ID_TRANSFORMATIONS.TPS,
+      title: "TPS",
+      iconClassName: "icon-layercalc",
+    },
   ];
 }
 
@@ -267,7 +279,7 @@ export const Toolbar = () => {
         <ControlButton
           activeControl={activeControl}
           id={ID_CONTROLS.ZOOM_PAN}
-          iconClassName="icon-zoom-pan"
+          iconClassName="icon-move"
           onClick={handleClickControl}
           title={translate("georef-movemap")}
         />
@@ -276,11 +288,12 @@ export const Toolbar = () => {
           defaultTitle={translate("georef-editgcp")}
           options={dropdownOptions}
           onClick={handleClickControl}
+          parentIconClassName="icon-points"
         />
         <ControlButton
           activeControl={activeControl}
           id={ID_CONTROLS.DRAW_CLIP}
-          iconClassName="icon-add-gcp"
+          iconClassName="icon-draw"
           onClick={handleClickControl}
           title={translate("georef-drawclip")}
         />
@@ -290,35 +303,21 @@ export const Toolbar = () => {
         <ControlDropDown
           activeControl={selectedAlgorithm}
           className="control-toggle-transformations"
+          parentIconClassName="icon-layercalc"
           disableActiveBehavior={true}
           options={transformationOptions}
           onClick={handleSelectAlgorithm}
-          toggleIcon={
-            <a
-              data-classes="faq"
-              className="vk2-modal-anchor"
-              title="Frequently Asked Questions (FAQ)"
-              href="/faq/#georeferencing-of-maps-algorithm"
-              target="_blank"
-            >
-              <span
-                className="glyphicon glyphicon-info-sign"
-                aria-hidden="true"
-              ></span>
-            </a>
-          }
         />
         <ControlButton
           id="get-rectified-image"
-          className="icon-left"
-          iconClassName="glyphicon glyphicon-refresh"
+          iconClassName="icon-reload"
           onClick={handleClickRectifiedImage}
           title={translate("georef-validate")}
         />
         <ControlButton
           id="confirm-rectified-image"
-          className="icon-left"
-          iconClassName="glyphicon glyphicon-refresh"
+          iconClassName="icon-save"
+          className="save"
           onClick={handleClickConfirm}
           title={translate("georef-confirm")}
         />

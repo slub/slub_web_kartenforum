@@ -11,14 +11,44 @@
   "license": "GPL-2.0-or-later",
   "devDependencies": {
     "autoprefixer": "^10.4.0",
+    "npm-watch": "^0.11.0",
     "postcss": "^8.4.4",
-    "rollup": "^2.60.2",
-    "rollup-plugin-scss": "^3.0.0",
-    "rollup-watch": "^4.3.1",
-    "sass": "^1.44.0"
+    "postcss-cli": "^9.1.0",
+    "sass": "^1.44.0",
+    "terser": "^5.10.0"
   },
   "scripts": {
-    "watch": "./node_modules/.bin/rollup -cw"
+    "sass": "sass --style=compressed ../Resources/Private/Scss/Main.scss:../Resources/Public/Css/frontend.css && postcss ../Resources/Public/Css/frontend.css -r -u autoprefixer",
+    "rte": "sass --style=compressed ../Resources/Private/Scss/Rte.scss:../Resources/Public/Css/rte.css",
+    "js": "terser ../Resources/Private/JavaScript/* --compress --mangle -o ../Resources/Public/JavaScript/frontend.js",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "js": {
+      "patterns": [
+        "../Resources/Private/JavaScript/"
+      ],
+      "extensions": "js",
+      "quiet": true,
+      "runOnChangeOnly": false
+    },
+    "sass": {
+      "patterns": [
+        "../Resources/Private/Scss/"
+      ],
+      "extensions": "scss",
+      "ignore": "../Resources/Private/Scss/Rte.scss",
+      "quiet": true,
+      "runOnChangeOnly": false
+    },
+    "rte": {
+      "patterns": [
+        "../Resources/Private/Scss/Rte.scss"
+      ],
+      "extensions": "scss",
+      "quiet": true,
+      "runOnChangeOnly": false
+    }
   },
   "browserslist": [
     "defaults",

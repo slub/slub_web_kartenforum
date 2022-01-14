@@ -1,54 +1,46 @@
-@import "../../../../_sass/variables";
+@import "../../Resources/Private/Scss/Variables";
 
-.vkf-control-button {
-  width: auto;
-  height: auto;
-  flex-shrink: 1;
-  background-color: rgba(255, 255, 255, 0.4);
-  padding: 2px;
-  margin-right: 10px;
+button.vkf-control-button {
+    position: relative;
+    border: 1px solid rgba(white, 0.5);
+    background: transparent;
+    padding: 5px 10px 5px 25px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    appearance: none;
+    margin: 0 5px;
+    transition: $transition;
 
-  .btn-vkf-control {
-    border-radius: 0;
-    background-color: $secondaryColorMain;
-    color: $secondaryColorContrast !important;
-    border: none;
+    svg.icon {
+        position: absolute;
+        top: 50%;
+        left: 5px;
+        margin-top: -8px;
+        height: 16px;
+        width: auto;
+        vertical-align: middle;
+        fill: white;
+    }
 
     &:hover {
-      background-color: $secondaryColorDark;
+        background-color: rgba(white, 0.2);
     }
 
-    &:focus,
-    &:focus-visible {
-      outline: none;
-      border: none;
+    &.active {
+        background: white;
+        color: $secondary-color-dark;
+
+        svg.icon {
+            fill: $secondary-color-dark;
+        }
     }
 
-    span {
-      display: inline-block;
-      float: left;
-      line-height: 22px;
-      height: 22px;
+    &.save {
+        &:hover {
+            background-color: green;
+            border-color: darken(green, 7%);
+        }
     }
-
-    .icon {
-      width: 22px;
-      background-size: 22px 22px;
-    }
-  }
-
-  &.active {
-    .btn-vkf-control {
-      background-color: $primaryColorMain !important;
-    }
-  }
-
-  &.icon-left {
-    .text {
-      float: right;
-    }
-    .icon {
-      float: left;
-    }
-  }
 }

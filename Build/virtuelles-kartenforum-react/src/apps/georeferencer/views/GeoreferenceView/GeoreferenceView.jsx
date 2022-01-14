@@ -100,11 +100,11 @@ export const GeoreferenceView = (props) => {
   }, []);
 
   return (
-    <div className="vkf-georeference-view row content-container">
-      <div className="col-sm-6 col-md-6 col-lg-6 outer-map-container">
+    <div className="vkf-georeference-view">
+      <div className="outer-map-container">
         <MapSourceView />
       </div>
-      <div className="col-sm-6 col-md-6 col-lg-6 outer-map-container">
+      <div className="outer-map-container">
         {isDataLoaded && (
           <MapTargetView
             extent={extent !== null ? extent : undefined}
@@ -113,7 +113,6 @@ export const GeoreferenceView = (props) => {
           />
         )}
       </div>
-
       {isLoading && <LoadingBar />}
     </div>
   );

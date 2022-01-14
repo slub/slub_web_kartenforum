@@ -6,10 +6,11 @@
  */
 import React from "react";
 import PropTypes from "prop-types";
-import { Dropdown, DropdownButton, MenuItem } from "react-bootstrap";
+import { Dropdown, MenuItem } from "react-bootstrap";
 import clsx from "clsx";
 import { translate } from "../../../../util/util";
 import "./ControlDropDown.scss";
+import SvgIcons from "../../../../components/SvgIcons/SvgIcons";
 
 export const ControlGcpsIds = {
     NONE: "control-none-gcp",
@@ -21,27 +22,27 @@ export const ControlDropDown = (props) => {
     const {
         activeControl,
         className = "",
+        parentIconClassName,
         defaultTitle = "unknown",
         disableActiveBehavior = false,
         options = [
             {
                 id: ControlGcpsIds.ADD,
                 title: translate("georef-setgcp"),
-                iconClassName: "icon-add-gcp",
+                iconClassName: "icon-point-add",
             },
             {
                 id: ControlGcpsIds.MOVE,
                 title: translate("georef-movegcp"),
-                iconClassName: "icon-move-gcp",
+                iconClassName: "icon-point-move",
             },
             {
                 id: ControlGcpsIds.DEL,
                 title: translate("georef-delgcp"),
-                iconClassName: "icon-del-gcp",
+                iconClassName: "icon-point-remove",
             },
         ],
         onClick,
-        toggleIcon,
     } = props;
     const activeOption = options.find((o) => o.id === activeControl);
 
@@ -64,7 +65,7 @@ export const ControlDropDown = (props) => {
                 key={activeOption ? activeOption.id : null}
             >
                 <Dropdown.Toggle>
-                    {toggleIcon !== undefined && toggleIcon}
+                    <SvgIcons name={parentIconClassName} size={24} />
                     {activeOption ? activeOption.title : defaultTitle}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
@@ -74,37 +75,12 @@ export const ControlDropDown = (props) => {
                             onClick={() => handleClick(o.id)}
                             className={clsx("control-option", o.id)}
                         >
-                            <div>
-                                <span className="text">{o.title}</span>
-                                <span
-                                    className={clsx("icon", o.iconClassName)}
-                                />
-                            </div>
+                            <SvgIcons name={`${o.iconClassName}`} />
+                            <span className="text">{o.title}</span>
                         </MenuItem>
                     ))}
                 </Dropdown.Menu>
             </Dropdown>
-
-            {/*<DropdownButton*/}
-            {/*    className="btn-dropdown-vkf-control"*/}
-            {/*    bsStyle="default"*/}
-            {/*    title={activeOption ? activeOption.title : defaultTitle}*/}
-            {/*    key={activeOption ? activeOption.id : null}*/}
-            {/*>*/}
-            {/*    {*/}
-            {/*        options.map(*/}
-            {/*            (o) => (*/}
-            {/*                <MenuItem eventKey={o.id} onClick={() => handleClick(o.id)} className={clsx("control-option", o.id)}>*/}
-            {/*                    <div>*/}
-            {/*                        <span className="text">{o.title}</span>*/}
-            {/*                        <span className={clsx("icon", o.iconClassName)}  />*/}
-            {/*                    </div>*/}
-            {/*                </MenuItem>*/}
-
-            {/*            )*/}
-            {/*        )*/}
-            {/*    }*/}
-            {/*</DropdownButton>*/}
         </div>
     );
 };
@@ -112,6 +88,7 @@ export const ControlDropDown = (props) => {
 ControlDropDown.propTypes = {
     activeControl: PropTypes.string,
     className: PropTypes.string,
+    parentIconClassName: PropTypes.string,
     defaultTitle: PropTypes.string,
     disableActiveBehavior: PropTypes.bool,
     options: PropTypes.arrayOf(
@@ -122,7 +99,6 @@ ControlDropDown.propTypes = {
         })
     ),
     onClick: PropTypes.func.isRequired,
-    toggleIcon: PropTypes.node,
 };
 
 export default ControlDropDown;

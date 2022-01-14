@@ -53,61 +53,63 @@ export const UnreferencedMaps = () => {
 
   return (
     <div className="vkf-apps-unreferenced-maps">
-      <div>
-        <header>
-          <h1>
-            {translate("unreferencedmaps-title")} #{userName}
-          </h1>
-          <h2>
-            {translate("unreferencedmaps-subtitle")}: {maps.length}
-          </h2>
-        </header>
-        <div className="form-group">
-          <input
-            value={searchValue}
-            onChange={onChangeSearchInput}
-            type="text"
-            className="form-control"
-            placeholder={translate("unreferencedmaps-search-placeholder")}
-          />
-        </div>
-        <section className="content-container">
-          <ul>
-            {filteredMaps.map((map, i) => (
-              <li key={i} className="map-item container">
-                <div>
-                  <div className="image">
-                    <img alt="Map Image" src={map.thumb_url} loading="lazy" />
-                  </div>
-                  <div className="metadata">
-                    <p>
-                      <strong>{map.title}</strong>
-                    </p>
-                    <p>
-                      {translate("unreferencedmaps-label-time")}:{" "}
-                      {map.time_published}
-                    </p>
-                    <p>
-                      {translate("unreferencedmaps-label-maptype")}:{" "}
-                      {map.map_type}
-                    </p>
-                  </div>
-                  <div className="controls">
-                    <a
-                      href={`${linkToGeoreference}?map_id=${map.map_id}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="btn btn-primary"
-                    >
-                      {translate("unreferencedmaps-btn-georeference")}
-                    </a>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
+      <h3>
+        {translate("unreferencedmaps-title")} #{userName}
+      </h3>
+      <span className="status-feedback">
+        {translate("unreferencedmaps-subtitle")}: {maps.length}
+      </span>
+      <div className="quick-search">
+        <label htmlFor="quick-search-field">
+          {translate("unreferencedmaps-search-placeholder")}
+        </label>
+        <input
+          id="quick-search-field"
+          value={searchValue}
+          onChange={onChangeSearchInput}
+          type="text"
+          placeholder={translate("unreferencedmaps-search-placeholder")}
+        />
       </div>
+      <ul className="maps-list">
+        {filteredMaps.map((map, i) => (
+          <li key={i} className="map-item">
+            <figure className="map-image">
+              <a
+                href={`${linkToGeoreference}?map_id=${map.map_id}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img alt="Map Image" src={map.thumb_url} loading="lazy" />
+              </a>
+            </figure>
+            <div className="map-meta">
+              <h4>{map.title}</h4>
+              <p>
+                <span className="map-meta-label">
+                  {translate("unreferencedmaps-label-time")}:{" "}
+                </span>
+                <span className="map-meta-value">{map.time_published}</span>
+              </p>
+              <p>
+                <span className="map-meta-label">
+                  {translate("unreferencedmaps-label-maptype")}:{" "}
+                </span>
+                <span className="map-meta-value">{map.map_type}</span>
+              </p>
+            </div>
+            <div className="map-links">
+              <a
+                href={`${linkToGeoreference}?map_id=${map.map_id}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {translate("unreferencedmaps-btn-georeference")}
+              </a>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

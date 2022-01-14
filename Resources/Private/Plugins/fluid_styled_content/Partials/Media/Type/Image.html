@@ -1,0 +1,32 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
+
+<figure class="image">
+    <f:if condition="{file.link}">
+        <f:then>
+            <f:link.typolink parameter="{file.link}" title="{file.title}">
+                <f:render partial="Media/Rendering/Image" arguments="{file: file, dimensions: dimensions, settings: settings}"/>
+            </f:link.typolink>
+        </f:then>
+        <f:else>
+            <div class="single-image-container">
+                <f:if condition="{data.image_zoom}">
+                    <f:then>
+                        <a href="{f:uri.image(image: '{file}', maxWidth: '1200')}" data-fancybox="gallery-{data.uid}" data-caption="{file.description}">
+                            <f:render partial="Media/Rendering/Image" arguments="{file: file, dimensions: dimensions, settings: settings}"/>
+                        </a>
+                    </f:then>
+                    <f:else>
+                        <f:render partial="Media/Rendering/Image" arguments="{file: file, dimensions: dimensions, settings: settings}"/>
+                    </f:else>
+                </f:if>
+            </div>
+        </f:else>
+    </f:if>
+    <f:if condition="{file.description}">
+        <figcaption class="image-caption">
+            {file.description}
+        </figcaption>
+    </f:if>
+</figure>
+
+</html>

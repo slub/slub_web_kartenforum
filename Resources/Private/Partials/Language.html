@@ -48,5 +48,5 @@
         // "rotatenorth-title": "<f:translate key='client.roatenorth.title' extensionName='SlubWebKartenforum' />",
     };
 
-    vk2.SettingsProvider.appendSettings({dictionary: lang_dictionary});
+    if (typeof vk2 !== 'undefined') vk2.SettingsProvider.appendSettings({dictionary: lang_dictionary});
 </script>

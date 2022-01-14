@@ -10,7 +10,6 @@
  */
 
 /*globals $:true, document:true */
-/*jshint esversion: 6 */
 
 $(document).ready(function () {
 
@@ -27,6 +26,27 @@ $(document).ready(function () {
         $(this).parent().toggleClass("submenu-active");
         $(this).next("ul.submenu").ariaToggle();
     });
+
+    // Add container to tables to ensure proper scrolling on smaller devices
+    $("table.contenttable").each(function () {
+        $(this).wrap("<div class=\"table-wrapper\" />");
+    });
+
+    // Accordion lists setup
+    $(".accordion-item h3").each(function () {
+        $(this).parent().append("<a class=\"permalink\" href=\"#" + $(this).parent().attr("id") + "\">Permalink</a>");
+    }).click(function () {
+        $(this).parents(".accordion-item").toggleClass("active");
+        return false;
+    });
+    var hash = $(location).attr("hash");
+    if ($(".accordion > div")[0] && hash) {
+        var destinationElement = $("div" + hash);
+        $(".accordion-item").removeClass("active");
+        destinationElement.find(".accordion-item").addClass("active");
+        $("html,body").animate({scrollTop: (destinationElement.offset().top - 20)}, 500);
+    }
+
 
 });
 

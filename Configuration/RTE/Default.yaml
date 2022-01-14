@@ -8,7 +8,8 @@ editor:
         contentsCss: "EXT:slub_web_kartenforum/Resources/Public/Css/rte.css"
 
         stylesSet:
-            - { name: "Lead", element: "p", attributes: { 'class': 'lead' } }
+            - { name: "Button Link", element: "a", attributes: { class: "btn" } }
+            - { name: "Quote Author", element: "p", attributes: { class: "quote-author" } }
 
         toolbarGroups:
             - { name: styles, groups: [ format, styles ] }
@@ -22,14 +23,14 @@ editor:
             - { name: tools, groups: [ table, specialchar ] }
             - { name: document, groups: [ mode ] }
 
-        format_tags: "p;h1;h2;h3;h4;h5;pre"
+        format_tags: "p;h2;h3;h4;pre"
 
         justifyClasses:
             - text-left
             - text-center
             - text-right
             - text-justify
-
+            -
         extraPlugins:
             - justify
 

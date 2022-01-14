@@ -10,13 +10,13 @@
 <!-- We have to set the language code extra, because if not the fluid template engine will destroy our osm_urls pattern -->
 <f:section name="FooterAssets">
     <script type="text/javascript">
-        vk2.SettingsProvider.updateSettings({
+        vk2.SettingsProvider.appendSettings({
             "LANGUAGE_CODE": "<f:translate key='global.language_code' extensionName='SlubWebKartenforum' />",
         });
     </script>
 
     <script type="text/javascript">
-        vk2.SettingsProvider.updateSettings({
+        vk2.SettingsProvider.appendSettings({
             "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
             "API_GEOREFERENCE_JOB":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postJob&type=9991",
             "API_GEOREFERENCE_STATISTICS":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getStatistics&type=9991",

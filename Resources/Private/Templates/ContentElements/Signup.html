@@ -1,68 +1,62 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
 
-<div class="container" id="vk2-login-form">
-    <div class="panel panel-default panel-vk2RegisterNewUser">
-        <div class="panel-body">
+<div id="vk2-login-form" class="vkf-login">
+    <f:form action="addUser" controller="Auth" extensionName="slubwebkartenforum" pluginName="signup" object="{user}" name="user" additionalAttributes="{role:'form'}">
 
-            <f:form action="addUser" controller="Auth" extensionName="slubwebkartenforum" pluginName="signup" object="{user}" name="user" class="tx-felogin-pi1" additionalAttributes="{role:'form'}">
+        <f:form.validationResults>
+            <f:if condition="{validationResults.flattenedErrors}">
+                <ul class="alert alert-danger" role="alert">
+                    <f:for each="{validationResults.flattenedErrors}" key="propertyPath" as="errors">
+                        <f:for each="{errors}" as="singleError">
+                            <li>
+                                <f:translate key="validationerror_{singleError.code}"/>
+                            </li>
+                        </f:for>
+                    </f:for>
+                </ul>
+            </f:if>
+        </f:form.validationResults>
+        <fieldset>
+            <div class="form-row">
+                <label for="loginNewUsername">
+                    <f:translate key="login.username" extensionName="slubWebKartenforum"/>
+                    <span class="required">*</span>
+                </label>
+                <f:form.textfield type="text" name="username" id="loginNewUsername" property="username" required="required" placeholder="{f:translate(key:'login.username', extensionName:'slubWebKartenforum')}"/>
+            </div>
 
-                <f:form.validationResults>
-                    <f:if condition="{validationResults.flattenedErrors}">
-                        <ul class="alert alert-danger" role="alert">
-                            <f:for each="{validationResults.flattenedErrors}" key="propertyPath" as="errors">
-                                <f:for each="{errors}" as="singleError">
-                                    <li>
-                                        <f:translate key="validationerror_{singleError.code}"/>
-                                    </li>
-                                </f:for>
-                            </f:for>
-                        </ul>
-                    </f:if>
-                </f:form.validationResults>
+            <div class="form-row">
+                <label for="loginNewPassword">
+                    <f:translate key="login.password" extensionName="slubWebKartenforum"/>
+                    <span class="required">*</span></label>
+                <f:form.textfield type="password" name="password" id="loginNewPassword" property="password" required="required" placeholder="{f:translate(key:'login.password', extensionName:'slubWebKartenforum')}"/>
+            </div>
 
-                <div class="form-group {f:if(condition:'{error.username}', then:'alert alert-danger')}">
-                    <label for="loginNewUsername" class="control-label">
-                        <f:translate key="login.username" extensionName="slubWebKartenforum"/>
-                        <span class="required">*</span>
-                    </label>
-                    <f:form.textfield type="text" name="username" class="form-control" id="loginNewUsername" property="username" required="required" placeholder="{f:translate(key:'login.username', extensionName:'slubWebKartenforum')}"/>
-                </div>
-
-                <div class="form-group">
-                    <label for="loginNewPassword" class="control-label">
-                        <f:translate key="login.password" extensionName="slubWebKartenforum"/>
-                        <span class="required">*</span></label>
-                    <f:form.textfield type="password" name="password" class="form-control" id="loginNewPassword" property="password" required="required" placeholder="{f:translate(key:'login.password', extensionName:'slubWebKartenforum')}"/>
-                </div>
-
-                <div class="form-group double-input-field">
-                    <label for="loginNewVorname" class="control-label">{f:translate(key:'login.firstname', extensionName:'slubWebKartenforum')} &amp; {f:translate(key:'login.lastname', extensionName:'slubWebKartenforum')}</label>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <f:form.textfield type="text" name="vorname" class="form-control" id="loginNewVorname" property="firstName" placeholder="{f:translate(key:'login.firstname', extensionName:'slubWebKartenforum')}"/>
-                        </div>
-                        <div class="col-xs-6">
-                            <f:form.textfield type="text" name="nachname" class="form-control right" id="loginNewNachname" property="lastName" placeholder="{f:translate(key:'login.lastname', extensionName:'slubWebKartenforum')}"/>
-                        </div>
+            <div class="form-row">
+                <label for="loginNewVorname">{f:translate(key:'login.firstname', extensionName:'slubWebKartenforum')} &amp; {f:translate(key:'login.lastname', extensionName:'slubWebKartenforum')}</label>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <f:form.textfield type="text" name="vorname" id="loginNewVorname" property="firstName" placeholder="{f:translate(key:'login.firstname', extensionName:'slubWebKartenforum')}"/>
+                    </div>
+                    <div class="col-xs-6">
+                        <f:form.textfield type="text" name="nachname" id="loginNewNachname" property="lastName" placeholder="{f:translate(key:'login.lastname', extensionName:'slubWebKartenforum')}"/>
                     </div>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="loginNewEmail" class="control-label">
-                        <f:translate key="login.email" extensionName="slubWebKartenforum"/>
-                        <span class="required">*</span></label>
-                    <f:form.textfield type="email" name="email" property="email" class="form-control" id="loginNewEmail" required="required" placeholder="{f:translate(key:'login.email', extensionName:'slubWebKartenforum')}"/>
-                </div>
+            <div class="form-row">
+                <label for="loginNewEmail" class="control-label">
+                    <f:translate key="login.email" extensionName="slubWebKartenforum"/>
+                    <span class="required">*</span></label>
+                <f:form.textfield type="email" name="email" property="email" id="loginNewEmail" required="required" placeholder="{f:translate(key:'login.email', extensionName:'slubWebKartenforum')}"/>
+            </div>
 
-                <div class="form-group">
-                    <f:translate key="label.requiredFields" extensionName="slubWebKartenforum"/>
-                </div>
-
-                <f:form.submit value="{f:translate(key:'login.registration', extensionName:'slubWebKartenforum')}" class="btn btn-primary"/>
-
-            </f:form>
-        </div>
-    </div>
+            <div class="form-row submit-row">
+                <f:form.button name="submit" value="{f:translate(key:'login.registration', extensionName:'slubWebKartenforum')}">{f:translate(key:'login.registration', extensionName:'slubWebKartenforum')}</f:form.button>
+                <f:translate key="label.requiredFields" extensionName="slubWebKartenforum"/>
+            </div>
+        </fieldset>
+    </f:form>
 </div>
 
 </html>

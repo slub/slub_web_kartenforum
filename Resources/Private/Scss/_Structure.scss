@@ -2,7 +2,7 @@
  *
  * SLUB Kartenforum - Basic structure
  * =========================================================
- * The foundation styling elements and the grid system
+ * Plain structural elements for basic page appearance
  *
  * Author: Thomas Jung <thomas@jung.digital>
  *
@@ -32,27 +32,16 @@ body {
     }
 }
 
-.container {
-    position: relative;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 15px;
-    @media screen and (min-width: $tabletViewportWidth) {
-        padding: 0 50px;
-    }
-    @media screen and (min-width: $tabletLandscapeViewportWidth) {
-        padding: 0;
-        width: 970px;
-        margin: 0 auto;
-    }
-    @media screen and (min-width: $desktopViewportWidth) {
-        width: 1100px;
-    }
-    @media screen and (min-width: $largerViewportWidth) {
-        width: 1500px;
-    }
-}
-
 .content-main {
-    padding-top: 100px;
+    padding: 100px 15px;
+
+    .content-column {
+        > div[id] {
+            > header {
+                h2, h3, h4 {
+                    margin-top: 40px;
+                }
+            }
+        }
+    }
 }

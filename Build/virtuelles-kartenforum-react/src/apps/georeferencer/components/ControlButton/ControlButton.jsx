@@ -8,6 +8,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import "./ControlButton.scss";
+import SvgIcons from "../../../../components/SvgIcons/SvgIcons";
 
 export const ControlButton = (props) => {
   const {
@@ -25,18 +26,17 @@ export const ControlButton = (props) => {
   };
 
   return (
-    <div
+    <button
+      onClick={handleClick}
       className={clsx(
         "vkf-control-button",
         className,
         activeControl === id ? "active" : ""
       )}
     >
-      <button className="btn btn-default btn-vkf-control" onClick={handleClick}>
-        <span className="text">{title}</span>
-        <span className={clsx("icon", iconClassName)} />
-      </button>
-    </div>
+      <SvgIcons name={iconClassName} size={24} />
+      <span className="text">{title}</span>
+    </button>
   );
 };
 

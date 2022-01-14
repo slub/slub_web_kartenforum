@@ -45,75 +45,69 @@ export const UserHistory = () => {
 
   return (
     <div className="vkf-apps-userhistory">
-      <div>
-        <header>
-          <h1>
-            {translate("userhistory-title")} #{userName}
-          </h1>
-          <h2>
-            {translate("userhistory-subtitle")}: {history.points}
-          </h2>
-        </header>
-        <section className="content-container">
-          <div>
-            {history.maps.map((map, i) => (
-              <div key={i} className="map-item">
-                <div className="media">
-                  <div className="media-img">
-                    <img
-                      alt="Map Image"
-                      src={map.metadata.thumbnail}
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="media-body">
-                    <h3>{map.metadata.title}</h3>
-                    <p>
-                      <strong>{translate("userhistory-label-mapId")}:</strong>{" "}
-                      {map.map_id}
-                    </p>
-                    <p>
-                      <strong>
-                        {translate("userhistory-label-validation")}:
-                      </strong>
-                      <span
-                        className={clsx(
-                          "label",
-                          VALIDATION_CLASSES[map.transformation.validation]
-                        )}
-                      >
-                        {" "}
-                        {map.transformation.validation}
-                      </span>
-                    </p>
-                    <div className="link-container">
-                      <a
-                        href={`${linkToMain}?map_id=${map.map_id}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="btn btn-default"
-                      >
-                        {translate("userhistory-link-showMap")}
-                      </a>
-                      <a
-                        href={`${linkToGeoreference}?transformation_id=${map.transformation.id}`}
-                        rel="noreferrer"
-                        target="_blank"
-                        className="btn btn-default"
-                      >
-                        {translate("userhistory-link-goToProcess")}
-                      </a>
-                    </div>
-                    <p className="metadata">
-                      Created: {map.transformation.submitted}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
+      <h3>
+        {translate("userhistory-title")} #{userName}
+      </h3>
+      <span className="status-feedback">
+        {translate("userhistory-subtitle")}: {history.points}
+      </span>
+      <ul className="maps-list">
+        {history.maps.map((map, i) => (
+          <li key={i} className="map-item">
+            <figure className="map-image">
+              <img
+                alt="Map Image"
+                src={map.metadata.thumbnail}
+                loading="lazy"
+              />
+            </figure>
+            <div className="map-meta">
+              <h4>{map.metadata.title}</h4>
+              <p>
+                <span className="map-meta-label">Created: </span>
+                <span className="map-meta-value">
+                  {map.transformation.submitted}
+                </span>
+              </p>
+              <p>
+                <span className="map-meta-label">
+                  {translate("userhistory-label-mapId")}:{" "}
+                </span>
+                <span className="map-meta-value">{map.map_id}</span>
+              </p>
+              <p>
+                <span className="map-meta-label">
+                  {translate("userhistory-label-validation")}:{" "}
+                </span>
+                <span
+                  className={clsx(
+                    "label",
+                    VALIDATION_CLASSES[map.transformation.validation]
+                  )}
+                >
+                  {map.transformation.validation}
+                </span>
+              </p>
+            </div>
+            <div className="map-links">
+              <a
+                href={`${linkToMain}?map_id=${map.map_id}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {translate("userhistory-link-showMap")}
+              </a>
+              <a
+                href={`${linkToGeoreference}?transformation_id=${map.transformation.id}`}
+                rel="noreferrer"
+                target="_blank"
+              >
+                {translate("userhistory-link-goToProcess")}
+              </a>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
