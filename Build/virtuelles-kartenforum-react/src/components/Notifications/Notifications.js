@@ -6,13 +6,15 @@
  */
 import React, { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
+import PropTypes from "prop-types";
+
 import { notificationState } from "../../atoms/atoms";
 import { usePrevious } from "../../util/hooks";
 import clsx from "clsx";
 import "./Notifications.scss";
 
 const NotificationItem = (props) => {
-    const { type, text, onClose } = props;
+    const { onClose, text, type } = props;
     return (
         <div className="notification-item">
             <div className={clsx("alert", "alert-" + type)} role="alert">
@@ -32,6 +34,12 @@ const NotificationItem = (props) => {
     );
 };
 
+NotificationItem.propTypes = {
+    onClose: PropTypes.func,
+    text: PropTypes.string,
+    type: PropTypes.string,
+};
+
 /**
  * @returns {JSX.Element}
  * @constructor
@@ -48,25 +56,27 @@ export const Notifications = () => {
             JSON.stringify(notification) !==
                 JSON.stringify(previousNotification)
         ) {
+            const newNotificationStack = [...notificationStack];
+
             const notificationIndex = notificationStack.findIndex(
                 (o) => o.id === notification.id
             );
-            if (notification.text !== null && notificationIndex === -1) {
-                // Add notification
-                setNotificationStack([...notificationStack, notification]);
-            } else if (notification.text !== null && notificationIndex > -1) {
-                // Replace notification
-                const newNotificationStack = [...notificationStack];
-                newNotificationStack.splice(notificationIndex, 1, notification);
-                setNotificationStack(newNotificationStack);
-            } else if (notification.text === null && notificationIndex > -1) {
-                // Remove notification
-                const newNotificationStack = [...notificationStack];
-                newNotificationStack.splice(notificationIndex, 1);
-                setNotificationStack(newNotificationStack);
+
+            if (notificationIndex > -1) {
+                newNotificationStack.splice(
+                    notificationIndex,
+                    1,
+                    // delete or replace, depending on notification text
+                    notification.text !== null ? notification : undefined
+                );
+            } else {
+                // add new notification
+                newNotificationStack.splice(0, 0, notification);
             }
+
+            setNotificationStack(newNotificationStack);
         }
-    }, [notification, notificationStack, setNotificationStack]);
+    }, [notification, notificationStack, previousNotification]);
 
     return (
         <div
@@ -77,6 +87,7 @@ export const Notifications = () => {
         >
             {notificationStack.map(({ type, text }, index) => (
                 <NotificationItem
+                    key={index}
                     onClose={() => {
                         const newNotificationStack = [...notificationStack];
                         newNotificationStack.splice(index, 1);

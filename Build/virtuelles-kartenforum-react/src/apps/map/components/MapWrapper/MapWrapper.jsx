@@ -10,9 +10,10 @@ import { Map } from "ol";
 import View from "ol/View";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import { defaults, DragRotateAndZoom } from "ol/interaction";
+import { defaults, DragRotate } from "ol/interaction";
+import { shiftKeyOnly } from "ol/events/condition";
 import OLCesium from "olcs/OLCesium";
-import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import olcsCore from "olcs/core";
 import clsx from "clsx";
 import { useWindowWidth } from "@react-hook/window-size";
@@ -21,7 +22,11 @@ import RasterSynchronizer from "olcs/RasterSynchronizer";
 import VectorSynchronizer from "olcs/VectorSynchronizer";
 
 import { createBaseMapLayer } from "../../../../util/geo";
-import { getDefaultControls, isDefined } from "../../../../util/util";
+import {
+  getDefaultControls,
+  isDefined,
+  translate,
+} from "../../../../util/util";
 import {
   activeBasemapIdState,
   map3dState,
@@ -41,6 +46,7 @@ import DialogEditFeature from "./components/DialogEditFeature/DialogEditFeature"
 import CustomOverlaySynchronizer from "./components/customOverlaySynchronizer/customOverlaySynchronizer";
 import customFeatureConverter from "./components/customFeatureConverter/customFeatureConverter";
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
+import { notificationState } from "../../../../atoms/atoms";
 import "./MapWrapper.scss";
 
 export function MapWrapper(props) {
@@ -66,7 +72,10 @@ export function MapWrapper(props) {
   const [map, setMap] = useRecoilState(mapState);
   const setOlcsMap = useSetRecoilState(olcsMapState);
   const [selectedFeature, setSelectedFeature] = useState(undefined);
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
+    selectedFeaturesState
+  );
+  const setNotification = useSetRecoilState(notificationState);
   const width = useWindowWidth();
 
   // refs
@@ -227,6 +236,9 @@ export function MapWrapper(props) {
     // make overlay accessible
     overlayRef.current = overlay;
 
+    const interactions = defaults({ shiftDragZoom: false });
+    interactions.extend([new DragRotate({ condition: shiftKeyOnly })]);
+
     // create map
     const initialMap = new Map({
       controls: [],
@@ -239,7 +251,7 @@ export function MapWrapper(props) {
 
         initalFeaturesLayer,
       ],
-      interactions: defaults().extend([new DragRotateAndZoom()]),
+      interactions,
       overlays: [overlay],
       renderer: "canvas",
       target: mapElement.current,
@@ -304,17 +316,32 @@ export function MapWrapper(props) {
       } = selectedFeature;
 
       if (!displayedInMap && feature.get("has_georeference")) {
-        const layer =
-          type === LAYER_TYPES.GEOJSON
-            ? new GeoJsonLayer({ feature })
-            : createHistoricMapForFeature(feature);
+        try {
+          const layer =
+            type === LAYER_TYPES.GEOJSON
+              ? new GeoJsonLayer({ feature })
+              : createHistoricMapForFeature(feature);
 
-        layer.allowUseInLayerManagement = true;
+          layer.allowUseInLayerManagement = true;
 
-        layer.setOpacity(opacity);
-        layer.setVisible(isVisible);
-        map.addLayer(layer);
-        selectedFeature.displayedInMap = true;
+          layer.setOpacity(opacity);
+          layer.setVisible(isVisible);
+          map.addLayer(layer);
+          selectedFeature.displayedInMap = true;
+        } catch (e) {
+          // there was an error mounting the layer => remove the selected feature and display an errror message
+          setNotification({
+            id: "map-wrapper",
+            type: "danger",
+            text: translate(),
+          });
+
+          setSelectedFeatures((oldSelectedFeatures) =>
+            oldSelectedFeatures.filter(
+              (f) => f.feature.getId() === feature.getId()
+            )
+          );
+        }
       }
     });
   }, [selectedFeatures]);
@@ -345,6 +372,7 @@ export function MapWrapper(props) {
         is3dActive,
         layout,
         onBasemapChange: handleBasemapChange,
+        onSetNotification: setNotification,
         onViewModeChange: handleChangeViewMode,
       });
 

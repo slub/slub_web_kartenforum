@@ -20,7 +20,7 @@ import {
   timeExtentState,
   timeRangeState,
 } from "../atoms/atoms";
-import { isDefined } from "../../../util/util";
+import { isDefined, translate } from "../../../util/util";
 import SettingsProvider from "../../../SettingsProvider";
 import {
   deSerializeOperationalLayer,
@@ -77,6 +77,14 @@ export const PersistenceController = () => {
     mapView,
     searchOptions,
   } = persistenceObject;
+
+  const handleNotification = (text, type = "danger") => {
+    setNotification({
+      id: "persistence-controller",
+      type,
+      text,
+    });
+  };
 
   // Persist current state to localStorage
   const handlePageLeave = useCallback(() => {
@@ -138,78 +146,93 @@ export const PersistenceController = () => {
 
   // restore other map/layer related settings from local storage
   useEffect(() => {
-    // restore basemap
-    if (persistedBasemap !== undefined) {
-      setActiveBasemapId(persistedBasemap);
-    }
-
-    // restore search settings
-    if (searchOptions !== undefined) {
-      const { facets: persistedFacets } = searchOptions;
-
-      setFacets(persistedFacets);
-    }
-
-    if (map !== undefined && olcsMap !== undefined) {
-      // restore mapview if available
-      if (isDefined(mapView) && Object.keys(mapView).length > 0) {
-        if (persistenceIs3dEnabled) {
-          olcsMap.setEnabled(persistenceIs3dEnabled);
-          const camera = olcsMap.getCesiumScene().camera;
-
-          camera.position = mapView.position;
-          camera.direction = mapView.direction;
-          camera.up = mapView.up;
-          camera.right = mapView.right;
-        } else {
-          map.setView(
-            new View(
-              Object.assign({}, SettingsProvider.getDefaultMapView(), mapView)
-            )
-          );
-        }
+    try {
+      // restore basemap
+      if (persistedBasemap !== undefined) {
+        setActiveBasemapId(persistedBasemap);
       }
 
-      // only set the 3d state after the map was initialized in order to handle correct view initalization
-      setMapIs3dEnabled(persistenceIs3dEnabled);
+      // restore search settings
+      if (searchOptions !== undefined) {
+        const { facets: persistedFacets } = searchOptions;
 
-      const { map_id } = parse(location.search);
-      // restore features if available and no query param for map_id is specified
-      if (operationalLayers.length > 0 && map_id === undefined) {
-        const newOperationalLayers = operationalLayers.map(
-          deSerializeOperationalLayer
-        );
+        setFacets(persistedFacets);
+      }
 
-        setSelectedFeatures(newOperationalLayers);
-      } else if (map_id !== undefined) {
-        // restore feature from map_id
-        queryDocument(map_id)
-          .then((res) => {
-            const feature = readFeature(
-              map_id,
-              res,
-              undefined,
-              undefined,
-              mapIs3dEnabled
+      if (map !== undefined && olcsMap !== undefined) {
+        // restore mapview if available
+        if (isDefined(mapView) && Object.keys(mapView).length > 0) {
+          if (persistenceIs3dEnabled) {
+            olcsMap.setEnabled(persistenceIs3dEnabled);
+            const camera = olcsMap.getCesiumScene().camera;
+
+            camera.position = mapView.position;
+            camera.direction = mapView.direction;
+            camera.up = mapView.up;
+            camera.right = mapView.right;
+          } else {
+            map.setView(
+              new View(
+                Object.assign({}, SettingsProvider.getDefaultMapView(), mapView)
+              )
+            );
+          }
+        }
+
+        // only set the 3d state after the map was initialized in order to handle correct view initialization
+        setMapIs3dEnabled(persistenceIs3dEnabled);
+
+        const { map_id } = parse(location.search);
+        // restore features if available and no query param for map_id is specified
+        if (operationalLayers.length > 0 && map_id === undefined) {
+          try {
+            const newOperationalLayers = operationalLayers.map(
+              deSerializeOperationalLayer
             );
 
-            // activate fetched layer
-            setSelectedFeatures([{ feature, displayedInMap: false }]);
+            setSelectedFeatures(newOperationalLayers);
+          } catch (e) {
+            handleNotification(
+              translate("persistencecontroller-error-operational-layers")
+            );
+          }
+        } else if (map_id !== undefined) {
+          // restore feature from map_id
+          queryDocument(map_id)
+            .then((res) => {
+              const feature = readFeature(
+                map_id,
+                res,
+                undefined,
+                undefined,
+                mapIs3dEnabled
+              );
 
-            // focus the map on the layer
-            const newMapViewGeometry = feature.getGeometry().clone();
-            newMapViewGeometry.scale(1.5);
-            map.getView().fit(newMapViewGeometry);
-          })
-          .catch((e) => {
-            console.warn(e);
-            setNotification({
-              id: "persistence-controller",
-              type: "warning",
-              text: "Die ausgewählte Karte konnte nicht geladen werden.",
+              // activate fetched layer
+              setSelectedFeatures([{ feature, displayedInMap: false }]);
+
+              // focus the map on the layer
+              const newMapViewGeometry = feature.getGeometry().clone();
+              newMapViewGeometry.scale(1.5);
+              map.getView().fit(newMapViewGeometry);
+            })
+            .catch((e) => {
+              console.warn(e);
+              handleNotification(
+                translate("persistencecontroller-error-single-map"),
+                "warning"
+              );
             });
-          });
+        }
       }
+    } catch (e) {
+      console.warn(e);
+      handleNotification(
+        translate("persistencecontroller-error-persistence-object")
+      );
+
+      // remove illegal persistence Object
+      localStorage.removeItem(PERSISTENCE_OBJECT_KEY);
     }
   }, [map, olcsMap]);
 

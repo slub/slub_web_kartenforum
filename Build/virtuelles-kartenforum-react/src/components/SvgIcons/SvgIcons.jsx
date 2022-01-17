@@ -17,7 +17,7 @@ const SvgIcons = ({ name, color, size }) => (
     height={size}
   >
     <use
-      xlinkHref={`typo3conf/ext/slub_web_kartenforum/Resources/Public/Icons/reactIconSprite.svg#${name}`}
+      xlinkHref={`typo3conf/ext/slub_web_kartenforum/Resources/Public/Icons/ReactIconSprite.svg#${name}`}
     />
   </svg>
 );

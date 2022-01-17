@@ -83,8 +83,12 @@ export class BasemapSelectorControl extends Control {
     };
 
     render() {
-        const { initialBasemapId, onBasemapChange, contentContainer } =
-            this.renderOptions;
+        const {
+            contentContainer,
+            initialBasemapId,
+            onBasemapChange,
+            onSetNotification,
+        } = this.renderOptions;
 
         // Attach the image manipulation tool
         ReactDOM.render(
@@ -92,6 +96,7 @@ export class BasemapSelectorControl extends Control {
                 map={this.getMap()}
                 initialBasemapId={initialBasemapId}
                 onBasemapChange={onBasemapChange}
+                onSetNotification={onSetNotification}
             />,
             contentContainer
         );

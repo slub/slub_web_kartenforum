@@ -139,6 +139,10 @@
                 <source><![CDATA[The supplied geojson file could not be parsed]]></source>
                 <target><![CDATA[Die bereitgestellte geojson Datei konnte nicht gelesen werden]]></target>
             </trans-unit>
+            <trans-unit id="plugin.map.mapwrapper.mountLayerError" approved="yes">
+                <source><![CDATA[A layer could not be mounted. The corresponding feature was unselected.]]></source>
+                <target><![CDATA[Ein Layer konnte nicht geladen werden. Das zugehörige Feature wurde deselektiert.]]></target>
+            </trans-unit>
 			<trans-unit id="global.map.control-toggleviewmode.title" approved="yes">
 				<source><![CDATA[Switch between 2D and 3D view]]></source>
 				<target><![CDATA[Wechsel zwischen 2D. und 3D-Ansicht]]></target>
@@ -146,6 +150,18 @@
 			<trans-unit id="global.map.control-toggleviewmode.zoomin" approved="yes">
 				<source><![CDATA[Switch to 3D is not possible for this resolution. Please zoom in.]]></source>
 				<target><![CDATA[Wechsel zur 3D-Ansicht für diese Zoomstufe nicht möglich. Bitte zoomen sie rein.]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.persistencecontroller.errorOperationalLayers" approved="yes">
+				<source><![CDATA[The persisted maps could not be restored]]></source>
+				<target><![CDATA[Die persistierten Karten konnten nicht wiederhergestellt werden.]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.persistencecontroller.errorPersistenceObject" approved="yes">
+				<source><![CDATA[There is an error with the persisted application state and it could not be restored.]]></source>
+				<target><![CDATA[Es ist ein Fehler mit dem persistierten Anwendungszustand aufgetreten, der die Wiederherstellung verhinderte.]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.persistencecontroller.errorSingleMap" approved="yes">
+				<source><![CDATA[The selected map could not be loaded.]]></source>
+				<target><![CDATA[Die ausgewählte Karte konnte nicht geladen werden.]]></target>
 			</trans-unit>
 			<trans-unit id="plugin.map.placenamesearch.placeholder" approved="yes">
 				<source><![CDATA[Placename]]></source>
@@ -631,6 +647,10 @@
 			<trans-unit id="global.map.control-basemapselector.btn-addwms" approved="yes">
 				<source><![CDATA[Add WMS]]></source>
 				<target><![CDATA[WMS hinzufügen]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.errorInitialization" approved="yes">
+				<source><![CDATA[The selected base map is not available]]></source>
+				<target><![CDATA[Die ausgewählte Basiskarte ist nicht verfügbar]]></target>
 			</trans-unit>
 
 			<!-- Plugin Map > OriginalMapview -->

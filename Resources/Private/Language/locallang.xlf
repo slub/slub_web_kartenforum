@@ -264,9 +264,11 @@
 
             <!-- Global > Map > MapWrapper -->
             <trans-unit id="plugin.map.mapwrapper.parseError">
-                <source>The supplied geojson file could not be parsed</source>
+                <source>The supplied geojson file could not be parsed.</source>
             </trans-unit>
-
+            <trans-unit id="plugin.map.mapwrapper.mountLayerError">
+                <source>A layer could not be mounted. The corresponding feature was unselected.</source>
+            </trans-unit>
 
 
 			<!-- vk2.module.LayerManagementModule -->
@@ -325,6 +327,17 @@
 			<trans-unit id="plugin.map.facetedsearch.titleTKX">
 				<source>Topological maps (&lt; 1:50.000)</source>
 			</trans-unit>
+
+			<!-- Global -> Map -> PersistenceController -->
+			<trans-unit id="plugin.map.persistencecontroller.errorOperationalLayers">
+				<source>The persisted maps could not be restored.</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.persistencecontroller.errorPersistenceObject">
+                <source>There is an error with the persisted map state and it could not be restored.</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.persistencecontroller.errorSingleMap">
+                <source>The selected map could not be loaded.</source>
+            </trans-unit>
 
 			<!-- PlacenameSearch -->
 			<trans-unit id="plugin.map.placenamesearch.placeholder">
@@ -499,6 +512,9 @@
 			<trans-unit id="global.map.control-basemapselector.btn-addwms">
 				<source>Add WMS</source>
 			</trans-unit>
+            <trans-unit id="global.map.control-basemapselector.errorInitialization">
+                <source>The selected base map is not available</source>
+            </trans-unit>
 
 			<!-- Plugin Map > OriginalMapview -->
 			<trans-unit id="plugin.map.originalview.title">

@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
 import clsx from "clsx";
+import Skeleton from "react-loading-skeleton";
 
 import {
   mapSearchOverlayLayerState,
@@ -76,10 +77,11 @@ export const MapSearchListElement = ({ data, index, style }) => {
     setSrc(operationalLayer.get("thumb_url"));
   }, [operationalLayer]);
 
-  const isSelected = checkIfArrayContainsFeature(
-    selectedFeatures,
-    operationalLayer
-  );
+  const isLoading = operationalLayer === LOADING_FEATURE;
+
+  const isSelected =
+    checkIfArrayContainsFeature(selectedFeatures, operationalLayer) &&
+    !isLoading;
 
   const scale =
     operationalLayer.get("map_scale") === "0" ||
@@ -96,10 +98,10 @@ export const MapSearchListElement = ({ data, index, style }) => {
         isSelected && "selected",
         direction,
         index % 2 === 1 && "odd",
-        operationalLayer === LOADING_FEATURE && "loading"
+        isLoading && "loading"
       )}
       id={operationalLayer.get("id")}
-      onClick={handleClick}
+      onClick={isLoading ? undefined : handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -111,7 +113,7 @@ export const MapSearchListElement = ({ data, index, style }) => {
       <div className="view-item">
         <a className="thumbnail" href="#">
           {src === "" ? (
-            <div className="placeholder" />
+            <Skeleton height="calc(100% - 6px)" />
           ) : (
             <img alt="Thumbnail Image of Map" onError={handleError} src={src} />
           )}
@@ -122,14 +124,24 @@ export const MapSearchListElement = ({ data, index, style }) => {
           )}
         </a>
         <div className="overview">
-          <h2>{operationalLayer.get("title")}</h2>
+          <h2>{isLoading ? <Skeleton /> : operationalLayer.get("title")}</h2>
           <div className="details">
-            <div className="timestamp">{`${translate(
-              "mapsearch-listelement-time"
-            )} ${operationalLayer.get("time_published")}`}</div>
-            <div className="scale">{`${translate(
-              "mapsearch-listelement-scale"
-            )} ${scale}`}</div>
+            <div className="timestamp">
+              {isLoading ? (
+                <Skeleton />
+              ) : (
+                `${translate(
+                  "mapsearch-listelement-time"
+                )} ${operationalLayer.get("time_published")}`
+              )}
+            </div>
+            <div className="scale">
+              {isLoading ? (
+                <Skeleton />
+              ) : (
+                `${translate("mapsearch-listelement-scale")} ${scale}`
+              )}
+            </div>
             {!operationalLayer.get("has_georeference") && (
               <div className="georeference">
                 {translate("mapsearch-listelement-no-georef")}

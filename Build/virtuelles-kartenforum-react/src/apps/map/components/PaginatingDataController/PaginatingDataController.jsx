@@ -60,77 +60,85 @@ export const PaginatingDataController = ({
    * @return {Object}
    * @private
    */
-  const createSearchRequest = (extent, projection) => {
-    const sortOrd_ = sortOrder === "ascending" ? "asc" : "desc";
+  const createSearchRequest = useCallback(
+    (extent, projection) => {
+      const sortOrd_ = sortOrder === "ascending" ? "asc" : "desc";
 
-    // build response with bbox filter
-    const transformedExtent = transformExtent(
-      extent,
-      projection,
-      elasticsearch_srs
-    );
-    const envelope = limitExtent([
-      [transformedExtent[0], transformedExtent[3]],
-      [transformedExtent[2], transformedExtent[1]],
-    ]);
+      // build response with bbox filter
+      const transformedExtent = transformExtent(
+        extent,
+        projection,
+        elasticsearch_srs
+      );
+      const envelope = limitExtent([
+        [transformedExtent[0], transformedExtent[3]],
+        [transformedExtent[2], transformedExtent[1]],
+      ]);
 
-    return getSpatialQuery(
-      "time_published",
-      timeExtent.map((el) => `${el}-01-01`),
-      "geometry",
-      envelope,
-      sortAttribute,
-      sortOrd_,
-      facets
-    );
-  };
+      return getSpatialQuery(
+        "time_published",
+        timeExtent.map((el) => `${el}-01-01`),
+        "geometry",
+        envelope,
+        sortAttribute,
+        sortOrd_,
+        facets
+      );
+    },
+    [sortOrder, timeExtent]
+  );
 
   // fetch the results from the index
-  const fetchResults = (start, size, opt_raw = false) => {
-    if (mapView === undefined) return new Promise((res) => res([]));
-    // build elasticsearch request
-    const requestPayload = createSearchRequest(mapView, projection),
-      requestUrl =
+  const fetchResults = useCallback(
+    (start, size, opt_raw = false) => {
+      if (mapView === undefined) return new Promise((res) => res([]));
+      // build elasticsearch request
+      const requestPayload = createSearchRequest(mapView, projection);
+      const requestUrl =
         elasticsearch_node + "/_search?from=" + start + "&size=" + size;
 
-    // signalize a fetch process is about to begin
-    setIsSearchLoading(true);
-    return axios
-      .post(requestUrl, requestPayload)
-      .then((resp) => {
-        if (resp.status === 200) {
-          const data = resp.data;
+      // signalize a fetch process is about to begin
+      setIsSearchLoading(true);
+      return axios
+        .post(requestUrl, requestPayload)
+        .then((resp) => {
+          if (resp.status === 200) {
+            const data = resp.data;
 
-          return opt_raw
-            ? data
-            : readFeatures(
-                data["hits"]["hits"],
-                elasticsearch_srs,
-                projection,
-                is3dEnabled
-              );
-        }
-      })
-      .catch((e) => {
-        console.warn(e);
-      })
-      .finally(() => {
-        // signalize the search process has ended
-        setIsSearchLoading(false);
-      });
-  };
+            return opt_raw
+              ? data
+              : readFeatures(
+                  data["hits"]["hits"],
+                  elasticsearch_srs,
+                  projection,
+                  is3dEnabled
+                );
+          }
+        })
+        .catch((e) => {
+          console.warn(e);
+        })
+        .finally(() => {
+          // signalize the search process has ended
+          setIsSearchLoading(false);
+        });
+    },
+    [createSearchRequest, mapView]
+  );
 
   ////
   // Handler section
   ////
 
-  // Update search result set id on reset of any of the search parameters, but only do it every so often
-  const handleRefresh = useDebounce(() => {
+  const handleRefresh = useCallback(() => {
     fetchResults(0, 0, true).then((data) => {
       const mapCount = data["hits"]["total"]["value"];
       setMapsInViewport({ mapCount, id: Date.now() });
     });
-  }, 50);
+  }, [fetchResults]);
+
+  // Update search result set id on reset of any of the search parameters, but only do it every so often
+  const handleRefreshDebounced = useDebounce(handleRefresh, 30);
 
   // handles an update of the internally kept map extent
   // either triggered by a map move or a resize of some component
@@ -183,8 +191,8 @@ export const PaginatingDataController = ({
 
   // if the map view changes, reset the state and fetch new results
   useEffect(() => {
-    handleRefresh();
-  }, [facets, mapView, sortAttribute, sortOrder, timeExtent]);
+    handleRefreshDebounced();
+  }, [facets, handleRefresh, mapView, sortAttribute, sortOrder, timeExtent]);
 
   // manually update the internal map view on change of element size
   useEffect(() => {

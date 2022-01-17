@@ -64,7 +64,7 @@ const AttributionList = ({ is3d }) => {
     <ul>
       {attribution.map(({ el, id }, index) => (
         <li
-          key={index}
+          key={`${index}_${is3d}`}
           id={id}
           style={{
             display:

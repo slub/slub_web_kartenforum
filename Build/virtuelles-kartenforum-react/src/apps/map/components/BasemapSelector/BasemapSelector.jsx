@@ -7,6 +7,7 @@
 import React, { useEffect, useState } from "react";
 import { FormGroup, Glyphicon, Radio } from "react-bootstrap";
 import PropTypes from "prop-types";
+
 import SettingsProvider from "../../../../SettingsProvider";
 import { createBaseMapLayer } from "../../../../util/geo";
 import { isDefined, translate } from "../../../../util/util";
@@ -21,7 +22,7 @@ import "./BasemapSelector.scss";
  * @constructor
  */
 export const BasemapSelector = (props) => {
-  const { initialBasemapId, map, onBasemapChange } = props;
+  const { initialBasemapId, map, onBasemapChange, onSetNotification } = props;
   const [customLayers, setCustomLayers] = useLocalStorage(
     "vkf-custom-basemaps",
     []
@@ -105,6 +106,16 @@ export const BasemapSelector = (props) => {
 
       if (newActiveLayer !== undefined) {
         handleChangeBaseMapLayer(newActiveLayer);
+      } else {
+        // notify user about the error finding the selected base layer
+        onSetNotification({
+          id: "basemapSelector",
+          type: "danger",
+          text: translate("control-basemapselector-error-initializiation"),
+        });
+
+        // reset the active layer id
+        onBasemapChange(activeLayer);
       }
     }
   }, []);
@@ -160,6 +171,7 @@ BasemapSelector.propTypes = {
   initialBasemapId: PropTypes.string,
   map: PropTypes.object,
   onBasemapChange: PropTypes.func,
+  onSetNotification: PropTypes.func,
 };
 
 export default BasemapSelector;

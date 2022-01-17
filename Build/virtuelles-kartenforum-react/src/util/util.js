@@ -63,6 +63,7 @@ export const getDefaultControls = (params) => {
         is3dActive,
         layout,
         onBasemapChange,
+        onSetNotification,
         onViewModeChange,
     } = params;
 
@@ -96,6 +97,7 @@ export const getDefaultControls = (params) => {
             new BasemapSelector({
                 initialBasemapId,
                 onBasemapChange,
+                onSetNotification,
             })
         );
     }
