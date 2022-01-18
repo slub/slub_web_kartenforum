@@ -7,8 +7,9 @@
         position: relative;
         margin: 2px 2px;
         float: left;
-        background: transparent url("../Images/clockBtnStatic.gif") no-repeat 0
-            0;
+        background: transparent
+            url("../../../../../../../../Resources/Public/Images/clockBtnStatic.gif")
+            no-repeat 0 0;
         opacity: 0.5;
         cursor: pointer;
     }
@@ -85,7 +86,8 @@
 
     &.play {
         .open-dyn-vis {
-            background: transparent url("../Images/clockBtnAnimated.gif")
+            background: transparent
+                url("../../../../../../../../Resources/Public/Images/clockBtnAnimated.gif")
                 no-repeat 0 0;
             opacity: 1;
         }
@@ -98,11 +100,11 @@
 
 @media (-webkit-min-device-pixel-ratio: 2) {
     .dyn-vis-control .open-dyn-vis {
-        background-image: url("../Images/clockBtnStatic@2x.gif");
+        background-image: url("../../../../../../../../Resources/Public/Images/clockBtnStatic@2x.gif");
         background-size: 22px;
     }
     .dyn-vis-control.play .open-dyn-vis {
-        background-image: url("../Images/clockBtnAnimated@2x.gif");
+        background-image: url("../../../../../../../../Resources/Public/Images/clockBtnAnimated@2x.gif");
         background-size: 22px;
     }
 }

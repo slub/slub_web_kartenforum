@@ -1,13 +1,13 @@
 .vkf-admin-evaluation {
-    padding: 0 20px;
     position: absolute;
-    top: 0;
-    bottom: 25px;
-    left: 0;
-    right: 0;
+    inset: 85px 15px 45px;
+    padding: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    position: fixed;
+
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     .content {
         flex-grow: 1;
         position: relative;

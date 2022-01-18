@@ -10,7 +10,7 @@ import { timeRangeState } from "../../atoms/atoms";
 import PlacenameSearch from "../PlacenameSearch/PlacenameSearch";
 import MapSearch from "../MapSearch/MapSearch";
 import TimeSlider from "../TimeSlider/TimeSlider";
-import { SettingsProvider } from "../../index";
+import SettingsProvider from "../../../../SettingsProvider";
 import "./SpatialTemporalSearch.scss";
 
 export const SpatialTemporalSearch = () => {

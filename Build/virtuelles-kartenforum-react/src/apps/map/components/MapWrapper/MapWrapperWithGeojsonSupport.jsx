@@ -17,6 +17,7 @@ import DialogAddGeoJson from "./components/DialogAddGeoJson/DialogAddGeoJson";
 import { selectedFeaturesState } from "../../atoms/atoms";
 import MapWrapper from "./MapWrapper";
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
+import PropTypes from "prop-types";
 
 export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
   // state
@@ -118,7 +119,19 @@ export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
 };
 
 MapWrapperWithGeojsonSupport.propTypes = {
-  mapWrapperProps: MapWrapper.propTypes,
+  mapWrapperProps: PropTypes.shape({
+    baseMapUrl: PropTypes.arrayOf(PropTypes.string),
+    ChildComponent: PropTypes.func,
+    enable3d: PropTypes.bool,
+    enableTerrain: PropTypes.bool,
+    layout: PropTypes.string,
+    mapViewSettings: PropTypes.shape({
+      center: PropTypes.arrayOf(PropTypes.number),
+      projection: PropTypes.string,
+      zoom: PropTypes.number,
+    }),
+    terrainTilesUrl: PropTypes.string,
+  }),
 };
 
 export default MapWrapperWithGeojsonSupport;

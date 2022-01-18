@@ -8,7 +8,7 @@ import round from "lodash.round";
 import { Control } from "ol/control";
 import { transform } from "ol/proj";
 import { translate } from "../../../../../util/util";
-import { SettingsProvider } from "../../../index";
+import SettingsProvider from "../../../../../SettingsProvider";
 
 export class MousePositionOnOff extends Control {
   targetEl = undefined;

@@ -1,4 +1,4 @@
-@import "../../Resources/Private/Scss/Variables";
+@import "../../../../../Resources/Private/Scss/_Variables";
 
 .vkf-apps-unreferenced-maps {
     .quick-search {
@@ -53,8 +53,8 @@
             height: 24px;
             display: block;
             background-color: $color-grey;
-            -webkit-mask-image: url("../Images/searchBtn.svg");
-            mask-image: url("../Images/searchBtn.svg");
+            -webkit-mask-image: url("../../../../../Resources/Public/Images/searchBtn.svg");
+            mask-image: url("../../../../../Resources/Public/Images/searchBtn.svg");
             content: " ";
         }
     }

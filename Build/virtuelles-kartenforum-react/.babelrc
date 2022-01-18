@@ -1,0 +1,13 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "entry",
+        "include": ["es6.array.at"],
+        "targets": "> 0.25%, not dead",
+        "core-js": "3.20"
+      }
+    ]
+  ]
+}

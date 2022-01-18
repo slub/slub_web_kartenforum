@@ -24,7 +24,7 @@ import {
 import { isDefined } from "../../../../util/util";
 import { createStatisticQuery, getSpatialQuery } from "../../../../util/query";
 import { readFeatures } from "../../../../util/parser";
-import { SettingsProvider } from "../../index";
+import SettingsProvider from "../../../../SettingsProvider";
 import { MAP_PROJECTION } from "../MapSearch/MapSearch";
 import { limitExtent } from "./util";
 import { useDebounce } from "../../../../util/hooks";
