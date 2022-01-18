@@ -21,6 +21,7 @@ export const OriginalMapView = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const newMapDocument = await queryDocument(map_id);
+      console.log(newMapDocument);
       setMapDocument(newMapDocument);
     };
     fetchData();
@@ -35,9 +36,7 @@ export const OriginalMapView = (props) => {
   const permaLink = res.find((r) => r.type === "Permalink");
   const wmsLink = res.find((r) => r.type === "WMS");
   const wcsLink = res.find((r) => r.type === "WCS");
-  const downloadLink = res.find(
-    (r) => r.type === "WCS" && r.url.indexOf("GEOTIFF") > -1
-  );
+  const downloadLink = res.find((r) => r.type === "download");
 
   return (
     <div className="vkf-view-original-map">
