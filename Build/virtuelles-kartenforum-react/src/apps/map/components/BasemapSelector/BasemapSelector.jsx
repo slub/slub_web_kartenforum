@@ -128,7 +128,7 @@ export const BasemapSelector = (props) => {
           {[...layers, ...customLayers].map((l) => (
             <div key={l.id} className="basemap-selector-entry">
               <Radio
-                onClick={() => handleChangeBaseMapLayer(l)}
+                onChange={() => handleChangeBaseMapLayer(l)}
                 name={l.id}
                 value={l.id}
                 checked={activeLayer.id === l.id}

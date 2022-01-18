@@ -13,6 +13,19 @@ import {
     serializeGeojson,
 } from "../components/MapWrapper/components/DialogEditFeature/util/geojsonSerializer";
 import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
+import { queryDocument } from "../../../util/apiEs";
+import { readFeature } from "../../../util/parser";
+import { isDefined } from "../../../util/util";
+
+/**
+ * Checks if all values of an object are either undefined or objects without entries
+ * @param o
+ * @return {this is unknown[]}
+ */
+export const areAllUndefined = (o) =>
+    Object.values(o).every(
+        (x) => x === undefined || Object.entries(x).length === 0
+    );
 
 /**
  * Deserializes an operationalLayer from a supplied persistence object
@@ -61,6 +74,17 @@ export const deserializeMapLayer = ({ coordinates, id, properties }) => {
 };
 
 /**
+ * Fetches a feature based on a map id and parses it
+ * @param mapId
+ * @param is3dEnabled
+ * @return {Promise<ol.Feature>}
+ */
+export const fetchFeatureForMapId = (mapId, is3dEnabled) =>
+    queryDocument(mapId).then((res) =>
+        readFeature(mapId, res, undefined, undefined, is3dEnabled)
+    );
+
+/**
  * Serializes an operational layer
  * @param feature
  * @param type - type of the layer
@@ -96,6 +120,49 @@ export const serializeOperationalLayer = ({ feature, type }, mapLayer) => {
         return Object.assign(base, {
             coordinates: feature.getGeometry().getCoordinates(),
         });
+    }
+};
+
+export const serializeMapView = (camera, map, is3dEnabled) => {
+    const view = map.getView();
+    return is3dEnabled
+        ? {
+              position: camera.position,
+              direction: camera.direction,
+              up: camera.up,
+              right: camera.right,
+          }
+        : {
+              center: view.getCenter(),
+              resolution: view.getResolution(),
+              rotation: view.getRotation(),
+              zoom: view.getZoom(),
+          };
+};
+
+/**
+ * Updates the camera from a mapview object and ignores undefined properties
+ * @param camera
+ * @param mapView
+ */
+export const updateCameraFromMapview = (camera, mapView) => {
+    const { direction, position, right, up } = mapView;
+
+    updateCameraProperty("direction", direction, camera);
+    updateCameraProperty("position", position, camera);
+    updateCameraProperty("right", right, camera);
+    updateCameraProperty("up", up, camera);
+};
+
+/**
+ * update a single property if the new value is defined
+ * @param property
+ * @param value
+ * @param camera
+ */
+const updateCameraProperty = (property, value, camera) => {
+    if (isDefined(value)) {
+        camera[property] = value;
     }
 };
 

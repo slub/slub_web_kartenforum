@@ -1,0 +1,47 @@
+@import "../../../../../../_sass/variables";
+
+.vkf-permalink-exporter {
+    width: 300px;
+    color: #fff;
+
+    input {
+        background: rgba(51, 85, 85, 1);
+        border: 1px solid #fff;
+        flex-grow: 1;
+    }
+
+    .permalink-exporter-title {
+        h4 {
+            margin-top: 0;
+            color: $secondaryColorContrast;
+        }
+    }
+
+    .permalink-exporter-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .copy-button {
+            background: transparent;
+            margin: 0 8px;
+            border-radius: 16px;
+            padding: 5px 6px;
+            height: 32px;
+            width: 32px;
+
+            &:focus {
+                background: transparent;
+            }
+
+            &:hover {
+                background: transparentize($primaryColorMain, 0.3);
+            }
+
+            .glyphicon-copy {
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+}

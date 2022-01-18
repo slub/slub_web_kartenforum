@@ -471,6 +471,20 @@
 				<source>Fit to extent</source>
 			</trans-unit>
 
+			 <!-- Global > Map > Control > Permalink -->
+            <trans-unit id="global.map.control-permalink.title">
+                <source>Generate share-link</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.exporterTitle">
+                 <source>Share-link</source>
+             </trans-unit>
+            <trans-unit id="global.map.control-permalink.exporterCopy">
+                 <source>Copied</source>
+             </trans-unit>
+             <trans-unit id="global.map.control-permalink.exporterCopyTitle">
+                  <source>Copy to clipboard</source>
+              </trans-unit>
+
            <!-- Global > Map > Control > Fullscreen -->
 			<trans-unit id="global.map.control-fullscreen.title">
 				<source>Toggle full-screen</source>

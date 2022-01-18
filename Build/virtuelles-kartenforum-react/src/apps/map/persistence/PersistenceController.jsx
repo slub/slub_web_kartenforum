@@ -20,17 +20,23 @@ import {
   timeExtentState,
   timeRangeState,
 } from "../atoms/atoms";
-import { isDefined, translate } from "../../../util/util";
+
 import SettingsProvider from "../../../SettingsProvider";
 import {
+  areAllUndefined,
   deSerializeOperationalLayer,
+  fetchFeatureForMapId,
+  serializeMapView,
   serializeOperationalLayer,
+  updateCameraFromMapview,
   useLocalStorage,
   useOnPageLeave,
 } from "./util";
-import { queryDocument } from "../../../util/apiEs";
-import { readFeature } from "../../../util/parser";
 import { notificationState } from "../../../atoms/atoms";
+import { parseMapView, parseViewMode } from "./urlParser";
+import { MIN_3D_ZOOM } from "../../../components/ToggleViewmode/ToggleViewmode";
+import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
+import { translate } from "../../../util/util";
 
 const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
 
@@ -70,13 +76,21 @@ export const PersistenceController = () => {
     selectedFeaturesState
   );
 
-  const {
-    activeBasemapId: persistedBasemap,
-    operationalLayers,
-    is3dEnabled: persistenceIs3dEnabled,
-    mapView,
-    searchOptions,
-  } = persistenceObject;
+  // parse settings from url params
+  const { b, v, oid, ...rest } = parse(location.search, {
+    arrayFormat: "comma",
+    parseNumbers: true,
+  });
+
+  const urlViewMode = parseViewMode(v);
+
+  const restoreSource = {
+    activeBasemapId: b,
+    is3dEnabled: urlViewMode,
+    mapView: parseMapView(rest, urlViewMode),
+  };
+
+  const restoreFromUrl = !areAllUndefined(restoreSource) || oid !== undefined;
 
   const handleNotification = (text, type = "danger") => {
     setNotification({
@@ -86,8 +100,128 @@ export const PersistenceController = () => {
     });
   };
 
+  // url params overwrite local storage
+  const {
+    activeBasemapId: persistedBasemap,
+    operationalLayers,
+    is3dEnabled: persistenceIs3dEnabled,
+    mapView = {},
+    searchOptions,
+  } = restoreFromUrl ? restoreSource : persistenceObject;
+
+  // restore other map/layer related settings from local storage
+  useEffect(() => {
+    try {
+      // restore basemap
+      if (persistedBasemap !== undefined) {
+        setActiveBasemapId(persistedBasemap);
+      }
+
+      // restore search settings
+      if (searchOptions !== undefined) {
+        const { facets: persistedFacets } = searchOptions;
+
+        setFacets(persistedFacets);
+      }
+
+      if (map !== undefined && olcsMap !== undefined) {
+        // restore mapview if available
+
+        map.setView(
+          new View(
+            Object.assign(
+              {},
+              SettingsProvider.getDefaultMapView(),
+              // cap zoom in case of undefined mapView
+              persistenceIs3dEnabled
+                ? {
+                    zoom: MIN_3D_ZOOM + 0.1 * MIN_3D_ZOOM,
+                  }
+                : mapView
+            )
+          )
+        );
+
+        if (persistenceIs3dEnabled) {
+          olcsMap.setEnabled(persistenceIs3dEnabled);
+          const camera = olcsMap.getCesiumScene().camera;
+
+          updateCameraFromMapview(camera, mapView);
+        }
+
+        // only set the 3d state after the map was initialized in order to handle correct view initalization
+        setMapIs3dEnabled(persistenceIs3dEnabled);
+
+        // restore features from localstorage if available and no query param for oid is specified
+        if (
+          operationalLayers !== undefined &&
+          operationalLayers.length > 0 &&
+          oid === undefined
+        ) {
+          try {
+            const newOperationalLayers = operationalLayers.map(
+              deSerializeOperationalLayer
+            );
+
+            setSelectedFeatures(newOperationalLayers);
+          } catch (e) {
+            console.error(e);
+            handleNotification(
+              translate("persistencecontroller-error-persistence-object")
+            );
+          }
+        } else if (oid !== undefined) {
+          // restore features from oid
+          const mapIds = Array.isArray(oid) ? oid : [oid];
+
+          const fetchProcesses = mapIds.map((id) =>
+            fetchFeatureForMapId(id, mapIs3dEnabled)
+          );
+
+          Promise.all(fetchProcesses)
+            .then((features) => {
+              setSelectedFeatures(
+                features.map((feature) => ({
+                  feature,
+                  displayedInMap: false,
+                  type: LAYER_TYPES.HISTORIC_MAP,
+                }))
+              );
+            })
+            .catch((e) => {
+              console.error(e);
+              handleNotification(
+                translate("persistencecontroller-error-single-map"),
+                "warning"
+              );
+            });
+        }
+      }
+    } catch (e) {
+      console.error(e);
+      handleNotification(
+        translate("persistencecontroller-error-persistence-object")
+      );
+    }
+  }, [map, olcsMap]);
+
+  useEffect(() => {
+    if (searchOptions !== undefined) {
+      const {
+        timeExtent: [persistedBegin, persistedEnd],
+      } = searchOptions;
+
+      const newTimeExtent = [
+        Math.max(persistedBegin, timeRange[0]),
+        Math.min(persistedEnd, timeRange[1]),
+      ];
+
+      setTimeExtent(newTimeExtent);
+    }
+  }, [timeRange]);
+
   // Persist current state to localStorage
-  const handlePageLeave = useCallback(() => {
+  const writeStateToLocalStorage = useCallback(() => {
     // Persist basic feature settings
     const newPersistenceObject = {
       activeBasemapId,
@@ -111,22 +245,13 @@ export const PersistenceController = () => {
 
     if (map !== undefined) {
       // Persist map view
-      const view = map.getView();
       const camera = olcsMap.getCesiumScene().camera;
 
-      newPersistenceObject.mapView = mapIs3dEnabled
-        ? {
-            position: camera.position,
-            direction: camera.direction,
-            up: camera.up,
-            right: camera.right,
-          }
-        : {
-            center: view.getCenter(),
-            resolution: view.getResolution(),
-            rotation: view.getRotation(),
-            zoom: view.getZoom(),
-          };
+      newPersistenceObject.mapView = serializeMapView(
+        camera,
+        map,
+        mapIs3dEnabled
+      );
     }
 
     // write changes to localStorage
@@ -141,115 +266,8 @@ export const PersistenceController = () => {
     timeExtent,
   ]);
 
-  // Write current state to localStorage
-  useOnPageLeave(handlePageLeave);
-
-  // restore other map/layer related settings from local storage
-  useEffect(() => {
-    try {
-      // restore basemap
-      if (persistedBasemap !== undefined) {
-        setActiveBasemapId(persistedBasemap);
-      }
-
-      // restore search settings
-      if (searchOptions !== undefined) {
-        const { facets: persistedFacets } = searchOptions;
-
-        setFacets(persistedFacets);
-      }
-
-      if (map !== undefined && olcsMap !== undefined) {
-        // restore mapview if available
-        if (isDefined(mapView) && Object.keys(mapView).length > 0) {
-          if (persistenceIs3dEnabled) {
-            olcsMap.setEnabled(persistenceIs3dEnabled);
-            const camera = olcsMap.getCesiumScene().camera;
-
-            camera.position = mapView.position;
-            camera.direction = mapView.direction;
-            camera.up = mapView.up;
-            camera.right = mapView.right;
-          } else {
-            map.setView(
-              new View(
-                Object.assign({}, SettingsProvider.getDefaultMapView(), mapView)
-              )
-            );
-          }
-        }
-
-        // only set the 3d state after the map was initialized in order to handle correct view initialization
-        setMapIs3dEnabled(persistenceIs3dEnabled);
-
-        const { map_id } = parse(location.search);
-        // restore features if available and no query param for map_id is specified
-        if (operationalLayers.length > 0 && map_id === undefined) {
-          try {
-            const newOperationalLayers = operationalLayers.map(
-              deSerializeOperationalLayer
-            );
-
-            setSelectedFeatures(newOperationalLayers);
-          } catch (e) {
-            handleNotification(
-              translate("persistencecontroller-error-operational-layers")
-            );
-          }
-        } else if (map_id !== undefined) {
-          // restore feature from map_id
-          queryDocument(map_id)
-            .then((res) => {
-              const feature = readFeature(
-                map_id,
-                res,
-                undefined,
-                undefined,
-                mapIs3dEnabled
-              );
-
-              // activate fetched layer
-              setSelectedFeatures([{ feature, displayedInMap: false }]);
-
-              // focus the map on the layer
-              const newMapViewGeometry = feature.getGeometry().clone();
-              newMapViewGeometry.scale(1.5);
-              map.getView().fit(newMapViewGeometry);
-            })
-            .catch((e) => {
-              console.warn(e);
-              handleNotification(
-                translate("persistencecontroller-error-single-map"),
-                "warning"
-              );
-            });
-        }
-      }
-    } catch (e) {
-      console.warn(e);
-      handleNotification(
-        translate("persistencecontroller-error-persistence-object")
-      );
-
-      // remove illegal persistence Object
-      localStorage.removeItem(PERSISTENCE_OBJECT_KEY);
-    }
-  }, [map, olcsMap]);
-
-  useEffect(() => {
-    if (searchOptions !== undefined) {
-      const {
-        timeExtent: [persistedBegin, persistedEnd],
-      } = searchOptions;
-
-      const newTimeExtent = [
-        Math.max(persistedBegin, timeRange[0]),
-        Math.min(persistedEnd, timeRange[1]),
-      ];
-
-      setTimeExtent(newTimeExtent);
-    }
-  }, [timeRange]);
+  // Write state on page leave to storage
+  useOnPageLeave(writeStateToLocalStorage);
 
   return <></>;
 };

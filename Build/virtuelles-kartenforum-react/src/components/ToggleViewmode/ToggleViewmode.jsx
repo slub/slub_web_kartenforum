@@ -6,8 +6,11 @@
  */
 
 import { Control } from "ol/control";
+
 import { translate } from "../../util/util";
 import "./ToggleViewMode.scss";
+
+export const MIN_3D_ZOOM = 3;
 
 export class ToggleViewMode extends Control {
   constructor(opt_options) {
@@ -35,12 +38,10 @@ export class ToggleViewMode extends Control {
     // Handle click or touchevent
     let timeout;
     const handleUpdate = () => {
-      const min3DZoom = 3;
-
       options.onViewModeChange((currentIs3dActive) => {
         // If newState == true, we signal that we should activate the 3d view
         const newIs3dActive =
-          !currentIs3dActive && this.getMap().getView().getZoom() > min3DZoom;
+          !currentIs3dActive && this.getMap().getView().getZoom() > MIN_3D_ZOOM;
 
         // Toggle active class
         element.className = !newIs3dActive

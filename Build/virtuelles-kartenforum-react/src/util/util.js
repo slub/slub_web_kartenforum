@@ -16,6 +16,7 @@ import LayerSpy from "../components/Controls/LayerSpyControl";
 import BasemapSelector from "../apps/map/components/Controls/BasemapSelectorControl";
 import { MousePositionOnOff } from "../apps/map/components/MapWrapper/components/MousePositionOnOff";
 import { LAYOUT_TYPES } from "../apps/map/layouts/util";
+import PermalinkControl from "../apps/map/components/MapWrapper/components/PermalinkControl/PermalinkControl";
 
 /*
  * ol does not export an inherits function in the current version
@@ -65,6 +66,7 @@ export const getDefaultControls = (params) => {
         onBasemapChange,
         onSetNotification,
         onViewModeChange,
+        permalinkProps,
     } = params;
 
     const defaultControls = [
@@ -98,7 +100,8 @@ export const getDefaultControls = (params) => {
                 initialBasemapId,
                 onBasemapChange,
                 onSetNotification,
-            })
+            }),
+            new PermalinkControl({ is3dActive, ...permalinkProps })
         );
     }
 

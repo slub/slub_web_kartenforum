@@ -31,6 +31,7 @@ import MapSearchOverlayLayer from "../MapSearchOverlayLayer/MapSearchOverlayLaye
 import PaginatingDataController from "../../../PaginatingDataController/PaginatingDataController";
 import { useSize } from "../../../../../../util/hooks";
 import { translate } from "../../../../../../util/util";
+import { LAYER_TYPES } from "../../../CustomLayers/LayerTypes";
 import "./MapSearchResultList.scss";
 
 const DEFAULT_TYPE = "title";
@@ -144,7 +145,7 @@ export const MapSearchResultList = ({
     } else {
       setSelectedFeatures((selectedFeatures) => [
         ...selectedFeatures,
-        { feature },
+        { feature, type: LAYER_TYPES.HISTORIC_MAP },
       ]);
     }
   };
@@ -213,7 +214,7 @@ export const MapSearchResultList = ({
 
 MapSearchResultList.propTypes = {
   direction: PropTypes.oneOf(["horizontal", "vertical"]),
-  itemSize: PropTypes.number.isRequired,
+  itemSize: PropTypes.number,
   minimumBatchSize: PropTypes.number,
   renderHeader: PropTypes.bool,
   onFetchResults: PropTypes.func,

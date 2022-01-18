@@ -7,6 +7,7 @@
 import React, { useRef, useState } from "react";
 import Feature from "ol/Feature";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import PropTypes from "prop-types";
 
 import Dropzone from "../Dropzone/Dropzone";
 import { translate } from "../../../../util/util";
@@ -15,9 +16,8 @@ import { parseDate } from "./components/DialogEditFeature/util/geojsonParser";
 import { notificationState } from "../../../../atoms/atoms";
 import DialogAddGeoJson from "./components/DialogAddGeoJson/DialogAddGeoJson";
 import { selectedFeaturesState } from "../../atoms/atoms";
-import MapWrapper from "./MapWrapper";
+import MapWrapper, { mapWrapperProps } from "./MapWrapper";
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
-import PropTypes from "prop-types";
 
 export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
   // state
@@ -119,19 +119,7 @@ export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
 };
 
 MapWrapperWithGeojsonSupport.propTypes = {
-  mapWrapperProps: PropTypes.shape({
-    baseMapUrl: PropTypes.arrayOf(PropTypes.string),
-    ChildComponent: PropTypes.func,
-    enable3d: PropTypes.bool,
-    enableTerrain: PropTypes.bool,
-    layout: PropTypes.string,
-    mapViewSettings: PropTypes.shape({
-      center: PropTypes.arrayOf(PropTypes.number),
-      projection: PropTypes.string,
-      zoom: PropTypes.number,
-    }),
-    terrainTilesUrl: PropTypes.string,
-  }),
+  mapWrapperProps: PropTypes.shape(mapWrapperProps),
 };
 
 export default MapWrapperWithGeojsonSupport;

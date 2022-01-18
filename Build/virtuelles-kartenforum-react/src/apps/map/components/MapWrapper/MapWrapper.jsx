@@ -6,7 +6,7 @@
  */
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { Map } from "ol";
+import { Collection, Map } from "ol";
 import View from "ol/View";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
@@ -85,6 +85,11 @@ export function MapWrapper(props) {
   const overlayRef = useRef();
   const overlayContainerRef = useRef();
   const timeoutRef = useRef();
+
+  // used to make state easily accessible outside of the react tree in the permalink component
+  // do not access otherwise
+  const unsafe_refBasemapId = useRef(activeBasemapId);
+  const unsafe_refSelectedFeatures = useRef(new Collection());
 
   // publish elements size to global state
   useSetElementScreenSize(mapElement, "map");
@@ -374,6 +379,11 @@ export function MapWrapper(props) {
         onBasemapChange: handleBasemapChange,
         onSetNotification: setNotification,
         onViewModeChange: handleChangeViewMode,
+        permalinkProps: {
+          camera: olcsMapRef.current?.getCesiumScene().camera,
+          refActiveBasemapId: unsafe_refBasemapId,
+          refSelectedFeatures: unsafe_refSelectedFeatures,
+        },
       });
 
       newControls.forEach((control) => {
@@ -407,6 +417,18 @@ export function MapWrapper(props) {
     }
   }, [handleMapClick, map]);
 
+  // sync state with ref => allows easy access to selected features outside of the react tree
+  useEffect(() => {
+    unsafe_refBasemapId.current = activeBasemapId;
+
+    // clear collection
+    unsafe_refSelectedFeatures.current.clear();
+    // add in selected features
+    unsafe_refSelectedFeatures.current.extend(selectedFeatures);
+    // mark as changed
+    unsafe_refSelectedFeatures.current.changed();
+  }, [activeBasemapId, selectedFeatures]);
+
   return (
     <div className="map-container">
       <div
@@ -435,7 +457,7 @@ export function MapWrapper(props) {
   );
 }
 
-MapWrapper.propTypes = {
+export const mapWrapperProps = {
   baseMapUrl: PropTypes.arrayOf(PropTypes.string),
   ChildComponent: PropTypes.func,
   enable3d: PropTypes.bool,
@@ -448,5 +470,7 @@ MapWrapper.propTypes = {
   }),
   terrainTilesUrl: PropTypes.string,
 };
+
+MapWrapper.propTypes = mapWrapperProps;
 
 export default MapWrapper;

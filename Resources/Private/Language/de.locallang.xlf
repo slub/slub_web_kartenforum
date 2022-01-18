@@ -595,6 +595,24 @@
 				<target><![CDATA[Zum Kartenausschnitt zoomen]]></target>
 			</trans-unit>
 
+			 <!-- Global > Map > Control > Permalink -->
+            <trans-unit id="global.map.control-permalink.title" approved="yes">
+                <source><![CDATA[Generate share-link]]></source>
+                <target><![CDATA[Erzeuge share-link]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.exporterTitle" approved="yes">
+                <source><![CDATA[Share-link]]></source>
+                <target><![CDATA[Share-link]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.exporterCopy" approved="yes">
+                <source><![CDATA[Copied]]></source>
+                <target><![CDATA[Kopiert]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.exporterCopyTitle" approved="yes">
+                <source><![CDATA[Copy to clipboard]]></source>
+                <target><![CDATA[Kopiere in die Zwischenablage]]></target>
+            </trans-unit>
+
            <!-- Global > Map > Control > Fullscreen -->
 			<trans-unit id="global.map.control-fullscreen.title" approved="yes">
 				<source><![CDATA[Toggle full-screen]]></source>

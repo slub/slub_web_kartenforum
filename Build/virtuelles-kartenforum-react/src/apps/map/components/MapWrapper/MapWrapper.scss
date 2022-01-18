@@ -80,6 +80,7 @@
             &.flip-view-mode,
             &.ol-mouse-position-box,
             &.basemap-selector,
+            &.ol-permalink,
             &.ol-locate-me,
             &.ol-zoom {
                 left: 340px;
@@ -117,6 +118,10 @@
             &.ol-locate-me {
                 top: 312px;
             }
+
+            &.ol-permalink {
+                top: 348px;
+            }
         }
 
         &:fullscreen {
@@ -130,6 +135,7 @@
                 &.ol-mouse-position-box,
                 &.basemap-selector,
                 &.ol-locate-me,
+                &.ol-permalink,
                 &.ol-zoom {
                     left: 10px;
                 }

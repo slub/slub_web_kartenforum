@@ -89,6 +89,8 @@ export const MapSearchListElement = ({ data, index, style }) => {
       ? translate("mapsearch-listelement-unknown")
       : `1:${operationalLayer.get("map_scale")}`;
 
+  const timePublished = parseInt(operationalLayer.get("time_published"), 0);
+
   return (
     <li
       style={style}
@@ -106,7 +108,7 @@ export const MapSearchListElement = ({ data, index, style }) => {
       onMouseLeave={handleMouseLeave}
     >
       <span className="data-col time">
-        {parseInt(operationalLayer.get("time_published"), 0)}
+        {isNaN(timePublished) ? "" : timePublished}
       </span>
       <span className="data-col title">{operationalLayer.get("title")}</span>
       <span className="data-col time">1</span>
@@ -162,7 +164,7 @@ MapSearchListElement.propTypes = {
     feature: PropTypes.object,
     is3d: PropTypes.bool,
     onClick: PropTypes.func,
-    maps: PropTypes.arrayOf(PropTypes.object),
+    maps: PropTypes.object,
     selected: PropTypes.bool,
   }),
   index: PropTypes.number,
