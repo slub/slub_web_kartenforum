@@ -210,25 +210,11 @@
 				<source>Mouse position</source>
 			</trans-unit>
 
-            <!-- vk2.control.PermalinkControl -->
-			<trans-unit id="client.permalink.title">
-				<source>Produce link for share this view</source>
-			</trans-unit>
-			<trans-unit id="client.permalink.msg">
-				<source>For copying the link push</source>
-      </trans-unit>
-
 
             <!-- vk2.control.RestoreDefaultView -->
 			<trans-unit id="global.map.control-restoredefaultview-title">
 				<source>Restore default view</source>
-      </trans-unit>
-
-            <!-- vk2.control.RotateNorthControl -->
-			<trans-unit id="client.roatenorth.title">
-				<source>Align map to north</source>
-			</trans-unit>
-
+            </trans-unit>
 
             <!-- vk2.factory.MapSearchFactory / vk2.factory.LayerManagementFactory-->
 			<trans-unit id="plugin.map.mapsearchlistelement.scale">
@@ -488,6 +474,11 @@
            <!-- Global > Map > Control > Fullscreen -->
 			<trans-unit id="global.map.control-fullscreen.title">
 				<source>Toggle full-screen</source>
+			</trans-unit>
+
+           <!-- Global > Map > Control > Rotation -->
+			<trans-unit id="global.map.control-rotate.title">
+				<source>Reset rotation</source>
 			</trans-unit>
 
            <!-- Global > Map > Control > LocateMe -->

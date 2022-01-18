@@ -263,14 +263,6 @@
 				<source><![CDATA[No]]></source>
 				<target><![CDATA[Nein]]></target>
 			</trans-unit>
-			<trans-unit id="client.permalink.msg" approved="yes">
-				<source><![CDATA[For copying the link push]]></source>
-				<target><![CDATA[Um den Link zu kopieren drücken sie bitte]]></target>
-			</trans-unit>
-			<trans-unit id="client.permalink.title" approved="yes">
-				<source><![CDATA[Produce link for share this view]]></source>
-				<target><![CDATA[Erzeuge Share-Link]]></target>
-			</trans-unit>
 			<trans-unit id="client.points" approved="yes">
 				<source><![CDATA[Points]]></source>
 				<target><![CDATA[Punkte]]></target>
@@ -278,10 +270,6 @@
 			<trans-unit id="global.map.control-restoredefaultview-title" approved="yes">
 				<source><![CDATA[Restore default view]]></source>
 				<target><![CDATA[Stelle die initiale Ansicht wieder her]]></target>
-			</trans-unit>
-			<trans-unit id="client.roatenorth.title" approved="yes">
-				<source><![CDATA[Align map to north]]></source>
-				<target><![CDATA[Karte nach Norden ausrichten]]></target>
 			</trans-unit>
 			<trans-unit id="plugin.map.mapsearchlistelement.time" approved="yes">
 				<source><![CDATA[Time]]></source>
@@ -598,7 +586,7 @@
 			 <!-- Global > Map > Control > Permalink -->
             <trans-unit id="global.map.control-permalink.title" approved="yes">
                 <source><![CDATA[Generate share-link]]></source>
-                <target><![CDATA[Erzeuge share-link]]></target>
+                <target><![CDATA[Erzeuge Share-Link]]></target>
             </trans-unit>
             <trans-unit id="global.map.control-permalink.exporterTitle" approved="yes">
                 <source><![CDATA[Share-link]]></source>
@@ -617,6 +605,12 @@
 			<trans-unit id="global.map.control-fullscreen.title" approved="yes">
 				<source><![CDATA[Toggle full-screen]]></source>
 				<target><![CDATA[Umschalten zu Vollbild]]></target>
+			</trans-unit>
+
+           <!-- Global > Map > Control > Rotation -->
+			<trans-unit id="global.map.control-rotate.title" approved="yes">
+				<source><![CDATA[Reset rotation]]></source>
+				<target><![CDATA[Rotation zurücksetzen]]></target>
 			</trans-unit>
 
            <!-- Global > Map > Control > LocateMe -->

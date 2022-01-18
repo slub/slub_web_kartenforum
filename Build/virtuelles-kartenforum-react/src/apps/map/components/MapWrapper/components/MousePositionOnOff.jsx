@@ -12,7 +12,7 @@ import SettingsProvider from "../../../../../SettingsProvider";
 
 export class MousePositionOnOff extends Control {
   targetEl = undefined;
-
+  containerEl = undefined;
   constructor(opt_options) {
     const options = opt_options || {};
 
@@ -27,6 +27,7 @@ export class MousePositionOnOff extends Control {
 
     super({ element, target: options.target });
 
+    this.containerEl = element;
     button.addEventListener("click", this.toggleMousePosition, false);
   }
 
@@ -51,11 +52,11 @@ export class MousePositionOnOff extends Control {
     event.preventDefault();
 
     const activeClass = "active";
-    const isActive = event["target"].classList.contains(activeClass);
+    const isActive = this.containerEl.classList.contains(activeClass);
     const map = this.getMap();
 
     // toggle activation on anchor
-    event["target"].classList.toggle(activeClass);
+    this.containerEl.classList.toggle(activeClass);
 
     // initialize container for mouseposition display
     let targetEl = this.targetEl;

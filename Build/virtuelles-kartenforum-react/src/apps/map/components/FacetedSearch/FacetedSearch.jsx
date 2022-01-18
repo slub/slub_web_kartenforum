@@ -20,7 +20,6 @@ export const FACETED_SEARCH_TYPES = {
   MTB: "map_type-mtb",
   TK: "map_type-tk",
   TKX: "map_type-tkx",
-  ToGeoref: "georeference-false",
 };
 
 const initialCheckedState = {};

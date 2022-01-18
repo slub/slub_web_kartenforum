@@ -154,8 +154,8 @@
     }
 
     &.active {
-        button {
-            background-color: $primaryColorMain;
+        > button {
+            background-color: $primaryColorMain !important;
             &:hover {
                 background-color: $primaryColorMain;
             }

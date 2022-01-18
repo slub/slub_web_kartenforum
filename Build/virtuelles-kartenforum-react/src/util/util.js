@@ -71,8 +71,13 @@ export const getDefaultControls = (params) => {
 
     const defaultControls = [
         new CustomAttribution({ is3d: is3dActive }),
-        new FullScreen(),
-        new Rotate({ className: "rotate-north ol-unselectable" }),
+        new FullScreen({
+            tipLabel: translate("control-fullscreen-title"),
+        }),
+        new Rotate({
+            className: "rotate-north ol-unselectable",
+            tipLabel: translate("control-rotate"),
+        }),
         new ScaleLine(),
         // new vk2.control.Permalink(),
     ];
@@ -80,7 +85,10 @@ export const getDefaultControls = (params) => {
     if (layout === LAYOUT_TYPES.HORIZONTAL) {
         defaultControls.push(
             new LocateMeControl(),
-            new Zoom(),
+            new Zoom({
+                zoomInTipLabel: translate("control-zoom-in"),
+                zoomOutTipLabel: translate("control-zoom-out"),
+            }),
             new LayerSpy({
                 spyLayer: new TileLayer({
                     attribution: undefined,
