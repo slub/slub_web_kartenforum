@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
 import clsx from "clsx";
-import Skeleton from "react-loading-skeleton";
+import { default as Skeleton } from "react-loading-skeleton/lib/skeleton";
 
 import {
   mapSearchOverlayLayerState,
@@ -113,7 +113,7 @@ export const MapSearchListElement = ({ data, index, style }) => {
       <div className="view-item">
         <a className="thumbnail" href="#">
           {src === "" ? (
-            <Skeleton height="calc(100% - 6px)" />
+            <Skeleton.default height="calc(100% - 6px)" />
           ) : (
             <img alt="Thumbnail Image of Map" onError={handleError} src={src} />
           )}
@@ -124,11 +124,13 @@ export const MapSearchListElement = ({ data, index, style }) => {
           )}
         </a>
         <div className="overview">
-          <h2>{isLoading ? <Skeleton /> : operationalLayer.get("title")}</h2>
+          <h2>
+            {isLoading ? <Skeleton.default /> : operationalLayer.get("title")}
+          </h2>
           <div className="details">
             <div className="timestamp">
               {isLoading ? (
-                <Skeleton />
+                <Skeleton.default />
               ) : (
                 `${translate(
                   "mapsearch-listelement-time"
@@ -137,7 +139,7 @@ export const MapSearchListElement = ({ data, index, style }) => {
             </div>
             <div className="scale">
               {isLoading ? (
-                <Skeleton />
+                <Skeleton.default />
               ) : (
                 `${translate("mapsearch-listelement-scale")} ${scale}`
               )}
