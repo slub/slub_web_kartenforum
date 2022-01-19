@@ -34,7 +34,6 @@ export const StyleAppender = (props) => {
   // add mode-3d class to root container in order to apply legacy styles
   useEffect(() => {
     const el = document.getElementById(mapContainerId);
-    console.log(el);
     if (is3d) {
       // Remove 3d-mode from map container
       el.classList.add("mode-3d");

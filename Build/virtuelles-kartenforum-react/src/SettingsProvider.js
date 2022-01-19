@@ -65,22 +65,22 @@ export default {
      * Returns the default map view
      * @returns {{
      *     projection: string,
-     *     minResolution: number,
-     *     maxResolution: number,
      *     extent: [number, number, number, number],
      *     center: [number, number],
-     *     zoom: number
+     *     zoom: number,
+     *     maxZoom: number,
+     *     minZoom: number,
      * }}
      */
     getDefaultMapView() {
         return Object.assign(
             {
                 projection: "EPSG:3857",
-                minResolution: 1.194328566789627,
-                maxResolution: 2445.9849047851562,
                 extent: [-20026376.39, -20048966.1, 20026375.39, 20048966.1],
                 center: [1528150, 6630500],
                 zoom: 2,
+                maxZoom: 19,
+                minZoom: 0,
             },
             settingsObject["MAPVIEW_PARAMS"]
         );
@@ -92,6 +92,14 @@ export default {
      */
     getLanguageDict() {
         return settingsObject.dictionary;
+    },
+
+    /**
+     * Returns the minimum zoom level to which to out zoom within 3d view.
+     * @returns {number}
+     */
+    getMin3DZoomLevel() {
+        return 9;
     },
 
     /**

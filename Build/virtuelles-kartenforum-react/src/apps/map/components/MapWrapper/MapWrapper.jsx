@@ -130,13 +130,13 @@ export function MapWrapper(props) {
           duration: 500,
         });
       } else {
+        if (!ol3d.getEnabled()) return;
+
         const scene = ol3d.getCesiumScene(),
           camera = scene.camera,
           bottom = olcsCore.pickBottomPoint(scene),
           transform = Cesium.Matrix4.fromTranslation(bottom),
           angle = olcsCore.computeAngleToZenith(scene, bottom);
-
-        if (!ol3d.getEnabled()) return;
 
         // 3d -> 2d transition
         olcsCore.rotateAroundAxis(camera, -angle, camera.right, transform, {
@@ -262,7 +262,6 @@ export function MapWrapper(props) {
       target: mapElement.current,
       view,
     });
-
     setMap(initialMap);
 
     if (enable3d && enableTerrain) {
