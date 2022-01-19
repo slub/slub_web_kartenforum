@@ -337,7 +337,7 @@ export function MapWrapper(props) {
           setNotification({
             id: "map-wrapper",
             type: "danger",
-            text: translate(),
+            text: translate("mapwrapper-mount-layer-error"),
           });
 
           setSelectedFeatures((oldSelectedFeatures) =>

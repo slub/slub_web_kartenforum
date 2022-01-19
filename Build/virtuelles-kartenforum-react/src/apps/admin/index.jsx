@@ -6,6 +6,8 @@
  */
 import React from "react";
 import ReactDOM from "react-dom";
+import "core-js";
+
 import settingsProvider from "../../SettingsProvider";
 import Evaluation from "./Evaluation";
 
