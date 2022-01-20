@@ -12,12 +12,11 @@ import {
 } from "./components/DialogEditFeature/DialogEditFeatureRow/components/MarkerPicker";
 
 export const defaultIconSettings = {
-    anchor: [0.5, 46],
-    anchorOrigin: "bottom-left",
+    anchor: [0.5, 1],
     anchorXUnits: "fraction",
-    anchorYUnits: "pixels",
+    anchorYUnits: "fraction",
     src: getMarkerUrl(MARKERS[0]),
-    scale: 0.75,
+    scale: 0.5,
 };
 
 const image = new Icon(defaultIconSettings);

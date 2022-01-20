@@ -90,7 +90,7 @@ class customFeatureConverter extends olcsFeatureConverter {
                     scale,
                     heightReference,
                     position,
-                    disableDepthTestDistance: Number.POSITIVE_INFINITY,
+                    verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
                 });
 
             // merge in cesium options from openlayers feature
@@ -99,10 +99,12 @@ class customFeatureConverter extends olcsFeatureConverter {
             if (imageStyle instanceof Icon) {
                 const anchor = imageStyle.getAnchor();
                 if (anchor) {
-                    bbOptions.pixelOffset = new Cesium.Cartesian2(
-                        (image.width / 2 - anchor[0]) * scale,
-                        (image.height / 2 - anchor[1]) * scale
-                    );
+                    // This code fragment is used for adjust the position of the popup of the marker in case
+                    // of editing fields. It leads to placements artefacts regarding the marker position
+                    // bbOptions.pixelOffset = new Cesium.Cartesian2(
+                    //     (image.width / 2) * scale,
+                    //     (image.height) * scale
+                    // );
                 }
             }
 
