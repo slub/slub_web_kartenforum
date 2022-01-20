@@ -6,7 +6,7 @@
  */
 
 import { View } from "ol";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { parse } from "query-string";
 
@@ -26,30 +26,40 @@ import {
   areAllUndefined,
   deSerializeOperationalLayer,
   fetchFeatureForMapId,
-  serializeMapView,
-  serializeOperationalLayer,
+  fitMapToFeatures,
   updateCameraFromMapview,
   useLocalStorage,
-  useOnPageLeave,
+  wrapMapFeatures,
 } from "./util";
 import { notificationState } from "../../../atoms/atoms";
 import { parseMapView, parseViewMode } from "./urlParser";
 import { MIN_3D_ZOOM } from "../../../components/ToggleViewmode/ToggleViewmode";
-import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
 import { translate } from "../../../util/util";
+import LocalStorageWriter from "./LocalStorageWriter.jsx";
 
-const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
+export const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
 
+/**
+ * Handles the persistence aspects of the application
+ *
+ * There are 3 responsibilities:
+ *  1. Write the application state to the local storage if the page is left.
+ *  2. Read the application state from local storage if it is not overwritten by the url.
+ *  3. Read the application state from the url
+ *    3.a Focus the map on the features if there is no mapview defined in the url
+ * @return {JSX.Element}
+ * @constructor
+ */
 export const PersistenceController = () => {
-  const [mapIs3dEnabled, setMapIs3dEnabled] = useRecoilState(map3dState);
-  const [facets, setFacets] = useRecoilState(facetState);
-  const [timeExtent, setTimeExtent] = useRecoilState(timeExtentState);
-  const timeRange = useRecoilValue(timeRangeState);
   const map = useRecoilValue(mapState);
+  const [mapIs3dEnabled, setMapIs3dEnabled] = useRecoilState(map3dState);
   const olcsMap = useRecoilValue(olcsMapState);
+  const setActiveBasemapId = useSetRecoilState(activeBasemapIdState);
+  const setFacets = useSetRecoilState(facetState);
   const setNotification = useSetRecoilState(notificationState);
-  const [activeBasemapId, setActiveBasemapId] =
-    useRecoilState(activeBasemapIdState);
+  const setSelectedFeatures = useSetRecoilState(selectedFeaturesState);
+  const setTimeRange = useSetRecoilState(timeRangeState);
+  const setTimeExtent = useSetRecoilState(timeExtentState);
 
   /**
    * @type {{
@@ -64,17 +74,27 @@ export const PersistenceController = () => {
    * }}
    *
    **/
-  const [persistenceObject, setPersistenceObject] = useLocalStorage(
-    PERSISTENCE_OBJECT_KEY,
-    {
-      operationalLayers: [],
-      is3dEnabled: false,
-    }
-  );
+  const [persistenceObject] = useLocalStorage(PERSISTENCE_OBJECT_KEY, {
+    operationalLayers: [],
+    is3dEnabled: false,
+  });
 
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
-    selectedFeaturesState
-  );
+  ////
+  // Handler section
+  ////
+  const handleNotification = (text, type = "danger") => {
+    setNotification({
+      id: "persistence-controller",
+      type,
+      text,
+    });
+  };
+
+  ////
+  // Persistence section
+  ////
+
+  // URL related part
 
   // parse settings from url params
   const { b, v, oid, ...rest } = parse(location.search, {
@@ -84,32 +104,26 @@ export const PersistenceController = () => {
 
   const urlViewMode = parseViewMode(v);
 
-  const restoreSource = {
+  const urlPersistenceObject = {
     activeBasemapId: b,
     is3dEnabled: urlViewMode,
     mapView: parseMapView(rest, urlViewMode),
   };
 
-  const restoreFromUrl = !areAllUndefined(restoreSource) || oid !== undefined;
+  // restore from url if at least one property is set via url
+  const restoreFromUrl =
+    !areAllUndefined(urlPersistenceObject) || oid !== undefined;
 
-  const handleNotification = (text, type = "danger") => {
-    setNotification({
-      id: "persistence-controller",
-      type,
-      text,
-    });
-  };
-
-  // url params overwrite local storage
+  // read persistence object either from local storage or from the url
   const {
     activeBasemapId: persistedBasemap,
     operationalLayers,
     is3dEnabled: persistenceIs3dEnabled,
     mapView = {},
     searchOptions,
-  } = restoreFromUrl ? restoreSource : persistenceObject;
+  } = restoreFromUrl ? urlPersistenceObject : persistenceObject;
 
-  // restore other map/layer related settings from local storage
+  // first restore settings from persistence object, afterwards restore the operational layers
   useEffect(() => {
     try {
       // restore basemap
@@ -180,13 +194,15 @@ export const PersistenceController = () => {
 
           Promise.all(fetchProcesses)
             .then((features) => {
-              setSelectedFeatures(
-                features.map((feature) => ({
-                  feature,
-                  displayedInMap: false,
-                  type: LAYER_TYPES.HISTORIC_MAP,
-                }))
-              );
+              setSelectedFeatures(wrapMapFeatures(features));
+
+              // fit view to features if the mapView param is undefined
+              if (
+                mapView === undefined ||
+                Object.entries(mapView).length === 0
+              ) {
+                fitMapToFeatures(map, features);
+              }
             })
             .catch((e) => {
               console.error(e);
@@ -205,69 +221,15 @@ export const PersistenceController = () => {
     }
   }, [map, olcsMap]);
 
+  // restore time extent and range from persistence object
   useEffect(() => {
     if (searchOptions !== undefined) {
-      const {
-        timeExtent: [persistedBegin, persistedEnd],
-      } = searchOptions;
+      const { timeExtent, timeRange: persistedTimeRange } = searchOptions;
 
-      const newTimeExtent = [
-        Math.max(persistedBegin, timeRange[0]),
-        Math.min(persistedEnd, timeRange[1]),
-      ];
-
-      setTimeExtent(newTimeExtent);
+      setTimeRange(persistedTimeRange);
+      setTimeExtent(timeExtent);
     }
-  }, [timeRange]);
+  }, []);
 
-  // Persist current state to localStorage
-  const writeStateToLocalStorage = useCallback(() => {
-    // Persist basic feature settings
-    const newPersistenceObject = {
-      activeBasemapId,
-      is3dEnabled: mapIs3dEnabled,
-      operationalLayers: selectedFeatures.map((selectedFeature) => {
-        const layers = map
-          .getLayers()
-          .getArray()
-          .filter((layer) => layer.getId !== undefined);
-        const mapLayer = layers.find(
-          (layer) => layer.getId() === selectedFeature.feature.getId()
-        );
-
-        return serializeOperationalLayer(selectedFeature, mapLayer);
-      }),
-      searchOptions: {
-        facets,
-        timeExtent,
-      },
-    };
-
-    if (map !== undefined) {
-      // Persist map view
-      const camera = olcsMap.getCesiumScene().camera;
-
-      newPersistenceObject.mapView = serializeMapView(
-        camera,
-        map,
-        mapIs3dEnabled
-      );
-    }
-
-    // write changes to localStorage
-    setPersistenceObject(newPersistenceObject);
-  }, [
-    activeBasemapId,
-    map,
-    mapIs3dEnabled,
-    olcsMap,
-    facets,
-    selectedFeatures,
-    timeExtent,
-  ]);
-
-  // Write state on page leave to storage
-  useOnPageLeave(writeStateToLocalStorage);
-
-  return <></>;
+  return <LocalStorageWriter />;
 };

@@ -6,7 +6,7 @@
  */
 import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import axios from "axios";
 import { equals } from "ol/extent";
 import { transformExtent } from "ol/proj";
@@ -20,6 +20,7 @@ import {
   timeExtentState,
   timeRangeState,
   searchIsLoadingState,
+  defaultTimeRange,
 } from "../../atoms/atoms";
 import { isDefined } from "../../../../util/util";
 import { createStatisticQuery, getSpatialQuery } from "../../../../util/query";
@@ -46,8 +47,8 @@ export const PaginatingDataController = ({
   const [mapView, setMapView] = useState(undefined);
   const setIsSearchLoading = useSetRecoilState(searchIsLoadingState);
   const setMapsInViewport = useSetRecoilState(searchResultDescriptorState);
-  const setTimeRange = useSetRecoilState(timeRangeState);
-  const timeExtent = useRecoilValue(timeExtentState);
+  const [timeRange, setTimeRange] = useRecoilState(timeRangeState);
+  const [timeExtent, setTimeExtent] = useRecoilState(timeExtentState);
 
   // derived
   const settings = SettingsProvider.getSettings();
@@ -210,7 +211,16 @@ export const PaginatingDataController = ({
           min = new Date(data["aggregations"]["summary"]["min"]);
 
         const newRange = [min.getUTCFullYear(), max.getUTCFullYear()];
-        setTimeRange(newRange);
+
+        // reset the range and extent only if the range was still the default range or if the range has changed
+        if (
+          defaultTimeRange === timeRange ||
+          newRange[0] !== timeRange[0] ||
+          newRange[1] !== timeRange[1]
+        ) {
+          setTimeRange(newRange);
+          setTimeExtent(newRange);
+        }
       }
     });
   }, []);

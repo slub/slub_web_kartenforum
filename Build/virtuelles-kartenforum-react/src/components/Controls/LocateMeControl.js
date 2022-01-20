@@ -84,13 +84,6 @@ export class LocateMeControl extends Control {
                     map.getView().getProjection()
                 );
 
-                // Temporary create an image tag for loading the marker image
-                const imageContainer = document.createElement("div");
-                imageContainer.className = "image-container";
-                imageContainer.style.display = "none";
-                imageContainer.appendChild(markerImg);
-                document.body.appendChild(imageContainer);
-
                 // Place marker at the position
                 const markerLayer = new VectorLayer({
                     source: new VectorSource({
@@ -104,7 +97,7 @@ export class LocateMeControl extends Control {
                         new Style({
                             image: new Icon({
                                 anchor: [0.5, 1],
-                                img: imageContainer.firstElementChild,
+                                src: markerImg,
                                 imgSize: [240, 240],
                                 scale: 1 / 7,
                             }),
@@ -122,7 +115,6 @@ export class LocateMeControl extends Control {
                 // Clean up after a 10 seconds
                 setTimeout(() => {
                     map.removeLayer(markerLayer);
-                    imageContainer.remove();
                 }, 10000);
             },
             (e) => console.error(e)

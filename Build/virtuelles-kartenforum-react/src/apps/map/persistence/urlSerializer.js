@@ -6,6 +6,7 @@
  */
 import { URL_VIEW_MODES } from "./urlParser";
 import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
+import SettingsProvider from "../../../SettingsProvider.js";
 
 /**
  * Convert a mapview representation to url parameters
@@ -68,7 +69,12 @@ const pointTo3dArray = (point) => {
  * @return {{b}}
  */
 export const serializeBasemapId = (basemapId) => {
-    return { b: basemapId };
+    const defaultBasemaps = SettingsProvider.getBaseMaps();
+    const isDefaultBasemap =
+        defaultBasemaps.filter((basemap) => basemap.id === basemapId).length >
+        0;
+
+    return isDefaultBasemap ? { b: basemapId } : {};
 };
 
 /**

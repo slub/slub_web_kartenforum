@@ -82,7 +82,8 @@ export const timeExtentState = atom({
     default: [1850, 1970],
 });
 
+export const defaultTimeRange = [1850, 1970];
 export const timeRangeState = atom({
     key: "timeRangeState",
-    default: [1850, 1970],
+    default: defaultTimeRange,
 });

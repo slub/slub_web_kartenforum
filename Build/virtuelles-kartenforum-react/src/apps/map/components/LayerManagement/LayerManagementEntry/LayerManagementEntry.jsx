@@ -11,7 +11,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useDrag, useDrop } from "react-dnd";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { fromExtent } from "ol/geom/Polygon";
 
 import { isDefined, translate } from "../../../../../util/util";
 import {
@@ -172,14 +171,12 @@ export const LayerManagementEntry = (props) => {
   // zoom to the layer
   const handleZoomToExtent = () => {
     if (isDefined(map)) {
-      const geometry = fromExtent(
+      const extent =
         layer.get("type") === LAYER_TYPES.GEOJSON
           ? layer.getSource().getExtent()
-          : layer.getExtent()
-      );
+          : layer.getExtent();
       // add percentage based padding
-      geometry.scale(1.5);
-      map.getView().fit(geometry);
+      map.getView().fit(extent, { padding: [50, 350, 50, 350] });
     }
   };
 

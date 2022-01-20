@@ -7,6 +7,7 @@
 import { useEffect, useState } from "react";
 import { Feature } from "ol";
 import { Polygon } from "ol/geom";
+import { extend } from "ol/extent";
 
 import {
     deserializeGeojson,
@@ -83,6 +84,26 @@ export const fetchFeatureForMapId = (mapId, is3dEnabled) =>
     queryDocument(mapId).then((res) =>
         readFeature(mapId, res, undefined, undefined, is3dEnabled)
     );
+
+/**
+ * Fits the map view to an array of features
+ * @param map
+ * @param features
+ */
+export const fitMapToFeatures = (map, features) => {
+    let boundingExtent;
+    features.forEach((feature) => {
+        const featureBoundingExtent = feature.getGeometry().getExtent();
+        boundingExtent =
+            boundingExtent === undefined
+                ? featureBoundingExtent
+                : extend(boundingExtent, featureBoundingExtent);
+    });
+
+    if (boundingExtent !== undefined) {
+        map.getView().fit(boundingExtent, { padding: [50, 350, 50, 350] });
+    }
+};
 
 /**
  * Serializes an operational layer
@@ -265,3 +286,15 @@ export const useOnPageLeave = (handler) => {
         };
     }, [handler]);
 };
+
+/**
+ * Wraps a set of features for the usage in the selected features state
+ * @param features
+ * @return {*}
+ */
+export const wrapMapFeatures = (features) =>
+    features.map((feature) => ({
+        feature,
+        displayedInMap: false,
+        type: LAYER_TYPES.HISTORIC_MAP,
+    }));
