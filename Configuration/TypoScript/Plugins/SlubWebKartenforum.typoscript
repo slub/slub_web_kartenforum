@@ -27,6 +27,10 @@ tt_content.slubwebkartenforum_apps {
     variables {
         importApp = TEXT
         importApp.data = flexform:pi_flexform:settings.importApp
+        basemaps = TEXT
+        basemaps.value = {$plugin.tx_slubwebkartenforum.settings.basemaps}
+        urlNominatim = TEXT
+        urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
         urlSearch = TEXT
         urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
     }

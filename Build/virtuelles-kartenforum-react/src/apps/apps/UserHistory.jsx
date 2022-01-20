@@ -98,7 +98,7 @@ export const UserHistory = () => {
                 {translate("userhistory-link-showMap")}
               </a>
               <a
-                href={`${linkToGeoreference}?transformation_id=${map.transformation.id}`}
+                href={`${linkToGeoreference}?transformation_id=${map.transformation.id}&map_id=${map.map_id}`}
                 rel="noreferrer"
                 target="_blank"
               >

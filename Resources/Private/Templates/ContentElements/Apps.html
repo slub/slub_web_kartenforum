@@ -1,11 +1,18 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:vk="http://typo3.org/ns/Slub/SlubWebKartenforum/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
 
+<input type="hidden" value="{importApp}" id="setting-importapp"/>
+<input type="hidden" value="{urlNominatim}" id="setting-urlNominatim" />
+<input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
+<f:security.ifAuthenticated>
+    <f:then>
+        <input type="hidden" id="setting-is-auth"/>
+    </f:then>
+</f:security.ifAuthenticated>
+
 <f:section name="HeaderAssets">
     <link rel="stylesheet" href="{f:uri.resource(path: 'Build/plugin-apps.css', extensionName: 'slub_web_kartenforum')}" />
     <script type="text/javascript" src="{f:uri.resource(path: 'Build/plugin-apps.js', extensionName: 'slub_web_kartenforum')}"></script>
 </f:section>
-
-<input type="hidden" value="{importApp}" id="setting-importapp"/>
 
 <!-- We have to set the language code extra, because if not the fluid template engine will destroy our osm_urls pattern -->
 <f:section name="FooterAssets">
@@ -17,17 +24,13 @@
 
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
-            "API_SEARCH": "https://search-slub.pikobytes.de/vk20",
-            "API_GEOREFERENCE_JOB":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postJob&type=9991",
+            "API_SEARCH": document.getElementById("setting-urlSearch").value,
             "API_GEOREFERENCE_STATISTICS":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getStatistics&type=9991",
-            "API_GEOREFERENCE_TRANSFORMATION_FOR_VALIDATION":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationForValidation&type=9991",
-            "API_GEOREFERENCE_TRANSFORMATION_TRY": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationTry&type=9991",
             "API_GEOREFERENCE_USER_HISTORY":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getUserHistory&type=9991",
             "LINK_TO_FAQ":  "/faq",
-            "LINK_TO_GEOREFERENCE": "/georeferenzierung",
+            "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
             "LINK_TO_MAIN":  "/",
-            "NOMINATIM_URL": "https://kartenforum.slub-dresden.de/nominatim/",
-            "OSM_URLS": ["https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png", "https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png", "https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"],
+            "NOMINATIM_URL": document.getElementById("setting-urlNominatim").value,
             "USERNAME": "<vk:username field='username'/>",
         });
 
@@ -71,10 +74,6 @@
                 );
             } else if (settingImportApp === "GeoreferenceRanking") {
                 vk2.renderGeoreferenceRanking(
-                    document.getElementById("vkf-app-container")
-                );
-            } else if (settingImportApp === "EvaluationTool") {
-                vk2.renderEvaluation(
                     document.getElementById("vkf-app-container")
                 );
             }
