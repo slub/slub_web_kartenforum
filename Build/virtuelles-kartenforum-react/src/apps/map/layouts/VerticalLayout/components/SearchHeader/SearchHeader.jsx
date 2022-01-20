@@ -87,16 +87,11 @@ export const SearchHeader = ({
           </div>
         )}
       </div>
-      <div
-        className={clsx("vkf-toggle-result-list-container", transitionClass)}
-      >
-        <ToggleResultListButton
-          disabled={mapCount === 0}
-          onClick={handleToggleSearchResultListButton}
-          isOpen={showSearchResultList}
-        />
-      </div>
-
+      <ToggleResultListButton
+        disabled={mapCount === 0}
+        onClick={handleToggleSearchResultListButton}
+        isOpen={showSearchResultList}
+      />
       <div className={clsx("vkf-search-result-container", transitionClass)}>
         <MapSearchResultList
           direction="horizontal"

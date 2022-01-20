@@ -1,4 +1,4 @@
-@import "../../../../../../_sass/variables";
+@import "../../../../../../../../../Resources/Private/Scss/_Variables";
 
 .vkf-permalink-exporter {
     width: 300px;
@@ -13,7 +13,7 @@
     .permalink-exporter-title {
         h4 {
             margin-top: 0;
-            color: $secondaryColorContrast;
+            color: white;
         }
     }
 
@@ -35,7 +35,7 @@
             }
 
             &:hover {
-                background: transparentize($primaryColorMain, 0.3);
+                background: transparentize($primary-color, 0.3);
             }
 
             .glyphicon-copy {

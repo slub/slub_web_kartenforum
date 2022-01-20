@@ -59,8 +59,7 @@ export const Notifications = () => {
     if (
       notification !== null &&
       notification.id !== null &&
-      JSON.stringify(notification) !==
-      JSON.stringify(previousNotification)
+      JSON.stringify(notification) !== JSON.stringify(previousNotification)
     ) {
       const newNotificationStack = [...notificationStack];
 

@@ -1,4 +1,4 @@
-@import "../../_sass/variables";
+@import "../../../../../Resources/Private/Scss/_Variables.scss";
 
 .image-manipulation {
     .content-container {
@@ -6,7 +6,6 @@
         position: absolute;
         left: 40px;
         top: -52px;
-        content: "";
         background: rgba(51, 85, 85, 0.7);
         padding: 20px 20px 5px 20px;
         box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
@@ -85,10 +84,10 @@
                 cursor: pointer;
                 width: 12px;
                 height: 12px;
-                background: $secondaryColorMain;
+                background: $secondary-color;
                 box-shadow: 1px 0 2px rgb(0 0 0 / 20%);
                 background: 0 0;
-                background: $secondaryColorMain;
+                background: $secondary-color;
                 border: 1px solid #fff;
                 top: 0;
             }

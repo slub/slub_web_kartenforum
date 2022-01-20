@@ -2,13 +2,10 @@
 @import "../../../../_sass/overwrites-openlayers";
 
 .map-container {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-grow: 1;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
 
     .map-div {
         width: 100%;
@@ -65,8 +62,17 @@
     .ol-map-small {
         .ol-control {
             &.ol-full-screen {
-                top: 20px;
+                left: 15px;
+                right: auto;
+                top: 95px;
             }
+            &.rotate-north {
+                top: 60px;
+                left: 15px;
+            }
+        }
+        .ol-scale-line {
+            left: 15px;
         }
     }
 
@@ -84,44 +90,44 @@
             &.ol-permalink,
             &.ol-locate-me,
             &.ol-zoom {
-                left: 340px;
+                left: 370px;
             }
 
             &.ol-zoom {
-                top: 40px;
+                top: 15px;
             }
 
             &.ol-full-screen {
-                top: 96px;
+                top: 76px;
                 right: unset;
             }
 
             &.ol-layerspy {
-                top: 132px;
+                top: 114px;
             }
 
             &.rotate-north {
-                top: 168px;
+                top: 152px;
             }
 
             &.mouse-position {
-                top: 204px;
+                top: 190px;
             }
 
             &.flip-view-mode {
-                top: 240px;
+                top: 228px;
             }
 
             &.basemap-selector {
-                top: 276px;
+                top: 266px;
             }
 
             &.ol-locate-me {
-                top: 312px;
+                top: 304px;
             }
 
             &.ol-permalink {
-                top: 348px;
+                top: 342px;
             }
         }
 

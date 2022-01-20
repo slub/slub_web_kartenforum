@@ -1,24 +1,23 @@
+@import "../../../../../../../../../Resources/Private/Scss/_Variables";
+
 .ol-permalink {
     .content-container {
-        border: 5px solid transparent;
         position: absolute;
+        top: 0;
         left: 40px;
-        top: -30px;
-        content: "";
-        background: rgba(51, 85, 85, 0.7);
-        padding: 20px 20px 5px 20px;
-        box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+        padding: 20px;
+        background: rgba($secondary-color-dark, 0.9);
+        box-shadow: $shadow;
 
         &:before {
-            left: -15px;
-            top: 50%;
-            margin-top: -15px;
-            width: 0;
-            border: 10px solid transparent;
-            border-left-width: 0;
-            border-right-color: rgba(51, 85, 85, 0.7);
             position: absolute;
+            left: -5px;
+            top: 10px;
+            width: 0;
             height: 0;
+            border: 5px solid transparent;
+            border-right-color: rgba($secondary-color-dark, 0.9);
+            border-left-width: 0;
             content: "";
         }
     }

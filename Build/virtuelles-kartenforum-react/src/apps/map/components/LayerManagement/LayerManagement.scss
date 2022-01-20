@@ -1,12 +1,21 @@
+@import "../../../../../../../Resources/Private/Scss/_Variables";
+
 .vkf-layermanagement-root {
     height: 100%;
     overflow-y: hidden;
 
     .heading {
         position: relative;
-        background: #eee;
-        padding: 5px 15px;
+        background: white;
+        color: $secondary-color-dark;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 5px 15px 5px 25px;
         z-index: 310;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid $color-lightgrey;
 
         &:after {
             position: absolute;
@@ -23,11 +32,13 @@
     }
 
     .layermanagement-body {
-        height: calc(100% - 30px);
+        position: relative;
+        height: calc(100% - 35px);
         width: 100%;
         list-style: none;
         overflow: hidden;
         overflow-y: auto;
+        margin: 0;
 
         .empty {
             margin-top: 60px;
@@ -41,21 +52,32 @@
     }
 
     .badge {
-        background-color: #00b19eed;
-        display: inline;
-        height: 20px;
-        left: -10px;
-        padding: 4px 3px;
         position: absolute;
-        width: 20px;
+        left: -10px;
+        top: 5px;
+        padding: 4px;
+        height: 30px;
+        min-width: 30px;
+        line-height: 20px;
+        font-size: 16px;
         text-align: center;
-        top: -10px;
-        vertical-align: middle;
-        z-index: 1000;
+        background-color: $secondary-color;
+        z-index: 350;
+        border: 1px solid white;
+        border-radius: 15px;
     }
-}
 
-@media only screen and (min--moz-device-pixel-ratio: 2),
-    only screen and (-webkit-min-device-pixel-ratio: 2),
-    only screen and (min-device-pixel-ratio: 2) {
+    @media screen and (min-width: $tabletLandscapeViewportWidth) {
+        position: absolute;
+        top: 15px;
+        bottom: 15px;
+        right: 15px;
+        height: auto;
+        border: 0 none;
+        width: 340px;
+        z-index: 310;
+        overflow: visible;
+        background: white;
+        box-shadow: $shadow;
+    }
 }

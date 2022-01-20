@@ -26,6 +26,8 @@ import SettingsProvider from "../../../../../SettingsProvider";
 import { serializeOperationalLayer } from "../../../persistence/util";
 import { triggerJsonDownload } from "../util";
 import { LAYER_TYPES } from "../../CustomLayers/LayerTypes";
+import { useDoubleTap } from "use-double-tap";
+import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
 import "./LayerManagementEntry.scss";
 
 export const ItemTypes = {
@@ -45,6 +47,7 @@ export const LayerManagementEntry = (props) => {
   );
   const [src, setSrc] = useState(layer.getThumbnail());
   const [isVisible, setIsVisible] = useState(layer["getVisible"]());
+  const [isShowActions, setShowActions] = useState();
   const settings = SettingsProvider.getSettings();
 
   // drag/drop handlers from: https://react-dnd.github.io/react-dnd/examples/sortable/simple
@@ -126,6 +129,7 @@ export const LayerManagementEntry = (props) => {
   const handleMouseEnter = () => {
     if (draggedItem === null && !hovered) {
       onUpdateHover(layer.getId());
+      setShowActions(!isShowActions);
     }
   };
 
@@ -133,8 +137,14 @@ export const LayerManagementEntry = (props) => {
   const handleMouseLeave = () => {
     if (draggedItem === null) {
       onUpdateHover(undefined);
+      setShowActions(undefined);
     }
   };
+
+  // toggle function buttons on double click/tap
+  const handleDoubleTap = useDoubleTap((event) => {
+    setShowActions(!isShowActions);
+  });
 
   // Move layer to the top of the stack
   const handleMoveTop = (event) => {
@@ -208,8 +218,9 @@ export const LayerManagementEntry = (props) => {
     <li
       className={clsx(
         "vkf-layermanagement-record",
-        isVisible ? "visible" : "notvisible",
+        isVisible ? "record-visible" : "record-hidden",
         isDragging && "drag-and-drop-placeholder",
+        isShowActions && "show-actions",
         hovered &&
           (draggedItem === null || draggedItem.id === layer.getId()) &&
           "force-hover"
@@ -220,17 +231,10 @@ export const LayerManagementEntry = (props) => {
       onMouseEnter={handleMouseEnter}
       onMouseOver={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      {...handleDoubleTap}
       ref={ref}
     >
-      <div className="control-container">
-        <button
-          className="move-layer-top minimize-tool"
-          onClick={handleMoveTop}
-          type="button"
-          title={translate("layermanagement-move-top")}
-        >
-          {translate("layermanagement-move-top")}
-        </button>
+      <div className="visibility-container">
         <button
           className="disable-layer minimize-tool"
           onClick={handleChangeVisibility}
@@ -239,12 +243,39 @@ export const LayerManagementEntry = (props) => {
         >
           {translate("layermanagement-show-map")}
         </button>
+      </div>
+      {layer.get("type") !== LAYER_TYPES.GEOJSON && (
+        <div className="thumbnail-container">
+          <a href="#">
+            <img onError={handleError} src={src} alt="Thumbnail Image of Map" />
+          </a>
+        </div>
+      )}
+      <div className="metadata-container">
+        <h4>{layer.getTitle()}</h4>
+        <div className="timestamps">
+          <span className="timestamps-label">{`${translate(
+            "layermanagement-timestamp"
+          )} ${layer.getTimePublished()}`}</span>
+        </div>
+      </div>
+      <div className="control-container">
+        <button
+          className="move-layer-top minimize-tool"
+          onClick={handleMoveTop}
+          type="button"
+          title={translate("layermanagement-move-top")}
+        >
+          <SvgIcons name="layeraction-totop" />
+          {translate("layermanagement-move-top")}
+        </button>
         <button
           className="remove-layer minimize-tool"
           onClick={handleRemoveLayer}
           type="button"
           title={translate("layermanagement-remove-map")}
         >
+          <SvgIcons name="layeraction-remove-map" />
           {translate("layermanagement-remove-map")}
         </button>
         <button
@@ -253,6 +284,7 @@ export const LayerManagementEntry = (props) => {
           type="button"
           title={translate("layermanagement-zoom-to-map")}
         >
+          <SvgIcons name="layeraction-center" />
           {translate("layermanagement-zoom-to-map")}
         </button>
         {layer.get("type") !== LAYER_TYPES.GEOJSON ? (
@@ -262,6 +294,7 @@ export const LayerManagementEntry = (props) => {
             type="button"
             title={translate("layermanagement-show-original")}
           >
+            <SvgIcons name="layeraction-showoriginal" />
             {translate("layermanagement-show-original")}
           </button>
         ) : (
@@ -274,33 +307,31 @@ export const LayerManagementEntry = (props) => {
             Export
           </button>
         )}
-        <div className="drag-btn" />
         {settings["LINK_TO_GEOREFERENCE"] !== undefined && (
-          <a
+          <button
             className="georeference-update"
             title={`${translate("layermangement-georef-update")} ...`}
-            target="_blank"
-            rel="noreferrer"
-            href={`${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layer.getId()}`}
+            onClick={(e) => {
+              window.open(
+                `${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layer.getId()}`,
+                "_blank"
+              );
+            }}
           >
-            ${translate("layermangement-georef-update")} ...
-          </a>
+            <SvgIcons name="icon-point-move" />$
+            {translate("layermangement-georef-update")}
+          </button>
         )}
+        <OpacitySlider orientation="horizontal" layer={layer} />
       </div>
-      {layer.get("type") !== LAYER_TYPES.GEOJSON && (
-        <a href="#" className="thumbnail">
-          <img onError={handleError} src={src} alt="Thumbnail Image of Map" />
-        </a>
-      )}
-      <div className="metadata-container">
-        <h4>{layer.getTitle()}</h4>
-        <div className="timestamps">
-          <span className="timestamps-label">{`${translate(
-            "layermanagement-timestamp"
-          )} ${layer.getTimePublished()}`}</span>
-        </div>
+      <div className="drag-container">
+        <button className="drag-button">
+          <span />
+          <span />
+          <span />
+          <span />
+        </button>
       </div>
-      <OpacitySlider orientation="vertical" layer={layer} />
     </li>
   );
 };
@@ -312,6 +343,7 @@ LayerManagementEntry.propTypes = {
   layer: PropTypes.instanceOf(HistoricMap),
   onMoveLayer: PropTypes.func,
   onUpdateHover: PropTypes.func,
+  showActions: PropTypes.func,
 };
 
 export default LayerManagementEntry;

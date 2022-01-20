@@ -27,7 +27,9 @@ export const Modal = ({
     >
       <BootstrapModal.Header>
         <p>{title}</p>
-        <button onClick={onClose}>x</button>
+        <button onClick={onClose}>
+          <span>+</span>
+        </button>
       </BootstrapModal.Header>
       <BootstrapModal.Body>{renderContent()}</BootstrapModal.Body>
       {renderFooter !== undefined && (

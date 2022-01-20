@@ -56,7 +56,6 @@ export class LocateMeControl extends Control {
         // Control button
         const button = document.createElement("button");
         button.title = translate("control-locateme-title");
-        button.innerHTML = "G";
         button.type = "button";
         element.appendChild(button);
 

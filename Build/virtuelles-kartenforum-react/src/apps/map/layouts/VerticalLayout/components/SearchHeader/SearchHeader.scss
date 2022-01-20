@@ -1,12 +1,12 @@
-@import "../../../../../../_sass/variables";
+@import "../../../../../../../../../Resources/Private/Scss/_Variables";
 
 .vkf-search-header {
     flex-direction: column;
     display: flex;
     position: relative;
-    background: $primaryColorContrast;
+    background: white;
     width: 100%;
-    z-index: 101;
+    z-index: 120;
     border-bottom: 2px solid #c8c8c8;
     @include box-shadow;
 
@@ -20,77 +20,43 @@
         height: 36px;
     }
 
+    .result-summary {
+        font-size: 14px;
+        text-transform: uppercase;
+        color: $secondary-color-dark;
+    }
+
+    .controls-container {
+        margin-right: -5px;
+    }
+
     .bottom-container {
         height: 108px;
         padding: 5px 15px;
-
-        .timeslider-container {
-            label {
-                font-size: 14px;
-            }
-
-            &:after {
-                display: none;
-            }
-
-            .slider-container {
-                padding: 10px;
-            }
-        }
-    }
-}
-
-.vkf-toggle-result-list-container {
-    position: relative;
-    height: 0;
-    z-index: 102;
-    /**
- Center absolutely positioned div
- **/
-    margin-left: auto;
-    margin-right: auto;
-    width: 46px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    margin-top: -10px;
-
-    &.hide-search-result-list {
-        transition: transform 0.3s ease-in;
-        transform: translateY(0);
-    }
-
-    &.show-search-result-list {
-        transition: transform 0.43s ease-in 0.07s;
-        transform: translateY(245px);
     }
 }
 
 .vkf-search-result-container {
-    @include box-shadow;
-    height: 260px;
-    background: #fff;
-    overflow: auto;
     position: absolute;
+    height: 260px;
     width: 100%;
+    background: white;
+    overflow: auto;
     z-index: 100;
+    box-shadow: $shadow;
 
     &.hide-search-result-list {
-        transition: transform 0.3s ease-in;
-        transform: translateY(-300px);
+        transition: $transition;
+        transform: translateY(-255px);
     }
 
     &.show-search-result-list {
-        transition: transform 0.5s ease-in;
+        transition: $transition;
         transform: translateY(0);
     }
 
     .mapsearch-contentlist-container {
         height: 100%;
         width: 100%;
-
-        .vkf-mapsearch-record {
-            padding: 30px 10px 0 10px;
-        }
     }
 }

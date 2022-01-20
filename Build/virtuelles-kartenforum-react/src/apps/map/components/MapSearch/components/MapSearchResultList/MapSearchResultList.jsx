@@ -50,7 +50,7 @@ export let LOADING_FEATURE = new Feature({
 
 export const MapSearchResultList = ({
   direction = "vertical",
-  itemSize = 100,
+  itemSize = 110,
   minimumBatchSize,
   onFetchResults,
   onUpdateSortType,
@@ -169,14 +169,19 @@ export const MapSearchResultList = ({
     <div className={clsx("vkf-mapsearch-result-list", direction)}>
       {renderHeader && (
         <div className="list-header">
-          {SEARCH_COLS.map((type) => (
-            <MapSearchSortColumn
-              key={type}
-              onClick={onUpdateSortType}
-              sortOrder={activeType === type ? sortOrder : ""}
-              type={type}
-            />
-          ))}
+          <strong className="list-label">
+            {translate("mapsearch-sorting")}:
+          </strong>
+          <div className="inner-columns">
+            {SEARCH_COLS.map((type) => (
+              <MapSearchSortColumn
+                key={type}
+                onClick={onUpdateSortType}
+                sortOrder={activeType === type ? sortOrder : ""}
+                type={type}
+              />
+            ))}
+          </div>
         </div>
       )}
       <div className="mapsearch-contentlist-container" ref={refSearchList}>

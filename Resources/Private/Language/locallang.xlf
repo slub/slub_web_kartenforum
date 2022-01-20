@@ -281,6 +281,9 @@
 			<trans-unit id="plugin.map.mapsearch.title">
 				<source>Title</source>
 			</trans-unit>
+			<trans-unit id="plugin.map.mapsearch.sorting">
+				<source>Sorting</source>
+			</trans-unit>
 			<trans-unit id="plugin.map.mapsearch.facetsearch.open">
 			    <source>Open faceted search</source>
 			</trans-unit>

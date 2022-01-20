@@ -8,6 +8,7 @@ import React from "react";
 import clsx from "clsx";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
+import SvgIcons from "../../../../../../components/SvgIcons/SvgIcons.jsx";
 
 import { displayedLayersCountState } from "../../../../atoms/atoms";
 import "./LayerManagementButton.scss";
@@ -18,22 +19,18 @@ export const LayerManagementButton = ({ buttonState, onClick }) => {
   const disabled = displayedLayerCount === 0;
 
   return (
-    <div
+    <button
       className={clsx(
-        "vkf-toggle-layermanagement-container",
+        "vkf-toggle-layermanagement-button",
         !disabled && buttonState && "opened",
         disabled && "disabled"
       )}
+      disabled={disabled}
+      onClick={onClick}
     >
       {!disabled && <span className="badge">{displayedLayerCount}</span>}
-      <button
-        className="toggle-layermanagement-button"
-        disabled={disabled}
-        onClick={onClick}
-      >
-        L
-      </button>
-    </div>
+      <SvgIcons name="layers" />
+    </button>
   );
 };
 

@@ -235,6 +235,10 @@
 				<source><![CDATA[Title]]></source>
 				<target><![CDATA[Titel]]></target>
 			</trans-unit>
+			<trans-unit id="plugin.map.mapsearch.sorting">
+				<source><![CDATA[Sorting]]></source>
+				<target><![CDATA[Sortierung]]></target>
+			</trans-unit>
 			<trans-unit id="client.metadatabinding.gotoFotothek" approved="yes">
 				<source><![CDATA[Goto Fotothek]]></source>
 				<target><![CDATA[Gehe zu Fotothek]]></target>

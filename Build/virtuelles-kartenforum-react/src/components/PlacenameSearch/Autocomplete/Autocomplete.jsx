@@ -73,6 +73,8 @@ export function Autocomplete({
 
   const { ref, ...rest } = getInputProps();
 
+  console.log(inputProps);
+
   return (
     <div className="vkf-autocomplete-container">
       {label !== undefined && <label {...getLabelProps()}>{label}</label>}

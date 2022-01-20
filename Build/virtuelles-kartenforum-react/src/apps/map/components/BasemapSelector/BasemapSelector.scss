@@ -1,4 +1,4 @@
-@import "../../../../_sass/variables";
+@import "../../../../../../../Resources/Private/Scss/_Variables";
 
 .vkf-basemap-selector {
     width: 300px;
@@ -44,7 +44,7 @@
             display: flex;
 
             button.delete-basemap-button {
-                color: $primaryColorMain;
+                color: $primary-color;
                 margin: 10px 0;
                 height: 20px;
                 background: transparent;

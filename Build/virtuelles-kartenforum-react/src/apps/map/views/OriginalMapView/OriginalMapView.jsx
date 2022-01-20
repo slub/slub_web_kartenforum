@@ -44,41 +44,39 @@ export const OriginalMapView = (props) => {
         <h1>
           {mapDocument.title} <small>/ {mapDocument.title_long}</small>
         </h1>
-        <div className="btn-group-vertical">
-          <a
-            href={mapDocument.permalink}
-            rel="noreferrer"
-            className="btn btn-default"
-            target="_blank"
-          >
-            {translate("originalview-link-slub-label")}
-          </a>
-        </div>
+        <a
+          href={mapDocument.permalink}
+          rel="noreferrer"
+          className="btn btn-default"
+          target="_blank"
+        >
+          {translate("originalview-link-slub-label")}
+        </a>
       </div>
-      <div className="content row">
-        <div className="col-md-4 col-sm-12 content-metadata">
-          <h4>{translate("originalview-label-desc")}</h4>
-          <p>{mapDocument.description}</p>
-          <h4>{translate("originalview-label-identifier")}</h4>
-          <p>{map_id}</p>
-          <h4>{translate("originalview-label-scale")}</h4>
-          <p>1:{mapDocument.map_scale}</p>
-          <h4>{translate("originalview-label-keywords")}</h4>
-          <p>{mapDocument.keywords}</p>
+      <div className="content-metadata">
+        <dl>
+          <dt>{translate("originalview-label-desc")}</dt>
+          <dd>{mapDocument.description}</dd>
+          <dt>{translate("originalview-label-identifier")}</dt>
+          <dd>{map_id}</dd>
+          <dt>{translate("originalview-label-scale")}</dt>
+          <dd>1:{mapDocument.map_scale}</dd>
+          <dt>{translate("originalview-label-keywords")}</dt>
+          <dd>{mapDocument.keywords}</dd>
           {permaLink !== undefined && (
             <React.Fragment>
-              <h4>Permalink</h4>
-              <p>
+              <dt>Permalink</dt>
+              <dd>
                 <a href={permaLink.url} rel="noreferrer" target="_blank">
                   {permaLink.url}
                 </a>
-              </p>
+              </dd>
             </React.Fragment>
           )}
           {(wmsLink !== undefined || wcsLink !== undefined) && (
             <React.Fragment>
-              <h4>{translate("originalview-label-services")}</h4>
-              <p>
+              <dt>{translate("originalview-label-services")}</dt>
+              <dd>
                 {wmsLink !== undefined && (
                   <a href={wmsLink.url} rel="noreferrer" target="_blank">
                     WMS
@@ -90,27 +88,32 @@ export const OriginalMapView = (props) => {
                     WCS
                   </a>
                 )}
-              </p>
+              </dd>
             </React.Fragment>
           )}
           {downloadLink !== undefined && (
-            <a
-              href={downloadLink.url}
-              rel="noreferrer"
-              className="btn btn-default btn-download"
-              target="_blank"
-              title={translate("originalview-link-download-label")}
-            >
-              {translate("originalview-link-download-label")}
-            </a>
+            <React.Fragment>
+              <dt>Downloadlink</dt>
+              <dd>
+                <a
+                  href={downloadLink.url}
+                  rel="noreferrer"
+                  className="btn btn-default btn-download"
+                  target="_blank"
+                  title={translate("originalview-link-download-label")}
+                >
+                  {translate("originalview-link-download-label")}
+                </a>
+              </dd>
+            </React.Fragment>
           )}
-        </div>
-        <div className="col-md-8 col-sm-12 content-map">
-          <ZoomifyMap
-            urlImageProperties={mapDocument.zoomify_url}
-            withImageManipulation={true}
-          />
-        </div>
+        </dl>
+      </div>
+      <div className="content-map">
+        <ZoomifyMap
+          urlImageProperties={mapDocument.zoomify_url}
+          withImageManipulation={true}
+        />
       </div>
     </div>
   );

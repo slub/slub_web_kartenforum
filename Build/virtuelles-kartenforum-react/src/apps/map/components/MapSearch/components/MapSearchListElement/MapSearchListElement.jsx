@@ -99,7 +99,6 @@ export const MapSearchListElement = ({ data, index, style }) => {
         operationalLayer.get("maptype"),
         isSelected && "selected",
         direction,
-        index % 2 === 1 && "odd",
         isLoading && "loading"
       )}
       id={operationalLayer.get("id")}

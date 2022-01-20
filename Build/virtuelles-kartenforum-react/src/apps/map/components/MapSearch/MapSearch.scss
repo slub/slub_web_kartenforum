@@ -1,3 +1,5 @@
+@import "../../../../../../../Resources/Private/Scss/_Variables";
+
 .mapsearch-container {
     height: auto;
     background: transparent;
@@ -16,31 +18,18 @@
 
     .panel-heading {
         position: relative;
-        border-radius: 0;
-        border: 0 none;
-        background: #eee;
-        padding: 5px 10px;
-
-        &:after {
-            position: absolute;
-            bottom: -5px;
-            right: 10px;
-            width: 0;
-            height: 0;
-            content: "";
-            border: 5px solid transparent;
-            border-bottom-width: 0;
-            border-top-color: #eee;
-            z-index: 300;
-        }
+        background: white;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 5px 15px;
+        color: $secondary-color-dark;
+        border: solid $color-lightgrey;
+        border-width: 1px 0;
 
         .content {
-            height: 20px;
-
-            > div {
-                position: relative;
-                float: left;
-            }
+            display: flex;
+            height: 30px;
+            align-items: center;
 
             .loading-spinner {
                 .lds-roller {
@@ -55,11 +44,7 @@
             margin: 0 -10px;
             width: 290px;
             overflow: hidden;
-            -webkit-transition: all 0.4s ease-out;
-            -moz-transition: all 0.4s ease-out;
-            -o-transition: all 0.4s ease-out;
-            -ms-transition: all 0.4s ease-out;
-            transition: all 0.4s ease-out;
+            transition: $transition;
             display: block;
 
             > label {

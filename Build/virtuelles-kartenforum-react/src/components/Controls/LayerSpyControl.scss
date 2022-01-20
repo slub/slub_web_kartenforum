@@ -1,4 +1,4 @@
-@import "../../_sass/variables";
+@import "../../../../../Resources/Private/Scss/_Variables";
 
 .ol-control {
     &.ol-layerspy {
@@ -12,16 +12,16 @@
         > button {
             transition: background-color 500ms linear;
 
-            background: $secondaryColorMain
+            background: $secondary-color
                 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0xNC40IDEyLjhsLS4xLjFjLjUtLjcuNy0xLjUuNy0yLjUgMC0yLjUtMi00LjQtNC40LTQuNC0yLjUgMC00LjQgMi00LjQgNC40IDAgMi41IDIgNC40IDQuNCA0LjQuOSAwIDEuOC0uMyAyLjUtLjdsMi40IDIuNCAxLjQtMS40LTIuNS0yLjN6bS00LjYtLjRsLS43LS43IDIuNi0yLjcuNy43LTIuNiAyLjd6TTQuOTI1IDE0LjM1NWwyLjEyMSAyLjEyMS0yLjYxNiAyLjYxNi0yLjEyMS0yLjEyMXpNMTYuOTI1IDIuMzU1bDIuMTIxIDIuMTIxLTIuNjE2IDIuNjE2LTIuMTIxLTIuMTIxeiIvPjwvc3ZnPg==")
                 no-repeat 0 0;
 
             &.active {
-                background-color: $primaryColorMain;
+                background-color: $primary-color;
             }
 
             &:disabled {
-                background-color: $inactiveColor;
+                background-color: rgb(158, 158, 158);
                 pointer-events: none;
             }
         }

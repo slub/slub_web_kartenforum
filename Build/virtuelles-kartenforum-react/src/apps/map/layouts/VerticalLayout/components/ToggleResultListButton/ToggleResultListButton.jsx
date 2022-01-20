@@ -13,12 +13,14 @@ import "./ToggleResultListButton.scss";
 
 export const ToggleResultListButton = ({ disabled, onClick, isOpen }) => {
   return (
-    <div className="vkf-toggle-search-result-list">
-      <button
-        className={clsx(isOpen ? "open" : "closed", disabled && "disabled")}
-        disabled={disabled}
-        onClick={onClick}
-      />
+    <div
+      className={clsx(
+        "vkf-toggle-search-result-list",
+        isOpen ? "open" : "closed",
+        disabled && "disabled"
+      )}
+    >
+      <button disabled={disabled} onClick={onClick} />
     </div>
   );
 };

@@ -1,58 +1,73 @@
+@import "../../../../../Resources/Private/Scss/_Variables";
+
 .gazetteersearch-container {
     position: relative;
     height: auto;
-}
 
-.gazetteersearch-container .form-group {
-    margin: 0;
-}
+    .form-group {
+        margin: 0;
 
-.gazetteersearch-container .gazetteersearch-input {
-    width: 100%;
-    position: relative;
-    border-radius: 0;
-    font-weight: 300;
-}
+        &:after {
+            position: absolute;
+            right: 40px;
+            top: 11px;
+            width: 0;
+            height: 0;
+            content: "";
+            border: 6px solid transparent;
+            border-right-color: $secondary-color;
+            border-left-width: 0;
+        }
+    }
 
-.gazetteersearch-container .gazetteersearch-input:focus,
-.gazetteersearch-container .gazetteersearch-submit:focus {
-    border-color: #766;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-        0 0 8px rgba(0, 0, 0, 0.2);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 0, 0, 0.2);
-}
+    .gazetteersearch-input {
+        width: 100%;
+        position: relative;
+        border-radius: 0;
+        color: $secondary-color-dark;
 
-.gazetteersearch-container .gazetteersearch-input.loading {
-    background: #fff url("../../../../../Resources/Public/Images/loader.gif")
-        220px center no-repeat;
-}
+        &.loading {
+            background: white
+                url("../../../../../Resources/Public/Images/loader.gif") 220px
+                center no-repeat;
+        }
+    }
 
-.gazetteersearch-container .gazetteersearch-submit {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 40px;
-    height: 34px;
-    border-radius: 0;
-    background: rgb(0, 177, 158)
-        url("../../../../../Resources/Public/Images/searchBtn.svg") no-repeat
-        center center;
-    background-size: 18px 18px;
-    overflow: hidden;
-    text-indent: 100%;
-    white-space: nowrap;
-    padding: 0;
-    border-left: 0 none;
-}
+    .gazetteersearch-input,
+    .gazetteersearch-submit {
+        &:focus {
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+                0 0 8px rgba(0, 0, 0, 0.2);
+        }
+    }
 
-.gazetteersearch-container .form-group:after {
-    position: absolute;
-    right: 40px;
-    top: 11px;
-    width: 0;
-    height: 0;
-    content: "";
-    border: 6px solid rgb(0, 177, 158);
-    border-color: transparent rgb(0, 177, 158) transparent transparent;
-    border-left-width: 0;
+    .gazetteersearch-submit {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 34px;
+        border-radius: 0;
+        background: $secondary-color
+            url("../../../../../Resources/Public/Images/searchBtn.svg")
+            no-repeat center center;
+        background-size: 18px 18px;
+        color: transparent;
+        padding: 0;
+        border: 0;
+    }
+
+    @media screen and (min-width: $tabletLandscapeViewportWidth) {
+        padding: 15px;
+        .gazetteersearch-submit {
+            top: 15px;
+            right: 15px;
+        }
+        .form-group {
+            &:after {
+                top: 27px;
+                right: 55px;
+            }
+        }
+    }
 }

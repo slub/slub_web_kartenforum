@@ -9,7 +9,6 @@ import { Control } from "ol/control";
 
 import { translate } from "../../util/util";
 import SettingsProvider from "../../SettingsProvider";
-import "./ToggleViewMode.scss";
 
 export const MIN_3D_ZOOM = 9;
 
@@ -25,11 +24,6 @@ export class ToggleViewMode extends Control {
     button.title = translate("control-toggleviewmode-title");
     button.type = "button";
     element.appendChild(button);
-
-    const buttonText = document.createElement("span");
-    buttonText.className = "flipviewmode-button-label";
-    buttonText.innerHTML = "3D";
-    button.appendChild(buttonText);
 
     const infoMessage = document.createElement("div");
     infoMessage.className = "info-message";

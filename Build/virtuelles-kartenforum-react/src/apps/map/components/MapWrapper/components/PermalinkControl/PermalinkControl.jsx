@@ -34,7 +34,6 @@ export class PermalinkControl extends Control {
     // Control button
     const button = document.createElement("button");
     button.title = translate("control-permalink-open");
-    button.innerHTML = "P";
     button.type = "button";
     element.appendChild(button);
 

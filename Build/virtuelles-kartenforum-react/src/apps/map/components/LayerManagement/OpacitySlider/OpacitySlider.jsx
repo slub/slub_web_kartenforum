@@ -28,7 +28,7 @@ export const OpacitySlider = (props) => {
    *	@param {Element} element
    */
   const handleUpdatePosition = (value, element) => {
-    if (orientation == "vertical") {
+    if (orientation === "vertical") {
       var style_top = 100 - ((value - baseMin) / (baseMax - baseMin)) * 100;
       element.style.top = style_top + "%";
       element.innerHTML = value.toFixed(0) + "%";
@@ -56,7 +56,7 @@ export const OpacitySlider = (props) => {
   };
 
   useEffect(() => {
-    handleUpdatePosition(value, valueRef.current);
+    handleUpdatePosition(Math.round(value), valueRef.current);
   }, [value]);
 
   useEffect(() => {

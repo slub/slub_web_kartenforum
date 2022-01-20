@@ -123,7 +123,7 @@ export const BasemapSelector = (props) => {
   return (
     <React.Fragment>
       <div className="vkf-basemap-selector">
-        <p>{translate("control-basemapselector-label")}:</p>
+        <h4>{translate("control-basemapselector-label")}:</h4>
         <FormGroup>
           {[...layers, ...customLayers].map((l) => (
             <div key={l.id} className="basemap-selector-entry">

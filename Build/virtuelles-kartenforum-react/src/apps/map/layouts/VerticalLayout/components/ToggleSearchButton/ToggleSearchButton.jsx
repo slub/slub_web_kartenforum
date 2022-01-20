@@ -6,6 +6,7 @@
  */
 import React from "react";
 import PropTypes from "prop-types";
+import SvgIcons from "../../../../../../components/SvgIcons/SvgIcons.jsx";
 
 import "./ToggleSearchButton.scss";
 
@@ -16,7 +17,9 @@ export const ToggleSearchButton = ({ onClick }) => {
       className="vkf-toggle-search-button"
       onClick={onClick}
       title="toggle search"
-    />
+    >
+      <SvgIcons name="icon-search" />
+    </button>
   );
 };
 

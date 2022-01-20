@@ -1,33 +1,46 @@
-@import "../../_sass/variables";
+@import "../../../../../Resources/Private/Scss/_Variables";
 
 .vkf-modal {
     .modal-header {
-        background: #eee;
-        border: 0;
-        padding: 6px 15px;
-        display: block !important;
+        position: relative;
+        background: $secondary-color;
+        color: white;
+        letter-spacing: 0.1ex;
+        font-weight: 700;
+        text-transform: uppercase;
+
+        p {
+            margin: 5px 0;
+        }
 
         button {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            padding: 3px 7px 5px;
-            background: $secondaryColorDark;
-            border: 1px solid #eee;
+            top: 50%;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            margin-top: -15px;
             opacity: 1;
-            text-shadow: none;
-            color: $secondaryColorContrast;
-            z-index: 901;
-            margin-top: -2px;
-            float: right;
-            font-size: 21px;
-            font-weight: 700;
-            line-height: 1;
+            background: $secondary-color-dark;
+            border: 0;
+            span {
+                position: absolute;
+                inset: 0;
+                transform: rotate(-45deg);
+                display: block;
+                font-size: 24px;
+                line-height: 1;
+            }
         }
     }
 
     .modal-content {
         margin: 0;
         border: 0;
+        border-radius: 0;
+    }
+
+    .modal-body {
+        padding: 0;
     }
 }

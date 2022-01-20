@@ -13,6 +13,7 @@ import clsx from "clsx";
 import { translate } from "../../../../../../util/util";
 import { facetState } from "../../../../atoms/atoms";
 import "./ToggleFacetsButton.scss";
+import SvgIcons from "../../../../../../components/SvgIcons/SvgIcons.jsx";
 
 export const ToggleFacetsButton = ({ onClick, isOpen }) => {
   const facets = useRecoilValue(facetState);
@@ -25,7 +26,9 @@ export const ToggleFacetsButton = ({ onClick, isOpen }) => {
       )}
       onClick={onClick}
       title={translate(`mapsearch-facetedsearch-${isOpen ? "close" : "open"}`)}
-    />
+    >
+      <SvgIcons name="icon-filter" />
+    </button>
   );
 };
 

@@ -18,6 +18,7 @@ import DeactivateMapCollection from "./DeactivateMapCollection/DeactivateMapColl
 import DynamicMapVisualization from "./DynamicMapVisualization/DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry/LayerManagementEntry";
 import { getIndexToLayer, getLayers } from "./util";
+import { useSetElementScreenSize } from "../../../../util/hooks.js";
 import "./LayerManagement.scss";
 
 const customBackends = HTML5toTouch.backends.map((backend) => {
@@ -47,13 +48,20 @@ export const LayerManagement = ({
   const { showBadge, showDynamicMapVisualization, showHideButton } =
     showControls;
 
-  const map = useRecoilValue(mapState);
+  // state
   const [displayedLayers, setDisplayedLayers] = useState(undefined);
   const [displayedLayersCount, setDisplayedLayersCount] = useRecoilState(
     displayedLayersCountState
   );
   const [hoveredLayerId, setHoveredLayerId] = useState(undefined);
-  const blockRefreshRef = useRef(null);
+  const map = useRecoilValue(mapState);
+
+  // refs
+  const refBlockRefresh = useRef(null);
+  const refLayermanagement = useRef();
+
+  // update layermanagement size in recoil state
+  useSetElementScreenSize(refLayermanagement, "layermanagement");
 
   ////
   // Handler section
@@ -61,7 +69,7 @@ export const LayerManagement = ({
 
   // Handles changes on the layer container of the map
   const handleRefresh = useCallback(() => {
-    if (!blockRefreshRef.current && isDefined(map)) {
+    if (!refBlockRefresh.current && isDefined(map)) {
       const newLayers = getLayers(map);
       setDisplayedLayers(newLayers.reverse());
       setDisplayedLayersCount(newLayers.length);
@@ -71,7 +79,7 @@ export const LayerManagement = ({
   // Handles drag and drop moves
   const handleMoveLayer = (dragIndex, hoverIndex) => {
     // block all but the last refresh
-    blockRefreshRef.current = true;
+    refBlockRefresh.current = true;
     const layers = map.getLayers();
 
     const bigIndex = dragIndex > hoverIndex ? dragIndex : hoverIndex;
@@ -84,7 +92,7 @@ export const LayerManagement = ({
     layers.removeAt(smallIndex);
 
     layers.insertAt(smallIndex, layerA);
-    blockRefreshRef.current = false;
+    refBlockRefresh.current = false;
     layers.insertAt(bigIndex, layerB);
   };
 
@@ -115,7 +123,7 @@ export const LayerManagement = ({
         backends: customBackends,
       })}
     >
-      <div className="vkf-layermanagement-root">
+      <div className="vkf-layermanagement-root" ref={refLayermanagement}>
         {showBadge && displayedLayersCount !== 0 && (
           <span className="badge">{displayedLayersCount}</span>
         )}

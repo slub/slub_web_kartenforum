@@ -1,56 +1,77 @@
-.vkf-toggle-search-result-list {
-    > button {
-        border: none;
-        background: transparent;
-        color: inherit;
-        padding: 0;
-        font: inherit;
-        cursor: pointer;
-        outline: inherit;
-        cursor: pointer;
-        display: block;
-        overflow: hidden;
-        white-space: nowrap;
+@import "../../../../../../../../../Resources/Private/Scss/_Variables";
 
-        width: 0;
-        height: 0;
-        border-left: 23px solid transparent;
-        border-right: 23px solid transparent;
+.vkf-toggle-search-result-list {
+    position: relative;
+    button {
+        position: absolute;
+        left: 50%;
+        bottom: -35px;
+        width: 80px;
+        z-index: 110;
+        height: 30px;
+        margin-left: -40px;
+        appearance: none;
+        display: block;
+        background: transparent;
+        border: 0;
+        line-height: 0;
+        font-size: 80px;
+        color: white;
+        text-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        overflow: hidden;
+        transition: $transition;
+
+        &:before {
+            position: absolute;
+            inset: 0;
+            content: "\25be";
+        }
+    }
+
+    &:after {
+        position: absolute;
+        top: -5px;
+        left: 50%;
+        margin-left: -10px;
+        width: 20px;
+        height: 20px;
+        border: solid $secondary-color;
+        border-width: 0 3px 3px 0;
+        content: " ";
+        transform: rotate(45deg);
+        pointer-events: none;
+        transition: $transition;
+        z-index: 111;
+    }
+
+    &.open {
+        button {
+            bottom: -290px;
+        }
+
+        &:before {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            margin-left: -10px;
+            width: 20px;
+            height: 20px;
+            border: solid white;
+            border-width: 0 8px 8px 0;
+            content: " ";
+            transform: rotate(-135deg);
+            pointer-events: none;
+            transition: $transition;
+        }
 
         &:after {
-            content: "";
-            width: 0;
-            height: 0;
-            border-left: 21px solid transparent;
-            border-right: 21px solid transparent;
-            position: absolute;
+            top: 255px;
+            transform: rotate(225deg) scale(0.7);
         }
+    }
 
-        &.open {
-            border-bottom: 23px solid black;
-
-            &:after {
-                border-bottom: 21px solid #dddddd;
-                left: 2px;
-                position: absolute;
-                top: 2px;
-            }
-        }
-
-        &.closed {
-            border-top: 23px solid black;
-
-            &.disabled {
-                border-top: 23px solid lightgrey;
-                cursor: default;
-            }
-
-            &:after {
-                border-top: 21px solid white;
-                left: 2px;
-                position: absolute;
-                top: 0;
-            }
-        }
+    &.disabled {
+        opacity: 0.3;
     }
 }

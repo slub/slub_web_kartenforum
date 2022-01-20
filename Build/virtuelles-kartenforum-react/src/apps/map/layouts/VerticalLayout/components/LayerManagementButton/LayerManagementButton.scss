@@ -1,52 +1,61 @@
-@import "../../../../../../_sass/variables";
+@import "../../../../../../../../../Resources/Private/Scss/_Variables";
 
-.vkf-toggle-layermanagement-container {
-    bottom: 5%;
-    left: 0;
-    margin-left: auto;
-    margin-right: auto;
+.vkf-toggle-layermanagement-button {
     position: absolute;
-    right: 0;
-    width: 52px;
+    bottom: 6%;
+    left: 50%;
     z-index: 3;
+    margin-left: -40px;
+    width: 80px;
+    height: 80px;
+    padding: 20px;
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    transition: $transition;
+    background: rgba(white, 0.85);
+    @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+        backdrop-filter: blur(2px);
+        background: rgba(white, 0.5);
+    }
+    border-radius: 40px;
 
-    .toggle-layermanagement-button {
-        width: 52px;
-        height: 52px;
-        border-radius: 50%;
-        text-align: center;
-        display: block;
-        padding: 0;
-        color: $secondaryColorContrast;
-        font-weight: bold;
-        text-decoration: none;
-        white-space: nowrap;
-        overflow: hidden;
-        border: 0;
-        background-color: $secondaryColorMain;
-        cursor: pointer;
-        line-height: 52px;
-        font-size: 2em;
+    svg {
+        fill: $secondary-color-dark;
+        transition: $transition;
     }
 
-    transition: transform 0.3s ease-in;
-    transform: translateY(0);
-
     &.opened {
-        transform: translateY(-42.5vh);
-        transition: transform 0.5s ease-in;
+        transform: translateY(-43vh);
+        transition: $transition;
+        background: white;
+
+        &:before {
+            border-color: $color-lightgrey;
+        }
     }
 
     &.disabled {
-        .toggle-layermanagement-button {
-            background-color: darken($alternatingListColorDark, 20);
-            color: $alternatingListColorDark;
-        }
+        opacity: 0.7;
+        pointer-events: none;
+    }
+
+    &:before {
+        position: absolute;
+        inset: -5px;
+        border-radius: 50%;
+        border: 1px solid white;
+        content: " ";
     }
 
     .badge {
         position: absolute;
-        background-color: $primaryColorMain;
-        color: $primaryColorContrast;
+        top: -2px;
+        right: -2px;
+        background-color: $secondary-color;
+        color: white;
+        font-size: 16px;
+        border-radius: 50%;
+        border: 1px solid white;
     }
 }

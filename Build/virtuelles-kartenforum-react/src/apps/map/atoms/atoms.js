@@ -27,7 +27,7 @@ export const elementsScreenSizeState = atom({
     default: {
         map: { height: 0, width: 0 },
         layermanagement: { height: 0, width: 0 },
-        padding: { height: 30, width: 30 },
+        padding: { height: 15, width: 15 },
         offset: { height: 15, width: 0 },
         spatialtemporalsearch: { height: 0, width: 0 },
     },

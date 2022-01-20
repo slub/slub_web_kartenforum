@@ -1,4 +1,4 @@
-@import "../../../../../../_sass/variables";
+@import "../../../../../../../../../Resources/Private/Scss/_Variables";
 
 .vkf-mapsearch-result-list {
     height: 100%;
@@ -7,67 +7,58 @@
 
     .list-header {
         position: relative;
-        background: #ccc;
-        padding: 4px;
+        border-bottom: 1px solid $color-lightgrey;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
 
-        &:after {
+        strong {
+            font-size: 12px;
+            color: $color-grey;
+        }
+
+        .inner-columns {
             position: relative;
-            clear: both;
-            display: table;
-            content: "";
-        }
+            display: flex;
+            margin-right: -3px;
 
-        &:before {
-            position: absolute;
-            bottom: -5px;
-            right: 10px;
-            width: 0;
-            height: 0;
-            content: "";
-            border: 5px solid transparent;
-            border-bottom-width: 0;
-            border-top-color: #ccc;
-            z-index: 301;
-        }
+            .inner-col {
+                position: relative;
+                padding: 5px;
+                font-size: 12px;
 
-        .inner-col {
-            position: relative;
-            float: left;
-            padding: 5px;
-            margin-left: 5px;
-            margin-right: 5px;
-            font-size: 11px;
-            font-weight: 500;
+                .sort-element {
+                    cursor: pointer;
+                    color: $color-midgrey;
 
-            .sort-element {
-                cursor: pointer;
-                color: #888;
-            }
+                    .caret {
+                        border: 4px solid transparent;
+                        border-top-color: $color-midgrey;
+                        border-bottom-width: 0;
+                    }
+                    &.ascending {
+                        color: $secondary-color-dark;
 
-            &.georeference {
-                display: none;
-            }
-        }
+                        .caret {
+                            border-top-color: $secondary-color;
+                        }
+                    }
 
-        .caret {
-            border: 4px solid transparent;
-            border-top-color: #888;
-            border-bottom-width: 0;
-        }
+                    &.descending {
+                        color: $secondary-color-dark;
 
-        .ascending {
-            color: rgb(56, 92, 92);
-            .caret {
-                border-top-color: rgb(56, 92, 92);
-            }
-        }
+                        .caret {
+                            border-top: 0 none;
+                            margin-top: -2px;
+                            border-bottom: 4px solid $secondary-color;
+                        }
+                    }
+                }
 
-        .descending {
-            color: rgb(56, 92, 92);
-
-            .caret {
-                border-top: 0 none;
-                border-bottom: 4px solid rgb(56, 92, 92);
+                &.georeference {
+                    display: none;
+                }
             }
         }
     }
@@ -75,10 +66,7 @@
     &.vertical {
         .mapsearch-contentlist-container {
             position: absolute;
-            top: 34px;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 30px 0 0 0;
 
             ul {
                 width: 100%;
@@ -86,11 +74,7 @@
                 padding: 0;
                 overflow: auto;
                 border: 1px solid #ccc;
-                -webkit-transition: all 0.4s ease-out;
-                -moz-transition: all 0.4s ease-out;
-                -o-transition: all 0.4s ease-out;
-                -ms-transition: all 0.4s ease-out;
-                transition: all 0.4s ease-out;
+                transition: $transition;
             }
         }
     }

@@ -14,7 +14,6 @@ import LayerManagement from "../../components/LayerManagement/LayerManagement";
 import SpatialTemporalSearch from "../../components/SpatialTemporalSearch/SpatialTemporalSearch";
 import OriginalMapView from "../../views/OriginalMapView/OriginalMapView";
 import { useSetElementScreenSize } from "../../../../util/hooks";
-import "./HorizontalLayout.scss";
 
 export const HorizontalLayout = () => {
   const [selectedOriginalMapId, setOriginalMapId] = useRecoilState(
@@ -23,10 +22,8 @@ export const HorizontalLayout = () => {
 
   //refs
   const spatialSearchRef = useRef(null);
-  const layermanagementRef = useRef(null);
 
   useSetElementScreenSize(spatialSearchRef, "spatialtemporalsearch");
-  useSetElementScreenSize(layermanagementRef, "layermanagement");
 
   return (
     <React.Fragment>
@@ -41,7 +38,6 @@ export const HorizontalLayout = () => {
         <div
           className="layermanagement-container"
           id="layermanagement-container"
-          ref={layermanagementRef}
         >
           <LayerManagement />
         </div>
