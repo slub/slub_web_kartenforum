@@ -4,9 +4,8 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import TileLayer from "ol/layer/Tile";
-import OSMSource from "ol/source/OSM";
 import { Control } from "ol/control";
+
 import { isDefined, translate } from "../../util/util";
 import "./LayerSpyControl.scss";
 
@@ -31,14 +30,14 @@ export class LayerSpyControl extends Control {
       ? parseInt(options.radius, 0)
       : 75;
 
-    this.layer = isDefined(options["spyLayer"])
-      ? options["spyLayer"]
-      : new TileLayer({
-          attribution: undefined,
-          source: new OSMSource({ attribution: undefined }),
-        });
+    options.refSpyLayer.current = this;
 
     this.containerEl = button;
+
+    this.renderRadiusbox =
+      opt_options.renderRadiusBox === undefined
+        ? true
+        : opt_options.renderRadiusBox;
 
     button.addEventListener("click", (e) => {
       e.preventDefault();
@@ -50,40 +49,72 @@ export class LayerSpyControl extends Control {
     });
   }
 
+  /**
+   * Handle the activation of the spy layer, by adding the layer to the map and registering event handlers
+   */
   activate = () => {
     if (this.layers === undefined) {
       this.layers = this.getMap().getLayers();
     }
 
     this.getMap().addLayer(this.layer);
-    this.layer.on("prerender", this.precompose, this);
-    this.layer.on("postrender", this.postcompose, this);
+    this.layer.on("prerender", this.handlePrecompose, this);
+    this.layer.on("postrender", this.handlePostcompose, this);
     const viewPort = this.getMap().getViewport();
-    viewPort.addEventListener("mousemove", this.mousemove);
-    viewPort.addEventListener("mouseout", this.mouseout);
-    viewPort.addEventListener("keydown", this.keyhandler);
+    viewPort.addEventListener("mousemove", this.handleMouseMove);
+    viewPort.addEventListener("mouseout", this.handleMouseOut);
+    document.addEventListener("keydown", this.handleKeyPress);
     this.layers.on("add", this.handleAddedLayer);
     this.containerEl.classList.add("active");
+
+    // render a box with the radius
+    if (this.renderRadiusbox) {
+      this.renderTargetElement();
+    }
   };
 
+  /**
+   * Change the active spy layer
+   * @param newLayer
+   */
+  changeLayer = (newLayer) => {
+    const isActive = this.containerEl.classList.contains("active");
+    if (isActive) {
+      this.deactivate();
+      this.layer = newLayer;
+      this.activate();
+    } else {
+      this.layer = newLayer;
+    }
+  };
+
+  /**
+   * Handle the deactivation of the spy layer, by removing the layer from the map and removing all previously registered
+   * event handlers
+   */
   deactivate = () => {
-    this.layer.un("precompose", this.precompose);
-    this.layer.un("postcompose", this.postcompose);
+    this.layer.un("precompose", this.handlePrecompose);
+    this.layer.un("postcompose", this.handlePostcompose);
     const viewPort = this.getMap().getViewport();
-    viewPort.removeEventListener("mousemove", this.mousemove);
-    viewPort.removeEventListener("mouseout", this.mouseout);
-    viewPort.removeEventListener("keydown", this.keyhandler);
+    viewPort.removeEventListener("mousemove", this.handleMouseMove);
+    viewPort.removeEventListener("mouseout", this.handleMouseOut);
+    document.removeEventListener("keydown", this.handleKeyPress);
     this.layers.un("add", this.handleAddedLayer);
     this.getMap().removeLayer(this.layer);
     this.containerEl.classList.remove("active");
+
+    // hide the radius box
+    if (this.renderRadiusbox) {
+      this.renderTargetElement();
+    }
   };
 
-  postcompose = (e) => {
+  handlePostcompose = (e) => {
     const ctx = e["context"];
     ctx.restore();
   };
 
-  precompose = (e) => {
+  handlePrecompose = (e) => {
     const ctx = e["context"];
     const pixelRatio = e["frameState"]["pixelRatio"];
     ctx.save();
@@ -107,24 +138,32 @@ export class LayerSpyControl extends Control {
     ctx.clip();
   };
 
-  mousemove = (event) => {
+  handleMouseMove = (event) => {
     this.mousePosition = this.getMap().getEventPixel(event);
     this.getMap().render();
   };
 
-  mouseout = () => {
+  handleMouseOut = () => {
     this.mousePosition = null;
     this.getMap().render();
   };
 
-  keyhandler = (event) => {
-    // for handling this events in webkit
-    if (event.keyCode === "Y") {
-      this.clipRadius = Math.min(this.clipRadius + 5, 150);
-      this.getMap().render();
-    } else if (event.keyCode === "X") {
-      this.clipRadius = Math.max(this.clipRadius - 5, 25);
-      this.getMap().render();
+  handleKeyPress = (event) => {
+    const eventTargetTag = event.target.tagName.toLowerCase();
+
+    // because the keyhandler is registered on the document - in order to not miss any events - filter events by tag
+    // only non input events should be handled
+    if (eventTargetTag !== "input") {
+      // for handling this events in webkit
+      if (event.key.toLowerCase() === "y" || event.keyCode === "KeyY") {
+        this.clipRadius = Math.min(this.clipRadius + 5, 150);
+        this.getMap().render();
+      } else if (event.key.toLowerCase() === "x" || event.keyCode === "KeyX") {
+        this.clipRadius = Math.max(this.clipRadius - 5, 25);
+        this.getMap().render();
+      }
+
+      this.updateClipRadiusDisplay();
     }
   };
 
@@ -144,6 +183,43 @@ export class LayerSpyControl extends Control {
     } else {
       this.containerEl.classList.remove("disabled");
     }
+  };
+
+  updateClipRadiusDisplay = () => {
+    const targetEl = this.targetEl;
+
+    targetEl.innerHTML = `Radius: ${this.clipRadius}px <br/> (${translate(
+      "control-layerspy-radius-tooltip"
+    )})`;
+  };
+
+  toggleTargetElement = () => {
+    if (this.targetEl !== undefined) {
+      const isActive = this.targetEl.classList.contains("active");
+      if (isActive) {
+        this.targetEl.classList.remove("active");
+      } else {
+        this.targetEl.classList.add("active");
+      }
+    }
+  };
+
+  renderTargetElement = () => {
+    let targetEl = this.targetEl;
+    // add target element if it is not defined
+    if (this.targetEl === undefined) {
+      const viewport = this.getMap().getViewport();
+      targetEl = document.createElement("div");
+      targetEl.className = "ol-control ol-layerspy-radius-box";
+      targetEl.innerHTML = "";
+
+      viewport.appendChild(targetEl);
+      this.targetEl = targetEl;
+    }
+
+    // toggle Element and update its contents
+    this.toggleTargetElement();
+    this.updateClipRadiusDisplay();
   };
 }
 

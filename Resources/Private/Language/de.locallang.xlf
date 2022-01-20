@@ -567,6 +567,11 @@
 				<target><![CDATA[Aktiviere Kartenlupe]]></target>
 			</trans-unit>
 
+            <trans-unit id="global.map.control-layerspy.radiusTooltip" approved="yes">
+                <source><![CDATA[Press Y to increase and X to decrease]]></source>
+                <target><![CDATA[Drücken Sie Y zum vergrößern und X zum verkleinern]]></target>
+            </trans-unit>
+
             <!-- Global > Map > Control > Zoom -->
             <trans-unit id="global.map.control-zoom.out" approved="yes">
 				<source><![CDATA[Zoom out]]></source>

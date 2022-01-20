@@ -64,9 +64,16 @@ export function MapWrapper(props) {
     terrainTilesUrl,
   } = props;
 
+  const initialBasemap = {
+    id: "slub-osm",
+    type: "xyz",
+    urls: baseMapUrl,
+  };
+
   // state
   const [activeBasemapId, setActiveBasemapId] =
     useRecoilState(activeBasemapIdState);
+  const [activeBasemap, setActiveBasemap] = useState(initialBasemap);
   const [hideOverlayContents, setHideOverlayContents] = useState(true);
   const [is3dActive, set3dActive] = useRecoilState(map3dState);
   const [map, setMap] = useRecoilState(mapState);
@@ -90,6 +97,7 @@ export function MapWrapper(props) {
   // do not access otherwise
   const unsafe_refBasemapId = useRef(activeBasemapId);
   const unsafe_refSelectedFeatures = useRef(new Collection());
+  const unsafe_refSpyLayer = useRef(undefined);
 
   // publish elements size to global state
   useSetElementScreenSize(mapElement, "map");
@@ -101,6 +109,7 @@ export function MapWrapper(props) {
   // update active basemap
   const handleBasemapChange = (newBasemapLayer) => {
     setActiveBasemapId(newBasemapLayer.id);
+    setActiveBasemap(newBasemapLayer);
   };
 
   // toggle viewmode from 2d to 3d and vice versa
@@ -247,15 +256,7 @@ export function MapWrapper(props) {
     // create map
     const initialMap = new Map({
       controls: [],
-      layers: [
-        createBaseMapLayer({
-          id: "slub-osm",
-          type: "xyz",
-          urls: baseMapUrl,
-        }),
-
-        initalFeaturesLayer,
-      ],
+      layers: [createBaseMapLayer(initialBasemap), initalFeaturesLayer],
       interactions,
       overlays: [overlay],
       renderer: "canvas",
@@ -371,7 +372,6 @@ export function MapWrapper(props) {
       }
 
       const newControls = getDefaultControls({
-        baseMapUrl,
         initialBasemapId: activeBasemapId,
         is3dActive,
         layout,
@@ -383,6 +383,7 @@ export function MapWrapper(props) {
           refActiveBasemapId: unsafe_refBasemapId,
           refSelectedFeatures: unsafe_refSelectedFeatures,
         },
+        refSpyLayer: unsafe_refSpyLayer,
       });
 
       newControls.forEach((control) => {
@@ -416,17 +417,28 @@ export function MapWrapper(props) {
     }
   }, [handleMapClick, map]);
 
-  // sync state with ref => allows easy access to selected features outside of the react tree
-  useEffect(() => {
-    unsafe_refBasemapId.current = activeBasemapId;
+  ////
+  // Sync state with refs in order for the controls to get the state updates
+  ////
 
+  useEffect(() => {
     // clear collection
     unsafe_refSelectedFeatures.current.clear();
     // add in selected features
     unsafe_refSelectedFeatures.current.extend(selectedFeatures);
     // mark as changed
     unsafe_refSelectedFeatures.current.changed();
-  }, [activeBasemapId, selectedFeatures]);
+  }, [selectedFeatures]);
+
+  useEffect(() => {
+    if (map !== undefined && unsafe_refSpyLayer.current !== undefined) {
+      unsafe_refSpyLayer.current.changeLayer(createBaseMapLayer(activeBasemap));
+    }
+  }, [activeBasemap, map]);
+
+  useEffect(() => {
+    unsafe_refBasemapId.current = activeBasemapId;
+  }, [activeBasemapId]);
 
   return (
     <div className="map-container">

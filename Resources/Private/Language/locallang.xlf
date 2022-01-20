@@ -443,6 +443,9 @@
 			<trans-unit id="global.map.control-layerspy.title">
 				<source>Get a magnifier for the map</source>
 			</trans-unit>
+			<trans-unit id="global.map.control-layerspy.radiusTooltip">
+                <source>(Press X to increase and Y to decrease)</source>
+            </trans-unit>
 
             <!-- Global > Map > Control > Zoom -->
             <trans-unit id="global.map.control-zoom.out">

@@ -4,10 +4,8 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-
-import TileLayer from "ol/layer/Tile";
-import { XYZ } from "ol/source";
 import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
+
 import SettingsProvider from "../SettingsProvider";
 import CustomAttribution from "../apps/map/components/MapWrapper/components/CustomAttribution";
 import LocateMeControl from "../components/Controls/LocateMeControl";
@@ -59,7 +57,6 @@ export function translate(key) {
  **/
 export const getDefaultControls = (params) => {
     const {
-        baseMapUrl,
         initialBasemapId,
         is3dActive,
         layout,
@@ -67,6 +64,7 @@ export const getDefaultControls = (params) => {
         onSetNotification,
         onViewModeChange,
         permalinkProps,
+        refSpyLayer,
     } = params;
 
     const defaultControls = [
@@ -90,14 +88,7 @@ export const getDefaultControls = (params) => {
                 zoomOutTipLabel: translate("control-zoom-out"),
             }),
             new LayerSpy({
-                spyLayer: new TileLayer({
-                    attribution: undefined,
-                    source: new XYZ({
-                        urls: baseMapUrl,
-                        crossOrigin: "*",
-                        attributions: [],
-                    }),
-                }),
+                refSpyLayer,
             }),
             new ToggleViewMode({
                 initialState: is3dActive,

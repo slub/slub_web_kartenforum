@@ -79,6 +79,7 @@
             &.mouse-position,
             &.flip-view-mode,
             &.ol-mouse-position-box,
+            &.ol-layerspy-radius-box,
             &.basemap-selector,
             &.ol-permalink,
             &.ol-locate-me,
@@ -133,6 +134,7 @@
                 &.mouse-position,
                 &.flip-view-mode,
                 &.ol-mouse-position-box,
+                &.ol-layerspy-radius-box,
                 &.basemap-selector,
                 &.ol-locate-me,
                 &.ol-permalink,
@@ -151,6 +153,11 @@
         .ol-mouse-position-box {
             position: absolute;
             bottom: 40px;
+        }
+
+        .ol-layerspy-radius-box {
+            position: absolute;
+            bottom: 67px;
         }
 
         .ol-attribution {

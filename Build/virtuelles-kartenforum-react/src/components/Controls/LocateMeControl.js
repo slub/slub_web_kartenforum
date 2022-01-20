@@ -104,6 +104,7 @@ export class LocateMeControl extends Control {
                         }),
                     ],
                 });
+                markerLayer.set("altitudeMode", "clampToGround");
                 map.addLayer(markerLayer);
 
                 // Center map
