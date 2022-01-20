@@ -9,7 +9,10 @@ import ReactDOM from "react-dom";
 import { Control } from "ol/control";
 import { translate } from "../../../../util/util";
 import BasemapSelector from "../BasemapSelector/BasemapSelector";
+import { generateControlToggleHandler } from "../MapWrapper/util.js";
 import "./BasemapSelectorControl.scss";
+
+export const UNIQUE_CONTROL_PANEL_CLASS = "vkf-unique-control-panel";
 
 export class BasemapSelectorControl extends Control {
   /**
@@ -20,7 +23,7 @@ export class BasemapSelectorControl extends Control {
    * }} options
    */
   constructor(options) {
-    const defaultClass = "ol-unselectable ol-control basemap-selector";
+    const defaultClass = `ol-unselectable ol-control basemap-selector ${UNIQUE_CONTROL_PANEL_CLASS}`;
 
     // Load default html and behavior
     const element = document.createElement("div");
@@ -28,7 +31,7 @@ export class BasemapSelectorControl extends Control {
 
     // Control button
     const button = document.createElement("button");
-    button.title = translate("control-basemapselector-open");
+    button.title = translate("control-basemap-selector-open");
     button.innerHTML = "B";
     button.type = "button";
     element.appendChild(button);
@@ -40,46 +43,49 @@ export class BasemapSelectorControl extends Control {
     element.appendChild(contentContainer);
 
     super({ element, target: options.target });
-
-    // Add event listeners
-    button.addEventListener("click", this.handleToggleControl, false);
-    button.addEventListener("touchstart", this.handleToggleControl, false);
-
     this.renderOptions = Object.assign({}, options, {
       contentContainer,
       defaultClass,
       element,
     });
+
+    const handleToggleControl = generateControlToggleHandler(
+      this.renderOptions,
+      this.handleClickAway
+    );
+
+    this.handleToggleControl = handleToggleControl;
+
+    // Add event listeners
+    button.addEventListener("click", handleToggleControl, false);
+    button.addEventListener("touchstart", handleToggleControl, false);
+
+    const mutObserver = new MutationObserver((records) => {
+      // check if the active state has changed and toggle the container visibility accordingly
+      records.forEach(({ target }) => {
+        const isActive = target.classList.contains("active");
+        contentContainer.style.display = isActive ? "block" : "none";
+
+        // remove the click away listener if the content container is hidden
+        if (!isActive) {
+          document.removeEventListener("click", this.handleClickAway);
+        }
+      });
+    });
+
+    mutObserver.observe(element, {
+      attributes: true,
+    });
   }
 
   // Handle closing of control on outside click
   handleClickAway = (event) => {
-    const { contentContainer } = this.renderOptions;
+    const { contentContainer, element } = this.renderOptions;
     const isClickInside = contentContainer.contains(event.target);
 
     if (!isClickInside) {
-      this.handleToggleControl();
+      element.classList.remove("active");
     }
-  };
-
-  // Define the handler
-  handleToggleControl = (e) => {
-    const { contentContainer, defaultClass, element } = this.renderOptions;
-    const isActive = contentContainer.style.display === "block";
-
-    if (e !== undefined) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
-    if (!isActive) {
-      document.addEventListener("click", this.handleClickAway);
-    } else {
-      document.removeEventListener("click", this.handleClickAway);
-    }
-
-    element.className = isActive ? defaultClass : `${defaultClass} active`;
-    contentContainer.style.display = isActive ? "none" : "block";
   };
 
   render() {

@@ -3,12 +3,13 @@ import { containsXY } from "ol/extent";
 
 import SettingsProvider from "../../../../SettingsProvider";
 import HistoricMap from "../CustomLayers/HistoricMapLayer";
+import { UNIQUE_CONTROL_PANEL_CLASS } from "../Controls/BasemapSelectorControl.jsx";
 
 /**
  * Checks if the layer collection already contains a layer with that id.
  *
  * @param {string} id
- * @param {ol.Collection} layers
+ * @param {Collection} layers
  * @return {boolean}
  */
 export const containsLayerWithId = function (id, layers) {
@@ -79,6 +80,30 @@ export const generateLimitCamera = function (mapView) {
     };
 };
 
+export const generateControlToggleHandler =
+    (renderOptions, clickAwayHandler) => (e) => {
+        const { defaultClass, element } = renderOptions;
+
+        // hide all panels but this
+        hideUniquePanels(element);
+
+        const isActive = element.classList.contains("active");
+
+        if (e !== undefined) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // add click away listener
+        if (clickAwayHandler !== undefined) {
+            if (!isActive) {
+                document.addEventListener("click", clickAwayHandler);
+            }
+        }
+
+        element.className = isActive ? defaultClass : `${defaultClass} active`;
+    };
+
 /**
  * @returns {vk2.layer.HistoricMap[]}
  */
@@ -91,6 +116,18 @@ export const getHistoricMapLayer = function (map) {
         }
     }
     return historicMapLayers;
+};
+
+export const getUniqueControlPanels = () => {
+    return document.getElementsByClassName(UNIQUE_CONTROL_PANEL_CLASS);
+};
+
+export const hideUniquePanels = (element) => {
+    Array.from(getUniqueControlPanels()).forEach((el) => {
+        if (element !== el) {
+            el.classList.remove("active");
+        }
+    });
 };
 
 export const setOptimizedCesiumSettings = (scene) => {

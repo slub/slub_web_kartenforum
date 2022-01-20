@@ -85,7 +85,7 @@ export const PaginatingDataController = ({
         facets
       );
     },
-    [sortOrder, timeExtent]
+    [facets, sortAttribute, sortOrder, timeExtent]
   );
 
   // fetch the results from the index

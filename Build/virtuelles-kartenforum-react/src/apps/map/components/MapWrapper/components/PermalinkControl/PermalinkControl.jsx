@@ -10,6 +10,8 @@ import { Control } from "ol/control";
 
 import { translate } from "../../../../../../util/util";
 import PermalinkExporter from "./PermalinkExporter";
+import { generateControlToggleHandler } from "../../util.js";
+import { UNIQUE_CONTROL_PANEL_CLASS } from "../../../Controls/BasemapSelectorControl.jsx";
 import "./PermalinkControl.scss";
 
 export class PermalinkControl extends Control {
@@ -23,7 +25,7 @@ export class PermalinkControl extends Control {
    * }} options
    */
   constructor(options) {
-    const defaultClass = "ol-unselectable ol-control ol-permalink";
+    const defaultClass = `ol-unselectable ol-control ol-permalink ${UNIQUE_CONTROL_PANEL_CLASS}`;
 
     // Load default html and behavior
     const element = document.createElement("div");
@@ -43,34 +45,35 @@ export class PermalinkControl extends Control {
     element.appendChild(contentContainer);
 
     super({ element });
-
-    // Add event listeners
-    button.addEventListener("click", this.handleToggleControl, false);
-    button.addEventListener("touchstart", this.handleToggleControl, false);
-
-    this.is3dActive = options.is3dActive ?? false;
-
     this.renderOptions = Object.assign({}, options, {
       contentContainer,
       defaultClass,
       element,
     });
+
+    const handleToggleControl = generateControlToggleHandler(
+      this.renderOptions
+    );
+
+    // Add event listeners
+    button.addEventListener("click", handleToggleControl, false);
+    button.addEventListener("touchstart", handleToggleControl, false);
+
+    this.is3dActive = options.is3dActive ?? false;
+
+    this.mutObserver = new MutationObserver((records) => {
+      // check if the active state has changed and toggle the container visibility accordingly
+      records.forEach(({ target }) => {
+        const isActive = target.classList.contains("active");
+        contentContainer.style.display = isActive ? "block" : "none";
+
+        // rerender if this control has become active
+        if (isActive) this.render();
+      });
+    });
+
+    this.mutObserver.observe(element, { attributes: true });
   }
-
-  // Define the handler
-  handleToggleControl = (e) => {
-    const { contentContainer, defaultClass, element } = this.renderOptions;
-    const isActive = contentContainer.style.display === "block";
-
-    if (e !== undefined) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
-    element.className = isActive ? defaultClass : `${defaultClass} active`;
-    contentContainer.style.display = isActive ? "none" : "block";
-    this.render();
-  };
 
   // rerender react element on external 3d state update
   handleExternal3dStateUpdate = (newIs3dActive) => {
