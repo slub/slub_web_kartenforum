@@ -31,7 +31,7 @@ export class BasemapSelectorControl extends Control {
 
     // Control button
     const button = document.createElement("button");
-    button.title = translate("control-basemap-selector-open");
+    button.title = translate("control-basemapselector-open");
     button.innerHTML = "B";
     button.type = "button";
     element.appendChild(button);

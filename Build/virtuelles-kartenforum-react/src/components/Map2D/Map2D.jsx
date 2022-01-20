@@ -22,10 +22,10 @@ import "./Map2D.scss";
 
 export const Map2D = (props) => {
   const {
+    children,
     extent,
     onLoad = () =>
       console.log("No onLoad function was passed to component Map2D."),
-    urlNominatim,
     urlsOsmBaseMap,
   } = props;
   const refMapContainer = useRef(null);
@@ -111,7 +111,11 @@ export const Map2D = (props) => {
     }
   }, []);
 
-  return <div className="map-container" ref={refMapContainer}></div>;
+  return (
+    <div className="map-container" ref={refMapContainer}>
+      {children}
+    </div>
+  );
 };
 
 Map2D.propTypes = {

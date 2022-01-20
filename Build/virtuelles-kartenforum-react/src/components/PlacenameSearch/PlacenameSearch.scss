@@ -23,9 +23,8 @@
 }
 
 .gazetteersearch-container .gazetteersearch-input.loading {
-    background: #fff
-        url("../../../../../../../Resources/Public/Images/loader.gif") 220px
-        center no-repeat;
+    background: #fff url("../../../../../Resources/Public/Images/loader.gif")
+        220px center no-repeat;
 }
 
 .gazetteersearch-container .gazetteersearch-submit {
@@ -36,8 +35,8 @@
     height: 34px;
     border-radius: 0;
     background: rgb(0, 177, 158)
-        url("../../../../../../../Resources/Public/Images/searchBtn.svg")
-        no-repeat center center;
+        url("../../../../../Resources/Public/Images/searchBtn.svg") no-repeat
+        center center;
     background-size: 18px 18px;
     overflow: hidden;
     text-indent: 100%;

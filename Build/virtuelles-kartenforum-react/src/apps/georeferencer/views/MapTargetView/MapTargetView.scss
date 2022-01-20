@@ -1,6 +1,13 @@
 @import "../../../../_sass/overwrites-openlayers";
 
 .vkf-mapview-target {
+    .placenamesearch-container {
+        position: absolute;
+        left: 50px;
+        top: 10px;
+        width: 300px;
+    }
+
     .map-container {
         position: absolute;
         top: 0;

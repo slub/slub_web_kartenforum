@@ -284,6 +284,7 @@ export const Toolbar = () => {
           title={translate("georef-movemap")}
         />
         <ControlDropDown
+          id="control-toggle-gcp-action"
           activeControl={activeControl}
           defaultTitle={translate("georef-editgcp")}
           options={dropdownOptions}
@@ -301,6 +302,7 @@ export const Toolbar = () => {
 
       <div>
         <ControlDropDown
+          id="control-toggle-transformation"
           activeControl={selectedAlgorithm}
           className="control-toggle-transformations"
           parentIconClassName="icon-layercalc"

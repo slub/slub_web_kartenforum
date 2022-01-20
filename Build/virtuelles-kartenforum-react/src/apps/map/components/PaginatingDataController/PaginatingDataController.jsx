@@ -214,6 +214,7 @@ export const PaginatingDataController = ({
 
         // reset the range and extent only if the range was still the default range or if the range has changed
         if (
+          timeRange === undefined ||
           defaultTimeRange === timeRange ||
           newRange[0] !== timeRange[0] ||
           newRange[1] !== timeRange[1]

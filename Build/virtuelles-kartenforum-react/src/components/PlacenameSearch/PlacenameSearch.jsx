@@ -10,19 +10,25 @@ import PropTypes from "prop-types";
 import { transform } from "ol/proj";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { notificationState } from "../../../../atoms/atoms";
-import { isDefined, translate } from "../../../../util/util";
-import { mapState } from "../../atoms/atoms";
-import { Autocomplete } from "./Autocomplete/Autocomplete";
-import { requestPlacenameData } from "./util";
+import { notificationState } from "../../atoms/atoms.js";
+import { isDefined, translate } from "../../util/util.js";
+import { mapState } from "../../apps/map/atoms/atoms.js";
+import { Autocomplete } from "./Autocomplete/Autocomplete.jsx";
+import { requestPlacenameData } from "./util.js";
 import "./PlacenameSearch.scss";
 
 export const PlacenameSearch = (props) => {
-  const { projection, searchUrl } = props;
-
+  const { onSelectPosition, projection, searchUrl } = props;
   const [isLoading, setIsLoading] = useState(false);
   const map = useRecoilValue(mapState);
   const setNotification = useSetRecoilState(notificationState);
+  const updatePosition =
+    onSelectPosition !== undefined
+      ? onSelectPosition
+      : ({ center, zoom }) => {
+          map.getView().setCenter(center);
+          map.getView().setZoom(zoom);
+        };
 
   const placenameToString = (placename) => (placename ? placename.label : "");
 
@@ -36,8 +42,10 @@ export const PlacenameSearch = (props) => {
       projection
     );
 
-    map.getView().setCenter(center);
-    map.getView().setZoom(12);
+    updatePosition({
+      center: center,
+      zoom: 12,
+    });
   };
 
   ////
@@ -102,6 +110,7 @@ export const PlacenameSearch = (props) => {
 };
 
 PlacenameSearch.propTypes = {
+  onSelectPosition: PropTypes.func,
   projection: PropTypes.string,
   searchUrl: PropTypes.string,
 };

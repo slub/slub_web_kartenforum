@@ -7,7 +7,7 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { timeRangeState } from "../../atoms/atoms";
-import PlacenameSearch from "../PlacenameSearch/PlacenameSearch";
+import PlacenameSearch from "../../../../components/PlacenameSearch/PlacenameSearch";
 import MapSearch from "../MapSearch/MapSearch";
 import TimeSlider from "../TimeSlider/TimeSlider";
 import SettingsProvider from "../../../../SettingsProvider";

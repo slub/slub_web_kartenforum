@@ -13,6 +13,8 @@ import {
 } from "../../atoms/atoms";
 import Map2D from "../../../../components/Map2D/Map2D";
 import LayerRectifiedImage from "../../../../components/LayerRectifiedImage/LayerRectifiedImage";
+import PlacenameSearch from "../../../../components/PlacenameSearch/PlacenameSearch.jsx";
+import SettingsProvider from "../../../../SettingsProvider.js";
 import "./MapTargetView.scss";
 
 export const MapTargetView = (props) => {
@@ -22,6 +24,14 @@ export const MapTargetView = (props) => {
     targetViewParamsState
   );
 
+  // Handle select position via placename
+  const handleSelectPosition = ({ center, zoom }) => {
+    if (targetViewParams !== null) {
+      targetViewParams.map.getView().setCenter(center);
+      targetViewParams.map.getView().setZoom(zoom);
+    }
+  };
+
   return (
     <div className="vkf-mapview-target">
       <Map2D
@@ -29,7 +39,18 @@ export const MapTargetView = (props) => {
         onLoad={(m) => setTargetViewParams(m)}
         urlNominatim={urlNominatim}
         urlsOsmBaseMap={urlsOsmBaseMap}
-      />
+      >
+        {targetViewParams !== null && (
+          <div className="placenamesearch-container">
+            <PlacenameSearch
+              onSelectPosition={handleSelectPosition}
+              projection={SettingsProvider.getDefaultMapView().projection}
+              searchUrl={SettingsProvider.getNominatimUrl()}
+            />
+          </div>
+        )}
+      </Map2D>
+
       {targetViewParams !== null && rectifiedImageParams !== null && (
         <LayerRectifiedImage
           key={rectifiedImageParams.wms_url}
@@ -43,7 +64,7 @@ export const MapTargetView = (props) => {
 };
 
 MapTargetView.propTypes = {
-  extent: PropTypes.object,
+  extent: PropTypes.arrayOf(PropTypes.number),
   urlNominatim: PropTypes.string,
   urlsOsmBaseMap: PropTypes.arrayOf(PropTypes.string),
 };

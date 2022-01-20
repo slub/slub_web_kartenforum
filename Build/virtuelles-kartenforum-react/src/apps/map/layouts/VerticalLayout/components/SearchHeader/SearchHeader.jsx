@@ -18,7 +18,7 @@ import {
 import ToggleFacetsButton from "../../../../components/MapSearch/components/ToggleFacetsButton/ToggleFacetsButton";
 import ToggleSearchButton from "../ToggleSearchButton/ToggleSearchButton";
 import { ToggleResultListButton } from "../ToggleResultListButton/ToggleResultListButton";
-import PlacenameSearch from "../../../../components/PlacenameSearch/PlacenameSearch";
+import PlacenameSearch from "../../../../../../components/PlacenameSearch/PlacenameSearch";
 import TimeSlider from "../../../../components/TimeSlider/TimeSlider";
 import SettingsProvider from "../../../../../../SettingsProvider";
 import { translate } from "../../../../../../util/util";

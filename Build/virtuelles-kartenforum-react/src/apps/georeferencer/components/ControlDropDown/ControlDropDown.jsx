@@ -20,6 +20,7 @@ export const ControlGcpsIds = {
 };
 export const ControlDropDown = (props) => {
   const {
+    id,
     activeControl,
     className = "",
     parentIconClassName,
@@ -60,6 +61,7 @@ export const ControlDropDown = (props) => {
       )}
     >
       <Dropdown
+        id={id}
         className="btn-dropdown-vkf-control"
         bsStyle="default"
         key={activeOption ? activeOption.id : null}
@@ -71,6 +73,7 @@ export const ControlDropDown = (props) => {
         <Dropdown.Menu>
           {options.map((o) => (
             <MenuItem
+              key={o.id}
               eventKey={o.id}
               onClick={() => handleClick(o.id)}
               className={clsx("control-option", o.id)}
@@ -88,9 +91,10 @@ export const ControlDropDown = (props) => {
 ControlDropDown.propTypes = {
   activeControl: PropTypes.string,
   className: PropTypes.string,
-  parentIconClassName: PropTypes.string,
   defaultTitle: PropTypes.string,
   disableActiveBehavior: PropTypes.bool,
+  id: PropTypes.string,
+  parentIconClassName: PropTypes.string,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
