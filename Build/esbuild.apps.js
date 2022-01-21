@@ -8,7 +8,7 @@ import esbuild from "esbuild";
 import sass from "esbuild-plugin-sass";
 
 // Define constants
-const outputDir = "../../Resources/Public/Build/";
+const outputDir = "../Resources/Public/Build/";
 const isWatch = process.env.MODE === "watch";
 const isProduction = process.env.NODE_ENV === "production";
 
