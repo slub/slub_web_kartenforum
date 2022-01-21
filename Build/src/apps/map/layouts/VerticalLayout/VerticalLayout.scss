@@ -1,0 +1,57 @@
+@import "../../../../../../Resources/Private/Scss/Variables";
+
+.vkf-vertical-layout {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    .layermanagement-container {
+        height: 50vh;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        z-index: 2;
+        background: white;
+
+        transition: $transition;
+        transform: translateY(0);
+
+        &.closed {
+            transform: translateY(100%);
+            transition: $transition;
+        }
+    }
+}
+
+.faceted-search-modal {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .search-facet {
+        display: flex;
+        flex-direction: column;
+
+        > label {
+            display: flex;
+            width: 100%;
+            margin: 0;
+            padding: 15px;
+            align-items: center;
+            line-height: 1.2;
+            font-weight: normal;
+
+            input {
+                margin: 0 10px 0 0;
+            }
+
+            &:nth-child(odd) {
+                background-color: rgba($secondary-color, 0.1);
+            }
+        }
+    }
+}

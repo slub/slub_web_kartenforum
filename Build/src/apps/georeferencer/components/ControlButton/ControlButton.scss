@@ -1,0 +1,46 @@
+@import "../../../../../../Resources/Private/Scss/Variables";
+
+button.vkf-control-button {
+    position: relative;
+    border: 1px solid rgba(white, 0.5);
+    background: transparent;
+    padding: 5px 10px 5px 25px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    appearance: none;
+    margin: 0 5px;
+    transition: $transition;
+
+    svg.icon {
+        position: absolute;
+        top: 50%;
+        left: 5px;
+        margin-top: -8px;
+        height: 16px;
+        width: auto;
+        vertical-align: middle;
+        fill: white;
+    }
+
+    &:hover {
+        background-color: rgba(white, 0.2);
+    }
+
+    &.active {
+        background: white;
+        color: $secondary-color-dark;
+
+        svg.icon {
+            fill: $secondary-color-dark;
+        }
+    }
+
+    &.save {
+        &:hover {
+            background-color: green;
+            border-color: darken(green, 7%);
+        }
+    }
+}

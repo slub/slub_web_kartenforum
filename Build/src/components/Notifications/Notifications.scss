@@ -1,0 +1,16 @@
+@import "../../../../Resources/Private/Scss/Variables";
+
+.vkf-notifications {
+    position: absolute;
+    bottom: 30px;
+    left: 15px;
+
+    .notification-item {
+        width: 250px;
+        min-height: 50px;
+
+        .close {
+            opacity: 0.99;
+        }
+    }
+}

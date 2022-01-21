@@ -1,0 +1,62 @@
+@import "../../../../../../../../Resources/Private/Scss/Variables";
+
+.vkf-search-header {
+    flex-direction: column;
+    display: flex;
+    position: relative;
+    background: white;
+    width: 100%;
+    z-index: 120;
+    border-bottom: 2px solid #c8c8c8;
+    @include box-shadow;
+
+    .top-container {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        height: 36px;
+    }
+
+    .result-summary {
+        font-size: 14px;
+        text-transform: uppercase;
+        color: $secondary-color-dark;
+    }
+
+    .controls-container {
+        margin-right: -5px;
+    }
+
+    .bottom-container {
+        height: 108px;
+        padding: 5px 15px;
+    }
+}
+
+.vkf-search-result-container {
+    position: absolute;
+    height: 260px;
+    width: 100%;
+    background: white;
+    overflow: auto;
+    z-index: 100;
+    box-shadow: $shadow;
+
+    &.hide-search-result-list {
+        transition: $transition;
+        transform: translateY(-255px);
+    }
+
+    &.show-search-result-list {
+        transition: $transition;
+        transform: translateY(0);
+    }
+
+    .mapsearch-contentlist-container {
+        height: 100%;
+        width: 100%;
+    }
+}

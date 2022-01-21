@@ -1,0 +1,16 @@
+@import "../../../../../../../../Resources/Private/Scss/Variables";
+
+.vkf-toggle-search-button {
+    position: relative;
+    height: 30px;
+    width: 30px;
+    border: 0;
+    appearance: none;
+    cursor: pointer;
+    background: transparent;
+    padding: 6px;
+    margin-right: 5px;
+    svg {
+        fill: $secondary-color;
+    }
+}
