@@ -142,7 +142,10 @@ export const LayerManagement = ({
         )}
         <ul className="layermanagement-body">
           {displayedLayers === undefined || displayedLayers.length === 0 ? (
-            <li className="empty">{translate("layermanagement-start-msg")}</li>
+            <li className="empty">
+              <h4>{translate("layermanagement-start-msg-header")}</h4>
+              <p>{translate("layermanagement-start-msg-body")}</p>
+            </li>
           ) : (
             displayedLayers.map((layer) => {
               const layerId = layer.getId();

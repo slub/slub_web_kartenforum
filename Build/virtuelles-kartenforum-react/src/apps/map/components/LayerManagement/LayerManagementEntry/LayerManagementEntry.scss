@@ -213,8 +213,14 @@ ul.layermanagement-body {
         }
 
         @media screen and (min-width: $tabletLandscapeViewportWidth) {
+            .visibility-container {
+                z-index: 10;
+                button.disable-layer {
+                    transition: $transition;
+                }
+            }
             .control-container {
-                padding: 15px 55px 30px 15px;
+                padding: 15px 55px 30px 45px;
                 justify-content: space-between;
 
                 button {
@@ -222,6 +228,7 @@ ul.layermanagement-body {
                         display: block;
                     }
                 }
+
                 .opacity-container {
                     position: absolute;
                     right: 15px;
@@ -258,6 +265,13 @@ ul.layermanagement-body {
             }
 
             &.force-hover {
+                .visibility-container {
+                    button.disable-layer {
+                        background-color: $secondary-color-dark;
+                        border-color: $secondary-color-dark;
+                    }
+                }
+
                 .drag-container {
                     right: 15px;
                 }

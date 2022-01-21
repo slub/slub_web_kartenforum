@@ -13,19 +13,24 @@
         appearance: none;
         display: block;
         background: transparent;
-        border: 0;
-        line-height: 0;
-        font-size: 80px;
-        color: white;
-        text-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
-        text-align: center;
         overflow: hidden;
+        border: 0;
         transition: $transition;
 
         &:before {
             position: absolute;
-            inset: 0;
-            content: "\25be";
+            top: 0;
+            left: 50%;
+            width: 0;
+            height: 0;
+            margin-left: -23px;
+            border: 16px solid transparent;
+            border-bottom-color: white;
+            border-left-color: white;
+            transform-origin: 0 0;
+            transform: rotate(-45deg);
+            box-shadow: $shadow;
+            content: " ";
         }
     }
 

@@ -1,9 +1,10 @@
 @import "../../../../../../../../../Resources/Private/Scss/_Variables";
 
 .vkf-mapsearch-result-list {
+    position: relative;
     height: 100%;
     width: 100%;
-    position: relative;
+    padding-bottom: 10px;
 
     .list-header {
         position: relative;

@@ -258,8 +258,11 @@
 
 
 			<!-- vk2.module.LayerManagementModule -->
-			<trans-unit id="plugin.map.layermanagement.startMessage">
-				<source><![CDATA[Welcome to the Virtual Map Forum 2.0.<br> Please choose your map collection in the search menu on the left side]]></source>
+			<trans-unit id="plugin.map.layermanagement.startMessageHeader">
+				<source>Welcome to the Virtual Map Forum 2.0.</source>
+			</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.startMessageBody">
+				<source>Please choose your map collection in the search menu on the left side</source>
 			</trans-unit>
 			<trans-unit id="plugin.map.layermanagement.headerLbl">
 				<source>My maps</source>

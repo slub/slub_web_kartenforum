@@ -198,11 +198,14 @@
 				<source><![CDATA[My maps]]></source>
 				<target><![CDATA[Meine Karten]]></target>
 			</trans-unit>
-			<trans-unit id="plugin.map.layermanagement.startMessage" approved="yes">
-				<source><![CDATA[Welcome to the Virtual Map Forum 2.0.<br> Please choose your map collection in the search menu on the left side]]></source>
-				<target><![CDATA[Herzlich Willkommen im Virtuellen Kartenforum 2.0. <br>Bitte wählen Sie zunächst links im Suchbereich einige Karten aus]]></target>
+			<trans-unit id="plugin.map.layermanagement.startMessageHeader" approved="yes">
+				<source><![CDATA[Welcome to the Virtual Map Forum 2.0.]]></source>
+				<target><![CDATA[Herzlich Willkommen im Virtuellen Kartenforum 2.0.]]></target>
 			</trans-unit>
-
+			<trans-unit id="plugin.map.layermanagement.startMessageBody" approved="yes">
+				<source><![CDATA[Please choose your map collection in the search menu on the left side]]></source>
+				<target><![CDATA[Bitte wählen Sie zunächst links im Suchbereich einige Karten aus]]></target>
+			</trans-unit>
 			<trans-unit id="client.mapType" approved="yes">
 				<source><![CDATA[Map type]]></source>
 				<target><![CDATA[Kartentyp]]></target>

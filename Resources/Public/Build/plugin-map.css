@@ -1,6 +1,4 @@
-@charset "UTF-8";
-
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/components/Notifications/Notifications.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/components/Notifications/Notifications.css */
 .vkf-notifications {
   position: absolute;
   bottom: 30px;
@@ -14,7 +12,7 @@
   opacity: 0.99;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/components/Controls/LocateMeControl.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/components/Controls/LocateMeControl.css */
 .ol-control.ol-locate-me {
   position: absolute;
   background: rgba(255, 255, 255, 0.4);
@@ -24,7 +22,7 @@
   left: 0.5em;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/components/Controls/LayerSpyControl.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/components/Controls/LayerSpyControl.css */
 .ol-control.ol-layerspy {
   position: absolute;
   background: rgba(255, 255, 255, 0.4);
@@ -45,7 +43,7 @@
   pointer-events: none;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/BasemapSelector/DialogAddWms.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/BasemapSelector/DialogAddWms.css */
 .vkf-dialog-addwms .modal-dialog {
   margin-top: 25%;
   margin-bottom: 25%;
@@ -67,7 +65,7 @@
   display: inline-block;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/BasemapSelector/BasemapSelector.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/BasemapSelector/BasemapSelector.css */
 .vkf-basemap-selector {
   width: 300px;
   color: #fff;
@@ -111,7 +109,7 @@
   background: transparent;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/Controls/BasemapSelectorControl.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/Controls/BasemapSelectorControl.css */
 .basemap-selector .content-container {
   position: absolute;
   top: 0;
@@ -136,7 +134,7 @@
   content: "";
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/components/PermalinkControl/PermalinkExporter.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/components/PermalinkControl/PermalinkExporter.css */
 .vkf-permalink-exporter {
   width: 300px;
   color: #fff;
@@ -174,7 +172,7 @@
   width: 100%;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/components/PermalinkControl/PermalinkControl.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/components/PermalinkControl/PermalinkControl.css */
 .ol-permalink .content-container {
   position: absolute;
   top: 0;
@@ -195,7 +193,7 @@
   content: "";
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeatureRow/components/MarkerPicker.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeatureRow/components/MarkerPicker.css */
 .vkf-marker-picker-root .marker-preview {
   display: flex;
   height: 34px;
@@ -224,7 +222,7 @@
   display: none;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.css */
 .vkf-mapsearch-record {
   cursor: pointer;
   height: 100px;
@@ -332,11 +330,12 @@
   height: 105px;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/MapSearch/components/MapSearchResultList/MapSearchResultList.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/MapSearch/components/MapSearchResultList/MapSearchResultList.css */
 .vkf-mapsearch-result-list {
+  position: relative;
   height: 100%;
   width: 100%;
-  position: relative;
+  padding-bottom: 10px;
 }
 .vkf-mapsearch-result-list .list-header {
   position: relative;
@@ -407,7 +406,7 @@
   display: flex;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/MapSearch/components/ToggleFacetsButton/ToggleFacetsButton.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/MapSearch/components/ToggleFacetsButton/ToggleFacetsButton.css */
 .vkf-toggle-facets {
   position: relative;
   height: 30px;
@@ -437,7 +436,7 @@
   }
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/components/LoadingSpinner/LoadingSpinner.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/components/LoadingSpinner/LoadingSpinner.css */
 .lds-roller {
   display: inline-block;
   position: relative;
@@ -523,7 +522,7 @@
   }
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/MapSearch/MapSearch.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/MapSearch/MapSearch.css */
 .mapsearch-container {
   height: auto;
   background: transparent;
@@ -592,7 +591,7 @@
   flex-grow: 1;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/components/Modal/Modal.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/components/Modal/Modal.css */
 .vkf-modal .modal-header {
   position: relative;
   background: #00b19e;
@@ -632,7 +631,7 @@
   padding: 0;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/LayerManagement/DeactivateMapCollection/DeactivateMapCollection.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/LayerManagement/DeactivateMapCollection/DeactivateMapCollection.css */
 .deactivate-map-col-control a {
   position: relative;
   width: 30px;
@@ -656,7 +655,7 @@
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIj48cGF0aCBzdHJva2U9IiNCMkIyQjIiIHN0cm9rZS13aWR0aD0iMS4wNDQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBkPSJNMTUuOCA2LjhjMiAxLjMgMy4yIDIuOCAzLjIgMi44cy00IDUuMS05IDUuMWMtLjggMC0xLjYtLjItMi40LS40bS0zLjUtMS44Yy0xLjktMS40LTMuMS0yLjktMy4xLTIuOXM0LjEtNS4xIDktNS4xYy42IDAgMS40LjIgMiAuM20tNS4xIDQuOGMwLTEuOCAxLjQtMy4xIDMuMS0zLjFtMy4yIDMuMWMwIDEuOC0xLjQgMy4yLTMuMSAzLjJtNy42LTEwLjhsLTE1LjMgMTUuMyIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==);
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/LayerManagement/DynamicMapVisualization/DynamicMapVisualization.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/LayerManagement/DynamicMapVisualization/DynamicMapVisualization.css */
 .vkf-dyn-vis-control {
   right: 10px;
   top: 3px;
@@ -1007,7 +1006,7 @@
   border-top-color: #6c6c6c;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/LayerManagement/OpacitySlider/OpacitySlider.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/LayerManagement/OpacitySlider/OpacitySlider.css */
 .opacity-container .rc-slider {
   border-radius: 0;
 }
@@ -1035,7 +1034,7 @@
   display: none;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/LayerManagement/LayerManagementEntry/LayerManagementEntry.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/LayerManagement/LayerManagementEntry/LayerManagementEntry.css */
 ul.layermanagement-body .vkf-layermanagement-record {
   position: relative;
   height: 100px;
@@ -1211,8 +1210,14 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   opacity: 0.4;
 }
 @media screen and (min-width:992px) {
+  ul.layermanagement-body .vkf-layermanagement-record .visibility-container {
+    z-index: 10;
+  }
+  ul.layermanagement-body .vkf-layermanagement-record .visibility-container button.disable-layer {
+    transition: all 0.25s ease-in-out;
+  }
   ul.layermanagement-body .vkf-layermanagement-record .control-container {
-    padding: 15px 55px 30px 15px;
+    padding: 15px 55px 30px 45px;
     justify-content: space-between;
   }
   ul.layermanagement-body .vkf-layermanagement-record .control-container button.show-original {
@@ -1245,12 +1250,16 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   ul.layermanagement-body .vkf-layermanagement-record .opacity-container {
     display: block;
   }
+  ul.layermanagement-body .vkf-layermanagement-record.force-hover .visibility-container button.disable-layer {
+    background-color: #00655a;
+    border-color: #00655a;
+  }
   ul.layermanagement-body .vkf-layermanagement-record.force-hover .drag-container {
     right: 15px;
   }
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/LayerManagement/LayerManagement.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/LayerManagement/LayerManagement.css */
 .vkf-layermanagement-root {
   height: 100%;
   overflow-y: hidden;
@@ -1291,11 +1300,24 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
 }
 .vkf-layermanagement-root .layermanagement-body .empty {
   margin-top: 60px;
-  color: #ccc;
+  color: #cccccc;
   text-align: center;
   padding: 130px 40px 0 40px;
   background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTAgMTMwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMTAgMTMwIj48cGF0aCBmaWxsPSIjY2NjIiBkPSJNNDcgMTNoLTQwLjdsOC41LTkuM2MuNC0uNC4zLTEtLjEtMS40LS40LS40LTEtLjMtMS40LjFsLTEwIDExLS4xLjEtLjEuMmMwIC4xIDAgLjItLjEuM3YuMWMwIC4xIDAgLjMuMS40bC4yLjMgMTAgMTBjLjIuMi41LjMuNy4zcy41LS4xLjctLjNjLjQtLjQuNC0xIDAtMS40bC04LjMtOC40aDQwLjZjLjYgMCAxLS40IDEtMXMtLjQtMS0xLTF6TTEwNyAzNWgtMTAzYy0uNiAwLTEgLjQtMSAxdjc4YzAgLjYuNCAxIDEgMWg5di0yaC04di02OWgxMDF2NjloLTQ0djJoNDVjLjYgMCAxLS40IDEtMXYtNzhjMC0uNi0uNC0xLTEtMXpNNTQgOTFoLTIuMmMtLjUtMS42LTIuMi0zLTMuOC0zaC00LjJjLS42LTEuNC0yLjItMi0zLjgtMmgtNHYtOWMwLTIuNy0yLjMtNS01LTVzLTUgMi4zLTUgNXYyNi42bC00LjMtNC4zYy0xLjYtMS4zLTMuOS0xLjMtNS40LjItMS4zIDEuMy0xLjMgMy40LS4yIDUuMS43IDEuMyA5LjMgMTguMSAxMy4xIDIzLjEuMi4zLjUuNC44LjRoMjNjLjQgMCAuOC0uMy45LS43bDUtMTVjLjctMi40IDEtNC45IDEtNy4zdi05Yy4xLTIuNy0zLjMtNS4xLTUuOS01LjF6bTQgMTRjMCAyLjItLjMgNC41LS45IDYuN2wtNC44IDE0LjNoLTIxLjhjLTMuOS01LjQtMTIuNS0yMi4zLTEyLjYtMjIuNSAwIDAgMC0uMS0uMS0uMS0uNS0uOC0uOC0xLjktLjEtMi42LjctLjcgMS45LS43IDIuNi0uMWw2IDZjLjMuMy43LjQgMS4xLjIuNC0uMi42LS41LjYtLjl2LTI5YzAtMS41IDEuNS0zIDMtM3MzIDEuNSAzIDN2MThjMCAuNi40IDEgMSAxczEtLjQgMS0xdi03aDRjLjggMCAyIC4zIDIgMXY2YzAgLjYuNCAxIDEgMXMxLS40IDEtMXYtNWg0Yy44IDAgMiAxLjIgMiAydjUuMmMwIC42LjQgMSAxIDFzMS0uNCAxLTF2LTQuMmgyYzEuNiAwIDQgMS42IDQgM3Y5ek0xMi44IDk1LjljMS43LTEuNyAzLjktMi42IDYuMy0yLjYuNyAwIDEuMy4xIDEuOS4ydi0xNi41YzAtNS40IDQuNi0xMCAxMC0xMCAuMyAwIC43IDAgMSAuMXYtMTQuMWgtMjB2NDMuOGMuMi0uNC41LS42LjgtLjl6Ii8+PC9zdmc+) no-repeat center top;
   background-size: 130px 110px;
+}
+.vkf-layermanagement-root .layermanagement-body .empty:before {
+  display: none;
+  content: none;
+}
+.vkf-layermanagement-root .layermanagement-body .empty h4 {
+  color: #cccccc;
+  font-size: 20px;
+  margin: 20px auto;
+  max-width: 90%;
+}
+.vkf-layermanagement-root .layermanagement-body .empty p {
+  margin: 0;
 }
 .vkf-layermanagement-root .badge {
   position: absolute;
@@ -1328,7 +1350,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   }
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/PlacenameSearch/Autocomplete/Autocomplete.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/PlacenameSearch/Autocomplete/Autocomplete.css */
 .vkf-autocomplete-container .autocomplete-dropdown {
   position: absolute;
   padding: 0;
@@ -1364,7 +1386,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   background: #00b19e;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/PlacenameSearch/PlacenameSearch.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/PlacenameSearch/PlacenameSearch.css */
 .gazetteersearch-container {
   position: relative;
   height: auto;
@@ -1423,7 +1445,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   }
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/TimeSlider/TimeSlider.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/TimeSlider/TimeSlider.css */
 .timeslider-container {
   position: relative;
   margin-bottom: 20px;
@@ -1498,7 +1520,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   }
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/SpatialTemporalSearch/SpatialTemporalSearch.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/SpatialTemporalSearch/SpatialTemporalSearch.css */
 .spatialsearch-container {
   position: absolute;
   top: 15px;
@@ -1523,7 +1545,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   flex-direction: column;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/components/Controls/ImageManipulationControl.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/components/Controls/ImageManipulationControl.css */
 .image-manipulation .content-container {
   border: 5px solid transparent;
   position: absolute;
@@ -1629,7 +1651,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   overflow: visible;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/components/ZoomifyMap/ZoomifyMap.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/components/ZoomifyMap/ZoomifyMap.css */
 .ol-viewport {
   background-color: white;
 }
@@ -1836,7 +1858,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   top: 113px;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/views/OriginalMapView/OriginalMapView.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/views/OriginalMapView/OriginalMapView.css */
 .ol-viewport {
   background-color: white;
 }
@@ -2086,7 +2108,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   border: 1px solid #e0e0e0;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/layouts/VerticalLayout/components/ToggleSearchButton/ToggleSearchButton.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/layouts/VerticalLayout/components/ToggleSearchButton/ToggleSearchButton.css */
 .vkf-toggle-search-button {
   position: relative;
   height: 30px;
@@ -2102,7 +2124,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   fill: #00b19e;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/layouts/VerticalLayout/components/ToggleResultListButton/ToggleResultListButton.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/layouts/VerticalLayout/components/ToggleResultListButton/ToggleResultListButton.css */
 .vkf-toggle-search-result-list {
   position: relative;
 }
@@ -2117,19 +2139,24 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   appearance: none;
   display: block;
   background: transparent;
-  border: 0;
-  line-height: 0;
-  font-size: 80px;
-  color: white;
-  text-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
-  text-align: center;
   overflow: hidden;
+  border: 0;
   transition: all 0.25s ease-in-out;
 }
 .vkf-toggle-search-result-list button:before {
   position: absolute;
-  inset: 0;
-  content: "\25be";
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -23px;
+  border: 16px solid transparent;
+  border-bottom-color: white;
+  border-left-color: white;
+  transform-origin: 0 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  content: " ";
 }
 .vkf-toggle-search-result-list:after {
   position: absolute;
@@ -2171,7 +2198,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   opacity: 0.3;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/layouts/VerticalLayout/components/SearchHeader/SearchHeader.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/layouts/VerticalLayout/components/SearchHeader/SearchHeader.css */
 .vkf-search-header {
   flex-direction: column;
   display: flex;
@@ -2226,7 +2253,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   width: 100%;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/layouts/VerticalLayout/components/LayerManagementButton/LayerManagementButton.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/layouts/VerticalLayout/components/LayerManagementButton/LayerManagementButton.css */
 .vkf-toggle-layermanagement-button {
   position: absolute;
   bottom: 6%;
@@ -2283,7 +2310,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   border: 1px solid white;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/layouts/VerticalLayout/VerticalLayout.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/layouts/VerticalLayout/VerticalLayout.css */
 .vkf-vertical-layout {
   position: absolute;
   top: 0;
@@ -2332,7 +2359,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   background-color: rgba(0, 177, 158, 0.1);
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/Dropzone/Dropzone.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/Dropzone/Dropzone.css */
 .vkf-dropzone {
   bottom: 0;
   display: flex;
@@ -2362,7 +2389,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   color: #ff3333;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/components/DialogAddGeoJson/DialogAddGeoJson.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/components/DialogAddGeoJson/DialogAddGeoJson.css */
 .vkf-dialog-add-geojson .modal-dialog {
   margin-top: 25%;
   margin-bottom: 25%;
@@ -2375,7 +2402,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   display: inline-block;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeatureRow/DialogEditFeatureRow.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeatureRow/DialogEditFeatureRow.css */
 .vkf-feature-edit-dialog-row input {
   background: transparent;
   border: none;
@@ -2404,7 +2431,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   background-color: #f7f7f7;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeature.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeature.css */
 .vkf-feature-edit-dialog-root .feature-edit-dialog-content .table-container {
   overflow-y: auto;
   max-height: 250px;
@@ -2417,7 +2444,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   justify-content: space-between;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/MapWrapper.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/components/MapWrapper/MapWrapper.css */
 .ol-viewport {
   background-color: white;
 }
@@ -2736,7 +2763,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   display: none;
 }
 
-/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-13727-q9vF0akh2A3L/virtuelles-kartenforum-react/src/apps/map/App.css */
+/* ../../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-16318-HGl2Mj9oRA6A/virtuelles-kartenforum-react/src/apps/map/App.css */
 .vkf-plugin-map {
   position: absolute;
   top: 0;
