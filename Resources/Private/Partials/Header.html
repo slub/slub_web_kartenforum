@@ -60,10 +60,16 @@
                         <li class="lang_{item.twoLetterIsoCode} {f:if(condition: item.active, then: 'active')} {f:if(condition: item.available, else: 'text-muted')}">
                             <f:if condition="{item.available}">
                                 <f:then>
-                                    <a href="{item.link}" hreflang="{hreflang}" title="{item.title}">{item.title}</a>
+                                    <a href="{item.link}" hreflang="{hreflang}" title="{item.title}">
+                                        <span class="fulltext-label">{item.title}</span>
+                                        <span class="iso-code">{item.twoLetterIsoCode}</span>
+                                    </a>
                                 </f:then>
                                 <f:else>
-                                    <span title="{item.title}">{item.title}</span>
+                                    <span title="{item.title}" class="non-available">
+                                        <span class="fulltext-label">{item.title}</span>
+                                        <span class="iso-code">{item.twoLetterIsoCode}</span>
+                                    </span>
                                 </f:else>
                             </f:if>
                         </li>

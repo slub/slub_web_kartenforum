@@ -151,13 +151,15 @@
     @media screen and (min-width: $tabletLandscapeViewportWidth) {
         position: relative;
         inset: auto;
-        margin-right: 25px;
+        margin: 5px 25px 0 0;
         opacity: 1;
         overflow: visible;
         visibility: visible;
         padding: 0;
+        height: auto;
         pointer-events: auto;
         background: transparent;
+        flex-direction: row;
         nav.main-navigation {
             width: auto;
 
@@ -183,11 +185,18 @@
                 &.user-menu {
                     border: 0;
 
-                    .usermenu-label {
-                        margin: 0 3px 0 2px;
+                    button {
+                        display: flex;
+                        align-items: center;
+                        height: 100%;
+                        .usermenu-label {
+                            margin: 0 3px 0 5px;
+                        }
+                        b.caret {
+                            margin-left: 5px;
+                        }
                     }
                 }
-
                 &.metanav-item {
                     display: none;
                 }
@@ -370,7 +379,7 @@ button.main-navigation-toggle {
         li {
             margin: 0 10px;
 
-            a, span {
+            a, span.non-available {
                 position: relative;
                 display: flex;
                 align-items: center;
@@ -378,6 +387,10 @@ button.main-navigation-toggle {
                 font-weight: 700;
                 text-transform: uppercase;
                 color: white;
+
+                span.iso-code {
+                    display: none;
+                }
 
                 &:before {
                     position: relative;
@@ -404,14 +417,51 @@ button.main-navigation-toggle {
                 }
             }
 
-            span {
+            span.non-available {
                 opacity: .5;
             }
         }
     }
 
     @media screen and (min-width: $tabletLandscapeViewportWidth) {
-        display: none;
+        position: relative;
+        right: auto;
+        bottom: auto;
+        left: auto;
+        margin-left: 30px;
+
+        ul {
+            justify-content: flex-end;
+
+            li {
+                margin: 0 5px;
+                padding: 0;
+
+                a, span.non-available {
+
+
+                    &:before {
+                        width: 17px;
+                        height: 17px;
+                    }
+
+                    span.iso-code {
+                        display: block;
+                    }
+
+                    span.fulltext-label {
+                        display: none;
+                    }
+                }
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+        &:hover {
+            opacity: 1;
+        }
     }
 }
 
