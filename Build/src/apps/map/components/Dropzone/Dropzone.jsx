@@ -12,6 +12,7 @@ import { useDrop } from "react-dnd";
 import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { DndProvider } from "react-dnd-multi-backend";
 import { NativeTypes } from "react-dnd-html5-backend";
+import SvgIcons from "../../../../components/SvgIcons/SvgIcons.jsx";
 
 import { translate } from "../../../../util/util";
 import "./Dropzone.scss";
@@ -94,6 +95,7 @@ export const Dropzone = ({ children, onDrop, onError }) => {
               ? translate("dropzone-drop")
               : translate(`dropzone-${error}`)}
           </p>
+          <SvgIcons name="dropzone-upload"/>
         </div>
       )}
       {children}

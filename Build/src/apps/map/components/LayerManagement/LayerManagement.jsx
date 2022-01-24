@@ -20,6 +20,7 @@ import LayerManagementEntry from "./LayerManagementEntry/LayerManagementEntry";
 import { getIndexToLayer, getLayers } from "./util";
 import { useSetElementScreenSize } from "../../../../util/hooks.js";
 import "./LayerManagement.scss";
+import GeoJsonUploadHint from "./GeoJsonUploadHint/GeoJsonUploadHint.jsx";
 
 const customBackends = HTML5toTouch.backends.map((backend) => {
   if (backend.id === "touch") {
@@ -132,12 +133,15 @@ export const LayerManagement = ({
             <span className="header-label">
               {translate("layermanagement-header-lbl")}
             </span>
+            <div className="header-functions">
+              <GeoJsonUploadHint/>
             {showHideButton && <DeactivateMapCollection />}
             {showDynamicMapVisualization && (
               <DynamicMapVisualization
                 animationOptions={{ delay: 30, steps: 0.01 }}
               />
             )}
+            </div>
           </div>
         )}
         <ul className="layermanagement-body">

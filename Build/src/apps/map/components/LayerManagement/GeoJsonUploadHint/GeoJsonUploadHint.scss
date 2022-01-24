@@ -1,0 +1,66 @@
+@import "../../../../../../../Resources/Private/Scss/Variables";
+
+
+.geojson-upload-hint {
+    position: relative;
+    height: 30px;
+
+    button.geojson-upload {
+        position: relative;
+        width: 30px;
+        height: 30px;
+        border: 0;
+        background: transparent;
+        appearance: none;
+        padding: 4px;
+
+        svg {
+            fill: $color-grey;
+        }
+
+        .label {
+            display: none;
+        }
+    }
+
+    .upload-info {
+        position: absolute;
+        top: 37px;
+        right: -10px;
+        width: 330px;
+        background-color: rgba($secondary-color-dark, .9);
+        padding: 15px;
+        font-size: 14px;
+        text-transform: none;
+        color: white;
+        box-shadow: $shadow;
+        pointer-events: none;
+        opacity: 0;
+        transform: scale(0);
+        transform-origin: right top;
+        transition: $transition;
+
+        &:before {
+            position: absolute;
+            top: -5px;
+            right: 20px;
+            width: 0;
+            height: 0;
+            border: 5px solid transparent;
+            border-top-width: 0;
+            border-bottom-color: rgba($secondary-color-dark, .9);
+            content: " ";
+        }
+    }
+    &.show {
+        button.geojson-upload {
+            svg {
+                fill: $secondary-color;
+            }
+        }
+        .upload-info {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+}

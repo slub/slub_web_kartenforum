@@ -221,6 +221,7 @@ export const LayerManagementEntry = (props) => {
         isVisible ? "record-visible" : "record-hidden",
         isDragging && "drag-and-drop-placeholder",
         isShowActions && "show-actions",
+        (layer.get("type") === LAYER_TYPES.GEOJSON) && "geojson-data",
         hovered &&
           (draggedItem === null || draggedItem.id === layer.getId()) &&
           "force-hover"
@@ -244,13 +245,18 @@ export const LayerManagementEntry = (props) => {
           {translate("layermanagement-show-map")}
         </button>
       </div>
-      {layer.get("type") !== LAYER_TYPES.GEOJSON && (
-        <div className="thumbnail-container">
-          <a href="#">
+        {layer.get("type") === LAYER_TYPES.GEOJSON ? (
+          <React.Fragment>
+            <div className="thumbnail-container">
+              <img src={settings.FALLBACK_THUMBNAIL} alt="Placeholder for GeoJSON-Image" />
+            <span className="geojson-badge">GeoJSON</span>
+            </div>
+          </React.Fragment>
+        ) :(
+          <div className="thumbnail-container">
             <img onError={handleError} src={src} alt="Thumbnail Image of Map" />
-          </a>
-        </div>
-      )}
+          </div>
+        )}
       <div className="metadata-container">
         <h4>{layer.getTitle()}</h4>
         <div className="timestamps">
@@ -302,12 +308,13 @@ export const LayerManagementEntry = (props) => {
             className="export-geojson"
             onClick={handleExportGeojson}
             type="button"
-            title="export"
+            title={translate("layermanagement-export")}
           >
-            Export
+            <SvgIcons name="layeraction-export" />
+            {translate("layermanagement-export")}
           </button>
         )}
-        {settings["LINK_TO_GEOREFERENCE"] !== undefined && (
+        {settings["LINK_TO_GEOREFERENCE"] !== undefined && layer.get("type") !== LAYER_TYPES.GEOJSON && (
           <button
             className="georeference-update"
             title={`${translate("layermangement-georef-update")} ...`}

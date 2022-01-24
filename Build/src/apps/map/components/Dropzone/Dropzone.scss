@@ -1,33 +1,39 @@
 @import "../../../../../../Resources/Private/Scss/Variables";
 
 .vkf-dropzone {
-    bottom: 0;
-    display: flex;
-    left: 0;
     position: absolute;
-    right: 0;
-    top: 0;
+    inset: 0;
+    display: flex;
 
     .dropzone-content {
-        z-index: 2000;
-        align-items: center;
-        background-color: #ffffff75;
-        bottom: 0;
-        display: flex;
-        justify-content: center;
-        left: 0;
         position: absolute;
-        right: 0;
-        top: 0;
+        inset: 0;
+        z-index: 2000;
+        background-color: rgba(white, .75);
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
 
         .dropzone-info {
             font-size: 8rem;
-            font-weight: 600;
-            color: rgb(158, 158, 158);
+            text-transform: uppercase;
+            font-weight: 300;
+            letter-spacing: .1ex;
+            color: $color-grey;
+            flex: 0 0 100%;
+            text-align: center;
+            margin: 0;
 
             &.error {
                 color: $primary-color;
             }
+        }
+
+        .icon {
+            margin-top: 60px;
+            width: 200px;
+            fill: $color-grey;
         }
     }
 }

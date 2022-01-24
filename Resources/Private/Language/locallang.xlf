@@ -232,6 +232,9 @@
 			<trans-unit id="plugin.map.layermanagement.showMap">
 				<source>Display map</source>
 			</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.export">
+				<source>Export GeoJSON</source>
+			</trans-unit>
 			<trans-unit id="plugin.map.layermanagement.removeMap">
 				<source>Remove map</source>
 			</trans-unit>
@@ -407,6 +410,9 @@
             <trans-unit id="plugin.map.adddialog.projectionLabel">
                 <source>Projection</source>
             </trans-unit>
+			<trans-unit id="plugin.map.adddialog.body">
+				<source>In order to add a new GeoJSON layer drag and drop your .geojson file over this window</source>
+			</trans-unit>
 
             <!-- Global > Map > MarkerPicker -->
             <trans-unit id="plugin.map.markerpicker.select">

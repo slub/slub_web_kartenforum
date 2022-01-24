@@ -7,10 +7,12 @@
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 
+import clsx from "clsx";
 import { translate } from "../../../../../util/util";
 import { getHistoricMapLayer } from "../../MapWrapper/util";
 import { mapState, olcsMapState } from "../../../atoms/atoms";
 import "./DeactivateMapCollection.scss";
+import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
 
 export const DeactivateMapCollection = () => {
   const [isActive, setIsActive] = useState(true);
@@ -30,20 +32,20 @@ export const DeactivateMapCollection = () => {
   };
 
   return (
-    <div className="deactivate-map-col-control">
-      <a
+    <button
         onClick={handleClick}
-        href="#"
-        className={isActive ? "deactivate" : ""}
+        className={clsx(
+            "deactivate-map-col-control",
+            isActive ? "deactivate" : ""
+        )}
         title={translate(
           isActive
             ? "layermanagement-deactivate-all-maps"
             : "layermanagement-activate-all-maps"
         )}
       >
-        D
-      </a>
-    </div>
+      <SvgIcons name="layermanagement-deactivate"/>
+    </button>
   );
 };
 

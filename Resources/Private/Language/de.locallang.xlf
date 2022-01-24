@@ -338,6 +338,11 @@
                 <source><![CDATA[Projection]]></source>
                 <target><![CDATA[Projektion]]></target>
             </trans-unit>
+			<trans-unit id="plugin.map.adddialog.body">
+				<source><![CDATA[In order to add a new GeoJSON layer drag and drop your .geojson file over this window]]></source>
+				<target><![CDATA[Um eine neue GeoJSON-Ebene hinzuzufügen, ziehen Sie Ihre .geojson-Datei einfach Via drag and drop auf dieses Fenster]]></target>
+			</trans-unit>
+
             <trans-unit id="plugin.map.markerpicker.select" approved="yes">
                 <source><![CDATA[Select marker]]></source>
                 <target><![CDATA[Marker auswählen]]></target>
@@ -754,6 +759,10 @@
     			<source><![CDATA[Show map]]></source>
     			<target><![CDATA[Zeige Karte]]></target>
     		</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.export" approved="yes">
+				<source><![CDATA[Export GeoJSON]]></source>
+				<target><![CDATA[Exportiere GeoJSON]]></target>
+			</trans-unit>
  			<trans-unit id="plugin.apps.userhistory.link-goToProcess" approved="yes">
      			<source><![CDATA[Show transformation]]></source>
      			<target><![CDATA[Zeige Transformation]]></target>
