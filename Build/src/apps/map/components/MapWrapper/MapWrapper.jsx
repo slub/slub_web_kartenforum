@@ -13,7 +13,7 @@ import VectorSource from "ol/source/Vector";
 import { defaults, DragRotate } from "ol/interaction";
 import { shiftKeyOnly } from "ol/events/condition";
 import OLCesium from "olcs/OLCesium";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import olcsCore from "olcs/core";
 import clsx from "clsx";
 import { useWindowWidth } from "@react-hook/window-size";
@@ -29,6 +29,7 @@ import {
 } from "../../../../util/util";
 import {
   activeBasemapIdState,
+  currentApplicationStateState,
   map3dState,
   mapState,
   olcsMapState,
@@ -40,7 +41,7 @@ import {
   setOptimizedCesiumSettings,
 } from "./util";
 import { getMapClassNameForLayout } from "../../layouts/util";
-import { useSetElementScreenSize } from "../../../../util/hooks";
+import { usePrevious, useSetElementScreenSize } from "../../../../util/hooks";
 import GeoJsonLayer from "../CustomLayers/GeoJsonLayer";
 import DialogEditFeature from "./components/DialogEditFeature/DialogEditFeature";
 import CustomOverlaySynchronizer from "./components/customOverlaySynchronizer/customOverlaySynchronizer";
@@ -76,6 +77,7 @@ export function MapWrapper(props) {
   const [activeBasemap, setActiveBasemap] = useState(initialBasemap);
   const [hideOverlayContents, setHideOverlayContents] = useState(true);
   const [is3dActive, set3dActive] = useRecoilState(map3dState);
+  const localStorageWriter = useRecoilValue(currentApplicationStateState);
   const [map, setMap] = useRecoilState(mapState);
   const setOlcsMap = useSetRecoilState(olcsMapState);
   const [selectedFeature, setSelectedFeature] = useState(undefined);
@@ -96,8 +98,12 @@ export function MapWrapper(props) {
   // used to make state easily accessible outside of the react tree in the permalink component
   // do not access otherwise
   const unsafe_refBasemapId = useRef(activeBasemapId);
+  const unsafe_refApplicationStateUpdater = useRef(undefined);
   const unsafe_refSelectedFeatures = useRef(new Collection());
   const unsafe_refSpyLayer = useRef(undefined);
+
+  const previousActiveBasemapId = usePrevious(activeBasemapId);
+  const previousLayout = usePrevious(layout);
 
   // publish elements size to global state
   useSetElementScreenSize(mapElement, "map");
@@ -364,7 +370,14 @@ export function MapWrapper(props) {
 
   // update controls on layout change
   useEffect(() => {
-    if (isDefined(map)) {
+    // only add new controls if the first time there is an activeBasemapId available and if the layout changes
+    if (
+      isDefined(map) &&
+      ((activeBasemapId !== null &&
+        (previousActiveBasemapId === null ||
+          previousActiveBasemapId === undefined)) ||
+        layout !== previousLayout)
+    ) {
       if (isDefined(controlsRef.current)) {
         controlsRef.current.forEach((control) => {
           map.removeControl(control);
@@ -381,6 +394,7 @@ export function MapWrapper(props) {
         permalinkProps: {
           camera: olcsMapRef.current?.getCesiumScene().camera,
           refActiveBasemapId: unsafe_refBasemapId,
+          refApplicationStateUpdater: unsafe_refApplicationStateUpdater,
           refSelectedFeatures: unsafe_refSelectedFeatures,
         },
         refSpyLayer: unsafe_refSpyLayer,
@@ -392,7 +406,7 @@ export function MapWrapper(props) {
 
       controlsRef.current = newControls;
     }
-  }, [layout, map]);
+  }, [activeBasemapId, layout, map]);
 
   // fit map to viewport after resize (e.g switch from landscape to portrait mode)
   useEffect(() => {
@@ -435,6 +449,10 @@ export function MapWrapper(props) {
       unsafe_refSpyLayer.current.changeLayer(createBaseMapLayer(activeBasemap));
     }
   }, [activeBasemap, map]);
+
+  useEffect(() => {
+    unsafe_refApplicationStateUpdater.current = localStorageWriter;
+  }, [localStorageWriter]);
 
   useEffect(() => {
     unsafe_refBasemapId.current = activeBasemapId;

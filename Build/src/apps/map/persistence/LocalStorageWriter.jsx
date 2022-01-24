@@ -4,8 +4,8 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useCallback } from "react";
-import { useRecoilValue } from "recoil";
+import React, { useCallback, useEffect } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
   serializeMapView,
@@ -16,6 +16,7 @@ import {
 import {
   activeBasemapIdState,
   facetState,
+  currentApplicationStateState,
   map3dState,
   mapState,
   olcsMapState,
@@ -25,7 +26,7 @@ import {
 } from "../atoms/atoms.js";
 import { PERSISTENCE_OBJECT_KEY } from "./PersistenceController.jsx";
 
-export const LocalStorageWriter = () => {
+export const LocalStorageWriter = function () {
   const activeBasemapId = useRecoilValue(activeBasemapIdState);
   const facets = useRecoilValue(facetState);
   const map = useRecoilValue(mapState);
@@ -34,6 +35,7 @@ export const LocalStorageWriter = () => {
   const timeExtent = useRecoilValue(timeExtentState);
   const timeRange = useRecoilValue(timeRangeState);
   const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const setLocalStorageWriter = useSetRecoilState(currentApplicationStateState);
 
   const [, setPersistenceObject] = useLocalStorage(PERSISTENCE_OBJECT_KEY, {
     operationalLayers: [],
@@ -77,6 +79,7 @@ export const LocalStorageWriter = () => {
 
     // write changes to localStorage
     setPersistenceObject(newPersistenceObject);
+    return newPersistenceObject;
   }, [
     activeBasemapId,
     map,
@@ -90,6 +93,10 @@ export const LocalStorageWriter = () => {
 
   // Write state on page leave to storage
   useOnPageLeave(writeStateToLocalStorage);
+
+  useEffect(() => {
+    setLocalStorageWriter(() => writeStateToLocalStorage);
+  }, [writeStateToLocalStorage]);
 
   return <></>;
 };

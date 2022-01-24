@@ -62,8 +62,6 @@ export const PlacenameSearch = (props) => {
     });
   };
 
-  console.log(isLoading);
-
   // Handler dispatching a mapview update based on the input
   const handleSubmitPlaceName = (selectedItem, inputValue) => {
     if (selectedItem !== undefined) {

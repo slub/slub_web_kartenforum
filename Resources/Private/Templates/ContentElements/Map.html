@@ -22,6 +22,8 @@
 <f:section name="FooterAssets">
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
+            "API_MAP_VIEW_LOAD": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getMapView&type=9991",
+            "API_MAP_VIEW_PERSIST": document.getElementById("setting-is-auth") !== null ?"/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMapView&type=9991" : undefined,
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
             "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
             "FALLBACK_THUMBNAIL": "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",

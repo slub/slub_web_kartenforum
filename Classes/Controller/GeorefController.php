@@ -252,7 +252,7 @@ class GeorefController extends ActionController
         $feUserObj = $this->getActualUser();
 
         // Build json request
-        if (!is_null($feUserObj->getUsername())) {
+        if (!is_null($feUserObj) && !is_null($feUserObj->getUsername())) {
             // Attach a user_id to the request object
             $jsonRequest = json_decode($requestParams, true);
             $jsonRequest['user_id'] = $feUserObj->getUsername();
@@ -283,7 +283,7 @@ class GeorefController extends ActionController
         $feUserObj = $this->getActualUser();
 
         // Build json request
-        if (!is_null($feUserObj->getUsername())) {
+        if (!is_null($feUserObj) && !is_null($feUserObj->getUsername())) {
             // Attach a user_id to the request object
             $jsonRequest = json_decode($requestParams, true);
             $jsonRequest['user_id'] = $feUserObj->getUsername();
@@ -321,4 +321,51 @@ class GeorefController extends ActionController
             $this->view->assign('value', json_decode($content, true));
         }
     }
+
+    /**
+     * Action to post a new map_view
+     */
+    public function postMapViewAction()
+    {
+        $requestParams = GeneralUtility::_GP('req');
+        // get mapid from GET parameter map_id and request params
+        $feUserObj = $this->getActualUser();
+
+        // Build json request
+        if (!is_null($feUserObj) && !is_null($feUserObj->getUsername())) {
+            // Attach a user_id to the request object
+            $jsonRequest= json_decode(file_get_contents('php://input'), true);
+            $jsonRequest['user_id'] = $feUserObj->getUsername();
+
+            // Build url and request service
+            $response = $this->doPOST(
+                '/map_view/',
+                $jsonRequest
+            );
+
+            if ($response) {
+                $content = $response->getBody()->getContents();
+                $this->view->assign('value', json_decode($content, true));
+            }
+        } else {
+            throw new \UnexpectedValueException('Could not determine username.');
+        }
+    }
+
+     /**
+         * Action to get a new map_view
+         */
+        public function getMapViewAction()
+        {
+            $mapViewId = GeneralUtility::_GP('map_view_id');
+
+            // Build url and request service
+            $response = $this->doGET('/map_view/' . $mapViewId);
+
+            if ($response) {
+                $content = $response->getBody()->getContents();
+                $this->view->assign('value', json_decode($content, true));
+            }
+
+        }
 }

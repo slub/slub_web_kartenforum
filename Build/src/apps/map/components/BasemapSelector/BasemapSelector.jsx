@@ -15,6 +15,8 @@ import DialogAddWms from "./DialogAddWms";
 import { useLocalStorage } from "../../persistence/util";
 import "./BasemapSelector.scss";
 
+export const PERSISTENCE_CUSTOM_BASEMAP_KEYS = "vkf-custom-basemaps";
+
 /**
  * Component for rendering a basemap selector tools
  * @param props
@@ -24,11 +26,13 @@ import "./BasemapSelector.scss";
 export const BasemapSelector = (props) => {
   const { initialBasemapId, map, onBasemapChange, onSetNotification } = props;
   const [customLayers, setCustomLayers] = useLocalStorage(
-    "vkf-custom-basemaps",
+    PERSISTENCE_CUSTOM_BASEMAP_KEYS,
     []
   );
   const layers = SettingsProvider.getBaseMaps();
-  const [activeLayer, setActiveLayer] = useState(layers[0]);
+  const [activeLayer, setActiveLayer] = useState(
+    [...layers, ...customLayers].find((layer) => layer.id === initialBasemapId)
+  );
   const [showAddWmsDialog, setShowAddWmsDialog] = useState(false);
 
   ////

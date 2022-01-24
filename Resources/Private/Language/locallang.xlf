@@ -474,17 +474,29 @@
 
 			 <!-- Global > Map > Control > Permalink -->
             <trans-unit id="global.map.control-permalink.title">
-                <source>Generate share-link</source>
+                <source>Share your current view</source>
             </trans-unit>
-            <trans-unit id="global.map.control-permalink.exporterTitle">
-                 <source>Share-link</source>
-             </trans-unit>
+            <trans-unit id="global.map.control-permalink.permalinkTitle">
+                 <source>Permalink</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.mapViewTitle">
+                  <source>Mapview</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.inputMapViewPlaceholder">
+                    <source>Link to mapview</source>
+            </trans-unit>
             <trans-unit id="global.map.control-permalink.exporterCopy">
-                 <source>Copied</source>
-             </trans-unit>
-             <trans-unit id="global.map.control-permalink.exporterCopyTitle">
+                     <source>Copied</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.exporterCopyTitle">
                   <source>Copy to clipboard</source>
-              </trans-unit>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.permalinkDescription">
+                  <source>The permalink function allows sharing the current map view. Custom content, such as geojson layers or additional basemaps, cannot be shared with this function. The map view tab, which is only accessible when logged in, allows sharing of all content.</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.mapViewDescription">
+                  <source>The map view function allows sharing the entire application state. For this purpose, it is uploaded and a unique link is generated, which can be shared.</source>
+            </trans-unit>
 
            <!-- Global > Map > Control > Fullscreen -->
 			<trans-unit id="global.map.control-fullscreen.title">

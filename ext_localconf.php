@@ -51,8 +51,8 @@ ExtensionUtility::configurePlugin(
 ExtensionUtility::configurePlugin(
     'SlubWebKartenforum',
     'georeference',
-    [GeorefController::class => 'getStatistics, getTransformationForMapId, getTransformationForUserId, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, postTransformationTry, getTest'],
-    [GeorefController::class => 'getStatistics, getTransformationForMapId, getTransformationForUserId, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, postTransformationTry, getTest'],
+    [GeorefController::class => 'getStatistics, getTransformationForMapId, getTransformationForUserId, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, postTransformationTry, getTest, postMapView, getMapView'],
+    [GeorefController::class => 'getStatistics, getTransformationForMapId, getTransformationForUserId, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, postTransformationTry, getTest, postMapView, getMapView'],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
 

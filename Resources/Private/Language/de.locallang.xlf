@@ -602,12 +602,20 @@
 
 			 <!-- Global > Map > Control > Permalink -->
             <trans-unit id="global.map.control-permalink.title" approved="yes">
-                <source><![CDATA[Generate share-link]]></source>
-                <target><![CDATA[Erzeuge Share-Link]]></target>
+                <source><![CDATA[Share your current view]]></source>
+                <target><![CDATA[Teilen sie ihre aktuelle Ansicht]]></target>
             </trans-unit>
-            <trans-unit id="global.map.control-permalink.exporterTitle" approved="yes">
-                <source><![CDATA[Share-link]]></source>
-                <target><![CDATA[Share-link]]></target>
+            <trans-unit id="global.map.control-permalink.permalinkTitle" approved="yes">
+                <source><![CDATA[Permalink]]></source>
+                <target><![CDATA[Permalink]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.mapViewTitle" approved="yes">
+                <source><![CDATA[Mapview]]></source>
+                <target><![CDATA[Kartenansicht]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.inputMapViewPlaceholder" approved="yes">
+                <source><![CDATA[Link to mapview]]></source>
+                <target><![CDATA[Link zu der Kartenansicht]]></target>
             </trans-unit>
             <trans-unit id="global.map.control-permalink.exporterCopy" approved="yes">
                 <source><![CDATA[Copied]]></source>
@@ -616,6 +624,14 @@
             <trans-unit id="global.map.control-permalink.exporterCopyTitle" approved="yes">
                 <source><![CDATA[Copy to clipboard]]></source>
                 <target><![CDATA[Kopiere in die Zwischenablage]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.permalinkDescription" approved="yes">
+                <source><![CDATA[The permalink function allows sharing the current map view. Custom content, such as geojson layers or additional basemaps, cannot be shared with this function. The map view tab, which is only accessible when logged in, allows sharing of all content.]]></source>
+                <target><![CDATA[Die Permalinkfunktion erlaubt das Teilen der derzeitigen Kartenansicht. Benutzerdefinierte Inhalte, wie Geojson Layer oder zusätzliche Basiskarten können damit nicht geteilt werden. Der nur im eingeloggten Zustand erreichbare Kartenansicht Reiter erlaubt das Teilen sämtlicher Inhalte.]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.mapViewDescription" approved="yes">
+                <source><![CDATA[The map view function allows sharing the entire application state. For this purpose, it is uploaded and a unique link is generated, which can be shared.]]></source>
+                <target><![CDATA[Die Kartenansicht Funktion erlaubt das Teilen des gesamten Applikationszustandes. Dazu wird dieser hochgeladen und ein eindeutiger Link generiert, welcher geteilt werden kann.]]></target>
             </trans-unit>
 
            <!-- Global > Map > Control > Fullscreen -->

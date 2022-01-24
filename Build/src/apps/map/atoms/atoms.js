@@ -12,14 +12,14 @@ export const activeBasemapIdState = atom({
     default: null,
 });
 
+export const currentApplicationStateState = atom({
+    key: "currentApplicationState",
+    default: undefined,
+});
+
 export const displayedLayersCountState = atom({
     key: "displayedLayersCount",
     default: 0,
-});
-
-export const facetState = atom({
-    key: "facetState",
-    default: { facets: [], georeference: false },
 });
 
 export const elementsScreenSizeState = atom({
@@ -31,6 +31,11 @@ export const elementsScreenSizeState = atom({
         offset: { height: 15, width: 0 },
         spatialtemporalsearch: { height: 0, width: 0 },
     },
+});
+
+export const facetState = atom({
+    key: "facetState",
+    default: { facets: [], georeference: false },
 });
 
 export const mapSearchOverlayLayerState = atom({
