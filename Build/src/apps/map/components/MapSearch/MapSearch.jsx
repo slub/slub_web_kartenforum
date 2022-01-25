@@ -6,18 +6,23 @@
  */
 
 import React, { useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import clsx from "clsx";
 
 import {
+  defaultFacetState,
+  facetState,
   searchIsLoadingState,
   searchResultDescriptorState,
+  timeExtentState,
+  timeRangeState,
 } from "../../atoms/atoms";
 import { translate } from "../../../../util/util";
 import FacetedSearch from "../FacetedSearch/FacetedSearch";
 import MapSearchResultList from "./components/MapSearchResultList/MapSearchResultList";
 import ToggleFacetsButton from "./components/ToggleFacetsButton/ToggleFacetsButton";
 import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner";
+import SvgIcons from "../../../../components/SvgIcons/SvgIcons.jsx";
 
 import "./MapSearch.scss";
 
@@ -26,10 +31,12 @@ export const MAP_PROJECTION = "EPSG:3857";
 // The general Map Search component for the main view
 export const MapSearch = () => {
   // state
-
+  const [facets, setFacets] = useRecoilState(facetState);
   const [isFacetedSearchOpen, setIsFacetedSearchOpen] = useState(false);
   const isSearchLoading = useRecoilValue(searchIsLoadingState);
   const { mapCount } = useRecoilValue(searchResultDescriptorState);
+  const setTimeExtent = useSetRecoilState(timeExtentState);
+  const timeRange = useRecoilValue(timeRangeState);
 
   ////
   // Handler section
@@ -38,6 +45,12 @@ export const MapSearch = () => {
   // toggle the faceted Search open
   const handleToggleFacetedSearch = () => {
     setIsFacetedSearchOpen((prevState) => !prevState);
+  };
+
+  // Remove all facets 'n filters
+  const handleRemoveFacets = () => {
+    setFacets(defaultFacetState);
+    setTimeExtent(timeRange.slice());
   };
 
   return (
@@ -55,6 +68,11 @@ export const MapSearch = () => {
                 ? translate("mapsearch-found-no-maps")
                 : `${mapCount} ${translate("mapsearch-found-maps")}`}
             </div>
+            {facets.facets.length > 0 && (
+              <button className="remove-filter" onClick={handleRemoveFacets}>
+                <SvgIcons name="icon-filter" />
+              </button>
+            )}
             {isSearchLoading && (
               <div className="loading-spinner">
                 <LoadingSpinner />

@@ -4,12 +4,13 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useRecoilState } from "recoil";
 
 import { facetState } from "../../atoms/atoms";
 import FacetedSearchEntry from "./FacetedSearchEntry";
+import "./FacetedSearch.scss";
 
 export const FACETED_SEARCH_TYPES = {
   AE: "map_type-ae",
@@ -27,55 +28,41 @@ Object.keys(FACETED_SEARCH_TYPES).forEach((key) => {
   initialCheckedState[key] = false;
 });
 
-export const FacetedSearch = (props) => {
-  const { georeferenceMode } = props;
-
-  const [checkedState, setCheckedState] = useState(initialCheckedState);
-
+export const FacetedSearch = ({ georeferenceMode }) => {
   const [facets, setFacets] = useRecoilState(facetState);
 
+  ////
+  // Handler section
+  ////
+
   const handleToggleFacet = (key) => {
-    setCheckedState((oldCheckedState) =>
-      Object.assign({}, oldCheckedState, { [key]: !oldCheckedState[key] })
-    );
-  };
+    setFacets((oldFacets) => {
+      const { facets, georeference } = oldFacets;
 
-  ////
-  // Effect section
-  ////
+      // toggle georef key
+      if (key === "ToGeoref") {
+        return { facets, georeference: !georeference };
+      } else {
+        // else either add facet or remove it if it is already present
+        const newFacets = facets.slice();
+        const index = newFacets.findIndex((f) => f.id === key);
 
-  // Publish from internal state to global state
-  useEffect(() => {
-    const selected = Object.entries(checkedState)
-      .filter((entry) => entry[1])
-      .map((entry) => entry[0]);
-
-    const facets = [];
-    selected.forEach((key) => {
-      if (key === "ToGeoref") return;
-      const [facetKey, facetValue] = FACETED_SEARCH_TYPES[key].split("-");
-      facets.push({ key: facetKey, value: facetValue, id: key });
+        if (index > -1) {
+          newFacets.splice(index, 1);
+        } else {
+          const [facetKey, facetValue] = FACETED_SEARCH_TYPES[key].split("-");
+          newFacets.push({ key: facetKey, value: facetValue, id: key });
+        }
+        return { facets: newFacets, georeference };
+      }
     });
-
-    setFacets({ facets, georeference: !selected.includes("ToGeoref") });
-  }, [checkedState]);
-
-  // Synchronize external facets with internal facets on mount
-  useEffect(() => {
-    const externalFacets = facets.facets.map((facet) => facet.id);
-    const newCheckedState = {};
-    Object.keys(FACETED_SEARCH_TYPES).forEach(
-      (key) => (newCheckedState[key] = externalFacets.includes(key))
-    );
-
-    setCheckedState(newCheckedState);
-  }, []);
+  };
 
   return (
     <div className="search-facet">
       {Object.keys(FACETED_SEARCH_TYPES).map((key) => (
         <FacetedSearchEntry
-          checked={checkedState[key]}
+          checked={facets.facets.findIndex((f) => f.id === key) !== -1}
           key={key}
           georeferenceMode={georeferenceMode}
           onClick={handleToggleFacet}

@@ -22,6 +22,12 @@ export const displayedLayersCountState = atom({
     default: 0,
 });
 
+export const defaultFacetState = { facets: [], georeference: false };
+export const facetState = atom({
+    key: "facetState",
+    default: defaultFacetState,
+});
+
 export const elementsScreenSizeState = atom({
     key: "elementScreenSize",
     default: {
