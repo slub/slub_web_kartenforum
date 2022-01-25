@@ -173,26 +173,27 @@ export const PersistenceController = () => {
 
         // restore mapview if available
         if (map !== undefined && olcsMap !== undefined) {
-          map.setView(
-            new View(
-              Object.assign(
-                {},
-                SettingsProvider.getDefaultMapView(),
-                // cap zoom in case of undefined mapView
-                persistenceIs3dEnabled
-                  ? {
-                      zoom: MIN_3D_ZOOM + 0.1 * MIN_3D_ZOOM,
-                    }
-                  : mapView
-              )
-            )
-          );
-
+          // update camera in case the 3d view mode will be activated, else update ol map view
           if (persistenceIs3dEnabled) {
             olcsMap.setEnabled(persistenceIs3dEnabled);
             const camera = olcsMap.getCesiumScene().camera;
 
             updateCameraFromMapview(camera, mapView);
+          } else {
+            map.setView(
+              new View(
+                Object.assign(
+                  {},
+                  SettingsProvider.getDefaultMapView(),
+                  // cap zoom in case of undefined mapView
+                  persistenceIs3dEnabled
+                    ? {
+                        zoom: MIN_3D_ZOOM + 0.1 * MIN_3D_ZOOM,
+                      }
+                    : mapView
+                )
+              )
+            );
           }
 
           // only set the 3d state after the map was initialized in order to handle correct view initalization

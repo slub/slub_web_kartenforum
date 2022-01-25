@@ -24,7 +24,7 @@ export const mapViewToUrlParams = (mapView, is3dEnabled) => {
             isPoint(position) ? { p: pointTo3dArray(position) } : null,
             isPoint(direction) ? { d: pointTo3dArray(direction) } : null,
             isPoint(up) ? { u: pointTo3dArray(up) } : null,
-            isPoint(right) ? { r: pointTo3dArray(right) } : null
+            isPoint(right) ? { ri: pointTo3dArray(right) } : null
         );
     } else {
         const { center, resolution, rotation, zoom } = mapView;

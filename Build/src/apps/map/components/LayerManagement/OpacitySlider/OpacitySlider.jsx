@@ -13,6 +13,7 @@ import "rc-slider/assets/index.css";
 import HistoricMap from "../../CustomLayers/HistoricMapLayer";
 import { olcsMapState } from "../../../atoms/atoms";
 import "./OpacitySlider.scss";
+import GeoJsonLayer from "../../CustomLayers/GeoJsonLayer.js";
 
 export const OpacitySlider = (props) => {
   const { orientation = "horizontal", layer } = props;
@@ -83,7 +84,10 @@ export const OpacitySlider = (props) => {
 };
 
 OpacitySlider.propTypes = {
-  layer: PropTypes.instanceOf(HistoricMap),
+  layer: PropTypes.oneOfType([
+    PropTypes.instanceOf(HistoricMap),
+    PropTypes.instanceOf(GeoJsonLayer),
+  ]),
   orientation: PropTypes.oneOf(["horizontal", "vertical"]),
 };
 

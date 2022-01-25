@@ -88,6 +88,7 @@ export const getDefaultControls = (params) => {
                 zoomOutTipLabel: translate("control-zoom-out"),
             }),
             new LayerSpy({
+                refActiveBasemapId: permalinkProps.refActiveBasemapId,
                 refSpyLayer,
             }),
             new ToggleViewMode({

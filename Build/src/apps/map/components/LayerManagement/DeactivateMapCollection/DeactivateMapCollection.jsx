@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 
 import clsx from "clsx";
 import { translate } from "../../../../../util/util";
-import { getHistoricMapLayer } from "../../MapWrapper/util";
+import { getOperationalLayers } from "../../MapWrapper/util";
 import { mapState, olcsMapState } from "../../../atoms/atoms";
 import "./DeactivateMapCollection.scss";
 import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
@@ -20,7 +20,7 @@ export const DeactivateMapCollection = () => {
   const olcsMap = useRecoilValue(olcsMapState);
 
   const handleClick = () => {
-    const layers = getHistoricMapLayer(map);
+    const layers = getOperationalLayers(map);
     layers.forEach((layer) => {
       layer["setVisible"](!isActive);
     });
@@ -33,18 +33,18 @@ export const DeactivateMapCollection = () => {
 
   return (
     <button
-        onClick={handleClick}
-        className={clsx(
-            "deactivate-map-col-control",
-            isActive ? "deactivate" : ""
-        )}
-        title={translate(
-          isActive
-            ? "layermanagement-deactivate-all-maps"
-            : "layermanagement-activate-all-maps"
-        )}
-      >
-      <SvgIcons name="layermanagement-deactivate"/>
+      onClick={handleClick}
+      className={clsx(
+        "deactivate-map-col-control",
+        isActive ? "deactivate" : ""
+      )}
+      title={translate(
+        isActive
+          ? "layermanagement-deactivate-all-maps"
+          : "layermanagement-activate-all-maps"
+      )}
+    >
+      <SvgIcons name="layermanagement-deactivate" />
     </button>
   );
 };

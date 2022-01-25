@@ -30,10 +30,10 @@ export const setLayersToInitialState = (sortedLayers) => {
  */
 export const sortLayers = (layers, map) => {
     const sortedLayers = layers.sort((a, b) => {
-        if (a.getTime() > b.getTime()) {
+        if (a.getTimePublished() > b.getTimePublished()) {
             return 1;
         }
-        if (a.getTime() < b.getTime()) {
+        if (a.getTimePublished() < b.getTimePublished()) {
             return -1;
         }
         return 0;
@@ -46,7 +46,7 @@ export const sortLayers = (layers, map) => {
         map.addLayer(layer);
 
         // build responseObj
-        const layerTime = layer.getTime();
+        const layerTime = layer.getTimePublished();
         if (layerTime in responseObj) {
             responseObj[layerTime].push(layer);
         } else {

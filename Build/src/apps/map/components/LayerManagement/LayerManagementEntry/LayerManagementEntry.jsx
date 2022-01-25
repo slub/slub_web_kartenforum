@@ -11,6 +11,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useDrag, useDrop } from "react-dnd";
 import PropTypes from "prop-types";
 import clsx from "clsx";
+import { useDoubleTap } from "use-double-tap";
 
 import { isDefined, translate } from "../../../../../util/util";
 import {
@@ -26,8 +27,8 @@ import SettingsProvider from "../../../../../SettingsProvider";
 import { serializeOperationalLayer } from "../../../persistence/util";
 import { triggerJsonDownload } from "../util";
 import { LAYER_TYPES } from "../../CustomLayers/LayerTypes";
-import { useDoubleTap } from "use-double-tap";
 import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
+import GeoJsonLayer from "../../CustomLayers/GeoJsonLayer.js";
 import "./LayerManagementEntry.scss";
 
 export const ItemTypes = {
@@ -47,7 +48,7 @@ export const LayerManagementEntry = (props) => {
   );
   const [src, setSrc] = useState(layer.getThumbnail());
   const [isVisible, setIsVisible] = useState(layer["getVisible"]());
-  const [isShowActions, setShowActions] = useState();
+  const [isShowActions, setShowActions] = useState(false);
   const settings = SettingsProvider.getSettings();
 
   // drag/drop handlers from: https://react-dnd.github.io/react-dnd/examples/sortable/simple
@@ -129,7 +130,7 @@ export const LayerManagementEntry = (props) => {
   const handleMouseEnter = () => {
     if (draggedItem === null && !hovered) {
       onUpdateHover(layer.getId());
-      setShowActions(!isShowActions);
+      setShowActions(true);
     }
   };
 
@@ -137,14 +138,14 @@ export const LayerManagementEntry = (props) => {
   const handleMouseLeave = () => {
     if (draggedItem === null) {
       onUpdateHover(undefined);
-      setShowActions(undefined);
+      setShowActions(false);
     }
   };
 
   // toggle function buttons on double click/tap
-  const handleDoubleTap = useDoubleTap((event) => {
-    setShowActions(!isShowActions);
-  });
+  const handleDoubleTap = useDoubleTap(() => {
+    setShowActions((oldShowActions) => !oldShowActions);
+  }, 500);
 
   // Move layer to the top of the stack
   const handleMoveTop = (event) => {
@@ -221,7 +222,7 @@ export const LayerManagementEntry = (props) => {
         isVisible ? "record-visible" : "record-hidden",
         isDragging && "drag-and-drop-placeholder",
         isShowActions && "show-actions",
-        (layer.get("type") === LAYER_TYPES.GEOJSON) && "geojson-data",
+        layer.get("type") === LAYER_TYPES.GEOJSON && "geojson-data",
         hovered &&
           (draggedItem === null || draggedItem.id === layer.getId()) &&
           "force-hover"
@@ -245,18 +246,21 @@ export const LayerManagementEntry = (props) => {
           {translate("layermanagement-show-map")}
         </button>
       </div>
-        {layer.get("type") === LAYER_TYPES.GEOJSON ? (
-          <React.Fragment>
-            <div className="thumbnail-container">
-              <img src={settings.FALLBACK_THUMBNAIL} alt="Placeholder for GeoJSON-Image" />
-            <span className="geojson-badge">GeoJSON</span>
-            </div>
-          </React.Fragment>
-        ) :(
+      {layer.get("type") === LAYER_TYPES.GEOJSON ? (
+        <React.Fragment>
           <div className="thumbnail-container">
-            <img onError={handleError} src={src} alt="Thumbnail Image of Map" />
+            <img
+              src={settings.FALLBACK_THUMBNAIL}
+              alt="Placeholder for GeoJSON-Image"
+            />
+            <span className="geojson-badge">GeoJSON</span>
           </div>
-        )}
+        </React.Fragment>
+      ) : (
+        <div className="thumbnail-container">
+          <img onError={handleError} src={src} alt="Thumbnail Image of Map" />
+        </div>
+      )}
       <div className="metadata-container">
         <h4>{layer.getTitle()}</h4>
         <div className="timestamps">
@@ -314,21 +318,22 @@ export const LayerManagementEntry = (props) => {
             {translate("layermanagement-export")}
           </button>
         )}
-        {settings["LINK_TO_GEOREFERENCE"] !== undefined && layer.get("type") !== LAYER_TYPES.GEOJSON && (
-          <button
-            className="georeference-update"
-            title={`${translate("layermangement-georef-update")} ...`}
-            onClick={(e) => {
-              window.open(
-                `${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layer.getId()}`,
-                "_blank"
-              );
-            }}
-          >
-            <SvgIcons name="icon-point-move" />$
-            {translate("layermangement-georef-update")}
-          </button>
-        )}
+        {settings["LINK_TO_GEOREFERENCE"] !== undefined &&
+          layer.get("type") !== LAYER_TYPES.GEOJSON && (
+            <button
+              className="georeference-update"
+              title={`${translate("layermangement-georef-update")} ...`}
+              onClick={(e) => {
+                window.open(
+                  `${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layer.getId()}`,
+                  "_blank"
+                );
+              }}
+            >
+              <SvgIcons name="icon-point-move" />$
+              {translate("layermangement-georef-update")}
+            </button>
+          )}
         <OpacitySlider orientation="horizontal" layer={layer} />
       </div>
       <div className="drag-container">
@@ -347,7 +352,10 @@ LayerManagementEntry.propTypes = {
   hovered: PropTypes.bool,
   id: PropTypes.string,
   index: PropTypes.number,
-  layer: PropTypes.instanceOf(HistoricMap),
+  layer: PropTypes.oneOfType([
+    PropTypes.instanceOf(HistoricMap),
+    PropTypes.instanceOf(GeoJsonLayer),
+  ]),
   onMoveLayer: PropTypes.func,
   onUpdateHover: PropTypes.func,
   showActions: PropTypes.func,

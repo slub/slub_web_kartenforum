@@ -31,6 +31,7 @@ export class LayerSpyControl extends Control {
       : 75;
 
     options.refSpyLayer.current = this;
+    this.refActiveBasemapId = options.refActiveBasemapId;
 
     this.containerEl = button;
 
@@ -93,8 +94,8 @@ export class LayerSpyControl extends Control {
    * event handlers
    */
   deactivate = () => {
-    this.layer.un("precompose", this.handlePrecompose);
-    this.layer.un("postcompose", this.handlePostcompose);
+    this.layer.un("prerender", this.handlePrecompose);
+    this.layer.un("postrender", this.handlePostcompose);
     const viewPort = this.getMap().getViewport();
     viewPort.removeEventListener("mousemove", this.handleMouseMove);
     viewPort.removeEventListener("mouseout", this.handleMouseOut);
@@ -123,14 +124,28 @@ export class LayerSpyControl extends Control {
     const mousePosition = this.mousePosition;
 
     if (mousePosition) {
+      // get transform from basemap canvas
+      const transform = this.getMap()
+        .getLayers()
+        .getArray()
+        .find((l) => {
+          return l.vkf_id === this.refActiveBasemapId.current;
+        }).renderer_.context.canvas.style.transform;
+
+      // transform point with the rotation
+      let point = new DOMPoint(mousePosition[0], mousePosition[1]);
+      const rotationMatrix = new DOMMatrix(transform);
+      point = point.matrixTransform(rotationMatrix);
+
       // only show a circle around the mouse
       ctx.arc(
-        mousePosition[0] * pixelRatio,
-        mousePosition[1] * pixelRatio,
+        point.x * pixelRatio,
+        point.y * pixelRatio,
         this.clipRadius * pixelRatio,
         0,
         2 * Math.PI
       );
+
       ctx.lineWidth = 5 * pixelRatio;
       ctx.strokeStyle = "rgba(0,0,0,0.5)";
       ctx.stroke();

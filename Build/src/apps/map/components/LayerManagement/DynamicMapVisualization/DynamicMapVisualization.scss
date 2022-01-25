@@ -1,8 +1,5 @@
 .vkf-dyn-vis-control {
-    right: 10px;
-    top: 3px;
-    position: absolute;
-    display: none; // Temp hidden / Todo: (Re-)enable and style dynamic control
+    display: flex;
 
     .open-dyn-vis {
         position: relative;

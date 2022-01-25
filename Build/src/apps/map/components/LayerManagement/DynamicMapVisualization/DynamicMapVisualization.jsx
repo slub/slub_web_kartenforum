@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 
 import { isDefined, translate } from "../../../../../util/util";
 import { mapState } from "../../../atoms/atoms";
-import { getHistoricMapLayer } from "../../MapWrapper/util";
+import { getOperationalLayers } from "../../MapWrapper/util";
 import { setLayersToInitialState, sortLayers } from "./util";
 import "./DynamicMapVisualization.scss";
 
@@ -121,7 +121,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   useEffect(() => {
     activeRef.current = active;
     if (active) {
-      const layers = getHistoricMapLayer(map);
+      const layers = getOperationalLayers(map);
       const sortedLayers = sortLayers(layers, map);
       startAnimation({ ...animationOptions, sortedLayers });
     } else {
