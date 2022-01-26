@@ -74,6 +74,20 @@
         .ol-scale-line {
             left: 15px;
         }
+
+        &:fullscreen {
+            .ol-control {
+                &.ol-full-screen {
+                    left: 15px;
+                    right: auto;
+                    top: 50px;
+                }
+                &.rotate-north {
+                    top: 15px;
+                    left: 15px;
+                }
+            }
+        }
     }
 
     .ol-map-large {

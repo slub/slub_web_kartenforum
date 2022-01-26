@@ -55,3 +55,21 @@
         }
     }
 }
+
+.ol-map-small {
+    &:fullscreen {
+        .vkf-vertical-layout {
+            .vkf-search-header {
+                display: none;
+            }
+
+            .vkf-toggle-search-result-list {
+                display: none;
+            }
+
+            .vkf-search-result-container {
+                display: none;
+            }
+        }
+    }
+}

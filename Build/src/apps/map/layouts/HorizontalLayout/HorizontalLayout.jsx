@@ -16,6 +16,7 @@ import LayerManagement from "../../components/LayerManagement/LayerManagement";
 import SpatialTemporalSearch from "../../components/SpatialTemporalSearch/SpatialTemporalSearch";
 import OriginalMapView from "../../views/OriginalMapView/OriginalMapView";
 import { useSetElementScreenSize } from "../../../../util/hooks";
+import "./HorizontalLayout.scss";
 
 export const HorizontalLayout = ({ onAddGeoJson }) => {
   const [selectedOriginalMapId, setOriginalMapId] = useRecoilState(
@@ -59,6 +60,7 @@ export const HorizontalLayout = ({ onAddGeoJson }) => {
     </React.Fragment>
   );
 };
+
 HorizontalLayout.propTypes = {
   onAddGeoJson: PropTypes.func,
 };
