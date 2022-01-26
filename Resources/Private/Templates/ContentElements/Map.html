@@ -4,7 +4,7 @@
 <input type="hidden" value="{mapView}" id="setting-mapView"/>
 <input type="hidden" value="{urlNominatim}" id="setting-urlNominatim" />
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
-<input type="hidden" value="{urlTerrain}" id="setting-urlTerrain"/>
+<input type="hidden" value="{terrain}" id="setting-terrain"/>
 <f:security.ifAuthenticated>
     <f:then>
         <input type="hidden" id="setting-is-auth"/>
@@ -30,7 +30,7 @@
             "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
             "MAPVIEW_PARAMS": JSON.parse(document.getElementById("setting-mapView").value),
             "NOMINATIM_URL": document.getElementById("setting-urlNominatim").value,
-            "TERRAIN_TILES_URL": document.getElementById("setting-urlTerrain").value,
+            "TERRAIN_TILES": JSON.parse(document.getElementById("setting-terrain").value),
         });
 
         vk2.SettingsProvider.appendSettings({

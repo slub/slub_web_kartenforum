@@ -87,21 +87,34 @@ export class BasemapSelectorControl extends Control {
     }
   };
 
+  handleExternalBasemapUpdate = (basemapId) => {
+    // keeps track of external basemap updates
+    this.externalBasemapId = basemapId;
+  };
+
   render() {
-    const {
-      contentContainer,
-      initialBasemapId,
-      onBasemapChange,
-      onSetNotification,
-    } = this.renderOptions;
+    const { contentContainer, onBasemapChange, onSetNotification } =
+      this.renderOptions;
+
+    const handleBasemapChange = (newBasemap) => {
+      // if the basemap is changed from within internal and external state are the same
+      this.externalBasemapId = newBasemap.id;
+      this.internalBasemapId = newBasemap.id;
+      onBasemapChange(newBasemap);
+    };
 
     // Attach the image manipulation tool
     ReactDOM.render(
       <BasemapSelector
         map={this.getMap()}
-        initialBasemapId={initialBasemapId}
-        onBasemapChange={onBasemapChange}
+        onBasemapChange={handleBasemapChange}
         onSetNotification={onSetNotification}
+        forceBasemapId={
+          // if the internal and external basemap differ, pass through external basemap id in order to sync states
+          this.internalBasemapId === this.externalBasemapId
+            ? undefined
+            : this.externalBasemapId
+        }
       />,
       contentContainer
     );

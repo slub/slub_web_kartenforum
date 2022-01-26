@@ -115,7 +115,11 @@ export default {
      * @returns {string}
      */
     getTerrainUrls() {
-        return settingsObject["TERRAIN_TILES_URL"];
+        return settingsObject["TERRAIN_TILES"].url;
+    },
+
+    getTerrainAttribution() {
+        return settingsObject["TERRAIN_TILES"].attribution;
     },
 
     /**

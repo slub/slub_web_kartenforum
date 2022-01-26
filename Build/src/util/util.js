@@ -57,11 +57,9 @@ export function translate(key) {
  **/
 export const getDefaultControls = (params) => {
     const {
-        initialBasemapId,
+        basemapSelectorProps,
         is3dActive,
         layout,
-        onBasemapChange,
-        onSetNotification,
         onViewModeChange,
         permalinkProps,
         refSpyLayer,
@@ -96,11 +94,7 @@ export const getDefaultControls = (params) => {
                 onViewModeChange,
             }),
             new MousePositionOnOff(),
-            new BasemapSelector({
-                initialBasemapId,
-                onBasemapChange,
-                onSetNotification,
-            }),
+            new BasemapSelector(basemapSelectorProps),
             new PermalinkControl({ is3dActive, ...permalinkProps })
         );
     }

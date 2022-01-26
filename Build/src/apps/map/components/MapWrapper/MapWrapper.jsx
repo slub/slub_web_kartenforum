@@ -41,7 +41,7 @@ import {
   setOptimizedCesiumSettings,
 } from "./util";
 import { getMapClassNameForLayout } from "../../layouts/util";
-import { usePrevious, useSetElementScreenSize } from "../../../../util/hooks";
+import { useSetElementScreenSize } from "../../../../util/hooks";
 import GeoJsonLayer from "../CustomLayers/GeoJsonLayer";
 import DialogEditFeature from "./components/DialogEditFeature/DialogEditFeature";
 import CustomOverlaySynchronizer from "./components/customOverlaySynchronizer/customOverlaySynchronizer";
@@ -101,9 +101,6 @@ export function MapWrapper(props) {
   const unsafe_refApplicationStateUpdater = useRef(undefined);
   const unsafe_refSelectedFeatures = useRef(new Collection());
   const unsafe_refSpyLayer = useRef(undefined);
-
-  const previousActiveBasemapId = usePrevious(activeBasemapId);
-  const previousLayout = usePrevious(layout);
 
   // publish elements size to global state
   useSetElementScreenSize(mapElement, "map");
@@ -289,6 +286,9 @@ export function MapWrapper(props) {
         },
       });
 
+      // hide cesium ion credits - because ion services are not used
+      ol3d.getCesiumScene()._creditContainer.style.display = "none";
+
       // update terrain Exaggeration
       ol3d.getCesiumScene().globe.terrainExaggeration = 3.0;
 
@@ -349,7 +349,7 @@ export function MapWrapper(props) {
 
           setSelectedFeatures((oldSelectedFeatures) =>
             oldSelectedFeatures.filter(
-              (f) => f.feature.getId() === feature.getId()
+              (f) => f.feature.getId() !== feature.getId()
             )
           );
         }
@@ -368,16 +368,22 @@ export function MapWrapper(props) {
     }
   }, [is3dActive]);
 
+  // update the basemap selector state externally
+  useEffect(() => {
+    if (isDefined(controlsRef.current) && isDefined(map)) {
+      controlsRef.current.forEach((control) => {
+        const updateFn = control.handleExternalBasemapUpdate;
+        if (updateFn !== undefined) {
+          updateFn(activeBasemapId);
+        }
+      });
+    }
+  }, [activeBasemapId, map]);
+
   // update controls on layout change
   useEffect(() => {
     // only add new controls if the first time there is an activeBasemapId available and if the layout changes
-    if (
-      isDefined(map) &&
-      ((activeBasemapId !== null &&
-        (previousActiveBasemapId === null ||
-          previousActiveBasemapId === undefined)) ||
-        layout !== previousLayout)
-    ) {
+    if (isDefined(map)) {
       if (isDefined(controlsRef.current)) {
         controlsRef.current.forEach((control) => {
           map.removeControl(control);
@@ -385,11 +391,12 @@ export function MapWrapper(props) {
       }
 
       const newControls = getDefaultControls({
-        initialBasemapId: activeBasemapId,
         is3dActive,
         layout,
-        onBasemapChange: handleBasemapChange,
-        onSetNotification: setNotification,
+        basemapSelectorProps: {
+          onBasemapChange: handleBasemapChange,
+          onSetNotification: setNotification,
+        },
         onViewModeChange: handleChangeViewMode,
         permalinkProps: {
           camera: olcsMapRef.current?.getCesiumScene().camera,
@@ -402,11 +409,22 @@ export function MapWrapper(props) {
 
       newControls.forEach((control) => {
         map.addControl(control);
+
+        // handle external state updates
+        let updateFn = control.handleExternalBasemapUpdate;
+        if (updateFn !== undefined) {
+          updateFn(activeBasemapId);
+        }
+
+        updateFn = control.handleExternal3dStateUpdate;
+        if (updateFn !== undefined) {
+          updateFn(is3dActive);
+        }
       });
 
       controlsRef.current = newControls;
     }
-  }, [activeBasemapId, layout, map]);
+  }, [layout, map]);
 
   // fit map to viewport after resize (e.g switch from landscape to portrait mode)
   useEffect(() => {

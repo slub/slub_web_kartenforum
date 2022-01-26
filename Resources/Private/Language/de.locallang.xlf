@@ -652,6 +652,16 @@
 				<target><![CDATA[Lokalisiere mich]]></target>
 			</trans-unit>
 
+            <!-- Global > Map > Control > Attribution -->
+			<trans-unit id="global.map.control-attribution.basemapLabel" approved="yes">
+				<source><![CDATA[Basemap]]></source>
+				<target><![CDATA[Basiskarte]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-attribution.terrainLabel" approved="yes">
+				<source><![CDATA[Terrain]]></source>
+				<target><![CDATA[Terrain]]></target>
+			</trans-unit>
+
             <!-- Global > Map > Control > BaseMapSelector -->
 			<trans-unit id="global.map.control-basemapselector.addwms-title" approved="yes">
 				<source><![CDATA[Add WMS]]></source>

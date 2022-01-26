@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FormGroup, Glyphicon, Radio } from "react-bootstrap";
 import PropTypes from "prop-types";
 
@@ -24,15 +24,13 @@ export const PERSISTENCE_CUSTOM_BASEMAP_KEYS = "vkf-custom-basemaps";
  * @constructor
  */
 export const BasemapSelector = (props) => {
-  const { initialBasemapId, map, onBasemapChange, onSetNotification } = props;
+  const { forceBasemapId, map, onBasemapChange, onSetNotification } = props;
   const [customLayers, setCustomLayers] = useLocalStorage(
     PERSISTENCE_CUSTOM_BASEMAP_KEYS,
     []
   );
   const layers = SettingsProvider.getBaseMaps();
-  const [activeLayer, setActiveLayer] = useState(
-    [...layers, ...customLayers].find((layer) => layer.id === initialBasemapId)
-  );
+  const [activeLayer, setActiveLayer] = useState(undefined);
   const [showAddWmsDialog, setShowAddWmsDialog] = useState(false);
 
   ////
@@ -55,6 +53,7 @@ export const BasemapSelector = (props) => {
 
     // Signal that it is the current active layer
     setActiveLayer(newLayer);
+    onBasemapChange(newLayer);
   };
 
   // Handler for opening the add wms dialog
@@ -89,78 +88,82 @@ export const BasemapSelector = (props) => {
     }
   };
 
+  const handleExternalBasemapUpdate = useCallback(
+    (basemapId) => {
+      // only update the state if it differs from the current state or if the component is not initialized
+      if (activeLayer === undefined || activeLayer.id !== basemapId) {
+        const newActiveLayer = isDefined(basemapId)
+          ? [...layers, ...customLayers].find((layer) => layer.id === basemapId)
+          : layers[0];
+
+        if (newActiveLayer !== undefined) {
+          handleChangeBaseMapLayer(newActiveLayer);
+        } else {
+          // notify user about the error finding the selected base layer
+          onSetNotification({
+            id: "basemapSelector",
+            type: "danger",
+            text: translate("control-basemapselector-error-initializiation"),
+          });
+
+          // reset the active layer id
+          onBasemapChange(activeLayer ?? layers[0]);
+        }
+      }
+    },
+    [activeLayer]
+  );
+
   ////
   // Effect section
   ////
 
-  // Synchronize internal state with external state
   useEffect(() => {
-    if (activeLayer !== undefined) {
-      onBasemapChange(activeLayer);
+    // if an external basemap id is passed, update internal state to match
+    if (forceBasemapId !== undefined) {
+      handleExternalBasemapUpdate(forceBasemapId);
     }
-  }, [activeLayer]);
-
-  // On mount set basemap from global state
-  useEffect(() => {
-    if (isDefined(initialBasemapId)) {
-      // search all layers for persisted basemap
-      const newActiveLayer = [...layers, ...customLayers].find(
-        (layer) => layer.id === initialBasemapId
-      );
-
-      if (newActiveLayer !== undefined) {
-        handleChangeBaseMapLayer(newActiveLayer);
-      } else {
-        // notify user about the error finding the selected base layer
-        onSetNotification({
-          id: "basemapSelector",
-          type: "danger",
-          text: translate("control-basemapselector-error-initializiation"),
-        });
-
-        // reset the active layer id
-        onBasemapChange(activeLayer);
-      }
-    }
-  }, []);
+  }, [forceBasemapId, handleExternalBasemapUpdate]);
 
   return (
     <React.Fragment>
-      <div className="vkf-basemap-selector">
-        <h4>{translate("control-basemapselector-label")}:</h4>
-        <FormGroup>
-          {[...layers, ...customLayers].map((l) => (
-            <div key={l.id} className="basemap-selector-entry">
-              <Radio
-                onChange={() => handleChangeBaseMapLayer(l)}
-                name={l.id}
-                value={l.id}
-                checked={activeLayer.id === l.id}
-              >
-                {l.label}
-              </Radio>
-              {l.allowDeletion && (
-                <button
-                  className="delete-basemap-button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleDeleteBaseMapLayer(l);
-                  }}
-                  title="Remove basemap"
+      {activeLayer !== undefined && (
+        <div className="vkf-basemap-selector">
+          <h4>{translate("control-basemapselector-label")}:</h4>
+          <FormGroup>
+            {[...layers, ...customLayers].map((l) => (
+              <div key={l.id} className="basemap-selector-entry">
+                <Radio
+                  onChange={() => handleChangeBaseMapLayer(l)}
+                  name={l.id}
+                  value={l.id}
+                  checked={activeLayer.id === l.id}
                 >
-                  <Glyphicon glyph="remove" />
-                </button>
-              )}
-            </div>
-          ))}
-        </FormGroup>
-        <div className="controls-container">
-          <button className="btn" onClick={handleClickShowAddWmsDialog}>
-            {translate("control-basemapselector-btn-addwms")}
-          </button>
+                  {l.label}
+                </Radio>
+                {l.allowDeletion && (
+                  <button
+                    className="delete-basemap-button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleDeleteBaseMapLayer(l);
+                    }}
+                    title="Remove basemap"
+                  >
+                    <Glyphicon glyph="remove" />
+                  </button>
+                )}
+              </div>
+            ))}
+          </FormGroup>
+          <div className="controls-container">
+            <button className="btn" onClick={handleClickShowAddWmsDialog}>
+              {translate("control-basemapselector-btn-addwms")}
+            </button>
+          </div>
         </div>
-      </div>
+      )}
       {showAddWmsDialog && (
         <DialogAddWms
           onClose={() => setShowAddWmsDialog(false)}
@@ -172,7 +175,7 @@ export const BasemapSelector = (props) => {
 };
 
 BasemapSelector.propTypes = {
-  initialBasemapId: PropTypes.string,
+  forceBasemapId: PropTypes.string,
   map: PropTypes.object,
   onBasemapChange: PropTypes.func,
   onSetNotification: PropTypes.func,

@@ -513,6 +513,15 @@
 				<source>Locate me</source>
 			</trans-unit>
 
+            <!-- Global > Map > Control > Attribution -->
+            <trans-unit id="global.map.control-attribution.basemapLabel">
+                <source>Basemap</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-attribution.terrainLabel">
+                <source>Terrain</source>
+            </trans-unit>
+
+
             <!-- Global > Map > Control > BaseMapSelector -->
 			<trans-unit id="global.map.control-basemapselector.addwms-title">
 				<source>Add WMS</source>
