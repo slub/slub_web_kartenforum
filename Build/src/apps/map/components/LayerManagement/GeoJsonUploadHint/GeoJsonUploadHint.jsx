@@ -5,37 +5,85 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, {useState, useEffect, useRef} from "react";
+import React, { useRef, useState } from "react";
 import clsx from "clsx";
-import "./GeoJsonUploadHint.scss";
-import {translate} from "../../../../../util/util.js";
+import PropTypes from "prop-types";
+import { useSetRecoilState } from "recoil";
+
+import { translate } from "../../../../../util/util.js";
 import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
+import { notificationState } from "../../../../../atoms/atoms.js";
+import { parseGeoJsonFile } from "../../Dropzone/util.js";
+import "./GeoJsonUploadHint.scss";
 
-export const GeoJsonUploadHint = () => {
+export const GeoJsonUploadHint = ({ onAddGeoJson }) => {
+  const [open, setOpen] = useState(false);
+  const setNotification = useSetRecoilState(notificationState);
 
-    const [open, setOpen] = useState(false);
+  const refFileInput = useRef();
 
-    // Toggle open state of the menu
-    const handleToggleMenu = (e) => {
-        e.preventDefault();
-        if (open) {
-            setOpen(false);
-        } else {
-            setOpen(true);
-        }
-    };
+  ////
+  // Handler section
+  ////
 
-    return (
-        <div className={clsx("geojson-upload-hint", open && "show")}>
-            <button className="geojson-upload" onClick={handleToggleMenu}>
-                <SvgIcons name="layermanagement-upload"/>
-                <span className="label">{translate("geojson-adddialog-title")}</span>
-            </button>
-            <div className="upload-info">
-                {translate("geojson-adddialog-body")}
-            </div>
-        </div>
-    );
+  // Open menu
+  const handleOpenMenu = () => {
+    setOpen(true);
+  };
+
+  // Close menu
+  const handleCloseMenu = () => {
+    setOpen(false);
+  };
+
+  // open file upload dialog
+  const handleOpenFileDialog = () => {
+    if (refFileInput.current !== undefined && refFileInput.current !== null) {
+      handleCloseMenu();
+      refFileInput.current.click();
+    }
+  };
+
+  // handle an error parsing the file
+  const handleParseError = () => {
+    setNotification({
+      id: "geojsonUploadHint",
+      type: "danger",
+      text: translate("mapwrapper-geojson-parse-error"),
+    });
+  };
+
+  // publish geojson file
+  const handleSelectGeoJsonFile = (e) => {
+    const file = e.target.files[0];
+    parseGeoJsonFile(file, onAddGeoJson, handleParseError);
+  };
+
+  return (
+    <div className={clsx("geojson-upload-hint", open && "show")}>
+      <button
+        className="geojson-upload"
+        onMouseEnter={handleOpenMenu}
+        onMouseLeave={handleCloseMenu}
+        onClick={handleOpenFileDialog}
+      >
+        <SvgIcons name="layermanagement-upload" />
+        <span className="label">{translate("geojson-adddialog-title")}</span>
+      </button>
+      <div className="upload-info">{translate("geojson-adddialog-body")}</div>
+      <input
+        accept="application/json, application/geo+json, .geojson"
+        className="hidden-file-input"
+        type="file"
+        ref={refFileInput}
+        onChange={handleSelectGeoJsonFile}
+      />
+    </div>
+  );
+};
+
+GeoJsonUploadHint.propTypes = {
+  onAddGeoJson: PropTypes.func,
 };
 
 export default GeoJsonUploadHint;

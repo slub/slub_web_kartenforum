@@ -16,6 +16,7 @@ import SvgIcons from "../../../../components/SvgIcons/SvgIcons.jsx";
 
 import { translate } from "../../../../util/util";
 import "./Dropzone.scss";
+import { parseGeoJsonFile } from "./util.js";
 
 const { FILE } = NativeTypes;
 
@@ -32,22 +33,7 @@ export const Dropzone = ({ children, onDrop, onError }) => {
 
   const publishGeoJson = (files) => {
     const file = files[0];
-
-    const reader = new FileReader();
-    reader.onloadend = function () {
-      try {
-        onDrop({
-          content: JSON.parse(this.result),
-          modified: file.lastModifiedDate,
-          name: file.name.split(".")[0],
-        });
-      } catch (e) {
-        console.log(e);
-        onError();
-      }
-    };
-
-    reader.readAsText(file);
+    parseGeoJsonFile(file, onDrop, onError);
   };
 
   // setup drag and drop behaviour
@@ -65,7 +51,10 @@ export const Dropzone = ({ children, onDrop, onError }) => {
     hover: (_, monitor) => {
       const item = monitor.getItem();
       if (item.items.length > 0) {
-        if (item.items[0].type !== "application/json") {
+        if (
+          item.items[0].type !== "application/json" &&
+          item.items[0].type !== "application/geo+json"
+        ) {
           setError(ERROR_TYPES.WRONG_FILETYPE);
         }
       }
@@ -95,7 +84,7 @@ export const Dropzone = ({ children, onDrop, onError }) => {
               ? translate("dropzone-drop")
               : translate(`dropzone-${error}`)}
           </p>
-          <SvgIcons name="dropzone-upload"/>
+          <SvgIcons name="dropzone-upload" />
         </div>
       )}
       {children}

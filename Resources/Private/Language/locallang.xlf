@@ -411,7 +411,7 @@
                 <source>Projection</source>
             </trans-unit>
 			<trans-unit id="plugin.map.adddialog.body">
-				<source>In order to add a new GeoJSON layer drag and drop your .geojson file over this window</source>
+				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
 			</trans-unit>
 
             <!-- Global > Map > MarkerPicker -->

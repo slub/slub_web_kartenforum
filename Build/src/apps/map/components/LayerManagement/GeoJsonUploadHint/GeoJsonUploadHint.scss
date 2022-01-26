@@ -1,6 +1,5 @@
 @import "../../../../../../../Resources/Private/Scss/Variables";
 
-
 .geojson-upload-hint {
     position: relative;
     height: 30px;
@@ -28,7 +27,7 @@
         top: 37px;
         right: -10px;
         width: 330px;
-        background-color: rgba($secondary-color-dark, .9);
+        background-color: rgba($secondary-color-dark, 0.9);
         padding: 15px;
         font-size: 14px;
         text-transform: none;
@@ -48,7 +47,7 @@
             height: 0;
             border: 5px solid transparent;
             border-top-width: 0;
-            border-bottom-color: rgba($secondary-color-dark, .9);
+            border-bottom-color: rgba($secondary-color-dark, 0.9);
             content: " ";
         }
     }
@@ -62,5 +61,9 @@
             opacity: 1;
             transform: scale(1);
         }
+    }
+
+    .hidden-file-input {
+        display: none;
     }
 }

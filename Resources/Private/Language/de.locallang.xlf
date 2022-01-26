@@ -339,8 +339,8 @@
                 <target><![CDATA[Projektion]]></target>
             </trans-unit>
 			<trans-unit id="plugin.map.adddialog.body">
-				<source><![CDATA[In order to add a new GeoJSON layer drag and drop your .geojson file over this window]]></source>
-				<target><![CDATA[Um eine neue GeoJSON-Ebene hinzuzufügen, ziehen Sie Ihre .geojson-Datei einfach Via drag and drop auf dieses Fenster]]></target>
+				<source><![CDATA[In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.]]></source>
+				<target><![CDATA[Um eine neue GeoJSON-Ebene hinzuzufügen, ziehen Sie Ihre GeoJSON-Datei einfach via drag and drop auf dieses Fenster oder drücken Sie diese Schaltfläche um eine Datei von Ihrem System auszuwählen.]]></target>
 			</trans-unit>
 
             <trans-unit id="plugin.map.markerpicker.select" approved="yes">

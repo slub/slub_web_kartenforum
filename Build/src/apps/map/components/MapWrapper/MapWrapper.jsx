@@ -62,6 +62,7 @@ export function MapWrapper(props) {
       projection: "EPSG:3857",
       zoom: 2,
     },
+    onAddGeoJson,
     terrainTilesUrl,
   } = props;
 
@@ -498,7 +499,7 @@ export function MapWrapper(props) {
         className={clsx("map-div", "olMap", getMapClassNameForLayout(layout))}
         tabIndex={0}
       >
-        {isDefined(map) && <ChildComponent />}
+        {isDefined(map) && <ChildComponent onAddGeoJson={onAddGeoJson} />}
       </div>
     </div>
   );
@@ -515,6 +516,7 @@ export const mapWrapperProps = {
     projection: PropTypes.string,
     zoom: PropTypes.number,
   }),
+  onAddGeoJson: PropTypes.func,
   terrainTilesUrl: PropTypes.string,
 };
 

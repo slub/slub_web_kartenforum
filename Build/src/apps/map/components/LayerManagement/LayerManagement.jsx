@@ -39,6 +39,7 @@ const customBackends = HTML5toTouch.backends.map((backend) => {
 });
 
 export const LayerManagement = ({
+  onAddGeoJson,
   showControls = {
     showBadge: true,
     showHideButton: true,
@@ -134,13 +135,13 @@ export const LayerManagement = ({
               {translate("layermanagement-header-lbl")}
             </span>
             <div className="header-functions">
-              <GeoJsonUploadHint/>
-            {showHideButton && <DeactivateMapCollection />}
-            {showDynamicMapVisualization && (
-              <DynamicMapVisualization
-                animationOptions={{ delay: 30, steps: 0.01 }}
-              />
-            )}
+              <GeoJsonUploadHint onAddGeoJson={onAddGeoJson} />
+              {showHideButton && <DeactivateMapCollection />}
+              {showDynamicMapVisualization && (
+                <DynamicMapVisualization
+                  animationOptions={{ delay: 30, steps: 0.01 }}
+                />
+              )}
             </div>
           </div>
         )}
@@ -174,6 +175,7 @@ export const LayerManagement = ({
 };
 
 LayerManagement.propTypes = {
+  onAddGeoJson: PropTypes.func,
   showControls: PropTypes.shape({
     showBadge: PropTypes.bool,
     showDynamicMapVisualization: PropTypes.bool,
