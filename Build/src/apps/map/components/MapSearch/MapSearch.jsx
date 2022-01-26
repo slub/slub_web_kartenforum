@@ -5,8 +5,8 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import React, { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import clsx from "clsx";
 
 import {
@@ -14,8 +14,6 @@ import {
   facetState,
   searchIsLoadingState,
   searchResultDescriptorState,
-  timeExtentState,
-  timeRangeState,
 } from "../../atoms/atoms";
 import { translate } from "../../../../util/util";
 import FacetedSearch from "../FacetedSearch/FacetedSearch";
@@ -33,10 +31,9 @@ export const MapSearch = () => {
   // state
   const [facets, setFacets] = useRecoilState(facetState);
   const [isFacetedSearchOpen, setIsFacetedSearchOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const isSearchLoading = useRecoilValue(searchIsLoadingState);
   const { mapCount } = useRecoilValue(searchResultDescriptorState);
-  const setTimeExtent = useSetRecoilState(timeExtentState);
-  const timeRange = useRecoilValue(timeRangeState);
 
   ////
   // Handler section
@@ -50,8 +47,11 @@ export const MapSearch = () => {
   // Remove all facets 'n filters
   const handleRemoveFacets = () => {
     setFacets(defaultFacetState);
-    setTimeExtent(timeRange.slice());
   };
+
+  useEffect(() => {
+    setIsLoading(isSearchLoading);
+  }, [isSearchLoading]);
 
   return (
     <div
@@ -73,7 +73,7 @@ export const MapSearch = () => {
                 <SvgIcons name="icon-filter" />
               </button>
             )}
-            {isSearchLoading && (
+            {isLoading && (
               <div className="loading-spinner">
                 <LoadingSpinner />
               </div>

@@ -92,7 +92,10 @@ export const PaginatingDataController = ({
   // fetch the results from the index
   const fetchResults = useCallback(
     (start, size, opt_raw = false) => {
-      if (mapView === undefined) return new Promise((res) => res([]));
+      if (mapView === undefined) {
+        setIsSearchLoading(false);
+        return new Promise((res) => res([]));
+      }
       // build elasticsearch request
       const requestPayload = createSearchRequest(mapView, projection);
       const requestUrl =
@@ -198,7 +201,7 @@ export const PaginatingDataController = ({
   // manually update the internal map view on change of element size
   useEffect(() => {
     handleUpdateMapView();
-  }, [elementsScreenSize]);
+  }, [elementsScreenSize, map]);
 
   // determine initial time filter
   useEffect(() => {
