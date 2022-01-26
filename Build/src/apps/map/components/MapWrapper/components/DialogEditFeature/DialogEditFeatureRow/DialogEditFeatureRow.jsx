@@ -121,7 +121,7 @@ DialogEditFeatureRow.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   title: PropTypes.string,
-  value: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default DialogEditFeatureRow;

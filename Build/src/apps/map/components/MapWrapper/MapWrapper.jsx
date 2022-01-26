@@ -17,9 +17,9 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import olcsCore from "olcs/core";
 import clsx from "clsx";
 import { useWindowWidth } from "@react-hook/window-size";
-import Overlay from "ol/Overlay";
 import RasterSynchronizer from "olcs/RasterSynchronizer";
 import VectorSynchronizer from "olcs/VectorSynchronizer";
+import OverlaySynchronizer from "olcs/OverlaySynchronizer.js";
 
 import { createBaseMapLayer } from "../../../../util/geo";
 import {
@@ -44,7 +44,6 @@ import { getMapClassNameForLayout } from "../../layouts/util";
 import { useSetElementScreenSize } from "../../../../util/hooks";
 import GeoJsonLayer from "../CustomLayers/GeoJsonLayer";
 import DialogEditFeature from "./components/DialogEditFeature/DialogEditFeature";
-import CustomOverlaySynchronizer from "./components/customOverlaySynchronizer/customOverlaySynchronizer";
 import customFeatureConverter from "./components/customFeatureConverter/customFeatureConverter";
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
 import { notificationState } from "../../../../atoms/atoms";
@@ -76,7 +75,6 @@ export function MapWrapper(props) {
   const [activeBasemapId, setActiveBasemapId] =
     useRecoilState(activeBasemapIdState);
   const [activeBasemap, setActiveBasemap] = useState(initialBasemap);
-  const [hideOverlayContents, setHideOverlayContents] = useState(true);
   const [is3dActive, set3dActive] = useRecoilState(map3dState);
   const localStorageWriter = useRecoilValue(currentApplicationStateState);
   const [map, setMap] = useRecoilState(mapState);
@@ -92,9 +90,7 @@ export function MapWrapper(props) {
   const controlsRef = useRef();
   const mapElement = useRef();
   const olcsMapRef = useRef();
-  const overlayRef = useRef();
-  const overlayContainerRef = useRef();
-  const timeoutRef = useRef();
+  const refDialogEditFeature = useRef();
 
   // used to make state easily accessible outside of the react tree in the permalink component
   // do not access otherwise
@@ -187,7 +183,6 @@ export function MapWrapper(props) {
   // open overlay on map click and supply it with the first feature under the cursor
   const handleMapClick = useCallback(
     (e) => {
-      const overlay = overlayRef.current;
       const pixel = e.pixel;
 
       let newSelectedFeature;
@@ -209,20 +204,11 @@ export function MapWrapper(props) {
           newSelectedFeature = pickedFeature.primitive.olFeature;
       }
 
-      clearTimeout(timeoutRef.current);
       if (isDefined(newSelectedFeature)) {
-        // fade in overlay after short delay
-        setHideOverlayContents(true);
-        timeoutRef.current = setTimeout(() => {
-          setHideOverlayContents(false);
-        }, 5);
-
         setSelectedFeature(newSelectedFeature);
-        overlay.setPosition(e.coordinate);
       } else {
         // hide overlay
         setSelectedFeature(undefined);
-        overlay.setPosition(undefined);
       }
     },
     [is3dActive, map]
@@ -230,7 +216,6 @@ export function MapWrapper(props) {
 
   // Close the map overlay
   const handleOverlayClose = () => {
-    overlayRef.current.setPosition(undefined);
     setSelectedFeature(undefined);
   };
 
@@ -247,13 +232,6 @@ export function MapWrapper(props) {
       source: new VectorSource(),
     });
 
-    const overlay = new Overlay({
-      element: overlayContainerRef.current,
-    });
-
-    // make overlay accessible
-    overlayRef.current = overlay;
-
     const interactions = defaults({ shiftDragZoom: false });
     interactions.extend([new DragRotate({ condition: shiftKeyOnly })]);
 
@@ -262,7 +240,6 @@ export function MapWrapper(props) {
       controls: [],
       layers: [createBaseMapLayer(initialBasemap), initalFeaturesLayer],
       interactions,
-      overlays: [overlay],
       renderer: "canvas",
       target: mapElement.current,
       view,
@@ -279,7 +256,7 @@ export function MapWrapper(props) {
         createSynchronizers: (map, scene) => [
           new RasterSynchronizer(map, scene),
           new VectorSynchronizer(map, scene, new customFeatureConverter(scene)),
-          new CustomOverlaySynchronizer(map, scene),
+          new OverlaySynchronizer(map, scene),
         ],
         map: initialMap,
         sceneOptions: {
@@ -482,12 +459,13 @@ export function MapWrapper(props) {
       <div
         className={clsx(
           "vkf-map-overlay",
-          !hideOverlayContents && "animation-show"
+          selectedFeature !== undefined && "animation-show"
         )}
-        ref={overlayContainerRef}
+        ref={refDialogEditFeature}
       >
         {selectedFeature !== undefined && (
           <DialogEditFeature
+            containerRef={refDialogEditFeature}
             onClose={handleOverlayClose}
             onDelete={handleFeatureDelete}
             feature={selectedFeature}

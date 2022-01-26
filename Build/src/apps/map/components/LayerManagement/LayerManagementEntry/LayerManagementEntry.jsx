@@ -29,6 +29,7 @@ import { triggerJsonDownload } from "../util";
 import { LAYER_TYPES } from "../../CustomLayers/LayerTypes";
 import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
 import GeoJsonLayer from "../../CustomLayers/GeoJsonLayer.js";
+import DragButton from "./components/DragButton/DragButton.jsx";
 import "./LayerManagementEntry.scss";
 
 export const ItemTypes = {
@@ -337,12 +338,7 @@ export const LayerManagementEntry = (props) => {
         <OpacitySlider orientation="horizontal" layer={layer} />
       </div>
       <div className="drag-container">
-        <button className="drag-button">
-          <span />
-          <span />
-          <span />
-          <span />
-        </button>
+        <DragButton />
       </div>
     </li>
   );
