@@ -142,7 +142,7 @@ export class LayerSpyControl extends Control {
       // transform point with the rotation
       let point = new DOMPoint(mousePosition[0], mousePosition[1]);
       const rotationMatrix = new DOMMatrix(transform);
-      point = point.matrixTransform(rotationMatrix);
+      point = point.matrixTransform(rotationMatrix.invertSelf());
 
       // only show a circle around the mouse
       ctx.arc(
