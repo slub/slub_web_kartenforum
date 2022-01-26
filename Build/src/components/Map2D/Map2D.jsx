@@ -41,6 +41,7 @@ export const Map2D = (props) => {
           maxZoom: 18,
         }),
       });
+      baseLayer.vkf_id = "slub-osm";
 
       // Create the map object
       const map = new Map({
@@ -90,20 +91,22 @@ export const Map2D = (props) => {
       }
 
       // Add a layer spy control
+      const spyLayer = new Tile({
+        zIndex: 10,
+        attribution: undefined,
+        source: new XYZ({
+          urls: urlsOsmBaseMap,
+          crossOrigin: "*",
+          attributions: [],
+        }),
+      });
+      spyLayer.vkf_id = "slub-osm";
       map.addControl(
         new LayerSpyControl({
-          spyLayer: new Tile({
-            zIndex: 10,
-            attribution: undefined,
-            source: new XYZ({
-              urls: urlsOsmBaseMap,
-              crossOrigin: "*",
-              attributions: [],
-            }),
-          }),
+          spyLayer,
+          refActiveBasemapId: { current: baseLayer.vkf_id },
         })
       );
-      window.map = map;
     };
 
     if (refMapContainer.current !== null) {

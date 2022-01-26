@@ -22,7 +22,7 @@ esbuild
             ".png": "dataurl",
             ".svg": "dataurl",
         },
-        minify: isProduction,
+        minify: !isWatch && isProduction,
         target: "es6",
         plugins: [sass()],
         outfile: `${outputDir}plugin-apps.js`,

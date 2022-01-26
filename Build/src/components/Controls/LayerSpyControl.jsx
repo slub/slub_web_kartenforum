@@ -30,7 +30,10 @@ export class LayerSpyControl extends Control {
       ? parseInt(options.radius, 0)
       : 75;
 
-    options.refSpyLayer.current = this;
+    if (options.refSpyLayer !== undefined) {
+      options.refSpyLayer.current = this;
+    }
+
     this.refActiveBasemapId = options.refActiveBasemapId;
 
     this.containerEl = button;
@@ -48,6 +51,11 @@ export class LayerSpyControl extends Control {
         this.activate();
       }
     });
+
+    if (isDefined(options.spyLayer)) {
+      // Initial set a spy layer
+      this.changeLayer(options.spyLayer);
+    }
   }
 
   /**
@@ -57,7 +65,6 @@ export class LayerSpyControl extends Control {
     if (this.layers === undefined) {
       this.layers = this.getMap().getLayers();
     }
-
     this.getMap().addLayer(this.layer);
     this.layer.on("prerender", this.handlePrecompose, this);
     this.layer.on("postrender", this.handlePostcompose, this);
