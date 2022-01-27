@@ -28,7 +28,7 @@ const SELECTIONS = [
     label: "Validation",
     type: "radio",
     value: "missing",
-    values: ["valid", "invalid", "missing"],
+    values: ["invalid", "missing"],
   },
   {
     desc: "Auswahl von allen gespeicherten Transformation für eine Karten-Id",
