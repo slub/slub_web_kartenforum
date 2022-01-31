@@ -43,11 +43,13 @@
                 right: auto;
                 top: 95px;
             }
+
             &.rotate-north {
                 top: 60px;
                 left: 15px;
             }
         }
+
         .ol-scale-line {
             left: 15px;
         }
@@ -59,6 +61,7 @@
                     right: auto;
                     top: 50px;
                 }
+
                 &.rotate-north {
                     top: 15px;
                     left: 15px;
@@ -68,79 +71,6 @@
     }
 
     .ol-map-large {
-        .ol-control {
-            &.ol-zoom-extent,
-            &.rotate-north,
-            &.ol-full-screen,
-            &.ol-layerspy,
-            &.mouse-position,
-            &.flip-view-mode,
-            &.ol-mouse-position-box,
-            &.ol-layerspy-radius-box,
-            &.basemap-selector,
-            &.ol-permalink,
-            &.ol-locate-me,
-            &.ol-zoom {
-                left: 370px;
-            }
-
-            &.ol-zoom {
-                top: 15px;
-            }
-
-            &.ol-full-screen {
-                top: 76px;
-                right: unset;
-            }
-
-            &.ol-layerspy {
-                top: 114px;
-            }
-
-            &.rotate-north {
-                top: 152px;
-            }
-
-            &.mouse-position {
-                top: 190px;
-            }
-
-            &.flip-view-mode {
-                top: 228px;
-            }
-
-            &.basemap-selector {
-                top: 266px;
-            }
-
-            &.ol-locate-me {
-                top: 304px;
-            }
-
-            &.ol-permalink {
-                top: 342px;
-            }
-        }
-
-        &:fullscreen {
-            .ol-control {
-                &.ol-zoom-extent,
-                &.rotate-north,
-                &.ol-full-screen,
-                &.ol-layerspy,
-                &.mouse-position,
-                &.flip-view-mode,
-                &.ol-mouse-position-box,
-                &.ol-layerspy-radius-box,
-                &.basemap-selector,
-                &.ol-locate-me,
-                &.ol-permalink,
-                &.ol-zoom {
-                    left: 10px;
-                }
-            }
-        }
-
         .ol-scale-line {
             right: 360px;
             left: unset;
@@ -163,8 +93,4 @@
             right: 360px;
         }
     }
-}
-
-.hide {
-    display: none;
 }

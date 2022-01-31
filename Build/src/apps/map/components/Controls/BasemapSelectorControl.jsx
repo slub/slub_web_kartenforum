@@ -10,7 +10,6 @@ import { Control } from "ol/control";
 import { translate } from "../../../../util/util";
 import BasemapSelector from "../BasemapSelector/BasemapSelector";
 import { generateControlToggleHandler } from "../MapWrapper/util.js";
-import "./BasemapSelectorControl.scss";
 
 export const UNIQUE_CONTROL_PANEL_CLASS = "vkf-unique-control-panel";
 
@@ -37,7 +36,7 @@ export class BasemapSelectorControl extends Control {
 
     // Container for the elements if control is active
     const contentContainer = document.createElement("div");
-    contentContainer.className = "content-container";
+    contentContainer.className = "basemap-selector-modal";
     contentContainer.style.display = "none";
     element.appendChild(contentContainer);
 

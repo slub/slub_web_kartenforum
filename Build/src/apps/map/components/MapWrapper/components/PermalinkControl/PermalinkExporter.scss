@@ -2,7 +2,7 @@
 
 .vkf-permalink-exporter {
     width: 400px;
-    color: #fff;
+    color: white;
 
     #permalink-exporter-tabs {
         ul {
@@ -12,7 +12,6 @@
                 padding: 0;
                 text-align: center;
                 width: 50%;
-
                 &:before {
                     display: none;
                 }
@@ -20,8 +19,11 @@
                 a {
                     border: none;
                     color: lighten(transparentize($secondary-color, 0.15), 10);
-
                     margin-bottom: 1px;
+                    padding: 0 0 10px 0;
+                    text-decoration: none;
+                    font-size: 14px;
+                    text-transform: uppercase;
                     &:before {
                         display: none;
                     }
@@ -40,8 +42,7 @@
                     a {
                         color: #fff;
                         background-color: transparent;
-                        border: none;
-                        text-decoration: underline;
+                        border-bottom: 3px solid white;
                     }
                 }
 
@@ -77,7 +78,7 @@
     .permalink-exporter-content {
         display: flex;
         flex-direction: column;
-        padding: 20px 5px 0 5px;
+        padding: 20px 0 0 0;
 
         .action-content {
             display: flex;

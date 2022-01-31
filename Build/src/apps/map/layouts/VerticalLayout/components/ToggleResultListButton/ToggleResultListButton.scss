@@ -2,6 +2,9 @@
 
 .vkf-toggle-search-result-list {
     position: relative;
+    top: 0;
+    transition: $transition;
+
     button {
         position: absolute;
         left: 50%;
@@ -15,7 +18,11 @@
         background: transparent;
         overflow: hidden;
         border: 0;
-        transition: $transition;
+
+        &:focus {
+            border: none;
+            outline: none;
+        }
 
         &:before {
             position: absolute;
@@ -51,8 +58,10 @@
     }
 
     &.open {
+        top: 30%;
+
         button {
-            bottom: -290px;
+            bottom: -30px;
         }
 
         &:before {
@@ -71,7 +80,6 @@
         }
 
         &:after {
-            top: 255px;
             transform: rotate(225deg) scale(0.7);
         }
     }

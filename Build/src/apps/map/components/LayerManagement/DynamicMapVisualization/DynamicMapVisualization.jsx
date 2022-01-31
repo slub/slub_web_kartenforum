@@ -8,6 +8,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 
 import { isDefined, translate } from "../../../../../util/util";
 import { mapState } from "../../../atoms/atoms";
@@ -131,29 +132,51 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
 
   return (
     <div
-      className={`vkf-dyn-vis-control ${active ? "play" : ""}`}
+      className={clsx("vkf-dyn-vis-control", active && "play", open && "open")}
       title={translate(`dynamicmapvis-${open ? "close" : "open"}`)}
     >
       <button className="open-dyn-vis" onClick={handleToggleMenu}>
-        o
+        <svg
+          width="100%"
+          height="100%"
+          viewBox="0 0 30 30"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g className="arrow">
+            <path d="M15,25.5c5.76,0 10.5,-4.74 10.5,-10.5c0,-5.76 -4.74,-10.5 -10.5,-10.5c-5.76,0 -10.5,4.74 -10.5,10.5l0,0.75c-0,0.414 0.336,0.75 0.75,0.75c0.414,0 0.75,-0.336 0.75,-0.75l0,-0.75c0,-4.937 4.063,-9 9,-9c4.937,0 9,4.063 9,9c0,4.937 -4.063,9 -9,9c-0.414,0 -0.75,0.336 -0.75,0.75c0,0.414 0.336,0.75 0.75,0.75Z" />
+            <path d="M1.846,13.527l3,3c0.293,0.293 0.768,0.293 1.061,0l3,-3c0.292,-0.292 0.292,-0.768 -0,-1.06c-0.293,-0.293 -0.768,-0.293 -1.061,-0l-2.47,2.469c0,0 -2.469,-2.469 -2.469,-2.469c-0.293,-0.293 -0.768,-0.293 -1.061,-0c-0.293,0.292 -0.293,0.768 -0,1.06Z" />
+          </g>
+          <path
+            className="minute-hand"
+            d="M14.238,8.795l0,5.47c0,0.414 0.336,0.75 0.75,0.75c0.414,0 0.75,-0.336 0.75,-0.75l0,-5.47c0,-0.414 -0.336,-0.75 -0.75,-0.75c-0.414,-0 -0.75,0.336 -0.75,0.75Z"
+          />
+          <path
+            className="hour-hand"
+            d="M21.18,14.263l-5.47,-0c-0.414,-0 -0.75,0.336 -0.75,0.75c-0,0.413 0.336,0.75 0.75,0.75l5.47,-0c0.414,-0 0.75,-0.337 0.75,-0.75c0,-0.414 -0.336,-0.75 -0.75,-0.75Z"
+          />
+        </svg>
       </button>
-      <div className="content" style={{ display: open ? undefined : "none" }}>
-        {animatedLayer !== undefined && (
-          <div className="feedback">{animatedLayer} </div>
-        )}
-        <div className="start-container">
-          <button
-            onClick={handleStart}
-            title={translate("dynamicmapvis-start")}
-          >
-            Start
-          </button>
+      <div className="content">
+        <div
+          className={clsx("feedback", animatedLayer !== undefined && "running")}
+        >
+          {animatedLayer}
         </div>
-        <div className="stop-container">
-          <button onClick={handleStop} title={translate("dynamicmapvis-stop")}>
-            Stop
-          </button>
-        </div>
+        <button
+          onClick={handleStart}
+          title={translate("dynamicmapvis-start")}
+          className="start-button"
+        >
+          Start
+        </button>
+        <button
+          onClick={handleStop}
+          title={translate("dynamicmapvis-stop")}
+          className="stop-button"
+        >
+          Stop
+        </button>
       </div>
     </div>
   );

@@ -128,9 +128,9 @@ export const BasemapSelector = (props) => {
   return (
     <React.Fragment>
       {activeLayer !== undefined && (
-        <div className="vkf-basemap-selector">
+        <React.Fragment>
           <h4>{translate("control-basemapselector-label")}:</h4>
-          <FormGroup>
+          <div className="wms-entries">
             {[...layers, ...customLayers].map((l) => (
               <div key={l.id} className="basemap-selector-entry">
                 <Radio
@@ -156,13 +156,16 @@ export const BasemapSelector = (props) => {
                 )}
               </div>
             ))}
-          </FormGroup>
+          </div>
           <div className="controls-container">
-            <button className="btn" onClick={handleClickShowAddWmsDialog}>
+            <button
+              className="add-wms-button"
+              onClick={handleClickShowAddWmsDialog}
+            >
               {translate("control-basemapselector-btn-addwms")}
             </button>
           </div>
-        </div>
+        </React.Fragment>
       )}
       {showAddWmsDialog && (
         <DialogAddWms

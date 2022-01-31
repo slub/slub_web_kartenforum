@@ -21,7 +21,7 @@
     }
 }
 
-@media screen and (min-width: $tabletLandscapeViewportWidth) {
+.no-touchevents {
     .vkf-drag-button {
         cursor: grab;
 

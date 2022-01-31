@@ -131,7 +131,6 @@ export const LayerManagementEntry = (props) => {
   const handleMouseEnter = () => {
     if (draggedItem === null && !hovered) {
       onUpdateHover(layer.getId());
-      setShowActions(true);
     }
   };
 
@@ -139,7 +138,6 @@ export const LayerManagementEntry = (props) => {
   const handleMouseLeave = () => {
     if (draggedItem === null) {
       onUpdateHover(undefined);
-      setShowActions(false);
     }
   };
 

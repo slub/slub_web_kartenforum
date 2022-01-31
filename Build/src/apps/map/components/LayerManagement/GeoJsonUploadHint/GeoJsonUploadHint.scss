@@ -66,4 +66,8 @@
     .hidden-file-input {
         display: none;
     }
+
+    .touchevents & {
+        display: none;
+    }
 }

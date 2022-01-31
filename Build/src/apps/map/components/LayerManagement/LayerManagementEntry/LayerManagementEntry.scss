@@ -20,6 +20,7 @@ ul.layermanagement-body {
             display: flex;
             align-items: center;
             padding: 15px 15px 15px 0;
+            z-index: 10;
 
             button.disable-layer {
                 position: relative;
@@ -118,7 +119,7 @@ ul.layermanagement-body {
         .control-container {
             position: absolute;
             inset: 0;
-            padding: 15px;
+            padding: 15px 60px 15px 50px;
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -189,12 +190,14 @@ ul.layermanagement-body {
             }
         }
 
-        &.force-hover {
-            background: rgba(0, 177, 158, 0.1);
+        .no-touchevents & {
+            &.force-hover {
+                background: rgba(0, 177, 158, 0.1);
 
-            .metdata-container,
-            a.thumbnail {
-                opacity: 0.3;
+                .metdata-container,
+                a.thumbnail {
+                    opacity: 0.3;
+                }
             }
         }
 
@@ -206,8 +209,6 @@ ul.layermanagement-body {
 
         @media screen and (min-width: $tabletLandscapeViewportWidth) {
             .visibility-container {
-                z-index: 10;
-
                 button.disable-layer {
                     transition: $transition;
                 }
@@ -233,7 +234,7 @@ ul.layermanagement-body {
             .drag-container {
                 position: absolute;
                 top: 50%;
-                right: -30px;
+                right: 15px;
                 margin-top: -17px;
                 transition: $transition;
                 z-index: 10;
@@ -242,17 +243,28 @@ ul.layermanagement-body {
             .opacity-container {
                 display: block;
             }
-
-            &.force-hover {
-                .visibility-container {
-                    button.disable-layer {
-                        background-color: $secondary-color-dark;
-                        border-color: $secondary-color-dark;
-                    }
+            .no-touchevents & {
+                .drag-container {
+                    right: -50px;
                 }
 
-                .drag-container {
-                    right: 15px;
+                &.force-hover {
+                    .visibility-container {
+                        button.disable-layer {
+                            background-color: $secondary-color-dark;
+                            border-color: $secondary-color-dark;
+                        }
+                    }
+
+                    .control-container {
+                        transform: scale(1);
+                        opacity: 1;
+                        pointer-events: auto;
+                    }
+
+                    .drag-container {
+                        right: 15px;
+                    }
                 }
             }
         }
