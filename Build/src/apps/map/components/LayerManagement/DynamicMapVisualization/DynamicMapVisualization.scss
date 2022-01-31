@@ -118,12 +118,12 @@
                 }
 
                 .hour-hand {
-                    animation: 2s linear infinite spin;
+                    animation: 12s linear infinite spin;
                     transform-origin: 50% 50%;
                 }
 
                 .minute-hand {
-                    animation: 6s linear infinite spin;
+                    animation: 1s linear infinite spin;
                     transform-origin: 50% 50%;
                 }
 
@@ -132,7 +132,7 @@
                         transform: rotate(0deg);
                     }
                     to {
-                        transform: rotate(-360deg);
+                        transform: rotate(360deg);
                     }
                 }
             }
