@@ -9,13 +9,21 @@ mod {
                 config {
                     backend_layout {
                         colCount = 1
-                        rowCount = 1
+                        rowCount = 2
                         rows {
                             1 {
                                 columns {
                                     1 {
                                         name = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang_be.xlf:backend_layout.column.normal
                                         colPos = 0
+                                    }
+                                }
+                            }
+                            2 {
+                                columns {
+                                    1 {
+                                        name = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang_be.xlf:backend_layout.column.welcome
+                                        colPos = 2
                                     }
                                 }
                             }

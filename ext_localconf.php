@@ -2,6 +2,7 @@
 
 use Slub\SlubWebKartenforum\Controller\AuthController;
 use Slub\SlubWebKartenforum\Controller\GeorefController;
+use TYPO3\CMS\Core\Core\Environment;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Core\Imaging\IconRegistry;
@@ -14,6 +15,7 @@ defined('TYPO3_MODE') || die();
  * Add default RTE configuration
  */
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum'] = 'EXT:slub_web_kartenforum/Configuration/RTE/Default.yaml';
+$GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum_minimal'] = 'EXT:slub_web_kartenforum/Configuration/RTE/Minimal.yaml';
 
 /***************
  * Register some icons to use them in the backend via IconIdentifiers
@@ -43,8 +45,8 @@ ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum
 ExtensionUtility::configurePlugin(
     'SlubWebKartenforum',
     'signup',
-    [ AuthController::class => 'signup, addUser' ],
-    [ AuthController::class => '',],
+    [AuthController::class => 'signup, addUser'],
+    [AuthController::class => '',],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
 
@@ -56,3 +58,15 @@ ExtensionUtility::configurePlugin(
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
 
+/***************
+ * Setup for Login Background and Backend Logo
+ */
+$applicationContext = Environment::getContext();
+$loginFootnote = ($applicationContext->isProduction()) ? '...' : 'Development System ';
+$GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend'] = [
+    'loginBackgroundImage' => 'EXT:slub_web_kartenforum/Resources/Public/Images/loginbg.jpg',
+    'loginLogo' => 'EXT:slub_web_kartenforum/Resources/Public/Icons/VkfLogoLogin.svg',
+    'loginHighlightColor' => '#ff3333',
+    'loginFootnote' => $loginFootnote . 'by PIKOBYTES GmbH',
+    'backendLogo' => 'EXT:slub_web_kartenforum/Resources/Public/Icons/VkfLogoBackend.svg',
+];

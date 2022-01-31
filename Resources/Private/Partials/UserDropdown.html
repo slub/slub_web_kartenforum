@@ -3,14 +3,16 @@
 <button aria-expanded="false" aria-controls="submenu-user" aria-haspopup="true">
     <span class="glyphicon glyphicon-user"></span>
     <span class="usermenu-label"><f:translate key="login.shortusername" extensionName="slubWebKartenforum"/>:</span>
-    <f:if condition="{vk:username(field:'name')} == ''">
-        <f:then>
-            <vk:username field="username"/>
-        </f:then>
-        <f:else>
-            <vk:username field="name"/>
-        </f:else>
-    </f:if>
+    <span class="usermenu-name">
+        <f:if condition="{vk:username(field:'name')} == ''">
+            <f:then>
+                <vk:username field="username"/>
+            </f:then>
+            <f:else>
+                <vk:username field="name"/>
+            </f:else>
+        </f:if>
+    </span>
     <b class="caret"></b>
 </button>
 <ul id="submenu-user" class="submenu" aria-expanded="false" aria-label="User Menu">

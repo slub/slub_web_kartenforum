@@ -86,8 +86,7 @@
         "../Resources/Private/JavaScript/"
       ],
       "extensions": "js",
-      "quiet": true,
-      "runOnChangeOnly": false
+      "runOnChangeOnly": true
     },
     "sass": {
       "patterns": [
@@ -95,16 +94,14 @@
       ],
       "extensions": "scss",
       "ignore": "../Resources/Private/Scss/Rte.scss",
-      "quiet": true,
-      "runOnChangeOnly": false
+      "runOnChangeOnly": true
     },
     "rte": {
       "patterns": [
         "../Resources/Private/Scss/Rte.scss"
       ],
       "extensions": "scss",
-      "quiet": true,
-      "runOnChangeOnly": false
+      "runOnChangeOnly": true
     }
   },
   "browserslist": [
