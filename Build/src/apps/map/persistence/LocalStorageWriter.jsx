@@ -44,29 +44,29 @@ export const LocalStorageWriter = function () {
 
   // Persist current state to localStorage
   const writeStateToLocalStorage = useCallback(() => {
-    // Persist basic feature settings
-    const newPersistenceObject = {
-      activeBasemapId,
-      is3dEnabled: mapIs3dEnabled,
-      operationalLayers: selectedFeatures.map((selectedFeature) => {
-        const layers = map
+    if (map !== undefined) {
+      // Persist basic feature settings
+      const newPersistenceObject = {
+        activeBasemapId,
+        is3dEnabled: mapIs3dEnabled,
+        operationalLayers: map
           .getLayers()
           .getArray()
-          .filter((layer) => layer.getId !== undefined);
-        const mapLayer = layers.find(
-          (layer) => layer.getId() === selectedFeature.feature.getId()
-        );
+          .filter((layer) => layer.getId !== undefined)
+          .map((mapLayer) => {
+            const selectedFeature = selectedFeatures.find(
+              (sf) => mapLayer.getId() === sf.feature.getId()
+            );
 
-        return serializeOperationalLayer(selectedFeature, mapLayer);
-      }),
-      searchOptions: {
-        facets,
-        timeExtent,
-        timeRange,
-      },
-    };
+            return serializeOperationalLayer(selectedFeature, mapLayer);
+          }),
+        searchOptions: {
+          facets,
+          timeExtent,
+          timeRange,
+        },
+      };
 
-    if (map !== undefined) {
       // Persist map view
       const camera = olcsMap.getCesiumScene().camera;
 
@@ -75,11 +75,11 @@ export const LocalStorageWriter = function () {
         map,
         mapIs3dEnabled
       );
-    }
 
-    // write changes to localStorage
-    setPersistenceObject(newPersistenceObject);
-    return newPersistenceObject;
+      // write changes to localStorage
+      setPersistenceObject(newPersistenceObject);
+      return newPersistenceObject;
+    }
   }, [
     activeBasemapId,
     map,

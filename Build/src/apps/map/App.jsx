@@ -13,7 +13,7 @@ import Notifications from "../../components/Notifications/Notifications";
 import StyleAppender from "./components/StyleAppender/StyleAppender";
 import { PersistenceController } from "./persistence/PersistenceController";
 import { getLayoutForWidth } from "./layouts/util";
-import { LayoutSwitcher } from "./layouts/LayoutSwitcher";
+import LayoutSwitcher from "./layouts/LayoutSwitcher";
 import "./App.scss";
 
 export const App = (props) => {

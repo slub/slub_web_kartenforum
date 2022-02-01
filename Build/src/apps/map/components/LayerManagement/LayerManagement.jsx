@@ -72,8 +72,9 @@ export const LayerManagement = ({
   // Handles changes on the layer container of the map
   const handleRefresh = useCallback(() => {
     if (!refBlockRefresh.current && isDefined(map)) {
-      const newLayers = getLayers(map);
-      setDisplayedLayers(newLayers.reverse());
+      const newLayers = getLayers(map).reverse();
+
+      setDisplayedLayers(newLayers);
       setDisplayedLayersCount(newLayers.length);
     }
   }, [map]);
