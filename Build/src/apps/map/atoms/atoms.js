@@ -6,6 +6,7 @@
  */
 
 import { atom } from "recoil";
+import { LAYOUT_TYPES } from "../layouts/util.js";
 
 export const activeBasemapIdState = atom({
     key: "activeBasemapId",
@@ -37,6 +38,11 @@ export const defaultFacetState = { facets: [], georeference: false };
 export const facetState = atom({
     key: "facetState",
     default: { facets: [], georeference: false },
+});
+
+export const layoutState = atom({
+    key: "layoutState",
+    default: LAYOUT_TYPES.VERTICAL,
 });
 
 export const mapSearchOverlayLayerState = atom({
