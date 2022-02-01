@@ -6,7 +6,8 @@
     left: 15px;
 
     .notification-item {
-        width: 250px;
+        width: auto;
+        max-width: 350px;
         min-height: 50px;
 
         .close {

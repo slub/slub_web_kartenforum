@@ -146,7 +146,23 @@ class GeorefController extends ActionController
             $configuration['auth'] = [$basicAuthUser, $basicAuthPassword];
         }
 
-        return $requestFactory->request($serviceUrl . $path, 'POST', $configuration);
+        try {
+            $response = $requestFactory->request($serviceUrl . $path, 'POST', $configuration);
+            if ($response->getStatusCode() < 300) {
+                return $response->getBody()->getContents();
+            }
+        } catch (\Exception $e){
+            //debug($e);
+            return json_encode([
+                "error_code" => $e->getCode(),
+                "error_message" => $e->getMessage()
+            ]);
+        }
+
+        return json_encode([
+            "error_code" => 500,
+            "error_message" => "Something went wrong while trying to process a post request."
+        ]);
     }
 
     /**
@@ -264,8 +280,7 @@ class GeorefController extends ActionController
             );
 
             if ($response) {
-                $content = $response->getBody()->getContents();
-                $this->view->assign('value', json_decode($content, true));
+                $this->view->assign('value', json_decode($response, true));
             }
         } else {
             throw new \UnexpectedValueException('Could not determine username.');
@@ -295,8 +310,7 @@ class GeorefController extends ActionController
             );
 
             if ($response) {
-                $content = $response->getBody()->getContents();
-                $this->view->assign('value', json_decode($content, true));
+                $this->view->assign('value', json_decode($response, true));
             }
         } else {
             throw new \UnexpectedValueException('Could not determine username.');
@@ -317,8 +331,7 @@ class GeorefController extends ActionController
         );
 
         if ($response) {
-            $content = $response->getBody()->getContents();
-            $this->view->assign('value', json_decode($content, true));
+            $this->view->assign('value', json_decode($response, true));
         }
     }
 
@@ -344,8 +357,7 @@ class GeorefController extends ActionController
             );
 
             if ($response) {
-                $content = $response->getBody()->getContents();
-                $this->view->assign('value', json_decode($content, true));
+                $this->view->assign('value', json_decode($response, true));
             }
         } else {
             throw new \UnexpectedValueException('Could not determine username.');

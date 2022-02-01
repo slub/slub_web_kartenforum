@@ -170,13 +170,21 @@ export const Toolbar = () => {
   const handleConfirm = () => {
     if (pendingParams !== null) {
       const confirmData = async (map_id, params) => {
-        await postTransformation(map_id, params);
+        const response = await postTransformation(map_id, params);
         setIsLoading(false);
 
-        // If there is redirect path set use it and if not redirect to main
-        const qs = queryString.parse(location.search);
-        const path = qs.redirect !== undefined ? qs.redirect : "/";
-        window.location.href = `${window.location.origin}${path}`;
+        if (response.error_code === undefined) {
+          // If there is redirect path set use it and if not redirect to main
+          const qs = queryString.parse(location.search);
+          const path = qs.redirect !== undefined ? qs.redirect : "/";
+          window.location.href = `${window.location.origin}${path}`;
+        } else {
+          setNotification({
+            id: "toolbar-info",
+            type: "danger",
+            text: response.error_message,
+          });
+        }
       };
 
       setPendingParams(null);
