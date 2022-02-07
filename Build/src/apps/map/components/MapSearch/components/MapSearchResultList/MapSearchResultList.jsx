@@ -35,7 +35,7 @@ import { LAYER_TYPES } from "../../../CustomLayers/LayerTypes";
 import "./MapSearchResultList.scss";
 
 const DEFAULT_TYPE = "title";
-const SEARCH_COLS = ["time_published", "title", "georeference"];
+const SEARCH_COLS = ["map_scale", "time_published", "title", "georeference"];
 const SORT_ORDERS = {
   ASCENDING: "ascending",
   DESCENDING: "descending",

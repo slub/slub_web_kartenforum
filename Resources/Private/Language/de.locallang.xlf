@@ -238,6 +238,10 @@
 				<source><![CDATA[Title]]></source>
 				<target><![CDATA[Titel]]></target>
 			</trans-unit>
+            <trans-unit id="plugin.map.mapsearch.map_scale" approved="yes">
+                <source><![CDATA[Scale]]></source>
+                <target><![CDATA[Maßstab]]></target>
+            </trans-unit>
 			<trans-unit id="plugin.map.mapsearch.sorting">
 				<source><![CDATA[Sorting]]></source>
 				<target><![CDATA[Sortierung]]></target>
