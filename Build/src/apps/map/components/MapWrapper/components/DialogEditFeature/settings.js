@@ -14,6 +14,10 @@ import {
     updateColorChannels,
 } from "./util/util";
 import { defaultIconSettings } from "../../defaultStyles";
+import {
+    getMarkerIdFromUrl,
+    getMarkerUrl,
+} from "./DialogEditFeatureRow/components/MarkerPicker";
 
 /**
  * Configure styling fields of the geojson edit dialog
@@ -23,7 +27,9 @@ export const styleFieldSettings = {
         changeHandler: (feature, newValue) => {
             const newStyle = new Style({
                 image: new Icon(
-                    Object.assign({}, defaultIconSettings, { src: newValue })
+                    Object.assign({}, defaultIconSettings, {
+                        src: getMarkerUrl(newValue),
+                    })
                 ),
             });
             feature.setStyle(newStyle);
@@ -31,7 +37,7 @@ export const styleFieldSettings = {
         geometryTypes: ["Point", "MultiPoint"],
         type: "marker",
         valueExtractor: (style) => {
-            return style.getImage().getSrc();
+            return getMarkerIdFromUrl(style.getImage().getSrc());
         },
     },
     fill: {
