@@ -22,7 +22,7 @@ export const DialogConfirm = (props) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <Modal className="vkf-dialog-confirm" show={true} onHide={handleOnClose}>
         <Modal.Header>
           <Modal.Title>{translate("georef-dialog-title")}</Modal.Title>
@@ -43,7 +43,7 @@ export const DialogConfirm = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </React.Fragment>
   );
 };
 
