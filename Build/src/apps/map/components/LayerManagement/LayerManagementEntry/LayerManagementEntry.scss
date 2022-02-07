@@ -3,7 +3,7 @@
 ul.layermanagement-body {
     .vkf-layermanagement-record {
         position: relative;
-        height: 100px;
+        height: 120px;
         width: 100%;
         overflow: hidden;
         padding: 15px;
@@ -157,7 +157,11 @@ ul.layermanagement-body {
             }
 
             .opacity-container {
-                display: none;
+                position: absolute;
+                right: 30px;
+                bottom: 10px;
+                left: 30px;
+                display: block;
             }
         }
 
@@ -208,6 +212,8 @@ ul.layermanagement-body {
         }
 
         @media screen and (min-width: $tabletLandscapeViewportWidth) {
+            height: 100px;
+
             .visibility-container {
                 button.disable-layer {
                     transition: $transition;
@@ -224,11 +230,8 @@ ul.layermanagement-body {
                 }
 
                 .opacity-container {
-                    position: absolute;
                     right: 15px;
-                    bottom: 10px;
                     left: 15px;
-                    display: block;
                 }
             }
             .drag-container {

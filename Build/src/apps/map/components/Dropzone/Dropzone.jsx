@@ -12,17 +12,33 @@ import { useDrop } from "react-dnd";
 import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { DndProvider } from "react-dnd-multi-backend";
 import { NativeTypes } from "react-dnd-html5-backend";
-import SvgIcons from "../../../../components/SvgIcons/SvgIcons.jsx";
 
+import SvgIcons from "../../../../components/SvgIcons/SvgIcons.jsx";
 import { translate } from "../../../../util/util";
-import "./Dropzone.scss";
 import { parseGeoJsonFile } from "./util.js";
+import "./Dropzone.scss";
 
 const { FILE } = NativeTypes;
 
 const ERROR_TYPES = {
   WRONG_FILETYPE: "wrong-filetype",
 };
+
+export const customBackends = HTML5toTouch.backends.map((backend) => {
+  if (backend.id === "touch") {
+    return {
+      ...backend,
+      options: {
+        ...backend.options,
+        scrollAngleRanges: [
+          { start: 30, end: 150 },
+          { start: 210, end: 330 },
+        ],
+      },
+    };
+  }
+  return backend;
+});
 
 export const Dropzone = ({ children, onDrop, onError }) => {
   const [error, setError] = useState(undefined);
@@ -100,7 +116,11 @@ Dropzone.propTypes = {
 
 const WrappedDropzone = (props) => {
   return (
-    <DndProvider options={HTML5toTouch}>
+    <DndProvider
+      options={Object.assign({}, HTML5toTouch, {
+        backends: customBackends,
+      })}
+    >
       <Dropzone {...props}>{props.children}</Dropzone>
     </DndProvider>
   );

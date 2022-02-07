@@ -7,10 +7,8 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
-import { DndProvider } from "react-dnd-multi-backend";
-import { HTML5toTouch } from "rdndmb-html5-to-touch";
+import PropTypes from "prop-types";
 
 import { isDefined, translate } from "../../../../util/util";
 import { displayedLayersCountState, mapState } from "../../atoms/atoms";
@@ -19,24 +17,8 @@ import DynamicMapVisualization from "./DynamicMapVisualization/DynamicMapVisuali
 import LayerManagementEntry from "./LayerManagementEntry/LayerManagementEntry";
 import { getIndexToLayer, getLayers } from "./util";
 import { useSetElementScreenSize } from "../../../../util/hooks.js";
-import "./LayerManagement.scss";
 import GeoJsonUploadHint from "./GeoJsonUploadHint/GeoJsonUploadHint.jsx";
-
-const customBackends = HTML5toTouch.backends.map((backend) => {
-  if (backend.id === "touch") {
-    return {
-      ...backend,
-      options: {
-        ...backend.options,
-        scrollAngleRanges: [
-          { start: 30, end: 150 },
-          { start: 210, end: 330 },
-        ],
-      },
-    };
-  }
-  return backend;
-});
+import "./LayerManagement.scss";
 
 export const LayerManagement = ({
   onAddGeoJson,
@@ -121,57 +103,51 @@ export const LayerManagement = ({
   }, [map, handleRefresh]);
 
   return (
-    <DndProvider
-      options={Object.assign({}, HTML5toTouch, {
-        backends: customBackends,
-      })}
-    >
-      <div className="vkf-layermanagement-root" ref={refLayermanagement}>
-        {showBadge && displayedLayersCount !== 0 && (
-          <span className="badge">{displayedLayersCount}</span>
-        )}
-        {showHeader && (
-          <div className="heading">
-            <span className="header-label">
-              {translate("layermanagement-header-lbl")}
-            </span>
-            <div className="header-functions">
-              <GeoJsonUploadHint onAddGeoJson={onAddGeoJson} />
-              {showHideButton && <DeactivateMapCollection />}
-              {showDynamicMapVisualization && (
-                <DynamicMapVisualization
-                  animationOptions={{ delay: 30, steps: 0.01 }}
-                />
-              )}
-            </div>
+    <div className="vkf-layermanagement-root" ref={refLayermanagement}>
+      {showBadge && displayedLayersCount !== 0 && (
+        <span className="badge">{displayedLayersCount}</span>
+      )}
+      {showHeader && (
+        <div className="heading">
+          <span className="header-label">
+            {translate("layermanagement-header-lbl")}
+          </span>
+          <div className="header-functions">
+            <GeoJsonUploadHint onAddGeoJson={onAddGeoJson} />
+            {showHideButton && <DeactivateMapCollection />}
+            {showDynamicMapVisualization && (
+              <DynamicMapVisualization
+                animationOptions={{ delay: 30, steps: 0.01 }}
+              />
+            )}
           </div>
-        )}
-        <ul className="layermanagement-body">
-          {displayedLayers === undefined || displayedLayers.length === 0 ? (
-            <li className="empty">
-              <h4>{translate("layermanagement-start-msg-header")}</h4>
-              <p>{translate("layermanagement-start-msg-body")}</p>
-            </li>
-          ) : (
-            displayedLayers.map((layer) => {
-              const layerId = layer.getId();
+        </div>
+      )}
+      <ul className="layermanagement-body">
+        {displayedLayers === undefined || displayedLayers.length === 0 ? (
+          <li className="empty">
+            <h4>{translate("layermanagement-start-msg-header")}</h4>
+            <p>{translate("layermanagement-start-msg-body")}</p>
+          </li>
+        ) : (
+          displayedLayers.map((layer) => {
+            const layerId = layer.getId();
 
-              return (
-                <LayerManagementEntry
-                  hovered={layerId === hoveredLayerId}
-                  onUpdateHover={setHoveredLayerId}
-                  onMoveLayer={handleMoveLayer}
-                  layer={layer}
-                  index={getIndexToLayer(map, layer)}
-                  key={layerId}
-                  id={layerId}
-                />
-              );
-            })
-          )}
-        </ul>
-      </div>
-    </DndProvider>
+            return (
+              <LayerManagementEntry
+                hovered={layerId === hoveredLayerId}
+                onUpdateHover={setHoveredLayerId}
+                onMoveLayer={handleMoveLayer}
+                layer={layer}
+                index={getIndexToLayer(map, layer)}
+                key={layerId}
+                id={layerId}
+              />
+            );
+          })
+        )}
+      </ul>
+    </div>
   );
 };
 
