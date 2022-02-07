@@ -20,7 +20,7 @@ let settingsObject = {
         },
         {
             id: "bkg-topoplus",
-            label: "BKG TopoPlus",
+            label: "BKG TopPlusOpen",
             urls: ["https://sgx.geodatenzentrum.de/wms_topplus_open"],
             type: "wms",
             layers: "web",

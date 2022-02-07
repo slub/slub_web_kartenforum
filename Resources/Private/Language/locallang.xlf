@@ -200,14 +200,9 @@
 
 
 
-            <!-- vk2.control.LayerSpyControl -->
-			<trans-unit id="client.layerspy.title">
-				<source>Get a magnifier for the map</source>
-			</trans-unit>
-
             <!-- vk2.control.MousePositionControl -->
 			<trans-unit id="global.map.control-mouseposition-title">
-				<source>Mouse position</source>
+				<source>Cursor position</source>
 			</trans-unit>
 
 
@@ -477,7 +472,7 @@
 
 			 <!-- Global > Map > Control > Permalink -->
             <trans-unit id="global.map.control-permalink.title">
-                <source>Share your current view</source>
+                <source>Share current view</source>
             </trans-unit>
             <trans-unit id="global.map.control-permalink.permalinkTitle">
                  <source>Permalink</source>
@@ -498,7 +493,7 @@
                   <source>The permalink function allows sharing the current map view. Custom content, such as geojson layers or additional basemaps, cannot be shared with this function. The map view tab, which is only accessible when logged in, allows sharing of all content.</source>
             </trans-unit>
             <trans-unit id="global.map.control-permalink.mapViewDescription">
-                  <source>The map view function allows sharing the entire application state. For this purpose, it is uploaded and a unique link is generated, which can be shared.</source>
+                  <source>The map view function allows sharing the entire application state. For this purpose, a representation of the application state is uploaded and a unique link to this representation is generated.</source>
             </trans-unit>
 
            <!-- Global > Map > Control > Fullscreen -->
