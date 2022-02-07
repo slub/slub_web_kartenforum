@@ -68,6 +68,7 @@ export const getDefaultControls = (params) => {
     const defaultControls = [
         new CustomAttribution({ is3d: is3dActive }),
         new FullScreen({
+            activeClassName: "active",
             tipLabel: translate("control-fullscreen-title"),
         }),
         new Rotate({

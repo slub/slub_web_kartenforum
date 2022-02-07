@@ -28,9 +28,9 @@
 .ol-has-tooltip:hover [role="tooltip"],
 .ol-has-tooltip:focus [role="tooltip"] {
     border-radius: 0;
-    font-family: Helvetica, Arial, sans-serif;
-    color: #f33;
+    color: $primary-color;
     display: none;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 .ol-mouse-position-box,
@@ -96,6 +96,15 @@
         background-repeat: no-repeat;
         background-position: center center;
 
+        &.active {
+            background-color: $primary-color;
+
+            &:hover,
+            &:focus {
+                background-color: $primary-color-dark;
+            }
+        }
+
         &:hover,
         &:focus {
             background-color: $secondary-color-dark;
@@ -158,8 +167,9 @@
         button {
             background-color: $primary-color;
 
-            &:hover {
-                background-color: $primary-color;
+            &:hover,
+            &:focus {
+                background-color: $primary-color-dark;
             }
         }
     }
