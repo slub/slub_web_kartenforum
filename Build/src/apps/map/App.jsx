@@ -8,6 +8,7 @@
 import React from "react";
 import { RecoilRoot } from "recoil";
 import { useWindowWidth } from "@react-hook/window-size";
+import clsx from "clsx";
 import PropTypes from "prop-types";
 import Notifications from "../../components/Notifications/Notifications";
 import StyleAppender from "./components/StyleAppender/StyleAppender";

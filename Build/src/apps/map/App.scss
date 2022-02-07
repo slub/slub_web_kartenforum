@@ -1,3 +1,14 @@
+.map-plugin-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-grow: 1;
+
+    > div {
+        transition: none !important;
+    }
+}
+
 .vkf-plugin-map {
     position: absolute;
     top: 0;
@@ -9,5 +20,11 @@
 
     .vkf-notifications {
         z-index: 1001;
+    }
+
+    .touchevents & {
+        .ol-viewport {
+            touch-action: none;
+        }
     }
 }

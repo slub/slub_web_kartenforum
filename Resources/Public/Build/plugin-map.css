@@ -1,18 +1,19 @@
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/components/Notifications/Notifications.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/components/Notifications/Notifications.css */
 .vkf-notifications {
   position: absolute;
   bottom: 30px;
   left: 15px;
 }
 .vkf-notifications .notification-item {
-  width: 250px;
+  width: auto;
+  max-width: 350px;
   min-height: 50px;
 }
 .vkf-notifications .notification-item .close {
   opacity: 0.99;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/components/Controls/LocateMeControl.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/components/Controls/LocateMeControl.css */
 .ol-control.ol-locate-me {
   position: absolute;
   background: rgba(255, 255, 255, 0.4);
@@ -22,7 +23,7 @@
   left: 0.5em;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/components/Controls/LayerSpyControl.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/components/Controls/LayerSpyControl.css */
 .ol-control.ol-layerspy {
   position: absolute;
   background: rgba(255, 255, 255, 0.4);
@@ -43,7 +44,7 @@
   pointer-events: none;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/BasemapSelector/DialogAddWms.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/BasemapSelector/DialogAddWms.css */
 .vkf-dialog-addwms .modal-dialog {
   margin-top: 25%;
   margin-bottom: 25%;
@@ -65,7 +66,7 @@
   display: inline-block;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/BasemapSelector/BasemapSelector.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/BasemapSelector/BasemapSelector.css */
 .basemap-selector .basemap-selector-modal {
   position: absolute;
   top: 0;
@@ -151,7 +152,7 @@
   display: none;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/components/LoadingSpinner/LoadingSpinner.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/components/LoadingSpinner/LoadingSpinner.css */
 .lds-roller {
   display: inline-block;
   position: relative;
@@ -237,7 +238,7 @@
   }
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/MapWrapper/components/PermalinkControl/components/MapViewInput/MapViewInput.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/MapWrapper/components/PermalinkControl/components/MapViewInput/MapViewInput.css */
 .vkf-permalink-exporter .permalink-exporter-content .upload-button .lds-roller {
   top: -12px;
   transform: scale(0.35);
@@ -251,7 +252,7 @@
   background: transparent;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/MapWrapper/components/PermalinkControl/PermalinkExporter.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/MapWrapper/components/PermalinkControl/PermalinkExporter.css */
 .vkf-permalink-exporter {
   width: 400px;
   color: white;
@@ -349,7 +350,7 @@
   padding: 6px;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/MapWrapper/components/PermalinkControl/PermalinkControl.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/MapWrapper/components/PermalinkControl/PermalinkControl.css */
 .ol-permalink .content-container {
   position: absolute;
   top: 0;
@@ -370,7 +371,7 @@
   content: "";
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeatureRow/components/MarkerPicker.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeatureRow/components/MarkerPicker.css */
 .vkf-marker-picker-root .marker-preview {
   display: flex;
   height: 34px;
@@ -399,7 +400,7 @@
   display: none;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/FacetedSearch/FacetedSearch.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/FacetedSearch/FacetedSearch.css */
 .facet-container {
   position: relative;
   margin: 0 -15px;
@@ -430,7 +431,7 @@
   overflow-y: auto;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.css */
 .vkf-mapsearch-record {
   cursor: pointer;
   list-style: none;
@@ -546,7 +547,7 @@
   }
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/MapSearch/components/MapSearchResultList/MapSearchResultList.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/MapSearch/components/MapSearchResultList/MapSearchResultList.css */
 .vkf-mapsearch-result-list {
   position: relative;
   height: 100%;
@@ -622,7 +623,7 @@
   display: flex;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/MapSearch/components/ToggleFacetsButton/ToggleFacetsButton.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/MapSearch/components/ToggleFacetsButton/ToggleFacetsButton.css */
 .vkf-toggle-facets {
   position: relative;
   height: 30px;
@@ -652,7 +653,7 @@
   }
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/MapSearch/MapSearch.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/MapSearch/MapSearch.css */
 .mapsearch-container {
   height: auto;
   background: transparent;
@@ -721,7 +722,7 @@
   flex-grow: 1;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/components/Modal/Modal.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/components/Modal/Modal.css */
 .vkf-modal .modal-header {
   position: relative;
   background: #00b19e;
@@ -761,7 +762,7 @@
   padding: 0;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/LayerManagement/DeactivateMapCollection/DeactivateMapCollection.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/LayerManagement/DeactivateMapCollection/DeactivateMapCollection.css */
 button.deactivate-map-col-control {
   position: relative;
   width: 30px;
@@ -791,7 +792,7 @@ button.deactivate-map-col-control.deactivate:after {
   transform: rotate(45deg) scale(1);
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/LayerManagement/DynamicMapVisualization/DynamicMapVisualization.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/LayerManagement/DynamicMapVisualization/DynamicMapVisualization.css */
 .vkf-dyn-vis-control {
   display: flex;
   align-items: center;
@@ -1165,7 +1166,7 @@ button.deactivate-map-col-control.deactivate:after {
   border-top-color: #6c6c6c;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/LayerManagement/OpacitySlider/OpacitySlider.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/LayerManagement/OpacitySlider/OpacitySlider.css */
 .opacity-container .rc-slider {
   border-radius: 0;
 }
@@ -1200,7 +1201,7 @@ button.deactivate-map-col-control.deactivate:after {
   color: white;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/LayerManagement/LayerManagementEntry/components/DragButton/DragButton.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/LayerManagement/LayerManagementEntry/components/DragButton/DragButton.css */
 .vkf-drag-button {
   position: relative;
   width: 25px;
@@ -1230,7 +1231,7 @@ button.deactivate-map-col-control.deactivate:after {
   background-color: #00b19e;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/LayerManagement/LayerManagementEntry/LayerManagementEntry.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/LayerManagement/LayerManagementEntry/LayerManagementEntry.css */
 ul.layermanagement-body .vkf-layermanagement-record {
   position: relative;
   height: 100px;
@@ -1446,7 +1447,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   }
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/LayerManagement/LayerManagement.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/LayerManagement/LayerManagement.css */
 .vkf-layermanagement-root {
   height: 100%;
   overflow-y: hidden;
@@ -1547,7 +1548,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   }
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/LayerManagement/GeoJsonUploadHint/GeoJsonUploadHint.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/LayerManagement/GeoJsonUploadHint/GeoJsonUploadHint.css */
 .geojson-upload-hint {
   position: relative;
   height: 30px;
@@ -1609,7 +1610,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   display: none;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/components/PlacenameSearch/Autocomplete/Autocomplete.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/components/PlacenameSearch/Autocomplete/Autocomplete.css */
 .vkf-autocomplete-container .autocomplete-dropdown {
   position: absolute;
   padding: 0;
@@ -1645,7 +1646,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   background: #00b19e;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/components/PlacenameSearch/PlacenameSearch.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/components/PlacenameSearch/PlacenameSearch.css */
 .gazetteersearch-container {
   position: relative;
   height: auto;
@@ -1704,7 +1705,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   }
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/TimeSlider/TimeSlider.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/TimeSlider/TimeSlider.css */
 .timeslider-container {
   position: relative;
   margin-bottom: 20px;
@@ -1790,7 +1791,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   }
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/SpatialTemporalSearch/SpatialTemporalSearch.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/SpatialTemporalSearch/SpatialTemporalSearch.css */
 .spatialsearch-container {
   position: absolute;
   top: 15px;
@@ -1815,7 +1816,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   flex-direction: column;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/components/Controls/ImageManipulationControl.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/components/Controls/ImageManipulationControl.css */
 .image-manipulation .content-container {
   border: 5px solid transparent;
   position: absolute;
@@ -1924,7 +1925,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   background-color: transparent;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/components/ZoomifyMap/ZoomifyMap.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/components/ZoomifyMap/ZoomifyMap.css */
 .ol-viewport {
   background-color: white;
 }
@@ -2214,7 +2215,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   top: 113px;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/views/OriginalMapView/OriginalMapView.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/views/OriginalMapView/OriginalMapView.css */
 .ol-viewport {
   background-color: white;
 }
@@ -2571,12 +2572,12 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   border: 1px solid #e0e0e0;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/layouts/HorizontalLayout/HorizontalLayout.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/layouts/HorizontalLayout/HorizontalLayout.css */
 .ol-map-large:fullscreen .vkf-horizontal-layout .spatialsearch-container {
   display: none;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/layouts/VerticalLayout/components/ToggleSearchButton/ToggleSearchButton.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/layouts/VerticalLayout/components/ToggleSearchButton/ToggleSearchButton.css */
 .vkf-toggle-search-button {
   position: relative;
   height: 30px;
@@ -2592,7 +2593,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   fill: #00b19e;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/layouts/VerticalLayout/components/ToggleResultListButton/ToggleResultListButton.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/layouts/VerticalLayout/components/ToggleResultListButton/ToggleResultListButton.css */
 .vkf-toggle-search-result-list {
   position: relative;
   top: 0;
@@ -2673,7 +2674,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   opacity: 0.3;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/layouts/VerticalLayout/components/SearchHeader/SearchHeader.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/layouts/VerticalLayout/components/SearchHeader/SearchHeader.css */
 .vkf-search-header {
   flex-direction: column;
   display: flex;
@@ -2731,7 +2732,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   width: 100%;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/layouts/VerticalLayout/components/LayerManagementButton/LayerManagementButton.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/layouts/VerticalLayout/components/LayerManagementButton/LayerManagementButton.css */
 .vkf-toggle-layermanagement-button {
   position: absolute;
   bottom: 6%;
@@ -2795,7 +2796,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   padding: 3px 5px;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/layouts/VerticalLayout/VerticalLayout.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/layouts/VerticalLayout/VerticalLayout.css */
 .vkf-vertical-layout {
   position: absolute;
   top: 0;
@@ -2853,7 +2854,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   display: none;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/Dropzone/Dropzone.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/Dropzone/Dropzone.css */
 .vkf-dropzone {
   position: absolute;
   inset: 0;
@@ -2888,7 +2889,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   fill: #666666;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/MapWrapper/components/DialogAddGeoJson/DialogAddGeoJson.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/MapWrapper/components/DialogAddGeoJson/DialogAddGeoJson.css */
 .vkf-dialog-add-geojson .modal-dialog {
   margin-top: 25%;
   margin-bottom: 25%;
@@ -2901,7 +2902,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   display: inline-block;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeatureRow/DialogEditFeatureRow.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeatureRow/DialogEditFeatureRow.css */
 .vkf-feature-edit-dialog-row input {
   background: transparent;
   border: none;
@@ -2930,7 +2931,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   background-color: #f7f7f7;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeature.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeature.css */
 .vkf-feature-edit-dialog-root {
   width: 392px;
 }
@@ -2957,7 +2958,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   justify-content: space-between;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/components/MapWrapper/MapWrapper.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/components/MapWrapper/MapWrapper.css */
 .ol-viewport {
   background-color: white;
 }
@@ -3294,7 +3295,16 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
   right: 360px;
 }
 
-/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-61350-keZOvOz18Ts0/Build/src/apps/map/App.css */
+/* ../../../../../../var/folders/jw/k6qq514d56g7dgdrfht9k60c0000gn/T/tmp-92405-K1433ZFHxKrG/Build/src/apps/map/App.css */
+.map-plugin-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-grow: 1;
+}
+.map-plugin-container > div {
+  transition: none !important;
+}
 .vkf-plugin-map {
   position: absolute;
   top: 0;
@@ -3306,4 +3316,7 @@ ul.layermanagement-body .vkf-layermanagement-record.drag-and-drop-placeholder {
 }
 .vkf-plugin-map .vkf-notifications {
   z-index: 1001;
+}
+.touchevents .vkf-plugin-map .ol-viewport {
+  touch-action: none;
 }
