@@ -56,7 +56,6 @@ export class PermalinkControl extends Control {
 
     // Add event listeners
     button.addEventListener("click", handleToggleControl, false);
-    button.addEventListener("touchstart", handleToggleControl, false);
 
     this.is3dActive = options.is3dActive ?? false;
 

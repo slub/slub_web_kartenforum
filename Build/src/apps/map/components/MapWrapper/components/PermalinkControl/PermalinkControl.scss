@@ -22,3 +22,15 @@
         }
     }
 }
+
+.ol-map-small {
+    .ol-permalink {
+        .content-container {
+            top: -150px;
+
+            &:before {
+                top: 160px;
+            }
+        }
+    }
+}

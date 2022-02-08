@@ -76,12 +76,17 @@ export const getDefaultControls = (params) => {
             tipLabel: translate("control-rotate"),
         }),
         new ScaleLine(),
-        // new vk2.control.Permalink(),
+        new ToggleViewMode({
+            initialState: is3dActive,
+            onViewModeChange,
+        }),
+        new LocateMeControl(),
+        new BasemapSelector(basemapSelectorProps),
+        new PermalinkControl({ is3dActive, ...permalinkProps }),
     ];
 
     if (layout === LAYOUT_TYPES.HORIZONTAL) {
         defaultControls.push(
-            new LocateMeControl(),
             new Zoom({
                 zoomInTipLabel: translate("control-zoom-in"),
                 zoomOutTipLabel: translate("control-zoom-out"),
@@ -90,13 +95,7 @@ export const getDefaultControls = (params) => {
                 refActiveBasemapId: permalinkProps.refActiveBasemapId,
                 refSpyLayer,
             }),
-            new ToggleViewMode({
-                initialState: is3dActive,
-                onViewModeChange,
-            }),
-            new MousePositionOnOff(),
-            new BasemapSelector(basemapSelectorProps),
-            new PermalinkControl({ is3dActive, ...permalinkProps })
+            new MousePositionOnOff()
         );
     }
 

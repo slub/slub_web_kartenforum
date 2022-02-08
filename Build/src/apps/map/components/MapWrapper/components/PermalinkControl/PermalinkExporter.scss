@@ -121,3 +121,9 @@
         }
     }
 }
+
+.ol-map-small {
+    .vkf-permalink-exporter {
+        max-width: calc(85vw - 40px);
+    }
+}

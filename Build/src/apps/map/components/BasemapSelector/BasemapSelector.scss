@@ -91,3 +91,16 @@
         }
     }
 }
+
+.ol-map-small {
+    .basemap-selector {
+        .basemap-selector-modal {
+            max-width: calc(93vw - 40px);
+
+            top: -80px;
+            &:before {
+                top: 90px;
+            }
+        }
+    }
+}

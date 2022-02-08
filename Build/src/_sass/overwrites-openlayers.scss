@@ -64,16 +64,19 @@
         font-size: 10px;
         text-shadow: none;
         padding: 3px 6px;
+        width: 100%;
 
         li {
             padding: 0;
             color: white;
             line-height: 1.5;
+            text-align: left;
 
             a {
                 color: white;
-                margin-left: 3px;
                 font-weight: normal;
+                float: right;
+                margin-left: 15px;
             }
 
             &:before {
@@ -212,6 +215,88 @@
 }
 
 .ol-map-small {
+    .ol-attribution.ol-uncollapsible {
+        right: 4px;
+        bottom: 4px;
+
+        ul {
+            padding: 0 4px;
+        }
+    }
+
+    .ol-control {
+        &.ol-full-screen {
+            left: 15px;
+            right: auto;
+            top: 60px;
+        }
+
+        &.rotate-north {
+            top: 95px;
+            left: 15px;
+        }
+
+        &.flip-view-mode {
+            top: 130px;
+            left: 15px;
+        }
+
+        &.basemap-selector {
+            top: 165px;
+            left: 15px;
+        }
+
+        &.ol-locate-me {
+            top: 200px;
+            left: 15px;
+        }
+
+        &.ol-permalink {
+            top: 235px;
+            left: 15px;
+        }
+    }
+
+    .ol-scale-line {
+        left: 4px;
+        bottom: 4px;
+    }
+
+    &:fullscreen {
+        .ol-control {
+            &.ol-full-screen {
+                left: 15px;
+                right: auto;
+                top: 15px;
+            }
+
+            &.rotate-north {
+                top: 50px;
+                left: 15px;
+            }
+
+            &.flip-view-mode {
+                top: 85px;
+                left: 15px;
+            }
+
+            &.basemap-selector {
+                top: 120px;
+                left: 15px;
+            }
+
+            &.ol-locate-me {
+                top: 155px;
+                left: 15px;
+            }
+
+            &.ol-permalink {
+                top: 190px;
+                left: 15px;
+            }
+        }
+    }
+
     &.ol-zoom-extent button,
     &.ol-zoom-default-extent button,
     &.ol-zoom button,
