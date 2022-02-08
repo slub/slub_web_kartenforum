@@ -4,13 +4,14 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React from "react";
+import React, { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 import {
   rectifiedImageParamsState,
   targetViewParamsState,
 } from "../../atoms/atoms";
+import OpacitySlider from "../../../../components/OpacitySlider/OpacitySlider.jsx";
 import Map2D from "../../../../components/Map2D/Map2D";
 import LayerRectifiedImage from "../../../../components/LayerRectifiedImage/LayerRectifiedImage";
 import PlacenameSearch from "../../../../components/PlacenameSearch/PlacenameSearch.jsx";
@@ -20,6 +21,7 @@ import "./MapTargetView.scss";
 export const MapTargetView = (props) => {
   const { extent, urlNominatim, urlsOsmBaseMap } = props;
   const rectifiedImageParams = useRecoilValue(rectifiedImageParamsState);
+  const [pureRectifyLayer, setPureRectifyLayer] = useState(null);
   const [targetViewParams, setTargetViewParams] = useRecoilState(
     targetViewParamsState
   );
@@ -41,12 +43,17 @@ export const MapTargetView = (props) => {
         urlsOsmBaseMap={urlsOsmBaseMap}
       >
         {targetViewParams !== null && (
-          <div className="placenamesearch-container">
-            <PlacenameSearch
-              onSelectPosition={handleSelectPosition}
-              projection={SettingsProvider.getDefaultMapView().projection}
-              searchUrl={SettingsProvider.getNominatimUrl()}
-            />
+          <div>
+            <div className="placenamesearch-container">
+              <PlacenameSearch
+                onSelectPosition={handleSelectPosition}
+                projection={SettingsProvider.getDefaultMapView().projection}
+                searchUrl={SettingsProvider.getNominatimUrl()}
+              />
+            </div>
+            {pureRectifyLayer !== null && (
+              <OpacitySlider layer={pureRectifyLayer} orientation="vertical" />
+            )}
           </div>
         )}
       </Map2D>
@@ -56,6 +63,7 @@ export const MapTargetView = (props) => {
           key={rectifiedImageParams.wms_url}
           map={targetViewParams.map}
           layerName={rectifiedImageParams.layer_name}
+          onLoad={(layer) => setPureRectifyLayer(layer)}
           wmsUrl={rectifiedImageParams.wms_url}
         />
       )}

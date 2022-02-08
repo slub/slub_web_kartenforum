@@ -48,7 +48,6 @@
 }
 
 .ol-attribution.ol-uncollapsible {
-    display: flex;
     height: auto;
     right: 15px;
     bottom: 8px;
@@ -56,28 +55,19 @@
     border-radius: 0;
     background: rgba($secondary-color, 0.7);
     color: white;
-    line-height: 20px;
 
-    > ul {
+    > div {
+        max-width: 270px;
         display: flex;
-        flex-direction: column;
-        font-size: 10px;
-        text-shadow: none;
-        padding: 3px 6px;
-        width: 100%;
+        flex-wrap: wrap;
+        padding: 0 5px;
+        justify-content: flex-end;
 
-        li {
-            padding: 0;
+        a {
             color: white;
-            line-height: 1.5;
-            text-align: left;
-
-            a {
-                color: white;
-                font-weight: normal;
-                float: right;
-                margin-left: 15px;
-            }
+            font-size: 10px;
+            font-weight: normal;
+            margin: 0 3px;
 
             &:before {
                 display: none;
@@ -219,8 +209,12 @@
         right: 4px;
         bottom: 4px;
 
-        ul {
-            padding: 0 4px;
+        > div {
+            max-width: 180px;
+            padding: 0 2px;
+            line-height: 1.2;
+            max-height: 4.7vh;
+            overflow: hidden;
         }
     }
 

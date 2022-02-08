@@ -8,11 +8,12 @@ import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Slider from "rc-slider";
 import { useRecoilValue } from "recoil";
+import Tile from "ol/layer/Tile";
 import "rc-slider/assets/index.css";
 
-import HistoricMap from "../../CustomLayers/HistoricMapLayer";
-import { olcsMapState } from "../../../atoms/atoms";
-import GeoJsonLayer from "../../CustomLayers/GeoJsonLayer.js";
+import HistoricMap from "../../apps/map/components/CustomLayers/HistoricMapLayer.js";
+import { olcsMapState } from "../../apps/map/atoms/atoms.js";
+import GeoJsonLayer from "../../apps/map/components/CustomLayers/GeoJsonLayer.js";
 import "./OpacitySlider.scss";
 
 export const OpacitySlider = (props) => {
@@ -87,6 +88,7 @@ OpacitySlider.propTypes = {
   layer: PropTypes.oneOfType([
     PropTypes.instanceOf(HistoricMap),
     PropTypes.instanceOf(GeoJsonLayer),
+    PropTypes.instanceOf(Tile),
   ]),
   orientation: PropTypes.oneOf(["horizontal", "vertical"]),
 };

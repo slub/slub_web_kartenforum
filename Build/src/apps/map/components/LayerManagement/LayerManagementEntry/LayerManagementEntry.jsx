@@ -20,7 +20,7 @@ import {
   selectedFeaturesState,
   selectedOriginalMapIdState,
 } from "../../../atoms/atoms";
-import { OpacitySlider } from "../OpacitySlider/OpacitySlider";
+import { OpacitySlider } from "../../../../../components/OpacitySlider/OpacitySlider";
 import { FALLBACK_SRC } from "../../MapSearch/components/MapSearchListElement/MapSearchListElement";
 import HistoricMap from "../../CustomLayers/HistoricMapLayer";
 import SettingsProvider from "../../../../../SettingsProvider";

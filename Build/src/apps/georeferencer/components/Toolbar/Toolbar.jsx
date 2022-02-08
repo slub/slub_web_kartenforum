@@ -215,8 +215,6 @@ export const Toolbar = () => {
         targetMap: targetViewParams.map,
       });
 
-      window.controller = refController.current;
-
       // Set the zoom pan action as active
       setActiveControl(ID_CONTROLS.ZOOM_PAN);
       setActiveAction(

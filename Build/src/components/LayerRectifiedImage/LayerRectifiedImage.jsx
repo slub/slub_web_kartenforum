@@ -31,7 +31,7 @@ function transformPolygonToClipPixel(polygon, map) {
  * @constructor
  */
 export const LayerRectifiedImage = (props) => {
-  const { map, layerName, wmsUrl } = props;
+  const { map, layerName, onLoad = () => {}, wmsUrl } = props;
 
   // Initial load layer
   useEffect(() => {
@@ -49,6 +49,9 @@ export const LayerRectifiedImage = (props) => {
       zIndex: 1,
     });
     map.addLayer(layer);
+
+    // Dispatch the layer to hoc
+    onLoad(layer);
 
     // Bind clip behavior by using postrender and prerender events
     const handlePreRender = (e) => {
@@ -108,8 +111,9 @@ export const LayerRectifiedImage = (props) => {
 
 LayerRectifiedImage.propTypes = {
   clipPolygon: PropTypes.instanceOf(Polygon),
-  map: PropTypes.instanceOf(Map).isRequired,
   layerName: PropTypes.string.isRequired,
+  map: PropTypes.instanceOf(Map).isRequired,
+  onLoad: PropTypes.func,
   wmsUrl: PropTypes.string.isRequired,
 };
 

@@ -11,12 +11,12 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 
 import SettingsProvider from "../../../../../SettingsProvider.js";
-import { isDefined, translate } from "../../../../../util/util.js";
+import { isDefined } from "../../../../../util/util.js";
 
 export const TERRAIN_ATTRIBUTION_ID = "terrain-attribution";
 
 const RawHtml = ({ content }) => (
-  <span dangerouslySetInnerHTML={{ __html: content }} />
+  <div dangerouslySetInnerHTML={{ __html: content }} />
 );
 
 RawHtml.propTypes = {
@@ -55,7 +55,6 @@ export class CustomAttribution extends Control {
   handleExternalBasemapUpdate = (basemapId) => {
     const basemaps = SettingsProvider.getBaseMaps();
     const basemap = basemaps.find((bm) => bm.id === basemapId);
-
     this.attribution = basemap?.attribution ?? "";
     this.render();
   };
@@ -65,43 +64,25 @@ const AttributionList = ({ basemapAttribution, element, is3d }) => {
   const isBasemapAttributionDefined =
     isDefined(basemapAttribution) && basemapAttribution !== "";
 
-  const attributions = [];
-
   // add basemap attribution
+  let attributionString = "";
   if (isBasemapAttributionDefined) {
-    attributions.push({
-      el: `${translate(
-        "control-attribution-basemap-label"
-      )}: ${basemapAttribution}`,
-    });
+    attributionString += ` ${basemapAttribution}`;
   }
 
   // add terrain attribution
   if (is3d) {
-    attributions.push({
-      id: TERRAIN_ATTRIBUTION_ID,
-      el: `${translate(
-        "control-attribution-terrain-label"
-      )}: ${SettingsProvider.getTerrainAttribution()}`,
-    });
+    attributionString += ` ${SettingsProvider.getTerrainAttribution()}`;
   }
 
-  if (attributions.length === 0) {
+  if (attributionString.length === 0) {
     element.classList.add("hide");
   } else {
     element.classList.remove("hide");
   }
 
   return (
-    attributions.length > 0 && (
-      <ul>
-        {attributions.map(({ el, id }, index) => (
-          <li key={`${index}_${is3d}`} id={id}>
-            <RawHtml content={el} />
-          </li>
-        ))}
-      </ul>
-    )
+    attributionString.length > 0 && <RawHtml content={attributionString} />
   );
 };
 

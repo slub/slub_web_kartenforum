@@ -124,7 +124,9 @@ export class LayerSpyControl extends Control {
 
   handlePrecompose = (e) => {
     const ctx = e["context"];
-    const pixelRatio = e["frameState"]["pixelRatio"];
+    // Currently the usage of pixelRatio can lead to strange effects on different devices. For simplicity we
+    // expect therefor always a pixelRatio from 1 until we got better test cases.
+    const pixelRatio = 1; // e["frameState"]["pixelRatio"];
     ctx.save();
     ctx.beginPath();
 
