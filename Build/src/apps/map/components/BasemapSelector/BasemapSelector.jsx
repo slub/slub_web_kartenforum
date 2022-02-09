@@ -111,7 +111,7 @@ export const BasemapSelector = (props) => {
         }
       }
     },
-    [activeLayer]
+    [activeLayer, layers, customLayers]
   );
 
   ////
