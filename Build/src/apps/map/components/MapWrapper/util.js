@@ -4,6 +4,7 @@ import { containsXY } from "ol/extent";
 import SettingsProvider from "../../../../SettingsProvider";
 import HistoricMap from "../CustomLayers/HistoricMapLayer";
 import { UNIQUE_CONTROL_PANEL_CLASS } from "../Controls/BasemapSelectorControl.jsx";
+import GeoJsonLayer from "../CustomLayers/GeoJsonLayer.js";
 
 /**
  * Checks if the layer collection already contains a layer with that id.
@@ -105,17 +106,15 @@ export const generateControlToggleHandler =
     };
 
 /**
- * @returns {vk2.layer.HistoricMap[]}
+ * Get operational Layers from map
+ * @param map
+ * @return {*[]}
  */
-export const getHistoricMapLayer = function (map) {
+export const getOperationalLayers = function (map) {
     const layers = map.getLayers().getArray();
-    const historicMapLayers = [];
-    for (let i = 0; i < layers.length; i++) {
-        if (layers[i] instanceof HistoricMap) {
-            historicMapLayers.push(layers[i]);
-        }
-    }
-    return historicMapLayers;
+    return layers.filter(
+        (l) => l instanceof HistoricMap || l instanceof GeoJsonLayer
+    );
 };
 
 export const getUniqueControlPanels = () => {

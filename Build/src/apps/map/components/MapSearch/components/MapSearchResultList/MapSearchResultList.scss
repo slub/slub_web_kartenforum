@@ -4,7 +4,7 @@
     position: relative;
     height: 100%;
     width: 100%;
-    padding-bottom: 10px;
+    transition: $transition;
 
     .list-header {
         position: relative;
@@ -38,6 +38,7 @@
                         border-top-color: $color-midgrey;
                         border-bottom-width: 0;
                     }
+
                     &.ascending {
                         color: $secondary-color-dark;
 

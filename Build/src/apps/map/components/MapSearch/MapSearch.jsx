@@ -5,11 +5,13 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useState } from "react";
-import { useRecoilValue } from "recoil";
+import React, { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import clsx from "clsx";
 
 import {
+  defaultFacetState,
+  facetState,
   searchIsLoadingState,
   searchResultDescriptorState,
 } from "../../atoms/atoms";
@@ -18,6 +20,7 @@ import FacetedSearch from "../FacetedSearch/FacetedSearch";
 import MapSearchResultList from "./components/MapSearchResultList/MapSearchResultList";
 import ToggleFacetsButton from "./components/ToggleFacetsButton/ToggleFacetsButton";
 import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner";
+import SvgIcons from "../../../../components/SvgIcons/SvgIcons.jsx";
 
 import "./MapSearch.scss";
 
@@ -26,8 +29,9 @@ export const MAP_PROJECTION = "EPSG:3857";
 // The general Map Search component for the main view
 export const MapSearch = () => {
   // state
-
+  const [facets, setFacets] = useRecoilState(facetState);
   const [isFacetedSearchOpen, setIsFacetedSearchOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const isSearchLoading = useRecoilValue(searchIsLoadingState);
   const { mapCount } = useRecoilValue(searchResultDescriptorState);
 
@@ -39,6 +43,15 @@ export const MapSearch = () => {
   const handleToggleFacetedSearch = () => {
     setIsFacetedSearchOpen((prevState) => !prevState);
   };
+
+  // Remove all facets 'n filters
+  const handleRemoveFacets = () => {
+    setFacets(defaultFacetState);
+  };
+
+  useEffect(() => {
+    setIsLoading(isSearchLoading);
+  }, [isSearchLoading]);
 
   return (
     <div
@@ -55,7 +68,12 @@ export const MapSearch = () => {
                 ? translate("mapsearch-found-no-maps")
                 : `${mapCount} ${translate("mapsearch-found-maps")}`}
             </div>
-            {isSearchLoading && (
+            {facets.facets.length > 0 && (
+              <button className="remove-filter" onClick={handleRemoveFacets}>
+                <SvgIcons name="icon-filter" />
+              </button>
+            )}
+            {isLoading && (
               <div className="loading-spinner">
                 <LoadingSpinner />
               </div>

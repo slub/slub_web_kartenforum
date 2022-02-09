@@ -200,14 +200,9 @@
 
 
 
-            <!-- vk2.control.LayerSpyControl -->
-			<trans-unit id="client.layerspy.title">
-				<source>Get a magnifier for the map</source>
-			</trans-unit>
-
             <!-- vk2.control.MousePositionControl -->
 			<trans-unit id="global.map.control-mouseposition-title">
-				<source>Mouse position</source>
+				<source>Cursor position</source>
 			</trans-unit>
 
 
@@ -231,6 +226,9 @@
             </trans-unit>
 			<trans-unit id="plugin.map.layermanagement.showMap">
 				<source>Display map</source>
+			</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.export">
+				<source>Export GeoJSON</source>
 			</trans-unit>
 			<trans-unit id="plugin.map.layermanagement.removeMap">
 				<source>Remove map</source>
@@ -284,6 +282,9 @@
 			<trans-unit id="plugin.map.mapsearch.title">
 				<source>Title</source>
 			</trans-unit>
+            <trans-unit id="plugin.map.mapsearch.map_scale">
+                <source>Scale</source>
+            </trans-unit>
 			<trans-unit id="plugin.map.mapsearch.sorting">
 				<source>Sorting</source>
 			</trans-unit>
@@ -407,6 +408,9 @@
             <trans-unit id="plugin.map.adddialog.projectionLabel">
                 <source>Projection</source>
             </trans-unit>
+			<trans-unit id="plugin.map.adddialog.body">
+				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
+			</trans-unit>
 
             <!-- Global > Map > MarkerPicker -->
             <trans-unit id="plugin.map.markerpicker.select">
@@ -468,17 +472,29 @@
 
 			 <!-- Global > Map > Control > Permalink -->
             <trans-unit id="global.map.control-permalink.title">
-                <source>Generate share-link</source>
+                <source>Share current view</source>
             </trans-unit>
-            <trans-unit id="global.map.control-permalink.exporterTitle">
-                 <source>Share-link</source>
-             </trans-unit>
+            <trans-unit id="global.map.control-permalink.permalinkTitle">
+                 <source>Permalink</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.mapViewTitle">
+                  <source>Mapview</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.inputMapViewPlaceholder">
+                    <source>Link to mapview</source>
+            </trans-unit>
             <trans-unit id="global.map.control-permalink.exporterCopy">
-                 <source>Copied</source>
-             </trans-unit>
-             <trans-unit id="global.map.control-permalink.exporterCopyTitle">
+                     <source>Copied</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.exporterCopyTitle">
                   <source>Copy to clipboard</source>
-              </trans-unit>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.permalinkDescription">
+                  <source>The permalink function allows sharing the current map view. Custom content, such as geojson layers or additional basemaps, cannot be shared with this function. The map view tab, which is only accessible when logged in, allows sharing of all content.</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.mapViewDescription">
+                  <source>The map view function allows sharing the entire application state. For this purpose, a representation of the application state is uploaded and a unique link to this representation is generated.</source>
+            </trans-unit>
 
            <!-- Global > Map > Control > Fullscreen -->
 			<trans-unit id="global.map.control-fullscreen.title">
@@ -494,6 +510,15 @@
 			<trans-unit id="global.map.control-locateme.title">
 				<source>Locate me</source>
 			</trans-unit>
+
+            <!-- Global > Map > Control > Attribution -->
+            <trans-unit id="global.map.control-attribution.basemapLabel">
+                <source>Basemap</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-attribution.terrainLabel">
+                <source>Terrain</source>
+            </trans-unit>
+
 
             <!-- Global > Map > Control > BaseMapSelector -->
 			<trans-unit id="global.map.control-basemapselector.addwms-title">

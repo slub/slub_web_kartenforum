@@ -15,8 +15,8 @@ tt_content.slubwebkartenforum_map {
         urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
         urlSearch = TEXT
         urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
-        urlTerrain = TEXT
-        urlTerrain.value = {$plugin.tx_slubwebkartenforum.settings.urlTerrain}
+        terrain = TEXT
+        terrain.value = {$plugin.tx_slubwebkartenforum.settings.terrain}
     }
 }
 

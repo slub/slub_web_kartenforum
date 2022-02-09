@@ -47,6 +47,19 @@ $(document).ready(function () {
         $("html,body").animate({scrollTop: (destinationElement.offset().top - 20)}, 500);
     }
 
+    // Handle welcome message on first visit
+    $('.welcome-content .frame-type-header.frame-layout-40 a').click(function () {
+        $('body').removeClass('show-welcome');
+        localStorage.setItem('vkf-returning-visit', 'true');
+        return false;
+    });
+
+    // Show a welcome message if this is the first visit
+    if (!localStorage.getItem('vkf-returning-visit')) {
+        setTimeout(function () {
+            $('body').addClass('show-welcome');
+        }, 1500);
+    }
 
 });
 

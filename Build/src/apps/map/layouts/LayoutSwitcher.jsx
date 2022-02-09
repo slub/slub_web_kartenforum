@@ -5,13 +5,15 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import SettingsProvider from "../../../SettingsProvider";
 import { LAYOUT_TYPES } from "./util";
 import { HorizontalLayout } from "./HorizontalLayout/HorizontalLayout";
 import VerticalLayout from "./VerticalLayout/VerticalLayout";
 import { MapWrapperWithGeojsonSupport } from "../components/MapWrapper/MapWrapperWithGeojsonSupport";
+import { useSetRecoilState } from "recoil";
+import { layoutState } from "../atoms/atoms.js";
 
 const getLayoutComponent = (layout) => {
   switch (layout) {
@@ -26,7 +28,14 @@ const getLayoutComponent = (layout) => {
 
 export const LayoutSwitcher = (props) => {
   const { layout } = props;
+  const setLayout = useSetRecoilState(layoutState);
+
   let LayoutComponent = getLayoutComponent(layout);
+
+  // publish layout to global state
+  useEffect(() => {
+    setLayout(layout);
+  }, [layout]);
 
   return (
     <MapWrapperWithGeojsonSupport

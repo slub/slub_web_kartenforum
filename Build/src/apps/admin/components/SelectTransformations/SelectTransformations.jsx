@@ -6,11 +6,13 @@
  */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+
 import {
   queryTransformationForMapId,
   queryTransformationForUserId,
   queryTransformationForValidation,
 } from "../../../../util/apiGeo";
+import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner.jsx";
 import "./SelectTransformations.scss";
 
 const SELECTION_IDS = {
@@ -26,7 +28,7 @@ const SELECTIONS = [
     label: "Validation",
     type: "radio",
     value: "missing",
-    values: ["valid", "invalid", "missing"],
+    values: ["invalid", "missing"],
   },
   {
     desc: "Auswahl von allen gespeicherten Transformation für eine Karten-Id",
@@ -99,6 +101,7 @@ function SelectContentRadio(props) {
                 name={`options-${v}`}
                 value={v}
                 checked={v === props.value}
+                readOnly={true}
                 onClick={() => props.onChange(v, props.id, "radio")}
               />{" "}
               {v}
@@ -136,6 +139,7 @@ const fetchTransformationsByValidation = async (validation, onSuccess) => {
 
 export const SelectTransformations = (props) => {
   const [activeSelection, setActiveSelection] = useState(SELECTIONS[0]);
+  const [isLoading, setOnLoading] = useState(false);
   const [activeSelectionValues, setActiveSelectionValues] = useState({
     [SELECTIONS[0].id]: SELECTIONS[0].value,
     [SELECTIONS[1].id]: SELECTIONS[1].value,
@@ -151,9 +155,13 @@ export const SelectTransformations = (props) => {
 
     // If the new selection is the validation / radio also fetch the data
     if (newSelection.id === SELECTION_IDS.BY_VALIDATION) {
+      setOnLoading(true);
       fetchTransformationsByValidation(
         activeSelectionValues[newSelection.id],
-        props.onChangeTransformations
+        (newTransformations) => {
+          setOnLoading(false);
+          props.onChangeTransformations(newTransformations);
+        }
       );
     }
   };
@@ -166,24 +174,27 @@ export const SelectTransformations = (props) => {
     );
 
     if (selectionId === SELECTION_IDS.BY_VALIDATION) {
-      fetchTransformationsByValidation(
-        selectionValue,
-        props.onChangeTransformations
-      );
+      setOnLoading(true);
+      fetchTransformationsByValidation(selectionValue, (newTransformations) => {
+        setOnLoading(false);
+        props.onChangeTransformations(newTransformations);
+      });
     }
   };
 
   const handleSubmitInput = (selectionValue, selectionId) => {
     if (selectionId === SELECTION_IDS.BY_MAPID) {
-      fetchTransformationsByMapId(
-        selectionValue,
-        props.onChangeTransformations
-      );
+      setOnLoading(true);
+      fetchTransformationsByMapId(selectionValue, (newTransformations) => {
+        setOnLoading(false);
+        props.onChangeTransformations(newTransformations);
+      });
     } else if (selectionId === SELECTION_IDS.BY_USERID) {
-      fetchTransformationsByUserId(
-        selectionValue,
-        props.onChangeTransformations
-      );
+      setOnLoading(true);
+      fetchTransformationsByUserId(selectionValue, (newTransformations) => {
+        setOnLoading(false);
+        props.onChangeTransformations(newTransformations);
+      });
     } else {
       console.warn("Given selection id is not supported.");
     }
@@ -221,6 +232,7 @@ export const SelectTransformations = (props) => {
             </li>
           ))}
         </ul>
+        {isLoading && <LoadingSpinner />}
       </div>
       <div className="select-container">
         {activeSelection !== null && activeSelection.type === "radio" && (

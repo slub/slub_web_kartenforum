@@ -112,7 +112,10 @@ export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
         />
       )}
       <Dropzone onDrop={handleFinishReadGeoJson} onError={handleParseError}>
-        <MapWrapper {...mapWrapperProps} />
+        <MapWrapper
+          onAddGeoJson={handleFinishReadGeoJson}
+          {...mapWrapperProps}
+        />
       </Dropzone>
     </>
   );

@@ -38,7 +38,7 @@
 
 .vkf-search-result-container {
     position: absolute;
-    height: 260px;
+    height: 30%;
     width: 100%;
     background: white;
     overflow: auto;
@@ -47,7 +47,11 @@
 
     &.hide-search-result-list {
         transition: $transition;
-        transform: translateY(-255px);
+        height: 5px;
+
+        > div {
+            opacity: 0;
+        }
     }
 
     &.show-search-result-list {

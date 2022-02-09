@@ -1,4 +1,5 @@
 @import "../../../../_sass/overwrites-openlayers";
+@import "../../../../../../Resources/Private/Scss/Variables";
 
 .vkf-mapview-target {
     .placenamesearch-container {
@@ -6,6 +7,7 @@
         left: 50px;
         top: 10px;
         width: 300px;
+        margin-top: -18px;
     }
 
     .map-container {
@@ -35,6 +37,45 @@
             &.ol-layerspy {
                 top: 146px;
             }
+
+            &.ol-layerspy-radius-box {
+                bottom: 10px;
+                left: 10px;
+            }
+        }
+    }
+
+    .opacity-container {
+        position: absolute;
+        top: 180px;
+        left: 10px;
+        display: block;
+        height: 160px;
+        width: 28px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 4px;
+        padding: 2px;
+        > div {
+            width: 100%;
+            height: 100%;
+            background-color: $secondary-color;
+            padding: 10px 0;
+        }
+
+        .rc-slider-rail {
+            margin-left: 5px;
+            background: unset;
+            background-color: #fff;
+        }
+
+        .rc-slider-handle {
+            background-color: #fff;
+            width: 20px;
+            margin-left: -3px;
+        }
+
+        .tooltip {
+            background-color: $secondary-color;
         }
     }
 }

@@ -12,8 +12,8 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { Icon, Style } from "ol/style";
 import { translate } from "../../util/util";
-import markerImg from "./LocateMeMarker.png";
 import "./LocateMeControl.scss";
+import { MARKER_BASE_URL } from "../../apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeatureRow/components/MarkerPicker.jsx";
 
 /**
  * requests the geolocation api and, in case of success, sets the coordinates for the mapview
@@ -96,9 +96,10 @@ export class LocateMeControl extends Control {
                         new Style({
                             image: new Icon({
                                 anchor: [0.5, 1],
-                                src: markerImg,
-                                imgSize: [240, 240],
-                                scale: 1 / 7,
+                                anchorXUnits: "fraction",
+                                anchorYUnits: "fraction",
+                                src: `${MARKER_BASE_URL}location_marker.png`,
+                                scale: 0.6,
                             }),
                         }),
                     ],

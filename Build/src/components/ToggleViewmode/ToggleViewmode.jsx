@@ -65,7 +65,6 @@ export class ToggleViewMode extends Control {
     };
 
     button.addEventListener("click", handleUpdate, false);
-    button.addEventListener("touchstart", handleUpdate, false);
 
     // Necessary for proper inheritance from control
     super({ element, target: options.target });

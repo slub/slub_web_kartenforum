@@ -13,7 +13,9 @@ import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { DndProvider } from "react-dnd-multi-backend";
 import { NativeTypes } from "react-dnd-html5-backend";
 
+import SvgIcons from "../../../../components/SvgIcons/SvgIcons.jsx";
 import { translate } from "../../../../util/util";
+import { parseGeoJsonFile } from "./util.js";
 import "./Dropzone.scss";
 
 const { FILE } = NativeTypes;
@@ -21,6 +23,22 @@ const { FILE } = NativeTypes;
 const ERROR_TYPES = {
   WRONG_FILETYPE: "wrong-filetype",
 };
+
+export const customBackends = HTML5toTouch.backends.map((backend) => {
+  if (backend.id === "touch") {
+    return {
+      ...backend,
+      options: {
+        ...backend.options,
+        scrollAngleRanges: [
+          { start: 30, end: 150 },
+          { start: 210, end: 330 },
+        ],
+      },
+    };
+  }
+  return backend;
+});
 
 export const Dropzone = ({ children, onDrop, onError }) => {
   const [error, setError] = useState(undefined);
@@ -31,22 +49,7 @@ export const Dropzone = ({ children, onDrop, onError }) => {
 
   const publishGeoJson = (files) => {
     const file = files[0];
-
-    const reader = new FileReader();
-    reader.onloadend = function () {
-      try {
-        onDrop({
-          content: JSON.parse(this.result),
-          modified: file.lastModifiedDate,
-          name: file.name.split(".")[0],
-        });
-      } catch (e) {
-        console.log(e);
-        onError();
-      }
-    };
-
-    reader.readAsText(file);
+    parseGeoJsonFile(file, onDrop, onError);
   };
 
   // setup drag and drop behaviour
@@ -64,7 +67,10 @@ export const Dropzone = ({ children, onDrop, onError }) => {
     hover: (_, monitor) => {
       const item = monitor.getItem();
       if (item.items.length > 0) {
-        if (item.items[0].type !== "application/json") {
+        if (
+          item.items[0].type !== "application/json" &&
+          item.items[0].type !== "application/geo+json"
+        ) {
           setError(ERROR_TYPES.WRONG_FILETYPE);
         }
       }
@@ -94,6 +100,7 @@ export const Dropzone = ({ children, onDrop, onError }) => {
               ? translate("dropzone-drop")
               : translate(`dropzone-${error}`)}
           </p>
+          <SvgIcons name="dropzone-upload" />
         </div>
       )}
       {children}
@@ -109,7 +116,11 @@ Dropzone.propTypes = {
 
 const WrappedDropzone = (props) => {
   return (
-    <DndProvider options={HTML5toTouch}>
+    <DndProvider
+      options={Object.assign({}, HTML5toTouch, {
+        backends: customBackends,
+      })}
+    >
       <Dropzone {...props}>{props.children}</Dropzone>
     </DndProvider>
   );

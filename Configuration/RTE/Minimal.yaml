@@ -1,0 +1,22 @@
+imports:
+    - { resource: "EXT:rte_ckeditor/Configuration/RTE/Processing.yaml" }
+    - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Base.yaml" }
+    - { resource: "EXT:rte_ckeditor/Configuration/RTE/Editor/Plugins.yaml" }
+
+editor:
+    config:
+        contentsCss: "EXT:slub_web_kartenforum/Resources/Public/Css/rte.css"
+
+        toolbarGroups:
+            - { name: links, groups: [ links ] }
+            - { name: basicstyles, groups: [ basicstyles ] }
+
+        format_tags: "p;h2;h3;h4;pre"
+
+        removePlugins:
+            - image
+
+        removeButtons:
+            - Anchor
+            - Underline
+            - Strike

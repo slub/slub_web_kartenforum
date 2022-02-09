@@ -40,12 +40,10 @@ export const TimeSlider = (props) => {
 
         if (
           lastPercentage !== undefined &&
-          Math.abs(style_left - lastPercentage) < 10
+          Math.abs(style_left - lastPercentage) < 12
         ) {
-          element.style.top = "20px";
           setAreLabelsToClose(true);
         } else {
-          element.style.top = "unset";
           setAreLabelsToClose(false);
         }
 

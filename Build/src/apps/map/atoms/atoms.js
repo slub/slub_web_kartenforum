@@ -6,20 +6,21 @@
  */
 
 import { atom } from "recoil";
+import { LAYOUT_TYPES } from "../layouts/util.js";
 
 export const activeBasemapIdState = atom({
     key: "activeBasemapId",
     default: null,
 });
 
+export const currentApplicationStateState = atom({
+    key: "currentApplicationState",
+    default: undefined,
+});
+
 export const displayedLayersCountState = atom({
     key: "displayedLayersCount",
     default: 0,
-});
-
-export const facetState = atom({
-    key: "facetState",
-    default: { facets: [], georeference: false },
 });
 
 export const elementsScreenSizeState = atom({
@@ -31,6 +32,17 @@ export const elementsScreenSizeState = atom({
         offset: { height: 15, width: 0 },
         spatialtemporalsearch: { height: 0, width: 0 },
     },
+});
+
+export const defaultFacetState = { facets: [], georeference: false };
+export const facetState = atom({
+    key: "facetState",
+    default: { facets: [], georeference: false },
+});
+
+export const layoutState = atom({
+    key: "layoutState",
+    default: LAYOUT_TYPES.VERTICAL,
 });
 
 export const mapSearchOverlayLayerState = atom({

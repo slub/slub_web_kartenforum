@@ -1,4 +1,3 @@
-//@import "openlayer-overwrites";
 @import "../../../../_sass/overwrites-openlayers";
 
 .map-container {
@@ -7,6 +6,26 @@
     display: flex;
     flex-grow: 1;
 
+    .vkf-map-overlay {
+        position: absolute;
+        background-color: white;
+        -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+        filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+        border-radius: 10px;
+        border: 1px solid #cccccc;
+        bottom: 15px;
+        left: 360px;
+        min-width: 320px;
+        opacity: 0;
+        transition: none;
+        z-index: 2;
+
+        &.animation-show {
+            transition: opacity 0.3s ease-in;
+            opacity: 1;
+        }
+    }
+
     .map-div {
         width: 100%;
         height: 100%;
@@ -14,166 +33,29 @@
         .ol-viewport {
             z-index: 1;
         }
-
-        .vkf-map-overlay {
-            position: absolute;
-            background-color: white;
-            -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-            filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-            border-radius: 10px;
-            border: 1px solid #cccccc;
-            bottom: 12px;
-            left: -50px;
-            min-width: 320px;
-            opacity: 0;
-            transition: none;
-
-            &.animation-show {
-                transition: opacity 0.3s ease-in;
-                opacity: 1;
-            }
-
-            &:after,
-            &:before {
-                top: 100%;
-                border: solid transparent;
-                content: " ";
-                height: 0;
-                width: 0;
-                position: absolute;
-                pointer-events: none;
-            }
-
-            &:after {
-                border-top-color: white;
-                border-width: 10px;
-                left: 48px;
-                margin-left: -10px;
-            }
-            &:before {
-                border-top-color: #cccccc;
-                border-width: 11px;
-                left: 48px;
-                margin-left: -11px;
-            }
-        }
-    }
-
-    .ol-map-small {
-        .ol-control {
-            &.ol-full-screen {
-                left: 15px;
-                right: auto;
-                top: 95px;
-            }
-            &.rotate-north {
-                top: 60px;
-                left: 15px;
-            }
-        }
-        .ol-scale-line {
-            left: 15px;
-        }
     }
 
     .ol-map-large {
-        .ol-control {
-            &.ol-zoom-extent,
-            &.rotate-north,
-            &.ol-full-screen,
-            &.ol-layerspy,
-            &.mouse-position,
-            &.flip-view-mode,
-            &.ol-mouse-position-box,
-            &.ol-layerspy-radius-box,
-            &.basemap-selector,
-            &.ol-permalink,
-            &.ol-locate-me,
-            &.ol-zoom {
-                left: 370px;
-            }
-
-            &.ol-zoom {
-                top: 15px;
-            }
-
-            &.ol-full-screen {
-                top: 76px;
-                right: unset;
-            }
-
-            &.ol-layerspy {
-                top: 114px;
-            }
-
-            &.rotate-north {
-                top: 152px;
-            }
-
-            &.mouse-position {
-                top: 190px;
-            }
-
-            &.flip-view-mode {
-                top: 228px;
-            }
-
-            &.basemap-selector {
-                top: 266px;
-            }
-
-            &.ol-locate-me {
-                top: 304px;
-            }
-
-            &.ol-permalink {
-                top: 342px;
-            }
-        }
-
-        &:fullscreen {
-            .ol-control {
-                &.ol-zoom-extent,
-                &.rotate-north,
-                &.ol-full-screen,
-                &.ol-layerspy,
-                &.mouse-position,
-                &.flip-view-mode,
-                &.ol-mouse-position-box,
-                &.ol-layerspy-radius-box,
-                &.basemap-selector,
-                &.ol-locate-me,
-                &.ol-permalink,
-                &.ol-zoom {
-                    left: 10px;
-                }
-            }
-        }
-
         .ol-scale-line {
-            right: 10px;
-            bottom: 60px;
+            right: 360px;
             left: unset;
+            bottom: 15px;
         }
 
         .ol-mouse-position-box {
             position: absolute;
-            bottom: 40px;
+            bottom: 15px;
         }
 
         .ol-layerspy-radius-box {
             position: absolute;
-            bottom: 67px;
+            bottom: 42px;
         }
 
         .ol-attribution {
             position: absolute;
-            bottom: 30px;
-            right: 10px;
+            bottom: 45px;
+            right: 360px;
         }
     }
-}
-
-.hide {
-    display: none;
 }

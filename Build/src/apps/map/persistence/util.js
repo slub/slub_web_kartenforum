@@ -14,8 +14,6 @@ import {
     serializeGeojson,
 } from "../components/MapWrapper/components/DialogEditFeature/util/geojsonSerializer";
 import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
-import { queryDocument } from "../../../util/apiEs";
-import { readFeature } from "../../../util/parser";
 import { isDefined } from "../../../util/util";
 
 /**
@@ -75,17 +73,6 @@ export const deserializeMapLayer = ({ coordinates, id, properties }) => {
 };
 
 /**
- * Fetches a feature based on a map id and parses it
- * @param mapId
- * @param is3dEnabled
- * @return {Promise<ol.Feature>}
- */
-export const fetchFeatureForMapId = (mapId, is3dEnabled) =>
-    queryDocument(mapId).then((res) =>
-        readFeature(mapId, res, undefined, undefined, is3dEnabled)
-    );
-
-/**
  * Fits the map view to an array of features
  * @param map
  * @param features
@@ -140,6 +127,7 @@ export const serializeOperationalLayer = ({ feature, type }, mapLayer) => {
         // add in map specific parts
         return Object.assign(base, {
             coordinates: feature.getGeometry().getCoordinates(),
+            type: LAYER_TYPES.HISTORIC_MAP,
         });
     }
 };

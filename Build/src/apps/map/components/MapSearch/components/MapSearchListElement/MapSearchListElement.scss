@@ -2,9 +2,8 @@
 
 .vkf-mapsearch-record {
     cursor: pointer;
-    height: 100px;
     list-style: none;
-    padding: 40px 10px 0 10px;
+    padding: 20px 10px;
 
     &:after {
         position: absolute;
@@ -25,8 +24,10 @@
         color: $color-grey;
     }
 
-    &:hover {
-        background-color: rgba($secondary-color, 0.15);
+    .no-touchevents & {
+        &:hover {
+            background-color: rgba($secondary-color, 0.15);
+        }
     }
 
     &.loading {
@@ -65,7 +66,6 @@
             border: 2px solid $color-lightgrey;
             border-radius: 0;
             padding: 2px;
-            margin-bottom: 10px;
 
             img {
                 height: 100%;
@@ -90,6 +90,7 @@
 
     &.vertical {
         padding: 15px;
+
         .view-item {
             align-items: center;
             display: flex;
@@ -97,6 +98,7 @@
 
             .overview {
                 position: relative;
+
                 h2 {
                     margin-top: 0;
                 }
@@ -112,23 +114,38 @@
     }
 
     &.horizontal {
-        height: 250px;
-
         .view-item {
-            align-items: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+            height: 100%;
 
             .overview {
                 width: 170px;
                 padding: 0;
                 text-align: center;
+
+                h2 {
+                    margin: 5px 0;
+                }
             }
 
             .thumbnail {
-                width: 105px;
-                height: 105px;
+                margin-bottom: 5px;
+                height: 60px;
+            }
+
+            @media screen and (min-height: 700px) {
+                .overview {
+                    h2 {
+                        margin: 10px 0;
+                    }
+                }
+                .thumbnail {
+                    margin-bottom: 15px;
+                    height: 85px;
+                }
             }
         }
     }

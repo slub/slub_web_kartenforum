@@ -4,7 +4,7 @@
 <input type="hidden" value="{mapView}" id="setting-mapView"/>
 <input type="hidden" value="{urlNominatim}" id="setting-urlNominatim" />
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
-<input type="hidden" value="{urlTerrain}" id="setting-urlTerrain"/>
+<input type="hidden" value="{terrain}" id="setting-terrain"/>
 <f:security.ifAuthenticated>
     <f:then>
         <input type="hidden" id="setting-is-auth"/>
@@ -22,13 +22,15 @@
 <f:section name="FooterAssets">
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
+            "API_MAP_VIEW_LOAD": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getMapView&type=9991",
+            "API_MAP_VIEW_PERSIST": document.getElementById("setting-is-auth") !== null ?"/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMapView&type=9991" : undefined,
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
             "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
             "FALLBACK_THUMBNAIL": "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
             "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
             "MAPVIEW_PARAMS": JSON.parse(document.getElementById("setting-mapView").value),
             "NOMINATIM_URL": document.getElementById("setting-urlNominatim").value,
-            "TERRAIN_TILES_URL": document.getElementById("setting-urlTerrain").value,
+            "TERRAIN_TILES": JSON.parse(document.getElementById("setting-terrain").value),
         });
 
         vk2.SettingsProvider.appendSettings({
@@ -54,6 +56,7 @@
                     "mapsearch-time_published": "<f:translate key='plugin.map.mapsearch.time_published' extensionName='SlubWebKartenforum' />",
                     "mapsearch-title": "<f:translate key='plugin.map.mapsearch.title' extensionName='SlubWebKartenforum' />",
                     "mapsearch-sorting": "<f:translate key='plugin.map.mapsearch.sorting' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-map_scale": "<f:translate key='plugin.map.mapsearch.map_scale' extensionName='SlubWebKartenforum' />",
                     "mapsearch-listelement-time": "<f:translate key='plugin.map.mapsearchlistelement.time' extensionName='SlubWebKartenforum' />",
                     "mapsearch-listelement-scale": "<f:translate key='plugin.map.mapsearchlistelement.scale' extensionName='SlubWebKartenforum' />",
                     "mapsearch-listelement-no-georef": "<f:translate key='plugin.map.mapsearchlistelement.notGeoref' extensionName='SlubWebKartenforum' />",
@@ -82,6 +85,7 @@
                     "layermanagement-move-top": "<f:translate key='plugin.map.layermanagement.moveToTop' extensionName='SlubWebKartenforum' />",
                     "layermanagement-zoom-to-map": "<f:translate key='plugin.map.layermanagement.zoomToMap' extensionName='SlubWebKartenforum' />",
                     "layermanagement-show-original": "<f:translate key='plugin.map.layermanagement.showOriginal' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-export": "<f:translate key='plugin.map.layermanagement.export' extensionName='SlubWebKartenforum' />",
                     "layermanagement-start-msg-header": "<f:translate key='plugin.map.layermanagement.startMessageHeader' extensionName='SlubWebKartenforum' />",
                     "layermanagement-start-msg-body": "<f:translate key='plugin.map.layermanagement.startMessageBody' extensionName='SlubWebKartenforum' />",
                     "layermanagement-header-lbl": "<f:translate key='plugin.map.layermanagement.headerLbl' extensionName='SlubWebKartenforum' />",
@@ -123,6 +127,7 @@
                     "geojson-adddialog-title": "<f:translate key='plugin.map.adddialog.title' extensionName='SlubWebKartenforum' />",
                     "geojson-adddialog-layer-title-label": "<f:translate key='plugin.map.adddialog.layerTitleLabel' extensionName='SlubWebKartenforum' />",
                     "geojson-adddialog-projection-label": "<f:translate key='plugin.map.adddialog.projectionLabel' extensionName='SlubWebKartenforum' />",
+                    "geojson-adddialog-body": "<f:translate key='plugin.map.adddialog.body' extensionName='SlubWebKartenforum' />",
 
                     // geojson marker picker
                     "geojson-markerpicker-select":  "<f:translate key='plugin.map.markerpicker.select' extensionName='SlubWebKartenforum' />",
@@ -145,7 +150,7 @@
     </script>
 </f:section>
 
-<div class="map-container">
+<div class="map-plugin-container">
     <div id="vkf-app-map"></div>
 </div>
 

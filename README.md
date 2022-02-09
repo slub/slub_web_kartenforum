@@ -1,104 +1,43 @@
-# Virtual Map Forum 2.0
+# Virtual Map Forum
 
-<a href="http://kartenforum.slub-dresden.de"><img src="https://raw.githubusercontent.com/slub/vk2-extension/master/Resources/Public/images/welcome_logo.png" align="left" hspace="10" vspace="6"></a>
+[Logo of the Virtual Map Forum](./Resources/Public/images/welcome_logo.png)
 
-The Virtual Map Forum 2.0 allows the searching and viewing of historic and georeferenced maps and offers further capabilities for the georeferencing of historic maps (dependencies to [vk2-georeference](https://github.com/slub/vk2-georeference). The application is developed as an extension for the CMS [TYPO3](https://typo3.org/).
+The Virtual Map Forum allows the searching and viewing of historic and georeferenced maps and offers further capabilities for the georeferencing of historic maps (dependencies to [vk2-georeference](https://github.com/slub/vk2-georeference). The application is developed as an extension for the CMS [TYPO3](https://typo3.org/). and the extension was tested with TYPO3 version 10.4.
 
-## Install
+## Configuration
 
-### TYPO3
+For a valid default configuration have a look at [ddev-kartenforum](https://github.com/slub/ddev-kartenforum). Furthermore the extension can be configured via the `Extension Configuration` in the TYPO3 back office. The following settings are supported:
 
-The extension uses the TYPO3 core extension `felogin`, for allowing users to register and login into the application. Furthermore it uses the extensions `RSA`, `SA authentication for TYPO3` and `Salted user password hashes`.
+| Property                        | Type   | Example                                                                                                                                                                                                                                                                                                                                                                                                           | Description                                                                                                                                                                                                 |
+|---------------------------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| global.basemaps                 | string | [{"id":"slub-osm","label":"SLUB OSM","urls":["https://tile-1.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png","https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"],"type":"xyz","tileSize":256}, {"id":"bkg-topoplus","label":"BKG TopPlusOpen","urls":["https://sgx.geodatenzentrum.de/wms_topplus_open"],"type":"wms", "layers": "web", "tileSize":512}] | A JSON string containing an array of objects, where each object has the fields `id` (string), `label` (string), `urls` (string[]), `type` ("xyz" or "wms"), `attribution` (string) and `tileSize` (number). |
+| global.mapView                  | string | { "extent": [-20026376.39,-20048966.10,20026375.39,20048966.10], "center": [1528150, 6630500], "zoom": 2 }                                                                                                                                                                                                                                                                                                        | A JSON string containing an object which describes the mapView. `extent` (number[]) sets the extents supported by the search view. `zoom` (number) and `center` (number[]) sets the initial map view.       |
+| global.urlNominatim             | string | https://kartenforum.slub-dresden.de/nominatim/                                                                                                                                                                                                                                                                                                                                                                    | Base link to the placename searvie. Currently only [nominatim](https://nominatim.org/) is supported.                                                                                                        |
+| global.urlSearch                | string | https://search.kartenforum.slub-dresden.de/vk20                                                                                                                                                                                                                                                                                                                                                                   | Link to the search endpoint of the virtual map forum.                                                                                                                                                       |
+| global.terrain                  | string | {"url": "https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=kRAKrA0wcbZZFOT64bX5", "attribution": "<a href='https://www.maptiler.com/maps/3d/#10.4800/46.8400/4300/281/-24' target='_blank'>© MapTiler</a>"}                                                                                                                                                                                              | A JSON string containing an object which describes the terrain service. `url` (string) is the url of the terrain services and `attribution` (string) the attribution used for the terrain service.          |
+| georeference.georefApi          | string | https://geo.kartenforum.slub-dresden.de                                                                                                                                                                                                                                                                                                                                                                           | Link to the georeference service. Used by the Extension, which works as a Proxy- / Auth-Layer for the client code of the application.                                                                       |
+| georeference.georefAuthUser     | string | some_user_name                                                                                                                                                                                                                                                                                                                                                                                                    | Basic auth user name of the georeference service.                                                                                                                                                           |
+| georeference.georefAuthPassword | string | some_password                                                                                                                                                                                                                                                                                                                                                                                                     | Basic auth password of the georeference service.                                                                                                                                                            |
 
-The extension was tested with TYPO3 version 9.5. It uses the [Fluid](https://wiki.typo3.org/Fluid) template engine and [Extbase](https://docs.typo3.org/typo3cms/ExtbaseFluidBook/)
+## Development
 
-#### Configuration
+Besides some templating and configuration logic, the largest part of the application code is build with JavaScript. The source code is placed in the directory [Build](./Build).
 
-The TYPO3 extension could be configured via a FlexForm from within the TYPO3 backend. Therefor go in the page tree to WEB>PAGE and choose the page where you have installed the `Virtual Map Forum 2.0 Extension`. Click then edit and go to the Plugin tab.
+Main dependencies are:
 
-In the Plugin tab you got a couple options:
+* [ReactJS](https://reactjs.org/)
+* [React-Bootstrap](https://react-bootstrap-v3.netlify.app/)
+* [OpenLayers](http://openlayers.org/)
+* [Cesium](https://cesium.com/)
 
-__RealURL active:__
+For each plugin of the extension, a JavaScript / CSS bundle is build, which is placed in the directory [Resources/Public/Build/](./Resources/Public/Build)
 
-This says the frontend code (javascript) if it should assume speaking urls or not. A lot of power of the application lies in the client code and therefor the client often decides where to go. Therefor it has to know if the backend uses realURL or not.
+For building bundles or developing have a look at the `script` commands within [package.json](./Build/package.json).
 
-__URL Elastic Search:__
-
-[ElasitcSearch](https://www.elastic.co/) is the central search index used by the application. It is also used by the georeference backend to publish results. Define here the ElasticSearch endpoint.
-
-__Nominatim Service URL:__
-
-In this field the placename services should be linked. It expects a Nominatim based placename services like `https://kartenforum.slub-dresden.de/nominatim/search.php`.
-
-__3D Terrain Tile Provider:__
-
-In this field the terrain tile provider is configured. For example: `https://maps.tilehosting.com/data/terrain-quantized-mesh/?key=kRAKrA0wcbZZFOT64bX5`.
-
-__Georeferencing active:__
-
-This parameter tells the client code if georeference is active. It is used for a couple of client decisions and has to be in sync with the `Type` settings.
-
-__Type:__
-
-The `Virtual Map Forum 2.0 Extension` can me run in two modes. The `Search and Visualization` allows user to search and display georeference maps. It doesn't support the georeferencing of them, so there has to be now georeference backend. Further because of missing georeferencing is also doesn't need a user authentification. The mode `Search, Visualization and Georeferencing` futher allows the georeferencing of maps. Therefor also a georeference backend has to be set.
-
-__Georeference backend:__
-
-Defines the endpoint of the georeferencing backend. The TYPO3 extension routes requests regarding this georeferencing directly to this endpoint and is tightly bind to it.
-
-__Dynamic WMS URL:__
-
-This is also only necessary when georeferencing is active. It defines the URL of the dynamic wms, which is used in the user history application.
-
-### Javascript
-
-The frontend relies heavily on Javascript. Main depenendies are:
-
-* [OpenLayers 3](http://openlayers.org/) / [Cesium](https://cesiumjs.org/) for Mapping 2D / 3D
-* [Closure Library](https://developers.google.com/closure/library/) as Utitlity Library
-* [Closure Compiler](https://developers.google.com/closure/compiler/) as Javascript Compiler
-
-#### Developing
-
-To install the external dependencies of the library [npm](https://www.npmjs.com/) and [bower](http://bower.io/) can be used. For this go to the root folder `Build/vk2/` and run the following commands from your commandline:
+Basically all production code can be build via the following commands:
 
 ```
-# install dependencies via npm
+cd Build/
 npm install
-
-# install dependencies via bower
-node_modules/bower/bin/bower install
-
-# install closure compiler
-cd node_modules/closure-compiler/
-npm install
+npm run build
 ```
-
-For proper working of the closure compiler make sure a `openjdk-8` is installed.
-
-By default the extension will use only the production javascript libraries, means libraries delivered by CDN and minified. For developing it is often easier to use local libraries installed by bower. You can switch the URLs of the libraries in the `Configuration/TypoScript/setup.txt` file.
-
-
-The google closure library brings an own management system for javascript dependencies with it. This system is also used to management the javascript dependencies of the library in developing mode. The dependencies are therefor descriped in the file `Build/vk2/src/vk2-deps.js`.
-
-If you change dependencies or add new files to library the deps files has to be updated. This can be done with the following command:
-
-	python Resources/Public/lib/closure-library/closure/bin/build/depswriter.py --root_with_prefix="src ../../../../src" > src/vk2-deps.js
-
-For building a minified version of the library the google closure compiler is used. Therefor the `extern` are saved in the directory `Build/vk2/externs`. Also the compiler can be used with a [gulpfile](http://gulpjs.com/). The configuration therefor could be find in the `Build/vk2/gulpfile.js` file. It could be run via the following command:
-
-	node_modules/gulp/bin/gulp.js
-
-The compiled version of the library could be found in the `Resources/Public/JavaScript/Dist/` directory.
-
-__Build Openlayers:__
-
-To build an custom OpenLayers version run the following commands from the `Build/vk2/lib/openLayers`
-
-	npm install
-
-	node tasks/build.js ../../ol-vk2.json ../../../../Resources/Public/Contrib/JavaScript/ol-vk2.js
-
-With this commands you can build a debug version of OpenLayers.
-
-	node tasks/build.js config/ol-debug.json ./ol-debug.js

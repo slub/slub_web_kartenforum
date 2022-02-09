@@ -21,13 +21,14 @@ import {
   timeRangeState,
   searchIsLoadingState,
   defaultTimeRange,
+  layoutState,
 } from "../../atoms/atoms";
 import { isDefined } from "../../../../util/util";
 import { createStatisticQuery, getSpatialQuery } from "../../../../util/query";
 import { readFeatures } from "../../../../util/parser";
 import SettingsProvider from "../../../../SettingsProvider";
 import { MAP_PROJECTION } from "../MapSearch/MapSearch";
-import { limitExtent } from "./util";
+import { getSearchExtent, limitExtent } from "./util";
 import { useDebounce } from "../../../../util/hooks";
 
 export const PaginatingDataController = ({
@@ -43,6 +44,7 @@ export const PaginatingDataController = ({
   const elementsScreenSize = useRecoilValue(elementsScreenSizeState);
   const { facets } = useRecoilValue(facetState);
   const is3dEnabled = useRecoilValue(map3dState);
+  const layout = useRecoilValue(layoutState);
   const map = useRecoilValue(mapState);
   const [mapView, setMapView] = useState(undefined);
   const setIsSearchLoading = useSetRecoilState(searchIsLoadingState);
@@ -92,7 +94,10 @@ export const PaginatingDataController = ({
   // fetch the results from the index
   const fetchResults = useCallback(
     (start, size, opt_raw = false) => {
-      if (mapView === undefined) return new Promise((res) => res([]));
+      if (mapView === undefined) {
+        setIsSearchLoading(false);
+        return new Promise((res) => res([]));
+      }
       // build elasticsearch request
       const requestPayload = createSearchRequest(mapView, projection);
       const requestUrl =
@@ -145,23 +150,14 @@ export const PaginatingDataController = ({
   // either triggered by a map move or a resize of some component
   const handleUpdateMapView = useCallback(() => {
     if (isDefined(map)) {
-      const {
-        padding,
-        offset,
-        layermanagement,
-        map: mapSize,
-        spatialtemporalsearch,
-      } = elementsScreenSize;
-
-      // calculate pixelextent
-      const lowX = 0 + spatialtemporalsearch.width + padding.width;
-      const lowY = mapSize.height - offset.height - padding.height;
-      const highX = mapSize.width - layermanagement.width - padding.width;
-      const highY = offset.height + padding.height;
+      const [bottomLeftPixel, topRightPixel] = getSearchExtent(
+        elementsScreenSize,
+        layout
+      );
 
       // get equivalent coordinates
-      const llc = map.getCoordinateFromPixel([lowX, lowY]);
-      const urc = map.getCoordinateFromPixel([highX, highY]);
+      const llc = map.getCoordinateFromPixel(bottomLeftPixel);
+      const urc = map.getCoordinateFromPixel(topRightPixel);
 
       // if the map is for whatever reason not available, just skip the update and try again later
       if (llc === null || urc === null) {
@@ -198,7 +194,7 @@ export const PaginatingDataController = ({
   // manually update the internal map view on change of element size
   useEffect(() => {
     handleUpdateMapView();
-  }, [elementsScreenSize]);
+  }, [elementsScreenSize, map]);
 
   // determine initial time filter
   useEffect(() => {
@@ -246,4 +242,5 @@ PaginatingDataController.propTypes = {
     sortOrder: PropTypes.string,
   }),
 };
+
 export default PaginatingDataController;

@@ -130,6 +130,10 @@
                     font-weight: 400;
                     margin: 0 5px;
                 }
+
+                .usermenu-name {
+                    white-space: nowrap;
+                }
             }
         }
     }
@@ -183,20 +187,28 @@
                 }
 
                 &.user-menu {
+                    position: relative;
                     border: 0;
 
                     button {
                         display: flex;
                         align-items: center;
                         height: 100%;
+
                         .usermenu-label {
-                            margin: 0 3px 0 5px;
+                            display: none;
                         }
+
+                        .usermenu-name {
+                            margin-left: 5px;
+                        }
+
                         b.caret {
                             margin-left: 5px;
                         }
                     }
                 }
+
                 &.metanav-item {
                     display: none;
                 }
@@ -204,7 +216,7 @@
                 &.has-submenu {
                     ul.submenu {
                         position: absolute;
-                        right: 0;
+                        right: -20px;
                         top: -100px;
                         background: rgba($secondary-color-dark, .95);
                         box-shadow: $shadow;
@@ -237,7 +249,7 @@
 
                     &.submenu-active {
                         ul.submenu {
-                            top: 15px;
+                            top: 30px;
                             opacity: 1;
                             padding: 10px 0;
                         }
@@ -254,6 +266,13 @@
         ul {
             li {
                 padding: 0 20px;
+
+                &.user-menu button {
+                    .usermenu-label {
+                        display: block;
+                        margin: 0 3px 0 5px;
+                    }
+                }
             }
         }
     }
@@ -428,7 +447,7 @@ button.main-navigation-toggle {
         right: auto;
         bottom: auto;
         left: auto;
-        margin-left: 30px;
+        margin-left: 15px;
 
         ul {
             justify-content: flex-end;
@@ -462,6 +481,9 @@ button.main-navigation-toggle {
         &:hover {
             opacity: 1;
         }
+    }
+    @media screen and (min-width: $desktopViewportWidth) {
+        margin-left: 30px;
     }
 }
 

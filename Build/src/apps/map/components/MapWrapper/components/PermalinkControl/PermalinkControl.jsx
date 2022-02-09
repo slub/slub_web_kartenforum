@@ -56,7 +56,6 @@ export class PermalinkControl extends Control {
 
     // Add event listeners
     button.addEventListener("click", handleToggleControl, false);
-    button.addEventListener("touchstart", handleToggleControl, false);
 
     this.is3dActive = options.is3dActive ?? false;
 
@@ -85,6 +84,7 @@ export class PermalinkControl extends Control {
       camera,
       contentContainer,
       refActiveBasemapId,
+      refApplicationStateUpdater,
       refSelectedFeatures,
     } = this.renderOptions;
 
@@ -98,6 +98,7 @@ export class PermalinkControl extends Control {
         is3dActive={this.is3dActive}
         map={this.getMap()}
         refActiveBasemapId={refActiveBasemapId}
+        refApplicationStateUpdater={refApplicationStateUpdater}
         refSelectedFeatures={refSelectedFeatures}
       />,
       contentContainer

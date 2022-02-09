@@ -8,7 +8,7 @@
     right: 0;
 
     .layermanagement-container {
-        height: 50vh;
+        height: 50%;
         width: 100%;
         position: absolute;
         bottom: 0;
@@ -51,6 +51,24 @@
 
             &:nth-child(odd) {
                 background-color: rgba($secondary-color, 0.1);
+            }
+        }
+    }
+}
+
+.ol-map-small {
+    &:fullscreen {
+        .vkf-vertical-layout {
+            .vkf-search-header {
+                display: none;
+            }
+
+            .vkf-toggle-search-result-list {
+                display: none;
+            }
+
+            .vkf-search-result-container {
+                display: none;
             }
         }
     }

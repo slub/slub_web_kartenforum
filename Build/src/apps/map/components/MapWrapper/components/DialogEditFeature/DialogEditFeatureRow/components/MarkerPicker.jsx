@@ -14,16 +14,21 @@ import "./MarkerPicker.scss";
 export const MARKER_BASE_URL =
   "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/markers/";
 
-export const MARKERS = [
-  "marker_blue",
-  "marker_green",
-  "marker_orange",
-  "marker_pink",
-  "marker_yellow",
-];
+export const MARKERS = ["blue", "green", "orange", "pink", "yellow"];
 
 export const getMarkerUrl = (marker) => {
   return `${MARKER_BASE_URL}${marker}.png`;
+};
+
+export const getMarkerIdFromUrl = (url) => {
+  const pathElements = url.split("/");
+  let markerId = pathElements.at(-1).split(".")[0];
+
+  if (markerId.includes("marker_")) {
+    markerId = markerId.replace("marker_", "");
+  }
+
+  return markerId;
 };
 
 export const MarkerPicker = ({ onChange, src }) => {
@@ -50,7 +55,7 @@ export const MarkerPicker = ({ onChange, src }) => {
           alt={translate("geojson-markerpicker-preview")}
           height={34}
           width={34}
-          src={displayedMarker}
+          src={getMarkerUrl(displayedMarker)}
         />
       </div>
       <Overlay
@@ -71,16 +76,19 @@ export const MarkerPicker = ({ onChange, src }) => {
           <Modal.Body>
             <div className="marker-picker-content">
               {MARKERS.map((marker) => {
-                const markerUrl = getMarkerUrl(marker);
-
                 const handleClick = () => {
-                  setDisplayedMarker(markerUrl);
+                  setDisplayedMarker(marker);
                   handleOpenPicker(false);
                 };
 
                 return (
                   <div onClick={handleClick} key={marker}>
-                    <img alt={marker} height={50} width={50} src={markerUrl} />
+                    <img
+                      alt={marker}
+                      height={50}
+                      width={50}
+                      src={getMarkerUrl(marker)}
+                    />
                   </div>
                 );
               })}

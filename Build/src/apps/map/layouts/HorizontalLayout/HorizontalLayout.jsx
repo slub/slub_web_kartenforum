@@ -7,6 +7,8 @@
 
 import React, { useRef } from "react";
 import { useRecoilState } from "recoil";
+import PropTypes from "prop-types";
+
 import { translate } from "../../../../util/util";
 import Modal from "../../../../components/Modal/Modal";
 import { selectedOriginalMapIdState } from "../../atoms/atoms";
@@ -14,8 +16,9 @@ import LayerManagement from "../../components/LayerManagement/LayerManagement";
 import SpatialTemporalSearch from "../../components/SpatialTemporalSearch/SpatialTemporalSearch";
 import OriginalMapView from "../../views/OriginalMapView/OriginalMapView";
 import { useSetElementScreenSize } from "../../../../util/hooks";
+import "./HorizontalLayout.scss";
 
-export const HorizontalLayout = () => {
+export const HorizontalLayout = ({ onAddGeoJson }) => {
   const [selectedOriginalMapId, setOriginalMapId] = useRecoilState(
     selectedOriginalMapIdState
   );
@@ -39,7 +42,7 @@ export const HorizontalLayout = () => {
           className="layermanagement-container"
           id="layermanagement-container"
         >
-          <LayerManagement />
+          <LayerManagement onAddGeoJson={onAddGeoJson} />
         </div>
       </div>
       {selectedOriginalMapId !== undefined && (
@@ -57,3 +60,9 @@ export const HorizontalLayout = () => {
     </React.Fragment>
   );
 };
+
+HorizontalLayout.propTypes = {
+  onAddGeoJson: PropTypes.func,
+};
+
+export default HorizontalLayout;

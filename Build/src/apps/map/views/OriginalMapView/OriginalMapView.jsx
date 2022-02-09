@@ -28,7 +28,7 @@ export const OriginalMapView = (props) => {
   }, [map_id, setMapDocument]);
 
   if (mapDocument === null) {
-    return <div className="vkf-view-original-map container"></div>;
+    return <div className="vkf-view-original-map container" />;
   }
 
   // Filter online ressources
@@ -44,14 +44,27 @@ export const OriginalMapView = (props) => {
         <h1>
           {mapDocument.title} <small>/ {mapDocument.title_long}</small>
         </h1>
-        <a
-          href={mapDocument.permalink}
-          rel="noreferrer"
-          className="btn btn-default"
-          target="_blank"
-        >
-          {translate("originalview-link-slub-label")}
-        </a>
+        <div className="header-functions">
+          <a
+            href={mapDocument.permalink}
+            rel="noreferrer"
+            className="btn btn-default"
+            target="_blank"
+          >
+            {translate("originalview-link-slub-label")}
+          </a>
+          {downloadLink !== undefined && (
+            <a
+              href={downloadLink.url}
+              rel="noreferrer"
+              className="btn btn-default btn-download"
+              target="_blank"
+              title={translate("originalview-link-download-label")}
+            >
+              {translate("originalview-link-download-label")}
+            </a>
+          )}
+        </div>
       </div>
       <div className="content-metadata">
         <dl>
@@ -76,35 +89,20 @@ export const OriginalMapView = (props) => {
           {(wmsLink !== undefined || wcsLink !== undefined) && (
             <React.Fragment>
               <dt>{translate("originalview-label-services")}</dt>
-              <dd>
-                {wmsLink !== undefined && (
+              {wmsLink !== undefined && (
+                <dd>
                   <a href={wmsLink.url} rel="noreferrer" target="_blank">
                     WMS
                   </a>
-                )}
-                {"  |  "}
-                {wcsLink !== undefined && (
+                </dd>
+              )}
+              {wcsLink !== undefined && (
+                <dd>
                   <a href={wcsLink.url} rel="noreferrer" target="_blank">
                     WCS
                   </a>
-                )}
-              </dd>
-            </React.Fragment>
-          )}
-          {downloadLink !== undefined && (
-            <React.Fragment>
-              <dt>Downloadlink</dt>
-              <dd>
-                <a
-                  href={downloadLink.url}
-                  rel="noreferrer"
-                  className="btn btn-default btn-download"
-                  target="_blank"
-                  title={translate("originalview-link-download-label")}
-                >
-                  {translate("originalview-link-download-label")}
-                </a>
-              </dd>
+                </dd>
+              )}
             </React.Fragment>
           )}
         </dl>

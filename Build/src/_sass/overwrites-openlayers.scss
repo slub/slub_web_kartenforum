@@ -28,9 +28,9 @@
 .ol-has-tooltip:hover [role="tooltip"],
 .ol-has-tooltip:focus [role="tooltip"] {
     border-radius: 0;
-    font-family: Helvetica, Arial, sans-serif;
-    color: #f33;
+    color: $primary-color;
     display: none;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 .ol-mouse-position-box,
@@ -48,30 +48,26 @@
 }
 
 .ol-attribution.ol-uncollapsible {
+    height: auto;
     right: 15px;
     bottom: 8px;
     padding: 2px;
     border-radius: 0;
     background: rgba($secondary-color, 0.7);
     color: white;
-    height: 22px;
-    line-height: 20px;
 
-    > ul {
-        font-size: 10px;
-        text-shadow: none;
-        padding: 3px 6px;
+    > div {
+        max-width: 270px;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 5px;
+        justify-content: flex-end;
 
-        li {
-            padding: 0;
+        a {
             color: white;
-            line-height: 1;
-
-            a {
-                color: white;
-                margin-left: 3px;
-                font-weight: normal;
-            }
+            font-size: 10px;
+            font-weight: normal;
+            margin: 0 3px;
 
             &:before {
                 display: none;
@@ -92,6 +88,15 @@
         overflow: hidden;
         background-repeat: no-repeat;
         background-position: center center;
+
+        &.active {
+            background-color: $primary-color;
+
+            &:hover,
+            &:focus {
+                background-color: $primary-color-dark;
+            }
+        }
 
         &:hover,
         &:focus {
@@ -146,12 +151,18 @@
         color: transparent;
     }
 
+    &.image-manipulation button {
+        background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMiIgdmlld0JveD0iMCAwIDIyIDIyIj48Zz48cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBkPSJNNSA0djE0TTE3IDR2MTRNMTEgNHYxNCIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0zIDZoNHYyaC00ek05IDE0aDR2MmgtNHpNMTUgMTBoNHYyaC00eiIvPjwvZz48L3N2Zz4=)
+            no-repeat #00b19e;
+    }
+
     &.active {
         button {
             background-color: $primary-color;
 
-            &:hover {
-                background-color: $primary-color;
+            &:hover,
+            &:focus {
+                background-color: $primary-color-dark;
             }
         }
     }
@@ -194,6 +205,92 @@
 }
 
 .ol-map-small {
+    .ol-attribution.ol-uncollapsible {
+        right: 4px;
+        bottom: 4px;
+
+        > div {
+            max-width: 180px;
+            padding: 0 2px;
+            line-height: 1.2;
+            max-height: 4.7vh;
+            overflow: hidden;
+        }
+    }
+
+    .ol-control {
+        &.ol-full-screen {
+            left: 15px;
+            right: auto;
+            top: 60px;
+        }
+
+        &.rotate-north {
+            top: 95px;
+            left: 15px;
+        }
+
+        &.flip-view-mode {
+            top: 130px;
+            left: 15px;
+        }
+
+        &.basemap-selector {
+            top: 165px;
+            left: 15px;
+        }
+
+        &.ol-locate-me {
+            top: 200px;
+            left: 15px;
+        }
+
+        &.ol-permalink {
+            top: 235px;
+            left: 15px;
+        }
+    }
+
+    .ol-scale-line {
+        left: 4px;
+        bottom: 4px;
+    }
+
+    &:fullscreen {
+        .ol-control {
+            &.ol-full-screen {
+                left: 15px;
+                right: auto;
+                top: 15px;
+            }
+
+            &.rotate-north {
+                top: 50px;
+                left: 15px;
+            }
+
+            &.flip-view-mode {
+                top: 85px;
+                left: 15px;
+            }
+
+            &.basemap-selector {
+                top: 120px;
+                left: 15px;
+            }
+
+            &.ol-locate-me {
+                top: 155px;
+                left: 15px;
+            }
+
+            &.ol-permalink {
+                top: 190px;
+                left: 15px;
+            }
+        }
+    }
+
     &.ol-zoom-extent button,
     &.ol-zoom-default-extent button,
     &.ol-zoom button,
@@ -207,6 +304,110 @@
 
         &:hover {
             background-color: $secondary-color-dark !important;
+        }
+    }
+}
+
+.ol-map-large {
+    .ol-control {
+        &.ol-zoom-extent,
+        &.rotate-north,
+        &.ol-full-screen,
+        &.ol-layerspy,
+        &.mouse-position,
+        &.flip-view-mode,
+        &.ol-mouse-position-box,
+        &.ol-layerspy-radius-box,
+        &.basemap-selector,
+        &.ol-permalink,
+        &.ol-locate-me,
+        &.ol-zoom {
+            left: 370px;
+        }
+
+        &.ol-zoom {
+            top: 15px;
+        }
+
+        &.ol-full-screen {
+            top: 76px;
+            right: unset;
+        }
+
+        &.ol-layerspy {
+            top: 114px;
+        }
+
+        &.rotate-north {
+            top: 152px;
+        }
+
+        &.mouse-position {
+            top: 190px;
+        }
+
+        &.flip-view-mode {
+            top: 228px;
+        }
+
+        &.basemap-selector {
+            top: 266px;
+        }
+
+        &.ol-locate-me {
+            top: 304px;
+        }
+
+        &.ol-permalink {
+            top: 342px;
+        }
+    }
+
+    &:fullscreen {
+        .ol-control {
+            &.ol-zoom-extent,
+            &.rotate-north,
+            &.ol-full-screen,
+            &.ol-layerspy,
+            &.mouse-position,
+            &.flip-view-mode,
+            &.ol-mouse-position-box,
+            &.ol-layerspy-radius-box,
+            &.basemap-selector,
+            &.ol-locate-me,
+            &.ol-permalink,
+            &.ol-zoom {
+                left: 10px;
+            }
+        }
+    }
+
+    .touchevents & {
+        .ol-control {
+            &.rotate-north {
+                top: 114px;
+            }
+
+            &.flip-view-mode {
+                top: 152px;
+            }
+
+            &.basemap-selector {
+                top: 190px;
+            }
+
+            &.ol-locate-me {
+                top: 228px;
+            }
+
+            &.ol-permalink {
+                top: 266px;
+            }
+
+            &.mouse-position button,
+            &.ol-layerspy button {
+                display: none;
+            }
         }
     }
 }

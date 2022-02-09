@@ -4,11 +4,12 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Feature from "ol/Feature";
 import { Button, Modal, Table } from "react-bootstrap";
 import { useRecoilValue } from "recoil";
+import { useWindowSize } from "@react-hook/window-size";
 
 import DialogEditFeatureRow from "./DialogEditFeatureRow/DialogEditFeatureRow";
 import {
@@ -22,9 +23,11 @@ import {
   checkForStylingProperty,
   filterCustomProperties,
   getNonUniqueRows,
+  getTransformSettings,
 } from "./util/util";
-import { translate } from "../../../../../../util/util";
-import { map3dState } from "../../../../atoms/atoms";
+import { isDefined, translate } from "../../../../../../util/util";
+import { elementsScreenSizeState, map3dState } from "../../../../atoms/atoms";
+import DragButton from "../../../LayerManagement/LayerManagementEntry/components/DragButton/DragButton.jsx";
 
 import "./DialogEditFeature.scss";
 
@@ -34,17 +37,27 @@ const ERROR_TYPES = {
   STYLE_KEY_IN_CUSTOM_PROPERTIES: "style-key-in-custom-properties",
 };
 
-export const DialogEditFeature = ({ feature, onClose, onDelete }) => {
+export const DialogEditFeature = ({
+  containerRef,
+  feature,
+  onClose,
+  onDelete,
+}) => {
   // state
+  const [didAddRow, setDidAddRow] = useState(false);
+  const elementScreenSizes = useRecoilValue(elementsScreenSizeState);
   const [errorRowIndices, setErrorRowIndices] = useState([]);
   const [errorMessage, setErrorMessage] = useState(undefined);
   const is3dEnabled = useRecoilValue(map3dState);
+  const [isDragging, setIsDragging] = useState(false);
   const [rows, setRows] = useState(filterCustomProperties(feature));
   const styles = feature.getStyle();
+  const windowSize = useWindowSize();
 
   // refs
-  const isSavedRef = useRef(false);
   const originalStyleRef = useRef();
+  const refList = useRef();
+  const refRows = useRef(rows);
 
   ///
   // Handler section
@@ -55,6 +68,7 @@ export const DialogEditFeature = ({ feature, onClose, onDelete }) => {
    */
   const handleAddRow = () => {
     setRows((oldRows) => [...oldRows, ["", ""]]);
+    setDidAddRow(true);
   };
 
   /**
@@ -62,6 +76,14 @@ export const DialogEditFeature = ({ feature, onClose, onDelete }) => {
    */
   const handleClose = () => {
     onClose();
+  };
+
+  /**
+   * Reset feature styles and close overlay
+   */
+  const handleCancel = () => {
+    feature.setStyle(originalStyleRef.current);
+    handleClose();
   };
 
   /**
@@ -139,7 +161,7 @@ export const DialogEditFeature = ({ feature, onClose, onDelete }) => {
     const oldProperties = feature.getProperties();
     const newProperties = {};
 
-    rows.forEach(([k, v]) => {
+    refRows.current.forEach(([k, v]) => {
       // only write rows with non empty key to feature
       if (k !== undefined && k !== "") {
         newProperties[k] = v;
@@ -164,36 +186,83 @@ export const DialogEditFeature = ({ feature, onClose, onDelete }) => {
 
     // write new Properties to feature
     feature.setProperties(Object.assign({}, newProperties));
-    isSavedRef.current = true;
-    onClose();
+  };
+
+  const handleStartDragging = () => {
+    setIsDragging(true);
+  };
+
+  const handleStopDragging = () => {
+    setIsDragging(false);
+  };
+
+  const generateHandleDrag = (maxTransform) => (e) => {
+    if (isDefined(containerRef) && isDefined(containerRef.current)) {
+      const { x, y, leftOffset, bottomOffset } = maxTransform;
+
+      const xPosition = Math.max(e.clientX - leftOffset, 0);
+      const yPosition = Math.max(bottomOffset - e.clientY, 0);
+
+      containerRef.current.style.transform =
+        "translate(" +
+        Math.min(xPosition, x) +
+        "px,-" +
+        Math.min(yPosition, y) +
+        "px)";
+    }
   };
 
   ///
   // Effect section
   ///
 
-  // Store original styles of the feature
   useEffect(() => {
-    isSavedRef.current = false;
-    originalStyleRef.current = feature.getStyle().clone();
+    if (isDragging) {
+      const maxTransform = getTransformSettings(windowSize, elementScreenSizes);
 
-    // restore original styles if the edits were not saved
-    return () => {
-      if (!isSavedRef.current) {
-        feature.setStyle(originalStyleRef.current);
-      }
-    };
-  }, []);
+      const handleDrag = generateHandleDrag(maxTransform);
+
+      document.addEventListener("mousemove", handleDrag, false);
+      document.addEventListener("mouseup", handleStopDragging, false);
+      return () => {
+        document.removeEventListener("mousemove", handleDrag, false);
+        document.removeEventListener("mouseup", handleStopDragging, false);
+      };
+    }
+  }, [elementScreenSizes, isDragging, windowSize]);
 
   // update internal state on change of selected feature
   useEffect(() => {
     setRows(filterCustomProperties(feature));
+    originalStyleRef.current = feature.getStyle().clone();
+
+    return () => {
+      if (refRows.current !== undefined) {
+        handleSave();
+      }
+    };
   }, [feature]);
+
+  useEffect(() => {
+    refRows.current = rows;
+  }, [rows]);
+
+  useLayoutEffect(() => {
+    if (isDefined(refList.current) && didAddRow) {
+      const maxScrollTop =
+        refList.current.scrollHeight - refList.current.clientHeight;
+      refList.current.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+      setDidAddRow(false);
+    }
+  }, [didAddRow]);
 
   return (
     <div className="vkf-feature-edit-dialog-root">
       <div className="feature-edit-dialog-header">
         <Modal.Header closeButton onHide={onClose}>
+          <div className="drag-container">
+            <DragButton active={isDragging} onMouseDown={handleStartDragging} />
+          </div>
           <Modal.Title>
             {translate("geojson-editdialog-title")}{" "}
             {feature.get("title") ?? feature.getGeometry().getType()}
@@ -202,7 +271,7 @@ export const DialogEditFeature = ({ feature, onClose, onDelete }) => {
       </div>
       <div className="feature-edit-dialog-content">
         <Modal.Body>
-          <div className="table-container">
+          <div className="table-container" ref={refList}>
             <Table bordered condensed>
               <tbody>
                 {Object.keys(styleFieldSettings).map((sk) => {
@@ -282,11 +351,8 @@ export const DialogEditFeature = ({ feature, onClose, onDelete }) => {
         <Modal.Footer>
           <div className="footer-content">
             <div>
-              <Button onClick={handleClose} bsStyle="warning">
+              <Button onClick={handleCancel} bsStyle="warning">
                 {translate("geojson-editdialog-cancel")}
-              </Button>
-              <Button bsStyle="primary" onClick={handleSave}>
-                {translate("geojson-editdialog-save")}
               </Button>
             </div>
             <div>
@@ -302,6 +368,7 @@ export const DialogEditFeature = ({ feature, onClose, onDelete }) => {
 };
 
 DialogEditFeature.propTypes = {
+  containerRef: PropTypes.shape({ current: PropTypes.object }),
   feature: PropTypes.instanceOf(Feature),
   onClose: PropTypes.func,
   onDelete: PropTypes.func,

@@ -13,13 +13,13 @@ import VectorSource from "ol/source/Vector";
 import { defaults, DragRotate } from "ol/interaction";
 import { shiftKeyOnly } from "ol/events/condition";
 import OLCesium from "olcs/OLCesium";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import olcsCore from "olcs/core";
 import clsx from "clsx";
 import { useWindowWidth } from "@react-hook/window-size";
-import Overlay from "ol/Overlay";
 import RasterSynchronizer from "olcs/RasterSynchronizer";
 import VectorSynchronizer from "olcs/VectorSynchronizer";
+import OverlaySynchronizer from "olcs/OverlaySynchronizer.js";
 
 import { createBaseMapLayer } from "../../../../util/geo";
 import {
@@ -29,6 +29,7 @@ import {
 } from "../../../../util/util";
 import {
   activeBasemapIdState,
+  currentApplicationStateState,
   map3dState,
   mapState,
   olcsMapState,
@@ -43,7 +44,6 @@ import { getMapClassNameForLayout } from "../../layouts/util";
 import { useSetElementScreenSize } from "../../../../util/hooks";
 import GeoJsonLayer from "../CustomLayers/GeoJsonLayer";
 import DialogEditFeature from "./components/DialogEditFeature/DialogEditFeature";
-import CustomOverlaySynchronizer from "./components/customOverlaySynchronizer/customOverlaySynchronizer";
 import customFeatureConverter from "./components/customFeatureConverter/customFeatureConverter";
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
 import { notificationState } from "../../../../atoms/atoms";
@@ -61,6 +61,7 @@ export function MapWrapper(props) {
       projection: "EPSG:3857",
       zoom: 2,
     },
+    onAddGeoJson,
     terrainTilesUrl,
   } = props;
 
@@ -74,8 +75,8 @@ export function MapWrapper(props) {
   const [activeBasemapId, setActiveBasemapId] =
     useRecoilState(activeBasemapIdState);
   const [activeBasemap, setActiveBasemap] = useState(initialBasemap);
-  const [hideOverlayContents, setHideOverlayContents] = useState(true);
   const [is3dActive, set3dActive] = useRecoilState(map3dState);
+  const localStorageWriter = useRecoilValue(currentApplicationStateState);
   const [map, setMap] = useRecoilState(mapState);
   const setOlcsMap = useSetRecoilState(olcsMapState);
   const [selectedFeature, setSelectedFeature] = useState(undefined);
@@ -89,13 +90,12 @@ export function MapWrapper(props) {
   const controlsRef = useRef();
   const mapElement = useRef();
   const olcsMapRef = useRef();
-  const overlayRef = useRef();
-  const overlayContainerRef = useRef();
-  const timeoutRef = useRef();
+  const refDialogEditFeature = useRef();
 
   // used to make state easily accessible outside of the react tree in the permalink component
   // do not access otherwise
   const unsafe_refBasemapId = useRef(activeBasemapId);
+  const unsafe_refApplicationStateUpdater = useRef(undefined);
   const unsafe_refSelectedFeatures = useRef(new Collection());
   const unsafe_refSpyLayer = useRef(undefined);
 
@@ -183,7 +183,6 @@ export function MapWrapper(props) {
   // open overlay on map click and supply it with the first feature under the cursor
   const handleMapClick = useCallback(
     (e) => {
-      const overlay = overlayRef.current;
       const pixel = e.pixel;
 
       let newSelectedFeature;
@@ -205,20 +204,11 @@ export function MapWrapper(props) {
           newSelectedFeature = pickedFeature.primitive.olFeature;
       }
 
-      clearTimeout(timeoutRef.current);
       if (isDefined(newSelectedFeature)) {
-        // fade in overlay after short delay
-        setHideOverlayContents(true);
-        timeoutRef.current = setTimeout(() => {
-          setHideOverlayContents(false);
-        }, 5);
-
         setSelectedFeature(newSelectedFeature);
-        overlay.setPosition(e.coordinate);
       } else {
         // hide overlay
         setSelectedFeature(undefined);
-        overlay.setPosition(undefined);
       }
     },
     [is3dActive, map]
@@ -226,7 +216,6 @@ export function MapWrapper(props) {
 
   // Close the map overlay
   const handleOverlayClose = () => {
-    overlayRef.current.setPosition(undefined);
     setSelectedFeature(undefined);
   };
 
@@ -243,13 +232,6 @@ export function MapWrapper(props) {
       source: new VectorSource(),
     });
 
-    const overlay = new Overlay({
-      element: overlayContainerRef.current,
-    });
-
-    // make overlay accessible
-    overlayRef.current = overlay;
-
     const interactions = defaults({ shiftDragZoom: false });
     interactions.extend([new DragRotate({ condition: shiftKeyOnly })]);
 
@@ -258,7 +240,6 @@ export function MapWrapper(props) {
       controls: [],
       layers: [createBaseMapLayer(initialBasemap), initalFeaturesLayer],
       interactions,
-      overlays: [overlay],
       renderer: "canvas",
       target: mapElement.current,
       view,
@@ -275,13 +256,16 @@ export function MapWrapper(props) {
         createSynchronizers: (map, scene) => [
           new RasterSynchronizer(map, scene),
           new VectorSynchronizer(map, scene, new customFeatureConverter(scene)),
-          new CustomOverlaySynchronizer(map, scene),
+          new OverlaySynchronizer(map, scene),
         ],
         map: initialMap,
         sceneOptions: {
           scene3DOnly: true,
         },
       });
+
+      // hide cesium ion credits - because ion services are not used
+      ol3d.getCesiumScene()._creditContainer.style.display = "none";
 
       // update terrain Exaggeration
       ol3d.getCesiumScene().globe.terrainExaggeration = 3.0;
@@ -343,7 +327,7 @@ export function MapWrapper(props) {
 
           setSelectedFeatures((oldSelectedFeatures) =>
             oldSelectedFeatures.filter(
-              (f) => f.feature.getId() === feature.getId()
+              (f) => f.feature.getId() !== feature.getId()
             )
           );
         }
@@ -362,8 +346,21 @@ export function MapWrapper(props) {
     }
   }, [is3dActive]);
 
+  // update the basemap selector state externally
+  useEffect(() => {
+    if (isDefined(controlsRef.current) && isDefined(map)) {
+      controlsRef.current.forEach((control) => {
+        const updateFn = control.handleExternalBasemapUpdate;
+        if (updateFn !== undefined) {
+          updateFn(activeBasemapId);
+        }
+      });
+    }
+  }, [activeBasemapId, map]);
+
   // update controls on layout change
   useEffect(() => {
+    // only add new controls if the first time there is an activeBasemapId available and if the layout changes
     if (isDefined(map)) {
       if (isDefined(controlsRef.current)) {
         controlsRef.current.forEach((control) => {
@@ -372,15 +369,17 @@ export function MapWrapper(props) {
       }
 
       const newControls = getDefaultControls({
-        initialBasemapId: activeBasemapId,
         is3dActive,
         layout,
-        onBasemapChange: handleBasemapChange,
-        onSetNotification: setNotification,
+        basemapSelectorProps: {
+          onBasemapChange: handleBasemapChange,
+          onSetNotification: setNotification,
+        },
         onViewModeChange: handleChangeViewMode,
         permalinkProps: {
           camera: olcsMapRef.current?.getCesiumScene().camera,
           refActiveBasemapId: unsafe_refBasemapId,
+          refApplicationStateUpdater: unsafe_refApplicationStateUpdater,
           refSelectedFeatures: unsafe_refSelectedFeatures,
         },
         refSpyLayer: unsafe_refSpyLayer,
@@ -388,6 +387,17 @@ export function MapWrapper(props) {
 
       newControls.forEach((control) => {
         map.addControl(control);
+
+        // handle external state updates
+        let updateFn = control.handleExternalBasemapUpdate;
+        if (updateFn !== undefined) {
+          updateFn(activeBasemapId);
+        }
+
+        updateFn = control.handleExternal3dStateUpdate;
+        if (updateFn !== undefined) {
+          updateFn(is3dActive);
+        }
       });
 
       controlsRef.current = newControls;
@@ -437,6 +447,10 @@ export function MapWrapper(props) {
   }, [activeBasemap, map]);
 
   useEffect(() => {
+    unsafe_refApplicationStateUpdater.current = localStorageWriter;
+  }, [localStorageWriter]);
+
+  useEffect(() => {
     unsafe_refBasemapId.current = activeBasemapId;
   }, [activeBasemapId]);
 
@@ -445,12 +459,13 @@ export function MapWrapper(props) {
       <div
         className={clsx(
           "vkf-map-overlay",
-          !hideOverlayContents && "animation-show"
+          selectedFeature !== undefined && "animation-show"
         )}
-        ref={overlayContainerRef}
+        ref={refDialogEditFeature}
       >
         {selectedFeature !== undefined && (
           <DialogEditFeature
+            containerRef={refDialogEditFeature}
             onClose={handleOverlayClose}
             onDelete={handleFeatureDelete}
             feature={selectedFeature}
@@ -462,7 +477,7 @@ export function MapWrapper(props) {
         className={clsx("map-div", "olMap", getMapClassNameForLayout(layout))}
         tabIndex={0}
       >
-        {isDefined(map) && <ChildComponent />}
+        {isDefined(map) && <ChildComponent onAddGeoJson={onAddGeoJson} />}
       </div>
     </div>
   );
@@ -479,6 +494,7 @@ export const mapWrapperProps = {
     projection: PropTypes.string,
     zoom: PropTypes.number,
   }),
+  onAddGeoJson: PropTypes.func,
   terrainTilesUrl: PropTypes.string,
 };
 

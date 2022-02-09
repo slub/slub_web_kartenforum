@@ -10,31 +10,18 @@ import { Control } from "ol/control";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 
+import SettingsProvider from "../../../../../SettingsProvider.js";
+import { isDefined } from "../../../../../util/util.js";
+
 export const TERRAIN_ATTRIBUTION_ID = "terrain-attribution";
 
-const attribution = [
-  {
-    el: [
-      "©",
-      <a key="osm" href="http://www.openstreetmap.org/copyright">
-        OpenStreetMap
-      </a>,
-    ],
-  },
-  {
-    id: TERRAIN_ATTRIBUTION_ID,
-    el: [
-      <a
-        key="copernicus"
-        href="https://cesiumjs.org/data-and-assets/terrain/stk-world-terrain.html"
-      >
-        © Analytical Graphics, Inc., © CGIAR-CSI, Produced using Copernicus data
-        and information funded by the European Union - EU-DEM layers, ©
-        Commonwealth of Australia (Geoscience Australia) 2012
-      </a>,
-    ],
-  },
-];
+const RawHtml = ({ content }) => (
+  <div dangerouslySetInnerHTML={{ __html: content }} />
+);
+
+RawHtml.propTypes = {
+  content: PropTypes.string,
+};
 
 export class CustomAttribution extends Control {
   constructor(opt_options) {
@@ -50,35 +37,58 @@ export class CustomAttribution extends Control {
   }
 
   render() {
-    ReactDOM.render(<AttributionList is3d={this.is3d} />, this.element);
+    ReactDOM.render(
+      <AttributionList
+        basemapAttribution={this.attribution}
+        is3d={this.is3d}
+        element={this.element}
+      />,
+      this.element
+    );
   }
 
   handleExternal3dStateUpdate = (newIs3d) => {
     this.is3d = newIs3d;
     this.render();
   };
+
+  handleExternalBasemapUpdate = (basemapId) => {
+    const basemaps = SettingsProvider.getBaseMaps();
+    const basemap = basemaps.find((bm) => bm.id === basemapId);
+    this.attribution = basemap?.attribution ?? "";
+    this.render();
+  };
 }
 
-const AttributionList = ({ is3d }) => {
+const AttributionList = ({ basemapAttribution, element, is3d }) => {
+  const isBasemapAttributionDefined =
+    isDefined(basemapAttribution) && basemapAttribution !== "";
+
+  // add basemap attribution
+  let attributionString = "";
+  if (isBasemapAttributionDefined) {
+    attributionString += ` ${basemapAttribution}`;
+  }
+
+  // add terrain attribution
+  if (is3d) {
+    attributionString += ` ${SettingsProvider.getTerrainAttribution()}`;
+  }
+
+  if (attributionString.length === 0) {
+    element.classList.add("hide");
+  } else {
+    element.classList.remove("hide");
+  }
+
   return (
-    <ul>
-      {attribution.map(({ el, id }, index) => (
-        <li
-          key={`${index}_${is3d}`}
-          id={id}
-          style={{
-            display:
-              id === TERRAIN_ATTRIBUTION_ID && !is3d ? "none" : "default",
-          }}
-        >
-          {el}
-        </li>
-      ))}
-    </ul>
+    attributionString.length > 0 && <RawHtml content={attributionString} />
   );
 };
 
 AttributionList.propTypes = {
+  basemapAttribution: PropTypes.string,
+  element: PropTypes.object,
   is3d: PropTypes.bool,
 };
 

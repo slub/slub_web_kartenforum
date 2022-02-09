@@ -18,25 +18,29 @@ $desktopViewportWidth: 1200px;
 $largerViewportWidth: 1700px;
 
 // Paths
-$base-path: '/typo3conf/ext/slub_web_kartenforum/Resources/Public/';
-$image-path: $base-path + 'Images/';
-$icon-path: $base-path + 'Icons/';
+$base-path: "/typo3conf/ext/slub_web_kartenforum/Resources/Public/";
+$image-path: $base-path + "Images/";
+$icon-path: $base-path + "Icons/";
 
 // Colors
 $primary-color: rgb(255, 51, 51); // The very bright red
+$primary-color-dark: darken($primary-color, 15%);
 $secondary-color: rgb(0, 177, 158); // A light green
-$secondary-color-dark: darken($secondary-color,15%); // a darker tone of green above
+$secondary-color-dark: darken(
+    $secondary-color,
+    15%
+); // a darker tone of green above
 $color-lightgrey: rgb(224, 224, 224); // very light grey
 $color-midgrey: rgb(204, 204, 204); // light grey
 $color-grey: rgb(102, 102, 102); // base grey
 
 // Misc
-$transition: all .25s ease-in-out;
+$transition: all 0.25s ease-in-out;
 $shadow: 0 2px 4px rgb(0 0 0 / 40%);
 
 // Mixins
 @mixin box-shadow {
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-    0 0 8px rgba(0, 0, 0, 0.2);
+        0 0 8px rgba(0, 0, 0, 0.2);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 0, 0, 0.2);
 }

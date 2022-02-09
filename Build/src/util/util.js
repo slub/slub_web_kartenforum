@@ -57,11 +57,9 @@ export function translate(key) {
  **/
 export const getDefaultControls = (params) => {
     const {
-        initialBasemapId,
+        basemapSelectorProps,
         is3dActive,
         layout,
-        onBasemapChange,
-        onSetNotification,
         onViewModeChange,
         permalinkProps,
         refSpyLayer,
@@ -70,6 +68,7 @@ export const getDefaultControls = (params) => {
     const defaultControls = [
         new CustomAttribution({ is3d: is3dActive }),
         new FullScreen({
+            activeClassName: "active",
             tipLabel: translate("control-fullscreen-title"),
         }),
         new Rotate({
@@ -77,30 +76,26 @@ export const getDefaultControls = (params) => {
             tipLabel: translate("control-rotate"),
         }),
         new ScaleLine(),
-        // new vk2.control.Permalink(),
+        new ToggleViewMode({
+            initialState: is3dActive,
+            onViewModeChange,
+        }),
+        new LocateMeControl(),
+        new BasemapSelector(basemapSelectorProps),
+        new PermalinkControl({ is3dActive, ...permalinkProps }),
     ];
 
     if (layout === LAYOUT_TYPES.HORIZONTAL) {
         defaultControls.push(
-            new LocateMeControl(),
             new Zoom({
                 zoomInTipLabel: translate("control-zoom-in"),
                 zoomOutTipLabel: translate("control-zoom-out"),
             }),
             new LayerSpy({
+                refActiveBasemapId: permalinkProps.refActiveBasemapId,
                 refSpyLayer,
             }),
-            new ToggleViewMode({
-                initialState: is3dActive,
-                onViewModeChange,
-            }),
-            new MousePositionOnOff(),
-            new BasemapSelector({
-                initialBasemapId,
-                onBasemapChange,
-                onSetNotification,
-            }),
-            new PermalinkControl({ is3dActive, ...permalinkProps })
+            new MousePositionOnOff()
         );
     }
 

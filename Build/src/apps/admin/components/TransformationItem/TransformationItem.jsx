@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { DropdownButton, MenuItem } from "react-bootstrap";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -20,6 +20,7 @@ const validationClass = (v) =>
 function ValidationButton({ validation, onSelect }) {
   return (
     <DropdownButton
+      id="validation-button"
       pullRight
       className="btn-validation"
       bsStyle={validationClass(validation)}
@@ -146,7 +147,7 @@ export const TransformationItem = (props) => {
           </div>
         </div>
       </div>
-      <p className="panel-footer">
+      <div className="panel-footer">
         <button
           className="btn btn-default"
           onClick={() => onClickPreview(data)}
@@ -163,7 +164,7 @@ export const TransformationItem = (props) => {
           validation={internalValidation}
           onSelect={(v) => handleSelectNewValidation(transformation_id, v)}
         />
-      </p>
+      </div>
 
       {validationDialog !== null && (
         <DialogValidation
@@ -188,7 +189,7 @@ TransformationItem.propTypes = {
     submitted: PropTypes.string.isRequired,
     transformation_id: PropTypes.number.isRequired,
     user_id: PropTypes.string.isRequired,
-    map_id: PropTypes.number.isRequired,
+    map_id: PropTypes.string.isRequired,
     metadata: PropTypes.shape({
       time_publish: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,

@@ -20,7 +20,7 @@ let settingsObject = {
         },
         {
             id: "bkg-topoplus",
-            label: "BKG TopoPlus",
+            label: "BKG TopPlusOpen",
             urls: ["https://sgx.geodatenzentrum.de/wms_topplus_open"],
             type: "wms",
             layers: "web",
@@ -115,7 +115,11 @@ export default {
      * @returns {string}
      */
     getTerrainUrls() {
-        return settingsObject["TERRAIN_TILES_URL"];
+        return settingsObject["TERRAIN_TILES"].url;
+    },
+
+    getTerrainAttribution() {
+        return settingsObject["TERRAIN_TILES"].attribution;
     },
 
     /**

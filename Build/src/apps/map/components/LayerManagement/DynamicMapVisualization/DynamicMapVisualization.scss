@@ -1,111 +1,145 @@
+@import "../../../../../../../Resources/Private/Scss/Variables";
+
 .vkf-dyn-vis-control {
-    right: 10px;
-    top: 3px;
-    position: absolute;
-    display: none; // Temp hidden / Todo: (Re-)enable and style dynamic control
-
-    .open-dyn-vis {
-        position: relative;
-        margin: 2px 2px;
-        float: left;
-        background: transparent
-            url("../../../../../../../Resources/Public/Images/clockBtnStatic.gif")
-            no-repeat 0 0;
-        opacity: 0.5;
-        cursor: pointer;
-    }
-
-    .open-dyn-vis:hover {
-        opacity: 0.8;
-    }
+    display: flex;
+    align-items: center;
 
     .content {
         display: flex;
-
-        div {
-            display: flex;
-        }
+        align-items: center;
+        width: 0;
+        transition: $transition;
+        opacity: 0;
 
         .feedback {
             font-weight: 700;
             font-size: 11px;
-            margin: 4px 6px;
-            color: #f33;
-        }
+            color: $primary-color;
+            opacity: 0;
+            width: 0;
+            margin: 0 3px 0 0;
+            transition: $transition;
+            line-height: 1;
 
-        .start-container button,
-        .stop-container button {
-            position: relative;
-            background: rgb(0, 177, 158);
-            text-align: center;
-
-            &:hover {
-                background-color: #f33;
+            &.running {
+                opacity: 1;
+                width: 25px;
             }
         }
 
-        .start-container button:after {
-            position: absolute;
-            top: 5px;
-            left: 8px;
-            width: 0;
-            height: 0;
-            content: "";
-            border: 6px solid transparent;
-            border-left-color: #fff;
-            border-right-width: 0;
-        }
+        button {
+            &.stop-button,
+            &.start-button {
+                border: 0;
+                display: block;
+                padding: 0;
+                margin: 0 3px;
+                color: white;
+                font-weight: bold;
+                text-decoration: none;
+                text-align: center;
+                height: 22px;
+                width: 22px;
+                border-radius: 11px;
+                text-indent: 200%;
+                white-space: nowrap;
+                overflow: hidden;
+                position: relative;
+                background: rgb(0, 177, 158);
+                transition: $transition;
 
-        .stop-container button:after {
-            position: absolute;
-            top: 7px;
-            left: 7px;
-            width: 8px;
-            height: 8px;
-            background: #fff;
-            content: "";
+                &:hover {
+                    background-color: $secondary-color-dark;
+                }
+            }
+
+            &.start-button:after {
+                position: absolute;
+                top: 5px;
+                left: 8px;
+                width: 0;
+                height: 0;
+                content: "";
+                border: 6px solid transparent;
+                border-left-color: #fff;
+                border-right-width: 0;
+            }
+
+            &.stop-button:after {
+                position: absolute;
+                top: 7px;
+                left: 7px;
+                width: 8px;
+                height: 8px;
+                background: #fff;
+                content: "";
+            }
         }
     }
 
-    button {
-        border: unset;
-        display: block;
-        margin: 1px 2px;
-        padding: 0;
-        color: white;
-        font-weight: bold;
-        text-decoration: none;
-        text-align: center;
-        height: 22px;
-        width: 22px;
-        text-indent: 200%;
-        white-space: nowrap;
-        overflow: hidden;
-        border-radius: 0;
-        background-color: rgb(0, 177, 158);
+    button.open-dyn-vis {
+        position: relative;
+        border: 0;
+        width: 30px;
+        height: 30px;
+        padding: 2px;
+        background: transparent;
+
+        svg {
+            fill: $color-grey;
+        }
     }
 
-    &.play {
-        .open-dyn-vis {
-            background: transparent
-                url("../../../../../../../Resources/Public/Images/clockBtnAnimated.gif")
-                no-repeat 0 0;
+    &.open {
+        .content {
+            width: 60px;
             opacity: 1;
         }
 
-        .start-container button {
-            background-color: #f33;
+        button.open-dyn-vis {
+            svg {
+                fill: $secondary-color-dark;
+            }
         }
     }
-}
 
-@media (-webkit-min-device-pixel-ratio: 2) {
-    .dyn-vis-control .open-dyn-vis {
-        background-image: url("../../../../../../../Resources/Public/Images/clockBtnStatic@2x.gif");
-        background-size: 22px;
+    &.play {
+        .content {
+            width: 85px;
+        }
+
+        button.open-dyn-vis {
+            svg {
+                fill: $primary-color;
+
+                .arrow {
+                    animation: 2s linear infinite spin;
+                    transform-origin: 50% 50%;
+                }
+
+                .hour-hand {
+                    animation: 12s linear infinite spin;
+                    transform-origin: 50% 50%;
+                }
+
+                .minute-hand {
+                    animation: 1s linear infinite spin;
+                    transform-origin: 50% 50%;
+                }
+
+                @keyframes spin {
+                    from {
+                        transform: rotate(0deg);
+                    }
+                    to {
+                        transform: rotate(360deg);
+                    }
+                }
+            }
+        }
     }
-    .dyn-vis-control.play .open-dyn-vis {
-        background-image: url("../../../../../../../Resources/Public/Images/clockBtnAnimated@2x.gif");
-        background-size: 22px;
+
+    .touchevents & {
+        display: none;
     }
 }

@@ -79,7 +79,10 @@ export const Notifications = () => {
         newNotificationStack.splice(0, 0, notification);
       }
 
-      setNotificationStack(newNotificationStack);
+      setNotificationStack(
+        // Make sure to remove undefiends
+        newNotificationStack.filter((n) => n !== undefined)
+      );
     }
   }, [notification, notificationStack, previousNotification]);
 

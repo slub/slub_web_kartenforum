@@ -238,6 +238,10 @@
 				<source><![CDATA[Title]]></source>
 				<target><![CDATA[Titel]]></target>
 			</trans-unit>
+            <trans-unit id="plugin.map.mapsearch.map_scale" approved="yes">
+                <source><![CDATA[Scale]]></source>
+                <target><![CDATA[Maßstab]]></target>
+            </trans-unit>
 			<trans-unit id="plugin.map.mapsearch.sorting">
 				<source><![CDATA[Sorting]]></source>
 				<target><![CDATA[Sortierung]]></target>
@@ -263,8 +267,8 @@
 				<target><![CDATA[Eindeutiger Identifier]]></target>
 			</trans-unit>
 			<trans-unit id="global.map.control-mouseposition-title" approved="yes">
-				<source><![CDATA[Mouse position]]></source>
-				<target><![CDATA[Cursor Position]]></target>
+				<source><![CDATA[Cursor position]]></source>
+				<target><![CDATA[Cursorposition]]></target>
 			</trans-unit>
 			<trans-unit id="client.no" approved="yes">
 				<source><![CDATA[No]]></source>
@@ -338,6 +342,11 @@
                 <source><![CDATA[Projection]]></source>
                 <target><![CDATA[Projektion]]></target>
             </trans-unit>
+			<trans-unit id="plugin.map.adddialog.body">
+				<source><![CDATA[In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.]]></source>
+				<target><![CDATA[Um eine neue GeoJSON-Ebene hinzuzufügen, ziehen Sie Ihre GeoJSON-Datei einfach via drag and drop auf dieses Fenster oder drücken Sie diese Schaltfläche um eine Datei von Ihrem System auszuwählen.]]></target>
+			</trans-unit>
+
             <trans-unit id="plugin.map.markerpicker.select" approved="yes">
                 <source><![CDATA[Select marker]]></source>
                 <target><![CDATA[Marker auswählen]]></target>
@@ -575,8 +584,8 @@
 			</trans-unit>
 
             <trans-unit id="global.map.control-layerspy.radiusTooltip" approved="yes">
-                <source><![CDATA[Press Y to increase and X to decrease]]></source>
-                <target><![CDATA[Drücken Sie Y zum vergrößern und X zum verkleinern]]></target>
+                <source><![CDATA[Press Y to increase / X to decrease]]></source>
+                <target><![CDATA[Drücken Sie Y zum Vergrößern / X zum Verkleinern]]></target>
             </trans-unit>
 
             <!-- Global > Map > Control > Zoom -->
@@ -597,12 +606,20 @@
 
 			 <!-- Global > Map > Control > Permalink -->
             <trans-unit id="global.map.control-permalink.title" approved="yes">
-                <source><![CDATA[Generate share-link]]></source>
-                <target><![CDATA[Erzeuge Share-Link]]></target>
+                <source><![CDATA[Share current view]]></source>
+                <target><![CDATA[Aktuelle Ansicht teilen]]></target>
             </trans-unit>
-            <trans-unit id="global.map.control-permalink.exporterTitle" approved="yes">
-                <source><![CDATA[Share-link]]></source>
-                <target><![CDATA[Share-link]]></target>
+            <trans-unit id="global.map.control-permalink.permalinkTitle" approved="yes">
+                <source><![CDATA[Permalink]]></source>
+                <target><![CDATA[Permalink]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.mapViewTitle" approved="yes">
+                <source><![CDATA[Mapview]]></source>
+                <target><![CDATA[Kartenansicht]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.inputMapViewPlaceholder" approved="yes">
+                <source><![CDATA[Link to mapview]]></source>
+                <target><![CDATA[Link zu der Kartenansicht]]></target>
             </trans-unit>
             <trans-unit id="global.map.control-permalink.exporterCopy" approved="yes">
                 <source><![CDATA[Copied]]></source>
@@ -611,6 +628,14 @@
             <trans-unit id="global.map.control-permalink.exporterCopyTitle" approved="yes">
                 <source><![CDATA[Copy to clipboard]]></source>
                 <target><![CDATA[Kopiere in die Zwischenablage]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.permalinkDescription" approved="yes">
+                <source><![CDATA[The permalink function allows sharing the current map view. Custom content, such as geojson layers or additional basemaps, cannot be shared with this function. The map view tab, which is only accessible when logged in, allows sharing of all content.]]></source>
+                <target><![CDATA[Die Permalinkfunktion erlaubt das Teilen der derzeitigen Kartenansicht. Benutzerdefinierte Inhalte, wie Geojson Layer oder zusätzliche Basiskarten, können damit nicht geteilt werden. Der nur im eingeloggten Zustand erreichbare Kartenansicht Reiter erlaubt das Teilen sämtlicher Inhalte.]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.mapViewDescription" approved="yes">
+                <source><![CDATA[The map view function allows sharing the entire application state. For this purpose, a representation of the application state is uploaded and a unique link to this representation is generated.]]></source>
+                <target><![CDATA[Die Kartenansicht Funktion erlaubt das Teilen des gesamten Applikationszustandes. Dazu wird eine Repräsentation des Zustandes hochgeladen und ein eindeutiger Link zu dieser Repräsentation generiert.]]></target>
             </trans-unit>
 
            <!-- Global > Map > Control > Fullscreen -->
@@ -629,6 +654,16 @@
 			<trans-unit id="global.map.control-locateme.title"  approved="yes">
 				<source><![CDATA[Locate me]]></source>
 				<target><![CDATA[Lokalisiere mich]]></target>
+			</trans-unit>
+
+            <!-- Global > Map > Control > Attribution -->
+			<trans-unit id="global.map.control-attribution.basemapLabel" approved="yes">
+				<source><![CDATA[Basemap]]></source>
+				<target><![CDATA[Basiskarte]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-attribution.terrainLabel" approved="yes">
+				<source><![CDATA[Terrain]]></source>
+				<target><![CDATA[Terrain]]></target>
 			</trans-unit>
 
             <!-- Global > Map > Control > BaseMapSelector -->
@@ -754,6 +789,10 @@
     			<source><![CDATA[Show map]]></source>
     			<target><![CDATA[Zeige Karte]]></target>
     		</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.export" approved="yes">
+				<source><![CDATA[Export GeoJSON]]></source>
+				<target><![CDATA[Exportiere GeoJSON]]></target>
+			</trans-unit>
  			<trans-unit id="plugin.apps.userhistory.link-goToProcess" approved="yes">
      			<source><![CDATA[Show transformation]]></source>
      			<target><![CDATA[Zeige Transformation]]></target>

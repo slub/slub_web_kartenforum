@@ -35,7 +35,7 @@ import { LAYER_TYPES } from "../../../CustomLayers/LayerTypes";
 import "./MapSearchResultList.scss";
 
 const DEFAULT_TYPE = "title";
-const SEARCH_COLS = ["time_published", "title", "georeference"];
+const SEARCH_COLS = ["map_scale", "time_published", "title", "georeference"];
 const SORT_ORDERS = {
   ASCENDING: "ascending",
   DESCENDING: "descending",
@@ -85,31 +85,30 @@ export const MapSearchResultList = ({
   );
 
   // fetches all items from startIndex to stopIndex (both ends inclusive)
-  const loadMoreItems = (startIndex, stopIndex) => {
-    if (
-      startIndex !== undefined &&
-      stopIndex !== undefined &&
-      stopIndex - startIndex > 1
-    ) {
-      // store indices for later usage
-      const size = stopIndex - startIndex + 1;
+  const loadMoreItems = useCallback(
+    (startIndex, stopIndex) => {
+      if (startIndex !== undefined && stopIndex !== undefined) {
+        // store indices for later usage
+        const size = stopIndex - startIndex + 1;
 
-      return onFetchResults(startIndex, size).then((res) => {
-        setItems((oldItems) => {
-          const newItems = refClearResults.current
-            ? {}
-            : Object.assign({}, oldItems);
+        return onFetchResults(startIndex, size).then((res) => {
+          setItems((oldItems) => {
+            const newItems = refClearResults.current
+              ? {}
+              : Object.assign({}, oldItems);
 
-          refClearResults.current = false;
+            refClearResults.current = false;
 
-          res.forEach((map, index) => {
-            newItems[startIndex + index] = map;
+            res.forEach((map, index) => {
+              newItems[startIndex + index] = map;
+            });
+            return newItems;
           });
-          return newItems;
         });
-      });
-    }
-  };
+      }
+    },
+    [onFetchResults]
+  );
 
   ////
   // Handler section
@@ -159,7 +158,7 @@ export const MapSearchResultList = ({
     LOADING_FEATURE.set("title", translate("mapsearch-listelement-loading"));
   }, []);
 
-  // reset state on change of search result set
+  // reset caches on change of the result set id
   useEffect(() => {
     refClearResults.current = true;
     refInfiniteLoader.current.resetloadMoreItemsCache(true);
