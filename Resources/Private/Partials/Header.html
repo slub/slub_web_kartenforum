@@ -1,0 +1,83 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
+
+<header class="site-header">
+
+    <f:link.page pageUid="{settings.rootPageId}" class="navbar-brand">Virtuelles Kartenforum</f:link.page>
+
+    <f:comment><!-- CLASSIC BURGER BUTTON --></f:comment>
+    <button aria-controls="main-navigation" aria-expanded="false" aria-haspopup="true" class="main-navigation-toggle" type="button">
+        <span class="menu-label">Menu</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+
+    <div class="navigation-container">
+
+        <f:comment><!-- MAIN MENU --></f:comment>
+        <f:if condition="{mainnavigation}">
+            <nav aria-expanded="false" aria-haspopup="true" aria-label="Hauptnavigation" class="main-navigation" id="main-navigation">
+                <ul>
+                    <f:for each="{mainnavigation}" as="item">
+                        <li>
+                            <a href="{item.link}" target="{item.target}" title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}" class="header-navigation-link">
+                                <span title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}">{item.title}</span>
+                            </a>
+                        </li>
+                    </f:for>
+                    <f:if condition="{metanavigation}">
+                        <f:for each="{metanavigation}" as="item">
+                            <li class="metanav-item">
+                                <a href="{item.link}" target="{item.target}" title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}" class="header-navigation-link">
+                                    <span title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}">{item.title}</span>
+                                </a>
+                            </li>
+                        </f:for>
+                    </f:if>
+                    <f:security.ifAuthenticated>
+                        <f:then>
+                            <li class="has-submenu user-menu">
+                                <f:render partial="UserDropdown" arguments="{_all}"/>
+                            </li>
+                        </f:then>
+                        <f:else>
+                            <li>
+                                <f:link.page pageUid="{settings.loginPage}" data="{classes: 'login'}" title="{f:translate(key:'label.login', extensionName:'slubWebKartenforum')}">
+                                    <f:translate key="label.login" extensionName="slubWebKartenforum"/>
+                                </f:link.page>
+                            </li>
+                        </f:else>
+                    </f:security.ifAuthenticated>
+                </ul>
+            </nav>
+        </f:if>
+
+        <f:comment><!-- LANGUAGE SWITCH --></f:comment>
+        <f:if condition="{menuLanguage}">
+            <nav aria-label="Language navigation" class="language-navigation">
+                <ul>
+                    <f:for each="{menuLanguage}" as="item">
+                        <li class="lang_{item.twoLetterIsoCode} {f:if(condition: item.active, then: 'active')} {f:if(condition: item.available, else: 'text-muted')}">
+                            <f:if condition="{item.available}">
+                                <f:then>
+                                    <a href="{item.link}" hreflang="{hreflang}" title="{item.title}">
+                                        <span class="fulltext-label">{item.title}</span>
+                                        <span class="iso-code">{item.twoLetterIsoCode}</span>
+                                    </a>
+                                </f:then>
+                                <f:else>
+                                    <span title="{item.title}" class="non-available">
+                                        <span class="fulltext-label">{item.title}</span>
+                                        <span class="iso-code">{item.twoLetterIsoCode}</span>
+                                    </span>
+                                </f:else>
+                            </f:if>
+                        </li>
+                    </f:for>
+                </ul>
+            </nav>
+        </f:if>
+    </div>
+</header>
+
+</html>

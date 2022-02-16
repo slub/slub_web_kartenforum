@@ -1,0 +1,44 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:vk="http://typo3.org/ns/Slub/SlubWebKartenforum/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
+
+<button aria-expanded="false" aria-controls="submenu-user" aria-haspopup="true">
+    <span class="glyphicon glyphicon-user"></span>
+    <span class="usermenu-label"><f:translate key="login.shortusername" extensionName="slubWebKartenforum"/>:</span>
+    <span class="usermenu-name">
+        <f:if condition="{vk:username(field:'name')} == ''">
+            <f:then>
+                <vk:username field="username"/>
+            </f:then>
+            <f:else>
+                <vk:username field="name"/>
+            </f:else>
+        </f:if>
+    </span>
+    <b class="caret"></b>
+</button>
+<ul id="submenu-user" class="submenu" aria-expanded="false" aria-label="User Menu">
+    <li>
+        <f:link.page pageUid="{settings.georefhistoryPage}" title="{f:translate(key:'label.georefhistorypage', extensionName:'slubWebKartenforum')}">
+            <f:translate key="label.georefhistorypage" extensionName="slubWebKartenforum"/>
+        </f:link.page>
+    </li>
+    <li>
+        <f:link.page pageUid="{settings.georefchoosePage}" title="{f:translate(key:'label.georefchoosepage', extensionName:'slubWebKartenforum')}">
+            <f:translate key="label.georefchoosepage" extensionName="slubWebKartenforum"/>
+        </f:link.page>
+    </li>
+    <f:security.ifHasRole role="vk2-admin">
+        <f:comment><!-- admin menu --></f:comment>
+        <li>
+            <f:link.page pageUid="28" title="{f:translate(key:'label.evaluationpage', extensionName:'slubWebKartenforum')}">
+                <f:translate key="label.evaluationpage" extensionName="slubWebKartenforum"/>
+            </f:link.page>
+        </li>
+    </f:security.ifHasRole>
+    <li>
+        <f:link.page pageUid="{settings.loginPage}" data="{classes: 'logout'}" title="{f:translate(key:'label.logout', extensionName:'slubWebKartenforum')}">
+            <f:translate key="label.logout" extensionName="slubWebKartenforum"/>
+        </f:link.page>
+    </li>
+</ul>
+
+</html>

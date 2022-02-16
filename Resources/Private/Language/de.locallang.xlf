@@ -7,6 +7,10 @@
 			<generator>LFEditor</generator>
 		</header>
 		<body>
+		    <trans-unit id="global.language_code" approved="yes">
+            	<source><![CDATA[en]]></source>
+            	<target><![CDATA[de]]></target>
+            </trans-unit>
 			<trans-unit id="choosepage.amountUnreferencedMaps" approved="yes">
 				<source><![CDATA[Amount of unreferenced maps]]></source>
 				<target><![CDATA[Anzahl der unreferenzierten Karten]]></target>
@@ -19,27 +23,27 @@
 				<source><![CDATA[back to main page ...]]></source>
 				<target><![CDATA[zurück zur Hauptseite ...]]></target>
 			</trans-unit>
-			<trans-unit id="client.deactivemap.activeAll" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.activateAll" approved="yes">
 				<source><![CDATA[Activate all maps]]></source>
 				<target><![CDATA[Aktiviere alle Karten]]></target>
 			</trans-unit>
-			<trans-unit id="client.deactivemap.deactiveAll" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.deactivateAll" approved="yes">
 				<source><![CDATA[Deactivate all maps]]></source>
 				<target><![CDATA[Deaktiviere alle Karten]]></target>
 			</trans-unit>
-			<trans-unit id="client.dynamicmapvis.close" approved="yes">
+			<trans-unit id="plugin.map.dynamicmapvis.close" approved="yes">
 				<source><![CDATA[Close dynamic map visualization tool]]></source>
 				<target><![CDATA[Schließe dynamische Kartenvisualisierung]]></target>
 			</trans-unit>
-			<trans-unit id="client.dynamicmapvis.open" approved="yes">
+			<trans-unit id="plugin.map.dynamicmapvis.open" approved="yes">
 				<source><![CDATA[Open dynamic map visualization tool]]></source>
 				<target><![CDATA[Öffne dynamische Kartenvisualisierung]]></target>
 			</trans-unit>
-			<trans-unit id="client.dynamicmapvis.start" approved="yes">
+			<trans-unit id="plugin.map.dynamicmapvis.start" approved="yes">
 				<source><![CDATA[Start timeseries visualization]]></source>
 				<target><![CDATA[Starte Zeitreihenvisualisierung der Kartenauswahl]]></target>
 			</trans-unit>
-			<trans-unit id="client.dynamicmapvis.stop" approved="yes">
+			<trans-unit id="plugin.map.dynamicmapvis.stop" approved="yes">
 				<source><![CDATA[Stop timeseries visualization]]></source>
 				<target><![CDATA[Stoppe Zeitreihenvisualisierung der Kartenauswahl]]></target>
 			</trans-unit>
@@ -59,130 +63,128 @@
 				<source><![CDATA[Show map]]></source>
 				<target><![CDATA[Zeige Karte]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleAE" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleAE" approved="yes">
 				<source><![CDATA[Topological maps (1:25.000)]]></source>
 				<target><![CDATA[Äquidistantenkarten (1:25.000)]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleAK" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleAK" approved="yes">
 				<source><![CDATA[Other historic maps]]></source>
 				<target><![CDATA[Andere Altkartentypen]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleCM" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleCM" approved="yes">
 				<source><![CDATA[City Map]]></source>
 				<target><![CDATA[Stadtpläne]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleGL" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleGL" approved="yes">
 				<source><![CDATA[]]></source>
 				<target><![CDATA[Geologische Karten (1:25.000)]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleMB" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleMB" approved="yes">
 				<source><![CDATA[Meilenblätter (1:12.000)]]></source>
 				<target><![CDATA[Meilenblätter (1:12.000)]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleMTB" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleMTB" approved="yes">
 				<source><![CDATA[Plane survey sheets (1:25.000)]]></source>
 				<target><![CDATA[Messtischblätter (1:25.000)]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleTK" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleTK" approved="yes">
 				<source><![CDATA[Topological maps (1:100.000)]]></source>
 				<target><![CDATA[Karten des Deutschen Reiches (1:100.000)]]></target>
 			</trans-unit>
-			<trans-unit id="client.facetedsearch.titleTKX" approved="yes">
+			<trans-unit id="plugin.map.facetedsearch.titleTKX" approved="yes">
 				<source><![CDATA[Topological maps (< 1:50.000)]]></source>
 				<target><![CDATA[Topographische Karten (< 1:50.000)]]></target>
 			</trans-unit>
-			<trans-unit id="client.factory.moveToTop" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.moveToTop" approved="yes">
 				<source><![CDATA[Move map to top]]></source>
 				<target><![CDATA[Karte in den Vordergrund ]]></target>
 			</trans-unit>
-			<trans-unit id="client.factory.notGeoref" approved="yes">
+			<trans-unit id="plugin.map.mapsearchlistelement.notGeoref" approved="yes">
 				<source><![CDATA[Not georeferenced]]></source>
 				<target><![CDATA[Georeferenzierung fehlt]]></target>
 			</trans-unit>
-			<trans-unit id="client.factory.removeMap" approved="yes">
+			<trans-unit id="plugin.map.mapsearchlistelement.loading" approved="yes">
+                <source><![CDATA[Loading]]></source>
+                <target><![CDATA[Lädt]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapsearchlistelement.unknown" approved="yes">
+                <source><![CDATA[Unknown]]></source>
+                <target><![CDATA[Unbekannt]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.layermanagement.removeMap" approved="yes">
 				<source><![CDATA[Remove map]]></source>
 				<target><![CDATA[Verwerfe Karte]]></target>
 			</trans-unit>
-			<trans-unit id="client.factory.scale" approved="yes">
+			<trans-unit id="plugin.map.mapsearchlistelement.scale" approved="yes">
 				<source><![CDATA[Scale]]></source>
 				<target><![CDATA[Maßstab]]></target>
 			</trans-unit>
-			<trans-unit id="client.factory.showMap" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.showMap" approved="yes">
 				<source><![CDATA[Display map]]></source>
 				<target><![CDATA[Zeige Karte]]></target>
 			</trans-unit>
-			<trans-unit id="client.factory.updateGeoref" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.updateGeoref" approved="yes">
 				<source><![CDATA[Update georeferenced map]]></source>
 				<target><![CDATA[Aktualisiere Georeferenzierung]]></target>
 			</trans-unit>
-			<trans-unit id="client.flipviewmode.title" approved="yes">
+            <trans-unit id="plugin.map.layermanagement.zoomToMap" approved="yes">
+                <source><![CDATA[Zoom to map]]></source>
+                <target><![CDATA[Zoome auf die Karte]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.showOriginal" approved="yes">
+                <source><![CDATA[Show Original]]></source>
+                <target><![CDATA[Zeige Original]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapwrapper.parseError" approved="yes">
+                <source><![CDATA[The supplied geojson file could not be parsed]]></source>
+                <target><![CDATA[Die bereitgestellte geojson Datei konnte nicht gelesen werden]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapwrapper.mountLayerError" approved="yes">
+                <source><![CDATA[A layer could not be mounted. The corresponding feature was unselected.]]></source>
+                <target><![CDATA[Ein Layer konnte nicht geladen werden. Das zugehörige Feature wurde deselektiert.]]></target>
+            </trans-unit>
+			<trans-unit id="global.map.control-toggleviewmode.title" approved="yes">
 				<source><![CDATA[Switch between 2D and 3D view]]></source>
 				<target><![CDATA[Wechsel zwischen 2D. und 3D-Ansicht]]></target>
 			</trans-unit>
-			<trans-unit id="client.flipviewmode.zoomin" approved="yes">
+			<trans-unit id="global.map.control-toggleviewmode.zoomin" approved="yes">
 				<source><![CDATA[Switch to 3D is not possible for this resolution. Please zoom in.]]></source>
 				<target><![CDATA[Wechsel zur 3D-Ansicht für diese Zoomstufe nicht möglich. Bitte zoomen sie rein.]]></target>
 			</trans-unit>
-			<trans-unit id="client.gazetteer.placeholder" approved="yes">
+			<trans-unit id="plugin.map.persistencecontroller.errorOperationalLayers" approved="yes">
+				<source><![CDATA[The persisted maps could not be restored]]></source>
+				<target><![CDATA[Die persistierten Karten konnten nicht wiederhergestellt werden.]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.persistencecontroller.errorPersistenceObject" approved="yes">
+				<source><![CDATA[There is an error with the persisted application state and it could not be restored.]]></source>
+				<target><![CDATA[Es ist ein Fehler mit dem persistierten Anwendungszustand aufgetreten, der die Wiederherstellung verhinderte.]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.persistencecontroller.errorSingleMap" approved="yes">
+				<source><![CDATA[The selected map could not be loaded.]]></source>
+				<target><![CDATA[Die ausgewählte Karte konnte nicht geladen werden.]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.placenamesearch.placeholder" approved="yes">
 				<source><![CDATA[Placename]]></source>
 				<target><![CDATA[Ortsname]]></target>
 			</trans-unit>
-			<trans-unit id="client.gazetteer.submit" approved="yes">
+			<trans-unit id="plugin.map.placenamesearch.submit" approved="yes">
 				<source><![CDATA[Search]]></source>
 				<target><![CDATA[Suchen]]></target>
 			</trans-unit>
-			<trans-unit id="client.georeference.confirm" approved="yes">
-				<source><![CDATA[Confirm georeferencing]]></source>
-				<target><![CDATA[Georeferenzierung speichern]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.confirmWithoutClipMsg" approved="yes">
-				<source><![CDATA[Confirm georeference params without clip params?]]></source>
-				<target><![CDATA[Georeferenzierungsparameter ohne Clip-Polygon speichern?]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.confirmWithoutClipTitle" approved="yes">
-				<source><![CDATA[Confirm georeference params]]></source>
-				<target><![CDATA[Georeferenzierungsparameter speichern]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.deleteGcp" approved="yes">
-				<source><![CDATA[Delete ground control point]]></source>
-				<target><![CDATA[Passpunkt löschen]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.drawClip" approved="yes">
-				<source><![CDATA[Draw clip polygon]]></source>
-				<target><![CDATA[Zeichne Clip-Polygon]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.moveGcp" approved="yes">
-				<source><![CDATA[Move ground control point]]></source>
-				<target><![CDATA[Passpunkt verschieben]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.moveMap" approved="yes">
-				<source><![CDATA[Move Map]]></source>
-				<target><![CDATA[Karte verschieben]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.setGcp" approved="yes">
-				<source><![CDATA[Set ground control point]]></source>
-				<target><![CDATA[Passpunkt setzen]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.validate" approved="yes">
-				<source><![CDATA[Update preview]]></source>
-				<target><![CDATA[Vorschau aktualisieren]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.warnMissingGCPs" approved="yes">
-				<source><![CDATA[For producing a georeference preview you need at least 4 ground control points.]]></source>
-				<target><![CDATA[Für das Erzeugen eines Vorschaubildes werden mindestes 4 Passpunkte benötigt.]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeference.warnWrongClipPolygon" approved="yes">
-				<source><![CDATA[Your clip polygon seems to be malformed. Please check it again or try to contact the administrator.]]></source>
-				<target><![CDATA[Das erzeugte Clip-Polygon scheint defomiert zu sein. Bitte prüfen Sie dieses noch einmal oder kontaktieren Sie den Seiten-Administrator.]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeferencechoose.goToGeoreference" approved="yes">
-				<source><![CDATA[Georeference]]></source>
-				<target><![CDATA[Georeferenzierung]]></target>
-			</trans-unit>
-			<trans-unit id="client.georeferencechoose.searchField" approved="yes">
-				<source><![CDATA[Map name]]></source>
-				<target><![CDATA[Kartenname]]></target>
-			</trans-unit>
+			<trans-unit id="plugin.map.placenamesearch.unknownPlacename" approved="yes">
+                <source><![CDATA[The chosen placename is unknown.]]></source>
+                <target><![CDATA[Der ausgewählte Ortsname ist unbekannt.]]></target>
+            </trans-unit>
+
+
+<!-- 			<trans-unit id="client.georeferencechoose.goToGeoreference" approved="yes"> -->
+<!-- 				<source><![CDATA[Georeference]]></source> -->
+<!-- 				<target><![CDATA[Georeferenzierung]]></target> -->
+<!-- 			</trans-unit> -->
+<!-- 			<trans-unit id="client.georeferencechoose.searchField" approved="yes"> -->
+<!-- 				<source><![CDATA[Map name]]></source> -->
+<!-- 				<target><![CDATA[Kartenname]]></target> -->
+<!-- 			</trans-unit> -->
 			<trans-unit id="client.goToGeoref" approved="yes">
 				<source><![CDATA[Go to georeference view]]></source>
 				<target><![CDATA[Gehe zur Georeferenzierungsansicht]]></target>
@@ -191,73 +193,58 @@
 				<source><![CDATA[Go to original view]]></source>
 				<target><![CDATA[Gehe zur Originalansicht]]></target>
 			</trans-unit>
-			<trans-unit id="client.imagemanipulation.brightness" approved="yes">
-				<source><![CDATA[Brightness]]></source>
-				<target><![CDATA[Helligkeit]]></target>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.contrast" approved="yes">
-				<source><![CDATA[Contrast]]></source>
-				<target><![CDATA[Kontrast]]></target>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.hue" approved="yes">
-				<source><![CDATA[Hue]]></source>
-				<target><![CDATA[Farbton]]></target>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.open" approved="yes">
-				<source><![CDATA[Open image manipulation toolbox]]></source>
-				<target><![CDATA[Öffne Bildbearbeitungswerkzeug]]></target>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.reset" approved="yes">
-				<source><![CDATA[Reset]]></source>
-				<target><![CDATA[Zurücksetzen]]></target>
-			</trans-unit>
-			<trans-unit id="client.imagemanipulation.saturation" approved="yes">
-				<source><![CDATA[Saturation]]></source>
-				<target><![CDATA[Sättigung]]></target>
-			</trans-unit>
-			<trans-unit id="client.layermanagementmodule.headerLbl" approved="yes">
+
+			<trans-unit id="plugin.map.layermanagement.headerLbl" approved="yes">
 				<source><![CDATA[My maps]]></source>
 				<target><![CDATA[Meine Karten]]></target>
 			</trans-unit>
-			<trans-unit id="client.layermanagementmodule.startMessage" approved="yes">
-				<source><![CDATA[Welcome to the Virtual Map Forum 2.0.<br> Please choose your map collection in the search menu on the left side]]></source>
-				<target><![CDATA[Herzlich Willkommen im Virtuellen Kartenforum 2.0. <br>Bitte wählen Sie zunächst links im Suchbereich einige Karten aus]]></target>
+			<trans-unit id="plugin.map.layermanagement.startMessageHeader" approved="yes">
+				<source><![CDATA[Welcome to the Virtual Map Forum 2.0.]]></source>
+				<target><![CDATA[Herzlich Willkommen im Virtuellen Kartenforum 2.0.]]></target>
 			</trans-unit>
-			<trans-unit id="client.layerspy.title" approved="yes">
-				<source><![CDATA[Get a magnifier for the map]]></source>
-				<target><![CDATA[Aktiviere Kartenlupe]]></target>
+			<trans-unit id="plugin.map.layermanagement.startMessageBody" approved="yes">
+				<source><![CDATA[Please choose your map collection in the search menu on the left side]]></source>
+				<target><![CDATA[Bitte wählen Sie zunächst links im Suchbereich einige Karten aus]]></target>
 			</trans-unit>
 			<trans-unit id="client.mapType" approved="yes">
 				<source><![CDATA[Map type]]></source>
 				<target><![CDATA[Kartentyp]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.facetsearch.close" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.facetsearch.close" approved="yes">
 				<source><![CDATA[Close faceted search]]></source>
 				<target><![CDATA[Schließe Facettensuche]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.facetsearch.open" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.facetsearch.open" approved="yes">
 				<source><![CDATA[Open faceted search]]></source>
 				<target><![CDATA[Öffne Facettensuche]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.foundMaps" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.foundMaps" approved="yes">
 				<source><![CDATA[Maps available]]></source>
 				<target><![CDATA[Karten gefunden]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.foundNoMaps" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.foundNoMaps" approved="yes">
 				<source><![CDATA[No maps available]]></source>
 				<target><![CDATA[Keine Karten gefunden]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.georeference" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.georeference" approved="yes">
 				<source><![CDATA[Georeference]]></source>
 				<target><![CDATA[Georeferenzierung]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.time" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.time_published" approved="yes">
 				<source><![CDATA[Time]]></source>
 				<target><![CDATA[Zeit]]></target>
 			</trans-unit>
-			<trans-unit id="client.mapsearchmodule.title" approved="yes">
+			<trans-unit id="plugin.map.mapsearch.title" approved="yes">
 				<source><![CDATA[Title]]></source>
 				<target><![CDATA[Titel]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.mapsearch.map_scale" approved="yes">
+                <source><![CDATA[Scale]]></source>
+                <target><![CDATA[Maßstab]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.mapsearch.sorting">
+				<source><![CDATA[Sorting]]></source>
+				<target><![CDATA[Sortierung]]></target>
 			</trans-unit>
 			<trans-unit id="client.metadatabinding.gotoFotothek" approved="yes">
 				<source><![CDATA[Goto Fotothek]]></source>
@@ -279,39 +266,104 @@
 				<source><![CDATA[Unqiue Identifier]]></source>
 				<target><![CDATA[Eindeutiger Identifier]]></target>
 			</trans-unit>
-			<trans-unit id="client.mouseposition.title" approved="yes">
-				<source><![CDATA[Mouse position]]></source>
-				<target><![CDATA[Cursor Position]]></target>
+			<trans-unit id="global.map.control-mouseposition-title" approved="yes">
+				<source><![CDATA[Cursor position]]></source>
+				<target><![CDATA[Cursorposition]]></target>
 			</trans-unit>
 			<trans-unit id="client.no" approved="yes">
 				<source><![CDATA[No]]></source>
 				<target><![CDATA[Nein]]></target>
 			</trans-unit>
-			<trans-unit id="client.permalink.msg" approved="yes">
-				<source><![CDATA[For copying the link push]]></source>
-				<target><![CDATA[Um den Link zu kopieren drücken sie bitte]]></target>
-			</trans-unit>
-			<trans-unit id="client.permalink.title" approved="yes">
-				<source><![CDATA[Produce link for share this view]]></source>
-				<target><![CDATA[Erzeuge Share-Link]]></target>
-			</trans-unit>
 			<trans-unit id="client.points" approved="yes">
 				<source><![CDATA[Points]]></source>
 				<target><![CDATA[Punkte]]></target>
 			</trans-unit>
-			<trans-unit id="client.roatenorth.title" approved="yes">
-				<source><![CDATA[Align map to north]]></source>
-				<target><![CDATA[Karte nach Norden ausrichten]]></target>
+			<trans-unit id="global.map.control-restoredefaultview-title" approved="yes">
+				<source><![CDATA[Restore default view]]></source>
+				<target><![CDATA[Stelle die initiale Ansicht wieder her]]></target>
 			</trans-unit>
-			<trans-unit id="client.time" approved="yes">
+			<trans-unit id="plugin.map.mapsearchlistelement.time" approved="yes">
 				<source><![CDATA[Time]]></source>
 				<target><![CDATA[Zeit]]></target>
 			</trans-unit>
-			<trans-unit id="client.timeslidertool.changeTimeperiod" approved="yes">
+			<trans-unit id="plugin.map.timeslider.adjustTimePeriod" approved="yes">
 				<source><![CDATA[Adjust time periode]]></source>
 				<target><![CDATA[Definiere Suchzeitraum]]></target>
 			</trans-unit>
-			<trans-unit id="client.timestamp" approved="yes">
+			<trans-unit id="plugin.map.editdialog.nonUniqueKey" approved="yes">
+				<source><![CDATA[Non unique property key]]></source>
+				<target><![CDATA[Nicht einzigartiger Eigenschaftenschlüssel]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.editdialog.styleKeyInCustomProperties" approved="yes">
+				<source><![CDATA[Style keys are not allowed in custom properties]]></source>
+				<target><![CDATA[Stylingschlüssel sind in den Eigenschaften nicht erlaubt]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.editdialog.predefinedKeyInCustomProperties" approved="yes">
+                <source><![CDATA[Predefined keys are not allowed in custom properties]]></source>
+                <target><![CDATA[Vordefinierte Schlüssel sind in den Eigenschaften nicht erlaubt]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.editdialog.addRow" approved="yes">
+				<source><![CDATA[Add Row]]></source>
+				<target><![CDATA[Füge Zeile hinzu]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.editdialog.save" approved="yes">
+				<source><![CDATA[Save]]></source>
+				<target><![CDATA[Speichern]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.editdialog.cancel" approved="yes">
+				<source><![CDATA[Cancel]]></source>
+				<target><![CDATA[Abbrechen]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.editdialog.delete" approved="yes">
+                <source><![CDATA[Delete]]></source>
+                <target><![CDATA[Löschen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.title" approved="yes">
+                <source><![CDATA[Edit]]></source>
+                <target><![CDATA[Bearbeite]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.confirm" approved="yes">
+                <source><![CDATA[Add]]></source>
+                <target><![CDATA[Hinzufügen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.cancel" approved="yes">
+                <source><![CDATA[Cancel]]></source>
+                <target><![CDATA[Abbrechen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.title" approved="yes">
+                <source><![CDATA[Add geojson layer]]></source>
+                <target><![CDATA[Füge Geojson Ebene hinzu]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.layerTitleLabel" approved="yes">
+                <source><![CDATA[Geojson Layer Title]]></source>
+                <target><![CDATA[Name des Geojson Layers]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.projectionLabel" approved="yes">
+                <source><![CDATA[Projection]]></source>
+                <target><![CDATA[Projektion]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.adddialog.body">
+				<source><![CDATA[In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.]]></source>
+				<target><![CDATA[Um eine neue GeoJSON-Ebene hinzuzufügen, ziehen Sie Ihre GeoJSON-Datei einfach via drag and drop auf dieses Fenster oder drücken Sie diese Schaltfläche um eine Datei von Ihrem System auszuwählen.]]></target>
+			</trans-unit>
+
+            <trans-unit id="plugin.map.markerpicker.select" approved="yes">
+                <source><![CDATA[Select marker]]></source>
+                <target><![CDATA[Marker auswählen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.markerpicker.preview" approved="yes">
+                <source><![CDATA[Preview of the selected marker]]></source>
+                <target><![CDATA[Vorschaubild des ausgewählten Markers]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.dropzone.wrongFiletype" approved="yes">
+                <source><![CDATA[Wrong filetype]]></source>
+                <target><![CDATA[Falscher Dateityp]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.dropzone.drop" approved="yes">
+                <source><![CDATA[Drop geojson file]]></source>
+                <target><![CDATA[Geojson Datei ablegen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.timestamp" approved="yes">
 				<source><![CDATA[Timestamp]]></source>
 				<target><![CDATA[Zeitstempel]]></target>
 			</trans-unit>
@@ -335,7 +387,7 @@
 				<source><![CDATA[Updated]]></source>
 				<target><![CDATA[Aktualisierung]]></target>
 			</trans-unit>
-			<trans-unit id="georef.update" approved="yes">
+			<trans-unit id="plugin.map.layermanagement.georefUpdate" approved="yes">
 				<source><![CDATA[Update georeference processes]]></source>
 				<target><![CDATA[Aktualisierte Georeferenzierungen]]></target>
 			</trans-unit>
@@ -413,7 +465,7 @@
 			</trans-unit>
 			<trans-unit id="login.email" approved="yes">
 				<source><![CDATA[Email]]></source>
-				<target><![CDATA[Email]]></target>
+				<target><![CDATA[E-Mail]]></target>
 			</trans-unit>
 			<trans-unit id="login.firstname" approved="yes">
 				<source><![CDATA[First name]]></source>
@@ -459,6 +511,10 @@
 				<source><![CDATA[Username]]></source>
 				<target><![CDATA[Benutzername]]></target>
 			</trans-unit>
+			<trans-unit id="login.shortusername" approved="yes">
+				<source><![CDATA[User]]></source>
+				<target><![CDATA[Benutzer]]></target>
+			</trans-unit>
 			<trans-unit id="plugin.choosepage" approved="yes">
 				<source><![CDATA[Kartenforum: Unreferenced maps]]></source>
 				<target><![CDATA[Kartenforum: Unreferenzierte Karten]]></target>
@@ -495,6 +551,346 @@
 				<source><![CDATA[The username is already in use. Please choose another one.]]></source>
 				<target><![CDATA[Der Benutzername wird bereits verwendet. Bitte wählen Sie einen anderen.]]></target>
 			</trans-unit>
+
+
+			<!-- Newly sorted -->
+
+            <!-- Global > Map > Control > ImageManipulation -->
+            <trans-unit id="global.map.control-imagemanipulation-brightness" approved="yes">
+				<source><![CDATA[Brightness]]></source>
+				<target><![CDATA[Helligkeit]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-imagemanipulation-contrast" approved="yes">
+				<source><![CDATA[Contrast]]></source>
+				<target><![CDATA[Kontrast]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-imagemanipulation-open" approved="yes">
+				<source><![CDATA[Open image manipulation toolbox]]></source>
+				<target><![CDATA[Öffne Bildbearbeitungswerkzeug]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-imagemanipulation-reset" approved="yes">
+				<source><![CDATA[Reset]]></source>
+				<target><![CDATA[Zurücksetzen]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-imagemanipulation-saturation" approved="yes">
+				<source><![CDATA[Saturation]]></source>
+				<target><![CDATA[Sättigung]]></target>
+			</trans-unit>
+
+            <!-- Global > Map > Control > Layerspy -->
+			<trans-unit id="global.map.control-layerspy.title" approved="yes">
+				<source><![CDATA[Get a magnifier for the map]]></source>
+				<target><![CDATA[Aktiviere Kartenlupe]]></target>
+			</trans-unit>
+
+            <trans-unit id="global.map.control-layerspy.radiusTooltip" approved="yes">
+                <source><![CDATA[Press Y to increase / X to decrease]]></source>
+                <target><![CDATA[Drücken Sie Y zum Vergrößern / X zum Verkleinern]]></target>
+            </trans-unit>
+
+            <!-- Global > Map > Control > Zoom -->
+            <trans-unit id="global.map.control-zoom.out" approved="yes">
+				<source><![CDATA[Zoom out]]></source>
+				<target><![CDATA[Herauszoomen]]></target>
+			</trans-unit>
+            <trans-unit id="global.map.control-zoom.in" approved="yes">
+				<source><![CDATA[Zoom in]]></source>
+				<target><![CDATA[Hereinzoomen]]></target>
+			</trans-unit>
+
+            <!-- Global > Map > Control > Zoom to extent -->
+			<trans-unit id="global.map.control-zoomtoextent.title" approved="yes">
+				<source><![CDATA[Fit to extent]]></source>
+				<target><![CDATA[Zum Kartenausschnitt zoomen]]></target>
+			</trans-unit>
+
+			 <!-- Global > Map > Control > Permalink -->
+            <trans-unit id="global.map.control-permalink.title" approved="yes">
+                <source><![CDATA[Share current view]]></source>
+                <target><![CDATA[Aktuelle Ansicht teilen]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.permalinkTitle" approved="yes">
+                <source><![CDATA[Permalink]]></source>
+                <target><![CDATA[Permalink]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.mapViewTitle" approved="yes">
+                <source><![CDATA[Mapview]]></source>
+                <target><![CDATA[Kartenansicht]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.inputMapViewPlaceholder" approved="yes">
+                <source><![CDATA[Link to mapview]]></source>
+                <target><![CDATA[Link zu der Kartenansicht]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.exporterCopy" approved="yes">
+                <source><![CDATA[Copied]]></source>
+                <target><![CDATA[Kopiert]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.exporterCopyTitle" approved="yes">
+                <source><![CDATA[Copy to clipboard]]></source>
+                <target><![CDATA[Kopiere in die Zwischenablage]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.permalinkDescription" approved="yes">
+                <source><![CDATA[The permalink function allows sharing the current map view. Custom content, such as geojson layers or additional basemaps, cannot be shared with this function. The map view tab, which is only accessible when logged in, allows sharing of all content.]]></source>
+                <target><![CDATA[Die Permalinkfunktion erlaubt das Teilen der derzeitigen Kartenansicht. Benutzerdefinierte Inhalte, wie Geojson Layer oder zusätzliche Basiskarten, können damit nicht geteilt werden. Der nur im eingeloggten Zustand erreichbare Kartenansicht Reiter erlaubt das Teilen sämtlicher Inhalte.]]></target>
+            </trans-unit>
+            <trans-unit id="global.map.control-permalink.mapViewDescription" approved="yes">
+                <source><![CDATA[The map view function allows sharing the entire application state. For this purpose, a representation of the application state is uploaded and a unique link to this representation is generated.]]></source>
+                <target><![CDATA[Die Kartenansicht Funktion erlaubt das Teilen des gesamten Applikationszustandes. Dazu wird eine Repräsentation des Zustandes hochgeladen und ein eindeutiger Link zu dieser Repräsentation generiert.]]></target>
+            </trans-unit>
+
+           <!-- Global > Map > Control > Fullscreen -->
+			<trans-unit id="global.map.control-fullscreen.title" approved="yes">
+				<source><![CDATA[Toggle full-screen]]></source>
+				<target><![CDATA[Umschalten zu Vollbild]]></target>
+			</trans-unit>
+
+           <!-- Global > Map > Control > Rotation -->
+			<trans-unit id="global.map.control-rotate.title" approved="yes">
+				<source><![CDATA[Reset rotation]]></source>
+				<target><![CDATA[Rotation zurücksetzen]]></target>
+			</trans-unit>
+
+           <!-- Global > Map > Control > LocateMe -->
+			<trans-unit id="global.map.control-locateme.title"  approved="yes">
+				<source><![CDATA[Locate me]]></source>
+				<target><![CDATA[Lokalisiere mich]]></target>
+			</trans-unit>
+
+            <!-- Global > Map > Control > Attribution -->
+			<trans-unit id="global.map.control-attribution.basemapLabel" approved="yes">
+				<source><![CDATA[Basemap]]></source>
+				<target><![CDATA[Basiskarte]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-attribution.terrainLabel" approved="yes">
+				<source><![CDATA[Terrain]]></source>
+				<target><![CDATA[Terrain]]></target>
+			</trans-unit>
+
+            <!-- Global > Map > Control > BaseMapSelector -->
+			<trans-unit id="global.map.control-basemapselector.addwms-title" approved="yes">
+				<source><![CDATA[Add WMS]]></source>
+				<target><![CDATA[WMS hinzufügen]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-input-label" approved="yes">
+				<source><![CDATA[WMS URL Capabilities]]></source>
+				<target><![CDATA[URL zur WMS Capabilities]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-input-description" approved="yes">
+				<source><![CDATA[Please insert a URL to a WMS Capabilities for adding an WMS as a base map. A WMS GetCapabilities URL should look like a Capabilities-Request]]></source>
+				<target><![CDATA[Um den WMS als Basiskarte zu verwenden, fügen Sie Bitte eine URL zur WMS Capabilities hinzu. Die URL sollte der Form einer Capabilities-Anfrage entsprechen.]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-btn-load-capabilities" approved="yes">
+				<source><![CDATA[Load capabilities]]></source>
+				<target><![CDATA[Lade Capabilities]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-select-label" approved="yes">
+				<source><![CDATA[WMS Layer]]></source>
+				<target><![CDATA[WMS Layer]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-select-description" approved="yes">
+				<source><![CDATA[Please select the wms layer which should be used as a base map.]]></source>
+				<target><![CDATA[Wählen Sie bitte ein Layer aus, der als Basiskarte verwendet soll und klicken Sie auf hinzufügen.]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-btn-cancel" approved="yes">
+				<source><![CDATA[Cancel]]></source>
+				<target><![CDATA[Abbrechen]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.addwms-btn-submit" approved="yes">
+				<source><![CDATA[Add WMS]]></source>
+				<target><![CDATA[WMS hinzufügen]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.label" approved="yes">
+				<source><![CDATA[Select base map]]></source>
+				<target><![CDATA[Auswahl der Basiskarte]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.btn-addwms" approved="yes">
+				<source><![CDATA[Add WMS]]></source>
+				<target><![CDATA[WMS hinzufügen]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-basemapselector.errorInitialization" approved="yes">
+				<source><![CDATA[The selected base map is not available]]></source>
+				<target><![CDATA[Die ausgewählte Basiskarte ist nicht verfügbar]]></target>
+			</trans-unit>
+
+			<!-- Plugin Map > OriginalMapview -->
+			<trans-unit id="plugin.map.originalview.title" approved="yes">
+                <source><![CDATA[Original map]]></source>
+                <target><![CDATA[Originale Karte]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-desc" approved="yes">
+                <source><![CDATA[Description]]></source>
+                <target><![CDATA[Beschreibung]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-identifier" approved="yes">
+                <source><![CDATA[Identifier]]></source>
+                <target><![CDATA[Identifier]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-scale" approved="yes">
+                <source><![CDATA[Scale]]></source>
+                <target><![CDATA[Maßstab]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-keywords" approved="yes">
+                <source><![CDATA[Keywords]]></source>
+                <target><![CDATA[Schlagworte]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.label-services" approved="yes">
+                <source><![CDATA[Services]]></source>
+                <target><![CDATA[Dienste]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.link-download-label" approved="yes">
+                <source><![CDATA[Download map]]></source>
+                <target><![CDATA[Download Karte]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.originalview.link-slub-label" approved="yes">
+                <source><![CDATA[Go to SLUB]]></source>
+                <target><![CDATA[Gehe zu SLUB]]></target>
+            </trans-unit>
+
+     		<!-- Plugin Apps > GeoreferenceRanking -->
+			<trans-unit id="plugin.apps.georeferenceranking.label-place" approved="yes">
+            	<source><![CDATA[Rank]]></source>
+            	<target><![CDATA[Rang]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.apps.georeferenceranking.label-user" approved="yes">
+    			<source><![CDATA[Username]]></source>
+    			<target><![CDATA[Nutzername]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.georeferenceranking.label-transformation-new" approved="yes">
+    			<source><![CDATA[New transformations]]></source>
+    			<target><![CDATA[Neue Georeferenzierungen]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.georeferenceranking.label-transformation-update" approved="yes">
+    			<source><![CDATA[Updated transformations]]></source>
+    			<target><![CDATA[Aktualisierte Georeferenzierungen]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.georeferenceranking.label-points" approved="yes">
+    			<source><![CDATA[Points]]></source>
+    			<target><![CDATA[Punkte]]></target>
+    		</trans-unit>
+
+			<!-- Plugin Apps > UserHistory -->
+			<trans-unit id="plugin.apps.userhistory.title" approved="yes">
+            	<source><![CDATA[History of user]]></source>
+            	<target><![CDATA[Nutzerhistorie]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.apps.userhistory.subtitle" approved="yes">
+    			<source><![CDATA[Previous Georeferencing - Points]]></source>
+    			<target><![CDATA[Bisherige Georeferenzierungen - Punkte]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.userhistory.label-mapId" approved="yes">
+    			<source><![CDATA[Map Identifier]]></source>
+    			<target><![CDATA[Karten-ID]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.userhistory.label-validation" approved="yes">
+    			<source><![CDATA[Validation]]></source>
+    			<target><![CDATA[Validierung]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.userhistory.link-showMap" approved="yes">
+    			<source><![CDATA[Show map]]></source>
+    			<target><![CDATA[Zeige Karte]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.export" approved="yes">
+				<source><![CDATA[Export GeoJSON]]></source>
+				<target><![CDATA[Exportiere GeoJSON]]></target>
+			</trans-unit>
+ 			<trans-unit id="plugin.apps.userhistory.link-goToProcess" approved="yes">
+     			<source><![CDATA[Show transformation]]></source>
+     			<target><![CDATA[Zeige Transformation]]></target>
+     		</trans-unit>
+
+     		<!-- Plugin Apps > UnreferencedMaps -->
+			<trans-unit id="plugin.apps.unreferencedmaps.title" approved="yes">
+            	<source><![CDATA[Choose a map for georeferencing]]></source>
+            	<target><![CDATA[Wähle Karte für Georeeferenzierung]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.subtitle" approved="yes">
+    			<source><![CDATA[Previous Georeferencing - Points]]></source>
+    			<target><![CDATA[Anzahl unreferenzierter Karten]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.search-placehoder" approved="yes">
+    			<source><![CDATA[Map name]]></source>
+    			<target><![CDATA[Kartenname]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.label-time" approved="yes">
+    			<source><![CDATA[Time of published]]></source>
+    			<target><![CDATA[Datum der Veröffentlichung]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.label-maptype" approved="yes">
+    			<source><![CDATA[Map type]]></source>
+    			<target><![CDATA[Kartentyp]]></target>
+    		</trans-unit>
+			<trans-unit id="plugin.apps.unreferencedmaps.btn-georeference" approved="yes">
+    			<source><![CDATA[Georeference]]></source>
+    			<target><![CDATA[Georeferenzierung]]></target>
+    		</trans-unit>
+
+            <!-- Plugin Georeference -->
+            <trans-unit id="plugin.georeference.confirm" approved="yes">
+				<source><![CDATA[Confirm georeferencing]]></source>
+				<target><![CDATA[Georeferenzierung speichern]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.confirmWithoutClipMsg" approved="yes">
+				<source><![CDATA[Confirm georeference params without clip params?]]></source>
+				<target><![CDATA[Georeferenzierungsparameter ohne Clip-Polygon speichern?]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.confirmWithoutClipTitle" approved="yes">
+				<source><![CDATA[Confirm georeference params]]></source>
+				<target><![CDATA[Georeferenzierungsparameter speichern]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.deleteGcp" approved="yes">
+				<source><![CDATA[Delete ground control point]]></source>
+				<target><![CDATA[Passpunkt löschen]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.drawClip" approved="yes">
+				<source><![CDATA[Draw clip polygon]]></source>
+				<target><![CDATA[Zeichne Clip-Polygon]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.moveGcp" approved="yes">
+				<source><![CDATA[Move ground control point]]></source>
+				<target><![CDATA[Passpunkt verschieben]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.moveMap" approved="yes">
+				<source><![CDATA[Move Map]]></source>
+				<target><![CDATA[Karte verschieben]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.setGcp" approved="yes">
+				<source><![CDATA[Set ground control point]]></source>
+				<target><![CDATA[Passpunkt setzen]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.editGcp" approved="yes">
+            	<source><![CDATA[Edit ground control points]]></source>
+            	<target><![CDATA[Passpunkte editieren]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.georeference.validate" approved="yes">
+				<source><![CDATA[Update preview]]></source>
+				<target><![CDATA[Vorschau aktualisieren]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.warnMissingGCPs" approved="yes">
+				<source><![CDATA[For producing a georeference preview you need at least 4 ground control points.]]></source>
+				<target><![CDATA[Für das Erzeugen eines Vorschaubildes werden mindestes 4 Passpunkte benötigt.]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.warnWrongClipPolygon" approved="yes">
+				<source><![CDATA[Your clip polygon seems to be malformed. Please check it again or try to contact the administrator.]]></source>
+				<target><![CDATA[Das erzeugte Clip-Polygon scheint defomiert zu sein. Bitte prüfen Sie dieses noch einmal oder kontaktieren Sie den Seiten-Administrator.]]></target>
+			</trans-unit>
+
+    		<!-- Plugin Georeference > Submit Dialog -->
+            <trans-unit id="plugin.georeference.submit-dialog.title" approved="yes">
+    			<source><![CDATA[Save your georeference]]></source>
+    			<target><![CDATA[Speichern Sie ihre Georeferenzierung]]></target>
+    		</trans-unit>
+    		<trans-unit id="plugin.georeference.submit-dialog.content" approved="yes">
+                <source><![CDATA[Clicking Save will save your georeferencing results. In a few minutes they will be available to everyone via the Virtual Map Forum. If your georeferencing is still not published on the Virtual Map Forum after several hours, please contact an administrator.]]></source>
+                <target><![CDATA[Mit Klicken auf Speichern werden ihre Georeferenzierungsergebnisse gespeichert. In ein paar Minuten sind diese über das Virtuelle Kartenforum dann für alle erreichbar. Ist ihre Georeferenzierung auch nach mehreren Stunden nicht über das Virtuelle Kartenforum publiziert, kontaktieren Sie gerne einen Administrator.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.submit-dialog.btn-cancel" approved="yes">
+    			<source><![CDATA[Cancel]]></source>
+    			<target><![CDATA[Abbrechen]]></target>
+    		</trans-unit>
+            <trans-unit id="plugin.georeference.submit-dialog.btn-submit" approved="yes">
+    			<source><![CDATA[Save georeference]]></source>
+    			<target><![CDATA[Georeferenzierung speichern]]></target>
+    		</trans-unit>
 		</body>
 	</file>
 </xliff>

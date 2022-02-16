@@ -1,0 +1,27 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
+
+<div id="c{data.uid}" class="vkf-content">
+
+    <f:if condition="{data.layout} == 40">
+        <f:then>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <f:render section="Header" optional="true">
+                        <h3>{data.header}</h3>
+                    </f:render>
+                    <div class="accordion-content">
+                        <f:format.html>{data.bodytext}</f:format.html>
+                    </div>
+                </div>
+            </div>
+        </f:then>
+        <f:else>
+            <f:render section="Header" optional="true">
+                <f:render partial="Header/All" arguments="{_all}"/>
+            </f:render>
+            <f:format.html>{data.bodytext}</f:format.html>
+        </f:else>
+    </f:if>
+
+</div>
+</html>

@@ -1,0 +1,82 @@
+@import "../../../../../../Resources/Private/Scss/Variables";
+
+.mapsearch-container {
+    height: auto;
+    background: transparent;
+    flex-grow: 1;
+    overflow: hidden;
+
+    .panel {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background: transparent;
+        border-radius: 0;
+        border: 0 none;
+        box-shadow: none;
+    }
+
+    .panel-heading {
+        position: relative;
+        background: white;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 5px 15px;
+        color: $secondary-color-dark;
+        border: solid $color-lightgrey;
+        border-width: 1px 0;
+
+        .content {
+            display: flex;
+            height: 30px;
+            align-items: center;
+
+            .loading-spinner {
+                .lds-roller {
+                    top: -10px;
+                    transform: scale(0.26);
+                }
+            }
+        }
+
+        .remove-filter {
+            position: relative;
+            width: 30px;
+            height: 30px;
+            border: 0;
+            appearance: none;
+            background: transparent;
+            padding: 5px;
+
+            svg {
+                fill: $color-midgrey;
+            }
+
+            &:after {
+                position: absolute;
+                top: -1px;
+                right: -1px;
+                width: 16px;
+                height: 16px;
+                font-size: 14px;
+                line-height: 9px;
+                border-radius: 8px;
+                text-align: center;
+                border: 2px solid white;
+                background: $color-midgrey;
+                color: white;
+                content: "+";
+                transform: rotate(-45deg);
+            }
+        }
+    }
+}
+
+/**
+	list styling
+*/
+.mapsearch-container .panel-body {
+    display: flex;
+    padding: 0;
+    flex-grow: 1;
+}

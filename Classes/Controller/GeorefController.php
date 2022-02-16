@@ -1,4 +1,5 @@
 <?php
+
 namespace Slub\SlubWebKartenforum\Controller;
 
 /***************************************************************
@@ -29,187 +30,28 @@ namespace Slub\SlubWebKartenforum\Controller;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\View\JsonView;
 
 /**
  * GeorefController
  */
-class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class GeorefController extends ActionController
 {
 
     /**
-	 * feUserRepository
-	 *
-	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
-	 */
-	protected $feUserRepository;
+     * feUserRepository
+     *
+     * @var FrontendUserRepository
+     */
+    protected $feUserRepository;
 
-	/**
-     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $feUserRepository
+    /**
+     * @param FrontendUserRepository $feUserRepository
      */
     public function injectfeUserRepository(FrontendUserRepository $feUserRepository)
     {
         $this->feUserRepository = $feUserRepository;
-    }
-
-    /**
-     * rankingAction
-     *
-     * get the current to 20 ranking from georeference service
-	 */
-	public function rankingAction()
-    {
-        /** @var RequestFactory $requestFactory */
-        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
-        $configuration = [
-            'timeout' => 10,
-            'headers' => [
-                'Accept' => 'application/json'
-            ],
-        ];
-
-        // get URL from flexform or TypoScript
-		$georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
-
-        $response = $requestFactory->request($georefBackend . '/user/information', 'GET', $configuration);
-        $content  = $response->getBody()->getContents();
-        $result = json_decode($content, true);
-        if ($result) {
-            $this->view->assign('ranking', $result);
-        }
-    }
-
-   	/**
-     * rankingAction
-     *
-     * get the georeferencing history of user
-	 */
-	public function historyAction()
-    {
-        /** @var RequestFactory $requestFactory */
-        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
-        $configuration = [
-            'timeout' => 10,
-            'headers' => [
-                'Accept' => 'application/json'
-            ],
-        ];
-
-        // get URL from flexform or TypoScript
-		$georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
-
-        $feUserObj = $this->getActualUser();
-        if ($feUserObj) {
-            $userName = $feUserObj->getUsername();
-        } else {
-            // not logged in --> redirect to login page
-            $uriBuilder = $this->uriBuilder;
-            $targetUid = empty($this->settings['flexform']['loginPage']) ? $this->settings['loginPage'] : $this->settings['flexform']['loginPage'];
-            $uri = $uriBuilder
-              ->setTargetPageUid($targetUid)
-              ->build();
-            $this->redirectToURI($uri, $delay=0, $statusCode=303);
-        }
-
-        $response = $requestFactory->request($georefBackend . '/user/'.$userName.'/history', 'GET', $configuration);
-        $content  = $response->getBody()->getContents();
-        $result = json_decode($content, true);
-        if ($result) {
-            $this->view->assign('history', $result);
-        }
-        $this->view->assign('username',  $userName);
-    }
-
-    /**
-     * initializeGetProcessAction
-     *
-     * initialize GetProcessAction with jsonView as default output format
-	 */
-    public function initializeGetProcessAction()
-    {
-        $this->defaultViewObjectName = \TYPO3\CMS\Extbase\Mvc\View\JsonView::class;
-    }
-
-    /**
-     * getProcessAction
-     *
-     * get information about the given process
-	 */
-    public function getProcessAction()
-    {
-        // get mapid from GET parameter objectid
-        $objectid = GeneralUtility::_GP('objectid');
-        $georeferenceid = GeneralUtility::_GP('georeferenceid');
-
-        /** @var RequestFactory $requestFactory */
-        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
-        $configuration = [
-            'timeout' => 10,
-            'headers' => [
-                'Accept' => 'application/json'
-            ]
-        ];
-
-        // get URL from flexform or TypoScript
-	    $georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
-
-        if ($objectid) {
-            $configuration['json'] = ['objectid' => $objectid];
-            $response = $requestFactory->request($georefBackend . '/georef/process', 'POST', $configuration);
-        } else if ($georeferenceid) {
-            $response = $requestFactory->request($georefBackend . '/georef/process' . '/' . $georeferenceid, 'GET', $configuration);
-        }
-
-        if ($response) {
-            $content  = $response->getBody()->getContents();
-            $this->view->assign('value', json_decode($content, true));
-        }
-    }
-
-    /**
-     * initializeValidateGeorefProcessAction
-     *
-     * initialize validateGeorefProcessAction with jsonView as default output format
-	 */
-    public function initializeValidateGeorefProcessAction()
-    {
-        $this->defaultViewObjectName = \TYPO3\CMS\Extbase\Mvc\View\JsonView::class;
-    }
-
-    /**
-     * validateGeorefProcessAction
-     *
-     * validate the current georeference
-	 */
-	public function validateGeorefProcessAction() {
-
-        $validationRequest = GeneralUtility::_GP('req');
-
-        /** @var RequestFactory $requestFactory */
-        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
-        $configuration = [
-            'timeout' => 10,
-            'headers' => [
-                'Accept' => 'application/json'
-            ],
-            'debug' => false,
-            'json' => json_decode($validationRequest, true)
-        ];
-
-        // get URL from flexform or TypoScript
-		$georefBackend = empty($this->settings['flexform']['georefBackend']) ? $this->settings['georefBackend'] : $this->settings['flexform']['georefBackend'];
-
-		if (!is_null($validationRequest)) {
-
-            $response = $requestFactory->request($georefBackend . '/georef/validation', 'POST', $configuration);
-
-            if ($response->getStatusCode() === 200) {
-                $content  = $response->getBody()->getContents();
-                $result = json_decode($content, true);
-                if ($result) {
-                    $this->view->assign('value', $result);
-                }
-            }
-        }
     }
 
     /**
@@ -223,4 +65,319 @@ class GeorefController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 		return $feUserObj;
 	}
 
+    /**
+     * Returns the global settings from the extension
+     */
+    private function getSettings()
+    {
+        return $settings = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum'];
+    }
+
+    /**
+     * Create JSON response
+     * @var string
+     */
+    protected $defaultViewObjectName = JsonView::class;
+
+    /**
+     * Performs http get request to the georeference service
+     * @return \Psr\Http\Message\ResponseInterface Response object (ResponseInterface)
+     * @var string
+     */
+    public function doGET($path)
+    {
+        // Extract settings for querying the georeference service
+        $settings = $this->getSettings();
+        $serviceUrl = empty($settings['georefApi']) ? NULL : $settings['georefApi'];
+        $basicAuthUser = empty($settings['georefAuthUser']) ? NULL : $settings['georefAuthUser'];
+        $basicAuthPassword = empty($settings['georefAuthPassword']) ? NULL : $settings['georefAuthPassword'];
+
+        if (is_null($serviceUrl)) {
+            throw new \UnexpectedValueException('Missing url for georeference service. Please contact an admin.');
+        }
+
+        /** @var RequestFactory $requestFactory */
+        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+        $configuration = [
+            'timeout' => 10,
+            'headers' => ['Accept' => 'application/json']
+        ];
+
+        if (!is_null($basicAuthUser) && !is_null($basicAuthPassword)) {
+            // Perform GET Request without basic auth
+            $configuration['auth'] = [$basicAuthUser, $basicAuthPassword];
+        }
+
+        return $requestFactory->request($serviceUrl . $path, 'GET', $configuration);
+    }
+
+    /**
+     * Performs http get request
+     * @return \Psr\Http\Message\ResponseInterface Response object (ResponseInterface)
+     * @var any
+     * @var string
+     */
+    public function doPOST($path, $json_request)
+    {
+        // Extract settings for querying the georeference service
+        $settings = $this->getSettings();
+        $serviceUrl = empty($settings['georefApi']) ? NULL : $settings['georefApi'];
+        $basicAuthUser = empty($settings['georefAuthUser']) ? NULL : $settings['georefAuthUser'];
+        $basicAuthPassword = empty($settings['georefAuthPassword']) ? NULL : $settings['georefAuthPassword'];
+
+        /** @var RequestFactory $requestFactory */
+        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+        $configuration = [
+            'timeout' => 20,
+            'headers' => ['Accept' => 'application/json'],
+            'debug' => false,
+            'json' => $json_request
+        ];
+
+        if (!is_null($userId)) {
+            // Attach a user_id to the request object
+            $jsonRequest = json_decode($params, true);
+            $jsonRequest['user_id'] = $userId;
+            $configuration['json'] = $jsonRequest;
+        }
+
+        if (!is_null($basicAuthUser) && !is_null($basicAuthPassword)) {
+            // Perform GET Request without basic auth
+            $configuration['auth'] = [$basicAuthUser, $basicAuthPassword];
+        }
+
+        try {
+            $response = $requestFactory->request($serviceUrl . $path, 'POST', $configuration);
+            if ($response->getStatusCode() < 300) {
+                return $response->getBody()->getContents();
+            }
+        } catch (\Exception $e){
+            //debug($e);
+            return json_encode([
+                "error_code" => $e->getCode(),
+                "error_message" => $e->getMessage()
+            ]);
+        }
+
+        return json_encode([
+            "error_code" => 500,
+            "error_message" => "Something went wrong while trying to process a post request."
+        ]);
+    }
+
+    /**
+     * Action for querying statistics
+     */
+    public function getStatisticsAction()
+    {
+        // Build url and request service
+        $response = $this->doGET('/statistics');
+
+        if ($response) {
+            $content = $response->getBody()->getContents();
+            $this->view->assign('value', json_decode($content, true));
+        }
+    }
+
+    /**
+     * Action for querying transformation processes for a given mapId includes also invalids
+     */
+    public function getTransformationForMapIdAction()
+    {
+        // get mapid from GET parameter
+        $mapId = GeneralUtility::_GP('map_id');
+
+        // Build url and request service
+        $response = $this->doGET('/transformations/maps/' . $mapId . '?return_all=True');
+
+        if ($response) {
+            $content = $response->getBody()->getContents();
+            $this->view->assign('value', json_decode($content, true));
+        }
+    }
+
+    /**
+     * Action for querying transformation processes for a given userId
+     */
+    public function getTransformationForUserIdAction()
+    {
+        // get mapid from GET parameter
+        $userId = GeneralUtility::_GP('user_id');
+
+        // Build url and request service
+        $response = $this->doGET('/transformations/users/' . $userId);
+
+        if ($response) {
+            $content = $response->getBody()->getContents();
+            $this->view->assign('value', json_decode($content, true));
+        }
+    }
+
+
+    /**
+     * Action for querying transformations by a validation input
+     */
+    public function getTransformationForValidationAction()
+    {
+        // get validation value from GET parameter
+        $validation = GeneralUtility::_GP('value');
+
+        // Build url and request service
+        $response = $this->doGET('/transformations/validations/' . $validation);
+
+        if ($response) {
+            $content = $response->getBody()->getContents();
+            $this->view->assign('value', json_decode($content, true));
+        }
+    }
+
+    /**
+     * Action for querying the user history
+     */
+    public function getUserHistoryAction()
+    {
+        // get mapid from GET parameter objectid
+        $mapId = GeneralUtility::_GP('map_id');
+
+        // Extract settings for querying the georeference service
+        $serviceUrl = empty($this->settings['api_georeference']) ? NULL : $this->settings['api_georeference'];
+        $basicAuthUser = empty($this->settings['api_georeference_user']) ? NULL : $this->settings['api_georeference_user'];
+        $basicAuthPassword = empty($this->settings['api_georeference_password']) ? NULL : $this->settings['api_georeference_password'];
+        $feUserObj = $this->getActualUser();
+
+        if (is_null($feUserObj->getUsername())) {
+            throw new \UnexpectedValueException('Could not determine username.');
+        }
+
+        // Build url and response
+        $response = $this->doGET('/user/' . $feUserObj->getUsername() . '/history');
+
+        if ($response) {
+            $content = $response->getBody()->getContents();
+            $this->view->assign('value', json_decode($content, true));
+        }
+    }
+
+    /**
+     * Action for posting new jobs to the georeference service
+     */
+    public function postJobAction()
+    {
+        // get mapid from GET parameter map_id and request params
+        $requestParams = GeneralUtility::_GP('req');
+        $feUserObj = $this->getActualUser();
+
+        // Build json request
+        if (!is_null($feUserObj) && !is_null($feUserObj->getUsername())) {
+            // Attach a user_id to the request object
+            $jsonRequest = json_decode($requestParams, true);
+            $jsonRequest['user_id'] = $feUserObj->getUsername();
+
+            // Build url and request service
+            $response = $this->doPOST(
+                '/jobs',
+                $jsonRequest
+            );
+
+            if ($response) {
+                $this->view->assign('value', json_decode($response, true));
+            }
+        } else {
+            throw new \UnexpectedValueException('Could not determine username.');
+        }
+    }
+
+    /**
+     * Action for posting a new transformation processes for a given mapId
+     */
+    public function postTransformationByMapIdAction()
+    {
+        // get mapid from GET parameter map_id and request params
+        $mapId = GeneralUtility::_GP('map_id');
+        $requestParams = GeneralUtility::_GP('req');
+        $feUserObj = $this->getActualUser();
+
+        // Build json request
+        if (!is_null($feUserObj) && !is_null($feUserObj->getUsername())) {
+            // Attach a user_id to the request object
+            $jsonRequest = json_decode($requestParams, true);
+            $jsonRequest['user_id'] = $feUserObj->getUsername();
+
+            // Build url and request service
+            $response = $this->doPOST(
+                '/transformations/maps/' . $mapId,
+                $jsonRequest
+            );
+
+            if ($response) {
+                $this->view->assign('value', json_decode($response, true));
+            }
+        } else {
+            throw new \UnexpectedValueException('Could not determine username.');
+        }
+    }
+
+    /**
+     * Action for querying rectified image for a given mapId and params
+     */
+    public function postTransformationTryAction()
+    {
+        $requestParams = GeneralUtility::_GP('req');
+
+        // Build url and request service
+        $response = $this->doPOST(
+            '/transformations/try',
+            json_decode($requestParams, true)
+        );
+
+        if ($response) {
+            $this->view->assign('value', json_decode($response, true));
+        }
+    }
+
+    /**
+     * Action to post a new map_view
+     */
+    public function postMapViewAction()
+    {
+        $requestParams = GeneralUtility::_GP('req');
+        // get mapid from GET parameter map_id and request params
+        $feUserObj = $this->getActualUser();
+
+        // Build json request
+        if (!is_null($feUserObj) && !is_null($feUserObj->getUsername())) {
+            // Attach a user_id to the request object
+            $jsonRequest= json_decode(file_get_contents('php://input'), true);
+            $jsonRequest['user_id'] = $feUserObj->getUsername();
+
+            // Build url and request service
+            $response = $this->doPOST(
+                '/map_view/',
+                $jsonRequest
+            );
+
+            if ($response) {
+                $this->view->assign('value', json_decode($response, true));
+            }
+        } else {
+            throw new \UnexpectedValueException('Could not determine username.');
+        }
+    }
+
+     /**
+         * Action to get a new map_view
+         */
+        public function getMapViewAction()
+        {
+            $mapViewId = GeneralUtility::_GP('map_view_id');
+
+            // Build url and request service
+            $response = $this->doGET('/map_view/' . $mapViewId);
+
+            if ($response) {
+                $content = $response->getBody()->getContents();
+                $this->view->assign('value', json_decode($content, true));
+            }
+
+        }
 }

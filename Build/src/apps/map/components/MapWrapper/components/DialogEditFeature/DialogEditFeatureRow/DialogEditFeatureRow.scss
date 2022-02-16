@@ -1,0 +1,36 @@
+.vkf-feature-edit-dialog-row {
+    input {
+        background: transparent;
+        border: none;
+        width: 100%;
+        padding: 5px;
+        line-height: 1;
+    }
+
+    > th {
+        overflow: hidden;
+        font-weight: normal;
+        width: 33%;
+        min-width: 130px;
+        white-space: nowrap;
+        //border: 1px solid #999;
+
+        &.error {
+            background-color: #ff000040;
+        }
+    }
+
+    > td {
+        overflow: hidden;
+        width: 60%;
+        //border: 1px solid #999;
+
+        &.error {
+            background-color: #ff000040;
+        }
+    }
+
+    &:nth-child(even) {
+        background-color: #f7f7f7;
+    }
+}

@@ -1,0 +1,47 @@
+/*
+ *
+ * SLUB Kartenforum - Basic structure
+ * =========================================================
+ * Plain structural elements for basic page appearance
+ *
+ * Author: Thomas Jung <thomas@jung.digital>
+ *
+ */
+
+// Basics --------------------------------------------------------------------------------------------------------------
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    position: relative;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100%;
+
+    &.main-navigation-active {
+        overflow: hidden;
+    }
+}
+
+.content-main {
+    padding: 100px 15px;
+
+    .content-column {
+        > div[id] {
+            > header {
+                h2, h3, h4 {
+                    margin-top: 40px;
+                }
+            }
+        }
+    }
+}

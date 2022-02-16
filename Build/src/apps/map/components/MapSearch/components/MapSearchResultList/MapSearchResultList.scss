@@ -1,0 +1,97 @@
+@import "../../../../../../../../Resources/Private/Scss/Variables";
+
+.vkf-mapsearch-result-list {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    transition: $transition;
+
+    .list-header {
+        position: relative;
+        border-bottom: 1px solid $color-lightgrey;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+
+        strong {
+            font-size: 12px;
+            color: $color-grey;
+        }
+
+        .inner-columns {
+            position: relative;
+            display: flex;
+            margin-right: -3px;
+
+            .inner-col {
+                position: relative;
+                padding: 5px;
+                font-size: 12px;
+
+                .sort-element {
+                    cursor: pointer;
+                    color: $color-midgrey;
+
+                    .caret {
+                        border: 4px solid transparent;
+                        border-top-color: $color-midgrey;
+                        border-bottom-width: 0;
+                    }
+
+                    &.ascending {
+                        color: $secondary-color-dark;
+
+                        .caret {
+                            border-top-color: $secondary-color;
+                        }
+                    }
+
+                    &.descending {
+                        color: $secondary-color-dark;
+
+                        .caret {
+                            border-top: 0 none;
+                            margin-top: -2px;
+                            border-bottom: 4px solid $secondary-color;
+                        }
+                    }
+                }
+
+                &.georeference {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    &.vertical {
+        .mapsearch-contentlist-container {
+            position: absolute;
+            inset: 30px 0 0 0;
+
+            ul {
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                overflow: auto;
+                border: 1px solid #ccc;
+                transition: $transition;
+            }
+        }
+    }
+
+    &.horizontal {
+        .mapsearch-contentlist-container {
+            ul {
+                padding: 0;
+                display: flex;
+                height: 250px;
+
+                > li {
+                    display: flex;
+                }
+            }
+        }
+    }
+}

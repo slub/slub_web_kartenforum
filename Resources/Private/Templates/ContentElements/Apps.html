@@ -1,0 +1,88 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:vk="http://typo3.org/ns/Slub/SlubWebKartenforum/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
+
+<input type="hidden" value="{importApp}" id="setting-importapp"/>
+<input type="hidden" value="{urlNominatim}" id="setting-urlNominatim" />
+<input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
+<f:security.ifAuthenticated>
+    <f:then>
+        <input type="hidden" id="setting-is-auth"/>
+    </f:then>
+</f:security.ifAuthenticated>
+
+<f:section name="HeaderAssets">
+    <link rel="stylesheet" href="{f:uri.resource(path: 'Build/plugin-apps.css', extensionName: 'slub_web_kartenforum')}" />
+    <script type="text/javascript" src="{f:uri.resource(path: 'Build/plugin-apps.js', extensionName: 'slub_web_kartenforum')}"></script>
+</f:section>
+
+<!-- We have to set the language code extra, because if not the fluid template engine will destroy our osm_urls pattern -->
+<f:section name="FooterAssets">
+    <script type="text/javascript">
+        vk2.SettingsProvider.appendSettings({
+            "LANGUAGE_CODE": "<f:translate key='global.language_code' extensionName='SlubWebKartenforum' />",
+        });
+    </script>
+
+    <script type="text/javascript">
+        vk2.SettingsProvider.appendSettings({
+            "API_SEARCH": document.getElementById("setting-urlSearch").value,
+            "API_GEOREFERENCE_STATISTICS":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getStatistics&type=9991",
+            "API_GEOREFERENCE_USER_HISTORY":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getUserHistory&type=9991",
+            "LINK_TO_FAQ":  "/faq",
+            "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
+            "LINK_TO_MAIN":  "/",
+            "NOMINATIM_URL": document.getElementById("setting-urlNominatim").value,
+            "USERNAME": "<vk:username field='username'/>",
+        });
+
+        vk2.SettingsProvider.appendSettings({
+            dictionary: {
+                "georeferenceranking-label-place": "<f:translate key='plugin.apps.georeferenceranking.label-place' extensionName='SlubWebKartenforum' />",
+                "georeferenceranking-label-user": "<f:translate key='plugin.apps.georeferenceranking.label-user' extensionName='SlubWebKartenforum' />",
+                "georeferenceranking-label-transformation-new": "<f:translate key='plugin.apps.georeferenceranking.label-transformation-new' extensionName='SlubWebKartenforum' />",
+                "georeferenceranking-label-transformation-update": "<f:translate key='plugin.apps.georeferenceranking.label-transformation-update' extensionName='SlubWebKartenforum' />",
+                "georeferenceranking-label-points": "<f:translate key='plugin.apps.georeferenceranking.label-points' extensionName='SlubWebKartenforum' />",
+                "unreferencedmaps-title": "<f:translate key='plugin.apps.unreferencedmaps.title' extensionName='SlubWebKartenforum' />",
+                "unreferencedmaps-subtitle": "<f:translate key='plugin.apps.unreferencedmaps.subtitle' extensionName='SlubWebKartenforum' />",
+                "unreferencedmaps-search-placeholder": "<f:translate key='plugin.apps.unreferencedmaps.search-placehoder' extensionName='SlubWebKartenforum' />",
+                "unreferencedmaps-label-time": "<f:translate key='plugin.apps.unreferencedmaps.label-time' extensionName='SlubWebKartenforum' />",
+                "unreferencedmaps-label-maptype": "<f:translate key='plugin.apps.unreferencedmaps.label-maptype' extensionName='SlubWebKartenforum' />",
+                "unreferencedmaps-btn-georeference": "<f:translate key='plugin.apps.unreferencedmaps.btn-georeference' extensionName='SlubWebKartenforum' />",
+                "userhistory-title": "<f:translate key='plugin.apps.userhistory.title' extensionName='SlubWebKartenforum' />",
+                "userhistory-subtitle": "<f:translate key='plugin.apps.userhistory.subtitle' extensionName='SlubWebKartenforum' />",
+                "userhistory-label-mapId": "<f:translate key='plugin.apps.userhistory.label-mapId' extensionName='SlubWebKartenforum' />",
+                "userhistory-label-validation": "<f:translate key='plugin.apps.userhistory.label-validation' extensionName='SlubWebKartenforum' />",
+                "userhistory-link-showMap": "<f:translate key='plugin.apps.userhistory.link-showMap' extensionName='SlubWebKartenforum' />",
+                "userhistory-link-goToProcess": "<f:translate key='plugin.apps.userhistory.link-goToProcess' extensionName='SlubWebKartenforum' />",
+            }
+        });
+
+        // render Application
+        if (vk2 !== undefined){
+            var settingImportApp = document.getElementById("setting-importapp").value;
+
+            if (settingImportApp === "ProgressBar") {
+                vk2.renderProgressBar(
+                    document.getElementById("vkf-app-container")
+                );
+            } else if (settingImportApp === "UserHistory") {
+                vk2.renderUserHistory(
+                    document.getElementById("vkf-app-container")
+                );
+            } else if (settingImportApp === "UnreferencedMaps") {
+                vk2.renderUnreferencedMaps(
+                    document.getElementById("vkf-app-container")
+                );
+            } else if (settingImportApp === "GeoreferenceRanking") {
+                vk2.renderGeoreferenceRanking(
+                    document.getElementById("vkf-app-container")
+                );
+            }
+        }
+    </script>
+
+</f:section>
+
+<div id="vkf-app-container">
+</div>
+
+</html>

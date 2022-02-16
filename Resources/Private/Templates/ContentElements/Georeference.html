@@ -1,0 +1,63 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:vk="http://typo3.org/ns/Slub/SlubWebKartenforum/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
+
+<input type="hidden" value="{basemaps}" id="setting-basemaps"/>
+<input type="hidden" value="{urlNominatim}" id="setting-urlNominatim" />
+<input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
+
+<f:section name="HeaderAssets">
+    <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/ol.css', extensionName: 'slub_web_kartenforum')}"/>
+    <link rel="stylesheet" href="{f:uri.resource(path: 'Build/plugin-georeferencer.css', extensionName: 'slub_web_kartenforum')}"/>
+    <script type="text/javascript" src="{f:uri.resource(path: 'Contrib/JavaScript/proj4-2.2.1.js', extensionName: 'slub_web_kartenforum')}"></script>
+    <script type="text/javascript" src="{f:uri.resource(path: 'Build/plugin-georeferencer.js', extensionName: 'slub_web_kartenforum')}"></script>
+</f:section>
+
+
+<f:section name="FooterAssets">
+    <script type="text/javascript">
+        vk2.SettingsProvider.appendSettings({
+            "API_SEARCH": document.getElementById("setting-urlSearch").value,
+            "API_GEOREFERENCE_TRANSFORMATION_FOR_MAPID": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationForMapId&type=9991",
+            "API_GEOREFERENCE_TRANSFORMATION_CONFIRM": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationByMapId&type=9991",
+            "API_GEOREFERENCE_TRANSFORMATION_TRY": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationTry&type=9991",
+            "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
+            "NOMINATIM_URL": document.getElementById("setting-urlNominatim").value,
+        });
+
+        vk2.SettingsProvider.appendSettings({
+            dictionary: Object.assign(
+                {},
+                vk2.SettingsProvider.getSettings().dictionary,
+                {
+                    "georef-movemap": "<f:translate key='plugin.georeference.moveMap' extensionName='SlubWebKartenforum' />",
+                    "georef-setgcp": "<f:translate key='plugin.georeference.setGcp' extensionName='SlubWebKartenforum' />",
+                    "georef-editgcp": "<f:translate key='plugin.georeference.editGcp' extensionName='SlubWebKartenforum' />",
+                    "georef-movegcp": "<f:translate key='plugin.georeference.moveGcp' extensionName='SlubWebKartenforum' />",
+                    "georef-delgcp": "<f:translate key='plugin.georeference.deleteGcp' extensionName='SlubWebKartenforum' />",
+                    "georef-drawclip": "<f:translate key='plugin.georeference.drawClip' extensionName='SlubWebKartenforum' />",
+                    "georef-validate": "<f:translate key='plugin.georeference.validate' extensionName='SlubWebKartenforum' />",
+                    "georef-confirm": "<f:translate key='plugin.georeference.confirm' extensionName='SlubWebKartenforum' />",
+                    "georef-confirm-clip-title": "<f:translate key='plugin.georeference.confirmWithoutClipTitle' extensionName='SlubWebKartenforum' />",
+                    "georef-confirm-clip-msg": "<f:translate key='plugin.georeference.confirmWithoutClipMsg' extensionName='SlubWebKartenforum' />",
+                    "georef-confirm-warn-gcp": "<f:translate key='plugin.georeference.warnMissingGCPs' extensionName='SlubWebKartenforum' />",
+                    "georef-confirm-warn-clippolygon": "<f:translate key='plugin.georeference.warnWrongClipPolygon' extensionName='SlubWebKartenforum' />",
+                    "georef-dialog-title": "<f:translate key='plugin.georeference.submit-dialog.title' extensionName='SlubWebKartenforum' />",
+                    "georef-dialog-content": "<f:translate key='plugin.georeference.submit-dialog.content' extensionName='SlubWebKartenforum' />",
+                    "georef-dialog-btn-cancel": "<f:translate key='plugin.georeference.submit-dialog.btn-cancel' extensionName='SlubWebKartenforum' />",
+                    "georef-dialog-btn-submit": "<f:translate key='plugin.georeference.submit-dialog.btn-submit' extensionName='SlubWebKartenforum' />",
+                }
+            )
+        });
+
+        // render Application
+        if (vk2 !== undefined) {
+            vk2.renderGeoreferenceApp(
+                document.getElementById("vkf-app-georeference")
+            );
+        }
+    </script>
+</f:section>
+
+<div id="vkf-app-georeference">
+</div>
+
+</html>

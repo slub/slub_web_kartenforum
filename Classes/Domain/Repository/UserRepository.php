@@ -33,7 +33,6 @@ class UserRepository extends \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRe
 	 * @return \Slub\SlubWebKartenforum\Domain\Model\User $user
 	 */
 	public function findByUsername($username) {
-
 		$query = $this->createQuery();
 		$query->matching($query->equals('username', $username));
 		return $query->execute();

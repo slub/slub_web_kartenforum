@@ -1,0 +1,152 @@
+@import "../../../../../../../../Resources/Private/Scss/Variables";
+
+.vkf-mapsearch-record {
+    cursor: pointer;
+    list-style: none;
+    padding: 20px 10px;
+
+    &:after {
+        position: absolute;
+        top: 25px;
+        right: 0;
+        bottom: 25px;
+        width: 1px;
+        background: $color-lightgrey;
+        content: " ";
+    }
+
+    .data-col {
+        display: none;
+    }
+
+    .timestamp,
+    .scale {
+        color: $color-grey;
+    }
+
+    .no-touchevents & {
+        &:hover {
+            background-color: rgba($secondary-color, 0.15);
+        }
+    }
+
+    &.loading {
+        cursor: progress;
+    }
+
+    .selected-badge {
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        background-color: $secondary-color;
+        border-radius: 25px;
+        border: 1px solid white;
+        height: 23px;
+        width: 23px;
+        padding: 4px 5px;
+        z-index: 200;
+    }
+
+    .view-item {
+        .overview {
+            padding-left: 15px;
+            font-size: 12px;
+            line-height: 1.2;
+
+            h2 {
+                margin: 10px 0;
+                font-size: 14px;
+                word-wrap: break-word;
+                text-transform: uppercase;
+            }
+        }
+
+        .thumbnail {
+            position: relative;
+            border: 2px solid $color-lightgrey;
+            border-radius: 0;
+            padding: 2px;
+
+            img {
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+
+    &.selected {
+        .view-item {
+            .thumbnail {
+                border: 2px solid $secondary-color;
+            }
+
+            .overview {
+                h2 {
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
+    &.vertical {
+        padding: 15px;
+
+        .view-item {
+            align-items: center;
+            display: flex;
+            height: 100%;
+
+            .overview {
+                position: relative;
+
+                h2 {
+                    margin-top: 0;
+                }
+            }
+
+            .thumbnail {
+                position: relative;
+                width: 80px;
+                height: 80px;
+                margin: 0;
+            }
+        }
+    }
+
+    &.horizontal {
+        .view-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+
+            .overview {
+                width: 170px;
+                padding: 0;
+                text-align: center;
+
+                h2 {
+                    margin: 5px 0;
+                }
+            }
+
+            .thumbnail {
+                margin-bottom: 5px;
+                height: 60px;
+            }
+
+            @media screen and (min-height: 700px) {
+                .overview {
+                    h2 {
+                        margin: 10px 0;
+                    }
+                }
+                .thumbnail {
+                    margin-bottom: 15px;
+                    height: 85px;
+                }
+            }
+        }
+    }
+}

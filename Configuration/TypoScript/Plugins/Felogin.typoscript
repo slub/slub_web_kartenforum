@@ -1,11 +1,29 @@
-plugin.tx_felogin_pi1.domains = kartenforum.slub-dresden.de
-plugin.tx_felogin_pi1.exposeNonexistentUserInForgotPasswordDialog = 1
-plugin.tx_felogin_pi1.email_from = no-reply@slub-dresden.de
-plugin.tx_felogin_pi1.email_fromName = Virtuelles Kartenforum VK 2.0
+#######################################################
+# Configure FE Login to the VKF needs
+#######################################################
 
-# redirect to login page if requested page is restricted
-# https://docs.typo3.org/typo3cms/extensions/felogin/7.6/Examples/
-config {
-    typolinkLinkAccessRestrictedPages = {$config.loginPage}
-    typolinkLinkAccessRestrictedPages_addParams = &return_url=###RETURN_URL###
+plugin.tx_felogin_login {
+    domains = kartenforum.slub-dresden.de
+    exposeNonexistentUserInForgotPasswordDialog = 1
+    email_from = no-reply@slub-dresden.de
+    email_fromName = Virtuelles Kartenforum VK 2.0
+    view.templateRootPaths {
+        0 = EXT:felogin/Resources/Private/Templates/
+        10 = EXT:slub_web_kartenforum/Resources/Private/Plugins/felogin/
+    }
+    _LOCAL_LANG.default {
+        username_logout = Logged in as user:
+    }
+    _LOCAL_LANG.de {
+        status_header = Aktueller Status
+        status_message = Dies ist Ihr aktueller Status
+        username = Benutzername
+        username_logout = Angemeldet als Benutzer:
+        welcome_header = Anmeldung
+        welcome_message = Geben Sie ihren Benutzernamen und das Passwort ein um sich an dieser Website anzumelden.
+        logout_header = Ausgeloggt
+        logout_message = Sie wurden gerade von dieser Website abgemeldet. Sie können sich hier wieder anmelden.
+        error_header = Fehler bei der Anmeldung
+        error_message = Bei der Anmeldung trat ein Fehler auf. Vielleicht haben Sie den Benutzernamen oder das Passwort falsch eingegeben. Eine weiter Ursache könnten deaktivierte Cookies in Ihrem Browser sein.
+    }
 }

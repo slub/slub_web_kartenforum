@@ -1,0 +1,101 @@
+@import "../../../../../../Resources/Private/Scss/Variables";
+
+.vkf-control-dropdown {
+    .btn-dropdown-vkf-control {
+        .dropdown-toggle {
+            position: relative;
+            border: 1px solid rgba(white, 0.5);
+            background: transparent;
+            padding: 5px 10px 5px 25px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: white;
+            appearance: none;
+            border-radius: 0;
+            margin: 0 5px;
+            transition: $transition;
+
+            .caret {
+                transition: $transition;
+            }
+
+            &:hover {
+                background-color: rgba(white, 0.2);
+            }
+
+            &:focus,
+            &:focus-visible {
+                background-color: rgba(white, 0.4);
+                color: white;
+                border-color: white;
+                box-shadow: none;
+            }
+        }
+
+        svg.icon {
+            position: absolute;
+            top: 50%;
+            left: 5px;
+            margin-top: -8px;
+            height: 16px;
+            width: auto;
+            vertical-align: middle;
+            fill: white;
+        }
+
+        ul.dropdown-menu {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            background: white;
+            border-radius: 0;
+
+            li {
+                padding: 0;
+
+                &:before {
+                    display: none;
+                    content: none;
+                }
+
+                a {
+                    padding: 10px 15px 10px 30px;
+                    color: $secondary-color-dark;
+
+                    &:hover {
+                        background: transparent;
+                    }
+
+                    svg.icon {
+                        left: 8px;
+                        fill: $secondary-color-dark;
+                    }
+                }
+            }
+        }
+
+        &.open {
+            .dropdown-toggle {
+                background-color: rgba(white, 0.4);
+
+                .caret {
+                    transform: rotate(-180deg);
+                }
+            }
+        }
+    }
+
+    &.active {
+        .dropdown {
+            .dropdown-toggle {
+                background: white;
+                color: $secondary-color-dark;
+
+                svg.icon {
+                    fill: $secondary-color-dark;
+                }
+            }
+        }
+    }
+}

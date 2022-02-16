@@ -1,0 +1,42 @@
+.vkf-apps-georeferenceranking {
+    table {
+        tbody {
+            tr {
+                td {
+                }
+
+                &:first-child {
+                    // The Winner!
+                    position: relative;
+
+                    td {
+                        border: 10px solid rgb(255, 230, 155);
+                        background: rgb(255, 230, 155);
+                        font-weight: 700;
+                        color: rgb(134, 105, 0);
+                        &.rank {
+                            position: relative;
+                            color: transparent;
+                            &:before {
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                width: 30px;
+                                height: 30px;
+                                margin: -15px 0 0 -15px;
+                                background: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iIzg2NjkwMCI+PHBhdGggZD0ibTIzLjM2NiAxOS4yNjYtMi40LTQuMTM4YS4yNS4yNSAwIDAgMC0uNDI0LS4wMTNjLTEuMjIgMS44MzgtMyAzLjIzNi01LjA3NSAzLjk4NWEuMjUuMjUgMCAwIDAtLjEzMS4zNjNsMS45NzUgMy4zNDNhMSAxIDAgMCAwIDEuOC0uMTcybC44MzItMi4yODcgMi4zOTIuNDA1YTEgMSAwIDAgMCAxLjAzMS0xLjQ4OFpNMy40NzEgMTUuMDlhLjI1LjI1IDAgMCAwLS40MjUuMDEyTC42MzQgMTkuMjY3YTEgMSAwIDAgMCAxLjAzMiAxLjQ4N2wyLjM5MS0uNDA1LjgzMyAyLjI4OGExIDEgMCAwIDAgMS44LjE2OGwxLjk4LTMuMzUxYS4yNDguMjQ4IDAgMCAwLS4xMy0uMzYyIDEwLjI4NiAxMC4yODYgMCAwIDEtNS4wNjktNC4wMDJaTTIwLjc2NiA5LjQ1NmE4Ljc1IDguNzUgMCAxIDAtOC43NSA4Ljc1IDguNzYgOC43NiAwIDAgMCA4Ljc1LTguNzVaTTEwLjc0MyA4LjFhLjc1Ljc1IDAgMSAxLS40ODYtMS40MTlsMi0uNjg2YS43NS43NSAwIDAgMSAuOTkzLjcxdjZhLjc1Ljc1IDAgMSAxLTEuNSAwVjcuNzU2WiIvPjwvZz48L3N2Zz4=")
+                                    no-repeat center center;
+                                background-size: 30px auto;
+                                content: " ";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .rank,
+        .points {
+            text-align: center;
+        }
+    }
+}

@@ -2,10 +2,25 @@
 # TCEFORM
 #
 TCEFORM {
-    pages {
-
-    }
     tt_content {
+        layout {
+            removeItems = 1,2,3
+            types {
+                textmedia.addItems.40 = Content: FAQ Element
+                text.addItems.40 = Content: FAQ Element
+                header.addItems.40 = Map: Welcome Button
+            }
+        }
 
+        imageorient {
+            removeItems = 1,2,8,9,10,17,18
+            altLabels {
+                0 = Gallery
+                25 = Floating Right
+                26 = Floating Left
+            }
+        }
+
+        imagecols.removeItems = 2,3,4,5,6,7,8
     }
 }

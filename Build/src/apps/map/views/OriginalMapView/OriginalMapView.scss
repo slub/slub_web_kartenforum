@@ -1,0 +1,115 @@
+@import "../../../../../../Resources/Private/Scss/Variables";
+@import "../../../../_sass/overwrites-openlayers";
+
+.vkf-modal-original-map {
+    &.modal-dialog {
+        width: 85%;
+        height: calc(100% - 110px - 60px);
+        margin: 110px auto 60px auto;
+    }
+
+    .modal-header {
+        padding: 10px 30px;
+
+        button {
+            right: 30px;
+        }
+    }
+
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-body {
+        flex-grow: 1;
+    }
+
+    > div {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+}
+
+.vkf-view-original-map {
+    height: 100%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0 30px 0;
+
+        h1 {
+            margin: 0;
+        }
+
+        .header-functions {
+            position: relative;
+            display: flex;
+            margin: 0 -5px 0 0;
+
+            .btn {
+                border-radius: 0;
+                border: solid $secondary-color-dark;
+                border-width: 0 1px 1px 0;
+                background: $secondary-color;
+                color: white;
+                font-weight: bold;
+                padding: 5px 10px;
+                margin: 0 5px;
+            }
+        }
+    }
+
+    .content-metadata {
+        dl {
+            font-size: 14px;
+
+            dt {
+                float: left;
+                clear: left;
+                margin: 2px 0 0 0;
+                color: $color-grey;
+
+                &:after {
+                    content: ": ";
+                }
+            }
+
+            dd {
+                float: left;
+                margin: 2px 0 0 0;
+                padding: 0 4px;
+
+                & + dd {
+                    border-left: 1px solid $color-grey;
+                }
+            }
+
+            &:after {
+                position: relative;
+                width: 100%;
+                height: 1px;
+                clear: both;
+                content: " ";
+                display: table;
+            }
+        }
+    }
+
+    .content-map {
+        position: relative;
+        height: 100%;
+        width: 100%;
+
+        .ol-viewport {
+            background: white;
+            border: 1px solid $color-lightgrey;
+        }
+    }
+}

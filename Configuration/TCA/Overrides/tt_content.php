@@ -1,58 +1,87 @@
 <?php
+
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 defined('TYPO3_MODE') || die();
 
-call_user_func(function()
-{
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-        'Slub.SlubWebKartenforum',
-        'Signup',
-        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.signup'
-    );
+/***************
+ * Configure backend tabs and palettes for the new content elements
+ */
+$contentElementConfig = [
+    'showitem' => '
+        --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,
+        pi_flexform,
+        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,
+        --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility,
+        --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,
+    '
+];
 
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-        'Slub.SlubWebKartenforum',
-        'Ranking',
-        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georef'
-    );
+/***************
+ * Enhance available content elements
+ */
+$orgTca = $GLOBALS['TCA']['tt_content'];
+$overrideTca = [
+    'ctrl' => [
+        'typeicon_classes' => [
+            'slubwebkartenforum_signup' => 'VkfSignup',
+            'slubwebkartenforum_map' => 'VkfMap',
+            'slubwebkartenforum_apps' => 'VkfApps',
+            'slubwebkartenforum_georeference' => 'VkfGeoref',
+            'slubwebkartenforum_admin' => 'VkfAdmin'
+        ],
+    ],
+    'types' => [
+        'slubwebkartenforum_signup' => $contentElementConfig,
+        'slubwebkartenforum_map' => $contentElementConfig,
+        'slubwebkartenforum_apps' => $contentElementConfig,
+        'slubwebkartenforum_georeference' => $contentElementConfig,
+        'slubwebkartenforum_admin' => $contentElementConfig,
+    ],
+    'columns' => [
+        'CType' => [
+            'config' => [
+                'items' => [
+                    [
+                        'SLUB Kartenforum',
+                        '--div--'
+                    ],
+                    [
+                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.signup',
+                        'slubwebkartenforum_signup',
+                        'VkfSignup'
+                    ],
+                    [
+                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.map',
+                        'slubwebkartenforum_map',
+                        'VkfMap'
+                    ],
+                    [
+                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.apps',
+                        'slubwebkartenforum_apps',
+                        'VkfApps'
+                    ],
+                    [
+                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.admin',
+                        'slubwebkartenforum_admin',
+                        'VkfAdmin'
+                    ],
+                    [
+                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georeference',
+                        'slubwebkartenforum_georeference',
+                        'VkfGeoref'
+                    ],
+                ]
+            ]
+        ]
+    ]
+];
+$GLOBALS['TCA']['tt_content'] = array_merge_recursive($orgTca, $overrideTca);
 
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-        'Slub.SlubWebKartenforum',
-        'History',
-        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.history'
-    );
 
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-        'Slub.SlubWebKartenforum',
-        'Mapprofile',
-        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.mapprofile'
-    );
-
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-        'Slub.SlubWebKartenforum',
-        'Choosepage',
-        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.choosepage'
-    );
-
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-        'Slub.SlubWebKartenforum',
-        'Georeference',
-        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georeference'
-    );
-
-});
-
-#
-# Defines a flexform for the plugin signup
-#
-$pluginSignatureSearch  = 'slubwebkartenforum_signup';
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignatureSearch] = 'layout,select_key,pages,recursive';
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignatureSearch] = 'pi_flexform';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignatureSearch, 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_signup.xml');
-
-#
-# Defines a flexform for the plugin georef
-#
-$pluginSignatureSearch  = 'slubwebkartenforum_georeference';
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignatureSearch] = 'layout,select_key,pages,recursive';
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignatureSearch] = 'pi_flexform';
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($pluginSignatureSearch, 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_georef.xml');
+/***************
+ * Add dedicated flexform setups for the new content elements
+ */
+ExtensionManagementUtility::addPiFlexFormValue('*', 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_apps.xml', 'slubwebkartenforum_apps');
+ExtensionManagementUtility::addPiFlexFormValue('*', 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_georeference.xml', 'slubwebkartenforum_georeference');
+ExtensionManagementUtility::addPiFlexFormValue('*', 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_signup.xml', 'slubwebkartenforum_signup');

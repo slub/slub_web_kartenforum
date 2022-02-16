@@ -1,0 +1,72 @@
+.vkf-admin-evaluation {
+    position: absolute;
+    inset: 85px 15px 45px;
+    padding: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    position: fixed;
+
+    display: flex;
+    flex-direction: column;
+    .content {
+        flex-grow: 1;
+        position: relative;
+    }
+    .row {
+        height: 100%;
+        .view-col {
+            height: 100%;
+            position: relative;
+
+            > div {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                overflow-y: auto;
+            }
+        }
+
+        .custom-map-container {
+            display: flex;
+            margin-right: 15px;
+            .map-container {
+                height: 100%;
+                width: 100%;
+                .ol-control {
+                    &.ol-zoom {
+                        left: 10px;
+                    }
+                    &.ol-layerspy {
+                        left: 10px;
+                    }
+                }
+            }
+        }
+    }
+
+    .vkf-loading-bar-panel {
+        .progress {
+            margin: 45% 10%;
+        }
+    }
+
+    // Disable side effect of a style
+    ul {
+        margin: 0;
+        position: absolute;
+        li {
+            padding-left: 0;
+        }
+        li:before {
+            content: unset;
+        }
+    }
+
+    // Place LayerSpy active panel
+    .ol-layerspy-radius-box.active {
+        bottom: 10px;
+        left: 10px;
+    }
+}

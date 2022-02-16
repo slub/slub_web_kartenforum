@@ -1,0 +1,22 @@
+@import "../../../../_sass/overwrites-openlayers";
+
+.vkf-mapview-source {
+    .vk-mapview-zoomify {
+        .ol-control {
+            &.ol-zoom,
+            &.ol-zoom-extent,
+            &.ol-full-screen {
+                left: 10px;
+            }
+
+            &.ol-full-screen {
+                top: 74px;
+                right: unset;
+            }
+
+            &.ol-zoom-extent {
+                top: 110px;
+            }
+        }
+    }
+}

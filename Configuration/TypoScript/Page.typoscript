@@ -1,0 +1,201 @@
+###################################################
+# Page configuration
+###################################################
+
+page = PAGE
+page {
+    typeNum = 0
+    shortcutIcon = EXT:slub_web_kartenforum/Resources/Public/Icons/Extension.svg
+
+    10 = FLUIDTEMPLATE
+    10 {
+        templateName = TEXT
+        templateName {
+            cObject = TEXT
+            cObject {
+                data = pagelayout
+                required = 1
+                case = uppercamelcase
+                split {
+                    token = pagets__
+                    cObjNum = 1
+                    1.current = 1
+                }
+            }
+
+            ifEmpty = Default
+        }
+
+        templateRootPaths {
+            0 = EXT:slub_web_kartenforum/Resources/Private/Templates/
+            1 = {$page.fluidtemplate.templateRootPath}
+        }
+
+        partialRootPaths {
+            0 = EXT:slub_web_kartenforum/Resources/Private/Partials/Page/
+            1 = {$page.fluidtemplate.partialRootPath}
+        }
+
+        layoutRootPaths {
+            0 = EXT:slub_web_kartenforum/Resources/Private/Layouts/
+            1 = {$page.fluidtemplate.layoutRootPath}
+        }
+
+        dataProcessing {
+            10 = TYPO3\CMS\Frontend\DataProcessing\FilesProcessor
+            10 {
+                references.fieldName = media
+            }
+
+            20 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
+            20 {
+                levels = 2
+                as = mainnavigation
+            }
+
+            30 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
+            30 {
+                special = directory
+                special.value = {$config.menuMeta}
+                as = metanavigation
+            }
+
+            40 = TYPO3\CMS\Frontend\DataProcessing\LanguageMenuProcessor
+            40 {
+                languages = auto
+                as = menuLanguage
+            }
+        }
+
+        settings {
+            rootPageId = {$config.rootPageId}
+            welcomePage = {$config.welcomePage}
+            loginPage = {$config.loginPage}
+            georefhistoryPage = {$config.georefhistoryPage}
+            georefchoosePage = {$config.georefchoosePage}
+            evaluationPage = {$config.evaluationPage}
+            georefPageId = {$config.georefPage}
+            matomo {
+                hostname = {$config.matomo.hostname}
+                siteId = {$config.matomo.siteId}
+                setDomains = {$config.matomo.setDomains}
+            }
+        }
+
+    }
+
+    meta {
+        viewport = {$page.meta.viewport}
+        robots = {$page.meta.robots}
+        apple-mobile-web-app-capable = {$page.meta.apple-mobile-web-app-capable}
+        description = {$page.meta.description}
+        description {
+            override.field = description
+        }
+
+        author = {$page.meta.author}
+        author {
+            override.field = author
+        }
+
+        keywords = {$page.meta.keywords}
+        keywords {
+            override.field = keywords
+        }
+
+        X-UA-Compatible = {$page.meta.compatible}
+        X-UA-Compatible {
+            attribute = http-equiv
+        }
+
+        # OpenGraph Tags
+        og:title {
+            attribute = property
+            field = title
+        }
+
+        og:site_name {
+            attribute = property
+            data = TSFE:tmpl|setup|sitetitle
+        }
+
+        og:description = {$page.meta.description}
+        og:description {
+            attribute = property
+            field = description
+        }
+
+        og:image {
+            attribute = property
+            stdWrap.cObject = FILES
+            stdWrap.cObject {
+                references {
+                    data = levelfield:-1, media, slide
+                }
+
+                maxItems = 1
+                renderObj = COA
+                renderObj {
+                    10 = IMG_RESOURCE
+                    10 {
+                        file {
+                            import.data = file:current:uid
+                            treatIdAsReference = 1
+                            width = 1280c
+                            height = 720c
+                        }
+
+                        stdWrap {
+                            typolink {
+                                parameter.data = TSFE:lastImgResourceInfo|3
+                                returnLast = url
+                                forceAbsoluteUrl = 1
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    includeJSLibs {
+        jquery = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/jquery-3.6.0.min.js
+        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/JavaScript/bootstrap-3.3.7.min.js
+    }
+
+    includeCSS {
+        bootstrap = EXT:slub_web_kartenforum/Resources/Public/Contrib/Css/bootstrap-3.3.7.min.css
+        slub_web_kartenforum_styling = EXT:slub_web_kartenforum/Resources/Public/Css/frontend.css
+    }
+
+    includeJSFooter {
+        slub_web_kartenforum_js = EXT:slub_web_kartenforum/Resources/Public/JavaScript/frontend.js
+    }
+}
+
+# ADD CUSTOM MARKUP TO FSC CONTENT ELEMENTS
+lib.contentElement {
+    templateRootPaths.55 = EXT:slub_web_kartenforum/Resources/Private/Plugins/fluid_styled_content/Templates/
+    partialRootPaths.55 = EXT:slub_web_kartenforum/Resources/Private/Plugins/fluid_styled_content/Partials/
+    layoutRootPaths.55 = EXT:slub_web_kartenforum/Resources/Private/Plugins/fluid_styled_content/Layouts/
+}
+
+# THE JSON API FOR THE GEOREFERENCE SERVICE
+jsonApi = PAGE
+jsonApi {
+    typeNum = 9991
+    config {
+        disableAllHeaderCode = 1
+        admPanel = 0
+        additionalHeaders {
+            10 {
+                header = Content-Type: application/json
+                replace = 1
+            }
+        }
+
+        xhtml_cleaning = 0
+        debug = 0
+    }
+    10 < tt_content.slubwebkartenforum_georeference.20
+}

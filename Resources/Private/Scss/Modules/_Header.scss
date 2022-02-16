@@ -1,0 +1,50 @@
+/*
+ *
+ * SLUB Kartenforum - Header
+ * =========================================================
+ * Guess what, the styling for the websites header
+ * section (for the navigation stuff please
+ * have a look at './Navigation.scss')
+ *
+ * Author: Thomas Jung <thomas@jung.digital>
+ *
+ */
+
+.site-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    min-height: 70px;
+    background: $primary-color;
+    z-index: 1501;
+    box-shadow: $shadow;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    a.navbar-brand {
+        position: relative;
+        margin: 0 0 0 15px;
+        width: 200px;
+        height: 45px;
+        padding: 0;
+        @include text-hide();
+        display: block;
+        background: url($image-path + "vkfLogo.svg") no-repeat center center;
+        background-size: auto 100%;
+        z-index: 150;
+    }
+
+    @media screen and (min-width: $tabletViewportWidth) {
+        min-height: 85px;
+        a.navbar-brand {
+            margin-left: 25px;
+        }
+    }
+    @media screen and (min-width: $tabletLandscapeViewportWidth) {
+        a.navbar-brand {
+            flex: 0 0 200px;
+        }
+    }
+}

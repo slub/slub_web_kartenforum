@@ -1,23 +1,83 @@
-plugin.tx_slubwebkartenforum {
-	persistence {
-		storagePid = {$config.userStoragePid}
-		classes {
-			Slub\SlubWebKartenforum\Domain\Model\User {
-				mapping {
-					tableName = fe_users
-					columns {
-						name.mapOnProperty = name
-					}
-				}
-			}
-		}
-	}
-    settings {
-        loginPage = {$config.loginPage}
-        georefBackend = {$config.georef.backend}
-        viewerPageId = {$config.rootPageId}
-        georefPageId = {$config.georefPage}
-        elasticsearchNode = {$config.elasticsearch.node}
-        welcomePage = {$config.welcomePage}
-	}
+#######################################################
+# Configure VKF related content elements and plugins
+#######################################################
+
+// The main map content element with the core React application
+tt_content.slubwebkartenforum_map = FLUIDTEMPLATE
+tt_content.slubwebkartenforum_map {
+    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Map.html
+    variables {
+        basemaps = TEXT
+        basemaps.value = {$plugin.tx_slubwebkartenforum.settings.basemaps}
+        mapView = TEXT
+        mapView.value = {$plugin.tx_slubwebkartenforum.settings.mapView}
+        urlNominatim = TEXT
+        urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
+        urlSearch = TEXT
+        urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
+        terrain = TEXT
+        terrain.value = {$plugin.tx_slubwebkartenforum.settings.terrain}
+    }
+}
+
+// The apps content Element which controls the minor React snippets
+tt_content.slubwebkartenforum_apps = FLUIDTEMPLATE
+tt_content.slubwebkartenforum_apps {
+    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Apps.html
+    variables {
+        importApp = TEXT
+        importApp.data = flexform:pi_flexform:settings.importApp
+        basemaps = TEXT
+        basemaps.value = {$plugin.tx_slubwebkartenforum.settings.basemaps}
+        urlNominatim = TEXT
+        urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
+        urlSearch = TEXT
+        urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
+    }
+}
+
+// The admin content Element which controls the minor React snippets
+tt_content.slubwebkartenforum_admin = FLUIDTEMPLATE
+tt_content.slubwebkartenforum_admin {
+    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Admin.html
+    variables {
+        basemaps = TEXT
+        basemaps.value = {$plugin.tx_slubwebkartenforum.settings.basemaps}
+        urlNominatim = TEXT
+        urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
+        urlSearch = TEXT
+        urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
+    }
+}
+
+// The content element setup for the complex georeference UI
+tt_content.slubwebkartenforum_georeference = FLUIDTEMPLATE
+tt_content.slubwebkartenforum_georeference {
+    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Georeference.html
+    variables {
+        basemaps = TEXT
+        basemaps.value = {$plugin.tx_slubwebkartenforum.settings.basemaps}
+        urlNominatim = TEXT
+        urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
+        urlSearch = TEXT
+        urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
+    }
+}
+
+// The georeference plugin itself
+plugin.tx_slubwebkartenforum_georeference {
+    view.templateRootPaths.10 = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/
+    features.requireCHashArgumentForActionArguments = 0
+}
+
+// The signup content element
+plugin.tx_slubwebkartenforum_signup {
+    view.templateRootPaths.10 = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/
+    features {
+        requireCHashArgumentForActionArguments = 0
+    }
+
+    persistence {
+        storagePid = {$config.userStoragePid}
+    }
 }

@@ -1,0 +1,61 @@
+#
+# Definitions for the backend wizards for new VKF content elements
+#
+
+mod.wizards {
+    newContentElement {
+        wizardItems {
+            tx_slub_web_kartenforum {
+                header = SLUB Kartenforum
+                elements {
+                    slubwebkartenforum_signup {
+                        iconIdentifier = VkfSignup
+                        title = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.signup
+                        description = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.signup.description
+                        tt_content_defValues {
+                            CType = slubwebkartenforum_signup
+                        }
+                    }
+
+                    slubwebkartenforum_map {
+                        iconIdentifier = VkfMap
+                        title = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.map
+                        description = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.map.description
+                        tt_content_defValues {
+                            CType = slubwebkartenforum_map
+                        }
+                    }
+
+                    slubwebkartenforum_apps {
+                        iconIdentifier = VkfApps
+                        title = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.apps
+                        description = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.apps.description
+                        tt_content_defValues {
+                            CType = slubwebkartenforum_apps
+                        }
+                    }
+
+                    slubwebkartenforum_admin {
+                        iconIdentifier = VkfAdmin
+                        title = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.admin
+                        description = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.admin.description
+                        tt_content_defValues {
+                            CType = slubwebkartenforum_admin
+                        }
+                    }
+
+                    slubwebkartenforum_georeference {
+                        iconIdentifier = VkfGeoref
+                        title = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georeference
+                        description = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georeference.description
+                        tt_content_defValues {
+                            CType = slubwebkartenforum_georeference
+                        }
+                    }
+                }
+
+                show = slubwebkartenforum_signup, slubwebkartenforum_map, slubwebkartenforum_apps, slubwebkartenforum_georeference, slubwebkartenforum_admin
+            }
+        }
+    }
+}

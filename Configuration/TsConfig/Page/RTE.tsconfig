@@ -1,8 +1,8 @@
-#############
-#### RTE ####
-#############
-RTE {
-    default {
-        preset = slub_web_kartenforum
-    }
-}
+#
+# Setup for the rich text editor
+#
+RTE.default.preset = slub_web_kartenforum
+
+[page["backend_layout"] == "pagets__map"]
+RTE.default.preset = slub_web_kartenforum_minimal
+[END]

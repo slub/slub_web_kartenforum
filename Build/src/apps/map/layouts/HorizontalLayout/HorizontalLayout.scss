@@ -1,0 +1,9 @@
+.ol-map-large {
+    &:fullscreen {
+        .vkf-horizontal-layout {
+            .spatialsearch-container {
+                display: none;
+            }
+        }
+    }
+}

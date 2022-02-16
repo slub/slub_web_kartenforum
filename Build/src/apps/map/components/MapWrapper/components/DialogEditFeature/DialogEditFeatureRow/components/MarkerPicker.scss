@@ -1,0 +1,40 @@
+.vkf-marker-picker-root {
+    .marker-preview {
+        display: flex;
+        height: 34px;
+        justify-content: center;
+
+        img {
+            position: relative;
+            top: -4px;
+        }
+    }
+
+    .marker-picker-overlay {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+
+        .marker-picker-content {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+    }
+}
+
+.map-container {
+    .map-div {
+        .vkf-map-overlay {
+            &.marker-picker-overlay {
+                bottom: unset;
+                min-width: 185px;
+
+                &:after,
+                &:before {
+                    display: none;
+                }
+            }
+        }
+    }
+}

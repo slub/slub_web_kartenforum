@@ -1,0 +1,32 @@
+/**
+ *
+ * SLUB Kartenforum Frontend Styling
+ * =========================================================
+ * The complete SCSS bindings for the TYPO3
+ * frame components without the react.js elements
+ *
+ * Author: Thomas Jung <thomas@jung.digital>
+ *
+ */
+
+// Helpers
+@import "Helpers";
+@import "Variables";
+
+// Add some modules
+@import "Modules/Header";
+@import "Modules/Navigation";
+@import "Modules/Map";
+@import "Modules/Footer";
+@import "Modules/Content";
+
+// Components
+@import "Components/Normalize";
+@import "Components/Typography";
+@import "Components/Lightbox";
+@import "Components/Images";
+@import "Components/Accordion";
+@import "Components/Login";
+
+// The basic page structures
+@import "Structure";

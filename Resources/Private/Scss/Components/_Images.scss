@@ -1,0 +1,305 @@
+/*
+ *
+ * SLUB Kartenforum - Images
+ * =========================================================
+ * Styles for galleries and floating images inside
+ * the content area
+ *
+ * Author: Thomas Jung <thomas@jung.digital>
+ *
+ */
+
+// Basic image & video settings ----------------------------------------------------------------------------------------
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+svg video {
+    position: relative;
+    left: -1px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+figure {
+    line-height: 0;
+
+    .no-touchevents .content & {
+        a:before {
+            display: none;
+        }
+    }
+}
+
+.content-main .image-wrap {
+    position: relative;
+    margin: 1.4em -5px;
+    background: white;
+
+    figure {
+        position: relative;
+
+        a {
+
+            .no-touchevents & {
+                img {
+                    transition: $transition;
+                }
+
+                &:hover {
+                    img {
+                        opacity: .8;
+                        filter: brightness(130%);
+                    }
+                }
+            }
+        }
+
+        img, video, iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            object-fit: cover;
+        }
+
+        .single-image-container {
+            position: relative;
+            height: 100%;
+        }
+
+        figcaption {
+            position: relative;
+            font-size: 12px;
+            line-height: 1.5;
+            padding: 5px 0;
+            text-align: center;
+            color: $color-grey;
+            border-bottom: 1px solid $color-lightgrey;
+        }
+    }
+
+    &.has-border {
+        figure {
+            img, video, iframe {
+                border: 1px solid $color-lightgrey;
+            }
+        }
+    }
+}
+
+// Floating Images -----------------------------------------------------------------------------------------------------
+.content-main .vertical-intext {
+    margin: 2em 0;
+
+    .ce-bodytext p {
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .image-wrap {
+        margin: 0 0 15px 0;
+
+        &.multiple-images {
+            figure {
+                display: none;
+
+                &:first-child {
+                    position: relative;
+                    display: block;
+
+                    img, video, iframe {
+                        border-bottom-left-radius: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen and (min-width: $phoneLandscapeViewportWidth) {
+        &:after {
+            position: relative;
+            width: 100%;
+            height: 1px;
+            background: transparent;
+            display: table;
+            clear: both;
+            content: " ";
+            border: 0 none;
+        }
+        .image-wrap {
+            margin: 0 15px 15px 15px;
+        }
+        &.horizontal-right .image-wrap {
+            width: 40%;
+            float: right;
+            margin-right: 0;
+        }
+        &.horizontal-left .image-wrap {
+            width: 40%;
+            float: left;
+            margin-left: 0;
+        }
+    }
+
+    @media screen and (min-width: $tabletLandscapeViewportWidth) {
+        &.horizontal-right .image-wrap {
+            margin-right: -98px;
+            margin-left: 30px;
+        }
+        &.horizontal-left .image-wrap {
+            margin-left: 98px;
+            margin-right: 30px;
+        }
+    }
+
+    @media screen and (min-width: $desktopViewportWidth) {
+        figure iframe {
+            width: 348px;
+            height: 200px;
+        }
+    }
+    @media screen and (min-width: $largerViewportWidth) {
+        .image-wrap {
+            max-width: 60%;
+        }
+        figure iframe {
+            width: 100%;
+        }
+        &.horizontal-right .image-wrap {
+            margin-right: -260px;
+            margin-left: 60px;
+        }
+        &.horizontal-left .image-wrap {
+            margin-left: -260px;
+            margin-right: 60px;
+        }
+    }
+}
+
+// Galleries -----------------------------------------------------------------------------------------------------------
+.content-main .horizontal-center {
+    .image-wrap {
+        figure {
+            margin: 5px;
+
+            > a {
+                position: relative;
+                line-height: 0;
+                display: block;
+            }
+
+            &:first-child:nth-last-child(1) {
+                a {
+                    height: auto;
+                }
+
+                img {
+                    max-width: 100%;
+                    height: auto;
+                    object-fit: unset;
+                }
+            }
+
+            figcaption {
+                display: none;
+            }
+        }
+
+        @media screen and (min-width: $phoneLandscapeViewportWidth) {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            margin: 0 -5px;
+            img {
+                object-fit: cover;
+                height: 100%;
+            }
+            figure {
+                flex: 1 0 50%;
+                margin: 0;
+                padding: 5px;
+
+                > a {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+        @media screen and (min-width: $tabletLandscapeViewportWidth) {
+            flex-flow: row nowrap;
+            justify-content: center;
+            img {
+                width: 100%;
+            }
+            figure {
+                flex: 1 1 auto;
+            }
+            &.multiline-gallery {
+                flex-flow: row wrap;
+                justify-items: center;
+
+                img {
+                    height: 150px;
+                }
+
+                figure {
+                    flex: 0 1 25%;
+                }
+            }
+        }
+        @media screen and (min-width: $desktopViewportWidth) {
+            &.multiline-gallery {
+                img {
+                    height: 150px;
+                }
+
+                figure {
+                    flex: 0 1 16.6666666667%;
+                }
+            }
+        }
+    }
+}
+
+// Fancybox overwrites -------------------------------------------------------------------------------------------------
+.fancybox-bg, .fancybox-is-open .fancybox-bg {
+    background: $secondary-color-dark;
+    opacity: .9;
+}
+
+.fancybox-slide {
+
+    .fancybox-content {
+        margin: 10px;
+    }
+}
+
+.fancybox-caption {
+    background: transparent;
+
+    .caption-copyright {
+        font-size: 12px;
+        opacity: .5;
+    }
+}
+
+.fancybox-infobar {
+    color: white;
+    mix-blend-mode: normal;
+}
+
+.fancybox-button {
+    background: rgba($secondary-color, .7);
+    color: white;
+}
+
+.fancybox-button[disabled], .fancybox-button[disabled]:hover {
+    color: darken($secondary-color, 10%);
+}

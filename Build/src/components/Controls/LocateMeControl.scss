@@ -1,0 +1,12 @@
+@import "../../../../Resources/Private/Scss/Variables";
+
+.ol-control {
+    &.ol-locate-me {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 4px;
+        padding: 2px;
+        top: 95px;
+        left: 0.5em;
+    }
+}

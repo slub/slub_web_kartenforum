@@ -43,7 +43,7 @@ use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
  * @package TYPO3
  */
 
-class UsernameViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class UsernameViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
 	/**

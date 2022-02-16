@@ -1,7 +1,8 @@
 #
 # PageTS for SLUB Kartenforum
 #
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TsConfig/Page/RTE.tsconfig">
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TsConfig/Page/TCEFORM.tsconfig">
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:slub_web_kartenforum/Configuration/TsConfig/Page/TCEMAIN.tsconfig">
-<INCLUDE_TYPOSCRIPT: source="DIR:EXT:slub_web_kartenforum/Configuration/TsConfig/Page/Mod/WebLayout/BackendLayouts/" extensions="tsconfig">
+@import 'EXT:slub_web_kartenforum/Configuration/TsConfig/Page/RTE.tsconfig'
+@import 'EXT:slub_web_kartenforum/Configuration/TsConfig/Page/TCEFORM.tsconfig'
+@import 'EXT:slub_web_kartenforum/Configuration/TsConfig/Page/TCEMAIN.tsconfig'
+@import 'EXT:slub_web_kartenforum/Configuration/TsConfig/Page/Mod/Wizards.tsconfig'
+@import 'EXT:slub_web_kartenforum/Configuration/TsConfig/Page/Mod/WebLayout/BackendLayouts/*.tsconfig'

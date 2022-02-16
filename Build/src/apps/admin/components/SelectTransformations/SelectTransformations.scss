@@ -1,0 +1,26 @@
+.vkf-select-transformations {
+    padding: 10px 0;
+
+    .nav-container {
+        padding-bottom: 5px;
+        border-bottom: 1px solid lightgrey;
+
+        ul {
+            margin-bottom: 0;
+            display: inline-block;
+            position: relative;
+        }
+
+        .lds-roller {
+            float: right;
+            margin: 0 32px;
+            transform: scale(0.5);
+        }
+    }
+
+    .select-container {
+        padding: 5px;
+        border-bottom: 1px solid lightgrey;
+        min-height: 125px;
+    }
+}

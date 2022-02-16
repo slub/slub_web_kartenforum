@@ -1,0 +1,21 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
+
+<f:layout name="Default"/>
+
+<f:section name="main">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1 content-column">
+                <h1 class="visually-hidden">{data.title}</h1>
+
+                <f:if condition="{data.subtitle}">
+                    <h2 class="visually-hidden">{data.subtitle}</h2>
+                </f:if>
+                <f:cObject typoscriptObjectPath="lib.dynamicContent" data="{pageUid: '{data.uid}', colPos: '0'}"/>
+            </div>
+        </div>
+    </div>
+</f:section>
+
+</html>

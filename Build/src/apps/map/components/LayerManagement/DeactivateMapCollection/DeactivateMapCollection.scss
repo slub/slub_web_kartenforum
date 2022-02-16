@@ -1,0 +1,35 @@
+@import "../../../../../../../Resources/Private/Scss/Variables";
+
+button.deactivate-map-col-control {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    background: transparent;
+    appearance: none;
+    padding: 4px;
+
+    svg {
+        fill: $color-grey;
+    }
+
+    &:after {
+        position: absolute;
+        top: 0;
+        left: 12px;
+        width: 5px;
+        border-radius: 2px;
+        height: 30px;
+        transform: rotate(45deg) scale(0);
+        border: 2px solid white;
+        content: " ";
+        background: $color-grey;
+        transition: $transition;
+    }
+
+    &.deactivate {
+        &:after {
+            transform: rotate(45deg) scale(1);
+        }
+    }
+}

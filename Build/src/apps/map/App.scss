@@ -1,0 +1,30 @@
+.map-plugin-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-grow: 1;
+
+    > div {
+        transition: none !important;
+    }
+}
+
+.vkf-plugin-map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+
+    .vkf-notifications {
+        z-index: 1001;
+    }
+
+    .touchevents & {
+        .ol-viewport {
+            touch-action: none;
+        }
+    }
+}
