@@ -3,15 +3,12 @@
 ###################################################
 
 config {
-    absRefPrefix = auto
     no_cache = {$config.no_cache}
     uniqueLinkVars = 1
     pageTitleFirst = 1
     linkVars = L
-    prefixLocalAnchors = {$config.prefixLocalAnchors}
     renderCharset = utf-8
     metaCharset = utf-8
-    doctype = html5
     removeDefaultJS = {$config.removeDefaultJS}
     inlineStyle2TempFile = 1
     admPanel = {$config.admPanel}
@@ -21,13 +18,9 @@ config {
     intTarget =
     extTarget =
     disablePrefixComment = 1
-    index_enable = 1
-    index_externals = 1
-    index_metatags = 1
     headerComment = {$config.headerComment}
-    noScaleUp = 1
-    compressJs = 0
-    compressCss = 0
-    concatenateJs = 0
-    concatenateCss = 0
+    compressJs = 1
+    compressCss = 1
+    concatenateJs = 1
+    concatenateCss = 1
 }
