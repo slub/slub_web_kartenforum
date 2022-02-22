@@ -35,7 +35,6 @@ config {
     no_cache = 0
     removeDefaultJS = 0
     admPanel = 1
-    prefixLocalAnchors = all
     headerComment = Ein Projekt der Sächsischen Landesbibliothek - Staats- und Universitätsbibliothek Dresden (SLUB)
     sendCacheHeaders = 1
     # cat=plugin.tx_slubwebkartenforum/links/0100; type=int+; label=UID of the Root Page (Viewer)
