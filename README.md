@@ -31,13 +31,13 @@ settings are supported:
 In order for the welcome flyout to be more than a green rectangle some contents have to be added from the TYPO3
 backoffice. Any text elements are feasible for this purpose.
 
-![documentation/images/welcome_content_configuration.png](documentation/images/welcome_content_configuration.png)
+![Documentation/images/welcome_content_configuration.png](Documentation/images/welcome_content_configuration.png)
 
 In addition, a button must be included to hide the flyout and disable it for subsequent visits. The following figure
 explains how to add such a button. Mainly important is the `Appearance -> Layout` Setting, which has to
 be `Map: Welcome Button`.
 
-![documentation/images/welcome_button_configuration.png](documentation/images/welcome_button_configuration.png)
+![Documentation/images/welcome_button_configuration.png](Documentation/images/welcome_button_configuration.png)
 
 ## Development
 
