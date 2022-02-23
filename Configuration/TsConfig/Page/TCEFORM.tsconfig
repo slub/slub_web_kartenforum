@@ -3,6 +3,13 @@
 #
 TCEFORM {
     tt_content {
+        CType {
+          removeItems (
+              image,
+              textpic,
+          )
+        }
+
         layout {
             removeItems = 1,2,3
             types {
