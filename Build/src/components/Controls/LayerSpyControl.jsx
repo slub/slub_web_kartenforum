@@ -8,6 +8,7 @@ import { Control } from "ol/control";
 
 import { isDefined, translate } from "../../util/util";
 import "./LayerSpyControl.scss";
+import { getControlFeedbackContainer } from "../../apps/map/components/MapWrapper/util.js";
 
 export class LayerSpyControl extends Control {
   mousePosition = null;
@@ -212,27 +213,15 @@ export class LayerSpyControl extends Control {
   updateClipRadiusDisplay = () => {
     const targetEl = this.targetEl;
 
-    targetEl.innerHTML = `Radius: ${this.clipRadius}px <br/> (${translate(
-      "control-layerspy-radius-tooltip"
-    )})`;
-  };
-
-  toggleTargetElement = () => {
-    if (this.targetEl !== undefined) {
-      const isActive = this.targetEl.classList.contains("active");
-      if (isActive) {
-        this.targetEl.classList.remove("active");
-      } else {
-        this.targetEl.classList.add("active");
-      }
-    }
+    targetEl.innerHTML = `<strong>Radius: ${
+      this.clipRadius
+    }px</strong> (${translate("control-layerspy-radius-tooltip")})`;
   };
 
   renderTargetElement = () => {
     let targetEl = this.targetEl;
-    // add target element if it is not defined
+    const viewport = getControlFeedbackContainer(this.getMap());
     if (this.targetEl === undefined) {
-      const viewport = this.getMap().getViewport();
       targetEl = document.createElement("div");
       targetEl.className = "ol-control ol-layerspy-radius-box";
       targetEl.innerHTML = "";
@@ -242,7 +231,9 @@ export class LayerSpyControl extends Control {
     }
 
     // toggle Element and update its contents
-    this.toggleTargetElement();
+    this.targetEl.classList.toggle("active");
+    viewport.classList.toggle("layerspy-active");
+
     this.updateClipRadiusDisplay();
   };
 }

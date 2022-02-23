@@ -40,7 +40,7 @@ import {
   generateLimitCamera,
   setOptimizedCesiumSettings,
 } from "./util";
-import { getMapClassNameForLayout } from "../../layouts/util";
+import { getMapClassNameForLayout, LAYOUT_TYPES } from "../../layouts/util";
 import { useSetElementScreenSize } from "../../../../util/hooks";
 import GeoJsonLayer from "../CustomLayers/GeoJsonLayer";
 import DialogEditFeature from "./components/DialogEditFeature/DialogEditFeature";
@@ -418,14 +418,14 @@ export function MapWrapper(props) {
 
   // bind click handler to map
   useEffect(() => {
-    if (map !== undefined) {
+    if (map !== undefined && layout === LAYOUT_TYPES.HORIZONTAL) {
       map.on("click", handleMapClick);
 
       return () => {
         map.un("click", handleMapClick);
       };
     }
-  }, [handleMapClick, map]);
+  }, [handleMapClick, layout, map]);
 
   ////
   // Sync state with refs in order for the controls to get the state updates

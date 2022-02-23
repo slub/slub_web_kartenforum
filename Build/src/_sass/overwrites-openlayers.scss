@@ -13,7 +13,7 @@
 }
 
 .ol-scale-line {
-    background: rgba(0, 177, 158, 0.7);
+    background: rgba($secondary-color-dark, 0.6);
     border-radius: 0;
 }
 
@@ -33,28 +33,22 @@
     font-family: Helvetica, Arial, sans-serif;
 }
 
-.ol-mouse-position-box,
-.ol-layerspy-radius-box {
-    background: rgba(0, 177, 158, 0.7);
-    padding: 5px 10px;
-    display: none;
-    color: #fff;
-    font-size: 10px;
-    text-shadow: #fff 0 0 2px;
-
-    &.active {
-        display: block;
-    }
-}
-
 .ol-attribution.ol-uncollapsible {
     height: auto;
     right: 15px;
     bottom: 8px;
     padding: 2px;
     border-radius: 0;
-    background: rgba($secondary-color, 0.7);
+    background: rgba($secondary-color-dark, 0.6);
     color: white;
+
+    #popover-toggle {
+        display: none;
+    }
+
+    label {
+        display: none;
+    }
 
     > div {
         max-width: 270px;
@@ -206,15 +200,55 @@
 
 .ol-map-small {
     .ol-attribution.ol-uncollapsible {
-        right: 4px;
         bottom: 4px;
+        right: 4px;
+        height: 22px;
+        width: 22px;
+        text-align: center;
 
-        > div {
-            max-width: 180px;
-            padding: 0 2px;
-            line-height: 1.2;
-            max-height: 4.7vh;
-            overflow: hidden;
+        #popover-toggle {
+            position: absolute;
+            height: 0;
+            width: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        label {
+            cursor: pointer;
+            display: block;
+            margin: 0;
+            bottom: 1px;
+            left: 1px;
+
+            > span {
+                top: 2px;
+                height: 14px;
+                width: 14px;
+                font-size: 14px;
+            }
+        }
+
+        .attribution-list-container {
+            display: none;
+        }
+
+        #popover-toggle:checked ~ .attribution-list-container {
+            background-color: rgba($secondary-color-dark, 0.7);
+            bottom: 26px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            line-height: 1.4;
+            max-width: calc(100vw - 50px);
+            padding: 5px;
+            position: absolute;
+            right: 2px;
+            width: calc(50vw - 60px);
+
+            > a {
+                margin: 2px 0;
+            }
         }
     }
 
@@ -316,8 +350,6 @@
         &.ol-layerspy,
         &.mouse-position,
         &.flip-view-mode,
-        &.ol-mouse-position-box,
-        &.ol-layerspy-radius-box,
         &.basemap-selector,
         &.ol-permalink,
         &.ol-locate-me,
@@ -371,8 +403,6 @@
             &.ol-layerspy,
             &.mouse-position,
             &.flip-view-mode,
-            &.ol-mouse-position-box,
-            &.ol-layerspy-radius-box,
             &.basemap-selector,
             &.ol-locate-me,
             &.ol-permalink,

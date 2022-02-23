@@ -2,11 +2,18 @@
 
 [Logo of the Virtual Map Forum](./Resources/Public/images/welcome_logo.png)
 
-The Virtual Map Forum allows the searching and viewing of historic and georeferenced maps and offers further capabilities for the georeferencing of historic maps (dependencies to [vk2-georeference](https://github.com/slub/vk2-georeference). The application is developed as an extension for the CMS [TYPO3](https://typo3.org/). and the extension was tested with TYPO3 version 10.4.
+The Virtual Map Forum allows the searching and viewing of historic and georeferenced maps and offers further
+capabilities for the georeferencing of historic maps (dependencies
+to [vk2-georeference](https://github.com/slub/vk2-georeference). The application is developed as an extension for the
+CMS [TYPO3](https://typo3.org/). and the extension was tested with TYPO3 version 10.4.
 
 ## Configuration
 
-For a valid default configuration have a look at [ddev-kartenforum](https://github.com/slub/ddev-kartenforum). Furthermore the extension can be configured via the `Extension Configuration` in the TYPO3 back office. The following settings are supported:
+### TYPO3 Extension configuration
+
+For a valid default configuration have a look at [ddev-kartenforum](https://github.com/slub/ddev-kartenforum).
+Furthermore the extension can be configured via the `Extension Configuration` in the TYPO3 back office. The following
+settings are supported:
 
 | Property                        | Type   | Example                                                                                                                                                                                                                                                                                                                                                                                                           | Description                                                                                                                                                                                                 |
 |---------------------------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -19,9 +26,23 @@ For a valid default configuration have a look at [ddev-kartenforum](https://gith
 | georeference.georefAuthUser     | string | some_user_name                                                                                                                                                                                                                                                                                                                                                                                                    | Basic auth user name of the georeference service.                                                                                                                                                           |
 | georeference.georefAuthPassword | string | some_password                                                                                                                                                                                                                                                                                                                                                                                                     | Basic auth password of the georeference service.                                                                                                                                                            |
 
+### TYPO3 Content configuration
+
+In order for the welcome flyout to be more than a green rectangle some contents have to be added from the TYPO3
+backoffice. Any text elements are feasible for this purpose.
+
+![Documentation/images/welcome_content_configuration.png](Documentation/images/welcome_content_configuration.png)
+
+In addition, a button must be included to hide the flyout and disable it for subsequent visits. The following figure
+explains how to add such a button. Mainly important is the `Appearance -> Layout` Setting, which has to
+be `Map: Welcome Button`.
+
+![Documentation/images/welcome_button_configuration.png](Documentation/images/welcome_button_configuration.png)
+
 ## Development
 
-Besides some templating and configuration logic, the largest part of the application code is build with JavaScript. The source code is placed in the directory [Build](./Build).
+Besides some templating and configuration logic, the largest part of the application code is build with JavaScript. The
+source code is placed in the directory [Build](./Build).
 
 Main dependencies are:
 
@@ -30,7 +51,8 @@ Main dependencies are:
 * [OpenLayers](http://openlayers.org/)
 * [Cesium](https://cesium.com/)
 
-For each plugin of the extension, a JavaScript / CSS bundle is build, which is placed in the directory [Resources/Public/Build/](./Resources/Public/Build)
+For each plugin of the extension, a JavaScript / CSS bundle is build, which is placed in the
+directory [Resources/Public/Build/](./Resources/Public/Build)
 
 For building bundles or developing have a look at the `script` commands within [package.json](./Build/package.json).
 

@@ -32,7 +32,7 @@ export const FacetedSearchEntry = ({
         title={title}
         type="checkbox"
       />
-      {title}
+      <span dangerouslySetInnerHTML={{ __html: title }} />
     </label>
   ) : (
     <></>
