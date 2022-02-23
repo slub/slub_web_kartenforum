@@ -9,10 +9,13 @@ import { Control } from "ol/control";
 import { transform } from "ol/proj";
 import { translate } from "../../../../../util/util";
 import SettingsProvider from "../../../../../SettingsProvider";
+import { getControlFeedbackContainer } from "../util.js";
+import "./MousePositionOnOff.scss";
 
 export class MousePositionOnOff extends Control {
   targetEl = undefined;
   containerEl = undefined;
+
   constructor(opt_options) {
     const options = opt_options || {};
 
@@ -60,8 +63,8 @@ export class MousePositionOnOff extends Control {
 
     // initialize container for mouseposition display
     let targetEl = this.targetEl;
+    const viewport = getControlFeedbackContainer(map);
     if (this.targetEl === undefined) {
-      const viewport = map.getViewport();
       targetEl = document.createElement("div");
       targetEl.className = "ol-control ol-mouse-position-box";
       targetEl.innerHTML = "";
@@ -82,5 +85,6 @@ export class MousePositionOnOff extends Control {
     // activate behavior
     this.updatePosition(event);
     targetEl.classList.toggle(activeClass);
+    viewport.classList.toggle(`mouseposition-${activeClass}`);
   };
 }

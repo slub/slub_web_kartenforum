@@ -91,6 +91,11 @@
     &.vertical {
         padding: 15px;
 
+        &:after {
+            display: none;
+            content: none;
+        }
+
         .view-item {
             align-items: center;
             display: flex;

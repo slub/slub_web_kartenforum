@@ -1,0 +1,43 @@
+@import "../../../../../../../Resources/Private/Scss/Variables";
+
+.ol-control {
+    &.ol-mouse-position-box {
+        display: none;
+
+        .no-touchevents & {
+            position: absolute;
+            left: 370px;
+            bottom: 15px;
+            display: block;
+            opacity: 0;
+            transition: $transition;
+            background: rgba($secondary-color-dark, 0.6);
+            font-size: 11px;
+            color: white;
+            border-radius: 0;
+            padding: 5px;
+            line-height: 1.2;
+            max-width: 200px;
+
+            &.active {
+                opacity: 1;
+            }
+        }
+
+        .ol-map-large:fullscreen & {
+            left: 10px;
+        }
+    }
+}
+
+/*
+The order in which the elements are in the Dom appends on the order of function invocation by the user.
+Thus as a workaround they are selected both ways around.
+ */
+#control-feedback-container.layerspy-active {
+    .ol-mouse-position-box {
+        .no-touchevents & {
+            bottom: 60px;
+        }
+    }
+}

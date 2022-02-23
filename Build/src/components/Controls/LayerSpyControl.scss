@@ -26,4 +26,33 @@
             }
         }
     }
+
+    &.ol-layerspy-radius-box {
+        display: none;
+
+        .no-touchevents & {
+            height: 37px;
+            position: absolute;
+            left: 370px;
+            bottom: 15px;
+            display: block;
+            opacity: 0;
+            transition: $transition;
+            background: rgba($secondary-color-dark, 0.6);
+            font-size: 11px;
+            color: white;
+            border-radius: 0;
+            padding: 5px;
+            line-height: 1.2;
+            max-width: 200px;
+
+            &.active {
+                opacity: 1;
+            }
+        }
+
+        .ol-map-large:fullscreen & {
+            left: 10px;
+        }
+    }
 }

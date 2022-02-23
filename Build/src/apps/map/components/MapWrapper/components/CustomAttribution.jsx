@@ -9,18 +9,20 @@ import React from "react";
 import { Control } from "ol/control";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
+import { Glyphicon } from "react-bootstrap";
 
 import SettingsProvider from "../../../../../SettingsProvider.js";
 import { isDefined } from "../../../../../util/util.js";
 
 export const TERRAIN_ATTRIBUTION_ID = "terrain-attribution";
 
-const RawHtml = ({ content }) => (
-  <div dangerouslySetInnerHTML={{ __html: content }} />
+const RawHtml = ({ content, className }) => (
+  <div className={className} dangerouslySetInnerHTML={{ __html: content }} />
 );
 
 RawHtml.propTypes = {
   content: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export class CustomAttribution extends Control {
@@ -82,7 +84,18 @@ const AttributionList = ({ basemapAttribution, element, is3d }) => {
   }
 
   return (
-    attributionString.length > 0 && <RawHtml content={attributionString} />
+    <>
+      <input id="popover-toggle" type="checkbox" />
+      <label htmlFor="popover-toggle" aria-label="attribution toggle">
+        <Glyphicon glyph="info-sign" />
+      </label>
+      {attributionString.length > 0 && (
+        <RawHtml
+          className="attribution-list-container"
+          content={attributionString}
+        />
+      )}
+    </>
   );
 };
 
