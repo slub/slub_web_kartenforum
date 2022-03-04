@@ -9,7 +9,9 @@
     "label": "SLUB OSM",
     "urls": [
       "https://tile-1.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
-      "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"
+      "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
+      "https://tile-3.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
+      "https://tile-4.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png"
     ],
     "type": "xyz",
     "tileSize": 256,
