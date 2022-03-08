@@ -110,16 +110,29 @@ export default {
         return settingsObject["NOMINATIM_URL"];
     },
 
-    /**
-     * Returns the terrain tiles url
-     * @returns {string}
-     */
-    getTerrainUrls() {
-        return settingsObject["TERRAIN_TILES"].url;
-    },
-
     getTerrainAttribution() {
         return settingsObject["TERRAIN_TILES"].attribution;
+    },
+
+    /**
+     * Returns the description of a terrain tile services
+     * @returns {{
+     *     asset: number,
+     *     token: string,
+     *     type: "cesium" | "maptiler",
+     *     url: string | number
+     * }}
+     */
+    getTerrainService() {
+        return {
+            asset: settingsObject["TERRAIN_TILES"].asset,
+            token: settingsObject["TERRAIN_TILES"].token,
+            type:
+                settingsObject["TERRAIN_TILES"].type !== undefined
+                    ? settingsObject["TERRAIN_TILES"].type.toLowerCase()
+                    : "maptiler",
+            url: settingsObject["TERRAIN_TILES"].url,
+        };
     },
 
     /**

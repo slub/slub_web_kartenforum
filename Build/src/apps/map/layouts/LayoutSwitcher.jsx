@@ -45,7 +45,7 @@ export const LayoutSwitcher = (props) => {
         enableTerrain: true,
         layout,
         mapViewSettings: SettingsProvider.getDefaultMapView(),
-        terrainTilesUrl: SettingsProvider.getTerrainUrls(),
+        terrainTilesService: SettingsProvider.getTerrainService(),
         ChildComponent: LayoutComponent,
       }}
     />
