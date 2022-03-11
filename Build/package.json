@@ -49,6 +49,7 @@
     "@react-hook/resize-observer": "^1.2.5",
     "@react-hook/window-size": "^3.0.7",
     "axios": "^0.24.0",
+    "cesium": "~1.85.0",
     "clsx": "^1.1.1",
     "core-js": "^3.20.3",
     "downshift": "^6.1.7",

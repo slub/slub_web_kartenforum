@@ -62,7 +62,7 @@ export function MapWrapper(props) {
       zoom: 2,
     },
     onAddGeoJson,
-    terrainTilesUrl,
+    terrainTilesService,
   } = props;
 
   const initialBasemap = {
@@ -275,9 +275,16 @@ export function MapWrapper(props) {
       // initialize a terrain map
       const scene = ol3d.getCesiumScene();
 
-      // set the terrain provider
+      // initialize and load the terrain provider
+      if (terrainTilesService.type === "cesium") {
+        Cesium.Ion.defaultAccessToken = terrainTilesService.token;
+      }
+
       scene.terrainProvider = new Cesium.CesiumTerrainProvider({
-        url: terrainTilesUrl,
+        url:
+          terrainTilesService.type === "cesium"
+            ? Cesium.IonResource.fromAssetId(terrainTilesService.asset)
+            : terrainTilesService.url,
         requestVertexNormals: true,
       });
 
@@ -495,7 +502,12 @@ export const mapWrapperProps = {
     zoom: PropTypes.number,
   }),
   onAddGeoJson: PropTypes.func,
-  terrainTilesUrl: PropTypes.string,
+  terrainTilesService: PropTypes.shape({
+    asset: PropTypes.number,
+    token: PropTypes.string,
+    type: PropTypes.oneOf(["cesium", "maptiler"]).isRequired,
+    url: PropTypes.string,
+  }),
 };
 
 MapWrapper.propTypes = mapWrapperProps;
