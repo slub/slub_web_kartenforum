@@ -9,7 +9,7 @@ basemaps = [{"id":"slub-osm","label":"SLUB OSM","urls":["https://tile-1.kartenfo
 mapView = { "extent": [-20026376.39,-20048966.10,20026375.39,20048966.10], "center": [1528150, 6630500], "zoom": 2 }
 
 # cat=Global; type=string; label=Url to the nominatim (placename) endpoint
-urlNominatim = https://kartenforum.slub-dresden.de/nominatim
+urlNominatim = https://kartenforum.slub-dresden.de/nominatim/
 
 # cat=Global; type=string; label=Url to the search endpoint
 urlSearch = https://search-slub.pikobytes.de/vk20
