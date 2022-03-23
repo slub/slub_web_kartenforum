@@ -9,6 +9,8 @@ tt_content.slubwebkartenforum_map {
     variables {
         basemaps = TEXT
         basemaps.value = {$plugin.tx_slubwebkartenforum.settings.basemaps}
+        enableTilePreloading = TEXT
+        enableTilePreloading.value = {$plugin.tx_slubwebkartenforum.settings.enableTilePreloading}
         mapView = TEXT
         mapView.value = {$plugin.tx_slubwebkartenforum.settings.mapView}
         urlNominatim = TEXT

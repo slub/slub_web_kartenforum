@@ -48,6 +48,7 @@ import customFeatureConverter from "./components/customFeatureConverter/customFe
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
 import { notificationState } from "../../../../atoms/atoms";
 import "./MapWrapper.scss";
+import SettingsProvider from "../../../../SettingsProvider.js";
 
 export function MapWrapper(props) {
   const {
@@ -297,7 +298,9 @@ export function MapWrapper(props) {
       olcsMapRef.current = ol3d;
 
       // preload 3d mode in order to improve start up time
-      ol3d.warmUp(ol3d.getCamera().getAltitude(), 5000);
+      if (SettingsProvider.getIsTilePreloadingEnabled()) {
+        ol3d.warmUp(ol3d.getCamera().getAltitude(), 5000);
+      }
     }
   }, []);
 

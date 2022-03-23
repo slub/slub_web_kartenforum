@@ -88,6 +88,7 @@ const AttributionList = ({ basemapAttribution, element, is3d }) => {
       <input id="popover-toggle" type="checkbox" />
       <label htmlFor="popover-toggle" aria-label="attribution toggle">
         <Glyphicon glyph="info-sign" />
+        Show Attribution
       </label>
       {attributionString.length > 0 && (
         <RawHtml

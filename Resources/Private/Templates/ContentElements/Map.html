@@ -5,6 +5,7 @@
 <input type="hidden" value="{urlNominatim}" id="setting-urlNominatim" />
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
 <input type="hidden" value="{terrain}" id="setting-terrain"/>
+<input type="hidden" value="{enableTilePreloading}" id="settings-enableTilePreloading" />
 <f:security.ifAuthenticated>
     <f:then>
         <input type="hidden" id="setting-is-auth"/>
@@ -26,6 +27,7 @@
             "API_MAP_VIEW_PERSIST": document.getElementById("setting-is-auth") !== null ?"/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMapView&type=9991" : undefined,
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
             "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
+            "ENABLE_TILE_PRELOADING": JSON.parse(document.getElementById("settings-enableTilePreloading").value),
             "FALLBACK_THUMBNAIL": "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
             "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
             "MAPVIEW_PARAMS": JSON.parse(document.getElementById("setting-mapView").value),

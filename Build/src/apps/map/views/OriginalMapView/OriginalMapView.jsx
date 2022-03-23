@@ -21,7 +21,6 @@ export const OriginalMapView = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const newMapDocument = await queryDocument(map_id);
-      console.log(newMapDocument);
       setMapDocument(newMapDocument);
     };
     fetchData();

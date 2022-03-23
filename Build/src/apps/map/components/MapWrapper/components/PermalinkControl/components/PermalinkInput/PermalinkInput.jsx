@@ -88,7 +88,8 @@ export const PermalinkInput = ({
   return (
     <>
       <div className="action-content">
-        <input readOnly ref={refInput} value={value} />
+        <label htmlFor="permalink-value" className="visually-hidden">Permalink</label>
+        <input readOnly ref={refInput} value={value} id="permalink-value" />
         <CopyToClipboardButton value={value} />
       </div>
       <div className="description">

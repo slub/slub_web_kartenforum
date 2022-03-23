@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useCallback, useEffect, useState } from "react";
-import { FormGroup, Glyphicon, Radio } from "react-bootstrap";
+import { Glyphicon, Radio } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 import SettingsProvider from "../../../../SettingsProvider";
@@ -129,10 +129,10 @@ export const BasemapSelector = (props) => {
     <React.Fragment>
       {activeLayer !== undefined && (
         <React.Fragment>
-          <h4>{translate("control-basemapselector-label")}:</h4>
-          <div className="wms-entries">
+          <h2>{translate("control-basemapselector-label")}:</h2>
+          <ul className="wms-entries">
             {[...layers, ...customLayers].map((l) => (
-              <div key={l.id} className="basemap-selector-entry">
+              <li key={l.id} className="basemap-selector-entry">
                 <Radio
                   onChange={() => handleChangeBaseMapLayer(l)}
                   name={l.id}
@@ -154,9 +154,9 @@ export const BasemapSelector = (props) => {
                     <Glyphicon glyph="remove" />
                   </button>
                 )}
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
           <div className="controls-container">
             <button
               className="add-wms-button"

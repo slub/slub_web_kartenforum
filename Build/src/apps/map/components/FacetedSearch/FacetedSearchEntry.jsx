@@ -23,17 +23,19 @@ export const FacetedSearchEntry = ({
   };
 
   return id !== "ToGeoref" || (id === "toGeoref" && georeferenceMode) ? (
-    <label title={title}>
-      <input
-        checked={checked}
-        className="facet-search-el"
-        onChange={handleClick}
-        id={id}
-        title={title}
-        type="checkbox"
-      />
-      <span dangerouslySetInnerHTML={{ __html: title }} />
-    </label>
+    <li>
+      <label htmlFor={id}>
+        <input
+          checked={checked}
+          className="facet-search-el"
+          onChange={handleClick}
+          id={id}
+          title={title}
+          type="checkbox"
+        />
+        <span dangerouslySetInnerHTML={{ __html: title }} />
+      </label>
+    </li>
   ) : (
     <></>
   );

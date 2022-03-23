@@ -9,7 +9,6 @@ import React, { useRef, useState } from "react";
 import { useCombobox } from "downshift";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-
 import "./Autocomplete.scss";
 
 export function Autocomplete({
@@ -72,10 +71,11 @@ export function Autocomplete({
   const { onClick, ...restButtonProps } = buttonProps ?? {};
 
   const { ref, ...rest } = getInputProps();
-
   return (
     <div className="vkf-autocomplete-container">
-      {label !== undefined && <label {...getLabelProps()}>{label}</label>}
+      <label {...getLabelProps()} id={rest["aria-labelledby"]} className="visually-hidden">
+        {label !== undefined ? label : inputProps.placeholder}
+      </label>
       <div className="form-group" {...getComboboxProps()}>
         <input
           {...rest}
@@ -108,7 +108,11 @@ export function Autocomplete({
       </div>
 
       <div className="autocomplete-dropdown">
-        <ul className="autocomplete-result-list" {...getMenuProps()}>
+        <ul
+          className="autocomplete-result-list"
+          {...getMenuProps()}
+          id={rest["aria-controls"]}
+        >
           {isOpen &&
             inputItems.map((item, index) => (
               <li

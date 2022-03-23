@@ -5,10 +5,22 @@
     margin: 0 -15px;
     overflow: hidden;
     height: 0;
+    visibility: hidden;
     transition: $transition;
     text-transform: none;
     font-size: 14px;
     line-height: 1;
+
+    ul {
+        margin: 0;
+
+        li {
+            padding: 0;
+            &:before {
+                display: none;
+            }
+        }
+    }
 
     .search-facet {
         label {
@@ -25,13 +37,14 @@
             }
 
             &:hover {
-                background-color: rgba($secondary-color, .1);
+                background-color: rgba($secondary-color, 0.1);
             }
         }
     }
 }
 
 .facetedsearch-open .facet-container {
+    visibility: visible;
     height: 160px;
     overflow-y: auto;
 }

@@ -27,6 +27,7 @@ let settingsObject = {
             tileSize: 512,
         },
     ],
+    ENABLE_TILE_PRELOADING: false,
     LANGUAGE_CODE: "en",
 };
 
@@ -84,6 +85,14 @@ export default {
             },
             settingsObject["MAPVIEW_PARAMS"]
         );
+    },
+
+    /**
+     * Returns the 3d preloading state from the settings object
+     * @return {*}
+     */
+    getIsTilePreloadingEnabled() {
+        return settingsObject.ENABLE_TILE_PRELOADING === 1;
     },
 
     /**
