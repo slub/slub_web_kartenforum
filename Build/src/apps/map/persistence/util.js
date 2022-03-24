@@ -93,6 +93,33 @@ export const fitMapToFeatures = (map, features) => {
 };
 
 /**
+ * Joins two path parameters which might be arrays
+ * @param a
+ * @param b
+ * @return {*[]}
+ */
+export const joinArrayPathParameters = (a, b) => {
+    let result;
+
+    if (a === undefined) {
+        result = b;
+    } else if (b === undefined) {
+        result = a;
+    } else {
+        const isaArray = Array.isArray(a);
+        const isbArray = Array.isArray(b);
+
+        const intermediateA = isaArray ? a : [a];
+        const intermediateB = isbArray ? b : [b];
+
+        // remove duplicates
+        result = Array.from(new Set([...intermediateA, ...intermediateB]));
+    }
+
+    return result;
+};
+
+/**
  * Serializes an operational layer
  * @param feature
  * @param type - type of the layer

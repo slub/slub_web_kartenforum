@@ -101,6 +101,16 @@ export const LayerManagementEntry = (props) => {
   // Handler section
   ////
 
+  // check if the new active element is within the element before unhovering it on keyboard navigation
+  const handleBlur = () =>
+    setTimeout(() => {
+      if (ref.current !== null) {
+        if (!ref.current.contains(document.activeElement)) {
+          handleMouseLeave();
+        }
+      }
+    }, 100);
+
   // load fallback image in case the image from the supplied url cannot be loaded
   const handleError = () => {
     if (src !== FALLBACK_SRC) {
@@ -229,6 +239,8 @@ export const LayerManagementEntry = (props) => {
       id={index}
       data-id={layer.getId()}
       data-handler-id={handlerId}
+      onFocus={handleMouseEnter}
+      onBlur={handleBlur}
       onMouseEnter={handleMouseEnter}
       onMouseOver={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -242,7 +254,7 @@ export const LayerManagementEntry = (props) => {
           type="button"
           title={translate("layermanagement-show-map")}
         >
-          {translate("layermanagement-show-map")}
+          {` ${translate("layermanagement-show-map")}: ${layer.getTitle()}`}
         </button>
       </div>
       {layer.get("type") === LAYER_TYPES.GEOJSON ? (
@@ -250,18 +262,22 @@ export const LayerManagementEntry = (props) => {
           <div className="thumbnail-container">
             <img
               src={settings.FALLBACK_THUMBNAIL}
-              alt="Placeholder for GeoJSON-Image"
+              alt={`GeoJSON Image for ${layer.getTitle()}`}
             />
             <span className="geojson-badge">GeoJSON</span>
           </div>
         </React.Fragment>
       ) : (
         <div className="thumbnail-container">
-          <img onError={handleError} src={src} alt="Thumbnail Image of Map" />
+          <img
+              onError={handleError}
+              src={src}
+              alt={`Thumbnail Image of Map for ${layer.getTitle()}`}
+          />
         </div>
       )}
       <div className="metadata-container">
-        <h4>{layer.getTitle()}</h4>
+        <h3>{layer.getTitle()}</h3>
         <div className="timestamps">
           <span className="timestamps-label">{`${translate(
             "layermanagement-timestamp"
@@ -276,7 +292,6 @@ export const LayerManagementEntry = (props) => {
           title={translate("layermanagement-move-top")}
         >
           <SvgIcons name="layeraction-totop" />
-          {translate("layermanagement-move-top")}
         </button>
         <button
           className="remove-layer minimize-tool"
@@ -285,7 +300,6 @@ export const LayerManagementEntry = (props) => {
           title={translate("layermanagement-remove-map")}
         >
           <SvgIcons name="layeraction-remove-map" />
-          {translate("layermanagement-remove-map")}
         </button>
         <button
           className="zoom-layer minimize-tool"
@@ -294,7 +308,6 @@ export const LayerManagementEntry = (props) => {
           title={translate("layermanagement-zoom-to-map")}
         >
           <SvgIcons name="layeraction-center" />
-          {translate("layermanagement-zoom-to-map")}
         </button>
         {layer.get("type") !== LAYER_TYPES.GEOJSON ? (
           <button
@@ -304,7 +317,6 @@ export const LayerManagementEntry = (props) => {
             title={translate("layermanagement-show-original")}
           >
             <SvgIcons name="layeraction-showoriginal" />
-            {translate("layermanagement-show-original")}
           </button>
         ) : (
           <button
@@ -314,7 +326,6 @@ export const LayerManagementEntry = (props) => {
             title={translate("layermanagement-export")}
           >
             <SvgIcons name="layeraction-export" />
-            {translate("layermanagement-export")}
           </button>
         )}
         {settings["LINK_TO_GEOREFERENCE"] !== undefined &&
@@ -322,21 +333,20 @@ export const LayerManagementEntry = (props) => {
             <button
               className="georeference-update"
               title={`${translate("layermangement-georef-update")} ...`}
-              onClick={(e) => {
+              onClick={() => {
                 window.open(
                   `${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layer.getId()}`,
                   "_blank"
                 );
               }}
             >
-              <SvgIcons name="icon-point-move" />$
-              {translate("layermangement-georef-update")}
+              <SvgIcons name="icon-point-move" />
             </button>
           )}
         <OpacitySlider orientation="horizontal" layer={layer} />
       </div>
       <div className="drag-container">
-        <DragButton />
+        <DragButton tabIndex={-1} />
       </div>
     </li>
   );

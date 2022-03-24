@@ -193,10 +193,8 @@ export const MapSearchResultList = ({
         >
           {({ onItemsRendered, ref }) => (
             <List
-              layout={direction}
               height={height}
-              width={width}
-              onItemsRendered={onItemsRendered}
+              innerElementType="ul"
               itemCount={mapCount}
               itemSize={itemSize}
               itemData={{
@@ -205,7 +203,10 @@ export const MapSearchResultList = ({
                 is3d: is3dEnabled,
                 onClick: handleElementClick,
               }}
+              layout={direction}
+              onItemsRendered={onItemsRendered}
               ref={ref}
+              width={width}
             >
               {MapSearchListElement}
             </List>

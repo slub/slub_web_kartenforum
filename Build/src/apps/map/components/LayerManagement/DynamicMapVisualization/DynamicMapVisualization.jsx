@@ -22,6 +22,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const [animatedLayer, setAnimatedLayer] = useState(undefined);
   const [open, setOpen] = useState(false);
   const map = useRecoilValue(mapState);
+  const title = translate(`dynamicmapvis-${open ? "close" : "open"}`);
 
   // refs
   const activeRef = useRef(false);
@@ -138,15 +139,22 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   return (
     <div
       className={clsx("vkf-dyn-vis-control", active && "play", open && "open")}
-      title={translate(`dynamicmapvis-${open ? "close" : "open"}`)}
+      title={title}
+      aria-label={title}
+      id="dynamic-map-visualization"
     >
-      <button className="open-dyn-vis" onClick={handleToggleMenu}>
+      <button
+        className="open-dyn-vis"
+        onClick={handleToggleMenu}
+        aria-labelledby="dynamic-map-visualization"
+      >
         <svg
           width="100%"
           height="100%"
           viewBox="0 0 30 30"
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
+          alt={title}
         >
           <path
             className="arrow"
@@ -169,16 +177,20 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
           {feedback}
         </div>
         <button
-          onClick={handleStart}
-          title={translate("dynamicmapvis-start")}
+          aria-label={translate("dynamicmapvis-start")}
           className="start-button"
+          onClick={handleStart}
+          tabIndex={open ? undefined : -1}
+          title={translate("dynamicmapvis-start")}
         >
           Start
         </button>
         <button
-          onClick={handleStop}
-          title={translate("dynamicmapvis-stop")}
+          aria-label={translate("dynamicmapvis-stop")}
           className="stop-button"
+          onClick={handleStop}
+          tabIndex={open ? undefined : -1}
+          title={translate("dynamicmapvis-stop")}
         >
           Stop
         </button>

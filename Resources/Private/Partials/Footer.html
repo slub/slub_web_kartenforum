@@ -7,7 +7,7 @@
                 <f:for each="{metanavigation}" as="item">
                     <li>
                         <a href="{item.link}" target="{item.target}" title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}" class="header-navigation-link">
-                            <span title="{item.data.title}{f:if(condition:item.data.subtitle, then:': {item.data.subtitle}')}">{item.title}</span>
+                            {item.title}
                         </a>
                     </li>
                 </f:for>

@@ -59,7 +59,7 @@ export const FacetedSearch = ({ georeferenceMode }) => {
   };
 
   return (
-    <div className="search-facet">
+    <ul className="search-facet">
       {Object.keys(FACETED_SEARCH_TYPES).map((key) => (
         <FacetedSearchEntry
           checked={facets.facets.findIndex((f) => f.id === key) !== -1}
@@ -69,7 +69,7 @@ export const FacetedSearch = ({ georeferenceMode }) => {
           id={key}
         />
       ))}
-    </div>
+    </ul>
   );
 };
 

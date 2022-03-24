@@ -26,6 +26,7 @@ import {
   areAllUndefined,
   deSerializeOperationalLayer,
   fitMapToFeatures,
+  joinArrayPathParameters,
   updateCameraFromMapview,
   useLocalStorage,
   wrapMapFeatures,
@@ -106,7 +107,7 @@ export const PersistenceController = () => {
   // determine restore source
   useEffect(() => {
     // parse settings from url params
-    const { b, v, oid, map_view_id, ...rest } = parse(location.search, {
+    const { b, v, oid, map_id, map_view_id, ...rest } = parse(location.search, {
       arrayFormat: "comma",
       parseNumbers: true,
     });
@@ -140,7 +141,7 @@ export const PersistenceController = () => {
         activeBasemapId: b,
         is3dEnabled: urlViewMode,
         mapView: parseMapView(rest, urlViewMode),
-        oid,
+        oid: joinArrayPathParameters(oid, map_id),
       };
 
       // restore from url if at least one property is set via url

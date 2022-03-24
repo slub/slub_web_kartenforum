@@ -3,6 +3,7 @@
 <f:layout name="Default"/>
 
 <f:section name="main">
+    <h1 class="visually-hidden">{data.title}</h1>
     <f:cObject typoscriptObjectPath="lib.dynamicContent" data="{pageUid: '{data.uid}', colPos: '0'}"/>
     <div class="welcome-container">
         <div class="welcome-content">

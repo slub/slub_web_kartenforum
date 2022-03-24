@@ -84,7 +84,7 @@ export const serializeBasemapId = (basemapId) => {
  */
 export const serializeSelectedFeatures = (selectedFeatures) => {
     return {
-        oid: selectedFeatures
+        map_id: selectedFeatures
             .filter(({ type }) => type === LAYER_TYPES.HISTORIC_MAP)
             .map(({ feature }) => feature.getId()),
     };

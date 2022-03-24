@@ -8,7 +8,7 @@
     width: 100%;
     z-index: 120;
     border-bottom: 2px solid #c8c8c8;
-    @include box-shadow;
+    box-shadow: $shadow;
 
     .top-container {
         display: flex;

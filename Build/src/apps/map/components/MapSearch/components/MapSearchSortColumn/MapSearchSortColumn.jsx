@@ -9,6 +9,12 @@ export const MapSearchSortColumn = ({ onClick, sortOrder, type }) => {
     onClick(type);
   };
 
+  const handleEnter = (e) => {
+    if (e.keyCode === 13) {
+      handleClick();
+    }
+  };
+
   const title =
     translate(`mapsearch-${type}`) === ""
       ? translate(type)
@@ -20,9 +26,13 @@ export const MapSearchSortColumn = ({ onClick, sortOrder, type }) => {
         className={clsx("sort-element", type, sortOrder)}
         datatype={type}
         onClick={handleClick}
+        onKeyDown={handleEnter}
+        tabIndex={0}
       >
         {title}
-        <span className="caret caret-reversed" />
+        <span className="caret-container">
+          <span className="caret caret-reversed" />
+        </span>
       </div>
     </div>
   );

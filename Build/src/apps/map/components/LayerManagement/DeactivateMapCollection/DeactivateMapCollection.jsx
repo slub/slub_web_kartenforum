@@ -18,6 +18,11 @@ export const DeactivateMapCollection = () => {
   const [isActive, setIsActive] = useState(true);
   const map = useRecoilValue(mapState);
   const olcsMap = useRecoilValue(olcsMapState);
+  const title = translate(
+    isActive
+      ? "layermanagement-deactivate-all-maps"
+      : "layermanagement-activate-all-maps"
+  );
 
   const handleClick = () => {
     const layers = getOperationalLayers(map);
@@ -38,13 +43,14 @@ export const DeactivateMapCollection = () => {
         "deactivate-map-col-control",
         isActive ? "deactivate" : ""
       )}
-      title={translate(
-        isActive
-          ? "layermanagement-deactivate-all-maps"
-          : "layermanagement-activate-all-maps"
-      )}
+      title={title}
+      id="deactivate-all-maps"
     >
-      <SvgIcons name="layermanagement-deactivate" />
+      <SvgIcons
+        name="layermanagement-deactivate"
+        aria-labelledby="deactivate-all-maps"
+        alt={title}
+      />
     </button>
   );
 };

@@ -44,6 +44,12 @@ export const MapSearchListElement = ({ data, index, style }) => {
     onClick(operationalLayer);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleClick();
+    }
+  };
+
   const handleError = () => {
     if (src !== "" && src !== FALLBACK_SRC) {
       setSrc(FALLBACK_SRC);
@@ -93,6 +99,7 @@ export const MapSearchListElement = ({ data, index, style }) => {
 
   return (
     <li
+      tabIndex={0}
       style={style}
       className={clsx(
         "vkf-mapsearch-record",
@@ -103,6 +110,7 @@ export const MapSearchListElement = ({ data, index, style }) => {
       )}
       id={operationalLayer.get("id")}
       onClick={isLoading ? undefined : handleClick}
+      onKeyDown={isLoading ? undefined : handleKeyDown}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -112,18 +120,20 @@ export const MapSearchListElement = ({ data, index, style }) => {
       <span className="data-col title">{operationalLayer.get("title")}</span>
       <span className="data-col time">1</span>
       <div className="view-item">
-        <a className="thumbnail" href="#">
+        <span className="thumbnail" href="#">
           {src === "" ? (
             <Skeleton.default height="calc(100% - 6px)" />
           ) : (
-            <img alt="Thumbnail Image of Map" onError={handleError} src={src} />
+            <img
+                alt={`Thumbnail Image of Map ${operationalLayer.get("title")} ${operationalLayer.get("time_published")}`}
+                onError={handleError} src={src} />
           )}
           {isSelected && (
             <span className="badge selected-badge">
               <span className="glyphicon glyphicon-ok" />{" "}
             </span>
           )}
-        </a>
+        </span>
         <div className="overview">
           <h2>
             {isLoading ? <Skeleton.default /> : operationalLayer.get("title")}

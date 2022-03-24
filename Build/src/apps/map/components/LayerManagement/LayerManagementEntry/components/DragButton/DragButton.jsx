@@ -9,10 +9,16 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 
 import "./DragButton.scss";
+import SettingsProvider from "../../../../../../../SettingsProvider.js";
 
 export const DragButton = ({ active, ...rest }) => {
+  const languageCode = SettingsProvider.getSettings();
   return (
-    <button className={clsx("vkf-drag-button", active && "active")} {...rest}>
+    <button
+        className={clsx("vkf-drag-button", active && "active")}
+        title={languageCode === "de" ? "Ebene verschieben" : "Move layer"}
+        {...rest}
+    >
       <span />
       <span />
       <span />

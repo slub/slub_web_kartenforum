@@ -60,7 +60,10 @@ export const GeoJsonUploadHint = ({ onAddGeoJson }) => {
   };
 
   return (
-    <div className={clsx("geojson-upload-hint", open && "show")}>
+    <div
+      className={clsx("geojson-upload-hint", open && "show")}
+      aria-describedby="geojson-upload-label"
+    >
       <button
         className="geojson-upload"
         onMouseEnter={handleOpenMenu}
@@ -68,10 +71,14 @@ export const GeoJsonUploadHint = ({ onAddGeoJson }) => {
         onClick={handleOpenFileDialog}
       >
         <SvgIcons name="layermanagement-upload" />
-        <span className="label">{translate("geojson-adddialog-title")}</span>
+        <span className="label" id="geojson-upload-label">
+          {translate("geojson-adddialog-title")}
+        </span>
       </button>
       <div className="upload-info">{translate("geojson-adddialog-body")}</div>
+      <label className="visually-hidden" htmlFor="geojson-upload-file">GeoJSON Upload</label>
       <input
+        id="geojson-upload-file"
         accept="application/json, application/geo+json, .geojson"
         className="hidden-file-input"
         type="file"

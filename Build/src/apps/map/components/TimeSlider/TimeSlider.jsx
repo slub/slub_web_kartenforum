@@ -75,6 +75,7 @@ export const TimeSlider = (props) => {
       >
         <Range
           allowCross={false}
+          ariaLabelledByGroupForHandles={["min-value", "max-value"]}
           min={timeRange[0]}
           max={timeRange[1]}
           onChange={(values) => {
@@ -87,10 +88,10 @@ export const TimeSlider = (props) => {
           ref={sliderElRef}
           value={values}
         />
-        <div className="tooltip min-value" ref={minValueElRef}>
+        <div className="tooltip min-value" id="min-value" ref={minValueElRef}>
           {values[0]}
         </div>
-        <div className="tooltip max-value" ref={maxValueElRef}>
+        <div className="tooltip max-value" id="max-value" ref={maxValueElRef}>
           {values[1]}
         </div>
       </div>
