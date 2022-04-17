@@ -801,7 +801,7 @@
      		<!-- Plugin Apps > UnreferencedMaps -->
 			<trans-unit id="plugin.apps.unreferencedmaps.title" approved="yes">
             	<source><![CDATA[Choose a map for georeferencing]]></source>
-            	<target><![CDATA[Wähle Karte für Georeeferenzierung]]></target>
+            	<target><![CDATA[Wähle Karte für Georeferenzierung]]></target>
             </trans-unit>
 			<trans-unit id="plugin.apps.unreferencedmaps.subtitle" approved="yes">
     			<source><![CDATA[Previous Georeferencing - Points]]></source>
