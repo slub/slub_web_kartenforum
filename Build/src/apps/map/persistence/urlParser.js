@@ -4,6 +4,8 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
+import { fromLonLat } from "ol/proj";
+import { MAP_PROJECTION } from "../components/MapSearch/MapSearch.jsx";
 
 export const URL_VIEW_MODES = {
     "2D": 0,
@@ -47,7 +49,7 @@ export const parseMapView = (mapViewParams, is3dEnabled) => {
         // only assign defined properties to the resulting mapview item
         return Object.assign(
             {},
-            c === undefined ? null : { center: c },
+            !isValidCenter(c) ? null : { center: c },
             re === undefined ? null : { resolution: re },
             r === undefined ? null : { rotation: r },
             z === undefined ? null : { zoom: z }
@@ -75,4 +77,45 @@ const array3dToPoint = (arr) => {
  */
 const is3dArray = (el) => {
     return el !== undefined && Array.isArray(el) && el.length === 3;
+};
+
+/**
+ * Checks if an input is a valid center
+ * @param center
+ * @returns {boolean}
+ */
+const isValidCenter = (center) => {
+    if (center === undefined || null) {
+        return false;
+    }
+
+    // check if the center is an array and contains at least 2 coordinates
+    if (!Array.isArray(center) || center.length < 2) {
+        return false;
+    }
+
+    const [lon, lat] = center;
+
+    // check lon
+    if (isNaN(lon) || lon > 180 || lon < -180) {
+        return false;
+    }
+
+    // check lat
+    if (isNaN(lat) || lat > 90 || lat < -90) {
+        return false;
+    }
+
+    return true;
+};
+
+/**
+ * transforms the center of a mapview from lon lat to the map projection
+ * @param mapView
+ * @returns {{center: number[]}}
+ */
+export const transformMapViewCenter = (mapView) => {
+    const { center, ...rest } = mapView;
+
+    return { center: fromLonLat(center, MAP_PROJECTION), ...rest };
 };

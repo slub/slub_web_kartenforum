@@ -32,7 +32,11 @@ import {
   wrapMapFeatures,
 } from "./util";
 import { notificationState } from "../../../atoms/atoms";
-import { parseMapView, parseViewMode } from "./urlParser";
+import {
+  parseMapView,
+  parseViewMode,
+  transformMapViewCenter,
+} from "./urlParser";
 import { MIN_3D_ZOOM } from "../../../components/ToggleViewmode/ToggleViewmode";
 import { translate } from "../../../util/util";
 import LocalStorageWriter from "./LocalStorageWriter.jsx";
@@ -185,13 +189,12 @@ export const PersistenceController = () => {
               new View(
                 Object.assign(
                   {},
-                  SettingsProvider.getDefaultMapView(),
-                  // cap zoom in case of undefined mapView
+                  SettingsProvider.getDefaultMapView(), // cap zoom in case of undefined mapView
                   persistenceIs3dEnabled
                     ? {
                         zoom: MIN_3D_ZOOM + 0.1 * MIN_3D_ZOOM,
                       }
-                    : mapView
+                    : transformMapViewCenter(mapView)
                 )
               )
             );

@@ -35,7 +35,7 @@ export const PermalinkInput = ({
   // update the shown permalink value
   const handleUpdatePermalink = useCallback(() => {
     const mapViewParams = mapViewToUrlParams(
-      serializeMapView(camera, map, is3dActive),
+      serializeMapView(camera, map, is3dActive, true),
       is3dActive
     );
 
@@ -88,7 +88,9 @@ export const PermalinkInput = ({
   return (
     <>
       <div className="action-content">
-        <label htmlFor="permalink-value" className="visually-hidden">Permalink</label>
+        <label htmlFor="permalink-value" className="visually-hidden">
+          Permalink
+        </label>
         <input readOnly ref={refInput} value={value} id="permalink-value" />
         <CopyToClipboardButton value={value} />
       </div>
