@@ -58,8 +58,6 @@ const beautifyMapView = (mapView, digits = 4) => {
         beautifiedMapView[k] = beautifyElement(v, digits);
     });
 
-    console.log(mapView, beautifiedMapView);
-
     return beautifiedMapView;
 };
 
