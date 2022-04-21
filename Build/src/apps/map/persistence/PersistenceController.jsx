@@ -23,6 +23,7 @@ import {
 
 import SettingsProvider from "../../../SettingsProvider";
 import {
+  adjustMapView,
   areAllUndefined,
   deSerializeOperationalLayer,
   fitMapToFeatures,
@@ -32,16 +33,12 @@ import {
   wrapMapFeatures,
 } from "./util";
 import { notificationState } from "../../../atoms/atoms";
-import {
-  parseMapView,
-  parseViewMode,
-  transformMapViewCenter,
-} from "./urlParser";
-import { MIN_3D_ZOOM } from "../../../components/ToggleViewmode/ToggleViewmode";
+import { parseMapView, parseViewMode } from "./urlParser";
 import { translate } from "../../../util/util";
 import LocalStorageWriter from "./LocalStorageWriter.jsx";
 import { fetchFeatureForMapId, fetchMapView } from "./api.js";
 import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../components/BasemapSelector/BasemapSelector.jsx";
+import { validatePersistenceObject } from "./validation.js";
 
 export const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
 
@@ -170,6 +167,14 @@ export const PersistenceController = () => {
         mapView = {},
       } = restoreSource;
 
+      // do not restore from the source if it is determined to be invalid
+      if (!validatePersistenceObject(restoreSource)) {
+        handleNotification(
+          translate("persistencecontroller-error-persistence-object")
+        );
+        return;
+      }
+
       try {
         // restore basemap
         if (persistedBasemap !== undefined) {
@@ -178,26 +183,24 @@ export const PersistenceController = () => {
 
         // restore mapview if available
         if (map !== undefined && olcsMap !== undefined) {
+          const adjustedMapView = adjustMapView(mapView);
+
           // update camera in case the 3d view mode will be activated, else update ol map view
           if (persistenceIs3dEnabled) {
-            olcsMap.setEnabled(persistenceIs3dEnabled);
             const camera = olcsMap.getCesiumScene().camera;
 
-            updateCameraFromMapview(camera, mapView);
+            // enable 3d
+            olcsMap.setEnabled(true);
+
+            updateCameraFromMapview(camera, adjustedMapView);
           } else {
-            map.setView(
-              new View(
-                Object.assign(
-                  {},
-                  SettingsProvider.getDefaultMapView(), // cap zoom in case of undefined mapView
-                  persistenceIs3dEnabled
-                    ? {
-                        zoom: MIN_3D_ZOOM + 0.1 * MIN_3D_ZOOM,
-                      }
-                    : transformMapViewCenter(mapView)
-                )
-              )
+            const mapViewSettings = Object.assign(
+              {},
+              SettingsProvider.getDefaultMapView(),
+              adjustedMapView
             );
+
+            map.setView(new View(mapViewSettings));
           }
 
           // only set the 3d state after the map was initialized in order to handle correct view initalization

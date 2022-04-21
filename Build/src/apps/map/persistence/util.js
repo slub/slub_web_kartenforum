@@ -9,6 +9,7 @@ import { Feature } from "ol";
 import { Polygon } from "ol/geom";
 import { extend } from "ol/extent";
 import { toLonLat } from "ol/proj";
+import { fromLonLat } from "ol/proj";
 
 import {
     deserializeGeojson,
@@ -17,6 +18,36 @@ import {
 import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
 import { isDefined } from "../../../util/util";
 import { MAP_PROJECTION } from "../components/MapSearch/MapSearch.jsx";
+import { isValidLonLat } from "./validation.js";
+
+/**
+ * Transform the map view in case of invalid lon/lat values
+ * => interpret coordinates as MapProjection in this case
+ * @param mapView
+ * @returns {{center: number[]}}
+ */
+export const adjustMapView = (mapView) => {
+    const { center, position, ...rest } = mapView;
+
+    const adjustedMapView = {};
+
+    if (center !== undefined) {
+        const [lon, lat] = center;
+        adjustedMapView["center"] = isValidLonLat(lon, lat)
+            ? fromLonLat(center, MAP_PROJECTION)
+            : center;
+    }
+
+    if (position !== undefined) {
+        const { x, y, z } = position;
+
+        adjustedMapView["position"] = isValidLonLat(x, y)
+            ? Cesium.Cartesian3.fromDegrees(x, y, z)
+            : position;
+    }
+
+    return Object.assign(adjustedMapView, rest);
+};
 
 /**
  * Checks if all values of an object are either undefined or objects without entries
@@ -249,13 +280,8 @@ export const serializeMapView = (
 export const updateCameraFromMapview = (camera, mapView) => {
     const { direction, position, right, up } = mapView;
 
-    const { x, y, z } = position;
-
-    // convert externally saved degrees to cartesian coordinates
-    const cartesianPosition = Cesium.Cartesian3.fromDegrees(x, y, z);
-
     updateCameraProperty("direction", direction, camera);
-    updateCameraProperty("position", cartesianPosition, camera);
+    updateCameraProperty("position", position, camera);
     updateCameraProperty("right", right, camera);
     updateCameraProperty("up", up, camera);
 };
