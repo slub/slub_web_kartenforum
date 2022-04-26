@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { Feature } from "ol";
 import { Polygon } from "ol/geom";
 import { extend } from "ol/extent";
+import { toLonLat } from "ol/proj";
+import { fromLonLat } from "ol/proj";
 
 import {
     deserializeGeojson,
@@ -15,6 +17,37 @@ import {
 } from "../components/MapWrapper/components/DialogEditFeature/util/geojsonSerializer";
 import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
 import { isDefined } from "../../../util/util";
+import { MAP_PROJECTION } from "../components/MapSearch/MapSearch.jsx";
+import { isValidLonLat } from "./validation.js";
+
+/**
+ * Transform the map view in case of invalid lon/lat values
+ * => interpret coordinates as MapProjection in this case
+ * @param mapView
+ * @returns {{center: number[]}}
+ */
+export const adjustMapView = (mapView) => {
+    const { center, position, ...rest } = mapView;
+
+    const adjustedMapView = {};
+
+    if (center !== undefined) {
+        const [lon, lat] = center;
+        adjustedMapView["center"] = isValidLonLat(lon, lat)
+            ? fromLonLat(center, MAP_PROJECTION)
+            : center;
+    }
+
+    if (position !== undefined) {
+        const { x, y, z } = position;
+
+        adjustedMapView["position"] = isValidLonLat(x, y)
+            ? Cesium.Cartesian3.fromDegrees(x, y, z)
+            : position;
+    }
+
+    return Object.assign(adjustedMapView, rest);
+};
 
 /**
  * Checks if all values of an object are either undefined or objects without entries
@@ -25,6 +58,47 @@ export const areAllUndefined = (o) =>
     Object.values(o).every(
         (x) => x === undefined || Object.entries(x).length === 0
     );
+
+/**
+ * Cap length of numbers within a structure to the given number of digits
+ * @param el
+ * @param digits
+ * @returns {{}|string|*|string}
+ */
+const beautifyElement = (el, digits = 4) => {
+    if (Array.isArray(el)) {
+        return el.map((x) => beautifyElement(x, digits));
+    } else if (typeof el === "object" && el !== null) {
+        const result = {};
+        Object.entries(el).forEach(([k, v]) => {
+            result[k] = beautifyElement(v);
+        });
+
+        return result;
+    } else if (isNaN(el) || el === null) {
+        return el;
+    } else {
+        return el.toFixed(Math.min(countDecimals(el), digits));
+    }
+};
+
+const beautifyMapView = (mapView, digits = 4) => {
+    const beautifiedMapView = {};
+
+    Object.entries(mapView).forEach(([k, v]) => {
+        beautifiedMapView[k] = beautifyElement(v, digits);
+    });
+
+    return beautifiedMapView;
+};
+
+const countDecimals = (value) => {
+    if (Math.floor(value) === value) {
+        return 0;
+    } else {
+        return value.toString().split(".")[1].length || 0;
+    }
+};
 
 /**
  * Deserializes an operationalLayer from a supplied persistence object
@@ -159,21 +233,43 @@ export const serializeOperationalLayer = ({ feature, type }, mapLayer) => {
     }
 };
 
-export const serializeMapView = (camera, map, is3dEnabled) => {
+export const serializeMapView = (
+    camera,
+    map,
+    is3dEnabled,
+    beautify = false
+) => {
     const view = map.getView();
-    return is3dEnabled
-        ? {
-              position: camera.position,
-              direction: camera.direction,
-              up: camera.up,
-              right: camera.right,
-          }
-        : {
-              center: view.getCenter(),
-              resolution: view.getResolution(),
-              rotation: view.getRotation(),
-              zoom: view.getZoom(),
-          };
+    if (is3dEnabled) {
+        // from cartesian coordinates to cartographic (in radians)
+        const cartographic = Cesium.Cartographic.fromCartesian(camera.position);
+        // convert radians to degrees
+        const positionInDegrees = {
+            x: Cesium.Math.toDegrees(cartographic.longitude),
+            y: Cesium.Math.toDegrees(cartographic.latitude),
+            z: cartographic.height,
+        };
+
+        // assemble mapView
+        const mapView = {
+            position: positionInDegrees,
+            direction: camera.direction,
+            up: camera.up,
+            right: camera.right,
+        };
+
+        return beautify ? beautifyMapView(mapView, 5) : mapView;
+    } else {
+        // assemble mapView
+        const mapView = {
+            center: toLonLat(view.getCenter(), MAP_PROJECTION),
+            resolution: view.getResolution(),
+            rotation: view.getRotation(),
+            zoom: view.getZoom(),
+        };
+
+        return beautify ? beautifyMapView(mapView) : mapView;
+    }
 };
 
 /**

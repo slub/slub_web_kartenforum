@@ -4,6 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
+import { is3dArray } from "./validation.js";
 
 export const URL_VIEW_MODES = {
     "2D": 0,
@@ -66,13 +67,4 @@ const array3dToPoint = (arr) => {
         y: arr[1],
         z: arr[2],
     };
-};
-
-/**
- * Check if an array represents a three dimensional point
- * @param el
- * @return {boolean}
- */
-const is3dArray = (el) => {
-    return el !== undefined && Array.isArray(el) && el.length === 3;
 };
