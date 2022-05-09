@@ -31,7 +31,7 @@ export function geoJsonExtentFromTransformation(transformation) {
     const { params, clip } = transformation;
     const points = [
         ...params.gcps.map((gcp) => gcp.target),
-        ...clip.coordinates[0],
+        ...(clip !== undefined && clip !== null ? clip.coordinates[0] : []),
     ];
 
     return points.length > 0 ? boundingExtent(points) : null;

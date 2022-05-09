@@ -30,7 +30,7 @@ const parseTransformation = (transformation) => {
   return {
     map_id: transformation.map_id,
     clip:
-      transformation?.clip !== undefined
+      transformation?.clip !== undefined && transformation.clip !== null
         ? {
             type: transformation.clip.type,
             coordinates: transformation.clip.coordinates,
