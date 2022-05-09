@@ -25,6 +25,25 @@ import {
 } from "../../util/util";
 import "./GeoreferenceView.scss";
 
+const parseTransformation = (transformation) => {
+  // remove all but the required properties from the clip and the transformation
+  return {
+    map_id: transformation.map_id,
+    clip:
+      transformation?.clip !== undefined
+        ? {
+            type: transformation.clip.type,
+            coordinates: transformation.clip.coordinates,
+          }
+        : undefined,
+    overwrites: transformation.transformation_id,
+    params: {
+      algorithm: transformation?.params?.algorithm ?? "affine",
+      gcps: transformation?.params?.gcps ?? [],
+    },
+  };
+};
+
 export const GeoreferenceView = (props) => {
   const { urlsOsmBaseMap, urlNominatim } = props;
   const setTransformation = useSetRecoilState(transformationState);
@@ -41,14 +60,22 @@ export const GeoreferenceView = (props) => {
     const qs = queryString.parse(location.search);
 
     if (qs.map_id !== undefined) {
-      const transformationData = await queryTransformationForMapId(qs.map_id);
+      const { transformations, additional_properties } =
+        await queryTransformationForMapId(qs.map_id);
+      const {
+        active_transformation_id,
+        extent: transf_extent,
+        pending_jobs,
+      } = additional_properties;
+
       const metadata = await queryDocument(qs.map_id);
+
       let extent =
-        transformationData.extent !== null
-          ? geoJsonExtentFromGeoJsonPolygon(transformationData.extent)
+        transf_extent !== null
+          ? geoJsonExtentFromGeoJsonPolygon(transf_extent)
           : null;
 
-      if (transformationData.pending_jobs) {
+      if (pending_jobs) {
         setNotification({
           id: "georeference-view",
           type: "warning",
@@ -60,31 +87,22 @@ export const GeoreferenceView = (props) => {
       const targetTransformationId =
         qs.transformation_id !== undefined
           ? parseInt(qs.transformation_id)
-          : transformationData.active_transformation_id;
+          : active_transformation_id;
 
-      if (
-        transformationData.transformations.length > 0 &&
-        targetTransformationId !== null
-      ) {
-        const activeTransformation = transformationData.transformations.find(
+      if (transformations.length > 0 && targetTransformationId !== null) {
+        const activeTransformation = transformations.find(
           (t) => t.transformation_id === targetTransformationId
         );
+
         extent = geoJsonExtentFromTransformation(activeTransformation);
 
-        setTransformation({
-          map_id: activeTransformation.map_id,
-          clip: activeTransformation.clip,
-          overwrites: activeTransformation.transformation_id,
-          params: activeTransformation.params,
-        });
-      } else if (transformationData.active_transformation_id === null) {
+        setTransformation(parseTransformation(activeTransformation));
+      } else if (active_transformation_id === null) {
         setTransformation({
           map_id: qs.map_id,
           clip: null,
           overwrites: 0,
           params: {
-            source: "pixel",
-            target: transformationData.default_srs,
             algorithm: "affine",
             gcps: [],
           },

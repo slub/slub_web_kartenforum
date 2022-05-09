@@ -29,7 +29,7 @@ function ValidationButton({ validation, onSelect }) {
     >
       {["valid", "invalid"].map((v) => (
         <MenuItem key={v} onClick={() => onSelect(v)}>
-          Setze Validation auf "{v}"
+          Setze Validation auf &quot;{v}&quot;
         </MenuItem>
       ))}
     </DropdownButton>
@@ -78,11 +78,11 @@ export const TransformationItem = (props) => {
 
   const handleSubmitNewValidation = (o) => {
     const newJob = {
-      task_name:
+      name:
         o.validationValue === "valid"
           ? "transformation_set_valid"
           : "transformation_set_invalid",
-      task: {
+      description: {
         comment: o.comment,
         transformation_id: o.transformationId,
       },

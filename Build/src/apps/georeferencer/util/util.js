@@ -4,10 +4,10 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { initializeSupportedCRS } from "../../../util/geo";
 import { boundingExtent } from "ol/extent";
-import { toLonLat } from "ol/proj";
 import GeoJSON from "ol/format/GeoJSON";
+
+export const DEFAULT_PROJ = "EPSG:4326";
 
 /**
  * Extracts a extent from a given transformation. The extent is always computed in EPSG:4326
@@ -28,28 +28,11 @@ import GeoJSON from "ol/format/GeoJSON";
  * @returns {[number, number, number, number]}
  */
 export function geoJsonExtentFromTransformation(transformation) {
-    initializeSupportedCRS();
-
     const { params, clip } = transformation;
-    let points = [];
-
-    // Transform gcp target points to LonLat points
-    if (params.gcps.length > 0) {
-        const targetSrs = params.target;
-        points = [...params.gcps.map((gcp) => toLonLat(gcp.target, targetSrs))];
-    }
-
-    // Transform clip points to LonLat Points
-    if (clip !== null && clip !== undefined) {
-        const targetSrs =
-            clip.crs !== undefined ? clip.crs.properties.name : "EPSG:4326";
-        points = [
-            ...points,
-            clip.coordinates[0].map((c) =>
-                targetSrs !== "EPSG:4326" ? toLonLat(c, targetSrs) : c
-            ),
-        ];
-    }
+    const points = [
+        ...params.gcps.map((gcp) => gcp.target),
+        ...clip.coordinates[0],
+    ];
 
     return points.length > 0 ? boundingExtent(points) : null;
 }
@@ -60,15 +43,10 @@ export function geoJsonExtentFromTransformation(transformation) {
  * @returns {[number, number, number, number]}
  */
 export function geoJsonExtentFromGeoJsonPolygon(geojsonPolygon) {
-    initializeSupportedCRS();
-
-    const targetSrs =
-        geojsonPolygon.crs !== undefined
-            ? geojsonPolygon.crs.properties.name
-            : "EPSG:4326";
     const polygon = new GeoJSON().readGeometry(geojsonPolygon, {
-        dataProjection: targetSrs,
-        featureProjection: "EPSG:4326",
+        dataProjection: DEFAULT_PROJ,
+        featureProjection: DEFAULT_PROJ,
     });
+
     return polygon.getExtent();
 }

@@ -38,7 +38,7 @@ export const LayerRectifiedImage = (props) => {
     // Init and add the layer
     const layer = new Tile({
       source: new TileWMS({
-        url: wmsUrl.split("?")[0],
+        url: wmsUrl,
         params: {
           LAYERS: layerName,
           VERSION: "1.1.1",
