@@ -97,6 +97,10 @@ export const UnreferencedMaps = () => {
                 </span>
                 <span className="map-meta-value">{map.map_type}</span>
               </p>
+              <p>
+                <span className="map-meta-label">ID: </span>
+                <span className="map-meta-value">{map.map_id}</span>
+              </p>
             </div>
             <div className="map-links">
               <a
