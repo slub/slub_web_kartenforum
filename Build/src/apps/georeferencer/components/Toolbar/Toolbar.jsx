@@ -9,6 +9,7 @@ import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import queryString from "query-string";
 import {
   postTransformation,
+  queryTransformationPreview,
   queryTransformationTry,
 } from "../../../../util/apiGeo";
 import { translate } from "../../../../util/util";
@@ -117,7 +118,13 @@ export const Toolbar = () => {
   // Handle get rectified image
   const handleClickRectifiedImage = () => {
     const fetchData = async (map_id, params) => {
-      const rectifiedImageParams = await queryTransformationTry(map_id, params);
+      const rectifiedImageParams =
+        refController.current.hasParamsOrClipChanged() ||
+        selectedAlgorithm !== transformation.params.algorithm ||
+        transformation?.overwrites === undefined ||
+        transformation.overwrites === 0
+          ? await queryTransformationTry(map_id, params)
+          : await queryTransformationPreview(transformation.overwrites);
       setIsLoading(false);
       setRectifiedImageParams(rectifiedImageParams);
     };
@@ -202,7 +209,13 @@ export const Toolbar = () => {
       targetViewParams !== null
     ) {
       refController.current = new Controller({
-        clip: transformation.clip,
+        clip:
+          transformation?.clip !== undefined && transformation?.clip !== null
+            ? {
+                type: transformation.clip.type,
+                coordinates: transformation.clip.coordinates,
+              }
+            : undefined,
         onSetHelperMsg: (newHelperMsg) => {
           setNotification({
             id: "toolbar-info",
@@ -210,7 +223,10 @@ export const Toolbar = () => {
             text: newHelperMsg,
           });
         },
-        params: transformation.params,
+        params: {
+          algorithm: transformation.params.algorithm,
+          gcps: transformation.params.gcps,
+        },
         sourceMap: sourceViewParams.map,
         targetMap: targetViewParams.map,
       });
@@ -224,6 +240,9 @@ export const Toolbar = () => {
           () => {}
         )
       );
+
+      // restore algorithm setting from transformation
+      setActiveAlgorithm(transformation.params.algorithm);
     }
   }, [
     transformation,

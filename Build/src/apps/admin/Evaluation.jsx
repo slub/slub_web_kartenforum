@@ -9,7 +9,7 @@ import { transformExtent } from "ol/proj";
 import SettingsProvider from "../../SettingsProvider";
 import Map2D from "../../components/Map2D/Map2D";
 import LoadingBar from "../../components/LoadingBar/LoadingBar";
-import { queryTransformationTry } from "../../util/apiGeo";
+import { queryTransformationPreview } from "../../util/apiGeo";
 import LayerRectifiedImage from "../../components/LayerRectifiedImage/LayerRectifiedImage";
 import SelectTransformations from "./components/SelectTransformations/SelectTransformations";
 import TransformationItem from "./components/TransformationItem/TransformationItem";
@@ -25,10 +25,8 @@ export const Evaluation = () => {
   const handleClickPreview = async (transformation) => {
     if (!isLoading) {
       setIsLoading(true);
-      const response = await queryTransformationTry(
-        transformation.map_id,
-        transformation.params,
-        transformation.clip !== undefined ? transformation.clip : undefined
+      const response = await queryTransformationPreview(
+        transformation.transformation_id
       );
 
       setCurrentPreview(

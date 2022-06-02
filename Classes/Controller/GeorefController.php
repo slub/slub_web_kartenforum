@@ -186,9 +186,10 @@ class GeorefController extends ActionController
     {
         // get mapid from GET parameter
         $mapId = GeneralUtility::_GP('map_id');
+        $additionalProperties = GeneralUtility::_GP('additional_properties');
 
         // Build url and request service
-        $response = $this->doGET('/transformations/maps/' . $mapId . '?return_all=True');
+        $response = $this->doGET("/transformations?map_id={$mapId}&additional_properties={$additionalProperties}");
 
         if ($response) {
             $content = $response->getBody()->getContents();
@@ -205,7 +206,7 @@ class GeorefController extends ActionController
         $userId = GeneralUtility::_GP('user_id');
 
         // Build url and request service
-        $response = $this->doGET('/transformations/users/' . $userId);
+        $response = $this->doGET("/transformations?user_id={$userId}");
 
         if ($response) {
             $content = $response->getBody()->getContents();
@@ -223,7 +224,7 @@ class GeorefController extends ActionController
         $validation = GeneralUtility::_GP('value');
 
         // Build url and request service
-        $response = $this->doGET('/transformations/validations/' . $validation);
+        $response = $this->doGET("/transformations?validation={$validation}");
 
         if ($response) {
             $content = $response->getBody()->getContents();
@@ -293,7 +294,7 @@ class GeorefController extends ActionController
     public function postTransformationByMapIdAction()
     {
         // get mapid from GET parameter map_id and request params
-        $mapId = GeneralUtility::_GP('map_id');
+        $dryRun = GeneralUtility::_GP('dry_run');
         $requestParams = GeneralUtility::_GP('req');
         $feUserObj = $this->getActualUser();
 
@@ -304,34 +305,13 @@ class GeorefController extends ActionController
             $jsonRequest['user_id'] = $feUserObj->getUsername();
 
             // Build url and request service
-            $response = $this->doPOST(
-                '/transformations/maps/' . $mapId,
-                $jsonRequest
-            );
+            $response = $this->doPOST("/transformations?dry_run={$dryRun}", $jsonRequest);
 
             if ($response) {
                 $this->view->assign('value', json_decode($response, true));
             }
         } else {
             throw new \UnexpectedValueException('Could not determine username.');
-        }
-    }
-
-    /**
-     * Action for querying rectified image for a given mapId and params
-     */
-    public function postTransformationTryAction()
-    {
-        $requestParams = GeneralUtility::_GP('req');
-
-        // Build url and request service
-        $response = $this->doPOST(
-            '/transformations/try',
-            json_decode($requestParams, true)
-        );
-
-        if ($response) {
-            $this->view->assign('value', json_decode($response, true));
         }
     }
 

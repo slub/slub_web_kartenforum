@@ -89,7 +89,9 @@ export async function queryTransformationForMapId(mapId) {
     }
 
     // Build url and query it
-    const response = await axios.get(`${baseUrl}&map_id=${mapId}`);
+    const response = await axios.get(
+        `${baseUrl}&map_id=${mapId}&additional_properties=true`
+    );
 
     if (response.status === 200) {
         return response.data;
@@ -272,10 +274,10 @@ export async function postTransformation(mapId, params) {
 
     // The TYPO3 proxy expects form data
     const newForm = new FormData();
-    newForm.append("req", JSON.stringify(params));
+    newForm.append("req", JSON.stringify({ ...params, map_id: mapId }));
 
     // Build url and query it
-    const response = await axios.post(`${baseUrl}&map_id=${mapId}`, newForm, {
+    const response = await axios.post(`${baseUrl}?dry_run=false`, newForm, {
         headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
         },
@@ -308,7 +310,7 @@ export async function postTransformation(mapId, params) {
  */
 export async function queryTransformationTry(mapId, params, clip) {
     const baseUrl =
-        SettingsProvider.getSettings().API_GEOREFERENCE_TRANSFORMATION_TRY;
+        SettingsProvider.getSettings().API_GEOREFERENCE_TRANSFORMATION_CONFIRM;
 
     if (baseUrl === undefined) {
         throw new Error("The url for the transformation endpoint is not set.");
@@ -319,6 +321,7 @@ export async function queryTransformationTry(mapId, params, clip) {
         {
             map_id: mapId,
             params: params,
+            overwrites: 0,
         },
         clip !== undefined ? { clip: clip } : {}
     );
@@ -327,7 +330,7 @@ export async function queryTransformationTry(mapId, params, clip) {
     newForm.append("req", JSON.stringify(pureRequest));
 
     // Build url and query it
-    const response = await axios.post(`${baseUrl}`, newForm, {
+    const response = await axios.post(`${baseUrl}&dry_run=true`, newForm, {
         headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
         },
@@ -338,6 +341,38 @@ export async function queryTransformationTry(mapId, params, clip) {
     } else {
         console.error(
             "Something went wrong while trying to fetch transformation for given map_id and params."
+        );
+        return undefined;
+    }
+}
+
+export async function queryTransformationPreview(transformationId) {
+    const baseUrl =
+        SettingsProvider.getSettings().API_GEOREFERENCE_TRANSFORMATION_CONFIRM;
+    if (baseUrl === undefined) {
+        throw new Error("The url for the transformation endpoint is not set.");
+    }
+
+    // The TYPO3 proxy expects form data
+    const pureRequest = {
+        transformation_id: transformationId,
+    };
+
+    const newForm = new FormData();
+    newForm.append("req", JSON.stringify(pureRequest));
+
+    // Build url and query it
+    const response = await axios.post(`${baseUrl}&dry_run=true`, newForm, {
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        },
+    });
+
+    if (response.status === 200) {
+        return response.data;
+    } else {
+        console.error(
+            "Something went wrong while trying to fetch transformation preview for given transformation_id."
         );
         return undefined;
     }

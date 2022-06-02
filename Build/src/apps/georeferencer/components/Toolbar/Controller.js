@@ -13,7 +13,6 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import round from "lodash.round";
 import Observer from "../../../../util/observer";
-import { initializeSupportedCRS } from "../../../../util/geo";
 import {
     createClipPolygonStyle,
     createGcpDefaultStyle,
@@ -24,6 +23,7 @@ import {
     activateDelGcpAction,
     activateDrawClipAction,
 } from "./actions";
+import { DEFAULT_PROJ } from "../../util/util.js";
 
 /**
  * Transforms the given pixel coordinates to geo pixel coordinate system.
@@ -204,8 +204,6 @@ export class Controller extends Observer {
      * This function initial loads the data to the vector source
      */
     loadData() {
-        initializeSupportedCRS();
-
         // Add ground control points to the map
         if (this.params_.gcps.length > 0) {
             for (let i = 0, l = this.params_.gcps.length; i < l; i++) {
@@ -224,7 +222,7 @@ export class Controller extends Observer {
                     new Point(
                         transform(
                             this.params_.gcps[i].target,
-                            this.params_.target,
+                            DEFAULT_PROJ,
                             this.trgMap_.getView().getProjection()
                         )
                     )
@@ -238,7 +236,7 @@ export class Controller extends Observer {
         // Add the clip polygon to the map
         if (this.clip_) {
             const newFeature = new GeoJSON().readFeature(this.clip_, {
-                dataProjection: this.clip_.crs.properties.name,
+                dataProjection: DEFAULT_PROJ,
                 featureProjection: this.trgMap_.getView().getProjection(),
             });
 
@@ -343,7 +341,7 @@ export class Controller extends Observer {
                 target: transform(
                     trgFt.getGeometry().getCoordinates(),
                     this.trgMap_.getView().getProjection(),
-                    this.params_.target
+                    DEFAULT_PROJ
                 ),
             });
         }
@@ -363,17 +361,12 @@ export class Controller extends Observer {
                 : undefined;
 
         if (clipFeature !== undefined) {
-            return Object.assign(
-                new GeoJSON().writeGeometryObject(clipFeature.getGeometry(), {
-                    dataProjection: "EPSG:4326",
+            return new GeoJSON().writeGeometryObject(
+                clipFeature.getGeometry(),
+                {
+                    dataProjection: DEFAULT_PROJ,
                     featureProjection: "EPSG:3857",
                     decimals: 9,
-                }),
-                {
-                    crs: {
-                        type: "name",
-                        properties: { name: "EPSG:4326" },
-                    },
                 }
             );
         } else {
