@@ -26,5 +26,5 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Alexander Bigga',
     'author_email' => 'typo3@slub-dresden.de',
     'author_company' => 'SLUB Dresden',
-    'version' => '2.0.2',
+    'version' => '2.1.0',
 ];
