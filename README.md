@@ -1,6 +1,6 @@
 # Virtual Map Forum
 
-[Logo of the Virtual Map Forum](./Resources/Public/images/welcome_logo.png)
+![Logo of the Virtual Map Forum](Documentation/images/header-logo.svg)
 
 The Virtual Map Forum allows the searching and viewing of historic and georeferenced maps and offers further
 capabilities for the georeferencing of historic maps (dependencies
