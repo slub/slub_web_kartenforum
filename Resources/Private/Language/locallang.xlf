@@ -19,6 +19,9 @@
 		<trans-unit id="label.evaluationpage">
 			<source>Map Evaluation</source>
 		</trans-unit>
+		<trans-unit id="label.mosaikAdminPage">
+            <source>Mosaikkarten</source>
+        </trans-unit>
 		<trans-unit id="label.login">
 			<source>Login</source>
 		</trans-unit>
@@ -82,6 +85,9 @@
 		<trans-unit id="plugin.georeference">
 			<source>Kartenforum: Georeferencing</source>
 		</trans-unit>
+        <trans-unit id="plugin.mosaic-map">
+            <source>Kartenforum: Mosaikkarte</source>
+        </trans-unit>
         <trans-unit id="validationerror_1428504122">
             <source>The minimum length of the password is 9 characters.</source>
         </trans-unit>
@@ -215,6 +221,9 @@
 			<trans-unit id="plugin.map.mapsearchlistelement.scale">
 				<source>Scale</source>
 			</trans-unit>
+            <trans-unit id="plugin.map.mapsearchlistelement.type">
+                <source>Type</source>
+            </trans-unit>
 			<trans-unit id="plugin.map.mapsearchlistelement.notGeoref">
             	<source>Not georeferenced</source>
             </trans-unit>
@@ -293,6 +302,110 @@
 			</trans-unit>
 			<trans-unit id="plugin.map.mapsearch.facetsearch.close">
                 <source>Close faceted search</source>
+            </trans-unit>
+
+            <!-- vk2.module.MosaicMaps -->
+            <trans-unit id="plugin.map.mosaicMaps.selectedMaps">
+                <source>Individual sheets selected</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.selectedNoMaps">
+                <source>No individual sheets selected</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.addAllSelected">
+                <source>Add all selected</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.refreshOverview">
+                <source>Refresh overview</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.selectedListTitle">
+                <source>Linked individual sheets</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.createNew">
+                <source>Create new mosaic map</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.save">
+                <source>Save mosaic map</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.delete">
+                <source>Delete mosaic map</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.title">
+                <source>New mosaic map</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_name">
+                <source>Name</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_time_of_publication">
+                <source>Publishing year</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_link_to_thumb">
+                <source>Link to thumbnail</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_title_short">
+                <source>Title (short)</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_scale">
+                <source>Map scale</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_description">
+                <source>Description</source>
+            </trans-unit>
+              <trans-unit id="plugin.map.mosaicMaps.inputPanel.help_name">
+                <source>Snake-case, e.g mosaic_map_1</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_upload">
+                <source>The upload of the mosaic map has failed</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_update_overview">
+                <source>The overview update request has failed</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_load_list">
+                <source>Could not load the list of mosaic maps</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_delete">
+                <source>The deletion of the mosaic map has failed</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.success-messages.delete">
+                <source>Successfully deleted the mosaic map</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.deleteModal.title">
+                <source>Delete mosaic map</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.deleteModal.content">
+                <source>The selected mosaic map will be deleted permanently</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.deleteModal.buttonCancel">
+                <source>Cancel</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.deleteModal.buttonDelete">
+                <source>Delete</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.savedIndicator.saved">
+                <source>Saved</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.savedIndicator.notSaved">
+                <source>Not saved</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.success-messages.saved">
+                <source>Successfully saved the mosaic map</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.success-messages.updatedOverview">
+                <source>Successfully requested overview update</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.missingSheet">
+                <source>Missing individual sheet</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.saveModal.buttonSave">
+                <source>Save</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.saveModal.title">
+                <source>Update mosaic map</source>
+            </trans-unit>
+           <trans-unit id="plugin.map.saveModal.content">
+                <source>Saving the mosaic map will overwrite the old state.</source>
             </trans-unit>
 
 			<!-- vk2.tool.FacetedSearchTool -->
@@ -559,6 +672,9 @@
 			<trans-unit id="plugin.map.originalview.title">
                 <source>Original map</source>
             </trans-unit>
+            <trans-unit id="plugin.map.originalview.title-mosaic">
+                <source>Mosaic map</source>
+            </trans-unit>
 			<trans-unit id="plugin.map.originalview.label-desc">
                 <source>Description</source>
             </trans-unit>
@@ -567,9 +683,6 @@
             </trans-unit>
 			<trans-unit id="plugin.map.originalview.label-scale">
                 <source>Scale</source>
-            </trans-unit>
-			<trans-unit id="plugin.map.originalview.label-keywords">
-                <source>Keywords</source>
             </trans-unit>
 			<trans-unit id="plugin.map.originalview.label-services">
                 <source>Services</source>

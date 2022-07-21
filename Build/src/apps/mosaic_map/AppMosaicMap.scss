@@ -1,0 +1,135 @@
+@import "../../../../Resources/Private/Scss/Variables";
+
+.vkf-app-mosaic-map-container {
+    inset: 85px 0 40px;
+    padding: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+
+    // make notifications overlay application
+    .vkf-notifications {
+        z-index: 1001;
+    }
+
+    // position the mosaic-map toolbar )
+    .vkf-mosaic-map-toolbar {
+        height: 50px;
+        width: 100%;
+        background: $secondary-color-dark;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        border-bottom: 0 none;
+        padding: 10px 20px;
+        overflow: visible;
+        display: flex;
+        justify-content: space-between;
+
+        > div {
+            display: flex;
+            margin: 0 -5px;
+        }
+    }
+
+    // position the input panel above the map
+    .vk-mosaic-map-input-panel {
+        height: 200px;
+        background-color: white;
+        box-shadow: $shadow;
+        padding: 16px;
+    }
+
+    // position the map in the remaining space
+    .vkf-plugin-map-mosaic {
+        position: absolute;
+        top: 250px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    // open layer overwrites for mosaic map module
+    .vkf-plugin-map-mosaic {
+        .ol-map-large {
+            .ol-control {
+                &.ol-layerspy-radius-box,
+                &.ol-mouse-position-box,
+                &.ol-zoom-extent,
+                &.rotate-north,
+                &.ol-full-screen,
+                &.ol-layerspy,
+                &.mouse-position,
+                &.flip-view-mode,
+                &.basemap-selector,
+                &.ol-permalink,
+                &.ol-locate-me,
+                &.ol-zoom {
+                    left: 710px;
+                }
+
+                &.ol-zoom {
+                    top: 15px;
+                }
+
+                &.ol-full-screen {
+                    top: 76px;
+                    right: unset;
+                }
+
+                &.ol-layerspy {
+                    top: 114px;
+                }
+
+                &.rotate-north {
+                    top: 152px;
+                }
+
+                &.mouse-position {
+                    top: 190px;
+                }
+
+                &.flip-view-mode {
+                    display: none;
+                }
+
+                &.basemap-selector {
+                    top: 228px;
+                }
+
+                &.ol-locate-me {
+                    top: 266px;
+                }
+
+                &.ol-permalink {
+                    display: none;
+                }
+            }
+
+            &:fullscreen {
+                .vkf-horizontal-layout {
+                    .spatialsearch-container {
+                        display: block;
+                    }
+                }
+
+                .ol-control {
+                    &.ol-zoom-extent,
+                    &.rotate-north,
+                    &.ol-full-screen,
+                    &.ol-layerspy,
+                    &.mouse-position,
+                    &.flip-view-mode,
+                    &.basemap-selector,
+                    &.ol-locate-me,
+                    &.ol-permalink,
+                    &.ol-zoom {
+                        left: 710px;
+                    }
+                }
+            }
+        }
+    }
+}

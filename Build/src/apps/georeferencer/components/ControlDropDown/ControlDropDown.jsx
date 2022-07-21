@@ -9,8 +9,9 @@ import PropTypes from "prop-types";
 import { Dropdown, MenuItem } from "react-bootstrap";
 import clsx from "clsx";
 import { translate } from "../../../../util/util";
-import "./ControlDropDown.scss";
 import SvgIcons from "../../../../components/SvgIcons/SvgIcons";
+
+import "./ControlDropDown.scss";
 
 export const ControlGcpsIds = {
   NONE: "control-none-gcp",
@@ -26,6 +27,7 @@ export const ControlDropDown = (props) => {
     parentIconClassName,
     defaultTitle = "unknown",
     disableActiveBehavior = false,
+    IconComponent,
     options = [
       {
         id: ControlGcpsIds.ADD,
@@ -67,7 +69,11 @@ export const ControlDropDown = (props) => {
         key={activeOption ? activeOption.id : null}
       >
         <Dropdown.Toggle>
-          <SvgIcons name={parentIconClassName} size={24} />
+          {IconComponent === undefined ? (
+            <SvgIcons name={parentIconClassName} size={24} />
+          ) : (
+            <IconComponent glyph={parentIconClassName} />
+          )}
           {activeOption ? activeOption.title : defaultTitle}
         </Dropdown.Toggle>
         <Dropdown.Menu>
@@ -78,7 +84,11 @@ export const ControlDropDown = (props) => {
               onClick={() => handleClick(o.id)}
               className={clsx("control-option", o.id)}
             >
-              <SvgIcons name={`${o.iconClassName}`} />
+              {IconComponent === undefined ? (
+                <SvgIcons name={`${o.iconClassName}`} size={24} />
+              ) : (
+                <IconComponent glyph={o.iconClassName} />
+              )}
               <span className="text">{o.title}</span>
             </MenuItem>
           ))}
@@ -93,6 +103,7 @@ ControlDropDown.propTypes = {
   className: PropTypes.string,
   defaultTitle: PropTypes.string,
   disableActiveBehavior: PropTypes.bool,
+  IconComponent: PropTypes.elementType,
   id: PropTypes.string,
   parentIconClassName: PropTypes.string,
   options: PropTypes.arrayOf(

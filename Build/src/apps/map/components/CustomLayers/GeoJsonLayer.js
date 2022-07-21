@@ -62,7 +62,7 @@ export const GeoJsonLayer = function (settings) {
             features: settings.feature.get("geojsonFeatures"),
         }),
         styles: defaultStyleFunction,
-        properties: { type: LAYER_TYPES.GEOJSON },
+        properties: { layer_type: LAYER_TYPES.GEOJSON },
     });
     this.set("altitudeMode", "clampToGround");
 };

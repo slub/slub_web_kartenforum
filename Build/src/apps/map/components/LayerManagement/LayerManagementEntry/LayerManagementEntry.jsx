@@ -21,7 +21,7 @@ import {
   selectedOriginalMapIdState,
 } from "../../../atoms/atoms";
 import { OpacitySlider } from "../../../../../components/OpacitySlider/OpacitySlider";
-import { FALLBACK_SRC } from "../../MapSearch/components/MapSearchListElement/MapSearchListElement";
+import { FALLBACK_SRC } from "../../MapSearch/components/MapSearchListElement/MapSearchListElementBase.jsx";
 import HistoricMap from "../../CustomLayers/HistoricMapLayer";
 import SettingsProvider from "../../../../../SettingsProvider";
 import { serializeOperationalLayer } from "../../../persistence/util";
@@ -38,6 +38,10 @@ export const ItemTypes = {
 
 export const LayerManagementEntry = (props) => {
   const { hovered, id, index, layer, onMoveLayer, onUpdateHover } = props;
+  const [entered, setEntered] = useState(false);
+  const [isSliding, setIsSliding] = useState(false);
+  const [isShowActions, setShowActions] = useState(false);
+  const [isVisible, setIsVisible] = useState(layer["getVisible"]());
   const map = useRecoilValue(mapState);
   const olcsMap = useRecoilValue(olcsMapState);
   const ref = useRef(null);
@@ -48,8 +52,6 @@ export const LayerManagementEntry = (props) => {
     selectedOriginalMapIdState
   );
   const [src, setSrc] = useState(layer.getThumbnail());
-  const [isVisible, setIsVisible] = useState(layer["getVisible"]());
-  const [isShowActions, setShowActions] = useState(false);
   const settings = SettingsProvider.getSettings();
 
   // drag/drop handlers from: https://react-dnd.github.io/react-dnd/examples/sortable/simple
@@ -139,16 +141,12 @@ export const LayerManagementEntry = (props) => {
 
   // propagate hovered layer id if no drag is in progress
   const handleMouseEnter = () => {
-    if (draggedItem === null && !hovered) {
-      onUpdateHover(layer.getId());
-    }
+    setEntered(true);
   };
 
   // reset hovered layer id if no drag is in progress
   const handleMouseLeave = () => {
-    if (draggedItem === null) {
-      onUpdateHover(undefined);
-    }
+    setEntered(false);
   };
 
   // toggle function buttons on double click/tap
@@ -192,7 +190,7 @@ export const LayerManagementEntry = (props) => {
   const handleZoomToExtent = () => {
     if (isDefined(map)) {
       const extent =
-        layer.get("type") === LAYER_TYPES.GEOJSON
+        layer.get("layer_type") === LAYER_TYPES.GEOJSON
           ? layer.getSource().getExtent()
           : layer.getExtent();
       // add percentage based padding
@@ -205,9 +203,29 @@ export const LayerManagementEntry = (props) => {
     setSelectedOriginalMapId(id);
   };
 
+  const handleStartSliding = () => {
+    setIsSliding(true);
+  };
+
+  const handleEndSliding = () => {
+    setIsSliding(false);
+  };
+
   ////
   // Effect section
   ////
+
+  useEffect(() => {
+    if (entered) {
+      if (draggedItem === null && !hovered) {
+        onUpdateHover(layer.getId());
+      }
+    } else {
+      if (draggedItem !== undefined && !isSliding) {
+        onUpdateHover(undefined);
+      }
+    }
+  }, [entered, isSliding, draggedItem]);
 
   // Add visibility change handler to layer
   useEffect(() => {
@@ -224,6 +242,8 @@ export const LayerManagementEntry = (props) => {
 
   drag(drop(ref));
 
+  const isMosaicMap = layer.get("type") === "mosaic";
+
   return (
     <li
       className={clsx(
@@ -231,7 +251,7 @@ export const LayerManagementEntry = (props) => {
         isVisible ? "record-visible" : "record-hidden",
         isDragging && "drag-and-drop-placeholder",
         isShowActions && "show-actions",
-        layer.get("type") === LAYER_TYPES.GEOJSON && "geojson-data",
+        layer.get("layer_type") === LAYER_TYPES.GEOJSON && "geojson-data",
         hovered &&
           (draggedItem === null || draggedItem.id === layer.getId()) &&
           "force-hover"
@@ -257,7 +277,7 @@ export const LayerManagementEntry = (props) => {
           {` ${translate("layermanagement-show-map")}: ${layer.getTitle()}`}
         </button>
       </div>
-      {layer.get("type") === LAYER_TYPES.GEOJSON ? (
+      {layer.get("layer_type") === LAYER_TYPES.GEOJSON ? (
         <React.Fragment>
           <div className="thumbnail-container">
             <img
@@ -270,9 +290,9 @@ export const LayerManagementEntry = (props) => {
       ) : (
         <div className="thumbnail-container">
           <img
-              onError={handleError}
-              src={src}
-              alt={`Thumbnail Image of Map for ${layer.getTitle()}`}
+            onError={handleError}
+            src={src}
+            alt={`Thumbnail Image of Map for ${layer.getTitle()}`}
           />
         </div>
       )}
@@ -283,6 +303,13 @@ export const LayerManagementEntry = (props) => {
             "layermanagement-timestamp"
           )} ${layer.getTimePublished()}`}</span>
         </div>
+        {isMosaicMap && (
+          <div className="type">
+            <span className="timestamps-label">{`${translate(
+              "originalview-title-mosaic"
+            )}`}</span>
+          </div>
+        )}
       </div>
       <div className="control-container">
         <button
@@ -309,7 +336,7 @@ export const LayerManagementEntry = (props) => {
         >
           <SvgIcons name="layeraction-center" />
         </button>
-        {layer.get("type") !== LAYER_TYPES.GEOJSON ? (
+        {layer.get("layer_type") !== LAYER_TYPES.GEOJSON ? (
           <button
             className="show-original"
             onClick={handleOriginalMap}
@@ -328,8 +355,9 @@ export const LayerManagementEntry = (props) => {
             <SvgIcons name="layeraction-export" />
           </button>
         )}
-        {settings["LINK_TO_GEOREFERENCE"] !== undefined &&
-          layer.get("type") !== LAYER_TYPES.GEOJSON && (
+        {!isMosaicMap &&
+          settings["LINK_TO_GEOREFERENCE"] !== undefined &&
+          layer.get("layer_type") !== LAYER_TYPES.GEOJSON && (
             <button
               className="georeference-update"
               title={`${translate("layermangement-georef-update")} ...`}
@@ -343,7 +371,12 @@ export const LayerManagementEntry = (props) => {
               <SvgIcons name="icon-point-move" />
             </button>
           )}
-        <OpacitySlider orientation="horizontal" layer={layer} />
+        <OpacitySlider
+          onStartDrag={handleStartSliding}
+          onEndDrag={handleEndSliding}
+          orientation="horizontal"
+          layer={layer}
+        />
       </div>
       <div className="drag-container">
         <DragButton tabIndex={-1} />

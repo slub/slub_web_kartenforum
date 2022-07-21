@@ -48,22 +48,21 @@ export const DialogAddWms = (props) => {
   };
 
   // Handler for loading the WMS capabilities
-  const handleLoadWmsCapabilities = () => {
+  const handleLoadWmsCapabilities = async () => {
     if (!isValidUrl(url)) {
       setHighlightUrlHelperMsg(true);
       return;
     }
 
-    fetchAndParseWmsCapabilities(
-      url,
-      (newLayers) => {
-        if (newLayers.length > 0) {
-          setLayers(newLayers);
-          setSelectedLayer(newLayers[0]);
-        }
-      },
-      dispatchError
-    );
+    try {
+      const newLayers = await fetchAndParseWmsCapabilities(url);
+      if (newLayers.length === 0) {
+        setLayers(newLayers);
+        setSelectedLayer(newLayers[0]);
+      }
+    } catch {
+      dispatchError(translate("dialog.add-wms.error.invalid-url"));
+    }
   };
 
   // Handler for changing the value of the WMS url field

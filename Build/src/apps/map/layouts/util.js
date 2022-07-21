@@ -43,6 +43,7 @@ export const getLayoutForWidth = (width) => {
 export const getMapClassNameForLayout = (layout) => {
     switch (layout) {
         case LAYOUT_TYPES.HORIZONTAL:
+        default:
             return "ol-map-large";
         case LAYOUT_TYPES.VERTICAL:
             return "ol-map-small";

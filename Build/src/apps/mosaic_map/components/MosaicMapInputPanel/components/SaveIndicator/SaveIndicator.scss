@@ -1,0 +1,31 @@
+.vkf-mosaic-map-save-indicator {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 0 8px;
+
+    .indicator {
+        height: 16px;
+        width: 16px;
+        border-radius: 16px;
+
+        &.saved {
+            background-color: #00b300;
+        }
+
+        &.changed {
+            background-color: #ff0000;
+        }
+    }
+
+    .lds-roller {
+        transform: translateX(-8px) translateY(-10px) scale(0.25);
+        height: unset;
+    }
+
+    label {
+        margin-bottom: 0;
+    }
+}

@@ -1,0 +1,80 @@
+@import "../../../../../../../Resources/Private/Scss/Variables";
+
+.vkf-mosaic-map-result-list-element {
+    &.selected {
+        li {
+            outline: 4px solid $secondary-color;
+            outline-offset: -4px;
+
+            &:focus {
+                outline-color: $secondary-color-dark;
+            }
+
+            button.vkf-add-to-mosaic-map-button {
+                .right {
+                    margin-right: -20px;
+                    transform: rotate(-225deg);
+                    -webkit-transform: rotate(-225deg);
+                }
+            }
+
+            &.vkf-mapsearch-record {
+                &:hover {
+                    button.vkf-add-to-mosaic-map-button {
+                        display: flex;
+
+                        &:hover {
+                            .arrow {
+                                transform: scale(1.2) rotate(-225deg);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    li {
+        overflow-x: hidden;
+
+        &.vkf-mapsearch-record {
+            &:hover {
+                button.vkf-add-to-mosaic-map-button {
+                    display: flex;
+
+                    &:hover {
+                        .arrow {
+                            transform: scale(1.2) rotate(-45deg);
+                        }
+                    }
+                }
+            }
+        }
+
+        button.vkf-add-to-mosaic-map-button {
+            transition: $transition;
+            border: none;
+            background-color: transparent;
+            position: absolute;
+            right: 0;
+            padding-right: 20px;
+            padding-left: 10px;
+            height: calc(100% - 30px);
+            align-items: center;
+            z-index: 311;
+            display: none;
+
+            .arrow {
+                display: flex;
+                border: solid $secondary-color-dark;
+                border-width: 0 3px 3px 0;
+                padding: 18px;
+            }
+
+            .right {
+                transform: rotate(-45deg);
+                -webkit-transform: rotate(-45deg);
+            }
+        }
+    }
+}

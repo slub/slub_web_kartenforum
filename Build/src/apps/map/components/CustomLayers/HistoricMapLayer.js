@@ -6,6 +6,7 @@
  */
 import { Tile } from "ol/layer";
 import { XYZ } from "ol/source";
+import TileWMS from "ol/source/TileWMS";
 
 import { inherits, isDefined } from "../../../../util/util";
 import { LAYER_TYPES } from "./LayerTypes";
@@ -54,23 +55,31 @@ export const HistoricMap = function (settings) {
      */
     this.allowUseInLayerManagement = true;
 
+    const source =
+        settings.tms_urls !== undefined
+            ? new XYZ({
+                  maxZoom:
+                      settings.scale === 0
+                          ? 15
+                          : settings.scale <= 5000
+                          ? 17
+                          : settings.scale <= 15000
+                          ? 16
+                          : 15,
+                  urls: settings.tms_urls.map(
+                      (url) => `${url}/{z}/{x}/{-y}.png`
+                  ),
+                  crossOrigin: "*",
+              })
+            : new TileWMS(settings.wms_settings);
+
     Tile.call(this, {
         extent: settings["clip"].getExtent(),
-        source: new XYZ({
-            maxZoom:
-                settings.scale == 0
-                    ? 15
-                    : settings.scale <= 5000
-                    ? 17
-                    : settings.scale <= 15000
-                    ? 16
-                    : 15,
-            urls: settings.urls.map((url) => `${url}/{z}/{x}/{-y}.png`),
-            crossOrigin: "*",
-        }),
         properties: {
-            type: LAYER_TYPES.HISTORIC_MAP,
+            layer_type: LAYER_TYPES.HISTORIC_MAP,
+            type: settings.type,
         },
+        source,
     });
 };
 

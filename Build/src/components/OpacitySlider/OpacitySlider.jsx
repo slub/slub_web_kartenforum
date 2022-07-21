@@ -17,7 +17,7 @@ import GeoJsonLayer from "../../apps/map/components/CustomLayers/GeoJsonLayer.js
 import "./OpacitySlider.scss";
 
 export const OpacitySlider = (props) => {
-  const { orientation = "horizontal", layer } = props;
+  const { onEndDrag, onStartDrag, orientation = "horizontal", layer } = props;
   const olcsMap = useRecoilValue(olcsMapState);
   const [value, setValue] = useState(layer.getOpacity() * 100);
 
@@ -26,8 +26,8 @@ export const OpacitySlider = (props) => {
     baseMax = 100;
 
   /**
-   * 	@param {number} value
-   *	@param {Element} element
+   *    @param {number} value
+   *    @param {Element} element
    */
   const handleUpdatePosition = (value, element) => {
     if (orientation === "vertical") {
@@ -72,6 +72,8 @@ export const OpacitySlider = (props) => {
     <div className="opacity-container">
       <div className="slider-container">
         <Slider
+          onAfterChange={onEndDrag}
+          onBeforeChange={onStartDrag}
           onChange={handleSliderChange}
           value={value}
           vertical={orientation === "vertical"}
@@ -85,6 +87,8 @@ export const OpacitySlider = (props) => {
 };
 
 OpacitySlider.propTypes = {
+  onEndDrag: PropTypes.func,
+  onStartDrag: PropTypes.func,
   layer: PropTypes.oneOfType([
     PropTypes.instanceOf(HistoricMap),
     PropTypes.instanceOf(GeoJsonLayer),

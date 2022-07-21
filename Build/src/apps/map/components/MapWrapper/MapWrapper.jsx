@@ -54,6 +54,7 @@ export function MapWrapper(props) {
   const {
     baseMapUrl,
     ChildComponent,
+    disableClickHandler = false,
     enable3d,
     enableTerrain,
     layout,
@@ -316,16 +317,18 @@ export function MapWrapper(props) {
 
       if (!displayedInMap && feature.get("has_georeference")) {
         try {
-          const layer =
+          const prom =
             type === LAYER_TYPES.GEOJSON
-              ? new GeoJsonLayer({ feature })
+              ? new Promise((resolve) => resolve(new GeoJsonLayer({ feature })))
               : createHistoricMapForFeature(feature);
 
-          layer.allowUseInLayerManagement = true;
+          prom.then((layer) => {
+            layer.allowUseInLayerManagement = true;
 
-          layer.setOpacity(opacity);
-          layer.setVisible(isVisible);
-          map.addLayer(layer);
+            layer.setOpacity(opacity);
+            layer.setVisible(isVisible);
+            map.addLayer(layer);
+          });
           selectedFeature.displayedInMap = true;
         } catch (e) {
           // there was an error mounting the layer => remove the selected feature and display an errror message
@@ -428,7 +431,11 @@ export function MapWrapper(props) {
 
   // bind click handler to map
   useEffect(() => {
-    if (map !== undefined && layout === LAYOUT_TYPES.HORIZONTAL) {
+    if (
+      map !== undefined &&
+      layout === LAYOUT_TYPES.HORIZONTAL &&
+      !disableClickHandler
+    ) {
       map.on("click", handleMapClick);
 
       return () => {
@@ -496,6 +503,7 @@ export function MapWrapper(props) {
 export const mapWrapperProps = {
   baseMapUrl: PropTypes.arrayOf(PropTypes.string),
   ChildComponent: PropTypes.func,
+  disableClickHandler: PropTypes.bool,
   enable3d: PropTypes.bool,
   enableTerrain: PropTypes.bool,
   layout: PropTypes.string,

@@ -5,6 +5,9 @@ import SettingsProvider from "../../../../SettingsProvider";
 import HistoricMap from "../CustomLayers/HistoricMapLayer";
 import { UNIQUE_CONTROL_PANEL_CLASS } from "../Controls/BasemapSelectorControl.jsx";
 import GeoJsonLayer from "../CustomLayers/GeoJsonLayer.js";
+import { fetchAndParseWmsCapabilities } from "../BasemapSelector/util.js";
+import { DEFAULT_PROJ } from "../../../georeferencer/util/util.js";
+import { LAYER_TYPES } from "../CustomLayers/LayerTypes.js";
 
 /**
  * Checks if the layer collection already contains a layer with that id.
@@ -17,7 +20,7 @@ export const containsLayerWithId = function (id, layers) {
     const array = layers.getArray();
     for (let i = 0; i < array.length; i++) {
         if (array[i] instanceof HistoricMap) {
-            if (array[i].getId() == id) {
+            if (array[i].getId() === id) {
                 return true;
             }
         }
@@ -30,8 +33,17 @@ export const containsLayerWithId = function (id, layers) {
  * @return {vk2.layer.HistoricMap}
  * @private
  */
-export const createHistoricMapForFeature = function (feature) {
-    return new HistoricMap({
+export const createHistoricMapForFeature = async function (feature) {
+    const tms_urls = feature.get("tms_urls");
+    const wms_capability_url = feature
+        .get("online_resources")
+        .find((resource) => resource.type === "WMS").url;
+
+    const isTmsDefined = Array.isArray(tms_urls) && tms_urls.length > 0;
+
+    const type = feature.get("type");
+
+    const baseSettings = {
         clip: feature.getGeometry().clone(),
         id: feature.getId(),
         scale: feature.get("map_scale"),
@@ -40,8 +52,43 @@ export const createHistoricMapForFeature = function (feature) {
             SettingsProvider.getSettings()["FALLBACK_THUMBNAIL"],
         title: feature.get("title"),
         time_published: feature.get("time_published"),
-        urls: feature.get("tms_urls"),
-    });
+        type:
+            type === undefined
+                ? isTmsDefined
+                    ? "single_sheet"
+                    : "mosaic"
+                : type,
+    };
+
+    if (isTmsDefined) {
+        return new HistoricMap(Object.assign(baseSettings, { tms_urls }));
+    } else {
+        const layers = await fetchAndParseWmsCapabilities(wms_capability_url);
+
+        const wms_settings = {
+            urls: layers[0].urls,
+            params: {
+                LAYERS: layers[0].layers,
+                VERSION: "1.1.1",
+            },
+            projection: DEFAULT_PROJ,
+        };
+
+        return new HistoricMap(Object.assign(baseSettings, { wms_settings }));
+    }
+};
+
+/**
+ * Create a single sheet preview layer used in the mosaic map application part
+ * @param feature
+ * @returns {Promise<vk2.layer.HistoricMap>}
+ */
+export const createSingleSheetPreviewForFeature = async function (feature) {
+    const newLayer = await createHistoricMapForFeature(feature);
+    newLayer.allowUseInLayerManagement = true;
+    newLayer.set("type", LAYER_TYPES.PREVIEW);
+    newLayer.set("layer_type", LAYER_TYPES.PREVIEW);
+    return newLayer;
 };
 
 export const getControlFeedbackContainer = (
@@ -149,8 +196,7 @@ export const hideUniquePanels = (element) => {
 export const setOptimizedCesiumSettings = (scene) => {
     const { globe, screenSpaceCameraController } = scene;
 
-    const tileCacheSize = "100",
-        // The maximum screen-space error used to drive level-of-detail refinement. Higher values will provide better performance but lower visual quality.
+    const tileCacheSize = "100", // The maximum screen-space error used to drive level-of-detail refinement. Higher values will provide better performance but lower visual quality.
         // Default is 2
         maximumScreenSpaceError = 1.5,
         fogEnabled = true,

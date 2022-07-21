@@ -40,6 +40,16 @@ be `Map: Welcome Button`.
 
 ![Documentation/images/welcome_button_configuration.png](Documentation/images/welcome_button_configuration.png)
 
+
+### TYPO3 Template configuration
+
+In order for the user dropdown to work correctly, the page ids of the specific setup have to be supplied to the extension via the template configuration.
+All available configuration parameters can be found here: `Configuration/TypoScript/constants.typoscript`
+The following figure shows how to modify the settings:
+
+![Image of the template modification tools, with the constants section highlighted.](Documentation/images/template_configuration.jpg)
+
+
 ## Available query parameters
 
 The permalink implementation provides several query parameters that allow the application to be initialized with a

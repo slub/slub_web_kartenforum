@@ -4,6 +4,14 @@
 .vkf-modal-original-map {
     &.modal-dialog {
         width: 85%;
+
+        &.mosaic {
+            width: 20%;
+            min-width: 300px;
+            height: unset;
+            top: auto;
+        }
+
         height: calc(100% - 110px - 60px);
         margin: 110px auto 60px auto;
     }

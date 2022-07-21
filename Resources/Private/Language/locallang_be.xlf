@@ -22,7 +22,7 @@
                 <source>Welcome Content</source>
             </trans-unit>
             <trans-unit id="backend_layout.app">
-                <source>App-Page</source>
+                <source>AppMosaicMap-Page</source>
             </trans-unit>
             <trans-unit id="backend_layout.georeference">
                 <source>Georeference (Plugin: Georeference)</source>

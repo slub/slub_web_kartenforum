@@ -7,14 +7,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import "./ControlButton.scss";
+
 import SvgIcons from "../../../../components/SvgIcons/SvgIcons";
+import "./ControlButton.scss";
 
 export const ControlButton = (props) => {
   const {
     activeControl = null,
     className = "",
+    disabled = false,
     iconClassName = "",
+    IconComponent,
     id = "unknown",
     onClick,
     title = "unknown",
@@ -31,10 +34,16 @@ export const ControlButton = (props) => {
       className={clsx(
         "vkf-control-button",
         className,
-        activeControl === id ? "active" : ""
+        activeControl === id && "active",
+        disabled && "disabled"
       )}
+      disabled={disabled}
     >
-      <SvgIcons name={iconClassName} size={24} />
+      {IconComponent === undefined ? (
+        <SvgIcons name={iconClassName} size={24} />
+      ) : (
+        <IconComponent glyph={iconClassName} />
+      )}
       <span className="text">{title}</span>
     </button>
   );
@@ -43,8 +52,10 @@ export const ControlButton = (props) => {
 ControlButton.propTypes = {
   activeControl: PropTypes.string,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
   iconClassName: PropTypes.string,
+  IconComponent: PropTypes.elementType,
   onClick: PropTypes.func.isRequired,
   title: PropTypes.string,
 };

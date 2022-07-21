@@ -53,7 +53,7 @@ class AppController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * georeferenceAction
      *
-     * show the georeference App
+     * show the georeference AppMosaicMap
 	 */
 	public function georeferenceAction()
     {

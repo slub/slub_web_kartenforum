@@ -1,0 +1,73 @@
+@import "../../../../../../Resources/Private/Scss/Variables";
+
+.mapsearch-container {
+    .header-container {
+        height: 122px;
+        min-height: 122px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .title {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+
+            h4 {
+                font-size: 20px;
+                margin: 0;
+            }
+
+            > span {
+                top: -2px;
+                color: $secondary-color-dark;
+                float: right;
+                font-size: 24px;
+                line-height: 1.1;
+            }
+        }
+
+        .actions {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            padding: 15px;
+            justify-content: space-between;
+            gap: 12px;
+
+            .action-container {
+                align-items: center;
+                display: flex;
+                flex-direction: row;
+                gap: 12px;
+            }
+
+            .control {
+                display: flex;
+                font-size: 20px;
+
+                button {
+                    border: none;
+                    background-color: transparent;
+                    transition: $transition;
+                    color: $secondary-color-dark;
+
+                    &.selected {
+                        color: $primary-color-dark;
+                    }
+
+                    &:disabled {
+                        pointer-events: none;
+                        cursor: default;
+                        color: $color-midgrey;
+                    }
+
+                    &:hover {
+                        transform: scale(1.2);
+                    }
+                }
+            }
+        }
+    }
+}

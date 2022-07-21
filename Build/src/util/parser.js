@@ -52,7 +52,7 @@ export const readFeature = function (
      * @param {Array.<number>} coordinates
      * @param {string} type
      * @param {string} sourceProjection (should be something like 'EPSG:4326')
-     * @param {string} targetPojection (should be something like 'EPSG:3857')
+     * @param {string} targetProjection (should be something like 'EPSG:3857')
      * @return {ol.geom.Geometry|undefined}
      */
     const readGeometry = function (
@@ -104,7 +104,7 @@ export const readFeature = function (
     });
 
     for (let key in record) {
-        if (record.hasOwnProperty(key)) {
+        if (Object.hasOwn(record, key)) {
             if (key === "time_published") {
                 // parse time value in old format
                 const timeValue = record[key].split("-")[0];
@@ -126,6 +126,9 @@ export const readFeature = function (
  *
  * @static
  * @param {Array.<Object>} records
+ * @param {string=} srs_proj
+ * @param {string=} trg_proj
+ * @param {boolean} is3d
  * @return {Array.<ol.Feature>}
  */
 export const readFeatures = function (records, srs_proj, trg_proj, is3d) {
@@ -143,4 +146,19 @@ export const readFeatures = function (records, srs_proj, trg_proj, is3d) {
     }
 
     return features;
+};
+
+export const readMosaicMap = (mosaicMap) => {
+    const { time_of_publication, ...rest } = mosaicMap;
+
+    return { time_of_publication: time_of_publication.split("-")[0], ...rest };
+};
+
+export const serializeMosaicMap = (mosaicMap) => {
+    const { time_of_publication, ...rest } = mosaicMap;
+
+    return {
+        time_of_publication: `${time_of_publication}-01-01T00:00:00`,
+        ...rest,
+    };
 };

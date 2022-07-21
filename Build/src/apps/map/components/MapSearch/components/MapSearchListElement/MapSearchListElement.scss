@@ -19,9 +19,11 @@
         display: none;
     }
 
-    .timestamp,
-    .scale {
-        color: $color-grey;
+    .details {
+        div {
+            color: $color-grey;
+            margin: 2px 0;
+        }
     }
 
     .no-touchevents & {

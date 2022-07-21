@@ -1,0 +1,50 @@
+@import "../../../../../../../Resources/Private/Scss/Variables";
+
+.vkf-mapsearch-record {
+    &.vkf-mosaic-map-selected-list-element {
+        cursor: default;
+
+        &.missing {
+            background-color: $color-lightgrey;
+        }
+
+        &:hover {
+            background-color: #fff;
+        }
+
+        .actions {
+            z-index: 310;
+            height: 100%;
+            flex-grow: 1;
+            padding-left: 4px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            transition: $transition;
+            color: $secondary-color-dark;
+            flex-direction: column;
+
+            button {
+                border: none;
+                background-color: transparent;
+                font-size: 28px;
+
+                &:hover {
+                    transform: scale(1.2);
+                }
+            }
+
+            .vkf-mosaic-map-preview {
+                color: $primary-color-dark;
+            }
+        }
+
+        &.selected {
+            .actions {
+                .vkf-mosaic-map-preview {
+                    color: $secondary-color-dark;
+                }
+            }
+        }
+    }
+}

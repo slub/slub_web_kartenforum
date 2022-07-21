@@ -9,7 +9,7 @@
                 <el>
                     <settings.importApp>
                         <TCEforms>
-                            <label>Select React App to import</label>
+                            <label>Select React AppMosaicMap to import</label>
                             <config>
                                 <type>select</type>
                                 <renderType>selectSingle</renderType>

@@ -17,7 +17,7 @@ export const createFacetQuery_ = function (facets) {
         const facet_ = facets[i],
             searchTerm_ = { term: {} };
 
-        searchTerm_["term"][facet_["key"]] = facet_["value"].toUpperCase();
+        searchTerm_["term"][facet_["key"]] = facet_["value"].toLowerCase();
         facetsFilter_.push(searchTerm_);
     }
     return facets_;
@@ -51,6 +51,7 @@ export const createStatisticQuery = function (stats_field) {
  * @param {string} sortFieldName
  * @param {string} sortValue | Must be {asc|desc}
  * @param {Array.<Object>} facets
+ * @param {Array.<Object>} customQueryExtension
  * @return {Object}
  */
 export const getSpatialQuery = function (
@@ -60,7 +61,8 @@ export const getSpatialQuery = function (
     bboxPolygon,
     sortFieldName,
     sortValue,
-    facets
+    facets,
+    customQueryExtension
 ) {
     // now append the sorting expression
     return {
@@ -88,6 +90,7 @@ export const getSpatialQuery = function (
                     },
                     createFacetQuery_(facets),
                     { term: { has_georeference: true } },
+                    ...(customQueryExtension || []),
                 ],
                 must: [{ match_all: {} }],
             },
