@@ -31,7 +31,7 @@ mod.wizards {
                         title = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.mosaic-map
                         description = LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.map.description
                         tt_content_defValues {
-                            CType = slubwebkartenforum_mosaic-map
+                            CType = slubwebkartenforum_mosaicmap
                         }
                     }
 
