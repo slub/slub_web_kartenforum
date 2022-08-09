@@ -151,7 +151,10 @@ export const readFeatures = function (records, srs_proj, trg_proj, is3d) {
 export const readMosaicMap = (mosaicMap) => {
     const { time_of_publication, ...rest } = mosaicMap;
 
-    return { time_of_publication: time_of_publication.split("-")[0], ...rest };
+    return {
+        time_of_publication: parseInt(time_of_publication.split("-")[0]),
+        ...rest,
+    };
 };
 
 export const serializeMosaicMap = (mosaicMap) => {
