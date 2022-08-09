@@ -45,7 +45,7 @@
     "prettier": "^2.5.1",
     "prop-types": "^15.7.2",
     "sass": "^1.44.0",
-    "terser": "^5.10.0"
+    "terser": "^5.14.2"
   },
   "dependencies": {
     "@react-hook/resize-observer": "^1.2.5",
