@@ -110,8 +110,7 @@ export const MosaicMapInputPanel = () => {
   const handleChange = (event) => {
     const field = event.target.id;
 
-    const type = inputFields.find((row) => row[field] !== undefined)[field]
-      .type;
+    const type = inputFields.find((row) => row.id === field).type;
 
     let value;
 
