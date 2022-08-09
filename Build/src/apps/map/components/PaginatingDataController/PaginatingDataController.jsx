@@ -15,7 +15,7 @@ import {
   elementsScreenSizeState,
   facetState,
   map3dState,
-  searchResultDescriptorState,
+  mapCountState,
   mapState,
   timeExtentState,
   timeRangeState,
@@ -32,6 +32,7 @@ import { getSearchExtent, limitExtent } from "./util";
 import { useDebounce } from "../../../../util/hooks";
 
 export const PaginatingDataController = ({
+  customQuery,
   projection = MAP_PROJECTION,
   minimumBatchSize = 20,
   renderConsumer,
@@ -48,9 +49,13 @@ export const PaginatingDataController = ({
   const map = useRecoilValue(mapState);
   const [mapView, setMapView] = useState(undefined);
   const setIsSearchLoading = useSetRecoilState(searchIsLoadingState);
-  const setMapsInViewport = useSetRecoilState(searchResultDescriptorState);
+  const setMapsInViewport = useSetRecoilState(mapCountState);
   const [timeRange, setTimeRange] = useRecoilState(timeRangeState);
   const [timeExtent, setTimeExtent] = useRecoilState(timeExtentState);
+  const [searchResultDescriptor, setSearchResultDescriptor] = useState({
+    itemCount: 10,
+    id: Date.now(),
+  });
 
   // derived
   const settings = SettingsProvider.getSettings();
@@ -85,7 +90,8 @@ export const PaginatingDataController = ({
         envelope,
         sortAttribute,
         sortOrd_,
-        facets
+        facets,
+        customQuery
       );
     },
     [facets, sortAttribute, sortOrder, timeExtent]
@@ -139,7 +145,8 @@ export const PaginatingDataController = ({
   const handleRefresh = useCallback(() => {
     fetchResults(0, 0, true).then((data) => {
       const mapCount = data["hits"]["total"]["value"];
-      setMapsInViewport({ mapCount, id: Date.now() });
+      setMapsInViewport(mapCount);
+      setSearchResultDescriptor({ itemCount: mapCount, id: Date.now() });
     });
   }, [fetchResults]);
 
@@ -228,12 +235,14 @@ export const PaginatingDataController = ({
         minimumBatchSize,
         onRefresh: handleRefresh,
         onFetchResults: fetchResults,
+        searchResultDescriptor,
       })}
     </React.Fragment>
   );
 };
 
 PaginatingDataController.propTypes = {
+  customQuery: PropTypes.array,
   minimumBatchSize: PropTypes.number,
   projection: PropTypes.string,
   renderConsumer: PropTypes.func,

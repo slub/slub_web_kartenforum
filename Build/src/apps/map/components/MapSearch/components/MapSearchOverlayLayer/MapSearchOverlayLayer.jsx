@@ -35,7 +35,10 @@ export const MapSearchOverlayLayer = () => {
     (event) => {
       const topLayer = event.target.getArray().at(-1);
 
-      if (topLayer instanceof HistoricMap || topLayer.get("type") === "click") {
+      if (
+        topLayer instanceof HistoricMap ||
+        topLayer.get("layer_type") === "click"
+      ) {
         map.removeLayer(mapOverlayLayer);
         map.addLayer(mapOverlayLayer);
       }

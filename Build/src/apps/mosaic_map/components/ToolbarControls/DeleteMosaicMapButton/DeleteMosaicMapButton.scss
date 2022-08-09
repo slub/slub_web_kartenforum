@@ -1,0 +1,27 @@
+@import "../../../../../../../Resources/Private/Scss/Variables";
+
+.vkf-control-button {
+    &.delete-mosaic-map-button {
+        background-color: $primary-color-dark;
+
+        .glyphicon {
+            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 5px;
+            margin-top: -7px;
+            height: 14px;
+            width: auto;
+            vertical-align: middle;
+            fill: white;
+        }
+    }
+}
+
+.vkf-modal {
+    top: 40%;
+
+    .vkf-modal-description-container {
+        padding: 16px;
+    }
+}

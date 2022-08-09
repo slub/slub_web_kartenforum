@@ -74,6 +74,7 @@ page {
             georefhistoryPage = {$config.georefhistoryPage}
             georefchoosePage = {$config.georefchoosePage}
             evaluationPage = {$config.evaluationPage}
+            mosaikAdminPage = {$config.mosaikAdminPage}
             georefPageId = {$config.georefPage}
             matomo {
                 hostname = {$config.matomo.hostname}

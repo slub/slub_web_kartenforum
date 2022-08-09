@@ -49,3 +49,21 @@
         }
     }
 }
+
+.vkf-plugin-map-mosaic {
+    .map-container {
+        .ol-map-large {
+            .ol-scale-line {
+                right: 15px;
+                left: unset;
+                bottom: 15px;
+            }
+
+            .ol-attribution {
+                position: absolute;
+                bottom: 45px;
+                right: 15px;
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+@import "../../../../../Resources/Private/Scss/Variables";
+
+.selected-maps-container {
+    position: absolute;
+    top: 15px;
+    left: 360px;
+    bottom: 15px;
+    width: 340px;
+    z-index: 310;
+    display: block;
+    box-shadow: $shadow;
+}

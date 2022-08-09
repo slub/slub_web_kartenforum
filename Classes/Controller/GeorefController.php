@@ -55,15 +55,16 @@ class GeorefController extends ActionController
     }
 
     /**
-	 * gets current logged in frontend user
-	 *
-	 * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
-	 */
-	public function getActualUser() {
-		$user = $GLOBALS['TSFE']->fe_user->user;
-		$feUserObj = $this->feUserRepository->findByUid($user['uid']);
-		return $feUserObj;
-	}
+     * gets current logged in frontend user
+     *
+     * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+     */
+    public function getActualUser()
+    {
+        $user = $GLOBALS['TSFE']->fe_user->user;
+        $feUserObj = $this->feUserRepository->findByUid($user['uid']);
+        return $feUserObj;
+    }
 
     /**
      * Returns the global settings from the extension
@@ -80,11 +81,11 @@ class GeorefController extends ActionController
     protected $defaultViewObjectName = JsonView::class;
 
     /**
-     * Performs http get request to the georeference service
+     * Performs generic http request to the georeference service
      * @return \Psr\Http\Message\ResponseInterface Response object (ResponseInterface)
      * @var string
      */
-    public function doGET($path)
+    public function doREQUEST($path, $requestOperation)
     {
         // Extract settings for querying the georeference service
         $settings = $this->getSettings();
@@ -108,11 +109,31 @@ class GeorefController extends ActionController
             $configuration['auth'] = [$basicAuthUser, $basicAuthPassword];
         }
 
-        return $requestFactory->request($serviceUrl . $path, 'GET', $configuration);
+        return $requestFactory->request($serviceUrl . $path, $requestOperation, $configuration);
     }
 
     /**
-     * Performs http get request
+     * Performs http get request to the georeference service
+     * @return \Psr\Http\Message\ResponseInterface Response object (ResponseInterface)
+     * @var string
+     */
+    public function doGET($path)
+    {
+       return $this->doREQUEST($path, 'GET');
+    }
+
+        /**
+     * Performs http delete request to the georeference service
+     * @return \Psr\Http\Message\ResponseInterface Response object (ResponseInterface)
+     * @var string
+     */
+    public function doDELETE($path)
+    {
+       return $this->doREQUEST($path, 'DELETE');
+    }
+
+    /**
+     * Performs http post request
      * @return \Psr\Http\Message\ResponseInterface Response object (ResponseInterface)
      * @var any
      * @var string
@@ -151,7 +172,7 @@ class GeorefController extends ActionController
             if ($response->getStatusCode() < 300) {
                 return $response->getBody()->getContents();
             }
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             //debug($e);
             return json_encode([
                 "error_code" => $e->getCode(),
@@ -327,7 +348,7 @@ class GeorefController extends ActionController
         // Build json request
         if (!is_null($feUserObj) && !is_null($feUserObj->getUsername())) {
             // Attach a user_id to the request object
-            $jsonRequest= json_decode(file_get_contents('php://input'), true);
+            $jsonRequest = json_decode(file_get_contents('php://input'), true);
             $jsonRequest['user_id'] = $feUserObj->getUsername();
 
             // Build url and request service
@@ -344,20 +365,142 @@ class GeorefController extends ActionController
         }
     }
 
-     /**
-         * Action to get a new map_view
-         */
-        public function getMapViewAction()
-        {
-            $mapViewId = GeneralUtility::_GP('map_view_id');
+    /**
+     * Action to get a new map_view
+     */
+    public function getMapViewAction()
+    {
+        $mapViewId = GeneralUtility::_GP('map_view_id');
+
+        // Build url and request service
+        $response = $this->doGET('/map_view/' . $mapViewId);
+
+        if ($response) {
+            $content = $response->getBody()->getContents();
+            $this->view->assign('value', json_decode($content, true));
+        }
+    }
+
+
+    /**
+     * Mosaic Map Section
+     */
+
+    public function getMosaicMapsAction()
+    {
+        $response = $this->doGET('/mosaic_maps');
+
+        if ($response) {
+            $content = $response->getBody()->getContents();
+            $this->view->assign('value', json_decode($content, true));
+        }
+    }
+
+
+    public function postMosaicMapsAction()
+    {
+        // get mapid from GET parameter map_id and request params
+        $feUserObj = $this->getActualUser();
+
+        // Build json request
+        if (!is_null($feUserObj) && !is_null($feUserObj->getUsername())) {
+            // Attach a user_id to the request object
+            $jsonRequest = json_decode(file_get_contents('php://input'), true);
+            $jsonRequest['user_id'] = $feUserObj->getUsername();
 
             // Build url and request service
-            $response = $this->doGET('/map_view/' . $mapViewId);
+            $response = $this->doPOST(
+                '/mosaic_maps',
+                $jsonRequest
+            );
 
             if ($response) {
-                $content = $response->getBody()->getContents();
-                $this->view->assign('value', json_decode($content, true));
+                $this->view->assign('value', json_decode($response, true));
             }
-
+        } else {
+            throw new \UnexpectedValueException('Could not determine username.');
         }
+    }
+
+        /**
+     * Action to get a new map_view
+     */
+    public function getMosaicMapAction()
+    {
+        $mosaicMapId = GeneralUtility::_GP('mosaic_map_id');
+
+        // Build url and request service
+        $response = $this->doGET('/mosaic_maps/' . $mosaicMapId);
+
+        if ($response) {
+            $content = $response->getBody()->getContents();
+            $this->view->assign('value', json_decode($content, true));
+        }
+    }
+
+    public function deleteMosaicMapAction() {
+        $mosaicMapId = GeneralUtility::_GP('mosaic_map_id');
+
+        // Build url and request service
+        $response = $this->doDELETE('/mosaic_maps/' . $mosaicMapId);
+
+        if ($response) {
+            $content = $response->getBody()->getContents();
+            $this->view->assign('value', json_decode($content, true));
+        }
+    }
+
+    public function postMosaicMapAction()
+    {
+        $mosaicMapId = GeneralUtility::_GP('mosaic_map_id');
+
+        // get mapid from GET parameter map_id and request params
+        $feUserObj = $this->getActualUser();
+
+        // Build json request
+        if (!is_null($feUserObj) && !is_null($feUserObj->getUsername())) {
+            // Attach a user_id to the request object
+            $jsonRequest = json_decode(file_get_contents('php://input'), true);
+            $jsonRequest['user_id'] = $feUserObj->getUsername();
+
+            // Build url and request service
+            $response = $this->doPOST(
+                '/mosaic_maps/' . $mosaicMapId,
+                $jsonRequest
+            );
+
+            if ($response) {
+                $this->view->assign('value', json_decode($response, true));
+            }
+        } else {
+            throw new \UnexpectedValueException('Could not determine username.');
+        }
+    }
+
+    public function refreshMosaicMapAction()
+    {
+        $mosaicMapId = GeneralUtility::_GP('mosaic_map_id');
+
+        // get mapid from GET parameter map_id and request params
+        $feUserObj = $this->getActualUser();
+
+        // Build json request
+        if (!is_null($feUserObj) && !is_null($feUserObj->getUsername())) {
+            // Attach a user_id to the request object
+            $jsonRequest = json_decode('{}', true);
+            $jsonRequest['user_id'] = $feUserObj->getUsername();
+
+            // Build url and request service
+            $response = $this->doPOST(
+                '/mosaic_maps/' . $mosaicMapId . '/refresh',
+                $jsonRequest
+            );
+
+            if ($response) {
+                $this->view->assign('value', json_decode($response, true));
+            }
+        } else {
+            throw new \UnexpectedValueException('Could not determine username.');
+        }
+    }
 }

@@ -6,6 +6,7 @@
  */
 import React from "react";
 import { useRecoilValue } from "recoil";
+import PropTypes from "prop-types";
 import { timeRangeState } from "../../atoms/atoms";
 import PlacenameSearch from "../../../../components/PlacenameSearch/PlacenameSearch";
 import MapSearch from "../MapSearch/MapSearch";
@@ -13,7 +14,10 @@ import TimeSlider from "../TimeSlider/TimeSlider";
 import SettingsProvider from "../../../../SettingsProvider";
 import "./SpatialTemporalSearch.scss";
 
-export const SpatialTemporalSearch = () => {
+export const SpatialTemporalSearch = ({
+  customQuery,
+  MapSearchListItemComponent,
+}) => {
   const timeRange = useRecoilValue(timeRangeState);
 
   return (
@@ -25,11 +29,19 @@ export const SpatialTemporalSearch = () => {
             searchUrl={SettingsProvider.getNominatimUrl()}
           />
           <TimeSlider timeRange={timeRange} />
-          <MapSearch />
+          <MapSearch
+            customQuery={customQuery}
+            MapSearchListItemComponent={MapSearchListItemComponent}
+          />
         </div>
       </div>
     </div>
   );
+};
+
+SpatialTemporalSearch.propTypes = {
+  customQuery: PropTypes.array,
+  MapSearchListItemComponent: PropTypes.elementType,
 };
 
 export default SpatialTemporalSearch;

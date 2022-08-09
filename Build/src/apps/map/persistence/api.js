@@ -5,6 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import axios from "axios";
+import { Feature } from "ol";
 import { queryDocument } from "../../../util/apiEs.js";
 import { readFeature } from "../../../util/parser.js";
 
@@ -15,9 +16,19 @@ import { readFeature } from "../../../util/parser.js";
  * @return {Promise<ol.Feature>}
  */
 export const fetchFeatureForMapId = (mapId, is3dEnabled) =>
-    queryDocument(mapId).then((res) =>
-        readFeature(mapId, res, undefined, undefined, is3dEnabled)
-    );
+    queryDocument(mapId)
+        .then((res) =>
+            readFeature(mapId, res, undefined, undefined, is3dEnabled)
+        )
+        .catch(() => {
+            const feature = new Feature({
+                id: mapId,
+                isMissing: true,
+                has_georeference: false,
+            });
+            feature.setId(mapId);
+            return feature;
+        });
 
 /**
  * Fetches a map view from the backend and returns the corresponding json

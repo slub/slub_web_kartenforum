@@ -22,6 +22,26 @@ tt_content.slubwebkartenforum_map {
     }
 }
 
+// The main map content element with the core React application
+tt_content.slubwebkartenforum_mosaicmap = FLUIDTEMPLATE
+tt_content.slubwebkartenforum_mosaicmap {
+    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/MosaicMap.html
+    variables {
+        basemaps = TEXT
+        basemaps.value = {$plugin.tx_slubwebkartenforum.settings.basemaps}
+        enableTilePreloading = TEXT
+        enableTilePreloading.value = {$plugin.tx_slubwebkartenforum.settings.enableTilePreloading}
+        mapView = TEXT
+        mapView.value = {$plugin.tx_slubwebkartenforum.settings.mapView}
+        urlNominatim = TEXT
+        urlNominatim.value = {$plugin.tx_slubwebkartenforum.settings.urlNominatim}
+        urlSearch = TEXT
+        urlSearch.value = {$plugin.tx_slubwebkartenforum.settings.urlSearch}
+        terrain = TEXT
+        terrain.value = {$plugin.tx_slubwebkartenforum.settings.terrain}
+    }
+}
+
 // The apps content Element which controls the minor React snippets
 tt_content.slubwebkartenforum_apps = FLUIDTEMPLATE
 tt_content.slubwebkartenforum_apps {

@@ -1,6 +1,6 @@
 # Virtual Map Forum
 
-[Logo of the Virtual Map Forum](./Resources/Public/images/welcome_logo.png)
+![Logo of the Virtual Map Forum](Documentation/images/header-logo.svg)
 
 The Virtual Map Forum allows the searching and viewing of historic and georeferenced maps and offers further
 capabilities for the georeferencing of historic maps (dependencies
@@ -39,6 +39,16 @@ explains how to add such a button. Mainly important is the `Appearance -> Layout
 be `Map: Welcome Button`.
 
 ![Documentation/images/welcome_button_configuration.png](Documentation/images/welcome_button_configuration.png)
+
+
+### TYPO3 Template configuration
+
+In order for the user dropdown to work correctly, the page ids of the specific setup have to be supplied to the extension via the template configuration.
+All available configuration parameters can be found here: `Configuration/TypoScript/constants.typoscript`
+The following figure shows how to modify the settings:
+
+![Image of the template modification tools, with the constants section highlighted.](Documentation/images/template_configuration.jpg)
+
 
 ## Available query parameters
 

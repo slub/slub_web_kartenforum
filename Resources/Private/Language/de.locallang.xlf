@@ -119,6 +119,10 @@
 				<source><![CDATA[Scale]]></source>
 				<target><![CDATA[Maßstab]]></target>
 			</trans-unit>
+            <trans-unit id="plugin.map.mapsearchlistelement.type" approved="yes">
+                <source><![CDATA[Type]]></source>
+                <target><![CDATA[Typ]]></target>
+            </trans-unit>
 			<trans-unit id="plugin.map.layermanagement.showMap" approved="yes">
 				<source><![CDATA[Display map]]></source>
 				<target><![CDATA[Zeige Karte]]></target>
@@ -246,6 +250,142 @@
 				<source><![CDATA[Sorting]]></source>
 				<target><![CDATA[Sortierung]]></target>
 			</trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.selectedMaps">
+                 <source><![CDATA[Individual sheets selected]]></source>
+                <target><![CDATA[Einzelblätter ausgewählt]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.selectedNoMaps">
+                 <source><![CDATA[No individual sheets selected]]></source>
+                <target><![CDATA[Keine Einzelblätter ausgewählt]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.addAllSelected">
+                 <source><![CDATA[Add all selected]]></source>
+                <target><![CDATA[Füge alle ausgewählten hinzu]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.refreshOverview">
+                 <source><![CDATA[Refresh overview]]></source>
+                <target><![CDATA[Aktualisiere Übersicht]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.selectedListTitle">
+                <source><![CDATA[Linked individual sheets]]></source>
+                <target><![CDATA[Verknüpfte Einzelblätter]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.createNew">
+                <source><![CDATA[Create new mosaic map]]></source>
+                <target><![CDATA[Erstelle neue Mosaikkarte]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.save">
+                <source><![CDATA[Save mosaic map]]></source>
+                <target><![CDATA[Speichere Mosaikkarte]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.delete">
+                <source><![CDATA[Delete mosaic map]]></source>
+                <target><![CDATA[Lösche Mosaikkarte]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.title">
+                <source><![CDATA[New mosaic map]]></source>
+                <target><![CDATA[Neue Mosaikkarte]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_name">
+                <source><![CDATA[Name]]></source>
+                <target><![CDATA[Name]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_title">
+                <source><![CDATA[Title]]></source>
+                <target><![CDATA[Titel]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_time_of_publication">
+                <source><![CDATA[Publishing year]]></source>
+                <target><![CDATA[Erscheinungsjahr]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_link_to_thumb">
+                <source><![CDATA[Link to thumbnail]]></source>
+                <target><![CDATA[Link zum Vorschaubild]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_title_short">
+                <source><![CDATA[Title (short)]]></source>
+                <target><![CDATA[Titel (kurz)]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_scale">
+                <source><![CDATA[Map scale]]></source>
+                <target><![CDATA[Maßstab]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_description">
+                <source><![CDATA[Description]]></source>
+                <target><![CDATA[Beschreibung]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.help_name">
+                <source><![CDATA[Snake-case, e.g mosaic_map_1]]></source>
+                <target><![CDATA[Snake-case, z.B mosaik_karte_1]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_upload">
+                <source><![CDATA[The upload of the mosaic map has failed]]></source>
+                <target><![CDATA[Der Upload der Mosaikkarte ist fehlgeschlagen]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_update_overview">
+                <source><![CDATA[The overview update request has failed]]></source>
+                <target><![CDATA[Die Anfrage die Übersicht zu aktualisieren ist fehlgeschlagen]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_load_list">
+                <source><![CDATA[Could not load the list of mosaic maps]]></source>
+                <target><![CDATA[Die Liste verfügbarer Mosaikkarten konnte nicht geladen werden]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_delete">
+                <source><![CDATA[The deletion of the mosaic map has failed]]></source>
+                <target><![CDATA[Das Löschen der Mosaikkarte ist fehlgeschlagen]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.success-messages.delete">
+                <source><![CDATA[Successfully deleted the mosaic map]]></source>
+                <target><![CDATA[Die Mosaikkarte wurde erfolgreich gelöscht]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.deleteModal.title">
+                <source><![CDATA[Delete mosaic map]]></source>
+                <target><![CDATA[Lösche Mosaikkarte]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.deleteModal.content">
+                <source><![CDATA[The selected mosaic map will be deleted permanently]]></source>
+                <target><![CDATA[Die ausgewählte Mosaikkarte wird permanent gelöscht]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.deleteModal.buttonCancel">
+                <source><![CDATA[Cancel]]></source>
+                <target><![CDATA[Abbrechen]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.missingSheet">
+                <source><![CDATA[Missing individual sheet]]></source>
+                <target><![CDATA[Fehlende Einzelkarte]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.saveModal.buttonSave">
+                <source><![CDATA[Save]]></source>
+                <target><![CDATA[Speichern]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.saveModal.title">
+                <source><![CDATA[Update mosaic map]]></source>
+                <target><![CDATA[Aktualisiere Mosaikkarte]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.saveModal.content">
+                <source><![CDATA[Saving the mosaic map will overwrite the old state.]]></source>
+                <target><![CDATA[Das Speichern der Mosaikkarte überschreibt den alten Zustand.]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.deleteModal.buttonDelete">
+                <source><![CDATA[Delete]]></source>
+                <target><![CDATA[Löschen]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.savedIndicator.saved">
+                <source><![CDATA[Saved]]></source>
+                <target><![CDATA[Gespeichert]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.savedIndicator.notSaved">
+                <source><![CDATA[Not saved]]></source>
+                <target><![CDATA[Nicht gespeichert]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.success-messages.updatedOverview">
+                <source><![CDATA[Successfully requested overview update]]></source>
+                <target><![CDATA[Die Aktualisierung der Übersichten wurde erfolgreich angefragt]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.map.mosaicMaps.success-messages.saved">
+                <source><![CDATA[Successfully saved the mosaic map]]></source>
+                <target><![CDATA[Die Mosaikkarte wurde erfolgreich gespeichert]]></target>
+            </trans-unit>
 			<trans-unit id="client.metadatabinding.gotoFotothek" approved="yes">
 				<source><![CDATA[Goto Fotothek]]></source>
 				<target><![CDATA[Gehe zu Fotothek]]></target>
@@ -450,6 +590,10 @@
 			<trans-unit id="label.georefhistorypage" approved="yes">
 				<source><![CDATA[Georeference History]]></source>
 				<target><![CDATA[Georeferenzierungs-Historie]]></target>
+			</trans-unit>
+			<trans-unit id="label.mosaikAdminPage" approved="yes">
+				<source><![CDATA[Mosaikkarten]]></source>
+				<target><![CDATA[Mosaikkarten]]></target>
 			</trans-unit>
 			<trans-unit id="label.login" approved="yes">
 				<source><![CDATA[Login]]></source>
@@ -717,6 +861,10 @@
                 <source><![CDATA[Original map]]></source>
                 <target><![CDATA[Originale Karte]]></target>
             </trans-unit>
+			<trans-unit id="plugin.map.originalview.title-mosaic" approved="yes">
+                <source><![CDATA[Mosaic map]]></source>
+                <target><![CDATA[Mosaikkarte]]></target>
+            </trans-unit>
 			<trans-unit id="plugin.map.originalview.label-desc" approved="yes">
                 <source><![CDATA[Description]]></source>
                 <target><![CDATA[Beschreibung]]></target>
@@ -728,10 +876,6 @@
 			<trans-unit id="plugin.map.originalview.label-scale" approved="yes">
                 <source><![CDATA[Scale]]></source>
                 <target><![CDATA[Maßstab]]></target>
-            </trans-unit>
-			<trans-unit id="plugin.map.originalview.label-keywords" approved="yes">
-                <source><![CDATA[Keywords]]></source>
-                <target><![CDATA[Schlagworte]]></target>
             </trans-unit>
 			<trans-unit id="plugin.map.originalview.label-services" approved="yes">
                 <source><![CDATA[Services]]></source>

@@ -34,6 +34,14 @@
             </f:link.page>
         </li>
     </f:security.ifHasRole>
+    <f:security.ifHasRole role="vk2-admin">
+        <f:comment><!-- admin menu --></f:comment>
+        <li>
+            <f:link.page pageUid="{settings.mosaikAdminPage}" title="{f:translate(key:'label.mosaikAdminPage', extensionName:'slubWebKartenforum')}">
+                <f:translate key="label.mosaikAdminPage" extensionName="slubWebKartenforum"/>
+            </f:link.page>
+        </li>
+    </f:security.ifHasRole>
     <li>
         <f:link.page pageUid="{settings.loginPage}" data="{classes: 'logout'}" title="{f:translate(key:'label.logout', extensionName:'slubWebKartenforum')}">
             <f:translate key="label.logout" extensionName="slubWebKartenforum"/>

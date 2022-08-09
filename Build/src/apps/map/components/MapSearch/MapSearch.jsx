@@ -13,7 +13,7 @@ import {
   defaultFacetState,
   facetState,
   searchIsLoadingState,
-  searchResultDescriptorState,
+  mapCountState,
 } from "../../atoms/atoms";
 import { translate } from "../../../../util/util";
 import FacetedSearch from "../FacetedSearch/FacetedSearch";
@@ -23,17 +23,19 @@ import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner
 import SvgIcons from "../../../../components/SvgIcons/SvgIcons.jsx";
 
 import "./MapSearch.scss";
+import PaginatingDataController from "../PaginatingDataController/PaginatingDataController.jsx";
+import PropTypes from "prop-types";
 
 export const MAP_PROJECTION = "EPSG:3857";
 
 // The general Map Search component for the main view
-export const MapSearch = () => {
+export const MapSearch = ({ customQuery, MapSearchListItemComponent }) => {
   // state
   const [facets, setFacets] = useRecoilState(facetState);
   const [isFacetedSearchOpen, setIsFacetedSearchOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const isSearchLoading = useRecoilValue(searchIsLoadingState);
-  const { mapCount } = useRecoilValue(searchResultDescriptorState);
+  const mapCount = useRecoilValue(mapCountState);
 
   ////
   // Handler section
@@ -88,11 +90,20 @@ export const MapSearch = () => {
           </div>
         </div>
         <div className="panel-body">
-          <MapSearchResultList />
+          <MapSearchResultList
+            customQuery={customQuery}
+            DataProvider={PaginatingDataController}
+            ListItemComponent={MapSearchListItemComponent}
+          />
         </div>
       </div>
     </div>
   );
+};
+
+MapSearch.propTypes = {
+  customQuery: PropTypes.array,
+  MapSearchListItemComponent: PropTypes.elementType,
 };
 
 export default MapSearch;

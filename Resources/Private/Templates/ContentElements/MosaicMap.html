@@ -1,0 +1,176 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
+
+<input type="hidden" value="{basemaps}" id="setting-basemaps"/>
+<input type="hidden" value="{mapView}" id="setting-mapView"/>
+<input type="hidden" value="{urlNominatim}" id="setting-urlNominatim"/>
+<input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
+<input type="hidden" value="{terrain}" id="setting-terrain"/>
+<input type="hidden" value="{enableTilePreloading}" id="settings-enableTilePreloading"/>
+<f:security.ifAuthenticated>
+    <f:then>
+        <input type="hidden" id="setting-is-auth"/>
+    </f:then>
+</f:security.ifAuthenticated>
+
+<f:section name="HeaderAssets">
+    <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/ol.css', extensionName: 'slub_web_kartenforum')}"/>
+    <link rel="stylesheet"
+          href="{f:uri.resource(path: 'Build/plugin-map-mosaic.css', extensionName: 'slub_web_kartenforum')}"/>
+    <script type="text/javascript"
+            src="{f:uri.resource(path: 'Contrib/JavaScript/glif.min.js', extensionName: 'slub_web_kartenforum')}"></script>
+    <script type="text/javascript"
+            src="{f:uri.resource(path: 'Contrib/JavaScript/Cesium/Cesium.js', extensionName: 'slub_web_kartenforum')}"></script>
+    <script type="text/javascript"
+            src="{f:uri.resource(path: 'Build/plugin-map-mosaic.js', extensionName: 'slub_web_kartenforum')}"></script>
+</f:section>
+
+<f:section name="FooterAssets">
+    <script type="text/javascript">
+        vk2.SettingsProvider.appendSettings({
+            "API_MAP_VIEW_LOAD": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getMapView&type=9991",
+            "API_MAP_VIEW_PERSIST": document.getElementById("setting-is-auth") !== null ? "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMapView&type=9991" : undefined,
+            "API_GEOREFERENCE_GET_MOSAIC_MAPS": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getMosaicMaps&type=9991",
+            "API_GEOREFERENCE_REFRESH_MOSAIC_MAP_SERVICE": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=refreshMosaicMap&type=9991",
+            "API_GEOREFERENCE_UPDATE_MOSAIC_MAP": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMosaicMap&type=9991",
+            "API_GEOREFERENCE_CREATE_MOSAIC_MAP": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMosaicMaps&type=9991",
+            "API_GEOREFERENCE_DELETE_MOSAIC_MAP": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=deleteMosaicMap&type=9991",
+            "API_SEARCH": document.getElementById("setting-urlSearch").value,
+            "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
+            "ENABLE_TILE_PRELOADING": JSON.parse(document.getElementById("settings-enableTilePreloading").value),
+            "FALLBACK_THUMBNAIL": "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
+            "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
+            "MAPVIEW_PARAMS": JSON.parse(document.getElementById("setting-mapView").value),
+            "NOMINATIM_URL": document.getElementById("setting-urlNominatim").value,
+            "TERRAIN_TILES": JSON.parse(document.getElementById("setting-terrain").value),
+        });
+
+
+        vk2.SettingsProvider.appendSettings({
+            dictionary: Object.assign(
+                {},
+                vk2.SettingsProvider.getSettings().dictionary,
+                {
+                    "originalview-title": "<f:translate key='plugin.map.originalview.title' extensionName='SlubWebKartenforum' />",
+                    "originalview-label-desc": "<f:translate key='plugin.map.originalview.label-desc' extensionName='SlubWebKartenforum' />",
+                    "originalview-label-identifier": "<f:translate key='plugin.map.originalview.label-identifier' extensionName='SlubWebKartenforum' />",
+                    "originalview-label-scale": "<f:translate key='plugin.map.originalview.label-scale' extensionName='SlubWebKartenforum' />",
+                    "originalview-label-services": "<f:translate key='plugin.map.originalview.label-services' extensionName='SlubWebKartenforum' />",
+                    "originalview-link-download-label": "<f:translate key='plugin.map.originalview.link-download-label' extensionName='SlubWebKartenforum' />",
+                    "originalview-link-slub-label": "<f:translate key='plugin.map.originalview.link-slub-label' extensionName='SlubWebKartenforum' />",
+
+                    // mapsearch
+                    "mapsearch-facetedsearch-open": "<f:translate key='plugin.map.mapsearch.facetsearch.open' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-facetedsearch-close": "<f:translate key='plugin.map.mapsearch.facetsearch.close' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-found-maps": "<f:translate key='plugin.map.mapsearch.foundMaps' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-found-no-maps": "<f:translate key='plugin.map.mapsearch.foundNoMaps' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-georeference": "<f:translate key='plugin.map.mapsearch.georeference' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-time_published": "<f:translate key='plugin.map.mapsearch.time_published' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-title": "<f:translate key='plugin.map.mapsearch.title' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-sorting": "<f:translate key='plugin.map.mapsearch.sorting' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-map_scale": "<f:translate key='plugin.map.mapsearch.map_scale' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-listelement-time": "<f:translate key='plugin.map.mapsearchlistelement.time' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-listelement-scale": "<f:translate key='plugin.map.mapsearchlistelement.scale' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-listelement-no-georef": "<f:translate key='plugin.map.mapsearchlistelement.notGeoref' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-listelement-loading": "<f:translate key='plugin.map.mapsearchlistelement.loading' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-listelement-unknown": "<f:translate key='plugin.map.mapsearchlistelement.unknown' extensionName='SlubWebKartenforum' />",
+
+
+                    // mosaic-map-selector
+                    "mosaic-maps-selected-maps": "<f:translate key='plugin.map.mosaicMaps.selectedMaps' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-selected-no-maps": "<f:translate key='plugin.map.mosaicMaps.selectedNoMaps' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-add-all-selected": "<f:translate key='plugin.map.mosaicMaps.addAllSelected' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-refresh-overview": "<f:translate key='plugin.map.mosaicMaps.refreshOverview' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-refresh-selected-list-title": "<f:translate key='plugin.map.mosaicMaps.selectedListTitle' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-create-new": "<f:translate key='plugin.map.mosaicMaps.createNew' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-save": "<f:translate key='plugin.map.mosaicMaps.save' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-delete": "<f:translate key='plugin.map.mosaicMaps.delete' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-input-panel-title": "<f:translate key='plugin.map.mosaicMaps.inputPanel.title' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-input-panel-field_name": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_name' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-input-panel-field_title": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_title' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-input-panel-field_time_of_publication": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_time_of_publication' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-input-panel-field_link_thumb": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_link_to_thumb' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-input-panel-field_title_short": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_title_short' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-input-panel-field_map_scale": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_scale' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-input-panel-field_description": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_description' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-input-panel-help_name": "<f:translate key='plugin.map.mosaicMaps.inputPanel.help_name' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-error-messages-failed-upload": "<f:translate key='plugin.map.mosaicMaps.error-messages.failed_upload' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-error-messages-failed-update-overview": "<f:translate key='plugin.map.mosaicMaps.error-messages.failed_update_overview' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-error-messages-failed-load-list": "<f:translate key='plugin.map.mosaicMaps.error-messages.failed_load_list' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-error-messages-delete-failed": "<f:translate key='plugin.map.mosaicMaps.error-messages.failed_delete' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-success-messages-delete": "<f:translate key='plugin.map.mosaicMaps.success-messages.delete' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-success-messages-saved": "<f:translate key='plugin.map.mosaicMaps.success-messages.saved' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-delete-modal-title": "<f:translate key='plugin.map.mosaicMaps.deleteModal.title' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-delete-modal-content": "<f:translate key='plugin.map.mosaicMaps.deleteModal.content' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-delete-modal-buttonCancel": "<f:translate key='plugin.map.mosaicMaps.deleteModal.buttonCancel' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-delete-modal-buttonDelete": "<f:translate key='plugin.map.mosaicMaps.deleteModal.buttonDelete' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-saved-indicator-saved": "<f:translate key='plugin.map.mosaicMaps.savedIndicator.saved' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-saved-indicator-not-saved": "<f:translate key='plugin.map.mosaicMaps.savedIndicator.notSaved' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-saved-indicator-loading": "<f:translate key='plugin.map.mosaicMaps.savedIndicator.loading' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-success-messages-updated-overview": "<f:translate key='plugin.map.mosaicMaps.success-messages.updatedOverview' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-missing-sheet": "<f:translate key='plugin.map.mosaicMaps.missingSheet' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-save-modal-buttonSave": "<f:translate key='plugin.map.saveModal.buttonSave' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-save-modal-title": "<f:translate key='plugin.map.saveModal.title' extensionName='SlubWebKartenforum' />",
+                    "mosaic-map-save-modal-content": "<f:translate key='plugin.map.saveModal.content' extensionName='SlubWebKartenforum' />",
+
+                    // mapwrapper
+                    "mapwrapper-geojson-parse-error": "<f:translate key='plugin.map.mapwrapper.parseError' extensionName='SlubWebKartenforum' />",
+                    "mapwrapper-mount-layer-error": "<f:translate key='plugin.map.mapwrapper.mountLayerError' extensionName='SlubWebKartenforum' />",
+
+
+                    // facets
+                    "facet-ae": "<f:translate key='plugin.map.facetedsearch.titleAE' extensionName='SlubWebKartenforum' />",
+                    "facet-ak": "<f:translate key='plugin.map.facetedsearch.titleAK' extensionName='SlubWebKartenforum' />",
+                    "facet-cm": "<f:translate key='plugin.map.facetedsearch.titleCM' extensionName='SlubWebKartenforum' />",
+                    "facet-gl": "<f:translate key='plugin.map.facetedsearch.titleGL' extensionName='SlubWebKartenforum' />",
+                    "facet-mb": "<f:translate key='plugin.map.facetedsearch.titleMB' extensionName='SlubWebKartenforum' />",
+                    "facet-mtb": "<f:translate key='plugin.map.facetedsearch.titleMTB' extensionName='SlubWebKartenforum' />",
+                    "facet-tk": "<f:translate key='plugin.map.facetedsearch.titleTK' extensionName='SlubWebKartenforum' />",
+                    "facet-tkx": "<f:translate key='plugin.map.facetedsearch.titleTKX' extensionName='SlubWebKartenforum' />",
+
+                    // layer management
+                    "layermanagement-show-map": "<f:translate key='plugin.map.layermanagement.showMap' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-remove-map": "<f:translate key='plugin.map.layermanagement.removeMap' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-move-top": "<f:translate key='plugin.map.layermanagement.moveToTop' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-zoom-to-map": "<f:translate key='plugin.map.layermanagement.zoomToMap' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-show-original": "<f:translate key='plugin.map.layermanagement.showOriginal' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-export": "<f:translate key='plugin.map.layermanagement.export' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-start-msg-header": "<f:translate key='plugin.map.layermanagement.startMessageHeader' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-start-msg-body": "<f:translate key='plugin.map.layermanagement.startMessageBody' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-header-lbl": "<f:translate key='plugin.map.layermanagement.headerLbl' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-deactivate-all-maps": "<f:translate key='plugin.map.layermanagement.deactivateAll' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-activate-all-maps": "<f:translate key='plugin.map.layermanagement.activateAll' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-timestamp": "<f:translate key='plugin.map.layermanagement.timestamp' extensionName='SlubWebKartenforum' />",
+                    "layermangement-georef-update": "<f:translate key='plugin.map.layermanagement.georefUpdate' extensionName='SlubWebKartenforum' />",
+
+
+                    // dynamic map vis
+                    "dynamicmapvis-open": "<f:translate key='plugin.map.dynamicmapvis.open' extensionName='SlubWebKartenforum' />",
+                    "dynamicmapvis-close": "<f:translate key='plugin.map.dynamicmapvis.close' extensionName='SlubWebKartenforum' />",
+                    "dynamicmapvis-start": "<f:translate key='plugin.map.dynamicmapvis.start' extensionName='SlubWebKartenforum' />",
+                    "dynamicmapvis-stop": "<f:translate key='plugin.map.dynamicmapvis.stop' extensionName='SlubWebKartenforum' />",
+
+                    // persistence controller
+                    "persistencecontroller-error-operational-layers": "<f:translate key='plugin.map.persistencecontroller.errorOperationalLayers' extensionName='SlubWebKartenforum' />",
+                    "persistencecontroller-error-persistence-object": "<f:translate key='plugin.map.persistencecontroller.errorPersistenceObject' extensionName='SlubWebKartenforum' />",
+                    "persistencecontroller-error-single-map": "<f:translate key='plugin.map.persistencecontroller.errorSingleMap' extensionName='SlubWebKartenforum' />",
+
+
+                    // timeslider
+                    "timeslider-adjust-timeperiod": "<f:translate key='plugin.map.timeslider.adjustTimePeriod' extensionName='SlubWebKartenforum' />",
+                }
+            )
+        });
+
+        // Render map plugin
+        if (vk2 !== undefined) {
+            vk2.renderMosaicMapApp(
+                document.getElementById("vkf-app-mosaic-map")
+            );
+        }
+    </script>
+</f:section>
+
+<div id="vkf-app-mosaic-map">
+</div>
+
+</html>

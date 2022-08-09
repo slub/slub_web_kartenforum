@@ -9,8 +9,6 @@ import React, { useRef } from "react";
 import { useRecoilState } from "recoil";
 import PropTypes from "prop-types";
 
-import { translate } from "../../../../util/util";
-import Modal from "../../../../components/Modal/Modal";
 import { selectedOriginalMapIdState } from "../../atoms/atoms";
 import LayerManagement from "../../components/LayerManagement/LayerManagement";
 import SpatialTemporalSearch from "../../components/SpatialTemporalSearch/SpatialTemporalSearch";
@@ -27,6 +25,8 @@ export const HorizontalLayout = ({ onAddGeoJson }) => {
   const spatialSearchRef = useRef(null);
 
   useSetElementScreenSize(spatialSearchRef, "spatialtemporalsearch");
+
+  const handleClose = () => setOriginalMapId(undefined);
 
   return (
     <React.Fragment>
@@ -45,18 +45,11 @@ export const HorizontalLayout = ({ onAddGeoJson }) => {
           <LayerManagement onAddGeoJson={onAddGeoJson} />
         </div>
       </div>
-      {selectedOriginalMapId !== undefined && (
-        <Modal
-          key={selectedOriginalMapId}
-          modalClassName="vkf-modal-original-map"
-          onClose={() => setOriginalMapId(undefined)}
-          renderContent={() => (
-            <OriginalMapView map_id={selectedOriginalMapId} />
-          )}
-          isOpen={true}
-          title={translate("originalview-title")}
-        />
-      )}
+      <OriginalMapView
+        onClose={handleClose}
+        isOpen={selectedOriginalMapId !== undefined}
+        map_id={selectedOriginalMapId}
+      />
     </React.Fragment>
   );
 };

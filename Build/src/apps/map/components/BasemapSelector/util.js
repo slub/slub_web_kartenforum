@@ -60,24 +60,14 @@ function parseLayerFromCapabilities(url, capabilities) {
  * @param {Function} onError
  * @returns {Promise<void>}
  */
-export async function fetchAndParseWmsCapabilities(url, onSuccess, onError) {
-    try {
-        const response = await axios.get(url);
+export async function fetchAndParseWmsCapabilities(url) {
+    const response = await axios.get(url);
 
-        // In case it is valid request we try to parse the capabilities document
-        if (response.status === 200) {
-            const capabilities = new WMSCapabilities().read(response.data);
-            const layers = parseLayerFromCapabilities(
-                url.split("?")[0],
-                capabilities
-            );
-            onSuccess(layers);
-            return;
-        }
-        throw new Error("Unknown error");
-    } catch (e) {
-        onError(
-            `"${e.message}". Something went wrong while trying to fetch the wms capabilities. Please check the url or contact an administrator.`
-        );
+    // In case it is valid request we try to parse the capabilities document
+    if (response.status === 200) {
+        const capabilities = new WMSCapabilities().read(response.data);
+        return parseLayerFromCapabilities(url.split("?")[0], capabilities);
+    } else {
+        throw new Error(`Could not fetch wms capabilities document at ${url}`);
     }
 }
