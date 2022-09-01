@@ -210,6 +210,15 @@
 			<trans-unit id="global.map.control-mouseposition-title">
 				<source>Cursor position</source>
 			</trans-unit>
+			<trans-unit id="global.map.control-save-mouseposition-helper">
+				<source>Click to save current position</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-saved-mouseposition-label">
+				<source>Saved</source>
+			</trans-unit>
+			<trans-unit id="global.map.control-save-mouseposition-button-title">
+				<source>Copy saved position to clipboard</source>
+			</trans-unit>
 
 
             <!-- vk2.control.RestoreDefaultView -->

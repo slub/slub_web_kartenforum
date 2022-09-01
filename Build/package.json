@@ -14,7 +14,7 @@
     "build:app-apps": "NODE_ENV=production node ./esbuild.apps.js",
     "build:app-georef": "NODE_ENV=production node ./esbuild.georef.js",
     "build:app-map": "NODE_ENV=production node esbuild.map.js",
-    "build:app-map-mosaic": "NODE_ENV=production node esbuild.georef.js",
+    "build:app-map-mosaic": "NODE_ENV=production node esbuild.mosaic-map.js",
     "transpile": "babel --compact true --minified ../Resources/Public/Build/ -d ../Resources/Public/Build/",
     "watch:app-admin": "MODE=watch node ./esbuild.admin.js",
     "watch:app-apps": "MODE=watch node ./esbuild.apps.js",

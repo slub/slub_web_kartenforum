@@ -410,6 +410,18 @@
 				<source><![CDATA[Cursor position]]></source>
 				<target><![CDATA[Cursorposition]]></target>
 			</trans-unit>
+			<trans-unit id="global.map.control-save-mouseposition-helper" approved="yes">
+				<source><![CDATA[Click to save current position]]></source>
+				<target><![CDATA[Klicken um aktuelle Position zu speichern]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-saved-mouseposition-label">
+				<source><![CDATA[Saved]]></source>
+				<target><![CDATA[Gespeichert]]></target>
+			</trans-unit>
+			<trans-unit id="global.map.control-save-mouseposition-button-title">
+				<source><![CDATA[Copy saved position to clipboard]]></source>
+				<target><![CDATA[Kopiere gespeichert Position in die Zwischenablage]]></target>
+			</trans-unit>
 			<trans-unit id="client.no" approved="yes">
 				<source><![CDATA[No]]></source>
 				<target><![CDATA[Nein]]></target>

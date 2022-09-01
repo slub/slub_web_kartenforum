@@ -19,6 +19,10 @@ import {
 import { notificationState } from "../../../../../atoms/atoms.js";
 import Modal from "../../../../../components/Modal/Modal.jsx";
 import { VALUE_CREATE_NEW_MAP } from "../../MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
+import {
+  useSavedState,
+  SaveStates,
+} from "../../MosaicMapInputPanel/components/SaveIndicator/SaveIndicator.jsx";
 
 import "./SaveMosaicMapButton.scss";
 
@@ -65,6 +69,7 @@ export const SaveMosaicMapButton = () => {
   const [selectedMosaicMap, setSelectedMosaicMap] = useRecoilState(
     mosaicMapSelectedMosaicMapState
   );
+  const savedState = useSavedState();
 
   const isUpdate = selectedMosaicMap.id !== VALUE_CREATE_NEW_MAP;
 
@@ -144,7 +149,8 @@ export const SaveMosaicMapButton = () => {
       <ControlButton
         disabled={
           !isMapValid(selectedMosaicMap) ||
-          loadingState === MosaicMapLoadingStates.UPLOADING_CHANGES
+          loadingState === MosaicMapLoadingStates.UPLOADING_CHANGES ||
+          (isUpdate && savedState !== SaveStates.CHANGED)
         }
         id="save-mosaic-map"
         iconClassName="icon-save"
