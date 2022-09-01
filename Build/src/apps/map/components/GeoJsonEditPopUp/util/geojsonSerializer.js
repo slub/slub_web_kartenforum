@@ -6,9 +6,9 @@
  */
 import GeoJSON from "ol/format/GeoJSON";
 
-import { styleFieldSettings } from "../settings";
-import SettingsProvider from "../../../../../../../SettingsProvider";
-import { defaultStyleFunction } from "../../../defaultStyles";
+import { styleFieldSettings } from "../../../views/GeoJsonView/settings.js";
+import SettingsProvider from "../../../../../SettingsProvider";
+import { defaultStyleFunction } from "../../MapWrapper/defaultStyles";
 import { parseGeojsonStyles } from "./geojsonParser";
 
 /**

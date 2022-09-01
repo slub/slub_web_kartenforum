@@ -14,7 +14,7 @@ import { fromLonLat } from "ol/proj";
 import {
     deserializeGeojson,
     serializeGeojson,
-} from "../components/MapWrapper/components/DialogEditFeature/util/geojsonSerializer";
+} from "../components/GeoJsonEditPopUp/util/geojsonSerializer";
 import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
 import { isDefined } from "../../../util/util";
 import { MAP_PROJECTION } from "../components/MapSearch/MapSearch.jsx";

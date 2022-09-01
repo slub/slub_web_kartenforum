@@ -68,6 +68,14 @@
         }
     }
 
+    @media (max-height: 500px ) {
+        .frame-type-textmedia.frame-layout-0 {
+            max-height: 200px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+    }
     .frame-type-header.frame-layout-40 h2 { // The start button
         position: relative;
         margin: 30px 0 0 0;

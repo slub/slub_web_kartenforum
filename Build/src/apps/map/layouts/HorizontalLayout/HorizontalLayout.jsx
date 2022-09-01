@@ -15,6 +15,7 @@ import SpatialTemporalSearch from "../../components/SpatialTemporalSearch/Spatia
 import OriginalMapView from "../../views/OriginalMapView/OriginalMapView";
 import { useSetElementScreenSize } from "../../../../util/hooks";
 import "./HorizontalLayout.scss";
+import GeoJsonFeatureView from "../../views/GeoJsonView/GeoJsonFeatureView.jsx";
 
 export const HorizontalLayout = ({ onAddGeoJson }) => {
   const [selectedOriginalMapId, setOriginalMapId] = useRecoilState(
@@ -38,6 +39,7 @@ export const HorizontalLayout = ({ onAddGeoJson }) => {
         >
           <SpatialTemporalSearch />
         </div>
+        <GeoJsonFeatureView />
         <div
           className="layermanagement-container"
           id="layermanagement-container"

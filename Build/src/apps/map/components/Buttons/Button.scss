@@ -1,0 +1,28 @@
+ @import "../../Variables";
+
+.vkf-button-base, .vkf-button-default {
+    font-family: $button-font;
+    font-weight: 400;
+    font-size: 1.7rem;
+    color: white;
+    background-color: $backgroundSecondary;
+    text-transform: uppercase;
+
+    &:hover {
+        background-color: darken($backgroundSecondary, 15%);
+        color: #fff;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &.vkf-button-primary {
+        background-color: $secondary-color;
+
+        &:hover {
+            background-color: $secondary-color-dark;
+            color: #fff;
+        }
+    }
+}

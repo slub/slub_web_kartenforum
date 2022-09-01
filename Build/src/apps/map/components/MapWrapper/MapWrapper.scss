@@ -19,11 +19,6 @@
         opacity: 0;
         transition: none;
         z-index: 2;
-
-        &.animation-show {
-            transition: opacity 0.3s ease-in;
-            opacity: 1;
-        }
     }
 
     .map-div {

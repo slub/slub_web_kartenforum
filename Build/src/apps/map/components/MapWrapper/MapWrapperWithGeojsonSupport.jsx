@@ -11,8 +11,8 @@ import PropTypes from "prop-types";
 
 import Dropzone from "../Dropzone/Dropzone";
 import { translate } from "../../../../util/util";
-import { deserializeGeojson } from "./components/DialogEditFeature/util/geojsonSerializer";
-import { parseDate } from "./components/DialogEditFeature/util/geojsonParser";
+import { deserializeGeojson } from "../GeoJsonEditPopUp/util/geojsonSerializer";
+import { parseDate } from "../GeoJsonEditPopUp/util/geojsonParser";
 import { notificationState } from "../../../../atoms/atoms";
 import DialogAddGeoJson from "./components/DialogAddGeoJson/DialogAddGeoJson";
 import { selectedFeaturesState } from "../../atoms/atoms";

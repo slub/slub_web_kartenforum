@@ -30,6 +30,10 @@
                 bottom: unset;
                 min-width: 185px;
 
+                &.in {
+                    opacity: 1;
+                }
+
                 &:after,
                 &:before {
                     display: none;

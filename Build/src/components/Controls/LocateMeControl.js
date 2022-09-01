@@ -12,8 +12,8 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { Icon, Style } from "ol/style";
 import { translate } from "../../util/util";
+import { MARKER_BASE_URL } from "../../apps/map/components/GeoJsonEditPopUp/components/MarkerPicker/MarkerPicker.jsx";
 import "./LocateMeControl.scss";
-import { MARKER_BASE_URL } from "../../apps/map/components/MapWrapper/components/DialogEditFeature/DialogEditFeatureRow/components/MarkerPicker.jsx";
 
 /**
  * requests the geolocation api and, in case of success, sets the coordinates for the mapview

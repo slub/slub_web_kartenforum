@@ -9,7 +9,7 @@ import {
     predefinedProperties,
     stylingProperties,
     styleFieldSettings,
-} from "../settings";
+} from "../../../views/GeoJsonView/settings.js";
 
 export const checkForStylingProperty = (propertyKey, geometryType) => {
     return (
@@ -51,80 +51,6 @@ export const filterCustomProperties = (feature) => {
     return filteredStylingProperties
         .filter(([k]) => !ignoredProperties.includes(k))
         .filter(([k]) => !predefinedProperties.includes(k));
-};
-
-/**
- * Return transform settings for the DialogEditFeature
- * @param windowSize
- * @param elementsScreenSize
- * @return {{bottomOffset: number, x: number, leftOffset: *, y: number}}
- */
-export const getTransformSettings = (windowSize, elementsScreenSize) => {
-    const { layermanagement, padding, spatialtemporalsearch } =
-        elementsScreenSize;
-    const [width, height] = windowSize;
-
-    // conceptual visualization
-    // Page
-    //  |----------------------|
-    // |PPPPPPPPPPPPPPPPPPPPPPP|
-    // |PSSSPPPPPPPPPPPPPPPLLLP|
-    // |PSSSMMMMMMMMMMMMMMPLLLP|
-    // |PSSSMMMMMMMMMMMMMMPLLLP|
-    // |PSSSMMMMMMMMMMMMMMPLLLP|
-    // |PSSSMMMMMMMMMMMMMMPLLLP|
-    // |PSSSMMMMMMMMMMMMMMPLLLP|
-    // |PPPPPPPPPPPPPPPPPPPPPPP|
-    // |-----------------------|
-    // => need to calculate coordinates for the area marked with "M", where bottom left is 0,0
-    // => It should be allowed for the dialog to be moved within the area marked with M, but nowhere else
-    // => Use css transform, where the area of the dialog has to be included in the calculations
-    // => Button on the header is starting point of the movements (include additional offset into calculations)
-
-    // constants for the dialogEdit Feature
-    const dialogEditFeatureHeight = 475;
-    const dialogEditFeaturePadding = 15;
-    const dialogEditFeatureDragButtonHeight = 10;
-    const dialogEditFeatureWidth = 392;
-    const dialogEditFeatureDragButtonWidth = 25;
-
-    // constants for the footer
-    const footerHeight = 40;
-
-    // calculate max X transformation from the supplied values
-    const maxXTransform =
-        width -
-        (layermanagement.width +
-            spatialtemporalsearch.width +
-            2 * padding.width +
-            dialogEditFeatureWidth +
-            12);
-
-    // calculate max Y transformation from supplied values
-    const maxYTransform = layermanagement.height - dialogEditFeatureHeight;
-
-    // calculate the left offset of the coordinate system => in order to transform event coordinates to the correct coordinate system
-    const leftOffset =
-        layermanagement.width +
-        padding.width +
-        dialogEditFeaturePadding +
-        0.5 * dialogEditFeatureDragButtonWidth;
-
-    // calculate the bottom offset of the coordinate system => in order to transform event coordinates to the correct coordinate system
-    const bottomOffset =
-        height -
-        (footerHeight +
-            padding.height +
-            (dialogEditFeatureHeight -
-                dialogEditFeaturePadding -
-                dialogEditFeatureDragButtonHeight));
-
-    return {
-        x: maxXTransform,
-        y: maxYTransform,
-        leftOffset,
-        bottomOffset,
-    };
 };
 
 export const parseRgbStringToHex = (rgbString) => {
@@ -238,20 +164,58 @@ export const generateStrokeChangeHandler =
         feature.setStyle(newStyle);
     };
 
-export const getNonUniqueRows = (rows) => {
-    const indicesPerKey = {};
+/*
+ * filter and extract the properties of the feature
+ */
+export const propExtractor = (feature) => {
+    const filterList = [
+        "marker",
+        "stroke",
+        "stroke-opacity",
+        "stroke-width",
+        "fill",
+        "fill-opacity",
+        "geometry",
+    ];
+    const Properties = Object.keys(feature.values_)
+        .filter((property) => !filterList.includes(property))
+        .reduce((object, property) => {
+            return {
+                ...object,
+                [property]: feature.values_[property],
+            };
+        }, {});
 
-    rows.forEach((row, index) => {
-        const key = row[0];
+    return Properties;
+};
 
-        if (indicesPerKey[key] !== undefined) {
-            indicesPerKey[key].push(index);
-        } else {
-            indicesPerKey[key] = [index];
+/*
+ * Generate the save handler for update and save changed properties
+ */
+
+export const saveFeatureChanges = (feature, fieldsRef) => {
+    const oldProperties = feature.getProperties();
+    const updatedProperties = {};
+
+    fieldsRef.current.forEach(([k, v]) => {
+        if (k !== undefined && k !== "") {
+            updatedProperties[k] = v;
         }
     });
 
-    return Object.values(indicesPerKey)
-        .filter((indices) => indices.length > 1)
-        .flat();
+    Object.entries(oldProperties)
+        .filter(
+            (entry) =>
+                ignoredProperties.includes(entry[0]) ||
+                predefinedProperties.includes(entry[0])
+        )
+        .forEach(([k, v]) => {
+            updatedProperties[k] = v;
+        });
+
+    Object.keys(oldProperties).forEach((propertyKey) =>
+        feature.unset(propertyKey)
+    );
+
+    feature.setProperties(Object.assign({}, updatedProperties));
 };

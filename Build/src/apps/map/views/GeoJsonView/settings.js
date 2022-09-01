@@ -12,12 +12,12 @@ import {
     splitAlphaChannel,
     updateAlphaChannel,
     updateColorChannels,
-} from "./util/util";
-import { defaultIconSettings } from "../../defaultStyles";
+} from "../../components/GeoJsonEditPopUp/util/util.js";
+import { defaultIconSettings } from "../../components/MapWrapper/defaultStyles.js";
 import {
     getMarkerIdFromUrl,
     getMarkerUrl,
-} from "./DialogEditFeatureRow/components/MarkerPicker";
+} from "../../components/GeoJsonEditPopUp/components/MarkerPicker/MarkerPicker.jsx";
 
 /**
  * Configure styling fields of the geojson edit dialog
@@ -123,9 +123,21 @@ export const styleFieldSettings = {
 };
 
 export const predefinedFieldSettings = {
+    img_link: {
+        changeHandler: (feature, newValue) => {
+            feature.set("img_link", newValue);
+        },
+        type: "text",
+    },
     title: {
         changeHandler: (feature, newValue) => {
             feature.set("title", newValue);
+        },
+        type: "text",
+    },
+    description: {
+        changeHandler: (feature, newValue) => {
+            feature.set("description", newValue);
         },
         type: "text",
     },

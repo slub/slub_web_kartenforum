@@ -37,7 +37,6 @@ export const LayerManagement = ({
   const [displayedLayersCount, setDisplayedLayersCount] = useRecoilState(
     displayedLayersCountState
   );
-  const [hoveredLayerId, setHoveredLayerId] = useState(undefined);
   const map = useRecoilValue(mapState);
 
   // refs
@@ -135,8 +134,6 @@ export const LayerManagement = ({
 
             return (
               <LayerManagementEntry
-                hovered={layerId === hoveredLayerId}
-                onUpdateHover={setHoveredLayerId}
                 onMoveLayer={handleMoveLayer}
                 layer={layer}
                 index={getIndexToLayer(map, layer)}

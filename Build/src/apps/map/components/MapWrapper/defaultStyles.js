@@ -9,7 +9,7 @@ import { Circle as CircleStyle, Icon, Fill, Stroke, Style } from "ol/style";
 import {
     getMarkerUrl,
     MARKERS,
-} from "./components/DialogEditFeature/DialogEditFeatureRow/components/MarkerPicker";
+} from "../GeoJsonEditPopUp/components/MarkerPicker/MarkerPicker.jsx";
 
 export const defaultIconSettings = {
     anchor: [0.5, 1],

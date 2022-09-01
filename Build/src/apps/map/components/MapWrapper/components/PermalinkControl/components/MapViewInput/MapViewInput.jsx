@@ -62,13 +62,15 @@ export const MapViewInput = ({ refApplicationStateUpdater }) => {
   return (
     <>
       <div className="action-content">
-        <label htmlFor="permalink-mapview" className="visually-hidden">Permalink</label>
-          <input
-            placeholder={translate("control-permalink-input-mapview-placeholder")}
-            readOnly
-            value={value}
-            id="permalink-mapview"
-          />
+        <label htmlFor="permalink-mapview" className="visually-hidden">
+          Permalink
+        </label>
+        <input
+          placeholder={translate("control-permalink-input-mapview-placeholder")}
+          readOnly
+          value={value}
+          id="permalink-mapview"
+        />
 
         <CopyToClipboardButton onClick={handleUploadMapView} value={value} />
         <button
@@ -87,5 +89,5 @@ export const MapViewInput = ({ refApplicationStateUpdater }) => {
 };
 
 MapViewInput.propTypes = {
-  refApplicationStateUpdater: PropTypes.shape({ current: PropTypes.function }),
+  refApplicationStateUpdater: PropTypes.shape({ current: PropTypes.func }),
 };
