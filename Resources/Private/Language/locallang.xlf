@@ -220,7 +220,6 @@
 				<source>Copy saved position to clipboard</source>
 			</trans-unit>
 
-
             <!-- vk2.control.RestoreDefaultView -->
 			<trans-unit id="global.map.control-restoredefaultview-title">
 				<source>Restore default view</source>
@@ -242,6 +241,80 @@
             <trans-unit id="plugin.map.mapsearchlistelement.unknown">
                 <source>Unknown</source>
             </trans-unit>
+
+            <!-- Global > Map > DialogAddGeoJson -->
+            <trans-unit id="plugin.map.adddialog.confirm">
+                <source>Add</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.cancel">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.title">
+                <source>Add geojson layer</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.layerTitleLabel">
+                <source>Geojson Layer Title</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.projectionLabel">
+                <source>Projection</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.adddialog.body">
+				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
+			</trans-unit>
+
+            <!-- Global > Map > MarkerPicker -->
+            <trans-unit id="plugin.map.markerpicker.select">
+                <source>Select marker</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.markerpicker.preview">
+                <source>Preview of the selected marker</source>
+            </trans-unit>
+
+            <!-- map Geojson Feature View -->
+            <trans-unit id="plugin.map.geojson.featureview">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-header">
+                <source>Editing</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-cancel-btn">
+                <source>cancel</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-save-btn">
+                <source>save</source>
+            </trans-unit>
+
+            <trans-unit id="plugin.map.geojson.featureview-no-title">
+                <source>no title</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-no-description">
+                <source>no description</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-metadata">
+                <source>other metadata</source>
+            </trans-unit>
+
+            <!-- map Geojson Feature Edit -->
+            <trans-unit id="plugin.map.geojson.editfeature-delete-btn">
+                <source>delete element</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-image-title">
+                <source>Image</source>
+            </trans-unit>
+
+            <!--  Map GeoJson Feature Edit Delete Modal  -->
+            <trans-unit id="plugin.map.geojson.deletemodal-delete-btn">
+                <source>delete</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.deletemodal-body">
+                <source>Do you really want to delete the data?</source>
+            </trans-unit>
+
+            <!--  Map GeoJson Feature Edit Image Fallback   -->
+            <trans-unit id="plugin.map.geojson.img-fallback-p">
+                <source>We could not find a image. Please check the link again.</source>
+            </trans-unit>
+
 			<trans-unit id="plugin.map.layermanagement.showMap">
 				<source>Display map</source>
 			</trans-unit>
@@ -486,71 +559,6 @@
 			<trans-unit id="plugin.map.timeslider.adjustTimePeriod">
 				<source>Adjust time periode</source>
 			</trans-unit>
-
-			<!-- Global > Map > DialogEditFeature -->
-			<trans-unit id="plugin.map.editdialog.nonUniqueKey">
-                <source>Non unique property key</source>
-            </trans-unit>
-			<trans-unit id="plugin.map.editdialog.styleKeyInCustomProperties">
-                <source>Style keys are not allowed in custom properties</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.editdialog.predefinedKeyInCustomProperties">
-                <source>Predefined keys are not allowed in custom properties</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.editdialog.addRow">
-                <source>Add Row</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.editdialog.save">
-                <source>Save</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.editdialog.cancel">
-                <source>Cancel</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.editdialog.delete">
-                <source>Delete</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.editdialog.title">
-                <source>Edit</source>
-            </trans-unit>
-
-            <!-- Global > Map > DialogAddGeoJson -->
-
-            <trans-unit id="plugin.map.adddialog.confirm">
-                <source>Add</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.adddialog.cancel">
-                <source>Cancel</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.adddialog.title">
-                <source>Add geojson layer</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.adddialog.layerTitleLabel">
-                <source>Geojson Layer Title</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.adddialog.projectionLabel">
-                <source>Projection</source>
-            </trans-unit>
-			<trans-unit id="plugin.map.adddialog.body">
-				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
-			</trans-unit>
-
-            <!-- Global > Map > MarkerPicker -->
-            <trans-unit id="plugin.map.markerpicker.select">
-                <source>Select marker</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.markerpicker.preview">
-                <source>Preview of the selected marker</source>
-            </trans-unit>
-
-            <!-- Global > Map > Dropzone -->
-            <trans-unit id="plugin.map.dropzone.wrongFiletype">
-                <source>Wrong filetype</source>
-            </trans-unit>
-
-            <trans-unit id="plugin.map.dropzone.drop">
-                <source>Drop geojson file</source>
-            </trans-unit>
-
 
 			<!-- Newly sorted -->
 

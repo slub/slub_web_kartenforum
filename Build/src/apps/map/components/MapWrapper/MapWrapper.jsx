@@ -34,6 +34,7 @@ import {
   mapState,
   olcsMapState,
   selectedFeaturesState,
+  selectedGeoJsonFeatureState,
 } from "../../atoms/atoms";
 import {
   createHistoricMapForFeature,
@@ -43,7 +44,6 @@ import {
 import { getMapClassNameForLayout, LAYOUT_TYPES } from "../../layouts/util";
 import { useSetElementScreenSize } from "../../../../util/hooks";
 import GeoJsonLayer from "../CustomLayers/GeoJsonLayer";
-import DialogEditFeature from "./components/DialogEditFeature/DialogEditFeature";
 import customFeatureConverter from "./components/customFeatureConverter/customFeatureConverter";
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
 import { notificationState } from "../../../../atoms/atoms";
@@ -81,7 +81,9 @@ export function MapWrapper(props) {
   const localStorageWriter = useRecoilValue(currentApplicationStateState);
   const [map, setMap] = useRecoilState(mapState);
   const setOlcsMap = useSetRecoilState(olcsMapState);
-  const [selectedFeature, setSelectedFeature] = useState(undefined);
+  const setSelectedGeoJsonFeature = useSetRecoilState(
+    selectedGeoJsonFeatureState
+  );
   const [selectedFeatures, setSelectedFeatures] = useRecoilState(
     selectedFeaturesState
   );
@@ -166,22 +168,6 @@ export function MapWrapper(props) {
     }
   };
 
-  // deletes a feature from the map and closes the overlay afterwards
-  const handleFeatureDelete = (feature) => {
-    map.getLayers().forEach((layer) => {
-      const source = layer.getSource();
-      if (source instanceof VectorSource) {
-        const features = source.getFeatures();
-        const containsFeature = features.includes(feature);
-        if (containsFeature) {
-          source.removeFeature(feature);
-        }
-      }
-    });
-
-    handleOverlayClose();
-  };
-
   // open overlay on map click and supply it with the first feature under the cursor
   const handleMapClick = useCallback(
     (e) => {
@@ -207,19 +193,14 @@ export function MapWrapper(props) {
       }
 
       if (isDefined(newSelectedFeature)) {
-        setSelectedFeature(newSelectedFeature);
+        setSelectedGeoJsonFeature(newSelectedFeature);
       } else {
         // hide overlay
-        setSelectedFeature(undefined);
+        setSelectedGeoJsonFeature(null);
       }
     },
     [is3dActive, map]
   );
-
-  // Close the map overlay
-  const handleOverlayClose = () => {
-    setSelectedFeature(undefined);
-  };
 
   ////
   // Effect section
@@ -473,22 +454,6 @@ export function MapWrapper(props) {
 
   return (
     <div className="map-container">
-      <div
-        className={clsx(
-          "vkf-map-overlay",
-          selectedFeature !== undefined && "animation-show"
-        )}
-        ref={refDialogEditFeature}
-      >
-        {selectedFeature !== undefined && (
-          <DialogEditFeature
-            containerRef={refDialogEditFeature}
-            onClose={handleOverlayClose}
-            onDelete={handleFeatureDelete}
-            feature={selectedFeature}
-          />
-        )}
-      </div>
       <div
         ref={mapElement}
         className={clsx("map-div", "olMap", getMapClassNameForLayout(layout))}

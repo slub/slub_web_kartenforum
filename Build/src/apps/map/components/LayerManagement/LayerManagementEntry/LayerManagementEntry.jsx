@@ -37,11 +37,12 @@ export const ItemTypes = {
 };
 
 export const LayerManagementEntry = (props) => {
-  const { hovered, id, index, layer, onMoveLayer, onUpdateHover } = props;
+  const { id, index, layer, onMoveLayer } = props;
   const [entered, setEntered] = useState(false);
   const [isSliding, setIsSliding] = useState(false);
   const [isShowActions, setShowActions] = useState(false);
   const [isVisible, setIsVisible] = useState(layer["getVisible"]());
+  const [isHovered, setIsHovered] = useState(false);
   const map = useRecoilValue(mapState);
   const olcsMap = useRecoilValue(olcsMapState);
   const ref = useRef(null);
@@ -217,15 +218,15 @@ export const LayerManagementEntry = (props) => {
 
   useEffect(() => {
     if (entered) {
-      if (draggedItem === null && !hovered) {
-        onUpdateHover(layer.getId());
+      if (draggedItem === null && !isHovered) {
+        setIsHovered(true);
       }
     } else {
       if (draggedItem !== undefined && !isSliding) {
-        onUpdateHover(undefined);
+        setIsHovered(false);
       }
     }
-  }, [entered, isSliding, draggedItem]);
+  }, [entered, isHovered, isSliding, draggedItem]);
 
   // Add visibility change handler to layer
   useEffect(() => {
@@ -252,7 +253,7 @@ export const LayerManagementEntry = (props) => {
         isDragging && "drag-and-drop-placeholder",
         isShowActions && "show-actions",
         layer.get("layer_type") === LAYER_TYPES.GEOJSON && "geojson-data",
-        hovered &&
+        isHovered &&
           (draggedItem === null || draggedItem.id === layer.getId()) &&
           "force-hover"
       )}
@@ -386,7 +387,6 @@ export const LayerManagementEntry = (props) => {
 };
 
 LayerManagementEntry.propTypes = {
-  hovered: PropTypes.bool,
   id: PropTypes.string,
   index: PropTypes.number,
   layer: PropTypes.oneOfType([
@@ -394,7 +394,6 @@ LayerManagementEntry.propTypes = {
     PropTypes.instanceOf(GeoJsonLayer),
   ]),
   onMoveLayer: PropTypes.func,
-  onUpdateHover: PropTypes.func,
   showActions: PropTypes.func,
 };
 
