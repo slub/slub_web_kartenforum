@@ -1,0 +1,113 @@
+@import "../../../../Resources/Private/Scss/Variables";
+@import "Variables";
+
+.map-plugin-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-grow: 1;
+
+    > div {
+        transition: none !important;
+    }
+}
+
+.vkf-plugin-upload-map {
+    position: fixed;
+    top: 85px;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+
+    h4,
+    button,
+    li,
+    p {
+        font-family: $fontFamily;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    h4 {
+        font-weight: 400;
+        font-size: 3.5rem;
+        line-height: 1.5;
+        color: $secondary-color-dark;
+    }
+
+    .body1 {
+        color: $grey900;
+        font-family: $fontFamily;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .body2 {
+        color: $grey900;
+        font-family: $fontFamily;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    li,
+    p {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 1.75rem;
+        line-height: 24px;
+        color: #181818;
+    }
+
+    .btn-primary,
+    .btn-default {
+        box-sizing: border-box;
+        background: $secondary-color-dark;
+        color: #ffffff;
+        border: 1px solid $secondary-color-dark;
+        border-radius: 4px;
+        width: auto;
+        height: 36px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 1;
+        text-transform: uppercase;
+
+        &:hover {
+            background: darken($secondary-color-dark, 10%);
+            border: 1px solid darken($secondary-color-dark, 10%);
+        }
+    }
+
+    .btn-default {
+        background: $customGrey;
+        border: 1px solid $customGrey;
+
+        &:hover {
+            background: darken($customGrey, 10%);
+            border: 1px solid darken($customGrey, 10%);
+        }
+    }
+
+    .bg-info,
+    .bg-danger,
+    .bg-success {
+        padding: 16px;
+    }
+
+    .vkf-notifications {
+        z-index: 1001;
+    }
+
+    .touchevents & {
+        .ol-viewport {
+            touch-action: none;
+        }
+    }
+}

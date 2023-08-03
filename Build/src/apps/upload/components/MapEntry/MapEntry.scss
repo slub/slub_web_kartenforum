@@ -1,0 +1,23 @@
+.map-entry-item {
+    background: rgba(224, 224, 224, 0.3);
+    height: 88px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 4px 0 4px 9px !important;
+
+    &:before {
+        display: none;
+        content: none;
+    }
+
+    .image-container {
+        width: 80px;
+        height: 80px;
+        overflow: hidden;
+    }
+
+    .metadata-container {
+        padding-left: 44px;
+    }
+}

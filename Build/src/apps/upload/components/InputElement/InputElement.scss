@@ -1,0 +1,39 @@
+.error-label-container {
+    display: flex;
+    justify-content: space-between;
+
+    label {
+        margin-bottom: 0;
+    }
+
+    > div {
+        padding-top: 11px;
+        display: flex;
+        color: red;
+        animation: errorIconAnimation 0.3s ease;
+
+        span {
+            padding-right: 2px;
+        }
+    }
+
+    &.show-error {
+        > div {
+            span {
+                opacity: 1;
+                transition-delay: 0.2s;
+            }
+        }
+    }
+}
+
+@keyframes errorIconAnimation {
+    0% {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

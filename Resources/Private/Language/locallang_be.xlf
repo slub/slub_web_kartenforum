@@ -27,6 +27,9 @@
             <trans-unit id="backend_layout.georeference">
                 <source>Georeference (Plugin: Georeference)</source>
             </trans-unit>
+            <trans-unit id="backend_layout.uplad">
+                <source>Upload maps (Plugin: Upload)</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

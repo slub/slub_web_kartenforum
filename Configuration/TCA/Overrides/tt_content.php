@@ -30,6 +30,7 @@ $overrideTca = [
             'slubwebkartenforum_georeference' => 'VkfGeoref',
             'slubwebkartenforum_admin' => 'VkfAdmin',
             'slubwebkartenforum_mosaicmap' => 'VkfGeoref',
+            'slubwebkartenforum_upload' => 'VkfGeoref',
         ],
     ],
     'types' => [
@@ -39,6 +40,7 @@ $overrideTca = [
         'slubwebkartenforum_georeference' => $contentElementConfig,
         'slubwebkartenforum_admin' => $contentElementConfig,
         'slubwebkartenforum_mosaicmap' => $contentElementConfig,
+        'slubwebkartenforum_upload' => $contentElementConfig,
     ],
     'columns' => [
         'CType' => [
@@ -73,10 +75,15 @@ $overrideTca = [
                         'slubwebkartenforum_georeference',
                         'VkfGeoref'
                     ],
-                     [
+                    [
                         'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.mosaic-map',
                         'slubwebkartenforum_mosaicmap',
                         'VkfMosaicMap'
+                    ],
+                    [
+                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.upload',
+                        'slubwebkartenforum_upload',
+                        'VkfUpload'
                     ],
                 ]
             ]

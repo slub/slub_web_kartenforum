@@ -1,0 +1,38 @@
+@import "../../Variables";
+
+.vkf-delete-dialog {
+    .modal-dialog {
+        top: 30%;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5em;
+
+        .btn-primary,
+        .btn-default {
+            background: $secondary-color-dark;
+            color: #ffffff;
+            border: 1px solid $secondary-color-dark;
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: auto;
+            height: 36px;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            text-transform: uppercase;
+
+            &:hover {
+                background: darken($secondary-color-dark, 10%);
+                border: 1px solid darken($secondary-color-dark, 10%);
+            }
+        }
+
+        .btn-default {
+            background: $customGrey;
+            border: 1px solid $customGrey;
+        }
+    }
+}

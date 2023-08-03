@@ -1,0 +1,103 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+    lang="en"
+>
+    <input type="hidden" value="{georefApi}" id="setting-georefApi" />
+
+    <f:security.ifAuthenticated>
+        <f:then>
+            <input type="hidden" id="setting-is-auth" />
+        </f:then>
+    </f:security.ifAuthenticated>
+
+    <f:section name="HeaderAssets">
+        <link
+            rel="stylesheet"
+            href="{f:uri.resource(path: 'Contrib/Css/bootstrap-3.3.7.min.css', extensionName: 'slub_web_kartenforum')}"
+        />
+        <link
+            rel="stylesheet"
+            href="{f:uri.resource(path: 'Build/plugin-upload-map.css', extensionName: 'slub_web_kartenforum')}"
+        />
+        <script
+            type="text/javascript"
+            src="{f:uri.resource(path: 'Build/plugin-upload-map.js', extensionName: 'slub_web_kartenforum')}"
+        ></script>
+    </f:section>
+
+    <f:section name="FooterAssets">
+        <script type="text/javascript">
+            vk2.SettingsProvider.appendSettings({
+                FALLBACK_THUMBNAIL:
+                    "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
+                API_GEOREFERENCE_MAP:
+                    document.getElementById("setting-georefApi").value,
+            });
+
+            vk2.SettingsProvider.appendSettings({
+                dictionary: Object.assign(
+                    {},
+                    vk2.SettingsProvider.getSettings().dictionary,
+                    {
+                        // plugin upload searchmapview
+                        "searchmap-title":
+                            "<f:translate key='plugin.upload.searchmap.title' extensionName='SlubWebKartenforum' />",
+                        "searchmap-subtitle":
+                            "<f:translate key='plugin.upload.searchmap.subtitle' extensionName='SlubWebKartenforum' />",
+                        "searchmap-placeholder":
+                            "<f:translate key='plugin.upload.searchmap.placeholder' extensionName='SlubWebKartenforum' />",
+                        "searchmap-upload-button":
+                            "<f:translate key='plugin.upload.searchmap.upload-button' extensionName='SlubWebKartenforum' />",
+
+                        "searchmap-upload-login-info":
+                            "<f:translate key='plugin.upload.searchmap.login.info' extensionName='SlubWebKartenforum' />",
+                        "searchmap-upload-login-danger":
+                            "<f:translate key='plugin.upload.searchmap.login.danger' extensionName='SlubWebKartenforum' />",
+                        "searchmap-upload-login-success":
+                            "<f:translate key='plugin.upload.searchmap.login.success' extensionName='SlubWebKartenforum' />",
+
+                        // plugin upload uploadmapview
+                        "uploadmap-title":
+                            "<f:translate key='plugin.upload.uploadmap.title' extensionName='SlubWebKartenforum' />",
+                        "uploadmap-title-update":
+                            "<f:translate key='plugin.upload.uploadmap.title-update' extensionName='SlubWebKartenforum' />",
+                        "uploadmap-upload-file":
+                            "<f:translate key='plugin.upload.uploadmap.upload-file' extensionName='SlubWebKartenforum' />",
+                        "uploadmap-delete-btn":
+                            "<f:translate key='plugin.upload.uploadmap.delete-btn' extensionName='SlubWebKartenforum' />",
+                        "uploadmap-georef-btn":
+                            "<f:translate key='plugin.upload.uploadmap.georef-btn' extensionName='SlubWebKartenforum' />",
+                        "uploadmap-save-btn":
+                            "<f:translate key='plugin.upload.uploadmap.save-btn' extensionName='SlubWebKartenforum' />",
+                        "uploadmap-li1":
+                            "<f:translate key='plugin.upload.uploadmap.no-results-li1' extensionName='SlubWebKartenforum' />",
+                        "uploadmap-li2":
+                            "<f:translate key='plugin.upload.uploadmap.no-results-li2' extensionName='SlubWebKartenforum' />",
+                        "uploadmap-li3":
+                            "<f:translate key='plugin.upload.uploadmap.no-results-li3' extensionName='SlubWebKartenforum' />",
+                        "uploadmap-p":
+                            "<f:translate key='plugin.upload.uploadmap.no-results-p' extensionName='SlubWebKartenforum' />",
+                        "uploadmap-success":
+                            "<f:translate key='plugin.upload.uploadmap.success-upload' extensionName='SlubWebKartenforum' />",
+                        "uploadfile-label":
+                            "<f:translate key='plugin.upload.uploadfile.label' extensionName='SlubWebKartenforum' />",
+                        "deletemodal-delete-btn":
+                            "<f:translate key='plugin.upload.uploadmap.deletedialog.delete-btn' extensionName='SlubWebKartenforum' />",
+                        "deletemodal-cancel-btn":
+                            "<f:translate key='plugin.upload.uploadmap.deletedialog.cancel-btn' extensionName='SlubWebKartenforum' />",
+                        "deletemodal-body":
+                            "<f:translate key='plugin.upload.uploadmap.deletedialog.body' extensionName='SlubWebKartenforum' />",
+                    }
+                ),
+            });
+
+            // Render map plugin
+            if (vk2 !== undefined) {
+                vk2.renderApp(document.getElementById("vkf-app-upload"));
+            }
+        </script>
+    </f:section>
+
+    <div id="vkf-app-upload"></div>
+</html>
