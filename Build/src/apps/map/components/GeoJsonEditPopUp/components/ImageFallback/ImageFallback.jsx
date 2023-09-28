@@ -16,7 +16,7 @@ export const ImageFallback = ({ typeOfView }) => {
       className={`broken-img-container ${typeOfView === "view" ? "view" : ""}`}
     >
       <img
-        src="https://ddev-kartenforum.ddev.site/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/not-found.png"
+        src="/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/not-found.png"
         alt="broken image"
       />
       <p>{translate("geojson-image-fallback-p")}</p>
