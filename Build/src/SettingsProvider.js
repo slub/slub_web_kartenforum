@@ -29,6 +29,7 @@ let settingsObject = {
     ],
     ENABLE_TILE_PRELOADING: false,
     LANGUAGE_CODE: "en",
+    USERNAME: "anonymous",
 };
 
 export default {

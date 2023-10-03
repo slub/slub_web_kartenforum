@@ -156,7 +156,7 @@ export async function createNewMap(
 
         // Build url and query it
         const response = await axios.post(
-            `${baseUrl}/maps/?user_id=test_user`,
+            `${baseUrl}/maps/?user_id=${SettingsProvider.getUsername()}`,
             formData,
             {
                 headers: {

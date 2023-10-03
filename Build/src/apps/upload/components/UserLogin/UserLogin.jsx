@@ -4,18 +4,22 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { testCredentials } from "../../utils/apiUpload.js";
 import { translate } from "../../../../util/util.js";
 import "./UserLogin.scss";
 
 export default function UserLogin(props) {
-  const { onLogin } = props;
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { credentials, onLogin } = props;
+  const [username, setUsername] = useState(
+    credentials !== null ? credentials.username : ""
+  );
+  const [password, setPassword] = useState(
+    credentials !== null ? credentials.password : ""
+  );
   const [errorMsg, setErrorMsg] = useState(null);
+  const isLoggedIn = useMemo(() => credentials !== null, [credentials]);
 
   // Handler for updating username
   const handleChangeUsername = (e) => setUsername(e.target.value);
@@ -28,7 +32,6 @@ export default function UserLogin(props) {
     if (username.length > 0 && password.length > 0) {
       const response = await testCredentials(username, password);
       setErrorMsg(response.msg);
-      setIsLoggedIn(response.credentialsValid);
 
       // Dispatch to hoc
       onLogin(
@@ -96,5 +99,9 @@ export default function UserLogin(props) {
 }
 
 UserLogin.propTypes = {
+  credentials: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+  }),
   onLogin: PropTypes.func.isRequired,
 };

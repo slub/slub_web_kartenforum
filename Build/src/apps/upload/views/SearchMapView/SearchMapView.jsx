@@ -58,7 +58,7 @@ export default function SearchMapView(props) {
   return (
     <div className="container search-view">
       <div className="content-login">
-        <UserLogin onLogin={onLogin} />
+        <UserLogin credentials={credentials} onLogin={onLogin} />
       </div>
       <hr role="separator" className="divider"></hr>
       <div className={`content-header ${disableActions ? "disabled" : ""}`}>

@@ -1,5 +1,6 @@
 <html
     xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:vk="http://typo3.org/ns/Slub/SlubWebKartenforum/ViewHelpers"
     data-namespace-typo3-fluid="true"
     lang="en"
 >
@@ -33,6 +34,7 @@
                     "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
                 API_GEOREFERENCE_MAP:
                     document.getElementById("setting-georefApi").value,
+                USERNAME: "<vk:username field='username'/>",
             });
 
             vk2.SettingsProvider.appendSettings({

@@ -48,8 +48,8 @@ export const App = () => {
   };
 
   // Handle login of user
-  const handleLogin = (user) => {
-    setCredentials(user);
+  const handleLogin = (newCredentials) => {
+    setCredentials(newCredentials);
   };
 
   return (
