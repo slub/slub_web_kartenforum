@@ -5,17 +5,15 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useEffect, useRef, useState } from "react";
-import { Modal, Overlay } from "react-bootstrap";
+import { ModalBody, ModalHeader, ModalTitle, Overlay } from "react-bootstrap";
 import PropTypes from "prop-types";
-
-import { translate } from "../../../../../../../../util/util";
+import { translate } from "../../../../../../util/util.js";
 import "./MarkerPicker.scss";
 
 export const MARKER_BASE_URL =
   "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/markers/";
 
 export const MARKERS = ["blue", "green", "orange", "pink", "yellow"];
-
 export const getMarkerUrl = (marker) => {
   return `${MARKER_BASE_URL}${marker}.png`;
 };
@@ -50,7 +48,11 @@ export const MarkerPicker = ({ onChange, src }) => {
 
   return (
     <div className="vkf-marker-picker-root" ref={refContainer}>
-      <div className="marker-preview" onClick={handleOpenPicker} ref={inputRef}>
+      <div
+        className="marker-preview"
+        onClick={() => handleOpenPicker(true)}
+        ref={inputRef}
+      >
         <img
           alt={translate("geojson-markerpicker-preview")}
           height={34}
@@ -68,12 +70,10 @@ export const MarkerPicker = ({ onChange, src }) => {
         target={() => inputRef.current}
       >
         <div className="vkf-map-overlay animation-show marker-picker-overlay">
-          <Modal.Header>
-            <Modal.Title>
-              {translate("geojson-markerpicker-select")}
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
+          <ModalHeader>
+            <ModalTitle>{translate("geojson-markerpicker-select")}</ModalTitle>
+          </ModalHeader>
+          <ModalBody>
             <div className="marker-picker-content">
               {MARKERS.map((marker) => {
                 const handleClick = () => {
@@ -93,7 +93,7 @@ export const MarkerPicker = ({ onChange, src }) => {
                 );
               })}
             </div>
-          </Modal.Body>
+          </ModalBody>
         </div>
       </Overlay>
     </div>

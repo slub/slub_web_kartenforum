@@ -58,7 +58,7 @@ PermalinkExporter.propTypes = {
   is3dActive: PropTypes.bool,
   refActiveBasemapId: PropTypes.shape({ current: PropTypes.string }),
   refApplicationStateUpdater: PropTypes.shape({
-    current: PropTypes.function,
+    current: PropTypes.func,
   }),
   refSelectedFeatures: PropTypes.shape({
     current: PropTypes.instanceOf(Collection),

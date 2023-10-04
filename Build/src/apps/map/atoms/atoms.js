@@ -97,6 +97,12 @@ export const selectedFeaturesState = atom({
     dangerouslyAllowMutability: true,
 });
 
+export const selectedGeoJsonFeatureState = atom({
+    key: "selectedGeoJsonFeatureState",
+    default: null,
+    dangerouslyAllowMutability: true,
+});
+
 // id of the selected map in order to show the original map view
 export const selectedOriginalMapIdState = atom({
     key: "selectedOriginalMapIdState",
