@@ -42,6 +42,16 @@ tt_content.slubwebkartenforum_mosaicmap {
     }
 }
 
+// The main map content element with the core React application
+tt_content.slubwebkartenforum_upload = FLUIDTEMPLATE
+tt_content.slubwebkartenforum_upload {
+    file = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/Upload.html
+    variables {
+        georefApi = TEXT
+        georefApi.value = {$plugin.tx_slubwebkartenforum.settings.georefApi}
+    }
+}
+
 // The apps content Element which controls the minor React snippets
 tt_content.slubwebkartenforum_apps = FLUIDTEMPLATE
 tt_content.slubwebkartenforum_apps {

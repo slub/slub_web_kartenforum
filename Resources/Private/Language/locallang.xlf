@@ -20,7 +20,10 @@
 			<source>Map Evaluation</source>
 		</trans-unit>
 		<trans-unit id="label.mosaikAdminPage">
-            <source>Mosaikkarten</source>
+            <source>Mosaic maps</source>
+        </trans-unit>
+	    <trans-unit id="label.uploadMapPage">
+            <source>Upload maps</source>
         </trans-unit>
 		<trans-unit id="label.login">
 			<source>Login</source>
@@ -86,7 +89,10 @@
 			<source>Kartenforum: Georeferencing</source>
 		</trans-unit>
         <trans-unit id="plugin.mosaic-map">
-            <source>Kartenforum: Mosaikkarte</source>
+            <source>Kartenforum: Mosaic maps</source>
+        </trans-unit>
+        <trans-unit id="plugin.upload">
+            <source>Kartenforum: Upload maps</source>
         </trans-unit>
         <trans-unit id="validationerror_1428504122">
             <source>The minimum length of the password is 9 characters.</source>
@@ -219,6 +225,7 @@
 			<trans-unit id="global.map.control-save-mouseposition-button-title">
 				<source>Copy saved position to clipboard</source>
 			</trans-unit>
+
 
             <!-- vk2.control.RestoreDefaultView -->
 			<trans-unit id="global.map.control-restoredefaultview-title">
@@ -560,6 +567,71 @@
 				<source>Adjust time periode</source>
 			</trans-unit>
 
+			<!-- Global > Map > DialogEditFeature -->
+			<trans-unit id="plugin.map.editdialog.nonUniqueKey">
+                <source>Non unique property key</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.editdialog.styleKeyInCustomProperties">
+                <source>Style keys are not allowed in custom properties</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.predefinedKeyInCustomProperties">
+                <source>Predefined keys are not allowed in custom properties</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.addRow">
+                <source>Add Row</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.save">
+                <source>Save</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.cancel">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.delete">
+                <source>Delete</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.editdialog.title">
+                <source>Edit</source>
+            </trans-unit>
+
+            <!-- Global > Map > DialogAddGeoJson -->
+
+            <trans-unit id="plugin.map.adddialog.confirm">
+                <source>Add</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.cancel">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.title">
+                <source>Add geojson layer</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.layerTitleLabel">
+                <source>Geojson Layer Title</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.projectionLabel">
+                <source>Projection</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.adddialog.body">
+				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
+			</trans-unit>
+
+            <!-- Global > Map > MarkerPicker -->
+            <trans-unit id="plugin.map.markerpicker.select">
+                <source>Select marker</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.markerpicker.preview">
+                <source>Preview of the selected marker</source>
+            </trans-unit>
+
+            <!-- Global > Map > Dropzone -->
+            <trans-unit id="plugin.map.dropzone.wrongFiletype">
+                <source>Wrong filetype</source>
+            </trans-unit>
+
+            <trans-unit id="plugin.map.dropzone.drop">
+                <source>Drop geojson file</source>
+            </trans-unit>
+
+
 			<!-- Newly sorted -->
 
             <!-- Global > Map > Control > ImageManipulation -->
@@ -819,6 +891,86 @@
             <trans-unit id="plugin.georeference.submit-dialog.btn-submit">
     			<source>Save georeference</source>
     		</trans-unit>
+
+    		<!-- Plugin Upload - SearchMapView -->
+            <trans-unit id="plugin.upload.searchmap.title" approved="yes">
+                <source>choose a map</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.searchmap.subtitle" approved="yes">
+                <source>Insert map id, e.g. oai:de:slub-dresden:vk:id-10010325</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.searchmap.placeholder" approved="yes">
+                <source>e.g. oai:de:slub-dresden:vk:id-10010325</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.searchmap.upload-button" approved="yes">
+                <source>upload map</source>
+            </trans-unit>
+
+            <!-- Plugin Upload -> SearchMapView -> UserLogin -->
+            <trans-unit id="plugin.upload.searchmap.login.info" approved="yes">
+                <source>Please log in first with your access data.</source>
+            </trans-unit>
+
+            <trans-unit id="plugin.upload.searchmap.login.danger" approved="yes">
+                <source>You could not be logged in. Please check your username and password.</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.searchmap.login.success" approved="yes">
+                <source>You are successfully logged in as %REPLACE%.</source>
+            </trans-unit>
+
+    		<!-- Plugin Upload -> UploadMapView -->
+            <trans-unit id="plugin.upload.uploadmap.title" approved="yes">
+                <source>new map</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.title-update" approved="yes">
+                <source>update map</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.upload-file" approved="yes">
+                <source>Upload map file select</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.delete-btn" approved="yes">
+                <source>delete data</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.georef-btn" approved="yes">
+                <source>georeferencing</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.save-btn" approved="yes">
+                <source>save</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.no-results-li1" approved="yes">
+                <source>Make sure all the words are spelled correctly.</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.no-results-li2" approved="yes">
+                <source>The map may be stored under a different term.</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.no-results-li3" approved="yes">
+                <source>Upload the map and georefrenze it.</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.no-results-p" approved="yes">
+                <source>We could not find a map for the ID.</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.success-upload" approved="yes">
+                <source>The maps have been updated. Please wait a few minutes and then reload the map. Alternatively, you can upload or edit more maps.</source>
+            </trans-unit>
+
+            <!--  Plugin Upload -> UploadMapView -> DeleteDialog -->
+            <trans-unit id="plugin.upload.uploadmap.deletedialog.delete-btn" approved="yes">
+                <source>Delete</source>
+            </trans-unit>
+
+            <trans-unit id="plugin.upload.uploadmap.deletedialog.cancel-btn" approved="yes">
+                <source>Cancel</source>
+            </trans-unit>
+
+            <trans-unit id="plugin.upload.uploadmap.deletedialog.body" approved="yes">
+                <source>Do you really want to delete the card and data?</source>
+            </trans-unit>
+
+            <!-- Plugin Upload -> UploadMapView -> UploadFile -->
+            <trans-unit id="plugin.upload.uploadfile.label" approved="yes">
+                <source>Map selected but not yet saved.</source>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>

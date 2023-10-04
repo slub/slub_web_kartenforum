@@ -636,6 +636,10 @@
 				<source><![CDATA[Mosaikkarten]]></source>
 				<target><![CDATA[Mosaikkarten]]></target>
 			</trans-unit>
+			<trans-unit id="label.uploadMapPage" approved="yes">
+				<source><![CDATA[Upload Karten]]></source>
+				<target><![CDATA[Upload Karten]]></target>
+			</trans-unit>
 			<trans-unit id="label.login" approved="yes">
 				<source><![CDATA[Login]]></source>
 				<target><![CDATA[Anmelden]]></target>
@@ -1076,6 +1080,103 @@
     			<source><![CDATA[Save georeference]]></source>
     			<target><![CDATA[Georeferenzierung speichern]]></target>
     		</trans-unit>
+
+    		<!-- Plugin Upload -> SearchMapView -->
+            <trans-unit id="plugin.upload.searchmap.title" approved="yes">
+                <source><![CDATA[choose a map]]></source>
+                <target><![CDATA[wähle eine karte]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.searchmap.subtitle" approved="yes">
+                <source><![CDATA[Insert map id, e.g. oai:de:slub-dresden:vk:id-10010325]]></source>
+                <target><![CDATA[Eingabe der map id, z.B. oai:de:slub-dresden:vk:id-10010325]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.searchmap.placeholder" approved="yes">
+                <source><![CDATA[e.g. oai:de:slub-dresden:vk:id-10010325]]></source>
+                <target><![CDATA[z.b. oai:de:slub-dresden:vk:id-10010325]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.searchmap.upload-button" approved="yes">
+                <source><![CDATA[upload map]]></source>
+                <target><![CDATA[upload karte]]></target>
+            </trans-unit>
+
+            <!-- Plugin Upload -> SearchMapView -> UserLogin -->
+            <trans-unit id="plugin.upload.searchmap.login.info" approved="yes">
+                <source><![CDATA[Please log in first with your access data.]]></source>
+                <target><![CDATA[Bitte melden Sie sich zu erst mit ihren Zugangsdaten an.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.searchmap.login.danger" approved="yes">
+                <source><![CDATA[You could not be logged in. Please check your username and password.]]></source>
+                <target><![CDATA[Sie konnten nicht angemeldet werden. Bitte überprüfen Sie Ihren Nutzernamen und das Passwort.]]></target>
+            </trans-unit>
+
+            <trans-unit id="plugin.upload.searchmap.login.success" approved="yes">
+                <source><![CDATA[You are successfully logged in as %REPLACE%.]]></source>
+                <target><![CDATA[Sie sind erfolgreich als %REPLACE% angemeldet.]]></target>
+            </trans-unit>
+
+    		<!-- Plugin Upload -> UploadMapView -->
+            <trans-unit id="plugin.upload.uploadmap.title" approved="yes">
+                <source><![CDATA[new map]]></source>
+                <target><![CDATA[neue karte]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.title-update" approved="yes">
+                <source><![CDATA[update map]]></source>
+                <target><![CDATA[update karte]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.upload-file" approved="yes">
+                <source><![CDATA[Upload map file select]]></source>
+                <target><![CDATA[Upload Karte Datei auswählen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.delete-btn" approved="yes">
+                <source><![CDATA[delete data]]></source>
+                <target><![CDATA[daten löschen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.save-btn" approved="yes">
+                <source><![CDATA[save]]></source>
+                <target><![CDATA[speichern]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.no-results-li1" approved="yes">
+                <source><![CDATA[Make sure all the words are spelled correctly.]]></source>
+                <target><![CDATA[Achte darauf, dass alle Wörter richtig geschrieben sind.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.no-results-li2" approved="yes">
+                <source><![CDATA[The map may be stored under a different term.]]></source>
+                <target><![CDATA[Die Karte ist möglicherweise unter einer andern Begriff gespeichert.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.no-results-li3" approved="yes">
+                <source><![CDATA[Upload the map and georefrenze it.]]></source>
+                <target><![CDATA[Lade die Karte hoch und georefrenzieren sie.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.no-results-p" approved="yes">
+                <source><![CDATA[We could not find a map for the ID.]]></source>
+                <target><![CDATA[Wir konnten für die ID keine Karte finden.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.success-upload" approved="yes">
+                <source><![CDATA[The maps have been updated. Please wait a few minutes and then reload the map. Alternatively, you can upload or edit more maps.]]></source>
+                <target><![CDATA[Die Karten wurden aktualisieren. Bitte warten Sie ein paar Minuten und laden Sie dann die Karte erneunt. Alternativ können Sie weitere Karten hochladen oder editieren.]]></target>
+            </trans-unit>
+
+            <!-- Plugin Upload -> UploadMapView -> DeleteDialog -->
+           <trans-unit id="plugin.upload.uploadmap.deletedialog.delete-btn">
+                <source><![CDATA[Delete]]></source>
+                <target><![CDATA[Löschen]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.upload.uploadmap.deletedialog.cancel-btn">
+                <source><![CDATA[Cancel]]></source>
+                <target><![CDATA[Abbrechen]]></target>
+            </trans-unit>
+           <trans-unit id="plugin.upload.uploadmap.deletedialog.body">
+                <source><![CDATA[Do you really want to delete the card and data?]]></source>
+                <target><![CDATA[Möchten Sie die Karte und Daten wirklich löschen?]]></target>
+            </trans-unit>
+
+            <!-- Plugin Upload -> UploadMapView -> UploadFile -->
+            <trans-unit id="plugin.upload.uploadfile.label" approved="yes">
+                <source><![CDATA[Map selected but not yet saved.]]></source>
+                <target><![CDATA[Karte ausgewählt, aber noch nicht gespeichert.]]></target>
+            </trans-unit>
+
+
 		</body>
 	</file>
 </xliff>

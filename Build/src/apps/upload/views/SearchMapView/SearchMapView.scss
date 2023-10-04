@@ -1,0 +1,46 @@
+@import "../../Variables";
+
+.search-view {
+    .divider {
+        margin: 2.5em 0;
+    }
+
+    .content-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        > h4 {
+            margin: 0;
+        }
+    }
+
+    .content-body {
+        display: flex;
+        flex-direction: column;
+        padding-top: 50px;
+    }
+
+    .map-list {
+        li {
+            cursor: pointer;
+        }
+    }
+
+    .not-found {
+        padding-top: 5%;
+
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+
+            li {
+                padding-left: 0;
+            }
+
+            li:before {
+                background-color: transparent;
+            }
+        }
+    }
+}

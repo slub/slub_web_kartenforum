@@ -2,6 +2,7 @@
 
 use Slub\SlubWebKartenforum\Controller\AuthController;
 use Slub\SlubWebKartenforum\Controller\GeorefController;
+use Slub\SlubWebKartenforum\Controller\MapController;
 use TYPO3\CMS\Core\Core\Environment;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -39,6 +40,7 @@ ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlNominatim= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlNominatim']);
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlSearch= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlSearch']);
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.terrain= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['terrain']);
+ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.georefApi= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['georefApi']);
 
 /***************
  * Enable direct extension access through ajax requests
