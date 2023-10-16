@@ -1,6 +1,6 @@
 Please insert here a basic description of the content of the PR
 
-### Summary
+### Changes
 * Changes as a list of points
 
 ### Issue
