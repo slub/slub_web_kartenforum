@@ -7,6 +7,7 @@
         height: 220px;
         background: #e0e0e0;
         border-radius: 4px;
+        cursor: pointer;
 
         .select-image {
             display: flex;
@@ -14,6 +15,7 @@
             width: 100%;
             height: 100%;
             justify-content: space-between;
+            cursor: pointer;
 
             > div {
                 flex-grow: 1;
@@ -30,6 +32,7 @@
             label {
                 flex-basis: 60px;
                 text-align: center;
+                cursor: pointer;
             }
         }
 
@@ -40,6 +43,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+
+            label {
+                cursor: pointer;
+            }
         }
 
         .thumbnail-img {
