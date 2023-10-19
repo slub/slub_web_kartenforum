@@ -53,8 +53,10 @@ export const serializeGeojson = (features) => {
         f.setProperties(stylingProperties);
     });
 
+
     return new GeoJSON().writeFeaturesObject(features, {
-        dataProjection: defaultMapView.projection,
+        dataProjection: "EPSG:4326",
+        featureProjection: defaultMapView.projection
     });
 };
 
