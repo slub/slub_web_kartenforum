@@ -5,7 +5,14 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useRef } from "react";
-import { Modal, Button } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  ModalHeader,
+  ModalTitle,
+  ModalBody,
+  ModalFooter,
+} from "react-bootstrap";
 import PropTypes from "prop-types";
 import { ControlLabel, FormGroup, FormControl } from "react-bootstrap";
 
@@ -34,11 +41,11 @@ export const DialogAddGeoJson = ({ initialName, onClose, onSubmit }) => {
         onHide={handleOnClose}
         show={true}
       >
-        <Modal.Header>
-          <Modal.Title>{translate("geojson-adddialog-title")}</Modal.Title>
-        </Modal.Header>
+        <ModalHeader>
+          <ModalTitle>{translate("geojson-adddialog-title")}</ModalTitle>
+        </ModalHeader>
 
-        <Modal.Body>
+        <ModalBody>
           <div className="dialog-content">
             <form>
               <FormGroup>
@@ -46,24 +53,32 @@ export const DialogAddGeoJson = ({ initialName, onClose, onSubmit }) => {
                   {translate("geojson-adddialog-layer-title-label")}
                 </ControlLabel>
                 <FormControl
+                  autoFocus
                   defaultValue={initialName ?? "Unknown"}
-                  inputRef={refTitleInput}
+                  inputRef={(ref) => {
+                    refTitleInput.current = ref;
+                  }}
                   name="title"
                   type="text"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleOnSubmit();
+                    }
+                  }}
                 />
               </FormGroup>
             </form>
           </div>
-        </Modal.Body>
+        </ModalBody>
 
-        <Modal.Footer>
+        <ModalFooter>
           <Button onClick={handleOnClose}>
             {translate("geojson-adddialog-cancel")}
           </Button>
           <Button onClick={handleOnSubmit} bsStyle="primary">
             {translate("geojson-adddialog-confirm")}
           </Button>
-        </Modal.Footer>
+        </ModalFooter>
       </Modal>
     </div>
   );

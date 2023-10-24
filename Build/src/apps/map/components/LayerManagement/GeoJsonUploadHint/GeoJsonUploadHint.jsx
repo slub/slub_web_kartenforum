@@ -41,6 +41,8 @@ export const GeoJsonUploadHint = ({ onAddGeoJson }) => {
     if (refFileInput.current !== undefined && refFileInput.current !== null) {
       handleCloseMenu();
       refFileInput.current.click();
+      // Prevents the dialog from reopening when Enter is pressed by removing focus from the "Add GeoJSON" button.
+      document.activeElement.blur();
     }
   };
 
@@ -76,7 +78,9 @@ export const GeoJsonUploadHint = ({ onAddGeoJson }) => {
         </span>
       </button>
       <div className="upload-info">{translate("geojson-adddialog-body")}</div>
-      <label className="visually-hidden" htmlFor="geojson-upload-file">GeoJSON Upload</label>
+      <label className="visually-hidden" htmlFor="geojson-upload-file">
+        GeoJSON Upload
+      </label>
       <input
         id="geojson-upload-file"
         accept="application/json, application/geo+json, .geojson"
