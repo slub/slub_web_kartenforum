@@ -31,7 +31,7 @@ export const DialogAddGeoJson = ({ initialName, onClose, onSubmit }) => {
       ? refTitleInput.current.value
       : undefined;
 
-    onSubmit(title, "EPSG:4326");
+    onSubmit(title);
   };
 
   return (

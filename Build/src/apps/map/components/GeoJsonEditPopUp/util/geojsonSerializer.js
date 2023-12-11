@@ -14,26 +14,17 @@ import { parseGeojsonStyles } from "./geojsonParser";
 /**
  * Deserializes a geojson object to an openlayers feature object
  * @param featureObject
- * @param dataProjection
- * @param featureProjection
  * @return {*}
  */
-export const deserializeGeojson = (
-    featureObject,
-    { dataProjection, featureProjection } = {}
-) => {
+export const deserializeGeojson = (featureObject) => {
     const defaultMapView = SettingsProvider.getDefaultMapView();
 
     const features = new GeoJSON().readFeatures(featureObject, {
-        dataProjection: dataProjection ?? defaultMapView.projection,
-        featureProjection: featureProjection ?? defaultMapView.projection,
+        featureProjection: defaultMapView.projection,
     });
-
     features.forEach((f) => {
-        // set default styles for feature
         f.setStyle(defaultStyleFunction(f));
 
-        // add in styling information stored ad the feature
         parseGeojsonStyles(f);
     });
 
@@ -53,10 +44,8 @@ export const serializeGeojson = (features) => {
         f.setProperties(stylingProperties);
     });
 
-
     return new GeoJSON().writeFeaturesObject(features, {
-        dataProjection: "EPSG:4326",
-        featureProjection: defaultMapView.projection
+        featureProjection: defaultMapView.projection,
     });
 };
 

@@ -35,11 +35,9 @@ export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
   ///
 
   // read geojson and add in supplied information
-  const handleAddGeoJson = (title, dataProjection) => {
+  const handleAddGeoJson = (title) => {
     try {
-      const features = deserializeGeojson(refGeoJSON.current.content, {
-        dataProjection,
-      });
+      const features = deserializeGeojson(refGeoJSON.current.content);
 
       const existingFeaturesWithId = selectedFeatures.filter((selFeature) =>
         selFeature.feature.getId().startsWith(title)

@@ -16,6 +16,25 @@ This will be explained in the next paragraphs using some example geometries, whe
 6. Multi-Polygon
 7. Geometry Collection
 
+### **Coordinate reference system:**
+The coordinate reference system (CRS) of a [GeoJSON](http://wiki.geojson.org/GeoJSON_draft_version_6) object is determined by its "crs" member.If no CRS can be so acquired, the default CRS shall apply to the GeoJSON object.
+1. **Default coordinate reference system**: The default is a geographic coordinate reference system, using the World Geodetic
+   System 1984 (WGS84) datum, and with longitude and latitude units of decimal degrees. **It's recommended to use WGS84 as a CRS in your GeoJSON.**
+
+   <span style="color:red">**If the coordinates are in WGS84 (EPSG 4326) the difintion of the crs in geojson is not necessary otherwise CRS must be defined exactly as follows.**</span>
+2. **The "crs" member**: The value of a member named "crs" must be an object (referred to as the CRS object below)
+    * The "type" member: The value of this required member must be a string, indicating the type of CRS object.
+    * The "properties" member: The value of this required member must be an object.
+
+```geojson
+"crs":{
+    "type": "name",
+    "properties": {
+        "name": "EPSG:3857"}
+    }
+```
+
+
 ### **Supported Properties:**
 
 1.  Style Properties:
@@ -52,7 +71,7 @@ This will be explained in the next paragraphs using some example geometries, whe
 
 ## **Examples :**
 
-### point:
+### point (CRS : EPSG:4326:
 
 ```geojson
 {
@@ -77,52 +96,90 @@ This will be explained in the next paragraphs using some example geometries, whe
 }
 ```
 
-### polygon:
+### polygon (CRS : EPSG:3857):
 
 ```geojson
 {
-    "type": "FeatureCollection",
-    "features": [
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [
-                        [
-                            1951895.9542902608,
-                            9779047.650692312
-                        ],
-                        [
-                            3081940.980458306,
-                            9779047.650692312
-                        ],
-                        [
-                            3081940.980458306,
-                            10336732.20906096
-                        ],
-                        [
-                            1951895.9542902608,
-                            10336732.20906096
-                        ],
-                        [
-                            1951895.9542902608,
-                            9779047.650692312
-                        ]
-                    ]
-                ]
-            },
-            "properties": {
-                "title": "Erich Kästner",
-                "description": "Erich Kästner (Autor) wuchs als Einzelkind in kleinbürgerlichen Verhältnissen in der Königsbrücker Straße 66 in der Äußeren Neustadt von Dresden auf",
-                "fill": "#9a0909",
-                "fill-opacity": 0.5,
-                "stroke": "#ff0000",
-                "stroke-opacity": 1,
-                "stroke-width": 2
-            }
-        }
-    ]
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3857"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1227604.9494884037,
+          6754267.2354485085
+        ]
+      },
+      "properties": {
+        "marker": "blue"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              1227105.7201474162,
+              6751742.424857966
+            ],
+            [
+              1227521.3464887168,
+              6751742.424857966
+            ],
+            [
+              1227521.3464887168,
+              6752074.448199582
+            ],
+            [
+              1227105.7201474162,
+              6752074.448199582
+            ],
+            [
+              1227105.7201474162,
+              6751742.424857966
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "fill": "#0000FF",
+        "fill-opacity": 0.13,
+        "stroke": "#0000FF",
+        "stroke-opacity": 1,
+        "stroke-width": 3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1227604.9494884037,
+            6754264.249627092
+          ],
+          [
+            1227681.3865166889,
+            6754068.976906391
+          ]
+        ]
+      },
+      "properties": {
+        "stroke": "#555555",
+        "stroke-opacity": 1,
+        "stroke-width": 5
+      }
+    }
+  ]
 }
 ```
 
