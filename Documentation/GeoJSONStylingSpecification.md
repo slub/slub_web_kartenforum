@@ -26,7 +26,7 @@ The coordinate reference system (CRS) of a [GeoJSON](http://wiki.geojson.org/Geo
     * The "type" member: The value of this required member must be a string, indicating the type of CRS object.
     * The "properties" member: The value of this required member must be an object.
 
-```geojson
+```
 "crs":{
     "type": "name",
     "properties": {
@@ -35,45 +35,45 @@ The coordinate reference system (CRS) of a [GeoJSON](http://wiki.geojson.org/Geo
 ```
 
 
-### **Supported Properties:**
+## Supported Properties
 
-1.  Style Properties:
+### Style Properties
 
-    | Property Name  |                                  Feature Geometry                                   |  Type  | Default Value |  Example  |                       Explanation                       |
-        | :------------: | :---------------------------------------------------------------------------------: | :----: | :-----------: | :-------: | :-----------------------------------------------------: |
-    |     Marker     |                                 Point, Multi Point                                  | String |     Blue      |  Yellow   | **Supported Colors:** Blue, Green, Orange, Pink, Yellow |
-    |      Fill      |                 Polygon, Multi Polygon, Geometry Collection, Circle                 | String |   #0000FFFF   | #FFFF0044 |                            -                            |
-    |  Fill Opacity  |                 Polygon, Multi Polygon, Geometry Collection, Circle                 | Number |     0.13      |    0.7    |                      0 < Value < 1                      |
-    |     Stroke     | Line String, Multi-Line String, Polygon, Multi Polygon, Geometry Collection, Circle | String |   #0000FFFF   | #00FF00FF |                            -                            |
-    | Stroke Opacity | Line String, Multi-Line String, Polygon, Multi Polygon, Geometry Collection, Circle | Number |       1       |    0.7    |                      0 < Value < 1                      |
-    |  Stroke Width  | Line String, Multi-Line String, Polygon, Multi Polygon, Geometry Collection, Circle | Number |       3       |   13.5    |              0 < Value < 20 (unit: pixel)               |
+| Property Name  | Feature Geometry                                   | Type   | Default Value | Example | Explanation                                          |
+|:---------------| :------------------------------------------------- | :----- | :------------ | :------ | :--------------------------------------------------- |
+| marker         | Point, Multi Point                                 | String | Blue          | Yellow  | Supported Colors: Blue, Green, Orange, Pink, Yellow   |
+| fill           | Polygon, Multi Polygon, Geometry Collection, Circle | String | #0000FFFF     | #FFFF0044 | Fill color for polygons                              |
+| fill-opacity   | Polygon, Multi Polygon, Geometry Collection, Circle | Number | 0.13          | 0.7     | Transparency of fill color (0 to 1)                  |
+| stroke         | Line String, Multi-Line String, Polygon, Circle     | String | #0000FFFF     | #00FF00FF | Stroke color for lines and polygons                  |
+| stroke-opacity | Line String, Multi-Line String, Polygon, Circle     | Number | 1             | 0.7     | Stroke opacity (0 to 1)                              |
+| stroke-width   | Line String, Multi-Line String, Polygon, Circle     | Number | 3             | 13.5    | Width of the stroke (0 to 20 pixels)                  |
 
-    <br>
-    <br>
+<br>
+<br>
 
 -   A color description shall mean a rgb color representation of the form `"rgb(r,g,b)"` or `"#rrggbb"`.
 -   For polygons, on the one hand the fill color and the alpha channel of the fill color, on the other hand the stroke color, the corresponding alpha channel and the width of the border can be influenced. The keywords "fill", " fill-opacity", "stroke", "stroke-opacity" and "stroke-width" are reserved for this purpose.
 -   LineStrings mostly behave like polygons, but do not have a surface, therefore only the stroke properties apply.
 -   Points are represented as markers in the application. Because an image file must be provided for each marker, there is so far a fixed selection of available markers.
 
-    <br>
-    <br>
-    <br>
+<br>
+<br>
+<br>
 
-2. Predefined Properties:
+### Predefined Properties
 
-   | Property Name | Feature Geometry |  Type  |          Default Value          |                                           Example                                            | Explanation |
-       | :-----------: | :--------------: | :----: | :-----------------------------: | :------------------------------------------------------------------------------------------: | :---------: |
-   |     Title     |       all        | String |       No Title (no title)       |                                   "That is a sample title"                                   |      -      |
-   |  Description  |       all        | String | No Description (no description) |                                "That is a sample description"                                |      -      |
-   | Attributions  |       all        | String |              null               |                                     "©pikobytesXdikusa"                                      |      -      |
-   |   img_link    |       all        | String |              null               | "https://fotothek.slub-dresden.de/fotos/df/hauptkatalog/0312000/df_hauptkatalog_0312816.jpg" |      -      |
+| Property Name | Feature Geometry | Type   | Default Value           | Example                                                                                   | Explanation           |
+|:--------------| :--------------- | :----- | :----------------------- | :---------------------------------------------------------------------------------------- | :-------------------- |
+| title         | All              | String | No Title (no title)      | "That is a sample title"                                                                  | -                      |
+| description   | All              | String | No Description           | "That is a sample description"                                                            | -                      |
+| attributions  | All              | String | null                     | "©pikobytesXdikusa"                                                                       | -                      |
+| img_link      | All              | String | null                     | "https://fotothek.slub-dresden.de/fotos/df/hauptkatalog/0312000/df_hauptkatalog_0312816.jpg" | -                      |
 
 ## **Examples :**
 
-### point (CRS : EPSG:4326:
+### point (CRS : EPSG:4326):
 
-```geojson
+```JSON
 {
   "type": "FeatureCollection",
   "features": [
@@ -88,7 +88,7 @@ The coordinate reference system (CRS) of a [GeoJSON](http://wiki.geojson.org/Geo
       },
       "properties": {
         "title": "test title for point feature",
-        "operational": "yes"
+        "operational": "yes",
         "marker" : "green"
       }
     }
@@ -98,7 +98,7 @@ The coordinate reference system (CRS) of a [GeoJSON](http://wiki.geojson.org/Geo
 
 ### polygon (CRS : EPSG:3857):
 
-```geojson
+```JSON
 {
   "type": "FeatureCollection",
   "crs": {
