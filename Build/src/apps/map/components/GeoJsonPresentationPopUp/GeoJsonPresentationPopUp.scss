@@ -66,19 +66,19 @@
 
         button {
             background-color: $secondary-color;
-            color: #fff;;
+            color: #fff;
             border: solid 3px $secondary-color;
             border-radius: 3px;
 
-          &:hover {
-            background-color: $secondary-color-dark;
-            border-color: $secondary-color-dark;
-            color: #fff;
-          }
+            &:hover {
+                background-color: $secondary-color-dark;
+                border-color: $secondary-color-dark;
+                color: #fff;
+            }
 
-          &:focus {
-            outline: none;
-          }
+            &:focus {
+                outline: none;
+            }
         }
     }
 
@@ -98,12 +98,11 @@
             line-height: normal;
             padding-bottom: 8px;
             word-wrap: break-word;
-
         }
+
         p {
             margin: 0;
             word-wrap: break-word;
-
         }
 
         display: flex;

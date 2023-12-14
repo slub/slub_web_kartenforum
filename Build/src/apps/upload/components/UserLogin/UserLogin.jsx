@@ -45,10 +45,10 @@ export default function UserLogin(props) {
   };
 
   const handleKeyDown = (e) => {
-      if (e.key === 'enter') {
-          handleLogin()
-      }
-  }
+    if (e.key === "enter") {
+      handleLogin();
+    }
+  };
 
   return (
     <div className="login-form">
@@ -93,11 +93,7 @@ export default function UserLogin(props) {
             value={password}
             onChange={handleChangePassword}
             required
-            onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                    handleLogin();
-                }
-            }}
+            onKeyDown={handleKeyDown}
           />
         </div>
         <button type="submit" className="btn btn-primary" onClick={handleLogin}>
