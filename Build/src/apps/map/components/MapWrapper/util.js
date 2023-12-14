@@ -1,5 +1,6 @@
 import { transformExtent } from "ol/proj";
 import { containsXY } from "ol/extent";
+import axios from "axios";
 
 import SettingsProvider from "../../../../SettingsProvider";
 import HistoricMap from "../CustomLayers/HistoricMapLayer";
@@ -26,6 +27,26 @@ export const containsLayerWithId = function (id, layers) {
         }
     }
     return false;
+};
+/**
+ * Fetches the maximum zoom value from an XML file located at the specified URL.
+ *
+ * @param {string} url - The URL of the tilemapresource.
+ * @return {number} The maximum zoom value.
+ */
+const fetchMaxZoomFromTileMapSource = async (url) => {
+    try {
+        const response = await axios.get(`${url}/tilemapresource.xml`);
+        const xmlDoc = new DOMParser().parseFromString(
+            response.data,
+            "text/xml"
+        );
+        const tileSets = xmlDoc.getElementsByTagName("TileSet");
+        return tileSets.length;
+    } catch (error) {
+        console.error("Error fetching or parsing XML:", error);
+        return null;
+    }
 };
 
 /**
@@ -61,7 +82,13 @@ export const createHistoricMapForFeature = async function (feature) {
     };
 
     if (isTmsDefined) {
-        return new HistoricMap(Object.assign(baseSettings, { tms_urls }));
+        // The zoom level starts with 0 till maxZoom - 1
+        const maxZoom = (await fetchMaxZoomFromTileMapSource(tms_urls[0])) - 1;
+        const historicMapSettings = Object.assign(baseSettings, {
+            tms_urls,
+            maxZoom,
+        });
+        return new HistoricMap(historicMapSettings);
     } else {
         const layers = await fetchAndParseWmsCapabilities(wms_capability_url);
 

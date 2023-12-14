@@ -58,6 +58,7 @@ export const HistoricMap = function (settings) {
     const source =
         settings.tms_urls !== undefined
             ? new XYZ({
+                  maxZoom: settings.maxZoom,
                   urls: settings.tms_urls.map(
                       (url) => `${url}/{z}/{x}/{-y}.png`
                   ),
