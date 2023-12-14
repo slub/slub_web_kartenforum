@@ -11,7 +11,7 @@ export const parseGeoJsonFile = (file, callback, errorCallback) => {
         try {
             callback({
                 content: JSON.parse(this.result),
-                modified: file.lastModifiedDate,
+                modified: file.lastModified,
                 name: file.name.split(".")[0],
             });
         } catch (e) {
