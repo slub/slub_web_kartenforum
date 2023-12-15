@@ -32,6 +32,7 @@ export default function UploadMapView(props) {
   const [file, setFile] = useState(null);
   const [pendingMapId, setPendingMapId] = useState(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const methods = useForm({
     defaultValues: {
       ...mapMetadata,
@@ -53,6 +54,7 @@ export default function UploadMapView(props) {
   // Handle click on the submit button
   const handleClickSubmit = methods.handleSubmit(async (data) => {
     const newMetadata = getCleanMapMetadata(data);
+    setIsLoading(true);
 
     // Check if the metadata has changed >
     const hasMetadataChanged = areMetadataPropertiesDistinct(
@@ -70,6 +72,7 @@ export default function UploadMapView(props) {
 
       // Call refresh
       setPendingMapId(newMapId);
+      setIsLoading(false);
       return;
     } else if ((mapId !== null && hasMetadataChanged) || file !== null) {
       const newMapId = await updateMap(
@@ -82,6 +85,7 @@ export default function UploadMapView(props) {
 
       // Call refresh
       setPendingMapId(newMapId);
+      setIsLoading(false);
       return;
     } else {
       console.log("Currently there are not action to perform.");
@@ -198,10 +202,13 @@ export default function UploadMapView(props) {
                   Refresh
                 </button>
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary has-spinner"
                   type="button"
                   onClick={handleClickSubmit}
                 >
+                  {isLoading === true && (
+                    <span className="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+                  )}
                   {translate("uploadmap-save-btn")}
                 </button>
               </div>

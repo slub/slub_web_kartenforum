@@ -7,6 +7,10 @@
 import { styleFieldSettings } from "../../../views/GeoJsonView/settings.js";
 import { parseColorStringToHex } from "./util";
 
+function isPrimitiveString(value) {
+    return typeof value === "string" && value.constructor === String;
+}
+
 /**
  * Apply styling represented in geojson (as used by geojson.io) to a supplied feature
  * @param feature
@@ -28,6 +32,8 @@ export const parseGeojsonStyles = (feature) => {
                 feature,
                 type === "color"
                     ? parseColorStringToHex(properties[setting])
+                    : isPrimitiveString(properties[setting])
+                    ? properties[setting].toLowerCase()
                     : properties[setting]
             );
 
@@ -44,7 +50,8 @@ export const parseGeojsonStyles = (feature) => {
  */
 export const parseDate = (date) => {
     // format time based on localization
+    const formattedDate = new Date(date);
     const isEnglish = window.location.pathname.includes("/en/");
     const options = { year: "numeric", month: "long", day: "numeric" };
-    return date.toLocaleString(isEnglish ? "en-US" : "de-DE", options);
+    return formattedDate.toLocaleString(isEnglish ? "en-US" : "de-DE", options);
 };

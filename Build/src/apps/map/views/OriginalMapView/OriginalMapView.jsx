@@ -48,7 +48,6 @@ export const OriginalMapView = (props) => {
   const downloadLink = res.find((r) => r.type === "download");
 
   const isMosaicMap = mapDocument.type === "mosaic";
-
   return (
     <Modal
       key={map_id}

@@ -74,7 +74,7 @@ export async function queryDocument(documentId) {
  *     zoomify_url: string
  * }[]>}
  */
-export async function queryUnreferencedDocuments(maxFeatures = 100) {
+export async function queryUnreferencedDocuments(maxFeatures = 500) {
     const baseUrl = SettingsProvider.getSettings().API_SEARCH;
 
     if (baseUrl === undefined) {

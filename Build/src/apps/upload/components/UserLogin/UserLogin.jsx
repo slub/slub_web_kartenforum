@@ -32,7 +32,6 @@ export default function UserLogin(props) {
     if (username.length > 0 && password.length > 0) {
       const response = await testCredentials(username, password);
       setErrorMsg(response.msg);
-
       // Dispatch to hoc
       onLogin(
         response.credentialsValid
@@ -44,6 +43,12 @@ export default function UserLogin(props) {
       );
     }
   };
+
+  const handleKeyDown = (e) => {
+      if (e.key === 'enter') {
+          handleLogin()
+      }
+  }
 
   return (
     <div className="login-form">
@@ -88,6 +93,11 @@ export default function UserLogin(props) {
             value={password}
             onChange={handleChangePassword}
             required
+            onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                    handleLogin();
+                }
+            }}
           />
         </div>
         <button type="submit" className="btn btn-primary" onClick={handleLogin}>
