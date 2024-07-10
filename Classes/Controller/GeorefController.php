@@ -503,4 +503,38 @@ class GeorefController extends ActionController
             throw new \UnexpectedValueException('Could not determine username.');
         }
     }
+
+
+    /**
+     * Validate user session
+     *
+     * @param string $sessionId
+     * @return void
+     */
+    public function getSessionAction()
+    {
+
+        $feUserObj = $this->getActualUser();
+        $response = [
+            'valid' => false,
+            'userData' => null,
+        ];
+
+        if(!is_null($feUserObj) && !is_null($feUserObj->getUsername())) {
+            $response['valid'] = true;
+            $userData = [
+                'username' => $feUserObj->getUsername(),
+                'uid' => $feUserObj->getUid(),
+                'groups' => array_map(function($group){
+                    return $group->getTitle();
+                },$feUserObj->getUsergroup()->getArray())
+            ];
+            $response['userData'] = $userData;
+            // Session is valid
+            $this->view->assign('value', $response);
+        } else {
+            // Session is invalid
+            $this->view->assign('value', $response);
+        }
+    }
 }
