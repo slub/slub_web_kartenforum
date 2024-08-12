@@ -892,6 +892,17 @@
     			<source>Save georeference</source>
     		</trans-unit>
 
+    		<!-- Plugin Upload -> Common error messages -->
+            <trans-unit id="plugin.upload.common.errors.http.401" approved="yes">
+                <source>You must be logged in to carry out this action.</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.common.errors.http.403" approved="yes">
+                <source>You are not allowed to carry out this action.</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.common.errors.unexpected" approved="yes">
+                <source>An unexpected error occured. Please contact an administrator.</source>
+            </trans-unit>
+
     		<!-- Plugin Upload - SearchMapView -->
             <trans-unit id="plugin.upload.searchmap.title" approved="yes">
                 <source>choose a map</source>
@@ -905,18 +916,10 @@
             <trans-unit id="plugin.upload.searchmap.upload-button" approved="yes">
                 <source>upload map</source>
             </trans-unit>
-
-            <!-- Plugin Upload -> SearchMapView -> UserLogin -->
-            <trans-unit id="plugin.upload.searchmap.login.info" approved="yes">
-                <source>Please log in first with your access data.</source>
+            <trans-unit id="plugin.upload.searchmap.errors.http.400" approved="yes">
+                <source>Your search input does not match the expected format. Correct example: oai:de:slub-dresden:vk:id-10010325.</source>
             </trans-unit>
 
-            <trans-unit id="plugin.upload.searchmap.login.danger" approved="yes">
-                <source>You could not be logged in. Please check your username and password.</source>
-            </trans-unit>
-            <trans-unit id="plugin.upload.searchmap.login.success" approved="yes">
-                <source>You are successfully logged in as %REPLACE%.</source>
-            </trans-unit>
 
     		<!-- Plugin Upload -> UploadMapView -->
             <trans-unit id="plugin.upload.uploadmap.title" approved="yes">

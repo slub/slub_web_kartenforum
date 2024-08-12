@@ -4,77 +4,56 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import debounce from "lodash.debounce";
 import { translate } from "../../../../util/util.js";
 import { readMapForMapId } from "../../utils/apiUpload.js";
 import SearchInputField from "../../components/SearchInputField/SearchInputField.jsx";
 import MapEntry from "../../components/MapEntry/MapEntry.jsx";
-import UserLogin from "../../components/UserLogin/UserLogin.jsx";
 import "./SearchMapView.scss";
 
 export default function SearchMapView(props) {
-  const { credentials, onLogin, onSelectMap, onStartUpload } = props;
+  const { onSelectMap, onStartUpload } = props;
   const [selectedMap, setSelectMap] = useState({
     mapId: null,
     metadata: null,
   });
-  const [showError, setShowError] = useState(false);
-  const disableActions = useMemo(() => credentials === null, [credentials]);
+  const [httpErrorStatusCode, setHttpErrorStatusCode] = useState(null);
 
   // Handle submit of map id
-  const handleEnterId = useMemo(
-    () =>
-      debounce(async (mapId) => {
-        if (credentials === null) {
-          console.warn("No credentials provided");
-          return;
-        }
+  const handleEnterId = debounce(async (mapId) => {
+    const response = await readMapForMapId(mapId);
+    const newMapMetadata = response.data;
 
-        const newMapMetadata = await readMapForMapId(
-          mapId,
-          credentials.username,
-          credentials.password
-        );
-
-        if (newMapMetadata !== null) {
-          setSelectMap({
-            mapId: mapId,
-            metadata: newMapMetadata,
-          });
-          setShowError(false);
-        } else {
-          setSelectMap({
-            mapId: null,
-            metadata: null,
-          });
-          setShowError(true);
-        }
-      }, 300),
-    [credentials]
-  );
+    if (newMapMetadata !== null) {
+      setSelectMap({
+        mapId: mapId,
+        metadata: newMapMetadata,
+      });
+      setHttpErrorStatusCode(null);
+    } else {
+      setSelectMap({
+        mapId: null,
+        metadata: null,
+      });
+      setHttpErrorStatusCode(response.httpErrorStatusCode);
+    }
+  }, 300);
 
   return (
     <div className="container search-view">
-      <div className="content-login">
-        <UserLogin credentials={credentials} onLogin={onLogin} />
-      </div>
-      <hr role="separator" className="divider"></hr>
-      <div className={`content-header ${disableActions ? "disabled" : ""}`}>
-        <h4>{translate("searchmap-title")}</h4>
+      <div className="content-header">
+        <h3>{translate("searchmap-title")}</h3>
         <button
           type="button"
-          disabled={disableActions}
-          className={`btn btn-primary upload-button ${
-            disableActions ? "disabled" : ""
-          }`}
+          className="btn btn-primary upload-button"
           onClick={() => onStartUpload()}
         >
           {translate("searchmap-upload-button")}
         </button>
       </div>
-      <div className={`content-body ${disableActions ? "disabled" : ""}`}>
+      <div className="content-body">
         <SearchInputField onEnterId={handleEnterId} />
         {selectedMap.mapId !== null && (
           <ul className="map-list">
@@ -86,13 +65,29 @@ export default function SearchMapView(props) {
           </ul>
         )}
 
-        {showError && (
+        {httpErrorStatusCode !== null && (
           <div className="not-found body1">
             <p>{translate("uploadmap-p")}</p>
             <ul className="no-results">
-              <li>{translate("uploadmap-li1")}</li>
-              <li>{translate("uploadmap-li2")}</li>
-              <li>{translate("uploadmap-li3")}</li>
+              {httpErrorStatusCode === 400 && (
+                <li>{translate("searchmap-errors-http-400")}</li>
+              )}
+              {httpErrorStatusCode === 401 && (
+                <li>{translate("common-errors-http-401")}</li>
+              )}
+              {httpErrorStatusCode === 403 && (
+                <li>{translate("common-errors-http-403")}</li>
+              )}
+              {httpErrorStatusCode === 404 && (
+                <>
+                  <li>{translate("uploadmap-li1")}</li>
+                  <li>{translate("uploadmap-li2")}</li>
+                  <li>{translate("uploadmap-li3")}</li>
+                </>
+              )}
+              {httpErrorStatusCode > 404 && (
+                <li>{translate("common-errors-unexpected")}</li>
+              )}
             </ul>
           </div>
         )}
@@ -102,11 +97,6 @@ export default function SearchMapView(props) {
 }
 
 SearchMapView.propTypes = {
-  credentials: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-  }),
-  onLogin: PropTypes.func.isRequired,
   onSelectMap: PropTypes.func.isRequired,
   onStartUpload: PropTypes.func.isRequired,
 };

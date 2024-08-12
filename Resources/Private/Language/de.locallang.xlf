@@ -1081,6 +1081,20 @@
     			<target><![CDATA[Georeferenzierung speichern]]></target>
     		</trans-unit>
 
+    		<!-- Plugin Upload -> Common error messages -->
+            <trans-unit id="plugin.upload.common.errors.http.401" approved="yes">
+                <source><![CDATA[You must be logged in to carry out this action.]]></source>
+                <target><![CDATA[Sie müssen eingeloggt sein, um diese Aktion auszuführen.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.common.errors.http.403" approved="yes">
+                <source><![CDATA[You are not allowed to carry out this action.]]></source>
+                <target><![CDATA[Sie sind nicht berechtigt, diese Aktion auszuführen.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.common.errors.unexpected" approved="yes">
+                <source><![CDATA[An unexpected error occured. Please contact an administrator.]]></source>
+                <target><![CDATA[Ein unerwarteter Fehler ist aufgetreten. Kontaktieren sie bitte ggf. den Administrator.]]></target>
+            </trans-unit>
+
     		<!-- Plugin Upload -> SearchMapView -->
             <trans-unit id="plugin.upload.searchmap.title" approved="yes">
                 <source><![CDATA[choose a map]]></source>
@@ -1098,21 +1112,12 @@
                 <source><![CDATA[upload map]]></source>
                 <target><![CDATA[upload karte]]></target>
             </trans-unit>
-
-            <!-- Plugin Upload -> SearchMapView -> UserLogin -->
-            <trans-unit id="plugin.upload.searchmap.login.info" approved="yes">
-                <source><![CDATA[Please log in first with your access data.]]></source>
-                <target><![CDATA[Bitte melden Sie sich zu erst mit ihren Zugangsdaten an.]]></target>
-            </trans-unit>
-            <trans-unit id="plugin.upload.searchmap.login.danger" approved="yes">
-                <source><![CDATA[You could not be logged in. Please check your username and password.]]></source>
-                <target><![CDATA[Sie konnten nicht angemeldet werden. Bitte überprüfen Sie Ihren Nutzernamen und das Passwort.]]></target>
+            <trans-unit id="plugin.upload.searchmap.errors.http.400" approved="yes">
+                <source><![CDATA[Your search input does not match the expected format. Correct example: oai:de:slub-dresden:vk:id-10010325.]]></source>
+                <target><![CDATA[Ihre Sucheingabe entspricht nicht dem zu erwartendem Format. Korrektes Beispiel: oai:de:slub-dresden:vk:id-10010325.]]></target>
             </trans-unit>
 
-            <trans-unit id="plugin.upload.searchmap.login.success" approved="yes">
-                <source><![CDATA[You are successfully logged in as %REPLACE%.]]></source>
-                <target><![CDATA[Sie sind erfolgreich als %REPLACE% angemeldet.]]></target>
-            </trans-unit>
+			
 
     		<!-- Plugin Upload -> UploadMapView -->
             <trans-unit id="plugin.upload.uploadmap.title" approved="yes">

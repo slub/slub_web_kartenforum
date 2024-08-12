@@ -1,20 +1,6 @@
 @import "../../Variables";
 
 .search-view {
-    .divider {
-        margin: 2.5em 0;
-    }
-
-    .content-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        > h4 {
-            margin: 0;
-        }
-    }
-
     .content-body {
         display: flex;
         flex-direction: column;

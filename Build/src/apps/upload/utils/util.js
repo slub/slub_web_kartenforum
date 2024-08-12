@@ -52,3 +52,38 @@ export const findInputError = (errors, name) => {
             return Object.assign(cur, { error: errors[key] });
         }, {});
 };
+
+/**
+ * A utility object/pseudo class to facilitate the creation of a common object for error and successful responses.
+ * Contains two static methods ok(data) and error(error).
+ */
+export const Response = {
+    /**
+     * Returns a response object with the data attribute set. Error and httpErrorStatusCode are set to null.
+     */
+    ok: (data) => ({
+        data: data,
+        error: null,
+        httpErrorStatusCode: null,
+    }),
+
+    /**
+     * Returns an error response object with the data attribute set to null. The error parameter must be set to an error object.
+     * If the error object has the shape of an axios error and contains an error.response.status property, the httpStatusCode will be set accordingly.
+     * Otherwise a default httpStatusCode of 999 is provided signalling an unexpected error.
+     */
+    error: (error) => {
+        let httpErrorStatusCode = 999;
+
+        const hasAxiosErrorStausCode = error.response && error.response.status;
+        if (hasAxiosErrorStausCode) {
+            httpErrorStatusCode = error.response.status;
+        }
+
+        return {
+            data: null,
+            error,
+            httpErrorStatusCode,
+        };
+    },
+};
