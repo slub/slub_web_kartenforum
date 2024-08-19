@@ -1140,6 +1140,10 @@
                 <source><![CDATA[save]]></source>
                 <target><![CDATA[speichern]]></target>
             </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.save-btn-disabled-title" approved="yes">
+                <source><![CDATA[The uploaded map has not yet been processed. Please try refreshing.]]></source>
+                <target><![CDATA[Die hochgeladene Karte wurde noch nicht verarbeitet. Bitte auf Refresh klicken.]]></target>
+            </trans-unit>
             <trans-unit id="plugin.upload.uploadmap.no-results-li1" approved="yes">
                 <source><![CDATA[Make sure all the words are spelled correctly.]]></source>
                 <target><![CDATA[Achte darauf, dass alle Wörter richtig geschrieben sind.]]></target>
@@ -1159,6 +1163,10 @@
             <trans-unit id="plugin.upload.uploadmap.success-upload" approved="yes">
                 <source><![CDATA[The maps have been updated. Please wait a few minutes and then reload the map. Alternatively, you can upload or edit more maps.]]></source>
                 <target><![CDATA[Die Karten wurden aktualisieren. Bitte warten Sie ein paar Minuten und laden Sie dann die Karte erneunt. Alternativ können Sie weitere Karten hochladen oder editieren.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.errors.refresh.http.404" approved="yes">
+                <source><![CDATA[The uploaded map has not yet been processed. Please wait an instant and click on Refresh again.]]></source>
+                <target><![CDATA[Die hochgeladene Karte wurde noch nicht verarbeitet. Bitte warte einen Moment und klicke erneut auf Refresh.]]></target>
             </trans-unit>
 
             <!-- Plugin Upload -> UploadMapView -> DeleteDialog -->

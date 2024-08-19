@@ -108,6 +108,7 @@ export default function UploadMapView(props) {
       });
       setPendingMapId(null);
       setFile(null);
+      setHttpErrorStatusCode(null);
     } else {
       setHttpErrorStatusCode(response.httpErrorStatusCode);
     }
@@ -145,8 +146,28 @@ export default function UploadMapView(props) {
     <div className="container upload-view">
       <div className="upload-header-container">
         <UploadHeader mapId={mapId || pendingMapId} onBack={handleClickBack} />
-        {pendingMapId !== null && (
+        {pendingMapId !== null && httpErrorStatusCode === null && (
           <p className="bg-success">{translate("uploadmap-success")}</p>
+        )}
+        {httpErrorStatusCode !== null && (
+          <div className="error-messages">
+            {httpErrorStatusCode === 401 && (
+              <p className="bg-danger">{translate("common-errors-http-401")}</p>
+            )}
+            {httpErrorStatusCode === 403 && (
+              <p className="bg-danger">{translate("common-errors-http-403")}</p>
+            )}
+            {httpErrorStatusCode === 404 && (
+              <p className="bg-danger">
+                {translate("uploadmap-errors-refresh-http-400")}
+              </p>
+            )}
+            {httpErrorStatusCode > 404 && (
+              <p className="bg-danger">
+                {translate("common-errors-unexpected")}
+              </p>
+            )}
+          </div>
         )}
       </div>
 
@@ -186,19 +207,6 @@ export default function UploadMapView(props) {
               />
 
               <div>
-                {httpErrorStatusCode !== null && (
-                  <div className="error-messages">
-                    {httpErrorStatusCode === 401 && (
-                      <p>{translate("common-errors-http-401")}</p>
-                    )}
-                    {httpErrorStatusCode === 403 && (
-                      <p>{translate("common-errors-http-403")}</p>
-                    )}
-                    {httpErrorStatusCode > 403 && (
-                      <p>{translate("common-errors-unexpected")}</p>
-                    )}
-                  </div>
-                )}
                 <div className="action-buttons">
                   <button
                     className="btn btn-default"
@@ -219,6 +227,12 @@ export default function UploadMapView(props) {
                   <button
                     className="btn btn-primary has-spinner"
                     type="button"
+                    disabled={pendingMapId !== null && mapId === null}
+                    title={
+                      pendingMapId !== null && mapId === null
+                        ? translate("uploadmap-save-btn-disabled-title")
+                        : undefined
+                    }
                     onClick={handleClickSubmit}
                   >
                     {isLoading === true && (

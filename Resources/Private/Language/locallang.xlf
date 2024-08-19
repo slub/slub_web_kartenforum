@@ -940,6 +940,9 @@
             <trans-unit id="plugin.upload.uploadmap.save-btn" approved="yes">
                 <source>save</source>
             </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.save-btn-disabled-title" approved="yes">
+                <source>The uploaded map has not yet been processed. Please try refreshing.</source>
+            </trans-unit>
             <trans-unit id="plugin.upload.uploadmap.no-results-li1" approved="yes">
                 <source>Make sure all the words are spelled correctly.</source>
             </trans-unit>
@@ -954,6 +957,9 @@
             </trans-unit>
             <trans-unit id="plugin.upload.uploadmap.success-upload" approved="yes">
                 <source>The maps have been updated. Please wait a few minutes and then reload the map. Alternatively, you can upload or edit more maps.</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.errors.refresh.http.404" approved="yes">
+                <source>The uploaded map has not yet been processed. Please wait an instant and click on Refresh.</source>
             </trans-unit>
 
             <!--  Plugin Upload -> UploadMapView -> DeleteDialog -->
