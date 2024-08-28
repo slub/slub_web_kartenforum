@@ -29,11 +29,14 @@
         width: 200px;
         height: 45px;
         padding: 0;
-        @include text-hide();
         display: block;
-        background: url($image-path + "vkfLogo.svg") no-repeat center center;
-        background-size: auto 100%;
         z-index: 150;
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+        }
     }
 
     @media screen and (min-width: $tabletViewportWidth) {

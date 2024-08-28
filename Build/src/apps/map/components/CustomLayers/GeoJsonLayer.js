@@ -8,7 +8,7 @@ import { Vector } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
 
 import { inherits, isDefined } from "../../../../util/util";
-import { defaultStyleFunction } from "../MapWrapper/defaultStyles";
+import { defaultStyleFunction } from "../MapWrapper/getDefaultStyles.js";
 import { LAYER_TYPES } from "./LayerTypes";
 
 /**

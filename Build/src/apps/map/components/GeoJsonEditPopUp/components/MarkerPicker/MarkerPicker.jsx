@@ -9,13 +9,11 @@ import { ModalBody, ModalHeader, ModalTitle, Overlay } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { translate } from "../../../../../../util/util.js";
 import "./MarkerPicker.scss";
-
-export const MARKER_BASE_URL =
-  "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/markers/";
+import SettingsProvider from "../../../../../../SettingsProvider.js";
 
 export const MARKERS = ["blue", "green", "orange", "pink", "yellow"];
 export const getMarkerUrl = (marker) => {
-  return `${MARKER_BASE_URL}${marker}.png`;
+  return `${SettingsProvider.getSettings().MARKER_BASE_URL}${marker}.png`;
 };
 
 export const getMarkerIdFromUrl = (url) => {

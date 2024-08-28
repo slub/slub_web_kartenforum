@@ -9,6 +9,7 @@ import React from "react";
 import { translate } from "../../../../../../util/util.js";
 import PropTypes from "prop-types";
 import "./ImageFallback.scss";
+import SettingsProvider from "../../../../../../SettingsProvider.js";
 
 export const ImageFallback = ({ typeOfView }) => {
   return (
@@ -16,7 +17,7 @@ export const ImageFallback = ({ typeOfView }) => {
       className={`broken-img-container ${typeOfView === "view" ? "view" : ""}`}
     >
       <img
-        src="/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/not-found.png"
+        src={SettingsProvider.getSettings().FALLBACK_NOT_FOUND}
         alt="broken image"
       />
       <p>{translate("geojson-image-fallback-p")}</p>

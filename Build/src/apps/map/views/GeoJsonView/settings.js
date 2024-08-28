@@ -13,7 +13,7 @@ import {
     updateAlphaChannel,
     updateColorChannels,
 } from "../../components/GeoJsonEditPopUp/util/util.js";
-import { defaultIconSettings } from "../../components/MapWrapper/defaultStyles.js";
+import { getDefaultIconSettings } from "../../components/MapWrapper/getDefaultStyles.js";
 import {
     getMarkerIdFromUrl,
     getMarkerUrl,
@@ -27,7 +27,7 @@ export const styleFieldSettings = {
         changeHandler: (feature, newValue) => {
             const newStyle = new Style({
                 image: new Icon(
-                    Object.assign({}, defaultIconSettings, {
+                    Object.assign({}, getDefaultIconSettings(), {
                         src: getMarkerUrl(newValue),
                     })
                 ),

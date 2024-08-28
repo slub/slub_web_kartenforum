@@ -5,7 +5,9 @@
     lang="en"
 >
     <input type="hidden" value="{georefApi}" id="setting-georefApi" />
-
+    <input type="hidden"
+           value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Images/layer_default.png')}"
+           id="settings-layer-fallback"/>
     <f:security.ifAuthenticated>
         <f:then>
             <input type="hidden" id="setting-is-auth" />
@@ -30,10 +32,9 @@
     <f:section name="FooterAssets">
         <script type="text/javascript">
             vk2.SettingsProvider.appendSettings({
-                FALLBACK_THUMBNAIL:
-                    "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
                 API_GEOREFERENCE_BASEURL:
                     document.getElementById("setting-georefApi").value,
+                FALLBACK_THUMBNAIL: document.getElementById("settings-layer-fallback").value,
                 USERNAME: "<vk:username field='username'/>",
             });
 

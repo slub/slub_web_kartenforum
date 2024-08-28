@@ -17,11 +17,6 @@ $tabletLandscapeViewportWidth: 992px;
 $desktopViewportWidth: 1200px;
 $largerViewportWidth: 1700px;
 
-// Paths
-$base-path: "/typo3conf/ext/slub_web_kartenforum/Resources/Public/";
-$image-path: $base-path + "Images/";
-$icon-path: $base-path + "Icons/";
-
 // Colors
 $primary-color: rgb(255, 51, 51); // The very bright red
 $primary-color-dark: darken($primary-color, 15%);

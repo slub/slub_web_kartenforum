@@ -6,6 +6,12 @@
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
 <input type="hidden" value="{terrain}" id="setting-terrain"/>
 <input type="hidden" value="{enableTilePreloading}" id="settings-enableTilePreloading"/>
+<input type="hidden"
+       value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Images/layer_default.png')}"
+       id="settings-layer-fallback"/>
+<input type="hidden"
+       value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Icons/ReactIconSprite.svg')}"
+       id="settings-icon-sprite"/>
 <input type="hidden" value="{georefApi}" id="setting-georefApi"/>
 <f:security.ifAuthenticated>
     <f:then>
@@ -32,7 +38,8 @@
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
             "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
             "ENABLE_TILE_PRELOADING": JSON.parse(document.getElementById("settings-enableTilePreloading").value),
-            "FALLBACK_THUMBNAIL": "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
+            FALLBACK_THUMBNAIL: document.getElementById("settings-layer-fallback").value,
+            ICON_SPRITE: document.getElementById("settings-icon-sprite").value,
             "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
             "MAPVIEW_PARAMS": JSON.parse(document.getElementById("setting-mapView").value),
             "NOMINATIM_URL": document.getElementById("setting-urlNominatim").value,
