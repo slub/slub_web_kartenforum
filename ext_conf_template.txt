@@ -22,9 +22,3 @@ enableTilePreloading = false
 
 # cat=Georeference; type=string; label=API endpoint of the georeference service
 georefApi = https://geo-slub.pikobytes.de
-
-# cat=Georeference; type=string; label=Basic user for georeference authentication
-georefAuthUser =
-
-# cat=Georeference; type=string; label=Password for georeference authentication
-georefAuthPassword =

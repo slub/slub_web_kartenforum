@@ -20,8 +20,7 @@ export const getUrlWithQuery = (query) => {
 };
 
 export const PermalinkExporter = ({ refApplicationStateUpdater, ...props }) => {
-  const isMapViewExportForbidden =
-    SettingsProvider.getSettings()["API_MAP_VIEW_PERSIST"] === undefined;
+  const isMapViewExportForbidden = !SettingsProvider.isUserAuthenticated();
 
   // copy value to clipboard on button click
   return (

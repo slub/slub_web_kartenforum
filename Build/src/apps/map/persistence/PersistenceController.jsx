@@ -36,7 +36,7 @@ import { notificationState } from "../../../atoms/atoms";
 import { parseMapView, parseViewMode } from "./urlParser";
 import { translate } from "../../../util/util";
 import LocalStorageWriter from "./LocalStorageWriter.jsx";
-import { fetchFeatureForMapId, fetchMapView } from "./api.js";
+import { fetchFeatureForMapId } from "./api.js";
 import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../components/BasemapSelector/BasemapSelector.jsx";
 import { validatePersistenceObject } from "./validation.js";
 
@@ -65,7 +65,7 @@ export const PersistenceController = () => {
   const setTimeRange = useSetRecoilState(timeRangeState);
   const setTimeExtent = useSetRecoilState(timeExtentState);
 
-  const mapViewEndpoint = SettingsProvider.getSettings()["API_MAP_VIEW_LOAD"];
+  const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
   /**
    * @type {{
@@ -119,10 +119,11 @@ export const PersistenceController = () => {
     // 3. No url parameters defined => try to restore from local storage
 
     if (map_view_id !== undefined) {
-      fetchMapView(
-        `${location.origin}/${mapViewEndpoint}&map_view_id=${map_view_id}`
-      ).then((resp) => {
-        const { customBasemaps, ...rest } = JSON.parse(resp);
+      const mapViewEndpoint = "/map_view/";
+      const path = `${mapViewEndpoint}${map_view_id}`;
+      georeferenceApi.get(path).then((resp) => {
+        const { map_view_json } = resp.data;
+        const { customBasemaps, ...rest } = JSON.parse(map_view_json);
 
         // restore potentially saved customBasemaps
         if (customBasemaps !== undefined && customBasemaps.length > 0) {

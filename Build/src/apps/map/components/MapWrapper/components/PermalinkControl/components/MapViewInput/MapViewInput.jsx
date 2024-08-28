@@ -6,7 +6,6 @@
  */
 import React, { useCallback, useState } from "react";
 import { Glyphicon } from "react-bootstrap";
-import axios from "axios";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
@@ -24,8 +23,8 @@ export const MapViewInput = ({ refApplicationStateUpdater }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState("");
 
-  const settings = SettingsProvider.getSettings();
-  const persistUrl = settings["API_MAP_VIEW_PERSIST"];
+  const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
+  const persistPath = "/map_view/";
 
   const handleUploadMapView = useCallback(() => {
     if (refApplicationStateUpdater.current !== undefined) {
@@ -44,8 +43,8 @@ export const MapViewInput = ({ refApplicationStateUpdater }) => {
       );
 
       setIsLoading(true);
-      return axios
-        .post(persistUrl, { map_view_json: uploadMapView })
+      return georeferenceApi
+        .post(persistPath, { map_view_json: uploadMapView })
         .then((res) => {
           if (res.status === 200 && res.data !== undefined) {
             const { map_view_id } = res.data;

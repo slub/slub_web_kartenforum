@@ -4,7 +4,6 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import axios from "axios";
 import { Feature } from "ol";
 import { queryDocument } from "../../../util/apiEs.js";
 import { readFeature } from "../../../util/parser.js";
@@ -29,12 +28,3 @@ export const fetchFeatureForMapId = (mapId, is3dEnabled) =>
             feature.setId(mapId);
             return feature;
         });
-
-/**
- * Fetches a map view from the backend and returns the corresponding json
- * @param url
- * @return {Promise<Pick<unknown, number|symbol>>}
- */
-export const fetchMapView = (url) => {
-    return axios.get(url).then((res) => res.data.map_view_json);
-};

@@ -5,6 +5,9 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
+import axios from "axios";
+import { isDefined, isString } from "./util/util";
+
 let settingsObject = {
     BASEMAPS: [
         {
@@ -30,9 +33,12 @@ let settingsObject = {
     ENABLE_TILE_PRELOADING: false,
     LANGUAGE_CODE: "en",
     USERNAME: "anonymous",
+    USER_ISAUTHENTICATED: false,
 };
 
 export default {
+    axiosGeoRefApiInstance: null,
+
     appendSettings(newSettings) {
         settingsObject = Object.assign({}, settingsObject, newSettings);
     },
@@ -153,7 +159,34 @@ export default {
         return settingsObject["USERNAME"];
     },
 
+    isUserAuthenticated() {
+        return settingsObject["USER_ISAUTHENTICATED"] === true;
+    },
+
     updateSettings(newSettings) {
         settingsObject = newSettings;
+    },
+
+    initAxiosGeoRefApiInstance() {
+        const baseURL = settingsObject["API_GEOREFERENCE_BASEURL"];
+
+        const isEmptyBaseURL = isString(baseURL) && baseURL.length === 0;
+        if (!isDefined(baseURL) || isEmptyBaseURL) {
+            throw new Error("The URL for the georeference service is not set.");
+        }
+
+        this.axiosGeoRefApiInstance = axios.create({
+            baseURL,
+            withCredentials: true,
+        });
+    },
+
+    getGeoreferenceApiClient() {
+        if (isDefined(this.axiosGeoRefApiInstance)) {
+            return this.axiosGeoRefApiInstance;
+        }
+
+        this.initAxiosGeoRefApiInstance();
+        return this.axiosGeoRefApiInstance;
     },
 };

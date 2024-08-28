@@ -6,6 +6,7 @@
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
 <input type="hidden" value="{terrain}" id="setting-terrain"/>
 <input type="hidden" value="{enableTilePreloading}" id="settings-enableTilePreloading"/>
+<input type="hidden" value="{georefApi}" id="setting-georefApi"/>
 <f:security.ifAuthenticated>
     <f:then>
         <input type="hidden" id="setting-is-auth"/>
@@ -27,13 +28,7 @@
 <f:section name="FooterAssets">
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
-            "API_MAP_VIEW_LOAD": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getMapView&type=9991",
-            "API_MAP_VIEW_PERSIST": document.getElementById("setting-is-auth") !== null ? "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMapView&type=9991" : undefined,
-            "API_GEOREFERENCE_GET_MOSAIC_MAPS": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getMosaicMaps&type=9991",
-            "API_GEOREFERENCE_REFRESH_MOSAIC_MAP_SERVICE": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=refreshMosaicMap&type=9991",
-            "API_GEOREFERENCE_UPDATE_MOSAIC_MAP": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMosaicMap&type=9991",
-            "API_GEOREFERENCE_CREATE_MOSAIC_MAP": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMosaicMaps&type=9991",
-            "API_GEOREFERENCE_DELETE_MOSAIC_MAP": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=deleteMosaicMap&type=9991",
+            "API_GEOREFERENCE_BASEURL": document.getElementById("setting-georefApi").value,
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
             "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
             "ENABLE_TILE_PRELOADING": JSON.parse(document.getElementById("settings-enableTilePreloading").value),

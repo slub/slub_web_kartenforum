@@ -8,6 +8,7 @@
     <input type="hidden" value="{urlNominatim}" id="setting-urlNominatim" />
     <input type="hidden" value="{urlSearch}" id="setting-urlSearch" />
     <input type="hidden" value="{terrain}" id="setting-terrain" />
+    <input type="hidden" value="{georefApi}" id="setting-georefApi" />
     <input
         type="hidden"
         value="{enableTilePreloading}"
@@ -45,13 +46,8 @@
     <f:section name="FooterAssets">
         <script type="text/javascript">
             vk2.SettingsProvider.appendSettings({
-                API_MAP_VIEW_LOAD:
-                    "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getMapView&type=9991",
-                API_MAP_VIEW_PERSIST:
-                    document.getElementById("setting-is-auth") !== null
-                        ? "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMapView&type=9991"
-                        : undefined,
                 API_SEARCH: document.getElementById("setting-urlSearch").value,
+                API_GEOREFERENCE_BASEURL: document.getElementById("setting-georefApi").value,
                 BASEMAPS: JSON.parse(
                     document.getElementById("setting-basemaps").value
                 ),
@@ -73,6 +69,7 @@
                 TERRAIN_TILES: JSON.parse(
                     document.getElementById("setting-terrain").value
                 ),
+                USER_ISAUTHENTICATED: document.getElementById("setting-is-auth") !== null
             });
 
             vk2.SettingsProvider.appendSettings({

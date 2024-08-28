@@ -4,7 +4,6 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import axios from "axios";
 import SettingsProvider from "../SettingsProvider";
 
 /**
@@ -22,14 +21,11 @@ import SettingsProvider from "../SettingsProvider";
  * }>}
  */
 export async function queryStatistics() {
-    const baseUrl = SettingsProvider.getSettings().API_GEOREFERENCE_STATISTICS;
-
-    if (baseUrl === undefined) {
-        throw new Error("The url for the statistics endpoint is not set.");
-    }
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
     // Build url and query it
-    const response = await axios.get(`${baseUrl}`);
+    const path = "/statistics/";
+    const response = await georeferenceApi.get(path);
 
     if (response.status === 200) {
         return response.data;
@@ -80,18 +76,15 @@ export async function queryStatistics() {
  * }>}
  */
 export async function queryTransformationForMapId(mapId) {
-    const baseUrl =
-        SettingsProvider.getSettings()
-            .API_GEOREFERENCE_TRANSFORMATION_FOR_MAPID;
-
-    if (baseUrl === undefined) {
-        throw new Error("The url for the transformation endpoint is not set.");
-    }
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
     // Build url and query it
-    const response = await axios.get(
-        `${baseUrl}&map_id=${mapId}&additional_properties=true`
-    );
+    const path = `/transformations/`;
+    const queryParams = {
+        map_id: mapId,
+        additional_properties: true,
+    };
+    const response = await georeferenceApi.get(path, { params: queryParams });
 
     if (response.status === 200) {
         return response.data;
@@ -135,16 +128,15 @@ export async function queryTransformationForMapId(mapId) {
  * }>}
  */
 export async function queryTransformationForUserId(userId) {
-    const baseUrl =
-        SettingsProvider.getSettings()
-            .API_GEOREFERENCE_TRANSFORMATION_FOR_USERID;
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
-    if (baseUrl === undefined) {
-        throw new Error("The url for the transformation endpoint is not set.");
-    }
+    const path = "/transformations/";
+    const queryParams = {
+        user_id: userId,
+    };
 
     // Build url and query it
-    const response = await axios.get(`${baseUrl}&user_id=${userId}`);
+    const response = await georeferenceApi.get(path, { params: queryParams });
 
     if (response.status === 200) {
         return response.data;
@@ -188,16 +180,15 @@ export async function queryTransformationForUserId(userId) {
  * }>}
  */
 export async function queryTransformationForValidation(validation) {
-    const baseUrl =
-        SettingsProvider.getSettings()
-            .API_GEOREFERENCE_TRANSFORMATION_FOR_VALIDATION;
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
-    if (baseUrl === undefined) {
-        throw new Error("The url for the transformation endpoint is not set.");
-    }
+    const path = "/transformations/";
+    const queryParams = {
+        validation,
+    };
 
     // Build url and query it
-    const response = await axios.get(`${baseUrl}&value=${validation}`);
+    const response = await georeferenceApi.get(path, { params: queryParams });
 
     if (response.status === 200) {
         return response.data;
@@ -221,22 +212,13 @@ export async function queryTransformationForValidation(validation) {
  * @returns {Promise<undefined|any>}
  */
 export async function postJob(params) {
-    const baseUrl = SettingsProvider.getSettings().API_GEOREFERENCE_JOB;
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
-    if (baseUrl === undefined) {
-        throw new Error("The url for the transformation endpoint is not set.");
-    }
-
-    // The TYPO3 proxy expects form data
-    const newForm = new FormData();
-    newForm.append("req", JSON.stringify(params));
+    const path = "/jobs/";
+    const payload = params;
 
     // Build url and query it
-    const response = await axios.post(`${baseUrl}`, newForm, {
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        },
-    });
+    const response = await georeferenceApi.post(path, payload);
 
     if (response.status === 200) {
         return response.data;
@@ -265,22 +247,17 @@ export async function postJob(params) {
  * @returns {Promise<undefined|any>}
  */
 export async function postTransformation(mapId, params) {
-    const baseUrl =
-        SettingsProvider.getSettings().API_GEOREFERENCE_TRANSFORMATION_CONFIRM;
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
-    if (baseUrl === undefined) {
-        throw new Error("The url for the transformation endpoint is not set.");
-    }
-
-    // The TYPO3 proxy expects form data
-    const newForm = new FormData();
-    newForm.append("req", JSON.stringify({ ...params, map_id: mapId }));
+    const path = "/transformations/";
+    const queryParams = {
+        dry_run: false,
+    };
+    const payload = { ...params, map_id: mapId };
 
     // Build url and query it
-    const response = await axios.post(`${baseUrl}?dry_run=false`, newForm, {
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        },
+    const response = await georeferenceApi.post(path, payload, {
+        params: queryParams,
     });
 
     if (response.status === 200) {
@@ -309,15 +286,10 @@ export async function postTransformation(mapId, params) {
  * @returns {Promise<undefined|any>}
  */
 export async function queryTransformationTry(mapId, params, clip) {
-    const baseUrl =
-        SettingsProvider.getSettings().API_GEOREFERENCE_TRANSFORMATION_CONFIRM;
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
-    if (baseUrl === undefined) {
-        throw new Error("The url for the transformation endpoint is not set.");
-    }
-
-    // The TYPO3 proxy expects form data
-    const pureRequest = Object.assign(
+    const path = "/transformations/";
+    const payload = Object.assign(
         {
             map_id: mapId,
             params: params,
@@ -325,15 +297,13 @@ export async function queryTransformationTry(mapId, params, clip) {
         },
         clip !== undefined ? { clip: clip } : {}
     );
-
-    const newForm = new FormData();
-    newForm.append("req", JSON.stringify(pureRequest));
+    const queryParams = {
+        dry_run: true,
+    };
 
     // Build url and query it
-    const response = await axios.post(`${baseUrl}&dry_run=true`, newForm, {
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        },
+    const response = await georeferenceApi.post(path, payload, {
+        params: queryParams,
     });
 
     if (response.status === 200) {
@@ -347,25 +317,18 @@ export async function queryTransformationTry(mapId, params, clip) {
 }
 
 export async function queryTransformationPreview(transformationId) {
-    const baseUrl =
-        SettingsProvider.getSettings().API_GEOREFERENCE_TRANSFORMATION_CONFIRM;
-    if (baseUrl === undefined) {
-        throw new Error("The url for the transformation endpoint is not set.");
-    }
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
-    // The TYPO3 proxy expects form data
-    const pureRequest = {
+    const path = "/transformations/";
+    const payload = {
         transformation_id: transformationId,
     };
-
-    const newForm = new FormData();
-    newForm.append("req", JSON.stringify(pureRequest));
-
+    const queryParams = {
+        dry_run: true,
+    };
     // Build url and query it
-    const response = await axios.post(`${baseUrl}&dry_run=true`, newForm, {
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        },
+    const response = await georeferenceApi.post(path, payload, {
+        params: queryParams,
     });
 
     if (response.status === 200) {
@@ -401,15 +364,11 @@ export async function queryTransformationPreview(transformationId) {
  * }>}
  */
 export async function queryUserHistory() {
-    const baseUrl =
-        SettingsProvider.getSettings().API_GEOREFERENCE_USER_HISTORY;
-
-    if (baseUrl === undefined) {
-        throw new Error("The url for the user history endpoint is not set.");
-    }
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
     // Build url and query it
-    const response = await axios.get(`${baseUrl}`);
+    const path = "/user/history/";
+    const response = await georeferenceApi.get(path);
 
     if (response.status === 200) {
         return response.data;

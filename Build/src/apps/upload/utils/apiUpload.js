@@ -4,7 +4,6 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import axios from "axios";
 import SettingsProvider from "../../../SettingsProvider.js";
 import { getDefaultMapMetadata } from "./defaultMapMetaData.js";
 import { Response } from "./util.js";
@@ -58,16 +57,11 @@ function cleanClientMetadata(newMapMetadata) {
  */
 export async function deleteMapForMapId(mapId) {
     try {
-        const baseUrl = SettingsProvider.getSettings().API_GEOREFERENCE_MAP;
-
-        if (baseUrl === undefined) {
-            throw new Error("The url for the map upload endpoint is not set.");
-        }
+        const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
         // Build url and query it
-        const options = { withCredentials: true };
-        const url = `${baseUrl}/maps/${mapId}`;
-        await axios.delete(url, options);
+        const path = `/maps/${mapId}`;
+        await georeferenceApi.delete(path);
 
         return Response.ok(true);
     } catch (error) {
@@ -84,16 +78,11 @@ export async function deleteMapForMapId(mapId) {
  */
 export async function readMapForMapId(mapId) {
     try {
-        const baseUrl = SettingsProvider.getSettings().API_GEOREFERENCE_MAP;
-
-        if (baseUrl === undefined) {
-            throw new Error("The url for the map upload endpoint is not set.");
-        }
+        const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
         // Build url and query it
-        const options = { withCredentials: true };
-        const url = `${baseUrl}/maps/${mapId}`;
-        const response = await axios.get(url, options);
+        const path = `/maps/${mapId}`;
+        const response = await georeferenceApi.get(path);
 
         // TODO check if this is still a realistic error scenario
         if (response.data.map_id !== mapId) {
@@ -115,11 +104,7 @@ export async function readMapForMapId(mapId) {
 
 export async function createNewMap(mapMetadata, mapImageFile) {
     try {
-        const baseUrl = SettingsProvider.getSettings().API_GEOREFERENCE_MAP;
-
-        if (baseUrl === undefined) {
-            throw new Error("The url for the map upload endpoint is not set.");
-        }
+        const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
         // Create FormData
         const formData = new FormData();
@@ -139,13 +124,12 @@ export async function createNewMap(mapMetadata, mapImageFile) {
 
         // Build url and query it
         const options = {
-            withCredentials: true,
             headers: {
                 "Content-Type": "multipart/form-data",
             },
         };
-        const url = `${baseUrl}/maps/`;
-        const response = await axios.post(url, formData, options);
+        const path = "/maps/";
+        const response = await georeferenceApi.post(path, formData, options);
         const coercedMapId = "" + response.data.map_id;
 
         return Response.ok(coercedMapId);
@@ -160,11 +144,7 @@ export async function createNewMap(mapMetadata, mapImageFile) {
 
 export async function updateMap(mapId, mapMetadata, mapImageFile) {
     try {
-        const baseUrl = SettingsProvider.getSettings().API_GEOREFERENCE_MAP;
-
-        if (baseUrl === undefined) {
-            throw new Error("The url for the map upload endpoint is not set.");
-        }
+        const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
         // Create FormData
         const formData = new FormData();
@@ -182,13 +162,12 @@ export async function updateMap(mapId, mapMetadata, mapImageFile) {
 
         // Build url and query it
         const options = {
-            withCredentials: true,
             headers: {
                 "Content-Type": "multipart/form-data",
             },
         };
-        const url = `${baseUrl}/maps/${mapId}`;
-        const response = await axios.post(url, formData, options);
+        const path = `/maps/${mapId}`;
+        const response = await georeferenceApi.post(path, formData, options);
 
         return Response.ok(response.data.map_id);
     } catch (error) {
