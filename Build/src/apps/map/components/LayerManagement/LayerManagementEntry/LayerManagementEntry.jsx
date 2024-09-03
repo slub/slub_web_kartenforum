@@ -32,6 +32,7 @@ import GeoJsonLayer from "../../CustomLayers/GeoJsonLayer.js";
 import DragButton from "./components/DragButton/DragButton.jsx";
 import "./LayerManagementEntry.scss";
 import VisibilityButton from "./components/VisibilityButton/VisibilityButton.jsx";
+import RemoveLayerButton from "./components/RemoveLayerButton.jsx";
 
 export const ItemTypes = {
   LAYER: "LAYER",
@@ -42,14 +43,11 @@ export const LayerManagementEntry = (props) => {
   const [entered, setEntered] = useState(false);
   const [isSliding, setIsSliding] = useState(false);
   const [isShowActions, setShowActions] = useState(false);
-
   const [isHovered, setIsHovered] = useState(false);
   const map = useRecoilValue(mapState);
   const olcsMap = useRecoilValue(olcsMapState);
   const ref = useRef(null);
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
-    selectedFeaturesState
-  );
+  const [selectedFeatures] = useRecoilState(selectedFeaturesState);
   const setSelectedOriginalMapId = useSetRecoilState(
     selectedOriginalMapIdState
   );
@@ -156,20 +154,6 @@ export const LayerManagementEntry = (props) => {
     map.removeLayer(layer);
     map.addLayer(layer);
     event.stopPropagation();
-    if (olcsMap !== undefined) {
-      olcsMap.getAutoRenderLoop().restartRenderLoop();
-    }
-  };
-
-  // Remove layer from layer stack
-  const handleRemoveLayer = (event) => {
-    map.removeLayer(layer);
-    event.stopPropagation();
-
-    setSelectedFeatures(
-      selectedFeatures.filter(({ feature }) => feature.getId() !== layerId)
-    );
-
     if (olcsMap !== undefined) {
       olcsMap.getAutoRenderLoop().restartRenderLoop();
     }
@@ -292,14 +276,7 @@ export const LayerManagementEntry = (props) => {
         >
           <SvgIcons name="layeraction-totop" />
         </button>
-        <button
-          className="remove-layer minimize-tool"
-          onClick={handleRemoveLayer}
-          type="button"
-          title={translate("layermanagement-remove-map")}
-        >
-          <SvgIcons name="layeraction-remove-map" />
-        </button>
+        <RemoveLayerButton layer={layer} />
         <button
           className="zoom-layer minimize-tool"
           onClick={handleZoomToExtent}

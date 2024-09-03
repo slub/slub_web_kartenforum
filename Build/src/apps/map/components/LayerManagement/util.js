@@ -14,13 +14,16 @@ export const getLayers = (map) => {
     );
 };
 
-export const removeLayer = (map, feature) => {
+export const removeLayerForFeature = (map, feature) => {
     const sourceId = getSourceIdForFeature(feature);
-    const layerId = `${sourceId}-layer`;
 
-    if (map.getLayer(layerId)) map.removeLayer(layerId);
+    removeLayer(map, sourceId);
+};
 
-    if (map.getSource(sourceId)) map.removeSource(sourceId);
+export const removeLayer = (map, id) => {
+    if (map.getLayer(id)) map.removeLayer(id);
+
+    if (map.getSource(id)) map.removeSource(id);
 };
 
 export const getIndexToLayer = (map, layer) => {

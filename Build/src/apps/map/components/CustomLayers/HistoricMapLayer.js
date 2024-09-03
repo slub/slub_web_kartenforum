@@ -37,14 +37,13 @@ export const addHistoricMapLayer = (settings, map) => {
             : settings.wms_settings;
 
     const sourceId = settings.sourceId;
-    const layerId = `${sourceId}-layer`;
 
     map.addSource(sourceId, {
         type: "raster",
         ...sourceSettings,
         bounds: settings.clip?.getExtent(),
     });
-    map.addLayer({ id: layerId, type: "raster", metadata, source: sourceId });
+    map.addLayer({ id: sourceId, type: "raster", metadata, source: sourceId });
 };
 
 /**

@@ -38,7 +38,6 @@ export const VisibilityButton = (props) => {
 
   // Update visibility from layer if it is different from the internal state
   const handleUpdateVisibility = ({ layerId, value }) => {
-    console.log("handleUpdateVisibility", layerId, value, layer.id);
     if (layerId === layer.id) {
       setIsVisible(value === "visible" ? true : false);
     }
@@ -53,8 +52,6 @@ export const VisibilityButton = (props) => {
       };
     }
   }, [map]);
-
-  console.log(isVisible);
 
   return (
     <button
