@@ -4,17 +4,23 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
+import { getSourceIdForFeature } from "../CustomLayers/HistoricMapLayer.js";
 
 export const getLayers = (map) => {
-    const layers = map.getLayers();
-    const allLayers = layers.getArray();
-    const l = [];
-    allLayers.forEach((layer) => {
-        if (layer.allowUseInLayerManagement) {
-            l.push(layer);
-        }
-    });
-    return l;
+    const layers = map.getStyle().layers;
+
+    return layers.filter(
+        (layer) => layer?.metadata?.["vkf:allowUseInLayerManagement"]
+    );
+};
+
+export const removeLayer = (map, feature) => {
+    const sourceId = getSourceIdForFeature(feature);
+    const layerId = `${sourceId}-layer`;
+
+    if (map.getLayer(layerId)) map.removeLayer(layerId);
+
+    if (map.getSource(sourceId)) map.removeSource(sourceId);
 };
 
 export const getIndexToLayer = (map, layer) => {

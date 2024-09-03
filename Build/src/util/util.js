@@ -99,5 +99,5 @@ export const getDefaultControls = (params) => {
         );
     }
 
-    return defaultControls;
+    return [];
 };

@@ -73,14 +73,9 @@ export const PaginatingDataController = ({
       const sortOrd_ = sortOrder === "ascending" ? "asc" : "desc";
 
       // build response with bbox filter
-      const transformedExtent = transformExtent(
-        extent,
-        projection,
-        elasticsearch_srs
-      );
       const envelope = limitExtent([
-        [transformedExtent[0], transformedExtent[3]],
-        [transformedExtent[2], transformedExtent[1]],
+        [extent[0], extent[3]],
+        [extent[2], extent[1]],
       ]);
 
       return getSpatialQuery(
@@ -105,7 +100,7 @@ export const PaginatingDataController = ({
         return new Promise((res) => res([]));
       }
       // build elasticsearch request
-      const requestPayload = createSearchRequest(mapView, projection);
+      const requestPayload = createSearchRequest(mapView, "ESPG:4326");
       const requestUrl =
         elasticsearch_node + "/_search?from=" + start + "&size=" + size;
 
@@ -122,7 +117,7 @@ export const PaginatingDataController = ({
               : readFeatures(
                   data["hits"]["hits"],
                   elasticsearch_srs,
-                  projection,
+                  "ESPG:4326",
                   is3dEnabled
                 );
           }
@@ -163,8 +158,8 @@ export const PaginatingDataController = ({
       );
 
       // get equivalent coordinates
-      const llc = map.getCoordinateFromPixel(bottomLeftPixel);
-      const urc = map.getCoordinateFromPixel(topRightPixel);
+      const llc = map.unproject(bottomLeftPixel).toArray();
+      const urc = map.unproject(topRightPixel).toArray();
 
       // if the map is for whatever reason not available, just skip the update and try again later
       if (llc === null || urc === null) {
@@ -188,7 +183,7 @@ export const PaginatingDataController = ({
     if (isDefined(map)) {
       map.on("moveend", handleUpdateMapView);
       return () => {
-        map.un("moveend", handleUpdateMapView);
+        map.off("moveend", handleUpdateMapView);
       };
     }
   }, [map, handleUpdateMapView]);

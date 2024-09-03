@@ -12,7 +12,7 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { defaults, DragRotate } from "ol/interaction";
 import { shiftKeyOnly } from "ol/events/condition";
-import OLCesium from "olcs/OLCesium";
+import { Map as MaplibreMap } from "maplibre-gl";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import olcsCore from "olcs/core";
 import clsx from "clsx";
@@ -50,6 +50,9 @@ import { notificationState } from "../../../../atoms/atoms";
 import "./MapWrapper.scss";
 import SettingsProvider from "../../../../SettingsProvider.js";
 
+const style =
+  "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json";
+
 export function MapWrapper(props) {
   const {
     baseMapUrl,
@@ -59,7 +62,7 @@ export function MapWrapper(props) {
     enableTerrain,
     layout,
     mapViewSettings = {
-      center: [1528150, 6630500],
+      center: [13.5981217, 59.562795],
       projection: "EPSG:3857",
       zoom: 2,
     },
@@ -168,39 +171,40 @@ export function MapWrapper(props) {
     }
   };
 
+  //@TODO: Handle map click for geojson feature
   // open overlay on map click and supply it with the first feature under the cursor
-  const handleMapClick = useCallback(
-    (e) => {
-      const pixel = e.pixel;
-
-      let newSelectedFeature;
-
-      // handle selection process depending on viewmode
-      if (!is3dActive) {
-        // use ol api for 2d
-        newSelectedFeature = map.forEachFeatureAtPixel(
-          pixel,
-          (feature) => feature
-        );
-      } else {
-        // use cesium api for 3d
-        const pickedFeature = olcsMapRef.current
-          .getCesiumScene()
-          .pick(new Cesium.Cartesian2(pixel[0], pixel[1]));
-
-        if (pickedFeature !== undefined)
-          newSelectedFeature = pickedFeature.primitive.olFeature;
-      }
-
-      if (isDefined(newSelectedFeature)) {
-        setSelectedGeoJsonFeature(newSelectedFeature);
-      } else {
-        // hide overlay
-        setSelectedGeoJsonFeature(null);
-      }
-    },
-    [is3dActive, map]
-  );
+  // const handleMapClick = useCallback(
+  //   (e) => {
+  //     const pixel = e.pixel;
+  //
+  //     let newSelectedFeature;
+  //
+  //     // handle selection process depending on viewmode
+  //     if (!is3dActive) {
+  //       // use ol api for 2d
+  //       newSelectedFeature = map.forEachFeatureAtPixel(
+  //         pixel,
+  //         (feature) => feature
+  //       );
+  //     } else {
+  //       // use cesium api for 3d
+  //       const pickedFeature = olcsMapRef.current
+  //         .getCesiumScene()
+  //         .pick(new Cesium.Cartesian2(pixel[0], pixel[1]));
+  //
+  //       if (pickedFeature !== undefined)
+  //         newSelectedFeature = pickedFeature.primitive.olFeature;
+  //     }
+  //
+  //     if (isDefined(newSelectedFeature)) {
+  //       setSelectedGeoJsonFeature(newSelectedFeature);
+  //     } else {
+  //       // hide overlay
+  //       setSelectedGeoJsonFeature(null);
+  //     }
+  //   },
+  //   [is3dActive, map]
+  // );
 
   ////
   // Effect section
@@ -208,81 +212,16 @@ export function MapWrapper(props) {
 
   // initialize map on first render - logic formerly put into componentDidMount
   useEffect(() => {
-    const view = new View(mapViewSettings);
-
-    // create and add vector source layer
-    const initalFeaturesLayer = new VectorLayer({
-      source: new VectorSource(),
+    const initialMap = new MaplibreMap({
+      container: mapElement.current,
+      center: mapViewSettings.center,
+      zoom: mapViewSettings.zoom,
+      style,
     });
 
-    const interactions = defaults({ shiftDragZoom: false });
-    interactions.extend([new DragRotate({ condition: shiftKeyOnly })]);
-
-    // create map
-    const initialMap = new Map({
-      controls: [],
-      layers: [createBaseMapLayer(initialBasemap), initalFeaturesLayer],
-      interactions,
-      renderer: "canvas",
-      target: mapElement.current,
-      view,
-    });
     setMap(initialMap);
 
     if (enable3d && enableTerrain) {
-      //
-      // Some code regarding the 3d capabilities is based on the work of https://github.com/geoadmin/mf-geoadmin3
-      //
-
-      //// initialize the globe
-      const ol3d = new OLCesium({
-        createSynchronizers: (map, scene) => [
-          new RasterSynchronizer(map, scene),
-          new VectorSynchronizer(map, scene, new customFeatureConverter(scene)),
-          new OverlaySynchronizer(map, scene),
-        ],
-        map: initialMap,
-        sceneOptions: {
-          scene3DOnly: true,
-        },
-      });
-
-      // hide cesium ion credits - because ion services are not used
-      ol3d.getCesiumScene()._creditContainer.style.display = "none";
-
-      // update terrain Exaggeration
-      ol3d.getCesiumScene().globe.terrainExaggeration = 3.0;
-
-      ol3d.enableAutoRenderLoop();
-
-      // initialize a terrain map
-      const scene = ol3d.getCesiumScene();
-
-      // initialize and load the terrain provider
-      if (terrainTilesService.type === "cesium") {
-        Cesium.Ion.defaultAccessToken = terrainTilesService.token;
-      }
-
-      scene.terrainProvider = new Cesium.CesiumTerrainProvider({
-        url:
-          terrainTilesService.type === "cesium"
-            ? Cesium.IonResource.fromAssetId(terrainTilesService.asset)
-            : terrainTilesService.url,
-        requestVertexNormals: true,
-      });
-
-      setOptimizedCesiumSettings(scene);
-      // setShadowsActivated(scene);
-
-      scene.postRender.addEventListener(generateLimitCamera(mapViewSettings));
-
-      setOlcsMap(ol3d);
-      olcsMapRef.current = ol3d;
-
-      // preload 3d mode in order to improve start up time
-      if (SettingsProvider.getIsTilePreloadingEnabled()) {
-        ol3d.warmUp(ol3d.getCamera().getAltitude(), 5000);
-      }
     }
   }, []);
 
@@ -301,15 +240,15 @@ export function MapWrapper(props) {
           const prom =
             type === LAYER_TYPES.GEOJSON
               ? new Promise((resolve) => resolve(new GeoJsonLayer({ feature })))
-              : createHistoricMapForFeature(feature);
+              : createHistoricMapForFeature(feature, map);
 
-          prom.then((layer) => {
-            layer.allowUseInLayerManagement = true;
-
-            layer.setOpacity(opacity);
-            layer.setVisible(isVisible);
-            map.addLayer(layer);
-          });
+          // prom.then((layer) => {
+          //   layer.allowUseInLayerManagement = true;
+          //
+          //   layer.setOpacity(opacity);
+          //   layer.setVisible(isVisible);
+          //   map.addLayer(layer);
+          // });
           selectedFeature.displayedInMap = true;
         } catch (e) {
           // there was an error mounting the layer => remove the selected feature and display an errror message
@@ -329,128 +268,129 @@ export function MapWrapper(props) {
     });
   }, [selectedFeatures]);
 
-  useEffect(() => {
-    if (isDefined(controlsRef.current)) {
-      controlsRef.current.forEach((control) => {
-        const updateFn = control.handleExternal3dStateUpdate;
-        if (updateFn !== undefined) {
-          updateFn(is3dActive);
-        }
-      });
-    }
-  }, [is3dActive]);
+  // useEffect(() => {
+  //   if (isDefined(controlsRef.current)) {
+  //     controlsRef.current.forEach((control) => {
+  //       const updateFn = control.handleExternal3dStateUpdate;
+  //       if (updateFn !== undefined) {
+  //         updateFn(is3dActive);
+  //       }
+  //     });
+  //   }
+  // }, [is3dActive]);
 
   // update the basemap selector state externally
-  useEffect(() => {
-    if (isDefined(controlsRef.current) && isDefined(map)) {
-      controlsRef.current.forEach((control) => {
-        const updateFn = control.handleExternalBasemapUpdate;
-        if (updateFn !== undefined) {
-          updateFn(activeBasemapId);
-        }
-      });
-    }
-  }, [activeBasemapId, map]);
+  // useEffect(() => {
+  //   if (isDefined(controlsRef.current) && isDefined(map)) {
+  //     controlsRef.current.forEach((control) => {
+  //       const updateFn = control.handleExternalBasemapUpdate;
+  //       if (updateFn !== undefined) {
+  //         updateFn(activeBasemapId);
+  //       }
+  //     });
+  //   }
+  // }, [activeBasemapId, map]);
 
+  // @TODO: Reenable controls
   // update controls on layout change
-  useEffect(() => {
-    // only add new controls if the first time there is an activeBasemapId available and if the layout changes
-    if (isDefined(map)) {
-      if (isDefined(controlsRef.current)) {
-        controlsRef.current.forEach((control) => {
-          map.removeControl(control);
-        });
-      }
-
-      const newControls = getDefaultControls({
-        is3dActive,
-        layout,
-        basemapSelectorProps: {
-          onBasemapChange: handleBasemapChange,
-          onSetNotification: setNotification,
-        },
-        onViewModeChange: handleChangeViewMode,
-        permalinkProps: {
-          camera: olcsMapRef.current?.getCesiumScene().camera,
-          refActiveBasemapId: unsafe_refBasemapId,
-          refApplicationStateUpdater: unsafe_refApplicationStateUpdater,
-          refSelectedFeatures: unsafe_refSelectedFeatures,
-        },
-        refSpyLayer: unsafe_refSpyLayer,
-      });
-
-      newControls.forEach((control) => {
-        map.addControl(control);
-
-        // handle external state updates
-        let updateFn = control.handleExternalBasemapUpdate;
-        if (updateFn !== undefined) {
-          updateFn(activeBasemapId);
-        }
-
-        updateFn = control.handleExternal3dStateUpdate;
-        if (updateFn !== undefined) {
-          updateFn(is3dActive);
-        }
-      });
-
-      controlsRef.current = newControls;
-    }
-  }, [layout, map]);
+  // useEffect(() => {
+  //   // only add new controls if the first time there is an activeBasemapId available and if the layout changes
+  //   if (isDefined(map)) {
+  //     if (isDefined(controlsRef.current)) {
+  //       controlsRef.current.forEach((control) => {
+  //         map.removeControl(control);
+  //       });
+  //     }
+  //
+  //     const newControls = getDefaultControls({
+  //       is3dActive,
+  //       layout,
+  //       basemapSelectorProps: {
+  //         onBasemapChange: handleBasemapChange,
+  //         onSetNotification: setNotification,
+  //       },
+  //       onViewModeChange: handleChangeViewMode,
+  //       permalinkProps: {
+  //         camera: olcsMapRef.current?.getCesiumScene().camera,
+  //         refActiveBasemapId: unsafe_refBasemapId,
+  //         refApplicationStateUpdater: unsafe_refApplicationStateUpdater,
+  //         refSelectedFeatures: unsafe_refSelectedFeatures,
+  //       },
+  //       refSpyLayer: unsafe_refSpyLayer,
+  //     });
+  //
+  //     newControls.forEach((control) => {
+  //       map.addControl(control);
+  //
+  //       // handle external state updates
+  //       let updateFn = control.handleExternalBasemapUpdate;
+  //       if (updateFn !== undefined) {
+  //         updateFn(activeBasemapId);
+  //       }
+  //
+  //       updateFn = control.handleExternal3dStateUpdate;
+  //       if (updateFn !== undefined) {
+  //         updateFn(is3dActive);
+  //       }
+  //     });
+  //
+  //     controlsRef.current = newControls;
+  //   }
+  // }, [layout, map]);
 
   // fit map to viewport after resize (e.g switch from landscape to portrait mode)
-  useEffect(() => {
-    if (map !== undefined) {
-      const timeout = setTimeout(() => {
-        map.updateSize();
-      }, 200);
-      return () => {
-        clearTimeout(timeout);
-      };
-    }
-  }, [map, width]);
+  // useEffect(() => {
+  //   if (map !== undefined) {
+  //     const timeout = setTimeout(() => {
+  //       map.updateSize();
+  //     }, 200);
+  //     return () => {
+  //       clearTimeout(timeout);
+  //     };
+  //   }
+  // }, [map, width]);
 
   // bind click handler to map
-  useEffect(() => {
-    if (
-      map !== undefined &&
-      layout === LAYOUT_TYPES.HORIZONTAL &&
-      !disableClickHandler
-    ) {
-      map.on("click", handleMapClick);
-
-      return () => {
-        map.un("click", handleMapClick);
-      };
-    }
-  }, [handleMapClick, layout, map]);
+  // useEffect(() => {
+  //   if (
+  //     map !== undefined &&
+  //     layout === LAYOUT_TYPES.HORIZONTAL &&
+  //     !disableClickHandler
+  //   ) {
+  //     map.on("click", handleMapClick);
+  //
+  //     return () => {
+  //       map.un("click", handleMapClick);
+  //     };
+  //   }
+  // }, [handleMapClick, layout, map]);
 
   ////
   // Sync state with refs in order for the controls to get the state updates
   ////
 
-  useEffect(() => {
-    // clear collection
-    unsafe_refSelectedFeatures.current.clear();
-    // add in selected features
-    unsafe_refSelectedFeatures.current.extend(selectedFeatures);
-    // mark as changed
-    unsafe_refSelectedFeatures.current.changed();
-  }, [selectedFeatures]);
+  // useEffect(() => {
+  //   // clear collection
+  //   unsafe_refSelectedFeatures.current.clear();
+  //   // add in selected features
+  //   unsafe_refSelectedFeatures.current.extend(selectedFeatures);
+  //   // mark as changed
+  //   unsafe_refSelectedFeatures.current.changed();
+  // }, [selectedFeatures]);
 
-  useEffect(() => {
-    if (map !== undefined && unsafe_refSpyLayer.current !== undefined) {
-      unsafe_refSpyLayer.current.changeLayer(createBaseMapLayer(activeBasemap));
-    }
-  }, [activeBasemap, map]);
+  // useEffect(() => {
+  //   if (map !== undefined && unsafe_refSpyLayer.current !== undefined) {
+  //     unsafe_refSpyLayer.current.changeLayer(createBaseMapLayer(activeBasemap));
+  //   }
+  // }, [activeBasemap, map]);
 
-  useEffect(() => {
-    unsafe_refApplicationStateUpdater.current = localStorageWriter;
-  }, [localStorageWriter]);
-
-  useEffect(() => {
-    unsafe_refBasemapId.current = activeBasemapId;
-  }, [activeBasemapId]);
+  // useEffect(() => {
+  //   unsafe_refApplicationStateUpdater.current = localStorageWriter;
+  // }, [localStorageWriter]);
+  //
+  // useEffect(() => {
+  //   unsafe_refBasemapId.current = activeBasemapId;
+  // }, [activeBasemapId]);
 
   return (
     <div className="map-container">

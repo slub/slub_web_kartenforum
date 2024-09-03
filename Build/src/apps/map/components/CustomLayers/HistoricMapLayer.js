@@ -11,6 +11,41 @@ import TileWMS from "ol/source/TileWMS";
 import { inherits, isDefined } from "../../../../util/util";
 import { LAYER_TYPES } from "./LayerTypes";
 
+export const getSourceIdForFeature = (feature) => {
+    return feature.getId() ?? feature.get("title");
+};
+
+export const addHistoricMapLayer = (settings, map) => {
+    const metadata = {
+        "vkf:id": isDefined(settings.id) ? settings.id : undefined,
+        "vkf:time_published": settings.time_published,
+        "vkf:title": isDefined(settings.title) ? settings.title : undefined,
+        "vkf:thumb_url": settings.thumb_url,
+        "vkf:allowUseInLayerManagement": true,
+    };
+
+    const sourceSettings =
+        settings.tms_urls !== undefined
+            ? {
+                  maxzoom: settings.maxZoom,
+                  tiles: settings.tms_urls.map(
+                      (url) => `${url}/{z}/{x}/{y}.png`
+                  ),
+                  scheme: "tms",
+              }
+            : settings.wms_settings;
+
+    const sourceId = settings.sourceId;
+    const layerId = `${sourceId}-layer`;
+
+    map.addSource(sourceId, {
+        type: "raster",
+        ...sourceSettings,
+        bounds: settings.clip?.getExtent(),
+    });
+    map.addLayer({ id: layerId, type: "raster", metadata, source: sourceId });
+};
+
 /**
  * Wrapper class / function representing a HistoricMap layer based on the tms protocol.
  *

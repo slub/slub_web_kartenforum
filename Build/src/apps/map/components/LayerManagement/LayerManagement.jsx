@@ -60,46 +60,48 @@ export const LayerManagement = ({
     }
   }, [map]);
 
+  // @TODO: Port to maplibre
   // Handles drag and drop moves
   const handleMoveLayer = (dragIndex, hoverIndex) => {
     // block all but the last refresh
-    refBlockRefresh.current = true;
-    const layers = map.getLayers();
-
-    const bigIndex = dragIndex > hoverIndex ? dragIndex : hoverIndex;
-    const smallIndex = dragIndex < hoverIndex ? dragIndex : hoverIndex;
-
-    const layerA = layers.item(bigIndex);
-    const layerB = layers.item(smallIndex);
-
-    layers.removeAt(bigIndex);
-    layers.removeAt(smallIndex);
-
-    layers.insertAt(smallIndex, layerA);
-    refBlockRefresh.current = false;
-    layers.insertAt(bigIndex, layerB);
+    // refBlockRefresh.current = true;
+    // const layers = map.getLayers();
+    //
+    // const bigIndex = dragIndex > hoverIndex ? dragIndex : hoverIndex;
+    // const smallIndex = dragIndex < hoverIndex ? dragIndex : hoverIndex;
+    //
+    // const layerA = layers.item(bigIndex);
+    // const layerB = layers.item(smallIndex);
+    //
+    // layers.removeAt(bigIndex);
+    // layers.removeAt(smallIndex);
+    //
+    // layers.insertAt(smallIndex, layerA);
+    // refBlockRefresh.current = false;
+    // layers.insertAt(bigIndex, layerB);
   };
 
   ////
   // Effect section
   ////
 
+  // @TODO: Port to maplibre
   // bind event handlers to layer container of the map
-  useEffect(() => {
-    if (map !== undefined) {
-      // set layers initially
-      handleRefresh();
-
-      // afterwards bind event handlers
-      const layers = map.getLayers();
-      layers.on("add", handleRefresh);
-      layers.on("remove", handleRefresh);
-      return () => {
-        layers.un("add", handleRefresh);
-        layers.un("remove", handleRefresh);
-      };
-    }
-  }, [map, handleRefresh]);
+  // useEffect(() => {
+  //   if (map !== undefined) {
+  //     // set layers initially
+  //     handleRefresh();
+  //
+  //     // afterwards bind event handlers
+  //     const layers = map.getLayers();
+  //     layers.on("add", handleRefresh);
+  //     layers.on("remove", handleRefresh);
+  //     return () => {
+  //       layers.un("add", handleRefresh);
+  //       layers.un("remove", handleRefresh);
+  //     };
+  //   }
+  // }, [map, handleRefresh]);
 
   return (
     <div className="vkf-layermanagement-root" ref={refLayermanagement}>

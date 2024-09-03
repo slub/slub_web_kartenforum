@@ -10,6 +10,7 @@ import { LAYER_TYPES } from "../../../CustomLayers/LayerTypes.js";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { mapState, selectedFeaturesState } from "../../../../atoms/atoms.js";
 import MapSearchListElementWithGeometryPreview from "./MapSearchListElementWithGeometryPreview.jsx";
+import { getLayers, removeLayer } from "../../../LayerManagement/util.js";
 
 export const MapSearchListElement = (props) => {
   const map = useRecoilValue(mapState);
@@ -39,15 +40,7 @@ export const MapSearchListElement = (props) => {
       );
 
       // remove map layer
-      const layers = map
-        .getLayers()
-        .getArray()
-        .filter((lay) => lay.allowUseInLayerManagement);
-      const layer = layers.find((layer) => {
-        return layer.getId() === feature.get("id");
-      });
-
-      map.removeLayer(layer);
+      removeLayer(map, feature);
     } else {
       setSelectedFeatures((selectedFeatures) => [
         ...selectedFeatures,

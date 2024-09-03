@@ -70,18 +70,20 @@ export const MapSearchResultListBase = ({
         const size = stopIndex - startIndex + 1;
 
         return onFetchResults(startIndex, size).then((res) => {
-          setItems((oldItems) => {
-            const newItems = refClearResults.current
-              ? {}
-              : Object.assign({}, oldItems);
+          if (res) {
+            setItems((oldItems) => {
+              const newItems = refClearResults.current
+                ? {}
+                : Object.assign({}, oldItems);
 
-            refClearResults.current = false;
+              refClearResults.current = false;
 
-            res.forEach((map, index) => {
-              newItems[startIndex + index] = map;
+              res.forEach((map, index) => {
+                newItems[startIndex + index] = map;
+              });
+              return newItems;
             });
-            return newItems;
-          });
+          }
         });
       }
     },

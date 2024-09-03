@@ -50,21 +50,22 @@ export const MapSearchOverlayLayer = () => {
   // Effect section
   ////
 
+  // @TODO: Make work with maplibre gl
   // Add feature overlay layer shown on hover and the source for the backend fatches
-  useEffect(() => {
-    if (map !== undefined) {
-      const newMapOverlayLayer = new VectorLayer({
-        source: new VectorSource(),
-        style: function () {
-          return [MAP_SEARCH_HOVER_FEATURE];
-        },
-      });
-
-      map.addLayer(newMapOverlayLayer);
-
-      setMapOverlayLayer(newMapOverlayLayer);
-    }
-  }, [map]);
+  // useEffect(() => {
+  //   if (map !== undefined) {
+  //     const newMapOverlayLayer = new VectorLayer({
+  //       source: new VectorSource(),
+  //       style: function () {
+  //         return [MAP_SEARCH_HOVER_FEATURE];
+  //       },
+  //     });
+  //
+  //     map.addLayer(newMapOverlayLayer);
+  //
+  //     setMapOverlayLayer(newMapOverlayLayer);
+  //   }
+  // }, [map]);
 
   // Update featureOverlay on change of 3d state
   useEffect(() => {

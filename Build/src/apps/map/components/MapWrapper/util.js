@@ -3,7 +3,10 @@ import { containsXY } from "ol/extent";
 import axios from "axios";
 
 import SettingsProvider from "../../../../SettingsProvider";
-import HistoricMap from "../CustomLayers/HistoricMapLayer";
+import HistoricMap, {
+    addHistoricMapLayer,
+    getSourceIdForFeature,
+} from "../CustomLayers/HistoricMapLayer";
 import { UNIQUE_CONTROL_PANEL_CLASS } from "../Controls/BasemapSelectorControl.jsx";
 import GeoJsonLayer from "../CustomLayers/GeoJsonLayer.js";
 import { fetchAndParseWmsCapabilities } from "../BasemapSelector/util.js";
@@ -54,7 +57,7 @@ const fetchMaxZoomFromTileMapSource = async (url) => {
  * @return {vk2.layer.HistoricMap}
  * @private
  */
-export const createHistoricMapForFeature = async function (feature) {
+export const createHistoricMapForFeature = async function (feature, map) {
     const tms_urls = feature.get("tms_urls");
     const wms_capability_url = feature
         .get("online_resources")
@@ -79,6 +82,7 @@ export const createHistoricMapForFeature = async function (feature) {
                     ? "single_sheet"
                     : "mosaic"
                 : type,
+        sourceId: getSourceIdForFeature(feature),
     };
 
     if (isTmsDefined) {
@@ -88,20 +92,15 @@ export const createHistoricMapForFeature = async function (feature) {
             tms_urls,
             maxZoom,
         });
-        return new HistoricMap(historicMapSettings);
+        addHistoricMapLayer(historicMapSettings, map);
     } else {
         const layers = await fetchAndParseWmsCapabilities(wms_capability_url);
 
         const wms_settings = {
-            urls: layers[0].urls,
-            params: {
-                LAYERS: layers[0].layers,
-                VERSION: "1.1.1",
-            },
-            projection: DEFAULT_PROJ,
+            tiles: layers[0].urls,
         };
 
-        return new HistoricMap(Object.assign(baseSettings, { wms_settings }));
+        addHistoricMapLayer(Object.assign(baseSettings, { wms_settings }), map);
     }
 };
 
