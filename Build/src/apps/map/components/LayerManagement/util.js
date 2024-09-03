@@ -24,9 +24,8 @@ export const removeLayer = (map, feature) => {
 };
 
 export const getIndexToLayer = (map, layer) => {
-    const layers = map.getLayers();
-    const l = layers.getArray();
-    return l.findIndex((lay) => lay === layer);
+    const layers = getLayers(map);
+    return layers.findIndex((lay) => lay === layer);
 };
 
 /**

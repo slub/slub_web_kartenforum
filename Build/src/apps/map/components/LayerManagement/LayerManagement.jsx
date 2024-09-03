@@ -19,6 +19,7 @@ import { getIndexToLayer, getLayers } from "./util";
 import { useSetElementScreenSize } from "../../../../util/hooks.js";
 import GeoJsonUploadHint from "./GeoJsonUploadHint/GeoJsonUploadHint.jsx";
 import "./LayerManagement.scss";
+import CustomEvents from "../MapWrapper/customEvents.js";
 
 export const LayerManagement = ({
   onAddGeoJson,
@@ -52,8 +53,11 @@ export const LayerManagement = ({
 
   // Handles changes on the layer container of the map
   const handleRefresh = useCallback(() => {
+    console.log(refBlockRefresh.current, isDefined(map), map?.isStyleLoaded());
+
     if (!refBlockRefresh.current && isDefined(map)) {
       const newLayers = getLayers(map).reverse();
+      console.log(newLayers);
 
       setDisplayedLayers(newLayers);
       setDisplayedLayersCount(newLayers.length);
@@ -85,23 +89,29 @@ export const LayerManagement = ({
   // Effect section
   ////
 
-  // @TODO: Port to maplibre
   // bind event handlers to layer container of the map
-  // useEffect(() => {
-  //   if (map !== undefined) {
-  //     // set layers initially
-  //     handleRefresh();
-  //
-  //     // afterwards bind event handlers
-  //     const layers = map.getLayers();
-  //     layers.on("add", handleRefresh);
-  //     layers.on("remove", handleRefresh);
-  //     return () => {
-  //       layers.un("add", handleRefresh);
-  //       layers.un("remove", handleRefresh);
-  //     };
-  //   }
-  // }, [map, handleRefresh]);
+  useEffect(() => {
+    if (map !== undefined) {
+      const registerListeners = () => {
+        // set layers initially
+        handleRefresh();
+
+        // afterwards bind event handlers
+        map.on(CustomEvents.layerAdded, handleRefresh);
+        map.on(CustomEvents.layerRemoved, handleRefresh);
+      };
+
+      if (!map.isStyleLoaded()) {
+        map.on("load", registerListeners);
+      }
+
+      return () => {
+        map.off("load", registerListeners);
+        map.off(CustomEvents.layerAdded, handleRefresh);
+        map.off(CustomEvents.layerRemoved, handleRefresh);
+      };
+    }
+  }, [map, handleRefresh]);
 
   return (
     <div className="vkf-layermanagement-root" ref={refLayermanagement}>
@@ -132,7 +142,7 @@ export const LayerManagement = ({
           </li>
         ) : (
           displayedLayers.map((layer) => {
-            const layerId = layer.getId();
+            const layerId = layer.metadata?.["vkf:id"];
 
             return (
               <LayerManagementEntry

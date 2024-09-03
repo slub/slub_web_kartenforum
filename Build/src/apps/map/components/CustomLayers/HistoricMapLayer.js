@@ -22,6 +22,7 @@ export const addHistoricMapLayer = (settings, map) => {
         "vkf:title": isDefined(settings.title) ? settings.title : undefined,
         "vkf:thumb_url": settings.thumb_url,
         "vkf:allowUseInLayerManagement": true,
+        "vkf:type": settings.type,
     };
 
     const sourceSettings =

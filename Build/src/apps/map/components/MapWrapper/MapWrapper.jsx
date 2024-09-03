@@ -49,6 +49,8 @@ import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
 import { notificationState } from "../../../../atoms/atoms";
 import "./MapWrapper.scss";
 import SettingsProvider from "../../../../SettingsProvider.js";
+import CustomEvents from "./customEvents.js";
+import customEvents from "./customEvents.js";
 
 const style =
   "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json";
@@ -223,6 +225,57 @@ export function MapWrapper(props) {
 
     if (enable3d && enableTerrain) {
     }
+
+    const originalAddLayer = initialMap.addLayer;
+    const originalRemoveLayer = initialMap.removeLayer;
+    const originalSetPaintProperty = initialMap.setPaintProperty;
+
+    initialMap.addLayer = function (layer, before) {
+      // Call the original method
+      originalAddLayer.call(this, layer, before);
+
+      // Emit a custom event or trigger some action
+      this.fire(CustomEvents.layerAdded, { layerId: layer.id });
+    };
+
+    // Override the removeLayer method
+    initialMap.removeLayer = function (layerId) {
+      // Call the original method
+      originalRemoveLayer.call(this, layerId);
+
+      // Emit a custom event or trigger some action
+      this.fire(CustomEvents.layerRemoved, { layerId: layerId });
+    };
+
+    // Override setPaintProperty to listen for opacity changes
+    initialMap.setPaintProperty = function (layerId, property, value) {
+      // Call the original method
+      originalSetPaintProperty.call(this, layerId, property, value);
+
+      // Check if the property being changed is an opacity-related property
+      const opacityProperties = [
+        "fill-opacity",
+        "line-opacity",
+        "circle-opacity",
+        "icon-opacity",
+        "text-opacity",
+        "raster-opacity",
+      ];
+
+      if (opacityProperties.includes(property)) {
+        // Emit a custom event
+        this.fire(customEvents.opacityChanged, {
+          layerId: layerId,
+          property: property,
+          value: value,
+        });
+      }
+    };
+
+    return () => {
+      setMap(undefined);
+      initialMap.remove();
+    };
   }, []);
 
   useEffect(() => {

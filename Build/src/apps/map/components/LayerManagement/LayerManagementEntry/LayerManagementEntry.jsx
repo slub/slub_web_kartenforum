@@ -41,7 +41,11 @@ export const LayerManagementEntry = (props) => {
   const [entered, setEntered] = useState(false);
   const [isSliding, setIsSliding] = useState(false);
   const [isShowActions, setShowActions] = useState(false);
-  const [isVisible, setIsVisible] = useState(layer["getVisible"]());
+  const [isVisible, setIsVisible] = useState(
+    layer?.layout?.visibility === undefined
+      ? true
+      : layer.layout.visibility === "visible"
+  );
   const [isHovered, setIsHovered] = useState(false);
   const map = useRecoilValue(mapState);
   const olcsMap = useRecoilValue(olcsMapState);
@@ -52,7 +56,7 @@ export const LayerManagementEntry = (props) => {
   const setSelectedOriginalMapId = useSetRecoilState(
     selectedOriginalMapIdState
   );
-  const [src, setSrc] = useState(layer.getThumbnail());
+  const [src, setSrc] = useState(layer.metadata["vkf:thumb_url"]);
   const settings = SettingsProvider.getSettings();
 
   // drag/drop handlers from: https://react-dnd.github.io/react-dnd/examples/sortable/simple
@@ -128,7 +132,7 @@ export const LayerManagementEntry = (props) => {
 
   // triggers the download of a geojson file name like the clicked layer
   const handleExportGeojson = () => {
-    const id = layer.getId();
+    const id = layerId;
     const selectedFeature = selectedFeatures.find(
       (selFeature) => selFeature.feature.getId() === id
     );
@@ -171,9 +175,7 @@ export const LayerManagementEntry = (props) => {
     event.stopPropagation();
 
     setSelectedFeatures(
-      selectedFeatures.filter(
-        ({ feature }) => feature.getId() !== layer.getId()
-      )
+      selectedFeatures.filter(({ feature }) => feature.getId() !== layerId)
     );
 
     if (olcsMap !== undefined) {
@@ -191,7 +193,7 @@ export const LayerManagementEntry = (props) => {
   const handleZoomToExtent = () => {
     if (isDefined(map)) {
       const extent =
-        layer.get("layer_type") === LAYER_TYPES.GEOJSON
+        layerType === LAYER_TYPES.GEOJSON
           ? layer.getSource().getExtent()
           : layer.getExtent();
       // add percentage based padding
@@ -228,22 +230,26 @@ export const LayerManagementEntry = (props) => {
     }
   }, [entered, isHovered, isSliding, draggedItem]);
 
-  // Add visibility change handler to layer
-  useEffect(() => {
-    layer.on("change:visible", handleUpdateVisibility);
-    return () => {
-      layer.un("change:visible", handleUpdateVisibility);
-    };
-  });
-
-  // Set layer visibility on local change of visibility
-  useEffect(() => {
-    layer["setVisible"](isVisible);
-  }, [isVisible]);
+  // // Add visibility change handler to layer
+  // useEffect(() => {
+  //   layer.on("change:visible", handleUpdateVisibility);
+  //   return () => {
+  //     layer.un("change:visible", handleUpdateVisibility);
+  //   };
+  // });
+  //
+  // // Set layer visibility on local change of visibility
+  // useEffect(() => {
+  //   layer["setVisible"](isVisible);
+  // }, [isVisible]);
 
   drag(drop(ref));
 
-  const isMosaicMap = layer.get("type") === "mosaic";
+  const layerPublished = layer.metadata["vkf:time_published"];
+  const layerId = layer.metadata["vkf:id"];
+  const layerType = layer.metadata["vkf:type"];
+  const layerTitle = layer.metadata["vkf:title"];
+  const isMosaicMap = layerType === "mosaic";
 
   return (
     <li
@@ -252,13 +258,13 @@ export const LayerManagementEntry = (props) => {
         isVisible ? "record-visible" : "record-hidden",
         isDragging && "drag-and-drop-placeholder",
         isShowActions && "show-actions",
-        layer.get("layer_type") === LAYER_TYPES.GEOJSON && "geojson-data",
+        layerType === LAYER_TYPES.GEOJSON && "geojson-data",
         isHovered &&
-          (draggedItem === null || draggedItem.id === layer.getId()) &&
+          (draggedItem === null || draggedItem.id === layerId) &&
           "force-hover"
       )}
       id={index}
-      data-id={layer.getId()}
+      data-id={layerId}
       data-handler-id={handlerId}
       onFocus={handleMouseEnter}
       onBlur={handleBlur}
@@ -275,15 +281,15 @@ export const LayerManagementEntry = (props) => {
           type="button"
           title={translate("layermanagement-show-map")}
         >
-          {` ${translate("layermanagement-show-map")}: ${layer.getTitle()}`}
+          {` ${translate("layermanagement-show-map")}: ${layerTitle}`}
         </button>
       </div>
-      {layer.get("layer_type") === LAYER_TYPES.GEOJSON ? (
+      {layerType === LAYER_TYPES.GEOJSON ? (
         <React.Fragment>
           <div className="thumbnail-container">
             <img
               src={settings.FALLBACK_THUMBNAIL}
-              alt={`GeoJSON Image for ${layer.getTitle()}`}
+              alt={`GeoJSON Image for ${layerTitle}`}
             />
             <span className="geojson-badge">GeoJSON</span>
           </div>
@@ -293,16 +299,16 @@ export const LayerManagementEntry = (props) => {
           <img
             onError={handleError}
             src={src}
-            alt={`Thumbnail Image of Map for ${layer.getTitle()}`}
+            alt={`Thumbnail Image of Map for ${layerTitle}`}
           />
         </div>
       )}
       <div className="metadata-container">
-        <h3>{layer.getTitle()}</h3>
+        <h3>{layerTitle}</h3>
         <div className="timestamps">
           <span className="timestamps-label">{`${translate(
             "layermanagement-timestamp"
-          )} ${layer.getTimePublished()}`}</span>
+          )} ${layerPublished}`}</span>
         </div>
         {isMosaicMap && (
           <div className="type">
@@ -337,7 +343,7 @@ export const LayerManagementEntry = (props) => {
         >
           <SvgIcons name="layeraction-center" />
         </button>
-        {layer.get("layer_type") !== LAYER_TYPES.GEOJSON ? (
+        {layerType !== LAYER_TYPES.GEOJSON ? (
           <button
             className="show-original"
             onClick={handleOriginalMap}
@@ -358,13 +364,13 @@ export const LayerManagementEntry = (props) => {
         )}
         {!isMosaicMap &&
           settings["LINK_TO_GEOREFERENCE"] !== undefined &&
-          layer.get("layer_type") !== LAYER_TYPES.GEOJSON && (
+          layerType !== LAYER_TYPES.GEOJSON && (
             <button
               className="georeference-update"
               title={`${translate("layermangement-georef-update")} ...`}
               onClick={() => {
                 window.open(
-                  `${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layer.getId()}`,
+                  `${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layerId}`,
                   "_blank"
                 );
               }}

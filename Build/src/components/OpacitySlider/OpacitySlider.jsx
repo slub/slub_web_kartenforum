@@ -7,19 +7,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Slider from "rc-slider";
-import { useRecoilValue } from "recoil";
 import Tile from "ol/layer/Tile";
 import "rc-slider/assets/index.css";
 
 import HistoricMap from "../../apps/map/components/CustomLayers/HistoricMapLayer.js";
-import { olcsMapState } from "../../apps/map/atoms/atoms.js";
 import GeoJsonLayer from "../../apps/map/components/CustomLayers/GeoJsonLayer.js";
 import "./OpacitySlider.scss";
+import { useRecoilValue } from "recoil";
+import { mapState } from "../../apps/map/atoms/atoms.js";
+import customEvents from "../../apps/map/components/MapWrapper/customEvents.js";
 
 export const OpacitySlider = (props) => {
   const { onEndDrag, onStartDrag, orientation = "horizontal", layer } = props;
-  const olcsMap = useRecoilValue(olcsMapState);
-  const [value, setValue] = useState(layer.getOpacity() * 100);
+  const [value, setValue] = useState(layer.paint?.["raster-opacity"] ?? 100);
+  const map = useRecoilValue(mapState);
 
   const valueRef = useRef(null);
   const baseMin = 0,
@@ -43,17 +44,18 @@ export const OpacitySlider = (props) => {
   };
 
   const handleOpacityChange = (event) => {
-    const opacity = event.target.getOpacity() * 100;
+    const { layerId, value } = event;
+    if (layerId === layer.id) {
+      const opacity = value * 100;
 
-    setValue(opacity);
+      setValue(opacity);
+    }
   };
 
   const handleSliderChange = (value) => {
     setValue(value);
-    layer.setOpacity(value / 100);
-
-    if (olcsMap !== undefined) {
-      olcsMap.getAutoRenderLoop().restartRenderLoop();
+    if (map !== undefined) {
+      map.setPaintProperty(layer.id, "raster-opacity", value / 100);
     }
   };
 
@@ -62,11 +64,14 @@ export const OpacitySlider = (props) => {
   }, [value]);
 
   useEffect(() => {
-    layer.on("change:opacity", handleOpacityChange);
-    return () => {
-      layer.un("change:opacity", handleOpacityChange);
-    };
-  });
+    if (map) {
+      map.on(customEvents.opacityChanged, handleOpacityChange);
+
+      return () => {
+        map.off(customEvents.opacityChanged, handleOpacityChange);
+      };
+    }
+  }, [map]);
 
   return (
     <div className="opacity-container">
