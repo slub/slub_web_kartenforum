@@ -31,6 +31,7 @@ import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
 import GeoJsonLayer from "../../CustomLayers/GeoJsonLayer.js";
 import DragButton from "./components/DragButton/DragButton.jsx";
 import "./LayerManagementEntry.scss";
+import VisibilityButton from "./components/VisibilityButton/VisibilityButton.jsx";
 
 export const ItemTypes = {
   LAYER: "LAYER",
@@ -41,11 +42,7 @@ export const LayerManagementEntry = (props) => {
   const [entered, setEntered] = useState(false);
   const [isSliding, setIsSliding] = useState(false);
   const [isShowActions, setShowActions] = useState(false);
-  const [isVisible, setIsVisible] = useState(
-    layer?.layout?.visibility === undefined
-      ? true
-      : layer.layout.visibility === "visible"
-  );
+
   const [isHovered, setIsHovered] = useState(false);
   const map = useRecoilValue(mapState);
   const olcsMap = useRecoilValue(olcsMapState);
@@ -125,11 +122,6 @@ export const LayerManagementEntry = (props) => {
     }
   };
 
-  // change visibility of the layer
-  const handleChangeVisibility = () => {
-    setIsVisible(!isVisible);
-  };
-
   // triggers the download of a geojson file name like the clicked layer
   const handleExportGeojson = () => {
     const id = layerId;
@@ -183,12 +175,6 @@ export const LayerManagementEntry = (props) => {
     }
   };
 
-  // Update visibility from layer if it is different from the internal state
-  const handleUpdateVisibility = () => {
-    const layerVisibility = layer["getVisible"]();
-    if (layerVisibility !== isVisible) setIsVisible(layerVisibility);
-  };
-
   // zoom to the layer
   const handleZoomToExtent = () => {
     if (isDefined(map)) {
@@ -230,19 +216,6 @@ export const LayerManagementEntry = (props) => {
     }
   }, [entered, isHovered, isSliding, draggedItem]);
 
-  // // Add visibility change handler to layer
-  // useEffect(() => {
-  //   layer.on("change:visible", handleUpdateVisibility);
-  //   return () => {
-  //     layer.un("change:visible", handleUpdateVisibility);
-  //   };
-  // });
-  //
-  // // Set layer visibility on local change of visibility
-  // useEffect(() => {
-  //   layer["setVisible"](isVisible);
-  // }, [isVisible]);
-
   drag(drop(ref));
 
   const layerPublished = layer.metadata["vkf:time_published"];
@@ -255,7 +228,6 @@ export const LayerManagementEntry = (props) => {
     <li
       className={clsx(
         "vkf-layermanagement-record",
-        isVisible ? "record-visible" : "record-hidden",
         isDragging && "drag-and-drop-placeholder",
         isShowActions && "show-actions",
         layerType === LAYER_TYPES.GEOJSON && "geojson-data",
@@ -275,14 +247,7 @@ export const LayerManagementEntry = (props) => {
       ref={ref}
     >
       <div className="visibility-container">
-        <button
-          className="disable-layer minimize-tool"
-          onClick={handleChangeVisibility}
-          type="button"
-          title={translate("layermanagement-show-map")}
-        >
-          {` ${translate("layermanagement-show-map")}: ${layerTitle}`}
-        </button>
+        <VisibilityButton layer={layer} />
       </div>
       {layerType === LAYER_TYPES.GEOJSON ? (
         <React.Fragment>

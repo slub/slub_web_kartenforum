@@ -11,6 +11,21 @@ ul.layermanagement-body {
         display: flex;
         align-items: center;
 
+        &:has(.record-hidden) {
+            .visibility-container,
+            .thumbnail-container,
+            .metadata-container,
+            .opacity-container {
+                opacity: 0.4;
+            }
+
+            .visibility-container {
+                button.disable-layer {
+                    background-position: center bottom;
+                }
+            }
+        }
+
         &:before {
             display: none;
         }
@@ -173,21 +188,6 @@ ul.layermanagement-body {
             position: relative;
             padding-left: 15px;
             line-height: 1;
-        }
-
-        &.record-hidden {
-            .visibility-container,
-            .thumbnail-container,
-            .metadata-container,
-            .opacity-container {
-                opacity: 0.4;
-            }
-
-            .visibility-container {
-                button.disable-layer {
-                    background-position: center bottom;
-                }
-            }
         }
 
         &.show-actions {

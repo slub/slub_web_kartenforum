@@ -229,6 +229,7 @@ export function MapWrapper(props) {
     const originalAddLayer = initialMap.addLayer;
     const originalRemoveLayer = initialMap.removeLayer;
     const originalSetPaintProperty = initialMap.setPaintProperty;
+    const originialSetLayoutProperty = initialMap.setLayoutProperty;
 
     initialMap.addLayer = function (layer, before) {
       // Call the original method
@@ -265,6 +266,24 @@ export function MapWrapper(props) {
       if (opacityProperties.includes(property)) {
         // Emit a custom event
         this.fire(customEvents.opacityChanged, {
+          layerId: layerId,
+          property: property,
+          value: value,
+        });
+      }
+    };
+
+    // Override setLayoutProperty to listen for visibility changes
+    initialMap.setLayoutProperty = function (layerId, property, value) {
+      // Call the original method
+      originialSetLayoutProperty.call(this, layerId, property, value);
+
+      // Check if the property being changed is a visibility-related property
+      const visibilityProperties = ["visibility"];
+
+      if (visibilityProperties.includes(property)) {
+        // Emit a custom event
+        this.fire(customEvents.visibilityChanged, {
           layerId: layerId,
           property: property,
           value: value,

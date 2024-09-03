@@ -9,6 +9,7 @@ const CustomEvents = {
     layerAdded: "layerAdded",
     layerRemoved: "layerRemoved",
     opacityChanged: "opacityChanged",
+    visibilityChanged: "visibilityChanged",
 };
 
 export default CustomEvents;
