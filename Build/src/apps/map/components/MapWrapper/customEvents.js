@@ -7,6 +7,7 @@
 
 const CustomEvents = {
     layerAdded: "layerAdded",
+    layerMoved: "layerMoved",
     layerRemoved: "layerRemoved",
     opacityChanged: "opacityChanged",
     visibilityChanged: "visibilityChanged",

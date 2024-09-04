@@ -229,7 +229,8 @@ export function MapWrapper(props) {
     const originalAddLayer = initialMap.addLayer;
     const originalRemoveLayer = initialMap.removeLayer;
     const originalSetPaintProperty = initialMap.setPaintProperty;
-    const originialSetLayoutProperty = initialMap.setLayoutProperty;
+    const originalSetLayoutProperty = initialMap.setLayoutProperty;
+    const originalMoveLayer = initialMap.moveLayer;
 
     initialMap.addLayer = function (layer, before) {
       // Call the original method
@@ -246,6 +247,17 @@ export function MapWrapper(props) {
 
       // Emit a custom event or trigger some action
       this.fire(CustomEvents.layerRemoved, { layerId: layerId });
+    };
+
+    initialMap.moveLayer = function (layerId, beforeId) {
+      // Call the original method
+      originalMoveLayer.call(this, layerId, beforeId);
+
+      // Emit a custom event or trigger some action
+      this.fire(CustomEvents.layerMoved, {
+        layerId: layerId,
+        beforeId: beforeId,
+      });
     };
 
     // Override setPaintProperty to listen for opacity changes
@@ -276,7 +288,7 @@ export function MapWrapper(props) {
     // Override setLayoutProperty to listen for visibility changes
     initialMap.setLayoutProperty = function (layerId, property, value) {
       // Call the original method
-      originialSetLayoutProperty.call(this, layerId, property, value);
+      originalSetLayoutProperty.call(this, layerId, property, value);
 
       // Check if the property being changed is a visibility-related property
       const visibilityProperties = ["visibility"];

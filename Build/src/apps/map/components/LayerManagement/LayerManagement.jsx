@@ -51,6 +51,7 @@ export const LayerManagement = ({
   // Handler section
   ////
 
+  // @TODO: We can probably do this a little more efficient, by utilizing the new information from the custom events
   // Handles changes on the layer container of the map
   const handleRefresh = useCallback(() => {
     console.log(refBlockRefresh.current, isDefined(map), map?.isStyleLoaded());
@@ -99,6 +100,7 @@ export const LayerManagement = ({
         // afterwards bind event handlers
         map.on(CustomEvents.layerAdded, handleRefresh);
         map.on(CustomEvents.layerRemoved, handleRefresh);
+        map.on(CustomEvents.layerMoved, handleRefresh);
       };
 
       if (!map.isStyleLoaded()) {
@@ -109,6 +111,7 @@ export const LayerManagement = ({
         map.off("load", registerListeners);
         map.off(CustomEvents.layerAdded, handleRefresh);
         map.off(CustomEvents.layerRemoved, handleRefresh);
+        map.off(CustomEvents.layerMoved, handleRefresh);
       };
     }
   }, [map, handleRefresh]);

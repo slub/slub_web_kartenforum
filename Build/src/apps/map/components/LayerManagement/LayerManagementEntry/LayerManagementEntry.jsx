@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { useDrag, useDrop } from "react-dnd";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -14,8 +14,6 @@ import { useDoubleTap } from "use-double-tap";
 
 import { translate } from "../../../../../util/util";
 import {
-  mapState,
-  olcsMapState,
   selectedFeaturesState,
   selectedOriginalMapIdState,
 } from "../../../atoms/atoms";
@@ -33,6 +31,7 @@ import "./LayerManagementEntry.scss";
 import VisibilityButton from "./components/VisibilityButton/VisibilityButton.jsx";
 import RemoveLayerButton from "./components/RemoveLayerButton/RemoveLayerButton.jsx";
 import ZoomToExtentButton from "./components/ZoomToExtentButton/ZoomToExtentButton.jsx";
+import MoveToTopButton from "./components/MoveToTopButton/MoveToTopButton.jsx";
 
 export const ItemTypes = {
   LAYER: "LAYER",
@@ -44,8 +43,6 @@ export const LayerManagementEntry = (props) => {
   const [isSliding, setIsSliding] = useState(false);
   const [isShowActions, setShowActions] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const map = useRecoilValue(mapState);
-  const olcsMap = useRecoilValue(olcsMapState);
   const ref = useRef(null);
   const [selectedFeatures] = useRecoilState(selectedFeaturesState);
   const setSelectedOriginalMapId = useSetRecoilState(
@@ -149,16 +146,6 @@ export const LayerManagementEntry = (props) => {
     setShowActions((oldShowActions) => !oldShowActions);
   }, 500);
 
-  // Move layer to the top of the stack
-  const handleMoveTop = (event) => {
-    map.removeLayer(layer);
-    map.addLayer(layer);
-    event.stopPropagation();
-    if (olcsMap !== undefined) {
-      olcsMap.getAutoRenderLoop().restartRenderLoop();
-    }
-  };
-
   // Open original map
   const handleOriginalMap = () => {
     setSelectedOriginalMapId(id);
@@ -256,14 +243,7 @@ export const LayerManagementEntry = (props) => {
         )}
       </div>
       <div className="control-container">
-        <button
-          className="move-layer-top minimize-tool"
-          onClick={handleMoveTop}
-          type="button"
-          title={translate("layermanagement-move-top")}
-        >
-          <SvgIcons name="layeraction-totop" />
-        </button>
+        <MoveToTopButton layer={layer} />
         <RemoveLayerButton layer={layer} />
         <ZoomToExtentButton layer={layer} />
         {layerType !== LAYER_TYPES.GEOJSON ? (
