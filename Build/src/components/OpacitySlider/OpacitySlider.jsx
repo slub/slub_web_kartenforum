@@ -7,11 +7,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Slider from "rc-slider";
-import Tile from "ol/layer/Tile";
 import "rc-slider/assets/index.css";
 
-import HistoricMap from "../../apps/map/components/CustomLayers/HistoricMapLayer.js";
-import GeoJsonLayer from "../../apps/map/components/CustomLayers/GeoJsonLayer.js";
 import "./OpacitySlider.scss";
 import { useRecoilValue } from "recoil";
 import { mapState } from "../../apps/map/atoms/atoms.js";
@@ -94,11 +91,7 @@ export const OpacitySlider = (props) => {
 OpacitySlider.propTypes = {
   onEndDrag: PropTypes.func,
   onStartDrag: PropTypes.func,
-  layer: PropTypes.oneOfType([
-    PropTypes.instanceOf(HistoricMap),
-    PropTypes.instanceOf(GeoJsonLayer),
-    PropTypes.instanceOf(Tile),
-  ]),
+  layer: PropTypes.object.isRequired,
   orientation: PropTypes.oneOf(["horizontal", "vertical"]),
 };
 

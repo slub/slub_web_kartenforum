@@ -41,7 +41,6 @@ export const LayerManagement = ({
   const map = useRecoilValue(mapState);
 
   // refs
-  const refBlockRefresh = useRef(null);
   const refLayermanagement = useRef();
 
   // update layermanagement size in recoil state
@@ -54,11 +53,8 @@ export const LayerManagement = ({
   // @TODO: We can probably do this a little more efficient, by utilizing the new information from the custom events
   // Handles changes on the layer container of the map
   const handleRefresh = useCallback(() => {
-    console.log(refBlockRefresh.current, isDefined(map), map?.isStyleLoaded());
-
-    if (!refBlockRefresh.current && isDefined(map)) {
+    if (isDefined(map)) {
       const newLayers = getLayers(map).reverse();
-      console.log(newLayers);
 
       setDisplayedLayers(newLayers);
       setDisplayedLayersCount(newLayers.length);
@@ -68,22 +64,17 @@ export const LayerManagement = ({
   // @TODO: Port to maplibre
   // Handles drag and drop moves
   const handleMoveLayer = (dragIndex, hoverIndex) => {
-    // block all but the last refresh
-    // refBlockRefresh.current = true;
-    // const layers = map.getLayers();
-    //
-    // const bigIndex = dragIndex > hoverIndex ? dragIndex : hoverIndex;
-    // const smallIndex = dragIndex < hoverIndex ? dragIndex : hoverIndex;
-    //
-    // const layerA = layers.item(bigIndex);
-    // const layerB = layers.item(smallIndex);
-    //
-    // layers.removeAt(bigIndex);
-    // layers.removeAt(smallIndex);
-    //
-    // layers.insertAt(smallIndex, layerA);
-    // refBlockRefresh.current = false;
-    // layers.insertAt(bigIndex, layerB);
+    const layers = getLayers(map);
+
+    // move the dragged layer to the position of the hovered layer
+    if (dragIndex < hoverIndex) {
+      const inbeforeLayer = layers[hoverIndex + 1]?.id ?? null;
+
+      map.moveLayer(layers[dragIndex].id, inbeforeLayer);
+    } else if (dragIndex > hoverIndex) {
+      // move the dragged layer to the position before the hovered layer
+      map.moveLayer(layers[dragIndex].id, layers[hoverIndex].id);
+    }
   };
 
   ////

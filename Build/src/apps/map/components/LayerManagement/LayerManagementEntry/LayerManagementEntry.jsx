@@ -74,6 +74,7 @@ export const LayerManagementEntry = (props) => {
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
