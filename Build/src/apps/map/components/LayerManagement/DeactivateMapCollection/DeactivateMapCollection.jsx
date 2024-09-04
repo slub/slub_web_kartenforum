@@ -4,37 +4,73 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
 import clsx from "clsx";
 import { translate } from "../../../../../util/util";
-import { getOperationalLayers } from "../../MapWrapper/util";
-import { mapState, olcsMapState } from "../../../atoms/atoms";
+import { mapState } from "../../../atoms/atoms";
 import "./DeactivateMapCollection.scss";
 import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
+import { getLayers } from "../util.js";
+import customEvents from "../../MapWrapper/customEvents.js";
 
 export const DeactivateMapCollection = () => {
-  const [isActive, setIsActive] = useState(true);
   const map = useRecoilValue(mapState);
-  const olcsMap = useRecoilValue(olcsMapState);
+  const [isActive, setIsActive] = useState(true);
+
   const title = translate(
     isActive
       ? "layermanagement-deactivate-all-maps"
       : "layermanagement-activate-all-maps"
   );
 
-  const handleClick = () => {
-    const layers = getOperationalLayers(map);
+  const handleClick = useCallback(() => {
+    const layers = getLayers(map);
     layers.forEach((layer) => {
-      layer["setVisible"](!isActive);
+      map.setLayoutProperty(
+        layer.id,
+        "visibility",
+        isActive ? "none" : "visible"
+      );
     });
-    setIsActive(!isActive);
+  }, [map, isActive]);
 
-    if (olcsMap !== undefined) {
-      olcsMap.getAutoRenderLoop().restartRenderLoop();
+  useEffect(() => {
+    if (map) {
+      const handleLoad = () => {
+        const layers = getLayers(map);
+        const isActive =
+          layers.length === 0
+            ? true
+            : layers.some(
+                (layer) =>
+                  layer?.layout?.visibility === undefined ||
+                  layer.layout.visibility === "visible"
+              );
+
+        setIsActive(isActive);
+      };
+
+      const handleVisibilityChange = () => {
+        handleLoad();
+      };
+
+      if (map._loaded) {
+        handleLoad();
+      } else {
+        map.on("load", handleLoad);
+      }
+
+      map.on(customEvents.visibilityChanged, handleVisibilityChange);
+      map.on(customEvents.layerAdded, handleVisibilityChange);
+      return () => {
+        map.off(customEvents.visibilityChanged, handleVisibilityChange);
+        map.off(customEvents.layerAdded, handleVisibilityChange);
+        map.off("load", handleLoad);
+      };
     }
-  };
+  }, [map]);
 
   return (
     <button

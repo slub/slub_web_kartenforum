@@ -18,7 +18,6 @@ import {
   selectedOriginalMapIdState,
 } from "../../../atoms/atoms";
 import { OpacitySlider } from "../../../../../components/OpacitySlider/OpacitySlider";
-import { FALLBACK_SRC } from "../../MapSearch/components/MapSearchListElement/MapSearchListElementBase.jsx";
 import HistoricMap from "../../CustomLayers/HistoricMapLayer";
 import SettingsProvider from "../../../../../SettingsProvider";
 import { serializeOperationalLayer } from "../../../persistence/util";
