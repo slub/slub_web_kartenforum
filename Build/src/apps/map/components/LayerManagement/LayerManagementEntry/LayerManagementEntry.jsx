@@ -5,15 +5,14 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React from "react";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useDrag, useDrop } from "react-dnd";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useDoubleTap } from "use-double-tap";
 
-import { isDefined, translate } from "../../../../../util/util";
+import { translate } from "../../../../../util/util";
 import {
   mapState,
   olcsMapState,
@@ -32,7 +31,8 @@ import GeoJsonLayer from "../../CustomLayers/GeoJsonLayer.js";
 import DragButton from "./components/DragButton/DragButton.jsx";
 import "./LayerManagementEntry.scss";
 import VisibilityButton from "./components/VisibilityButton/VisibilityButton.jsx";
-import RemoveLayerButton from "./components/RemoveLayerButton.jsx";
+import RemoveLayerButton from "./components/RemoveLayerButton/RemoveLayerButton.jsx";
+import ZoomToExtentButton from "./components/ZoomToExtentButton/ZoomToExtentButton.jsx";
 
 export const ItemTypes = {
   LAYER: "LAYER",
@@ -159,18 +159,6 @@ export const LayerManagementEntry = (props) => {
     }
   };
 
-  // zoom to the layer
-  const handleZoomToExtent = () => {
-    if (isDefined(map)) {
-      const extent =
-        layerType === LAYER_TYPES.GEOJSON
-          ? layer.getSource().getExtent()
-          : layer.getExtent();
-      // add percentage based padding
-      map.getView().fit(extent, { padding: [50, 350, 50, 350] });
-    }
-  };
-
   // Open original map
   const handleOriginalMap = () => {
     setSelectedOriginalMapId(id);
@@ -277,14 +265,7 @@ export const LayerManagementEntry = (props) => {
           <SvgIcons name="layeraction-totop" />
         </button>
         <RemoveLayerButton layer={layer} />
-        <button
-          className="zoom-layer minimize-tool"
-          onClick={handleZoomToExtent}
-          type="button"
-          title={translate("layermanagement-zoom-to-map")}
-        >
-          <SvgIcons name="layeraction-center" />
-        </button>
+        <ZoomToExtentButton layer={layer} />
         {layerType !== LAYER_TYPES.GEOJSON ? (
           <button
             className="show-original"

@@ -16,6 +16,8 @@ export const getSourceIdForFeature = (feature) => {
 };
 
 export const addHistoricMapLayer = (settings, map) => {
+    const bounds = settings.clip?.getExtent();
+
     const metadata = {
         "vkf:id": isDefined(settings.id) ? settings.id : undefined,
         "vkf:time_published": settings.time_published,
@@ -23,6 +25,7 @@ export const addHistoricMapLayer = (settings, map) => {
         "vkf:thumb_url": settings.thumb_url,
         "vkf:allowUseInLayerManagement": true,
         "vkf:type": settings.type,
+        "vkf:bounds": bounds,
     };
 
     const sourceSettings =
@@ -41,7 +44,7 @@ export const addHistoricMapLayer = (settings, map) => {
     map.addSource(sourceId, {
         type: "raster",
         ...sourceSettings,
-        bounds: settings.clip?.getExtent(),
+        bounds,
     });
     map.addLayer({ id: sourceId, type: "raster", metadata, source: sourceId });
 };

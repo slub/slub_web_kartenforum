@@ -4,13 +4,13 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { translate } from "../../../../../../util/util.js";
-import SvgIcons from "../../../../../../components/SvgIcons/SvgIcons.jsx";
+import { translate } from "../../../../../../../util/util.js";
+import SvgIcons from "../../../../../../../components/SvgIcons/SvgIcons.jsx";
 import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import PropTypes from "prop-types";
-import { mapState, selectedFeaturesState } from "../../../../atoms/atoms.js";
-import { removeLayer } from "../../util.js";
+import { mapState, selectedFeaturesState } from "../../../../../atoms/atoms.js";
+import { removeLayer } from "../../../util.js";
 
 export const RemoveLayerButton = (props) => {
   const { layer } = props;
