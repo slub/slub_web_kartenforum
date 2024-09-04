@@ -32,6 +32,7 @@ import VisibilityButton from "./components/VisibilityButton/VisibilityButton.jsx
 import RemoveLayerButton from "./components/RemoveLayerButton/RemoveLayerButton.jsx";
 import ZoomToExtentButton from "./components/ZoomToExtentButton/ZoomToExtentButton.jsx";
 import MoveToTopButton from "./components/MoveToTopButton/MoveToTopButton.jsx";
+import LayerManagementThumbnail from "./components/LayerManagementThumbnail/LayerManagementThumbnail.jsx";
 
 export const ItemTypes = {
   LAYER: "LAYER",
@@ -48,7 +49,6 @@ export const LayerManagementEntry = (props) => {
   const setSelectedOriginalMapId = useSetRecoilState(
     selectedOriginalMapIdState
   );
-  const [src, setSrc] = useState(layer.metadata["vkf:thumb_url"]);
   const settings = SettingsProvider.getSettings();
 
   // drag/drop handlers from: https://react-dnd.github.io/react-dnd/examples/sortable/simple
@@ -110,13 +110,6 @@ export const LayerManagementEntry = (props) => {
         }
       }
     }, 100);
-
-  // load fallback image in case the image from the supplied url cannot be loaded
-  const handleError = () => {
-    if (src !== FALLBACK_SRC) {
-      setSrc(FALLBACK_SRC);
-    }
-  };
 
   // triggers the download of a geojson file name like the clicked layer
   const handleExportGeojson = () => {
@@ -209,25 +202,7 @@ export const LayerManagementEntry = (props) => {
       <div className="visibility-container">
         <VisibilityButton layer={layer} />
       </div>
-      {layerType === LAYER_TYPES.GEOJSON ? (
-        <React.Fragment>
-          <div className="thumbnail-container">
-            <img
-              src={settings.FALLBACK_THUMBNAIL}
-              alt={`GeoJSON Image for ${layerTitle}`}
-            />
-            <span className="geojson-badge">GeoJSON</span>
-          </div>
-        </React.Fragment>
-      ) : (
-        <div className="thumbnail-container">
-          <img
-            onError={handleError}
-            src={src}
-            alt={`Thumbnail Image of Map for ${layerTitle}`}
-          />
-        </div>
-      )}
+      <LayerManagementThumbnail layer={layer} />
       <div className="metadata-container">
         <h3>{layerTitle}</h3>
         <div className="timestamps">
