@@ -1,0 +1,16 @@
+.ol-map-large {
+    .maplibregl-ctrl-top-left {
+        top: 5px;
+        left: 370px;
+
+        .maplibregl-ctrl {
+            margin-left: 0;
+        }
+    }
+
+    &:fullscreen {
+        .maplibregl-ctrl-top-left {
+            left: 10px;
+        }
+    }
+}

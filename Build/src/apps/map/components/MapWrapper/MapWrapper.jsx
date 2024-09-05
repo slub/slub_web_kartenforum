@@ -13,6 +13,7 @@ import VectorSource from "ol/source/Vector";
 import { defaults, DragRotate } from "ol/interaction";
 import { shiftKeyOnly } from "ol/events/condition";
 import { Map as MaplibreMap } from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import olcsCore from "olcs/core";
 import clsx from "clsx";
@@ -377,50 +378,51 @@ export function MapWrapper(props) {
 
   // @TODO: Reenable controls
   // update controls on layout change
-  // useEffect(() => {
-  //   // only add new controls if the first time there is an activeBasemapId available and if the layout changes
-  //   if (isDefined(map)) {
-  //     if (isDefined(controlsRef.current)) {
-  //       controlsRef.current.forEach((control) => {
-  //         map.removeControl(control);
-  //       });
-  //     }
-  //
-  //     const newControls = getDefaultControls({
-  //       is3dActive,
-  //       layout,
-  //       basemapSelectorProps: {
-  //         onBasemapChange: handleBasemapChange,
-  //         onSetNotification: setNotification,
-  //       },
-  //       onViewModeChange: handleChangeViewMode,
-  //       permalinkProps: {
-  //         camera: olcsMapRef.current?.getCesiumScene().camera,
-  //         refActiveBasemapId: unsafe_refBasemapId,
-  //         refApplicationStateUpdater: unsafe_refApplicationStateUpdater,
-  //         refSelectedFeatures: unsafe_refSelectedFeatures,
-  //       },
-  //       refSpyLayer: unsafe_refSpyLayer,
-  //     });
-  //
-  //     newControls.forEach((control) => {
-  //       map.addControl(control);
-  //
-  //       // handle external state updates
-  //       let updateFn = control.handleExternalBasemapUpdate;
-  //       if (updateFn !== undefined) {
-  //         updateFn(activeBasemapId);
-  //       }
-  //
-  //       updateFn = control.handleExternal3dStateUpdate;
-  //       if (updateFn !== undefined) {
-  //         updateFn(is3dActive);
-  //       }
-  //     });
-  //
-  //     controlsRef.current = newControls;
-  //   }
-  // }, [layout, map]);
+  useEffect(() => {
+    //   // only add new controls if the first time there is an activeBasemapId available and if the layout changes
+    if (isDefined(map)) {
+      //     if (isDefined(controlsRef.current)) {
+      //       controlsRef.current.forEach((control) => {
+      //         map.removeControl(control);
+      //       });
+      //     }
+      //
+      const newControls = getDefaultControls({
+        is3dActive,
+        layout,
+        basemapSelectorProps: {
+          onBasemapChange: handleBasemapChange,
+          onSetNotification: setNotification,
+        },
+        onViewModeChange: handleChangeViewMode,
+        permalinkProps: {
+          camera: olcsMapRef.current?.getCesiumScene().camera,
+          refActiveBasemapId: unsafe_refBasemapId,
+          refApplicationStateUpdater: unsafe_refApplicationStateUpdater,
+          refSelectedFeatures: unsafe_refSelectedFeatures,
+        },
+        refSpyLayer: unsafe_refSpyLayer,
+      });
+
+      //
+      newControls.forEach(({ control, position }) => {
+        map.addControl(control, position);
+        //
+        //       // handle external state updates
+        //       let updateFn = control.handleExternalBasemapUpdate;
+        //       if (updateFn !== undefined) {
+        //         updateFn(activeBasemapId);
+        //       }
+        //
+        //       updateFn = control.handleExternal3dStateUpdate;
+        //       if (updateFn !== undefined) {
+        //         updateFn(is3dActive);
+        //       }
+      });
+      //
+      //     controlsRef.current = newControls;
+    }
+  }, [layout, map]);
 
   // fit map to viewport after resize (e.g switch from landscape to portrait mode)
   // useEffect(() => {

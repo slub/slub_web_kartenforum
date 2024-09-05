@@ -15,6 +15,13 @@ import BasemapSelector from "../apps/map/components/Controls/BasemapSelectorCont
 import { MousePositionOnOff } from "../apps/map/components/MapWrapper/components/MousePositionOnOff";
 import { LAYOUT_TYPES } from "../apps/map/layouts/util";
 import PermalinkControl from "../apps/map/components/MapWrapper/components/PermalinkControl/PermalinkControl";
+import {
+    FullscreenControl,
+    GeolocateControl,
+    NavigationControl,
+    ScaleControl,
+    TerrainControl,
+} from "maplibre-gl";
 
 /*
  * ol does not export an inherits function in the current version
@@ -66,38 +73,62 @@ export const getDefaultControls = (params) => {
     } = params;
 
     const defaultControls = [
-        new CustomAttribution({ is3d: is3dActive }),
-        new FullScreen({
-            activeClassName: "active",
-            tipLabel: translate("control-fullscreen-title"),
-        }),
-        new Rotate({
-            className: "rotate-north ol-unselectable",
-            tipLabel: translate("control-rotate"),
-        }),
-        new ScaleLine(),
-        new ToggleViewMode({
-            initialState: is3dActive,
-            onViewModeChange,
-        }),
-        new LocateMeControl(),
-        new BasemapSelector(basemapSelectorProps),
-        new PermalinkControl({ is3dActive, ...permalinkProps }),
+        // new CustomAttribution({ is3d: is3dActive }),
+        {
+            position: "top-left",
+            control: new NavigationControl({
+                showZoom: true,
+                showCompass: false,
+                visualizePitch: false,
+            }),
+        },
+        { position: "top-left", control: new FullscreenControl() },
+
+        {
+            position: "top-left",
+            control: new NavigationControl({
+                showZoom: false,
+                showCompass: true,
+                visualizePitch: true,
+            }),
+        },
+        {
+            position: "top-left",
+            control: new TerrainControl({ source: "vkf-terrain" }),
+        },
+        {
+            position: "top-left",
+            control: new GeolocateControl({ trackUserLocation: true }),
+        },
+        { position: "bottom-right", control: new ScaleControl() },
+
+        // new Rotate({
+        //     className: "rotate-north ol-unselectable",
+        //     tipLabel: translate("control-rotate"),
+        // }),
+        // new ScaleLine(),
+        // new ToggleViewMode({
+        //     initialState: is3dActive,
+        //     onViewModeChange,
+        // }),
+        // new LocateMeControl(),
+        // new BasemapSelector(basemapSelectorProps),
+        // new PermalinkControl({ is3dActive, ...permalinkProps }),
     ];
 
-    if (layout === LAYOUT_TYPES.HORIZONTAL) {
-        defaultControls.push(
-            new Zoom({
-                zoomInTipLabel: translate("control-zoom-in"),
-                zoomOutTipLabel: translate("control-zoom-out"),
-            }),
-            new LayerSpy({
-                refActiveBasemapId: permalinkProps.refActiveBasemapId,
-                refSpyLayer,
-            }),
-            new MousePositionOnOff()
-        );
-    }
+    // if (layout === LAYOUT_TYPES.HORIZONTAL) {
+    //     defaultControls.push(
+    //         new Zoom({
+    //             zoomInTipLabel: translate("control-zoom-in"),
+    //             zoomOutTipLabel: translate("control-zoom-out"),
+    //         }),
+    //         new LayerSpy({
+    //             refActiveBasemapId: permalinkProps.refActiveBasemapId,
+    //             refSpyLayer,
+    //         }),
+    //         new MousePositionOnOff()
+    //     );
+    // }
 
-    return [];
+    return defaultControls;
 };
