@@ -12,9 +12,9 @@ import clsx from "clsx";
 
 import { isDefined, translate } from "../../../../../util/util";
 import { mapState } from "../../../atoms/atoms";
-import { getOperationalLayers } from "../../MapWrapper/util";
 import { setLayersToInitialState, sortLayers } from "./util";
 import "./DynamicMapVisualization.scss";
+import { getLayers } from "../util.js";
 
 export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   // state
@@ -30,8 +30,8 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const startFadeInAnimation = (options) => {
     const { layers, delay = 500 } = options;
     layers.forEach((layer) => {
-      layer.setOpacity(0);
-      layer.setVisible(true);
+      map.setPaintProperty(layer.id, "raster-opacity", 0);
+      map.setLayoutProperty(layer.id, "visibility", "visible");
     });
     setTimeout(() => {
       incrementalFadeIn(options);
@@ -41,10 +41,11 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const incrementalFadeIn = (options) => {
     const { layers, steps = 0.1, delay = 500, successCallback } = options;
     if (activeRef.current) {
-      const newOpacity = layers[0].getOpacity() + steps;
+      const newOpacity =
+        (map.getPaintProperty(layers[0].id, "raster-opacity") ?? 0) + steps;
       if (newOpacity > 1) {
         layers.forEach((layer) => {
-          layer.setOpacity(1);
+          map.setPaintProperty(layer.id, "raster-opacity", 1);
         });
 
         if (isDefined(successCallback)) {
@@ -52,7 +53,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
         }
       } else {
         layers.forEach((layer) => {
-          layer.setOpacity(newOpacity);
+          map.setPaintProperty(layer.id, "raster-opacity", newOpacity);
         });
         setTimeout(() => {
           incrementalFadeIn(options);
@@ -64,7 +65,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const startAnimation = (options) => {
     const { sortedLayers, delay = 500 } = options;
 
-    setLayersToInitialState(sortedLayers);
+    setLayersToInitialState(sortedLayers, map);
     if (activeRef.current) {
       const keys = Object.keys(sortedLayers);
       if (keys.length > 0) {
@@ -123,7 +124,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   useEffect(() => {
     activeRef.current = active;
     if (active) {
-      const layers = getOperationalLayers(map);
+      const layers = getLayers(map);
       const sortedLayers = sortLayers(layers, map);
       startAnimation({ ...animationOptions, sortedLayers });
     } else {
