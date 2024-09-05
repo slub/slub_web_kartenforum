@@ -1,3 +1,13 @@
+@import "../../../Resources/Private/Scss/Variables";
+
+.map-container {
+    .maplibregl-ctrl-group {
+        background-color: $secondary-color;
+        border-radius: 2px;
+        box-shadow: 0px 0px 0px 8px rgba(255, 255, 255, 0.4);
+    }
+}
+
 .ol-map-large {
     .maplibregl-ctrl-top-left {
         top: 5px;
