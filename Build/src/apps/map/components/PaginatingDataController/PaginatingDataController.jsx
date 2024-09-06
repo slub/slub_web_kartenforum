@@ -30,6 +30,7 @@ import SettingsProvider from "../../../../SettingsProvider";
 import { MAP_PROJECTION } from "../MapSearch/MapSearch";
 import { getSearchExtent, limitExtent } from "./util";
 import { useDebounce } from "../../../../util/hooks";
+import { LngLatBounds } from "maplibre-gl";
 
 export const PaginatingDataController = ({
   customQuery,
@@ -64,12 +65,11 @@ export const PaginatingDataController = ({
 
   /**
    * @param {Array.<number>} extent An array of numbers representing an extent: [minx, miny, maxx, maxy]
-   * @param {string} projection
    * @return {Object}
    * @private
    */
   const createSearchRequest = useCallback(
-    (extent, projection) => {
+    (extent) => {
       const sortOrd_ = sortOrder === "ascending" ? "asc" : "desc";
 
       // build response with bbox filter
@@ -152,21 +152,16 @@ export const PaginatingDataController = ({
   // either triggered by a map move or a resize of some component
   const handleUpdateMapView = useCallback(() => {
     if (isDefined(map)) {
-      const [bottomLeftPixel, topRightPixel] = getSearchExtent(
-        elementsScreenSize,
-        layout
-      );
+      const screenCorners = getSearchExtent(elementsScreenSize, layout);
 
       // get equivalent coordinates
-      const llc = map.unproject(bottomLeftPixel).toArray();
-      const urc = map.unproject(topRightPixel).toArray();
+      const lngLatBounds = new LngLatBounds();
+      screenCorners.forEach((corner) => {
+        const coord = map.unproject(corner);
+        lngLatBounds.extend(coord);
+      });
 
-      // if the map is for whatever reason not available, just skip the update and try again later
-      if (llc === null || urc === null) {
-        return;
-      }
-
-      const newMapView = [llc[0], llc[1], urc[0], urc[1]];
+      const newMapView = lngLatBounds.toArray().flat();
 
       if (mapView === undefined || !equals(newMapView, mapView)) {
         setMapView(newMapView);

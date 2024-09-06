@@ -40,6 +40,8 @@ export const getSearchExtent = (sceenElementSizes, layout) => {
 
     return [
         [lowX, lowY],
+        [lowX, highY],
+        [highX, lowY],
         [highX, highY],
     ];
 };
