@@ -8,7 +8,7 @@ import { getSourceIdForFeature } from "../CustomLayers/HistoricMapLayer.js";
 
 export const getLayers = (map) => {
     const layers = map.getStyle().layers;
-
+    console.log(layers);
     return layers.filter(
         (layer) => layer?.metadata?.["vkf:allowUseInLayerManagement"]
     );

@@ -52,6 +52,8 @@ import "./MapWrapper.scss";
 import SettingsProvider from "../../../../SettingsProvider.js";
 import CustomEvents from "./customEvents.js";
 import customEvents from "./customEvents.js";
+import { overwriteMapLibreBehavior } from "./maplibreOverwrites.js";
+import { CustomMap } from "./maplibreTerrainBehavior.js";
 
 const style =
   "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json";
@@ -215,94 +217,19 @@ export function MapWrapper(props) {
 
   // initialize map on first render - logic formerly put into componentDidMount
   useEffect(() => {
-    const initialMap = new MaplibreMap({
+    const initialMap = new CustomMap({
       container: mapElement.current,
       center: mapViewSettings.center,
       zoom: mapViewSettings.zoom,
       style,
     });
 
+    overwriteMapLibreBehavior(initialMap);
+
     setMap(initialMap);
 
     if (enable3d && enableTerrain) {
     }
-
-    const originalAddLayer = initialMap.addLayer;
-    const originalRemoveLayer = initialMap.removeLayer;
-    const originalSetPaintProperty = initialMap.setPaintProperty;
-    const originalSetLayoutProperty = initialMap.setLayoutProperty;
-    const originalMoveLayer = initialMap.moveLayer;
-
-    initialMap.addLayer = function (layer, before) {
-      // Call the original method
-      originalAddLayer.call(this, layer, before);
-
-      // Emit a custom event or trigger some action
-      this.fire(CustomEvents.layerAdded, { layerId: layer.id });
-    };
-
-    // Override the removeLayer method
-    initialMap.removeLayer = function (layerId) {
-      // Call the original method
-      originalRemoveLayer.call(this, layerId);
-
-      // Emit a custom event or trigger some action
-      this.fire(CustomEvents.layerRemoved, { layerId: layerId });
-    };
-
-    initialMap.moveLayer = function (layerId, beforeId) {
-      // Call the original method
-      originalMoveLayer.call(this, layerId, beforeId);
-
-      // Emit a custom event or trigger some action
-      this.fire(CustomEvents.layerMoved, {
-        layerId: layerId,
-        beforeId: beforeId,
-      });
-    };
-
-    // Override setPaintProperty to listen for opacity changes
-    initialMap.setPaintProperty = function (layerId, property, value) {
-      // Call the original method
-      originalSetPaintProperty.call(this, layerId, property, value);
-
-      // Check if the property being changed is an opacity-related property
-      const opacityProperties = [
-        "fill-opacity",
-        "line-opacity",
-        "circle-opacity",
-        "icon-opacity",
-        "text-opacity",
-        "raster-opacity",
-      ];
-
-      if (opacityProperties.includes(property)) {
-        // Emit a custom event
-        this.fire(customEvents.opacityChanged, {
-          layerId: layerId,
-          property: property,
-          value: value,
-        });
-      }
-    };
-
-    // Override setLayoutProperty to listen for visibility changes
-    initialMap.setLayoutProperty = function (layerId, property, value) {
-      // Call the original method
-      originalSetLayoutProperty.call(this, layerId, property, value);
-
-      // Check if the property being changed is a visibility-related property
-      const visibilityProperties = ["visibility"];
-
-      if (visibilityProperties.includes(property)) {
-        // Emit a custom event
-        this.fire(customEvents.visibilityChanged, {
-          layerId: layerId,
-          property: property,
-          value: value,
-        });
-      }
-    };
 
     return () => {
       setMap(undefined);

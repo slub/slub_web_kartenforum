@@ -10,8 +10,8 @@ import { build } from "./esbuild.base.js";
 const outputDir = "../Resources/Public/Build/";
 
 const options = {
-    entryPoints: ["./src/apps/mosaic_map/index.jsx"],
-    outfile: `${outputDir}plugin-map-mosaic.js`,
+    entryPoints: ["./src/apps/map/index.jsx"],
+    outfile: `${outputDir}plugin-map.js`,
 };
 
 // Run the build process with the supplied options

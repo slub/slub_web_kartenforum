@@ -20,8 +20,8 @@ import {
     GeolocateControl,
     NavigationControl,
     ScaleControl,
-    TerrainControl,
 } from "maplibre-gl";
+import { TerrainControl } from "../apps/map/components/MapWrapper/maplibreTerrainBehavior.js";
 
 /*
  * ol does not export an inherits function in the current version
@@ -92,10 +92,11 @@ export const getDefaultControls = (params) => {
                 visualizePitch: true,
             }),
         },
-        {
-            position: "top-left",
-            control: new TerrainControl({ source: "vkf-terrain" }),
-        },
+        { position: "top-left", control: new TerrainControl() },
+        // {
+        //     position: "top-left",
+        //     control: new TerrainControl({ source: TERRAIN_SOURCE_ID }),
+        // },
         {
             position: "top-left",
             control: new GeolocateControl({ trackUserLocation: true }),
