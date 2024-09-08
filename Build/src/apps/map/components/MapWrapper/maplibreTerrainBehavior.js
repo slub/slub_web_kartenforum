@@ -80,8 +80,6 @@ export class CustomMap extends Map {
                 this.terrain.exaggeration = exaggeration;
             }
 
-            console.log("update exaggeration", this.terrain.exaggeration);
-
             // When growing the terrain, this is only necessary before rendering
             this._elevationFreeze = false;
             this.triggerRepaint();
@@ -249,7 +247,6 @@ export class CustomMap extends Map {
             // and also just before triggerRepain(), this is why we moved it this high
             this._elevationFreeze = false;
 
-            console.log("positionInLoop", positionInLoop);
             // The animation goes on until we reached 99% of the growing sequence duration
             if (positionInLoop < 0.99) {
                 const exaggerationFactor = (1 - positionInLoop) ** 4;
@@ -268,7 +265,6 @@ export class CustomMap extends Map {
                 }
             }
 
-            console.log("trigger repaint");
             this.triggerRepaint();
         };
 
@@ -340,7 +336,6 @@ export class TerrainControl {
     }
 
     _toggleTerrain() {
-        console.log("toggle terrain", this._map.hasTerrain());
         if (this._map.hasTerrain()) {
             this._map.disableTerrain();
         } else {
