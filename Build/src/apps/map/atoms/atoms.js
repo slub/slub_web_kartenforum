@@ -87,7 +87,6 @@ export const searchIsLoadingState = atom({
 export const selectedFeaturesState = atom({
     key: "selectedFeatureState",
     default: [],
-    dangerouslyAllowMutability: true,
 });
 
 export const selectedGeoJsonFeatureState = atom({

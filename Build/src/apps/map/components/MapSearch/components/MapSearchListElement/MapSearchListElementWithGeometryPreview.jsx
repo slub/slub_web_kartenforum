@@ -17,10 +17,7 @@ import MapSearchListElementBase from "./MapSearchListElementBase.jsx";
 import { isDefined } from "../../../../../../util/util.js";
 import { mapState } from "../../../../atoms/atoms.js";
 import { LOADING_FEATURE } from "../MapSearchResultList/MapSearchResultListBase.jsx";
-import GeoJSON from "ol/format/GeoJSON";
 import { updateOverlayLayer } from "../MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
-
-const geoJsonFormat = new GeoJSON();
 
 export const MapSearchListElementWithGeometryPreview = (props) => {
   const { data, index } = props;
@@ -32,9 +29,7 @@ export const MapSearchListElementWithGeometryPreview = (props) => {
   // @TODO: Rework search element parsing before implementing this correctly
   const handleMouseEnter = useCallback(() => {
     if (isDefined(map)) {
-      const geometry = geoJsonFormat.writeFeature(operationalLayer);
-      const geometryElement = JSON.parse(geometry);
-      updateOverlayLayer(map, geometryElement);
+      updateOverlayLayer(map, operationalLayer.toGeoJSON());
     }
   }, [map, operationalLayer]);
 

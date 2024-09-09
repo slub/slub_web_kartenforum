@@ -4,7 +4,6 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { getSourceIdForFeature } from "../CustomLayers/HistoricMapLayer.js";
 
 export const getLayers = (map) => {
     const layers = map.getStyle().layers;
@@ -15,7 +14,7 @@ export const getLayers = (map) => {
 };
 
 export const removeLayerForFeature = (map, feature) => {
-    const sourceId = getSourceIdForFeature(feature);
+    const sourceId = feature.getSourceId();
 
     removeLayer(map, sourceId);
 };

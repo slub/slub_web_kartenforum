@@ -238,47 +238,34 @@ export function MapWrapper(props) {
   }, []);
 
   useEffect(() => {
-    selectedFeatures.forEach((selectedFeature) => {
-      const {
-        displayedInMap = false,
-        feature,
-        isVisible = true,
-        opacity = 1,
-        type,
-      } = selectedFeature;
+    if (map) {
+      selectedFeatures.forEach((selectedFeature) => {
+        const { feature, type } = selectedFeature;
 
-      if (!displayedInMap && feature.get("has_georeference")) {
-        try {
-          const prom =
-            type === LAYER_TYPES.GEOJSON
-              ? new Promise((resolve) => resolve(new GeoJsonLayer({ feature })))
-              : createHistoricMapForFeature(feature, map);
+        if (!feature.isDisplayedInMap(map) && feature.get("has_georeference")) {
+          try {
+            const prom =
+              type === LAYER_TYPES.GEOJSON
+                ? new Promise((resolve) =>
+                    resolve(new GeoJsonLayer({ feature }))
+                  )
+                : createHistoricMapForFeature(feature, map);
+          } catch (e) {
+            // there was an error mounting the layer => remove the selected feature and display an errror message
+            setNotification({
+              id: "map-wrapper",
+              type: "danger",
+              text: translate("mapwrapper-mount-layer-error"),
+            });
 
-          // prom.then((layer) => {
-          //   layer.allowUseInLayerManagement = true;
-          //
-          //   layer.setOpacity(opacity);
-          //   layer.setVisible(isVisible);
-          //   map.addLayer(layer);
-          // });
-          selectedFeature.displayedInMap = true;
-        } catch (e) {
-          // there was an error mounting the layer => remove the selected feature and display an errror message
-          setNotification({
-            id: "map-wrapper",
-            type: "danger",
-            text: translate("mapwrapper-mount-layer-error"),
-          });
-
-          setSelectedFeatures((oldSelectedFeatures) =>
-            oldSelectedFeatures.filter(
-              (f) => f.feature.getId() !== feature.getId()
-            )
-          );
+            setSelectedFeatures((oldSelectedFeatures) =>
+              oldSelectedFeatures.filter((f) => f.getId() !== feature.getId())
+            );
+          }
         }
-      }
-    });
-  }, [selectedFeatures]);
+      });
+    }
+  }, [map, selectedFeatures]);
 
   // useEffect(() => {
   //   if (isDefined(controlsRef.current)) {

@@ -53,6 +53,7 @@
   "dependencies": {
     "@react-hook/resize-observer": "^1.2.5",
     "@react-hook/window-size": "^3.0.7",
+    "@turf/bbox": "^7.1.0",
     "axios": "^0.24.0",
     "bootstrap": "^3.4.1",
     "cesium": "~1.85.0",

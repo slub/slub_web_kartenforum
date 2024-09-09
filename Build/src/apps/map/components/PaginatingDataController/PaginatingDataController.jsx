@@ -112,14 +112,7 @@ export const PaginatingDataController = ({
           if (resp.status === 200) {
             const data = resp.data;
 
-            return opt_raw
-              ? data
-              : readFeatures(
-                  data["hits"]["hits"],
-                  elasticsearch_srs,
-                  "ESPG:4326",
-                  is3dEnabled
-                );
+            return opt_raw ? data : readFeatures(data["hits"]["hits"]);
           }
         })
         .catch((e) => {

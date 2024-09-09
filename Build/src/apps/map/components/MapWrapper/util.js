@@ -5,32 +5,12 @@ import axios from "axios";
 import SettingsProvider from "../../../../SettingsProvider";
 import HistoricMap, {
     addHistoricMapLayer,
-    getSourceIdForFeature,
 } from "../CustomLayers/HistoricMapLayer";
 import { UNIQUE_CONTROL_PANEL_CLASS } from "../Controls/BasemapSelectorControl.jsx";
 import GeoJsonLayer from "../CustomLayers/GeoJsonLayer.js";
 import { fetchAndParseWmsCapabilities } from "../BasemapSelector/util.js";
-import { DEFAULT_PROJ } from "../../../georeferencer/util/util.js";
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes.js";
 
-/**
- * Checks if the layer collection already contains a layer with that id.
- *
- * @param {string} id
- * @param {Collection} layers
- * @return {boolean}
- */
-export const containsLayerWithId = function (id, layers) {
-    const array = layers.getArray();
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] instanceof HistoricMap) {
-            if (array[i].getId() === id) {
-                return true;
-            }
-        }
-    }
-    return false;
-};
 /**
  * Fetches the maximum zoom value from an XML file located at the specified URL.
  *
@@ -53,7 +33,7 @@ const fetchMaxZoomFromTileMapSource = async (url) => {
 };
 
 /**
- * @param {ol.Feature} feature
+ * @param {Feature} feature
  * @return {vk2.layer.HistoricMap}
  * @private
  */
@@ -68,7 +48,7 @@ export const createHistoricMapForFeature = async function (feature, map) {
     const type = feature.get("type");
 
     const baseSettings = {
-        clip: feature.getGeometry().clone(),
+        clip: feature.getGeometry(),
         id: feature.getId(),
         scale: feature.get("map_scale"),
         thumb_url:
@@ -82,7 +62,7 @@ export const createHistoricMapForFeature = async function (feature, map) {
                     ? "single_sheet"
                     : "mosaic"
                 : type,
-        sourceId: getSourceIdForFeature(feature),
+        sourceId: feature.getSourceId(),
     };
 
     if (isTmsDefined) {

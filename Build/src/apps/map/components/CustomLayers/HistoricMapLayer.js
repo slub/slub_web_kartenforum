@@ -7,16 +7,13 @@
 import { Tile } from "ol/layer";
 import { XYZ } from "ol/source";
 import TileWMS from "ol/source/TileWMS";
+import { bbox } from "@turf/bbox";
 
 import { inherits, isDefined } from "../../../../util/util";
 import { LAYER_TYPES } from "./LayerTypes";
 
-export const getSourceIdForFeature = (feature) => {
-    return feature.getId() ?? feature.get("title");
-};
-
 export const addHistoricMapLayer = (settings, map) => {
-    const bounds = settings.clip?.getExtent();
+    const bounds = settings.clip ? bbox(settings.clip) : undefined;
 
     const metadata = {
         "vkf:id": isDefined(settings.id) ? settings.id : undefined,
