@@ -29,14 +29,7 @@ const baseOptions = {
                 let count = 0;
                 build.onEnd((result) => {
                     if (count++ === 0) console.log(result, "🚀 First build.");
-                    else
-                        console.log(
-                            {
-                                warnings: result.warnings,
-                                errors: result.errors,
-                            },
-                            "♻ Refreshed"
-                        );
+                    else console.log("♻ Refreshed");
                 });
             },
         },
@@ -51,7 +44,7 @@ export async function build(options) {
     // Watch the files
     if (isWatch) {
         await context.watch();
+    } else {
+        return context.dispose();
     }
-
-    return context.dispose();
 }
