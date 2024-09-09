@@ -18,7 +18,6 @@ import {
   selectedOriginalMapIdState,
 } from "../../../atoms/atoms";
 import { OpacitySlider } from "../../../../../components/OpacitySlider/OpacitySlider";
-import HistoricMap from "../../CustomLayers/HistoricMapLayer";
 import SettingsProvider from "../../../../../SettingsProvider";
 import { serializeOperationalLayer } from "../../../persistence/util";
 import { triggerJsonDownload } from "../util";
@@ -274,7 +273,8 @@ LayerManagementEntry.propTypes = {
   id: PropTypes.string,
   index: PropTypes.number,
   layer: PropTypes.oneOfType([
-    PropTypes.instanceOf(HistoricMap),
+    // @TODO: Add some more specific types here
+    PropTypes.object,
     PropTypes.instanceOf(GeoJsonLayer),
   ]),
   onMoveLayer: PropTypes.func,

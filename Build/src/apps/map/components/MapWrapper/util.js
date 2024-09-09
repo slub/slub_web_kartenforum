@@ -3,11 +3,8 @@ import { containsXY } from "ol/extent";
 import axios from "axios";
 
 import SettingsProvider from "../../../../SettingsProvider";
-import HistoricMap, {
-    addHistoricMapLayer,
-} from "../CustomLayers/HistoricMapLayer";
+import { addHistoricMapLayer } from "../CustomLayers/HistoricMapLayer";
 import { UNIQUE_CONTROL_PANEL_CLASS } from "../Controls/BasemapSelectorControl.jsx";
-import GeoJsonLayer from "../CustomLayers/GeoJsonLayer.js";
 import { fetchAndParseWmsCapabilities } from "../BasemapSelector/util.js";
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes.js";
 
@@ -181,18 +178,6 @@ export const generateControlToggleHandler =
 
         element.className = isActive ? defaultClass : `${defaultClass} active`;
     };
-
-/**
- * Get operational Layers from map
- * @param map
- * @return {*[]}
- */
-export const getOperationalLayers = function (map) {
-    const layers = map.getLayers().getArray();
-    return layers.filter(
-        (l) => l instanceof HistoricMap || l instanceof GeoJsonLayer
-    );
-};
 
 export const getUniqueControlPanels = () => {
     return document.getElementsByClassName(UNIQUE_CONTROL_PANEL_CLASS);
