@@ -44,19 +44,14 @@ const baseOptions = {
 };
 
 export async function build(options) {
+    const context = await esbuild.context({ ...baseOptions, ...options });
+
+    await context.rebuild();
+
+    // Watch the files
     if (isWatch) {
-        const context = await esbuild.context({ ...baseOptions, ...options });
-
-        await context.rebuild();
-
         await context.watch();
-    } else {
-        try {
-            await esbuild.build(options);
-            console.log("Build completed");
-        } catch (error) {
-            console.error("Build failed:", error);
-            process.exit(1);
-        }
     }
+
+    return context.dispose();
 }
