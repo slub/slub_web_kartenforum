@@ -51,13 +51,6 @@ export const layoutState = atom({
     default: LAYOUT_TYPES.VERTICAL,
 });
 
-// allows accessing the maplayer containing the hovered feature outline
-export const mapSearchOverlayLayerState = atom({
-    key: "mapSearchOverlayLayer",
-    default: undefined,
-    dangerouslyAllowMutability: true,
-});
-
 // allows accessing the map
 export const mapState = atom({
     key: "mapState",

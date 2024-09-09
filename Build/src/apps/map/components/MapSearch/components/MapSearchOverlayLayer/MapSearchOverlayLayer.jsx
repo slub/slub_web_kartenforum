@@ -30,7 +30,7 @@ const addOverlayLayer = (map) => {
     source: MAP_OVERLAY_SOURCE_ID,
     paint: {
       "fill-color": "#ff0000",
-      "fill-opacity": 0.5,
+      "fill-opacity": 0.2,
     },
   });
 
@@ -40,7 +40,7 @@ const addOverlayLayer = (map) => {
     source: MAP_OVERLAY_SOURCE_ID,
     paint: {
       "line-color": "#ff0000",
-      "line-width": 2,
+      "line-width": 1,
     },
   });
 };
@@ -95,18 +95,25 @@ export const MapSearchOverlayLayer = () => {
 
   useEffect(() => {
     if (isDefined(map)) {
-      const handleMapLayerChange = () => {
-        // if (
-        //   map.getLayer(MAP_OVERLAY_FILL_ID) &&
-        //   map.getLayer(MAP_OVERLAY_OUTLINE_ID)
-        // ) {
-        //   const layers = map.getStyle().layers;
-        //   const lastLayer = layers[layers.length - 1];
-        //   if (lastLayer.id === MAP_OVERLAY_OUTLINE_ID) {
-        //     map.moveLayer(MAP_OVERLAY_FILL_ID, null);
-        //     map.moveLayer(MAP_OVERLAY_OUTLINE_ID, null);
-        //   }
-        // }
+      // keep overlay layers on top
+      // @TODO: Check if we can adjust adding/removing of layers to avoid this -> Always insert before overlay layer
+      const handleMapLayerChange = ({ layerId }) => {
+        if (
+          layerId !== MAP_OVERLAY_FILL_ID &&
+          layerId !== MAP_OVERLAY_OUTLINE_ID
+        ) {
+          if (
+            map.getLayer(MAP_OVERLAY_FILL_ID) &&
+            map.getLayer(MAP_OVERLAY_OUTLINE_ID)
+          ) {
+            const layers = map.getStyle().layers;
+            const lastLayer = layers[layers.length - 1];
+            if (lastLayer.id !== MAP_OVERLAY_OUTLINE_ID) {
+              map.moveLayer(MAP_OVERLAY_FILL_ID, null);
+              map.moveLayer(MAP_OVERLAY_OUTLINE_ID, null);
+            }
+          }
+        }
       };
 
       map.on(customEvents.layerAdded, handleMapLayerChange);
@@ -119,7 +126,7 @@ export const MapSearchOverlayLayer = () => {
         map.off(customEvents.layerMoved, handleMapLayerChange);
       };
     }
-  });
+  }, [map]);
   return <></>;
 };
 
