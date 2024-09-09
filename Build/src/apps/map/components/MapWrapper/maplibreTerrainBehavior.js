@@ -11,10 +11,69 @@ import CustomEvents from "./customEvents.js";
 const terrainUrl = "https://tiles-experimental.pikotest.dev/{z}/{x}/{y}.png";
 export const TERRAIN_SOURCE_ID = "vkf-terrain";
 export const TERRAIN_HILLSHADE_SOURCE_ID = "vkf-hillshade";
+// this.addSource(TERRAIN_HILLSHADE_SOURCE_ID, {
+//     type: "raster-dem",
+//     tiles: [terrainUrl],
+//     tileSize: 256,
+//     minzoom: 0,
+//     maxzoom: 12,
+//     encoding: "terrarium",
+// });
+
+// this.addLayer({
+//     id: TERRAIN_HILLSHADE_SOURCE_ID,
+//     type: "hillshade",
+//     source: TERRAIN_HILLSHADE_SOURCE_ID,
+//     layout: { visibility: "visible" },
+//     paint: { "hillshade-shadow-color": "#473B24" },
+// });
+
+// // Optionally add a sky layer for better visualization
+// this.setSky({
+//     "sky-type": "atmosphere",
+//     "sky-atmosphere-sun": [0.0, 0.0],
+//     "sky-atmosphere-sun-intensity": 15,
+// });
+
+function flyToAsync(map, options) {
+    return new Promise(function (myResolve, myReject) {
+        const onAbort = () => {
+            myResolve(false);
+        };
+
+        const cancelAbort = () => {
+            options.signal.removeEventListener("abort", onAbort);
+        };
+
+        options.signal.addEventListener("abort", onAbort, { once: true });
+
+        map.once("moveend", () => {
+            myResolve(true);
+            cancelAbort();
+        });
+
+        map.once("touchstart", () => {
+            myResolve(false);
+            cancelAbort();
+        });
+
+        map.once("mousedown", () => {
+            myResolve(false);
+            cancelAbort();
+        });
+
+        map.flyTo(options);
+    });
+}
+
+function sleepAsync(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export class CustomMap extends Map {
     terrainExaggeration = 1;
     isTerrainEnabled = false;
+    abortControler = new AbortController();
 
     addLayer(layer, beforeId) {
         const result = super.addLayer(layer, beforeId);
@@ -145,7 +204,6 @@ export class CustomMap extends Map {
 
             // Mapping it to the "data" event so that we can check that the terrain
             // growing starts only when terrain tiles are loaded (to reduce glitching)
-            this.on("data", dataEventTerrainGrow);
 
             this.addSource(TERRAIN_SOURCE_ID, {
                 type: "raster-dem",
@@ -156,36 +214,29 @@ export class CustomMap extends Map {
                 encoding: "terrarium",
             });
 
-            // this.addSource(TERRAIN_HILLSHADE_SOURCE_ID, {
-            //     type: "raster-dem",
-            //     tiles: [terrainUrl],
-            //     tileSize: 256,
-            //     minzoom: 0,
-            //     maxzoom: 12,
-            //     encoding: "terrarium",
-            // });
-
-            // this.addLayer({
-            //     id: TERRAIN_HILLSHADE_SOURCE_ID,
-            //     type: "hillshade",
-            //     source: TERRAIN_HILLSHADE_SOURCE_ID,
-            //     layout: { visibility: "visible" },
-            //     paint: { "hillshade-shadow-color": "#473B24" },
-            // });
-
-            // // Optionally add a sky layer for better visualization
-            // this.setSky({
-            //     "sky-type": "atmosphere",
-            //     "sky-atmosphere-sun": [0.0, 0.0],
-            //     "sky-atmosphere-sun-intensity": 15,
-            // });
-
             // Setting up the terrain with a 0 exaggeration factor
             // so it loads ~seamlessly and then can grow from there
             this.setTerrain({
                 source: TERRAIN_SOURCE_ID,
                 exaggeration: 0,
             });
+
+            this.abortControler.abort();
+            this.abortControler = new AbortController();
+            flyToAsync(this, {
+                signal: this.abortControler.signal,
+                pitch: 60,
+                duration: 700,
+            })
+                .then(() => sleepAsync(500))
+                .then(() => {
+                    const source = this.getSource(TERRAIN_SOURCE_ID);
+                    if (source.loaded()) {
+                        this.growTerrain(exaggeration);
+                    } else {
+                        this.on("data", dataEventTerrainGrow);
+                    }
+                });
         };
 
         // The terrain has already been loaded,
@@ -211,7 +262,7 @@ export class CustomMap extends Map {
     /**
      * Disable the 3D terrain visualization
      */
-    disableTerrain() {
+    async disableTerrain() {
         // It could be disabled already
         if (!this.terrain) {
             return;
@@ -263,6 +314,13 @@ export class CustomMap extends Map {
                 if (this.getSource(TERRAIN_SOURCE_ID)) {
                     this.removeSource(TERRAIN_SOURCE_ID);
                 }
+                this.abortControler.abort();
+                this.abortControler = new AbortController();
+                flyToAsync(this, {
+                    pitch: 0,
+                    signal: this.abortControler.signal,
+                    duration: 700,
+                });
             }
 
             this.triggerRepaint();

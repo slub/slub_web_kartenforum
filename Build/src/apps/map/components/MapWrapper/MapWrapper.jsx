@@ -85,10 +85,8 @@ export function MapWrapper(props) {
   const [activeBasemapId, setActiveBasemapId] =
     useRecoilState(activeBasemapIdState);
   const [activeBasemap, setActiveBasemap] = useState(initialBasemap);
-  const [is3dActive, set3dActive] = useRecoilState(map3dState);
   const localStorageWriter = useRecoilValue(currentApplicationStateState);
   const [map, setMap] = useRecoilState(mapState);
-  const setOlcsMap = useSetRecoilState(olcsMapState);
   const setSelectedGeoJsonFeature = useSetRecoilState(
     selectedGeoJsonFeatureState
   );
@@ -122,58 +120,6 @@ export function MapWrapper(props) {
   const handleBasemapChange = (newBasemapLayer) => {
     setActiveBasemapId(newBasemapLayer.id);
     setActiveBasemap(newBasemapLayer);
-  };
-
-  // toggle viewmode from 2d to 3d and vice versa
-  const handleChangeViewMode = (new3dStateGenerator) => {
-    let new3dState;
-    set3dActive((oldState) => {
-      new3dState = new3dStateGenerator(oldState);
-      return new3dState;
-    });
-
-    const ol3d = olcsMapRef.current;
-
-    if (ol3d !== undefined) {
-      if (new3dState) {
-        const scene = ol3d.getCesiumScene(),
-          camera = scene.camera,
-          bottom = olcsCore.pickBottomPoint(scene),
-          angle = Cesium.Math.toRadians(50),
-          transform = Cesium.Matrix4.fromTranslation(bottom);
-
-        if (ol3d.getEnabled()) return;
-        // 2d -> 3d transition
-        ol3d.setEnabled(true);
-
-        // take care that every time the view is reset when zoom out
-        olcsCore.rotateAroundAxis(camera, -angle, camera.right, transform, {
-          duration: 500,
-        });
-      } else {
-        if (!ol3d.getEnabled()) return;
-
-        const scene = ol3d.getCesiumScene(),
-          camera = scene.camera,
-          bottom = olcsCore.pickBottomPoint(scene),
-          transform = Cesium.Matrix4.fromTranslation(bottom),
-          angle = olcsCore.computeAngleToZenith(scene, bottom);
-
-        // 3d -> 2d transition
-        olcsCore.rotateAroundAxis(camera, -angle, camera.right, transform, {
-          callback: function () {
-            ol3d.setEnabled(false);
-            const view = ol3d.getOlMap().getView();
-            const resolution = view.getResolution();
-            const rotation = view.getRotation();
-
-            // constraints apply on setting them
-            view.setResolution(resolution);
-            view.setRotation(rotation);
-          },
-        });
-      }
-    }
   };
 
   //@TODO: Handle map click for geojson feature
@@ -302,13 +248,11 @@ export function MapWrapper(props) {
       //     }
       //
       const newControls = getDefaultControls({
-        is3dActive,
         layout,
         basemapSelectorProps: {
           onBasemapChange: handleBasemapChange,
           onSetNotification: setNotification,
         },
-        onViewModeChange: handleChangeViewMode,
         permalinkProps: {
           camera: olcsMapRef.current?.getCesiumScene().camera,
           refActiveBasemapId: unsafe_refBasemapId,
@@ -318,7 +262,6 @@ export function MapWrapper(props) {
         refSpyLayer: unsafe_refSpyLayer,
       });
 
-      //
       newControls.forEach(({ control, position }) => {
         map.addControl(control, position);
         //
@@ -333,10 +276,16 @@ export function MapWrapper(props) {
         //         updateFn(is3dActive);
         //       }
       });
+
+      return () => {
+        newControls.forEach(({ control }) => {
+          map.removeControl(control);
+        });
+      };
       //
       //     controlsRef.current = newControls;
     }
-  }, [layout, map]);
+  }, [map]);
 
   // fit map to viewport after resize (e.g switch from landscape to portrait mode)
   // useEffect(() => {
