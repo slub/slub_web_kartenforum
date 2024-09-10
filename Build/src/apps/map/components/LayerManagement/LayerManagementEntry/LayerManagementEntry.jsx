@@ -6,31 +6,26 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
 import { useDrag, useDrop } from "react-dnd";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useDoubleTap } from "use-double-tap";
 
 import { translate } from "../../../../../util/util";
-import {
-  selectedFeaturesState,
-  selectedOriginalMapIdState,
-} from "../../../atoms/atoms";
 import { OpacitySlider } from "../../../../../components/OpacitySlider/OpacitySlider";
 import SettingsProvider from "../../../../../SettingsProvider";
-import { serializeOperationalLayer } from "../../../persistence/util";
-import { triggerJsonDownload } from "../util";
 import { LAYER_TYPES } from "../../CustomLayers/LayerTypes";
 import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
 import GeoJsonLayer from "../../CustomLayers/GeoJsonLayer.js";
 import DragButton from "./components/DragButton/DragButton.jsx";
-import "./LayerManagementEntry.scss";
 import VisibilityButton from "./components/VisibilityButton/VisibilityButton.jsx";
 import RemoveLayerButton from "./components/RemoveLayerButton/RemoveLayerButton.jsx";
 import ZoomToExtentButton from "./components/ZoomToExtentButton/ZoomToExtentButton.jsx";
 import MoveToTopButton from "./components/MoveToTopButton/MoveToTopButton.jsx";
 import LayerManagementThumbnail from "./components/LayerManagementThumbnail/LayerManagementThumbnail.jsx";
+import ShowOriginalButton from "./components/ShowOriginalButton/ShowOriginalButton.jsx";
+import ExportGeojsonButton from "./components/ExportGeojsonButton/ExportGeojsonButton.jsx";
+import "./LayerManagementEntry.scss";
 
 export const ItemTypes = {
   LAYER: "LAYER",
@@ -43,10 +38,6 @@ export const LayerManagementEntry = (props) => {
   const [isShowActions, setShowActions] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const ref = useRef(null);
-  const [selectedFeatures] = useRecoilState(selectedFeaturesState);
-  const setSelectedOriginalMapId = useSetRecoilState(
-    selectedOriginalMapIdState
-  );
   const settings = SettingsProvider.getSettings();
 
   // drag/drop handlers from: https://react-dnd.github.io/react-dnd/examples/sortable/simple
@@ -109,20 +100,6 @@ export const LayerManagementEntry = (props) => {
       }
     }, 100);
 
-  // triggers the download of a geojson file name like the clicked layer
-  const handleExportGeojson = () => {
-    const id = layerId;
-    const selectedFeature = selectedFeatures.find(
-      (selFeature) => selFeature.feature.getId() === id
-    );
-    const serializedLayer = serializeOperationalLayer(selectedFeature, layer);
-
-    triggerJsonDownload(
-      serializedLayer.properties.title,
-      JSON.stringify(serializedLayer.geojson)
-    );
-  };
-
   // propagate hovered layer id if no drag is in progress
   const handleMouseEnter = () => {
     setEntered(true);
@@ -137,11 +114,6 @@ export const LayerManagementEntry = (props) => {
   const handleDoubleTap = useDoubleTap(() => {
     setShowActions((oldShowActions) => !oldShowActions);
   }, 500);
-
-  // Open original map
-  const handleOriginalMap = () => {
-    setSelectedOriginalMapId(id);
-  };
 
   const handleStartSliding = () => {
     setIsSliding(true);
@@ -221,23 +193,9 @@ export const LayerManagementEntry = (props) => {
         <RemoveLayerButton layer={layer} />
         <ZoomToExtentButton layer={layer} />
         {layerType !== LAYER_TYPES.GEOJSON ? (
-          <button
-            className="show-original"
-            onClick={handleOriginalMap}
-            type="button"
-            title={translate("layermanagement-show-original")}
-          >
-            <SvgIcons name="layeraction-showoriginal" />
-          </button>
+          <ShowOriginalButton layer={layer} />
         ) : (
-          <button
-            className="export-geojson"
-            onClick={handleExportGeojson}
-            type="button"
-            title={translate("layermanagement-export")}
-          >
-            <SvgIcons name="layeraction-export" />
-          </button>
+          <ExportGeojsonButton layer={layer} />
         )}
         {!isMosaicMap &&
           settings["LINK_TO_GEOREFERENCE"] !== undefined &&
