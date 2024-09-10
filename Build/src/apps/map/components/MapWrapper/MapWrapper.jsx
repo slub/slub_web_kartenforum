@@ -54,6 +54,7 @@ import CustomEvents from "./customEvents.js";
 import customEvents from "./customEvents.js";
 import { overwriteMapLibreBehavior } from "./maplibreOverwrites.js";
 import { CustomMap } from "./maplibreTerrainBehavior.js";
+import NewBasemapSelector from "../BasemapSelector/NewBasemapSelector.jsx";
 
 import { addGeoJsonLayers } from "./geojson/addGeoJsonLayers";
 
@@ -173,7 +174,6 @@ export function MapWrapper(props) {
     });
 
     overwriteMapLibreBehavior(initialMap);
-
     setMap(initialMap);
 
     if (enable3d && enableTerrain) {
@@ -351,6 +351,7 @@ export function MapWrapper(props) {
         tabIndex={0}
       >
         {isDefined(map) && <ChildComponent onAddGeoJson={onAddGeoJson} />}
+        <NewBasemapSelector />
       </div>
     </div>
   );

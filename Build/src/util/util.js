@@ -11,7 +11,7 @@ import CustomAttribution from "../apps/map/components/MapWrapper/components/Cust
 import LocateMeControl from "../components/Controls/LocateMeControl";
 import ToggleViewMode from "../components/ToggleViewmode/ToggleViewmode";
 import LayerSpy from "../components/Controls/LayerSpyControl";
-import BasemapSelector from "../apps/map/components/Controls/BasemapSelectorControl";
+import BasemapSelectorControl from "../apps/map/components/Controls/BasemapSelectorControl";
 import { MousePositionOnOff } from "../apps/map/components/MapWrapper/components/MousePositionOnOff";
 import { LAYOUT_TYPES } from "../apps/map/layouts/util";
 import PermalinkControl from "../apps/map/components/MapWrapper/components/PermalinkControl/PermalinkControl";
@@ -97,6 +97,7 @@ export const getDefaultControls = (params) => {
             position: "top-left",
             control: new MousePositionOnOff(),
         },
+        { position: "top-left", control: new BasemapSelectorControl() },
         {
             position: "top-left",
             control: new GeolocateControl({ trackUserLocation: true }),
@@ -113,7 +114,7 @@ export const getDefaultControls = (params) => {
         //     onViewModeChange,
         // }),
         // new LocateMeControl(),
-        // new BasemapSelector(basemapSelectorProps),
+
         // new PermalinkControl({ is3dActive, ...permalinkProps }),
     ];
 

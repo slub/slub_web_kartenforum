@@ -6,6 +6,8 @@
  */
 
 const CustomEvents = {
+    controlAdded: "controlAdded",
+    controlRemoved: "controlRemoved",
     layerAdded: "layerAdded",
     layerMoved: "layerMoved",
     layerRemoved: "layerRemoved",

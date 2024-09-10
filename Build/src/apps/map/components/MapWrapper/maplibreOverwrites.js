@@ -13,6 +13,24 @@ export const overwriteMapLibreBehavior = (map) => {
     const originalSetPaintProperty = map.setPaintProperty;
     const originalSetLayoutProperty = map.setLayoutProperty;
     const originalMoveLayer = map.moveLayer;
+    const originalAddControl = map.addControl;
+    const originalRemoveControl = map.removeControl;
+
+    map.addControl = function (control, position) {
+        // Call the original method
+        originalAddControl.call(this, control, position);
+
+        // Emit a custom event or trigger some action
+        this.fire(CustomEvents.controlAdded, { control: control });
+    };
+
+    map.removeControl = function (control) {
+        // Emit a custom event or trigger some action
+        this.fire(CustomEvents.controlRemoved, { control: control });
+
+        // Call the original method
+        originalRemoveControl.call(this, control);
+    };
 
     map.addLayer = function (layer, before) {
         // Call the original method

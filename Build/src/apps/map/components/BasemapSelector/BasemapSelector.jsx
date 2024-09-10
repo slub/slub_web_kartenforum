@@ -39,16 +39,15 @@ export const BasemapSelector = (props) => {
 
   // Handler for performing an update of the basemap
   const handleChangeBaseMapLayer = (newLayer) => {
-    const layers = map.getLayers();
-    const newMapLayer = createBaseMapLayer(newLayer);
+    const layers = map.getStyle().layers;
     const activeMapLayer = layers
       .getArray()
       .find((l) => l.vkf_type === "basemap");
 
-    if (activeMapLayer.vkf_id !== newMapLayer.vkf_id) {
+    if (activeMapLayer.vkf_id !== newLayer.id) {
       // expect that the basemap is always at index 0
       layers.removeAt(0);
-      layers.insertAt(0, newMapLayer);
+      layers.insertAt(0, newLayer);
     }
 
     // Signal that it is the current active layer

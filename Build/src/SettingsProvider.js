@@ -14,9 +14,7 @@ let settingsObject = {
             id: "slub-osm",
             label: "SLUB OSM",
             urls: [
-                "https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}@2x.png",
-                "https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}@2x.png",
-                "https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}@2x.png",
+                "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json",
             ],
             type: "xyz",
             tileSize: 512,

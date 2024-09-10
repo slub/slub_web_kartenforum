@@ -18,9 +18,9 @@ const baseOptions = {
         ".png": "dataurl",
         ".svg": "dataurl",
     },
-    sourcemap: isWatch && !isProduction ? "inline" : false,
     globalName: "vk2",
     minify: !isWatch && isProduction,
+    sourcemap: isWatch && !isProduction ? "inline" : false,
     target: "es6",
     plugins: [
         sassPlugin({ cache: true }),

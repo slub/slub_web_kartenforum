@@ -26,9 +26,9 @@ export function createBaseMapLayer({
     tileSize = 256,
     layers = "",
 }) {
-    if (type !== "xyz" && type !== "wms") {
+    if (type !== "vector" && type !== "wms") {
         throw new Error(
-            "Currently only 'xyz' and 'wms' schema are supported as basemaps."
+            "Currently only 'vector' and 'wms' schema are supported as basemaps."
         );
     }
 
