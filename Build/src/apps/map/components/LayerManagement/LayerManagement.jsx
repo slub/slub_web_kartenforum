@@ -53,18 +53,13 @@ export const LayerManagement = ({
   // @TODO: We can probably do this a little more efficient, by utilizing the new information from the custom events
   // Handles changes on the layer container of the map
   const handleRefresh = useCallback(() => {
-    console.log("map");
     if (isDefined(map)) {
-      console.log("Handle refresh");
       const newLayers = getLayers(map).reverse();
-      console.log(newLayers, getLayers(map));
-
       setDisplayedLayers(newLayers);
       setDisplayedLayersCount(newLayers.length);
     }
   }, [map]);
 
-  // @TODO: Port to maplibre
   // Handles drag and drop moves
   const handleMoveLayer = (dragIndex, hoverIndex) => {
     const layers = getLayers(map);
@@ -88,7 +83,6 @@ export const LayerManagement = ({
   useEffect(() => {
     if (map !== undefined) {
       const registerListeners = () => {
-        console.log("register listeners");
         // set layers initially
         handleRefresh();
 
@@ -99,10 +93,8 @@ export const LayerManagement = ({
       };
 
       if (!map._loaded) {
-        console.log("map not loaded");
         map.on("load", registerListeners);
       } else {
-        console.log("map loaded");
         registerListeners();
       }
 
