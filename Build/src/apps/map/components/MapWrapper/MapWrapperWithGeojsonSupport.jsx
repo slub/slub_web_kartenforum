@@ -49,6 +49,7 @@ export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
           ? `${title}_${existingFeaturesWithId.length}`
           : title;
 
+      //@TODO - use Feature class from util/Feature ?
       //@TODO GeoJSON - streamline methods, properties with other "feature" types
       const feature = {
         title,
@@ -75,6 +76,7 @@ export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
           feature,
           displayedInMap: false,
           type: LAYER_TYPES.GEOJSON,
+          //TODO: Remove this, its not actually required
           getId: () => feature.id,
         },
       ]);

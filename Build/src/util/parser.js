@@ -5,40 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-class Feature {
-    constructor({ properties, geometry }) {
-        this.properties = properties;
-        this.geometry = geometry;
-    }
-
-    getId() {
-        return this.properties.id;
-    }
-
-    toGeoJSON() {
-        return {
-            type: "Feature",
-            properties: this.properties,
-            geometry: this.geometry,
-        };
-    }
-
-    getGeometry() {
-        return this.geometry;
-    }
-
-    get(property) {
-        return this.properties[property];
-    }
-
-    getSourceId() {
-        return this.getId() ?? this.get("title");
-    }
-
-    isDisplayedInMap(map) {
-        return map.getSource(this.getSourceId()) !== undefined;
-    }
-}
+import { Feature } from "./Feature.js";
 
 /**
  * Function parses a search record from an elasticsearch query into
@@ -48,7 +15,7 @@ class Feature {
  * @param {string} id
  * @param {Object} record
  * @param {boolean} is3d
- * @return {ol.Feature}
+ * @return {Feature}
  */
 export const readFeature = function (id, record, is3d) {
     const geometry = "geometry" in record ? record["geometry"] : undefined;

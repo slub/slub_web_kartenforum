@@ -203,9 +203,10 @@ export function MapWrapper(props) {
               text: translate("mapwrapper-mount-layer-error"),
             });
 
-            //@TODO Does selectedFeature need a getId() method or not?
             setSelectedFeatures((oldSelectedFeatures) =>
-              oldSelectedFeatures.filter((f) => f.getId() !== feature.getId())
+              oldSelectedFeatures.filter(
+                (f) => f.feature.getId() !== feature.getId()
+              )
             );
           }
         }
