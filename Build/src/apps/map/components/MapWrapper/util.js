@@ -102,17 +102,12 @@ export const getControlFeedbackContainer = (
 
     // creat target element
     if (targetEl === null) {
-        const viewport = map.getViewport();
-        const overlay = viewport.getElementsByClassName(
-            "ol-overlaycontainer-stopevent"
-        )[0];
+        const viewport = map.getCanvasContainer();
+
         targetEl = document.createElement("div");
         targetEl.id = opt_selector;
-        if (overlay !== undefined) {
-            overlay.appendChild(targetEl);
-        } else {
-            viewport.appendChild(targetEl);
-        }
+
+        viewport.appendChild(targetEl);
     }
 
     return targetEl;

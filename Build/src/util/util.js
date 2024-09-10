@@ -93,10 +93,10 @@ export const getDefaultControls = (params) => {
             }),
         },
         { position: "top-left", control: new TerrainControl() },
-        // {
-        //     position: "top-left",
-        //     control: new TerrainControl({ source: TERRAIN_SOURCE_ID }),
-        // },
+        {
+            position: "top-left",
+            control: new MousePositionOnOff(),
+        },
         {
             position: "top-left",
             control: new GeolocateControl({ trackUserLocation: true }),
