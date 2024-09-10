@@ -25,7 +25,10 @@ export const VisibilityButton = (props) => {
   const map = useRecoilValue(mapState);
 
   // change visibility of the layer
-  const handleChangeVisibility = () => {
+  const handleChangeVisibility = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     setIsVisible(!isVisible);
     if (map) {
       map.setLayoutProperty(
