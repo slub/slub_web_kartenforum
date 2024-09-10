@@ -19,6 +19,7 @@ import { selectedFeaturesState } from "../../atoms/atoms";
 import MapWrapper, { mapWrapperProps } from "./MapWrapper";
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
 
+//@TODO GeoJSON  - "upload" entry point
 export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
   // state
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -37,31 +38,44 @@ export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
   // read geojson and add in supplied information
   const handleAddGeoJson = (title) => {
     try {
-      const features = deserializeGeojson(refGeoJSON.current.content);
+      const geoJson = refGeoJSON.current.content;
 
       const existingFeaturesWithId = selectedFeatures.filter((selFeature) =>
         selFeature.feature.getId().startsWith(title)
       );
 
-      const feature = new Feature({
-        geojsonFeatures: features,
-        has_georeference: true,
-        title,
-        time_changed: parseDate(refGeoJSON.current.modified),
-      });
-
-      feature.setId(
+      const id =
         existingFeaturesWithId.length > 0
           ? `${title}_${existingFeaturesWithId.length}`
-          : title
-      );
+          : title;
+
+      //@TODO GeoJSON - streamline methods, properties with other "feature" types
+      const feature = {
+        title,
+        data: geoJson,
+        id,
+        has_georeference: true,
+        time_changed: parseDate(refGeoJSON.current.modified),
+        // TODO GeoJSON - functions below are sloppily implemented for compatibility reasons, find out if needed
+        isDisplayedInMap: (map) => {
+          return map.getLayer(id) ?? false;
+        },
+        get: function (key) {
+          return this[key];
+        },
+        getId: function () {
+          return this.id;
+        },
+      };
 
       setSelectedFeatures((selFeatures) => [
         ...selFeatures,
         {
+          //@TODO GeoJSON - these props seem redundant, they are present or could be present in feature already
           feature,
           displayedInMap: false,
           type: LAYER_TYPES.GEOJSON,
+          getId: () => feature.id,
         },
       ]);
     } catch (e) {

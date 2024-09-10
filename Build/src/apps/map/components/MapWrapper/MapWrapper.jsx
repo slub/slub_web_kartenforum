@@ -55,6 +55,8 @@ import customEvents from "./customEvents.js";
 import { overwriteMapLibreBehavior } from "./maplibreOverwrites.js";
 import { CustomMap } from "./maplibreTerrainBehavior.js";
 
+import { addGeoJsonLayers } from "./geojson/addGeoJsonLayers";
+
 const style =
   "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json";
 
@@ -187,15 +189,14 @@ export function MapWrapper(props) {
     if (map) {
       selectedFeatures.forEach((selectedFeature) => {
         const { feature, type } = selectedFeature;
-
+        //@TODO GeoJSON - layer entry point
         if (!feature.isDisplayedInMap(map) && feature.get("has_georeference")) {
           try {
-            const prom =
-              type === LAYER_TYPES.GEOJSON
-                ? new Promise((resolve) =>
-                    resolve(new GeoJsonLayer({ feature }))
-                  )
-                : createHistoricMapForFeature(feature, map);
+            if (type === LAYER_TYPES.GEOJSON) {
+              addGeoJsonLayers(selectedFeature, map);
+            } else {
+              createHistoricMapForFeature(feature, map);
+            }
           } catch (e) {
             // there was an error mounting the layer => remove the selected feature and display an errror message
             setNotification({
@@ -204,6 +205,7 @@ export function MapWrapper(props) {
               text: translate("mapwrapper-mount-layer-error"),
             });
 
+            //@TODO Does selectedFeature need a getId() method or not?
             setSelectedFeatures((oldSelectedFeatures) =>
               oldSelectedFeatures.filter((f) => f.getId() !== feature.getId())
             );
