@@ -5,73 +5,50 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
-import { transform } from "ol/proj";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 import { notificationState } from "../../atoms/atoms.js";
-import { isDefined, translate } from "../../util/util.js";
-import { mapState } from "../../apps/map/atoms/atoms.js";
+import { translate } from "../../util/util.js";
 import { Autocomplete } from "./Autocomplete/Autocomplete.jsx";
 import { requestPlacenameData } from "./util.js";
 import "./PlacenameSearch.scss";
 
+const placenameToString = (placename) => (placename ? placename.label : "");
+
 export const PlacenameSearch = (props) => {
-  const { onSelectPosition, projection, searchUrl } = props;
+  const { onSelectPosition, searchUrl } = props;
   const [isLoading, setIsLoading] = useState(false);
-  const map = useRecoilValue(mapState);
   const setNotification = useSetRecoilState(notificationState);
-  const updatePosition =
-    onSelectPosition !== undefined
-      ? onSelectPosition
-      : ({ center, zoom }) => {
-          map.getView().setCenter(center);
-          map.getView().setZoom(zoom);
-        };
-
-  const placenameToString = (placename) => (placename ? placename.label : "");
-
-  const updateMapView = function (feature, srs) {
-    const epsg = isDefined(srs) ? srs : "EPSG:4326";
-    const lonlat = [feature["lonlat"]["x"], feature["lonlat"]["y"]];
-
-    const center = transform(
-      [parseFloat(lonlat[0]), parseFloat(lonlat[1])],
-      epsg,
-      projection
-    );
-
-    updatePosition({
-      center: center,
-      zoom: 12,
-    });
-  };
 
   ////
   // Handler section
   ////
 
   // Handler to fetch a list of options displayed in the autosuggest
-  const handleFetchAutocompleteResults = (placename) => {
-    // start loading
-    setIsLoading(true);
-    // afterwards finish loading
-    return requestPlacenameData(searchUrl, placename, () => {
-      setIsLoading(false);
-    });
-  };
+  const handleFetchAutocompleteResults = useCallback(
+    (placename) => {
+      // start loading
+      setIsLoading(true);
+      // afterward finish loading
+      return requestPlacenameData(searchUrl, placename, () => {
+        setIsLoading(false);
+      });
+    },
+    [searchUrl]
+  );
 
   // Handler dispatching a mapview update based on the input
   const handleSubmitPlaceName = (selectedItem, inputValue) => {
     if (selectedItem !== undefined) {
-      updateMapView(selectedItem);
+      onSelectPosition(selectedItem);
     } else {
       requestPlacenameData(searchUrl, inputValue)
         .then((data) => {
           // select the first hit if there are any hits
           if (data.length > 0) {
-            updateMapView(data[0]);
+            onSelectPosition(data[0]);
           } else {
             throw new Error(translate("placenamesearch-unknown-placename"));
           }
@@ -110,9 +87,8 @@ export const PlacenameSearch = (props) => {
 };
 
 PlacenameSearch.propTypes = {
-  onSelectPosition: PropTypes.func,
-  projection: PropTypes.string,
-  searchUrl: PropTypes.string,
+  onSelectPosition: PropTypes.func.isRequired,
+  searchUrl: PropTypes.string.isRequired,
 };
 
 export default PlacenameSearch;

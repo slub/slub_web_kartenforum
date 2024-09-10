@@ -15,11 +15,11 @@ import { mapCountState, timeRangeState } from "../../../../atoms/atoms";
 import ToggleFacetsButton from "../../../../components/MapSearch/components/ToggleFacetsButton/ToggleFacetsButton";
 import ToggleSearchButton from "../ToggleSearchButton/ToggleSearchButton";
 import { ToggleResultListButton } from "../ToggleResultListButton/ToggleResultListButton";
-import PlacenameSearch from "../../../../../../components/PlacenameSearch/PlacenameSearch";
 import PaginatingDataController from "../../../../components/PaginatingDataController/PaginatingDataController.jsx";
 import TimeSlider from "../../../../components/TimeSlider/TimeSlider";
 import SettingsProvider from "../../../../../../SettingsProvider";
 import { translate } from "../../../../../../util/util";
+import PlacenameSearchMap from "../../../../../../components/PlacenameSearch/PlacenameSearchMap.jsx";
 import "./SearchHeader.scss";
 
 export const SearchHeader = ({
@@ -75,8 +75,7 @@ export const SearchHeader = ({
         </div>
         {showSearch && (
           <div className="bottom-container">
-            <PlacenameSearch
-              projection={SettingsProvider.getDefaultMapView().projection}
+            <PlacenameSearchMap
               searchUrl={SettingsProvider.getNominatimUrl()}
             />
             <TimeSlider timeRange={timeRange} />

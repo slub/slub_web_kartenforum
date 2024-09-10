@@ -17,6 +17,7 @@ import LayerRectifiedImage from "../../../../components/LayerRectifiedImage/Laye
 import PlacenameSearch from "../../../../components/PlacenameSearch/PlacenameSearch.jsx";
 import SettingsProvider from "../../../../SettingsProvider.js";
 import "./MapTargetView.scss";
+import { transform } from "ol/proj.js";
 
 export const MapTargetView = (props) => {
   const { extent, urlNominatim, urlsOsmBaseMap } = props;
@@ -27,10 +28,19 @@ export const MapTargetView = (props) => {
   );
 
   // Handle select position via placename
-  const handleSelectPosition = ({ center, zoom }) => {
+  const handleSelectPosition = (feature) => {
+    const featureProjection = "EPSG:4326";
+    const lonlat = [feature["lonlat"]["x"], feature["lonlat"]["y"]];
+
+    const center = transform(
+      [parseFloat(lonlat[0]), parseFloat(lonlat[1])],
+      featureProjection,
+      SettingsProvider.getDefaultMapView().projection
+    );
+
     if (targetViewParams !== null) {
       targetViewParams.map.getView().setCenter(center);
-      targetViewParams.map.getView().setZoom(zoom);
+      targetViewParams.map.getView().setZoom(12);
     }
   };
 
@@ -47,7 +57,6 @@ export const MapTargetView = (props) => {
             <div className="placenamesearch-container">
               <PlacenameSearch
                 onSelectPosition={handleSelectPosition}
-                projection={SettingsProvider.getDefaultMapView().projection}
                 searchUrl={SettingsProvider.getNominatimUrl()}
               />
             </div>

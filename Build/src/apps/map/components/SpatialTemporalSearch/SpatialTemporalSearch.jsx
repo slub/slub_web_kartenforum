@@ -8,10 +8,10 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 import { timeRangeState } from "../../atoms/atoms";
-import PlacenameSearch from "../../../../components/PlacenameSearch/PlacenameSearch";
 import MapSearch from "../MapSearch/MapSearch";
 import TimeSlider from "../TimeSlider/TimeSlider";
 import SettingsProvider from "../../../../SettingsProvider";
+import PlacenameSearchMap from "../../../../components/PlacenameSearch/PlacenameSearchMap.jsx";
 import "./SpatialTemporalSearch.scss";
 
 export const SpatialTemporalSearch = ({
@@ -24,10 +24,7 @@ export const SpatialTemporalSearch = ({
     <div className="spatialsearch-inner-container">
       <div className="spatialsearch-content-panel">
         <div className="body-container">
-          <PlacenameSearch
-            projection={SettingsProvider.getDefaultMapView().projection}
-            searchUrl={SettingsProvider.getNominatimUrl()}
-          />
+          <PlacenameSearchMap searchUrl={SettingsProvider.getNominatimUrl()} />
           <TimeSlider timeRange={timeRange} />
           <MapSearch
             customQuery={customQuery}
