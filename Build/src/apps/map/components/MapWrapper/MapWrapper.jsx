@@ -52,11 +52,10 @@ import "./MapWrapper.scss";
 import SettingsProvider from "../../../../SettingsProvider.js";
 import CustomEvents from "./customEvents.js";
 import customEvents from "./customEvents.js";
-import { overwriteMapLibreBehavior } from "./maplibreOverwrites.js";
-import { CustomMap } from "./maplibreTerrainBehavior.js";
 import NewBasemapSelector from "../BasemapSelector/NewBasemapSelector.jsx";
 
 import { addGeoJsonLayers } from "./geojson/addGeoJsonLayers";
+import VkfMap from "../VkfMap/VkfMap.jsx";
 
 const style =
   "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json";
@@ -166,14 +165,13 @@ export function MapWrapper(props) {
 
   // initialize map on first render - logic formerly put into componentDidMount
   useEffect(() => {
-    const initialMap = new CustomMap({
+    const initialMap = new VkfMap({
       container: mapElement.current,
       center: mapViewSettings.center,
       zoom: mapViewSettings.zoom,
       style,
     });
 
-    overwriteMapLibreBehavior(initialMap);
     setMap(initialMap);
 
     if (enable3d && enableTerrain) {
@@ -266,17 +264,6 @@ export function MapWrapper(props) {
 
       newControls.forEach(({ control, position }) => {
         map.addControl(control, position);
-        //
-        //       // handle external state updates
-        //       let updateFn = control.handleExternalBasemapUpdate;
-        //       if (updateFn !== undefined) {
-        //         updateFn(activeBasemapId);
-        //       }
-        //
-        //       updateFn = control.handleExternal3dStateUpdate;
-        //       if (updateFn !== undefined) {
-        //         updateFn(is3dActive);
-        //       }
       });
 
       return () => {
@@ -284,8 +271,6 @@ export function MapWrapper(props) {
           map.removeControl(control);
         });
       };
-      //
-      //     controlsRef.current = newControls;
     }
   }, [map]);
 

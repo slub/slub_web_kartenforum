@@ -21,7 +21,7 @@ import {
     NavigationControl,
     ScaleControl,
 } from "maplibre-gl";
-import { TerrainControl } from "../apps/map/components/MapWrapper/maplibreTerrainBehavior.js";
+import { TerrainControl } from "../apps/map/components/Controls/TerrainControl.jsx";
 
 /*
  * ol does not export an inherits function in the current version
