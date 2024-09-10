@@ -15,7 +15,6 @@ export const overwriteMapLibreBehavior = (map) => {
     const originalMoveLayer = map.moveLayer;
 
     map.addLayer = function (layer, before) {
-        console.log("Add layer", layer, before);
         // Call the original method
         originalAddLayer.call(this, layer, before);
 

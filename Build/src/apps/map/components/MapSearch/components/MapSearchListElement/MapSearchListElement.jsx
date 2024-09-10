@@ -10,10 +10,7 @@ import { LAYER_TYPES } from "../../../CustomLayers/LayerTypes.js";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { mapState, selectedFeaturesState } from "../../../../atoms/atoms.js";
 import MapSearchListElementWithGeometryPreview from "./MapSearchListElementWithGeometryPreview.jsx";
-import {
-  getLayers,
-  removeLayerForFeature,
-} from "../../../LayerManagement/util.js";
+import { removeLayerForFeature } from "../../../LayerManagement/util.js";
 
 export const MapSearchListElement = (props) => {
   const map = useRecoilValue(mapState);
