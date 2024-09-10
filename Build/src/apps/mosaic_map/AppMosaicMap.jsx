@@ -8,7 +8,6 @@
 import React from "react";
 import { RecoilRoot } from "recoil";
 
-import StyleAppender from "../map/components/StyleAppender/StyleAppender";
 import MapWrapper from "../map/components/MapWrapper/MapWrapper.jsx";
 import SettingsProvider from "../../SettingsProvider.js";
 import { LAYOUT_TYPES } from "../map/layouts/util.js";
@@ -53,7 +52,6 @@ export const AppMosaicMap = () => {
               ChildComponent: MosaiMapLayout,
             }}
           />
-          <StyleAppender mapContainerId={"map-container"} />
         </div>
       </div>
     </RecoilRoot>

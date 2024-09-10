@@ -15,12 +15,8 @@ import { shiftKeyOnly } from "ol/events/condition";
 import { Map as MaplibreMap } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import olcsCore from "olcs/core";
 import clsx from "clsx";
 import { useWindowWidth } from "@react-hook/window-size";
-import RasterSynchronizer from "olcs/RasterSynchronizer";
-import VectorSynchronizer from "olcs/VectorSynchronizer";
-import OverlaySynchronizer from "olcs/OverlaySynchronizer.js";
 
 import { createBaseMapLayer } from "../../../../util/geo";
 import {
@@ -31,21 +27,14 @@ import {
 import {
   activeBasemapIdState,
   currentApplicationStateState,
-  map3dState,
   mapState,
-  olcsMapState,
   selectedFeaturesState,
   selectedGeoJsonFeatureState,
 } from "../../atoms/atoms";
-import {
-  createHistoricMapForFeature,
-  generateLimitCamera,
-  setOptimizedCesiumSettings,
-} from "./util";
+import { createHistoricMapForFeature } from "./util";
 import { getMapClassNameForLayout, LAYOUT_TYPES } from "../../layouts/util";
 import { useSetElementScreenSize } from "../../../../util/hooks";
 import GeoJsonLayer from "../CustomLayers/GeoJsonLayer";
-import customFeatureConverter from "./components/customFeatureConverter/customFeatureConverter";
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
 import { notificationState } from "../../../../atoms/atoms";
 import "./MapWrapper.scss";
@@ -101,7 +90,6 @@ export function MapWrapper(props) {
   // refs
   const controlsRef = useRef();
   const mapElement = useRef();
-  const olcsMapRef = useRef();
   const refDialogEditFeature = useRef();
 
   // used to make state easily accessible outside of the react tree in the permalink component
@@ -255,7 +243,7 @@ export function MapWrapper(props) {
           onSetNotification: setNotification,
         },
         permalinkProps: {
-          camera: olcsMapRef.current?.getCesiumScene().camera,
+          // camera: olcsMapRef.current?.getCesiumScene().camera,
           refActiveBasemapId: unsafe_refBasemapId,
           refApplicationStateUpdater: unsafe_refApplicationStateUpdater,
           refSelectedFeatures: unsafe_refSelectedFeatures,
