@@ -7,29 +7,30 @@
 import React, { useCallback, useState } from "react";
 import { Glyphicon } from "react-bootstrap";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 
 import CopyToClipboardButton from "../CopyToClipboardButton/CopyToClipboardButton.jsx";
-import { getUrlWithQuery } from "../../PermalinkExporter.jsx";
+import { getUrlWithQuery } from "../../PermalinkExporterTabs.jsx";
 import SettingsProvider from "../../../../../../../../SettingsProvider.js";
 import { translate } from "../../../../../../../../util/util.js";
 import LoadingSpinner from "../../../../../../../../components/LoadingSpinner/LoadingSpinner.jsx";
 import { useLocalStorage } from "../../../../../../persistence/util.js";
 import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../../../../../BasemapSelector/BasemapSelector.jsx";
 import "./MapViewInput.scss";
+import { useRecoilValue } from "recoil";
+import { currentApplicationStateState } from "../../../../../../atoms/atoms.js";
 
-export const MapViewInput = ({ refApplicationStateUpdater }) => {
+export const MapViewInput = () => {
   const [customLayers] = useLocalStorage(PERSISTENCE_CUSTOM_BASEMAP_KEYS, []);
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState("");
+  const localStorageWriter = useRecoilValue(currentApplicationStateState);
 
   const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
   const persistPath = "/map_view/";
 
   const handleUploadMapView = useCallback(() => {
-    if (refApplicationStateUpdater.current !== undefined) {
-      const { searchOptions, ...mapView } =
-        refApplicationStateUpdater.current();
+    if (localStorageWriter !== undefined) {
+      const { searchOptions, ...mapView } = localStorageWriter();
 
       const customBasemaps = customLayers.filter(
         (layer) => layer.id === mapView.activeBasemapId
@@ -56,7 +57,7 @@ export const MapViewInput = ({ refApplicationStateUpdater }) => {
           }
         });
     }
-  }, [customLayers, refApplicationStateUpdater.current]);
+  }, [customLayers, localStorageWriter]);
 
   return (
     <>
@@ -85,8 +86,4 @@ export const MapViewInput = ({ refApplicationStateUpdater }) => {
       </div>
     </>
   );
-};
-
-MapViewInput.propTypes = {
-  refApplicationStateUpdater: PropTypes.shape({ current: PropTypes.func }),
 };

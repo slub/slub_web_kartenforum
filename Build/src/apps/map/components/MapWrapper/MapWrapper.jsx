@@ -45,6 +45,7 @@ import NewBasemapSelector from "../BasemapSelector/NewBasemapSelector.jsx";
 
 import { addGeoJsonLayers } from "./geojson/addGeoJsonLayers";
 import VkfMap from "../VkfMap/VkfMap.jsx";
+import PermalinkExporter from "./components/PermalinkControl/PermalinkExporter.jsx";
 
 const style =
   "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json";
@@ -76,7 +77,6 @@ export function MapWrapper(props) {
   const [activeBasemapId, setActiveBasemapId] =
     useRecoilState(activeBasemapIdState);
   const [activeBasemap, setActiveBasemap] = useState(initialBasemap);
-  const localStorageWriter = useRecoilValue(currentApplicationStateState);
   const [map, setMap] = useRecoilState(mapState);
   const setSelectedGeoJsonFeature = useSetRecoilState(
     selectedGeoJsonFeatureState
@@ -326,6 +326,7 @@ export function MapWrapper(props) {
       >
         {isDefined(map) && <ChildComponent onAddGeoJson={onAddGeoJson} />}
         <NewBasemapSelector />
+        <PermalinkExporter />
       </div>
     </div>
   );

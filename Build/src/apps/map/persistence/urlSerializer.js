@@ -14,30 +14,17 @@ import SettingsProvider from "../../../SettingsProvider.js";
  * @param is3dEnabled
  * @return {any}
  */
-export const mapViewToUrlParams = (mapView, is3dEnabled) => {
-    if (is3dEnabled) {
-        const { direction, position, right, up } = mapView;
+export const mapViewToUrlParams = (mapView) => {
+    const { center, bearing, pitch, zoom } = mapView;
 
-        // only assign defined properties to the resulting mapview item
-        return Object.assign(
-            {},
-            isPoint(position) ? { p: pointTo3dArray(position) } : null,
-            isPoint(direction) ? { d: pointTo3dArray(direction) } : null,
-            isPoint(up) ? { u: pointTo3dArray(up) } : null,
-            isPoint(right) ? { ri: pointTo3dArray(right) } : null
-        );
-    } else {
-        const { center, resolution, rotation, zoom } = mapView;
-
-        // only assign defined properties to the resulting mapview item
-        return Object.assign(
-            {},
-            center === undefined ? null : { c: center },
-            resolution === undefined ? null : { re: resolution },
-            rotation === undefined ? null : { r: rotation },
-            zoom === undefined ? null : { z: zoom }
-        );
-    }
+    // only assign defined properties to the resulting mapview item
+    return Object.assign(
+        {},
+        center === undefined ? null : { c: center },
+        bearing === undefined ? null : { be: bearing },
+        pitch === undefined ? null : { p: pitch },
+        zoom === undefined ? null : { z: zoom }
+    );
 };
 
 /**

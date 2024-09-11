@@ -14,7 +14,7 @@ import LayerSpy from "../components/Controls/LayerSpyControl";
 import BasemapSelectorControl from "../apps/map/components/Controls/BasemapSelectorControl";
 import { MousePositionOnOff } from "../apps/map/components/MapWrapper/components/MousePositionOnOff";
 import { LAYOUT_TYPES } from "../apps/map/layouts/util";
-import PermalinkControl from "../apps/map/components/MapWrapper/components/PermalinkControl/PermalinkControl";
+import PermalinkControl from "../apps/map/components/Controls/PermalinkControl.jsx";
 import {
     FullscreenControl,
     GeolocateControl,
@@ -92,15 +92,19 @@ export const getDefaultControls = (params) => {
                 visualizePitch: true,
             }),
         },
-        { position: "top-left", control: new TerrainControl() },
         {
             position: "top-left",
             control: new MousePositionOnOff(),
         },
+        { position: "top-left", control: new TerrainControl() },
         { position: "top-left", control: new BasemapSelectorControl() },
         {
             position: "top-left",
             control: new GeolocateControl({ trackUserLocation: true }),
+        },
+        {
+            position: "top-left",
+            control: new PermalinkControl(),
         },
         { position: "bottom-right", control: new ScaleControl() },
 

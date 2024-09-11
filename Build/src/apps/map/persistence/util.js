@@ -201,14 +201,15 @@ export const joinArrayPathParameters = (a, b) => {
  * @return {{coordinates: *, id: *, isVisible: *, opacity: *, properties: *}}
  */
 export const serializeOperationalLayer = ({ feature, type }, mapLayer) => {
-    const isVisible = mapLayer.getVisible();
-    const opacity = mapLayer.getOpacity();
+    const isVisible =
+        mapLayer.layoutProperties?.visibility === "none" ? false : true;
+    const opacity = mapLayer.paint?.["raster-opacity"] || 1;
 
     const base = {
         id: feature.getId(),
         isVisible,
         opacity,
-        properties: feature.getProperties(),
+        properties: feature.properties,
     };
 
     if (type === LAYER_TYPES.GEOJSON) {
@@ -233,43 +234,15 @@ export const serializeOperationalLayer = ({ feature, type }, mapLayer) => {
     }
 };
 
-export const serializeMapView = (
-    camera,
-    map,
-    is3dEnabled,
-    beautify = false
-) => {
-    const view = map.getView();
-    if (is3dEnabled) {
-        // from cartesian coordinates to cartographic (in radians)
-        const cartographic = Cesium.Cartographic.fromCartesian(camera.position);
-        // convert radians to degrees
-        const positionInDegrees = {
-            x: Cesium.Math.toDegrees(cartographic.longitude),
-            y: Cesium.Math.toDegrees(cartographic.latitude),
-            z: cartographic.height,
-        };
+export const serializeMapView = (map, beautify = false) => {
+    const mapView = {
+        center: map.getCenter().toArray(),
+        bearing: map.getBearing(),
+        pitch: map.getPitch(),
+        zoom: map.getZoom(),
+    };
 
-        // assemble mapView
-        const mapView = {
-            position: positionInDegrees,
-            direction: camera.direction,
-            up: camera.up,
-            right: camera.right,
-        };
-
-        return beautify ? beautifyMapView(mapView, 5) : mapView;
-    } else {
-        // assemble mapView
-        const mapView = {
-            center: toLonLat(view.getCenter(), MAP_PROJECTION),
-            resolution: view.getResolution(),
-            rotation: view.getRotation(),
-            zoom: view.getZoom(),
-        };
-
-        return beautify ? beautifyMapView(mapView) : mapView;
-    }
+    return beautify ? beautifyMapView(mapView, 5) : mapView;
 };
 
 /**

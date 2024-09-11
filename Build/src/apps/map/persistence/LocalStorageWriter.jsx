@@ -17,9 +17,7 @@ import {
   activeBasemapIdState,
   facetState,
   currentApplicationStateState,
-  map3dState,
   mapState,
-  olcsMapState,
   selectedFeaturesState,
   timeExtentState,
   timeRangeState,
@@ -30,8 +28,6 @@ export const LocalStorageWriter = function () {
   const activeBasemapId = useRecoilValue(activeBasemapIdState);
   const facets = useRecoilValue(facetState);
   const map = useRecoilValue(mapState);
-  const mapIs3dEnabled = useRecoilValue(map3dState);
-  const olcsMap = useRecoilValue(olcsMapState);
   const timeExtent = useRecoilValue(timeExtentState);
   const timeRange = useRecoilValue(timeRangeState);
   const selectedFeatures = useRecoilValue(selectedFeaturesState);
@@ -45,21 +41,31 @@ export const LocalStorageWriter = function () {
   // Persist current state to localStorage
   const writeStateToLocalStorage = useCallback(() => {
     if (map !== undefined) {
+      const mapIs3dEnabled = map.hasTerrain();
+
       // Persist basic feature settings
       const newPersistenceObject = {
         activeBasemapId,
         is3dEnabled: mapIs3dEnabled,
+        // @TODO: Refactor after new layer abstraction is implemented
         operationalLayers: map
-          .getLayers()
-          .getArray()
-          .filter((layer) => layer.getId !== undefined)
+          .getStyle()
+          .layers.filter(
+            (layer) =>
+              layer.metadata !== undefined &&
+              layer.metadata["vkf:id"] !== undefined
+          )
           .map((mapLayer) => {
             const selectedFeature = selectedFeatures.find(
-              (sf) => mapLayer.getId() === sf.feature.getId()
+              (sf) => mapLayer.metadata["vkf:id"] === sf.feature.getId()
             );
+            if (selectedFeature === undefined) {
+              return null;
+            }
 
             return serializeOperationalLayer(selectedFeature, mapLayer);
-          }),
+          })
+          .filter((layer) => layer !== null),
         searchOptions: {
           facets,
           timeExtent,
@@ -68,28 +74,13 @@ export const LocalStorageWriter = function () {
       };
 
       // Persist map view
-      const camera = olcsMap.getCesiumScene().camera;
-
-      newPersistenceObject.mapView = serializeMapView(
-        camera,
-        map,
-        mapIs3dEnabled
-      );
+      newPersistenceObject.mapView = serializeMapView(map);
 
       // write changes to localStorage
       setPersistenceObject(newPersistenceObject);
       return newPersistenceObject;
     }
-  }, [
-    activeBasemapId,
-    map,
-    mapIs3dEnabled,
-    olcsMap,
-    facets,
-    selectedFeatures,
-    timeExtent,
-    timeRange,
-  ]);
+  }, [activeBasemapId, map, facets, selectedFeatures, timeExtent, timeRange]);
 
   // Write state on page leave to storage
   useOnPageLeave(writeStateToLocalStorage);
