@@ -756,7 +756,9 @@
             <trans-unit id="global.map.control-basemapselector.errorInitialization">
                 <source>The selected base map is not available</source>
             </trans-unit>
-
+            <trans-unit id="global.map.control-basemapselector.error-invalid-url">
+                <source>The URL you entered is invalid or does not support WMS services. Please check the URL and try again.</source>
+            </trans-unit>
 			<!-- Plugin Map > OriginalMapview -->
 			<trans-unit id="plugin.map.originalview.title">
                 <source>Original map</source>

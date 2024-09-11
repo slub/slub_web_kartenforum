@@ -900,6 +900,10 @@
 				<source><![CDATA[The selected base map is not available]]></source>
 				<target><![CDATA[Die ausgewählte Basiskarte ist nicht verfügbar]]></target>
 			</trans-unit>
+            <trans-unit id="global.map.control-basemapselector.error-invalid-url" approved="yes">
+				<source><![CDATA[The URL you entered is invalid or does not support WMS services. Please check the URL and try again.]]></source>
+				<target><![CDATA[Die eingegebene URL ist ungültig oder unterstützt keine WMS-Dienste. Bitte überprüfen Sie die URL und versuchen Sie es erneut.]]></target>
+			</trans-unit>
 
 			<!-- Plugin Map > OriginalMapview -->
 			<trans-unit id="plugin.map.originalview.title" approved="yes">
@@ -1117,7 +1121,7 @@
                 <target><![CDATA[Ihre Sucheingabe entspricht nicht dem zu erwartendem Format. Korrektes Beispiel: oai:de:slub-dresden:vk:id-10010325.]]></target>
             </trans-unit>
 
-			
+
 
     		<!-- Plugin Upload -> UploadMapView -->
             <trans-unit id="plugin.upload.uploadmap.title" approved="yes">

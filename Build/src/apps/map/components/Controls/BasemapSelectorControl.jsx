@@ -15,10 +15,10 @@ export class BasemapSelectorControl {
 
   /**
    *
-   * @param {{
    * initialBasemapId: string,
    * onBasemapChange: function,
    * }} options
+   * @param map
    */
   onAdd(map) {
     this._map = map;

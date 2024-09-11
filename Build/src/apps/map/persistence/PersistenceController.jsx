@@ -37,7 +37,7 @@ import { parseMapView, parseViewMode } from "./urlParser";
 import { translate } from "../../../util/util";
 import LocalStorageWriter from "./LocalStorageWriter.jsx";
 import { fetchFeatureForMapId } from "./api.js";
-import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../components/BasemapSelector/BasemapSelector.jsx";
+import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../components/BasemapSelectorControl/BasemapSelectorDialog.jsx";
 import { validatePersistenceObject } from "./validation.js";
 
 export const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";

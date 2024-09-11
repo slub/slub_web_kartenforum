@@ -3,7 +3,7 @@ import axios from "axios";
 import SettingsProvider from "../../../../SettingsProvider";
 import { addHistoricMapLayer } from "../CustomLayers/HistoricMapLayer";
 import { UNIQUE_CONTROL_PANEL_CLASS } from "../Controls/BasemapSelectorControl.jsx";
-import { fetchAndParseWmsCapabilities } from "../BasemapSelector/util.js";
+import { fetchAndParseWmsCapabilities } from "../BasemapSelectorControl/util.js";
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes.js";
 
 /**

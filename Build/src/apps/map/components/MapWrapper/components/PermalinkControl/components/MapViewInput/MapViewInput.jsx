@@ -14,7 +14,7 @@ import SettingsProvider from "../../../../../../../../SettingsProvider.js";
 import { translate } from "../../../../../../../../util/util.js";
 import LoadingSpinner from "../../../../../../../../components/LoadingSpinner/LoadingSpinner.jsx";
 import { useLocalStorage } from "../../../../../../persistence/util.js";
-import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../../../../../BasemapSelector/BasemapSelector.jsx";
+import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../../../../../BasemapSelectorControl/BasemapSelectorDialog.jsx";
 import "./MapViewInput.scss";
 import { useRecoilValue } from "recoil";
 import { currentApplicationStateState } from "../../../../../../atoms/atoms.js";

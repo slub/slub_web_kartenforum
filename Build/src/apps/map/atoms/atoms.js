@@ -113,3 +113,8 @@ export const timeRangeState = atom({
     key: "timeRangeState",
     default: defaultTimeRange,
 });
+
+export const baseMapStyleLayersState = atom({
+    key: "baseMapStyleLayersState",
+    default: [],
+});

@@ -26,6 +26,7 @@ import {
 } from "../../../../util/util";
 import {
   activeBasemapIdState,
+  baseMapStyleLayersState,
   currentApplicationStateState,
   mapState,
   selectedFeaturesState,
@@ -41,7 +42,7 @@ import "./MapWrapper.scss";
 import SettingsProvider from "../../../../SettingsProvider.js";
 import CustomEvents from "./customEvents.js";
 import customEvents from "./customEvents.js";
-import NewBasemapSelector from "../BasemapSelector/NewBasemapSelector.jsx";
+import BasemapSelectorControl from "../BasemapSelectorControl/BasemapSelectorControl.jsx";
 
 import { addGeoJsonLayers } from "./geojson/addGeoJsonLayers";
 import VkfMap from "../VkfMap/VkfMap.jsx";
@@ -81,6 +82,7 @@ export function MapWrapper(props) {
   const setSelectedGeoJsonFeature = useSetRecoilState(
     selectedGeoJsonFeatureState
   );
+  const setBaseMapStyleLayers = useSetRecoilState(baseMapStyleLayersState);
   const [selectedFeatures, setSelectedFeatures] = useRecoilState(
     selectedFeaturesState
   );
@@ -98,7 +100,6 @@ export function MapWrapper(props) {
   const unsafe_refApplicationStateUpdater = useRef(undefined);
   const unsafe_refSelectedFeatures = useRef(new Collection());
   const unsafe_refSpyLayer = useRef(undefined);
-
   // publish elements size to global state
   useSetElementScreenSize(mapElement, "map");
 
@@ -160,12 +161,18 @@ export function MapWrapper(props) {
       style,
     });
 
-    setMap(initialMap);
+    // Wait for the style to be fully loaded
+    const handleStyleLoad = () => {
+      setMap(initialMap);
+      setBaseMapStyleLayers(initialMap.getStyle().layers);
+    };
 
-    if (enable3d && enableTerrain) {
-    }
+    // Add event listener for style load
+    initialMap.on("style.load", handleStyleLoad);
 
     return () => {
+      // Clean up event listener and remove map on unmount
+      initialMap.off("style.load", handleStyleLoad);
       setMap(undefined);
       initialMap.remove();
     };
@@ -325,7 +332,7 @@ export function MapWrapper(props) {
         tabIndex={0}
       >
         {isDefined(map) && <ChildComponent onAddGeoJson={onAddGeoJson} />}
-        <NewBasemapSelector />
+        <BasemapSelectorControl />
         <PermalinkExporter />
       </div>
     </div>

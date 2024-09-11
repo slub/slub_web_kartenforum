@@ -16,7 +16,7 @@ let settingsObject = {
             urls: [
                 "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json",
             ],
-            type: "xyz",
+            type: "vector",
             tileSize: 512,
         },
         {

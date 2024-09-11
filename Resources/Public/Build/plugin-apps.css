@@ -86,7 +86,7 @@
   left: 10px;
 }
 
-/* src/apps/map/components/BasemapSelector/DialogAddWms.scss */
+/* src/apps/map/components/BasemapSelectorDialog/DialogAddWms.scss */
 .vkf-dialog-addwms .modal-dialog {
   margin-top: 25%;
   margin-bottom: 25%;
@@ -538,7 +538,7 @@
   flex-grow: 1;
 }
 
-/* src/apps/map/components/BasemapSelector/BasemapSelector.scss */
+/* src/apps/map/components/BasemapSelectorDialog/BasemapSelectorDialog.scss */
 .basemap-selector .basemap-selector-modal {
   position: absolute;
   top: 0;
