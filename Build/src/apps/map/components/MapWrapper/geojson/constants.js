@@ -13,6 +13,9 @@ export const METADATA = {
     bounds: "bounds",
     type: "type",
     hasGeoReference: "has_georeference",
+    tmsUrls: "tms_urls",
+    onlineResources: "online_resources",
+    mapScale: "map_scale",
 };
 
 export const GEOJSON_LAYER_TYPES = {

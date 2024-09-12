@@ -5,6 +5,8 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
+import { METADATA } from "../../MapWrapper/geojson/constants.js";
+
 /**
  * Resets visibility of layers to a clean state
  * @param sortedLayers
@@ -15,8 +17,8 @@ export const setLayersToInitialState = (sortedLayers, map) => {
             const layersArr = sortedLayers[key];
 
             layersArr.forEach((layer) => {
-                map.setPaintProperty(layer.id, "raster-opacity", 0);
-                map.setLayoutProperty(layer.id, "visibility", "visible");
+                layer.setOpacity(map, 0);
+                layer.setVisibility(map, "visible");
             });
         }
     }
@@ -25,13 +27,12 @@ export const setLayersToInitialState = (sortedLayers, map) => {
 /**
  * Sort layers depending on time and rearrange the layer stack on the map accordingly
  * @param layers
- * @param map
- * @return {{[number]: layers[]}}
+ * @return {layers[]}
  */
-export const sortLayers = (layers, map) => {
-    const sortedLayers = layers.sort((a, b) => {
-        const timePublishedA = a.metadata["vkf:time_published"];
-        const timePublishedB = b.metadata["vkf:time_published"];
+export const sortLayers = (layers) => {
+    return layers.slice().sort((a, b) => {
+        const timePublishedA = a.getMetadata(METADATA.timePublished);
+        const timePublishedB = b.getMetadata(METADATA.timePublished);
 
         if (timePublishedA > timePublishedB) {
             return 1;
@@ -41,13 +42,15 @@ export const sortLayers = (layers, map) => {
         }
         return 0;
     });
+};
 
+export const groupLayers = (sortedLayers, map) => {
     const responseObj = {};
     sortedLayers.forEach((layer) => {
-        map.moveLayer(layer.id, null);
+        layer.move(map, null);
 
         // build responseObj
-        const layerTime = layer.metadata["vkf:time_published"];
+        const layerTime = layer.getMetadata(METADATA.timePublished);
         if (layerTime in responseObj) {
             responseObj[layerTime].push(layer);
         } else {

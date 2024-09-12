@@ -18,8 +18,7 @@ export const ShowOriginalButton = ({ layer }) => {
 
   // Open original map
   const handleOriginalMap = useCallback(() => {
-    const layerId = layer.metadata?.["vkf:id"];
-    setSelectedOriginalMapId(layerId);
+    setSelectedOriginalMapId(layer.getId());
   }, [layer]);
 
   return (

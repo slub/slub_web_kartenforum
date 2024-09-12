@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import { Feature } from "./Feature.js";
+import { HistoricMapLayer } from "../apps/map/components/CustomLayers/HistoricMapLayer.js";
 
 /**
  * Function parses a search record from an elasticsearch query into
@@ -15,7 +15,7 @@ import { Feature } from "./Feature.js";
  * @param {string} id
  * @param {Object} record
  * @param {boolean} is3d
- * @return {Feature}
+ * @return {HistoricMapLayer}
  */
 export const readFeature = function (id, record, is3d) {
     const geometry = "geometry" in record ? record["geometry"] : undefined;
@@ -37,7 +37,7 @@ export const readFeature = function (id, record, is3d) {
 
     properties["id"] = id;
 
-    return new Feature({ properties, geometry });
+    return new HistoricMapLayer({ metadata: properties, geometry });
 };
 
 /**

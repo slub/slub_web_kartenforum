@@ -18,15 +18,18 @@ import { useSize } from "../../../../../../util/hooks";
 import { translate } from "../../../../../../util/util";
 import "./MapSearchResultList.scss";
 import MapSearchListElement from "../MapSearchListElement/MapSearchListElement.jsx";
+import { HistoricMapLayer } from "../../../CustomLayers/HistoricMapLayer.js";
 
 const SEARCH_COLS = ["map_scale", "time_published", "title", "georeference"];
 
-export let LOADING_FEATURE = new Feature({
-  has_georeference: true,
-  map_scale: "0",
-  thumb_url: "",
-  time_published: "",
-  title: "Loading",
+export let LOADING_FEATURE = new HistoricMapLayer({
+  metadata: {
+    has_georeference: true,
+    map_scale: "0",
+    thumb_url: "",
+    time_published: "",
+    title: "Loading",
+  },
 });
 
 export const MapSearchResultListBase = ({
@@ -96,7 +99,10 @@ export const MapSearchResultListBase = ({
 
   // initialize title of the loading feature (has to be done here, because of translation)
   useEffect(() => {
-    LOADING_FEATURE.set("title", translate("mapsearch-listelement-loading"));
+    LOADING_FEATURE.updateMetadata(
+      "title",
+      translate("mapsearch-listelement-loading")
+    );
   }, []);
 
   // reset caches on change of the result set id

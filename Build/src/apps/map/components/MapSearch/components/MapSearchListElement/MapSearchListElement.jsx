@@ -9,7 +9,6 @@ import { checkIfArrayContainsLayer } from "../../util.js";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { mapState, selectedFeaturesState } from "../../../../atoms/atoms.js";
 import MapSearchListElementWithGeometryPreview from "./MapSearchListElementWithGeometryPreview.jsx";
-import { removeLayerForFeature } from "../../../LayerManagement/util.js";
 
 export const MapSearchListElement = (props) => {
   const map = useRecoilValue(mapState);
@@ -34,10 +33,12 @@ export const MapSearchListElement = (props) => {
         )
       );
 
-      // remove map layer
-      removeLayerForFeature(map, layer);
+      layer.removeMapLibreLayers(map);
     } else {
-      setSelectedFeatures((selectedFeatures) => [...selectedFeatures, layer]);
+      //@TODO: Add loading feedback, while layer is added to map
+      layer.addLayerToMap(map).then(() => {
+        setSelectedFeatures((selectedFeatures) => [...selectedFeatures, layer]);
+      });
     }
   };
 

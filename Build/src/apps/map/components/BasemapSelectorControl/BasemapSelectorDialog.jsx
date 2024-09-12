@@ -23,7 +23,8 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { baseMapStyleLayersState } from "../../atoms/atoms.js";
 import SettingsProvider from "../../../../SettingsProvider.js";
 import { notificationState } from "../../../../atoms/atoms.js";
-
+//@TODO: Only allow one active dialog at the same time
+//@TODO: Fix WMS basemap applied after selecting default style (configuration?)
 export const PERSISTENCE_CUSTOM_BASEMAP_KEYS = "vkf-custom-basemaps";
 
 /**

@@ -5,16 +5,15 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useState, useEffect, useRef } from "react";
-import { useRecoilValue } from "recoil";
+import React, { useState, useRef } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
 import { isDefined, translate } from "../../../../../util/util";
-import { mapState } from "../../../atoms/atoms";
-import { setLayersToInitialState, sortLayers } from "./util";
+import { mapState, selectedFeaturesState } from "../../../atoms/atoms";
+import { groupLayers, setLayersToInitialState, sortLayers } from "./util";
 import "./DynamicMapVisualization.scss";
-import { getLayers } from "../util.js";
 
 export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   // state
@@ -23,6 +22,9 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const [open, setOpen] = useState(false);
   const map = useRecoilValue(mapState);
   const title = translate(`dynamicmapvis-${open ? "close" : "open"}`);
+  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
+    selectedFeaturesState
+  );
 
   // refs
   const activeRef = useRef(false);
@@ -30,8 +32,8 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const startFadeInAnimation = (options) => {
     const { layers, delay = 500 } = options;
     layers.forEach((layer) => {
-      map.setPaintProperty(layer.id, "raster-opacity", 0);
-      map.setLayoutProperty(layer.id, "visibility", "visible");
+      layer.setOpacity(map, 0);
+      layer.setVisibility(map, "visible");
     });
     setTimeout(() => {
       incrementalFadeIn(options);
@@ -41,11 +43,10 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const incrementalFadeIn = (options) => {
     const { layers, steps = 0.1, delay = 500, successCallback } = options;
     if (activeRef.current) {
-      const newOpacity =
-        (map.getPaintProperty(layers[0].id, "raster-opacity") ?? 0) + steps;
+      const newOpacity = (layers[0].getOpacity(map) ?? 0) + steps;
       if (newOpacity > 1) {
         layers.forEach((layer) => {
-          map.setPaintProperty(layer.id, "raster-opacity", 1);
+          layer.setOpacity(map, 1);
         });
 
         if (isDefined(successCallback)) {
@@ -53,7 +54,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
         }
       } else {
         layers.forEach((layer) => {
-          map.setPaintProperty(layer.id, "raster-opacity", newOpacity);
+          layer.setOpacity(map, newOpacity);
         });
         setTimeout(() => {
           incrementalFadeIn(options);
@@ -97,12 +98,21 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const handleStart = (e) => {
     e.preventDefault();
     setActive(true);
+    activeRef.current = true;
+    const sortedLayers = sortLayers(selectedFeatures);
+    const groupedLayers = groupLayers(sortedLayers, map);
+
+    setSelectedFeatures(sortedLayers);
+
+    startAnimation({ ...animationOptions, sortedLayers: groupedLayers });
   };
 
   // handle animation stop
   const handleStop = (e) => {
     e.preventDefault();
     setActive(false);
+    activeRef.current = false;
+    setAnimatedLayer(undefined);
   };
 
   // Toggle open state of the menu
@@ -119,18 +129,6 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   ////
   //   Effect section
   ////
-
-  // Handle start/stop of animation based on active state
-  useEffect(() => {
-    activeRef.current = active;
-    if (active) {
-      const layers = getLayers(map);
-      const sortedLayers = sortLayers(layers, map);
-      startAnimation({ ...animationOptions, sortedLayers });
-    } else {
-      setAnimatedLayer(undefined);
-    }
-  }, [active]);
 
   const feedback =
     animatedLayer && animatedLayer.length > 4

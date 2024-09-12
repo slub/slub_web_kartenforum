@@ -10,6 +10,7 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 import { mapState } from "../../../../../atoms/atoms.js";
 import PropTypes from "prop-types";
+import { METADATA } from "../../../../MapWrapper/geojson/constants.js";
 
 export const ZoomToExtentButton = (props) => {
   const { layer } = props;
@@ -19,7 +20,7 @@ export const ZoomToExtentButton = (props) => {
   // zoom to the layer
   const handleZoomToExtent = () => {
     if (isDefined(map)) {
-      const extent = layer.metadata["vkf:bounds"];
+      const extent = layer.getMetadata(METADATA.bounds);
       // add percentage based padding
       map.fitBounds(extent, {
         padding: { left: 350, right: 350, top: 50, bottom: 50 },
