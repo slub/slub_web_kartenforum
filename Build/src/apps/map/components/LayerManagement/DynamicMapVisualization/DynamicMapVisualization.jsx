@@ -85,7 +85,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
 
         setAnimatedLayer(currentKey);
       } else {
-        setActive(false);
+        handleStop();
       }
     }
   };
@@ -95,8 +95,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   ////
 
   // handle animation start
-  const handleStart = (e) => {
-    e.preventDefault();
+  const handleStart = () => {
     setActive(true);
     activeRef.current = true;
     const sortedLayers = sortLayers(selectedFeatures);
@@ -108,8 +107,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   };
 
   // handle animation stop
-  const handleStop = (e) => {
-    e.preventDefault();
+  const handleStop = () => {
     setActive(false);
     activeRef.current = false;
     setAnimatedLayer(undefined);
@@ -119,7 +117,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const handleToggleMenu = (e) => {
     e.preventDefault();
     if (open) {
-      setActive(false);
+      handleStop();
       setOpen(false);
     } else {
       setOpen(true);
@@ -143,6 +141,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
       id="dynamic-map-visualization"
     >
       <button
+        type="button"
         className="open-dyn-vis"
         onClick={handleToggleMenu}
         aria-labelledby="dynamic-map-visualization"
@@ -181,6 +180,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
           onClick={handleStart}
           tabIndex={open ? undefined : -1}
           title={translate("dynamicmapvis-start")}
+          type="button"
         >
           Start
         </button>
@@ -190,6 +190,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
           onClick={handleStop}
           tabIndex={open ? undefined : -1}
           title={translate("dynamicmapvis-stop")}
+          type="button"
         >
           Stop
         </button>
