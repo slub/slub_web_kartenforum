@@ -12,7 +12,7 @@ import { default as Skeleton } from "react-loading-skeleton/lib/skeleton";
 
 import { selectedFeaturesState } from "../../../../atoms/atoms";
 import { translate } from "../../../../../../util/util";
-import { checkIfArrayContainsFeature } from "../../util";
+import { checkIfArrayContainsLayer } from "../../util";
 import { LOADING_FEATURE } from "../MapSearchResultList/MapSearchResultListBase.jsx";
 import "./MapSearchListElement.scss";
 
@@ -70,8 +70,7 @@ export const MapSearchListElementBase = ({
   const isLoading = operationalLayer === LOADING_FEATURE;
 
   const isSelected =
-    checkIfArrayContainsFeature(selectedFeatures, operationalLayer) &&
-    !isLoading;
+    checkIfArrayContainsLayer(selectedFeatures, operationalLayer) && !isLoading;
 
   const scale =
     operationalLayer.get("map_scale") === "0" ||

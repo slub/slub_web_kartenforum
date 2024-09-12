@@ -8,6 +8,7 @@ import CustomEvents from "../MapWrapper/customEvents.js";
 import customEvents from "../MapWrapper/customEvents.js";
 import { MapWithTerrainBehavior } from "./MapWithTerrainBehavior.jsx";
 import { LAYOUT_PROPERTIES, OPACITY_PROPERTIES } from "./constants.js";
+import { MAP_LIBRE_METADATA } from "../MapWrapper/geojson/constants.js";
 
 // Extend the maplibre map object with some custom events
 export class VkfMap extends MapWithTerrainBehavior {
@@ -30,36 +31,56 @@ export class VkfMap extends MapWithTerrainBehavior {
   addLayer(layer, beforeId) {
     const result = super.addLayer(layer, beforeId);
 
-    this.fire(CustomEvents.layerAdded, { layerId: layer.id });
+    // fire custom event only for layers which have application layers (having metadata vkf:layerId property)
+    const applicationLayerId = layer?.metadata?.[MAP_LIBRE_METADATA.id];
+    if (applicationLayerId) {
+      this.fire(CustomEvents.layerAdded, { layerId: applicationLayerId });
+    }
 
     return result;
   }
 
   removeLayer(id) {
+    const layer = this.getLayer(id);
+
     const result = super.removeLayer(id);
 
-    this.fire(CustomEvents.layerRemoved, { layerId: id });
+    const applicationLayerId = layer?.metadata?.[MAP_LIBRE_METADATA.id];
+    if (applicationLayerId) {
+      this.fire(CustomEvents.layerRemoved, { layerId: applicationLayerId });
+    }
 
     return result;
   }
 
   moveLayer(id, beforeId) {
+    const layer = this.getLayer(id);
+    const beforeLayer = this.getLayer(beforeId);
+
     const result = super.moveLayer(id, beforeId);
 
-    this.fire(CustomEvents.layerMoved, {
-      layerId: id,
-      beforeId: beforeId,
-    });
+    const applicationLayerId = layer?.metadata?.[MAP_LIBRE_METADATA.id];
+    const beforeLayerId = beforeLayer?.metadata?.[MAP_LIBRE_METADATA.id];
+
+    if (applicationLayerId) {
+      this.fire(CustomEvents.layerMoved, {
+        layerId: applicationLayerId,
+        beforeId: beforeLayerId,
+      });
+    }
 
     return result;
   }
 
   setPaintProperty(layerId, name, value, options) {
     const result = super.setPaintProperty(layerId, name, value, options);
+    const layer = this.getLayer(layerId);
 
-    if (OPACITY_PROPERTIES.has(name)) {
+    const applicationLayerId = layer?.metadata?.[MAP_LIBRE_METADATA.id];
+
+    if (OPACITY_PROPERTIES.has(name) && applicationLayerId) {
       this.fire(customEvents.opacityChanged, {
-        layerId,
+        layerId: applicationLayerId,
         property: name,
         value,
       });
@@ -70,10 +91,13 @@ export class VkfMap extends MapWithTerrainBehavior {
 
   setLayoutProperty(layerId, name, value, options) {
     const result = super.setLayoutProperty(layerId, name, value, options);
+    const layer = this.getLayer(layerId);
 
-    if (LAYOUT_PROPERTIES.has(name)) {
+    const applicationLayerId = layer?.metadata?.[MAP_LIBRE_METADATA.id];
+
+    if (LAYOUT_PROPERTIES.has(name) && applicationLayerId) {
       this.fire(customEvents.visibilityChanged, {
-        layerId,
+        layerId: applicationLayerId,
         property: name,
         value,
       });

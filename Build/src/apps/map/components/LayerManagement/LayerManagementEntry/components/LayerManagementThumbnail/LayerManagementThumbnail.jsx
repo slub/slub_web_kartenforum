@@ -9,14 +9,15 @@ import React, { useState } from "react";
 import SettingsProvider from "../../../../../../../SettingsProvider.js";
 import { FALLBACK_SRC } from "../../../../MapSearch/components/MapSearchListElement/MapSearchListElementBase.jsx";
 import PropTypes from "prop-types";
+import { METADATA } from "../../../../MapWrapper/geojson/constants.js";
 
 export const LayerManagementThumbnail = (props) => {
   const { layer } = props;
   const settings = SettingsProvider.getSettings();
-  const [src, setSrc] = useState(layer.metadata["vkf:thumb_url"]);
+  const [src, setSrc] = useState(layer.getMetadata(METADATA.thumbnailUrl));
 
-  const layerType = layer.metadata["vkf:type"];
-  const layerTitle = layer.metadata["vkf:title"];
+  const layerType = layer.getType();
+  const layerTitle = layer.getMetadata(METADATA.title);
 
   // load fallback image in case the image from the supplied url cannot be loaded
   const handleError = () => {

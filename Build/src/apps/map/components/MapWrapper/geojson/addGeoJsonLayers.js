@@ -5,102 +5,80 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import { isDefined } from "../../../../../util/util";
-
+// @TODO find other import method for jsdoc, maybe typedefs?
+// eslint-disable-next-line no-unused-vars
+import { GeoJSONLayer } from "./GeoJSONLayer";
+import { GEOJSON_LAYER_TYPES, MAP_LIBRE_METADATA } from "./constants";
 /**
  * Takes a XXXdocumentXXX and creates the necessary maplibre-gl layers for it.
  *
- * @param {object} selectedFeature
+ * @param {GeoJSONLayer} geoJSONLayer
  * @param {maplibregl.Map} map
  */
-export const addGeoJsonLayers = (selectedFeature, map) => {
-    const { feature } = selectedFeature;
-    const { id: sourceId, data } = feature;
-    //@TODO GeoJSON - implement one layer for each geojson feature type and style w/ filters
-    //@TODO implement layers statically
-    // extract all geometry types and create one layer for each geometry type
-    // how to handle geometry collection?
+export const addGeoJsonLayers = (geoJSONLayer, map) => {
+    const layer = geoJSONLayer;
 
-    //@TODO layerId is relevant for the isDisplayedInMap check
-    //@TODO GeoJSON - add default marker images to map
-    const layerId = sourceId;
-    const sourceType = "geojson";
+    const applicationLayerId = layer.getId();
+    const data = layer.getGeoJSON();
 
-    const metadata = (layerType) => {
-        const typedLayerId = `${layerId}-${layerType}`;
-        return {
-            "vkf:id": isDefined(layerId) ? typedLayerId : undefined,
-            "vkf:time_published": feature.time_changed,
-            "vkf:title": feature.title ?? undefined,
-            "vkf:thumb_url": feature.thumb_url ?? undefined,
-            "vkf:allowUseInLayerManagement": true,
-            "vkf:type": sourceType,
-            //@TODO GeoJSON - implement bounds
-            "vkf:bounds": undefined,
-        };
-    };
+    const sourceType = layer.getType();
 
-    map.addSource(sourceId, { type: sourceType, data });
-
-    const symbolOptions = {
-        layout: {
-            "icon-image": ["get", "marker"],
-            "icon-size": 1,
+    //@TODO: Add defaults
+    //@TODO: Add filters to layer, to only draw their respective geometry types
+    const options = {
+        [GEOJSON_LAYER_TYPES.SYMBOL]: {
+            type: "symbol",
+            layout: {
+                "icon-image": ["get", "marker"],
+                "icon-size": 1,
+            },
         },
-        type: "symbol",
-    };
-
-    const lineOptions = {
-        type: "line",
-        paint: {
-            "line-color": ["get", "stroke"],
-            "line-width": ["get", "stroke-width"],
-            "line-opacity": ["get", "stroke-opacity"],
+        [GEOJSON_LAYER_TYPES.LINE]: {
+            type: "line",
+            paint: {
+                "line-color": ["get", "stroke-color-line"],
+                "line-width": ["get", "stroke-width-line"],
+                "line-opacity": ["get", "stroke-opacity"],
+            },
+            filter: ["==", "$type", "LineString"],
         },
-    };
-
-    const fillOptions = {
-        type: "fill",
-        paint: {
-            "fill-color": ["get", "fill"],
-            "fill-opacity": ["get", "fill-opacity"],
+        [GEOJSON_LAYER_TYPES.OUTLINE]: {
+            type: "line",
+            paint: {
+                "line-color": ["get", "stroke"],
+                "line-width": ["get", "stroke-width"],
+                "line-opacity": ["get", "stroke-opacity"],
+            },
+            filter: ["!=", "$type", "LineString"],
+        },
+        [GEOJSON_LAYER_TYPES.FILL]: {
+            type: "fill",
+            paint: {
+                "fill-color": ["get", "fill"],
+                "fill-opacity": ["get", "fill-opacity"],
+            },
+            filter: ["!=", "$type", "LineString"],
         },
     };
 
-    const outlineOptions = {
-        type: "line",
-        paint: {
-            "line-color": ["get", "stroke"],
-            "line-width": ["get", "stroke-width"],
-            "line-opacity": ["get", "stroke-opacity"],
-        },
-    };
+    map.addSource(applicationLayerId, { type: sourceType, data });
 
-    map.addLayer({
-        id: `${layerId}-symbol`,
-        source: sourceId,
-        metadata: metadata("symbol"),
-        ...symbolOptions,
-    });
+    for (const key of Object.keys(GEOJSON_LAYER_TYPES)) {
+        const layerType = GEOJSON_LAYER_TYPES[key];
+        const layerId = `${applicationLayerId}-${layerType}`;
+        map.addLayer({
+            id: layerId,
+            source: applicationLayerId,
+            metadata: {
+                [MAP_LIBRE_METADATA.id]: applicationLayerId,
+            },
+            ...options[layerType],
+            layout: {
+                ...options[layerType].layout,
+                visibility: "visible",
+            },
+        });
 
-    map.addLayer({
-        id: `${layerId}-line`,
-        source: sourceId,
-        metadata: metadata("line"),
-        ...lineOptions,
-    });
-
-    map.addLayer({
-        id: `${layerId}-fill`,
-        source: sourceId,
-        metadata: metadata("fill"),
-        ...fillOptions,
-    });
-
-    map.addLayer({
-        id: `${layerId}-outline`,
-        source: sourceId,
-        metadata: metadata("outline"),
-        ...outlineOptions,
-    });
+        geoJSONLayer.addMapLayer(layerId);
+    }
 };

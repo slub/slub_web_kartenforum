@@ -5,24 +5,27 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import { translate } from "../../../../../../../util/util.js";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import clsx from "clsx";
 import { useRecoilValue } from "recoil";
 import { mapState } from "../../../../../atoms/atoms.js";
 import customEvents from "../../../../MapWrapper/customEvents.js";
 import PropTypes from "prop-types";
+import { METADATA } from "../../../../MapWrapper/geojson/constants.js";
 
 export const VisibilityButton = (props) => {
   const { layer } = props;
 
-  const layerTitle = layer.metadata["vkf:title"];
+  const layerTitle = layer.getMetadata(METADATA.title);
 
-  const [isVisible, setIsVisible] = useState(
-    layer?.layout?.visibility === undefined
-      ? true
-      : layer.layout.visibility === "visible"
-  );
   const map = useRecoilValue(mapState);
+
+  //@TODO this gets called before the map layers are loaded and returns false
+  const initialVisibility = useMemo(() => {
+    return layer.isVisible(map);
+  }, [layer, map]);
+
+  const [isVisible, setIsVisible] = useState(initialVisibility);
 
   // change visibility of the layer
   const handleChangeVisibility = (e) => {
@@ -31,17 +34,14 @@ export const VisibilityButton = (props) => {
 
     setIsVisible(!isVisible);
     if (map) {
-      map.setLayoutProperty(
-        layer.id,
-        "visibility",
-        isVisible ? "none" : "visible"
-      );
+      layer.setVisibility(map, isVisible ? "none" : "visible");
     }
   };
 
   // Update visibility from layer if it is different from the internal state
+  //@TODO gets fired 4 times for a geoJson layer
   const handleUpdateVisibility = ({ layerId, value }) => {
-    if (layerId === layer.id) {
+    if (layerId === layer.getId()) {
       setIsVisible(value === "visible" ? true : false);
     }
   };

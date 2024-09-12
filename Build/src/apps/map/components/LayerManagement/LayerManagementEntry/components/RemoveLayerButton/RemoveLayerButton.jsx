@@ -4,13 +4,12 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { translate } from "../../../../../../../util/util.js";
+import { isDefined, translate } from "../../../../../../../util/util.js";
 import SvgIcons from "../../../../../../../components/SvgIcons/SvgIcons.jsx";
 import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import PropTypes from "prop-types";
 import { mapState, selectedFeaturesState } from "../../../../../atoms/atoms.js";
-import { removeLayer } from "../../../util.js";
 
 export const RemoveLayerButton = (props) => {
   const { layer } = props;
@@ -19,14 +18,16 @@ export const RemoveLayerButton = (props) => {
 
   // Remove layer from layer stack
   const handleRemoveLayer = (event) => {
-    removeLayer(map, layer.id);
     event.stopPropagation();
+    if (isDefined(map)) {
+      layer.removeMapLibreLayers(map);
 
-    setSelectedFeatures((oldSelectedFeatures) =>
-      oldSelectedFeatures.filter(
-        ({ feature }) => feature.getId() !== layer.metadata["vkf:id"]
-      )
-    );
+      setSelectedFeatures((oldSelectedFeatures) =>
+        oldSelectedFeatures.filter(
+          (selectedLayer) => selectedLayer.getId() !== layer.getId()
+        )
+      );
+    }
   };
 
   return (

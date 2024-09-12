@@ -5,11 +5,10 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-export const checkIfArrayContainsFeature = (array, feature) => {
+export const checkIfArrayContainsLayer = (array, layer) => {
     return (
         array.findIndex(
-            ({ feature: selFeature }) =>
-                selFeature.get("id") === feature.get("id")
+            (selectedLayer) => selectedLayer.getId() === layer.getId()
         ) !== -1
     );
 };

@@ -178,36 +178,39 @@ export function MapWrapper(props) {
     };
   }, []);
 
-  useEffect(() => {
-    if (map) {
-      selectedFeatures.forEach((selectedFeature) => {
-        const { feature, type } = selectedFeature;
-        //@TODO GeoJSON - layer entry point
-        if (!feature.isDisplayedInMap(map) && feature.get("has_georeference")) {
-          try {
-            if (type === LAYER_TYPES.GEOJSON) {
-              addGeoJsonLayers(selectedFeature, map);
-            } else {
-              createHistoricMapForFeature(feature, map);
-            }
-          } catch (e) {
-            // there was an error mounting the layer => remove the selected feature and display an errror message
-            setNotification({
-              id: "map-wrapper",
-              type: "danger",
-              text: translate("mapwrapper-mount-layer-error"),
-            });
-
-            setSelectedFeatures((oldSelectedFeatures) =>
-              oldSelectedFeatures.filter(
-                (f) => f.feature.getId() !== feature.getId()
-              )
-            );
-          }
-        }
-      });
-    }
-  }, [map, selectedFeatures]);
+  // useEffect(() => {
+  //   if (map) {
+  //     selectedFeatures.forEach((selectedLayer) => {
+  //       const type = selectedLayer.getType();
+  //
+  //       if (
+  //         !selectedLayer.isDisplayedInMap(map) &&
+  //         selectedLayer.getMetadata()
+  //       ) {
+  //         try {
+  //           if (type === LAYER_TYPES.GEOJSON) {
+  //             addGeoJsonLayers(selectedLayer, map);
+  //           } else {
+  //             createHistoricMapForFeature(selectedLayer, map);
+  //           }
+  //         } catch (e) {
+  //           // there was an error mounting the layer => remove the selected feature and display an errror message
+  //           setNotification({
+  //             id: "map-wrapper",
+  //             type: "danger",
+  //             text: translate("mapwrapper-mount-layer-error"),
+  //           });
+  //
+  //           setSelectedFeatures((oldSelectedLayers) =>
+  //             oldSelectedLayers.filter(
+  //               (layer) => layer.getId() !== selectedLayer.getId()
+  //             )
+  //           );
+  //         }
+  //       }
+  //     });
+  //   }
+  // }, [map, selectedFeatures]);
 
   // useEffect(() => {
   //   if (isDefined(controlsRef.current)) {

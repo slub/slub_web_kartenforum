@@ -11,7 +11,11 @@ import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 
 import { isDefined, translate } from "../../../../util/util";
-import { displayedLayersCountState, mapState } from "../../atoms/atoms";
+import {
+  displayedLayersCountState,
+  mapState,
+  selectedFeaturesState,
+} from "../../atoms/atoms";
 import DeactivateMapCollection from "./DeactivateMapCollection/DeactivateMapCollection";
 import DynamicMapVisualization from "./DynamicMapVisualization/DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry/LayerManagementEntry";
@@ -39,6 +43,9 @@ export const LayerManagement = ({
     displayedLayersCountState
   );
   const map = useRecoilValue(mapState);
+  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
+    selectedFeaturesState
+  );
 
   // refs
   const refLayermanagement = useRef();
@@ -129,14 +136,14 @@ export const LayerManagement = ({
         </div>
       )}
       <ul className="layermanagement-body">
-        {displayedLayers === undefined || displayedLayers.length === 0 ? (
+        {selectedFeatures === undefined || selectedFeatures.length === 0 ? (
           <li className="empty">
             <h4>{translate("layermanagement-start-msg-header")}</h4>
             <p>{translate("layermanagement-start-msg-body")}</p>
           </li>
         ) : (
-          displayedLayers.map((layer) => {
-            const layerId = layer.metadata?.["vkf:id"];
+          selectedFeatures.map((layer) => {
+            const layerId = layer.getId();
 
             return (
               <LayerManagementEntry

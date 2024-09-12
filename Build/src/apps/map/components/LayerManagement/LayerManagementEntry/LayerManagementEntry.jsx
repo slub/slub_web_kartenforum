@@ -25,6 +25,7 @@ import MoveToTopButton from "./components/MoveToTopButton/MoveToTopButton.jsx";
 import LayerManagementThumbnail from "./components/LayerManagementThumbnail/LayerManagementThumbnail.jsx";
 import ShowOriginalButton from "./components/ShowOriginalButton/ShowOriginalButton.jsx";
 import ExportGeojsonButton from "./components/ExportGeojsonButton/ExportGeojsonButton.jsx";
+import { METADATA } from "../../MapWrapper/geojson/constants";
 import "./LayerManagementEntry.scss";
 
 export const ItemTypes = {
@@ -141,10 +142,10 @@ export const LayerManagementEntry = (props) => {
 
   drag(drop(ref));
 
-  const layerPublished = layer.metadata["vkf:time_published"];
-  const layerId = layer.metadata["vkf:id"];
-  const layerType = layer.metadata["vkf:type"];
-  const layerTitle = layer.metadata["vkf:title"];
+  const layerId = layer.getId();
+  const layerType = layer.getType();
+  const layerPublished = layer.getMetadata(METADATA.timePublished);
+  const layerTitle = layer.getMetadata(METADATA.title);
   const isMosaicMap = layerType === "mosaic";
 
   return (

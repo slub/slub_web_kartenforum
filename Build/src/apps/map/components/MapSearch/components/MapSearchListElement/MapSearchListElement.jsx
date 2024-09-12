@@ -5,8 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React from "react";
-import { checkIfArrayContainsFeature } from "../../util.js";
-import { LAYER_TYPES } from "../../../CustomLayers/LayerTypes.js";
+import { checkIfArrayContainsLayer } from "../../util.js";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { mapState, selectedFeaturesState } from "../../../../atoms/atoms.js";
 import MapSearchListElementWithGeometryPreview from "./MapSearchListElementWithGeometryPreview.jsx";
@@ -22,30 +21,23 @@ export const MapSearchListElement = (props) => {
   // Handler section
   ////
 
-  // Toggle selected state of fature and update global state
-  const handleElementClick = (feature) => {
-    const containsFeature = checkIfArrayContainsFeature(
-      selectedFeatures,
-      feature
-    );
+  // Toggle selected state of layer and update global state
+  const handleElementClick = (layer) => {
+    const containsLayer = checkIfArrayContainsLayer(selectedFeatures, layer);
 
     // remove feature if it is already contained
-    if (containsFeature) {
+    if (containsLayer) {
       // remove from selectedFeaturesList
       setSelectedFeatures((selectedFeatures) =>
         selectedFeatures.filter(
-          ({ feature: selFeature }) =>
-            selFeature.get("id") !== feature.get("id")
+          (selectedLayer) => selectedLayer.getId() !== layer.getId()
         )
       );
 
       // remove map layer
-      removeLayerForFeature(map, feature);
+      removeLayerForFeature(map, layer);
     } else {
-      setSelectedFeatures((selectedFeatures) => [
-        ...selectedFeatures,
-        { feature, type: LAYER_TYPES.HISTORIC_MAP },
-      ]);
+      setSelectedFeatures((selectedFeatures) => [...selectedFeatures, layer]);
     }
   };
 

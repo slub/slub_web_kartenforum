@@ -5,28 +5,26 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useRef, useState } from "react";
-import Feature from "ol/Feature";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import PropTypes from "prop-types";
 
 import Dropzone from "../Dropzone/Dropzone";
-import { translate } from "../../../../util/util";
-import { deserializeGeojson } from "../GeoJsonEditPopUp/util/geojsonSerializer";
-import { parseDate } from "../GeoJsonEditPopUp/util/geojsonParser";
+import { isDefined, translate } from "../../../../util/util";
 import { notificationState } from "../../../../atoms/atoms";
 import DialogAddGeoJson from "./components/DialogAddGeoJson/DialogAddGeoJson";
-import { selectedFeaturesState } from "../../atoms/atoms";
+import { mapState, selectedFeaturesState } from "../../atoms/atoms";
 import MapWrapper, { mapWrapperProps } from "./MapWrapper";
-import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
+
+import { GeoJSONLayer } from "./geojson/GeoJSONLayer";
+import { METADATA } from "./geojson/constants";
 
 //@TODO GeoJSON  - "upload" entry point
 export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
   // state
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const setNotification = useSetRecoilState(notificationState);
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
-    selectedFeaturesState
-  );
+  const setSelectedFeatures = useSetRecoilState(selectedFeaturesState);
+  const map = useRecoilValue(mapState);
 
   // refs
   const refGeoJSON = useRef();
@@ -37,55 +35,29 @@ export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
 
   // read geojson and add in supplied information
   const handleAddGeoJson = (title) => {
-    try {
-      const geoJson = refGeoJSON.current.content;
+    if (isDefined(map)) {
+      try {
+        const geoJSON = refGeoJSON.current.content;
+        const metadata = {
+          [METADATA.title]: title,
+          [METADATA.timeChanged]: refGeoJSON.current.modified,
+        };
 
-      const existingFeaturesWithId = selectedFeatures.filter((selFeature) =>
-        selFeature.feature.getId().startsWith(title)
-      );
+        const geoJSONLayer = new GeoJSONLayer({
+          metadata,
+          geoJSON,
+        });
 
-      const id =
-        existingFeaturesWithId.length > 0
-          ? `${title}_${existingFeaturesWithId.length}`
-          : title;
+        geoJSONLayer.addLayerToMap(map);
 
-      //@TODO - use Feature class from util/Feature ?
-      //@TODO GeoJSON - streamline methods, properties with other "feature" types
-      const feature = {
-        title,
-        data: geoJson,
-        id,
-        has_georeference: true,
-        time_changed: parseDate(refGeoJSON.current.modified),
-        // TODO GeoJSON - functions below are sloppily implemented for compatibility reasons, find out if needed
-        isDisplayedInMap: (map) => {
-          return map.getLayer(id) ?? false;
-        },
-        get: function (key) {
-          return this[key];
-        },
-        getId: function () {
-          return this.id;
-        },
-      };
+        setSelectedFeatures((selFeatures) => [...selFeatures, geoJSONLayer]);
+      } catch (e) {
+        console.log(e);
+        handleParseError();
+      }
 
-      setSelectedFeatures((selFeatures) => [
-        ...selFeatures,
-        {
-          //@TODO GeoJSON - these props seem redundant, they are present or could be present in feature already
-          feature,
-          displayedInMap: false,
-          type: LAYER_TYPES.GEOJSON,
-          //TODO: Remove this, its not actually required
-          getId: () => feature.id,
-        },
-      ]);
-    } catch (e) {
-      console.log(e);
-      handleParseError();
+      handleUpdateDialog(false);
     }
-
-    handleUpdateDialog(false);
   };
 
   // Store read geojson and open dialog
