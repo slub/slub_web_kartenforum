@@ -32,7 +32,6 @@ import {
   selectedFeaturesState,
   selectedGeoJsonFeatureState,
 } from "../../atoms/atoms";
-import { createHistoricMapForFeature } from "./util";
 import { getMapClassNameForLayout, LAYOUT_TYPES } from "../../layouts/util";
 import { useSetElementScreenSize } from "../../../../util/hooks";
 import GeoJsonLayer from "../CustomLayers/GeoJsonLayer";
