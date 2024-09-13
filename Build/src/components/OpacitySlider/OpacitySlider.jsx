@@ -13,11 +13,13 @@ import "./OpacitySlider.scss";
 import { useRecoilValue } from "recoil";
 import { mapState } from "../../apps/map/atoms/atoms.js";
 import customEvents from "../../apps/map/components/MapWrapper/customEvents.js";
+import { isDefined } from "../../util/util";
 
 export const OpacitySlider = (props) => {
   const { onEndDrag, onStartDrag, orientation = "horizontal", layer } = props;
-  const [value, setValue] = useState(layer.paint?.["raster-opacity"] ?? 100);
+
   const map = useRecoilValue(mapState);
+  const [value, setValue] = useState(layer.getOpacity(map) * 100);
 
   const valueRef = useRef(null);
   const baseMin = 0,
@@ -41,9 +43,9 @@ export const OpacitySlider = (props) => {
   };
 
   const handleOpacityChange = (event) => {
-    const { layerId, value } = event;
-    if (layerId === layer.id) {
-      const opacity = value * 100;
+    const { layerId } = event;
+    if (layerId === layer.getId()) {
+      const opacity = layer.getOpacity(map) * 100;
 
       setValue(opacity);
     }
@@ -51,8 +53,8 @@ export const OpacitySlider = (props) => {
 
   const handleSliderChange = (value) => {
     setValue(value);
-    if (map !== undefined) {
-      map.setPaintProperty(layer.id, "raster-opacity", value / 100);
+    if (isDefined(map)) {
+      layer.setOpacity(map, value / 100);
     }
   };
 

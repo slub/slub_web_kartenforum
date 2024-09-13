@@ -9,8 +9,9 @@
 // eslint-disable-next-line no-unused-vars
 import { GeoJSONLayer } from "./GeoJSONLayer";
 import { GEOJSON_LAYER_TYPES, MAP_LIBRE_METADATA } from "./constants";
+
 /**
- * Takes a XXXdocumentXXX and creates the necessary maplibre-gl layers for it.
+ * Takes a GeoJSONLayer and creates the necessary maplibre-gl layers for it.
  *
  * @param {GeoJSONLayer} geoJSONLayer
  * @param {maplibregl.Map} map
@@ -36,8 +37,8 @@ export const addGeoJsonLayers = (geoJSONLayer, map) => {
         [GEOJSON_LAYER_TYPES.LINE]: {
             type: "line",
             paint: {
-                "line-color": ["get", "stroke-color-line"],
-                "line-width": ["get", "stroke-width-line"],
+                "line-color": ["get", "stroke"],
+                "line-width": ["get", "stroke-width"],
                 "line-opacity": ["get", "stroke-opacity"],
             },
             filter: ["==", "$type", "LineString"],

@@ -7,28 +7,28 @@
 import { translate } from "../../../../../../../util/util.js";
 import SvgIcons from "../../../../../../../components/SvgIcons/SvgIcons.jsx";
 import React, { useCallback } from "react";
-import { serializeOperationalLayer } from "../../../../../persistence/util.js";
 import { triggerJsonDownload } from "../../../util.js";
-import { useRecoilValue } from "recoil";
-import { selectedFeaturesState } from "../../../../../atoms/atoms.js";
 import PropTypes from "prop-types";
+import { GeoJSONLayer } from "../../../../MapWrapper/geojson/GeoJSONLayer.js";
+import { METADATA } from "../../../../MapWrapper/geojson/constants.js";
 
+/**
+ * @typedef {Object} ExportGeojsonButtonProps React props for the ExportGeojsonButton component
+ * @property {GeoJSONLayer} layer The application layer instance for geoJSON map layers
+ */
+
+/**
+ *
+ * @param {ExportGeojsonButtonProps} props
+ * @returns
+ */
 export const ExportGeojsonButton = ({ layer }) => {
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
-
-  // triggers the download of a geojson file name like the clicked layer
   const handleExportGeojson = useCallback(() => {
-    const layerId = layer.metadata?.["vkf:id"];
-    const selectedFeature = selectedFeatures.find(
-      (selFeature) => selFeature.feature.getId() === layerId
-    );
-    const serializedLayer = serializeOperationalLayer(selectedFeature, layer);
-
     triggerJsonDownload(
-      serializedLayer.properties.title,
-      JSON.stringify(serializedLayer.geojson)
+      layer.getMetadata(METADATA.title),
+      JSON.stringify(layer.getGeoJSON())
     );
-  }, [layer, selectedFeatures]);
+  }, [layer]);
 
   return (
     <button
@@ -43,7 +43,7 @@ export const ExportGeojsonButton = ({ layer }) => {
 };
 
 ExportGeojsonButton.propTypes = {
-  layer: PropTypes.object,
+  layer: PropTypes.instanceOf(GeoJSONLayer).isRequired,
 };
 
 export default ExportGeojsonButton;

@@ -28,3 +28,18 @@ export const GEOJSON_LAYER_TYPES = {
 export const MAP_LIBRE_METADATA = {
     id: "vkf:layer_id",
 };
+
+export const MAPLIBRE_OPACITY_KEYS = {
+    [GEOJSON_LAYER_TYPES.SYMBOL]: "icon-opacity",
+    [GEOJSON_LAYER_TYPES.LINE]: "line-opacity",
+    [GEOJSON_LAYER_TYPES.FILL]: "fill-opacity",
+    [GEOJSON_LAYER_TYPES.OUTLINE]: "outline-opacity",
+};
+
+// TODO remove icon-opacity and adapt dynamic filter expressions in setOpacity method in GeoJSONLayer
+export const GEOJSON_OPACITY_KEYS = {
+    [GEOJSON_LAYER_TYPES.SYMBOL]: "icon-opacity",
+    [GEOJSON_LAYER_TYPES.LINE]: "stroke-opacity",
+    [GEOJSON_LAYER_TYPES.FILL]: "fill-opacity",
+    [GEOJSON_LAYER_TYPES.OUTLINE]: "stroke-opacity",
+};

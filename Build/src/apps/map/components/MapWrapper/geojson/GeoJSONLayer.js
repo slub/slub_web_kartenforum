@@ -4,14 +4,16 @@
  * This file is subject to the terms and conditions defined in
  * file "LICENSE.txt", which is part of this source code package.
  */
-
-//@TODO confirm new dependency
-import { v4 as uuidv4 } from "uuid";
 import { LAYER_TYPES } from "../../CustomLayers/LayerTypes";
 import { ApplicationLayer } from "./ApplicationLayer";
-import { METADATA } from "./constants";
+import {
+    METADATA,
+    MAPLIBRE_OPACITY_KEYS,
+    GEOJSON_OPACITY_KEYS,
+} from "./constants";
 import { isDefined } from "../../../../../util/util";
 import { addGeoJsonLayers } from "./addGeoJsonLayers.js";
+import { bbox } from "@turf/bbox";
 
 export class GeoJSONLayer extends ApplicationLayer {
     geoJSON = {};
@@ -25,7 +27,10 @@ export class GeoJSONLayer extends ApplicationLayer {
     }
 
     #initialize() {
-        this.metadata[METADATA.id] = uuidv4();
+        const bounds = this.geometry ? bbox(this.geometry) : bbox(this.geoJSON);
+        this.metadata[METADATA.bounds] = bounds;
+
+        this.metadata[METADATA.id] = crypto.randomUUID();
         this.metadata[METADATA.timePublished] = Date.now();
         this.metadata[METADATA.hasGeoReference] = true;
     }
@@ -42,7 +47,7 @@ export class GeoJSONLayer extends ApplicationLayer {
      * @param {maplibregl.Map} map
      */
     isDisplayedInMap(map) {
-        map.getSource(this.getId()) !== undefined;
+        return map.getSource(this.getId()) !== undefined;
     }
 
     /**
@@ -121,6 +126,61 @@ export class GeoJSONLayer extends ApplicationLayer {
     }
 
     /**
+     * All layers share the same opacity. Only the first map layer is considered for the opacity value.
+     *
+     * @param {maplibregl.Map} map
+     */
+    getOpacity(map) {
+        const mapLayers = this.#getMapLibreLayers(map);
+
+        if (mapLayers.length === 0) {
+            return null;
+        }
+
+        const mapLibreLayerType = mapLayers[0].type;
+        const opacityKey = MAPLIBRE_OPACITY_KEYS[mapLibreLayerType];
+
+        const opacityExpression = map.getPaintProperty(
+            mapLayers[0].id,
+            opacityKey
+        );
+
+        if (typeof opacityExpression === "number") {
+            return opacityExpression;
+        }
+
+        if (opacityExpression) {
+            return opacityExpression[2];
+        }
+
+        return 1;
+    }
+
+    /**
+     *
+     *
+     * @param {maplibregl.Map} map
+     */
+    setOpacity(map, opacity) {
+        const mapLayers = this.#getMapLibreLayers(map);
+
+        if (mapLayers.length === 0 || !isDefined(opacity)) {
+            return;
+        }
+
+        // TODO console warnings: Expected value to be of type number, but found null instead
+        for (const { id, type } of mapLayers) {
+            const opacityKey = MAPLIBRE_OPACITY_KEYS[type];
+            const propertyOpacityKey = GEOJSON_OPACITY_KEYS[type];
+            map.setPaintProperty(id, opacityKey, [
+                "*",
+                ["coalesce", ["get", propertyOpacityKey], 1],
+                opacity,
+            ]);
+        }
+    }
+
+    /**
      * All layers share the same visiblity. Only the first map layer is considered for the visibility status.
      *
      * @param {maplibregl.Map} map
@@ -141,15 +201,15 @@ export class GeoJSONLayer extends ApplicationLayer {
      * @param {maplibregl.Map} map
      * @param {"visible" | "none"} visiblity
      */
-    setVisibility(map, visiblity) {
+    setVisibility(map, visibility) {
         const mapLayers = this.#getMapLibreLayers(map);
 
-        if (mapLayers.length === 0) {
+        if (mapLayers.length === 0 || !isDefined(visibility)) {
             return;
         }
 
         for (const { id } of mapLayers) {
-            map.setLayoutProperty(id, "visibility", visiblity);
+            map.setLayoutProperty(id, "visibility", visibility);
         }
     }
 }

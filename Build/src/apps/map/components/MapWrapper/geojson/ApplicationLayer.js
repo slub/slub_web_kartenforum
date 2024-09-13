@@ -77,4 +77,8 @@ export class ApplicationLayer {
     isVisible() {
         throw new Error("Method 'isVisible' must be implemented.");
     }
+
+    serialize() {
+        throw new Error("Method 'serialize' must be implemented.");
+    }
 }

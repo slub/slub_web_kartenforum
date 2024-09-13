@@ -113,6 +113,11 @@ export function MapWrapper(props) {
   };
 
   //@TODO: Handle map click for geojson feature
+  // make own geojsonPicker component/hook
+  // styles are applied to features while editing and saved to app layer instance on save
+  // when clicked on cancel, initial stles are reapplied
+  // 3d switch can safely be removed
+
   // open overlay on map click and supply it with the first feature under the cursor
   // const handleMapClick = useCallback(
   //   (e) => {
