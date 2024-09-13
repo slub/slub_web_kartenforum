@@ -5,8 +5,8 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { activeBasemapIdState, mapState } from "../../atoms/atoms.js";
+import { useRecoilValue } from "recoil";
+import { mapState } from "../../atoms/atoms.js";
 import { isDefined, translate } from "../../../../util/util.js";
 import customEvents from "../MapWrapper/customEvents.js";
 import { BASEMAP_SELECTOR_CONTROL_ID } from "../Controls/BasemapSelectorControl.jsx";
@@ -15,8 +15,6 @@ import BasemapSelectorDialog from "./BasemapSelectorDialog.jsx";
 
 export const BasemapSelectorControl = () => {
   const map = useRecoilValue(mapState);
-  const [activeBasemapId, setActiveBasemapId] =
-    useRecoilState(activeBasemapIdState);
 
   const [baseMapControlEl, setBaseMapControlEl] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,11 +45,6 @@ export const BasemapSelectorControl = () => {
     }
   }, [map, isModalOpen]);
 
-  // update active basemap
-  const handleBasemapChange = (newBasemapLayer) => {
-    setActiveBasemapId(newBasemapLayer.id);
-  };
-
   return baseMapControlEl !== null
     ? createPortal(
         <>
@@ -65,11 +58,7 @@ export const BasemapSelectorControl = () => {
                 isModalOpen ? "active" : "inactive"
               }`}
             >
-              <BasemapSelectorDialog
-                map={map}
-                onBasemapChange={handleBasemapChange}
-                activeBasemapId={activeBasemapId}
-              />
+              <BasemapSelectorDialog map={map} />
             </div>
           )}
         </>,

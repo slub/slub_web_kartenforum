@@ -1,6 +1,10 @@
 @import "../../../Resources/Private/Scss/Variables";
 
 .map-container {
+    .maplibregl-map {
+        font: inherit;
+    }
+
     .maplibregl-ctrl-group {
         background-color: $secondary-color;
         border-radius: 2px;
