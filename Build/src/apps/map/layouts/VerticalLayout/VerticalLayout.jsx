@@ -5,40 +5,35 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 import SearchHeader from "./components/SearchHeader/SearchHeader";
 import LayerManagementButton from "./components/LayerManagementButton/LayerManagementButton";
 import LayerManagement from "../../components/LayerManagement/LayerManagement";
 import FacetedSearch from "../../components/FacetedSearch/FacetedSearch";
 import Modal from "../../../../components/Modal/Modal";
-import {
-  displayedLayersCountState,
-  elementsScreenSizeState,
-} from "../../atoms/atoms";
+import { elementsScreenSizeState } from "../../atoms/atoms";
+import LayerManagementCloser from "./components/LayerManagementCloser/LayerManagementCloser.jsx";
 import "./VerticalLayout.scss";
 
 export const VerticalLayout = () => {
-  const displayedLayerCount = useRecoilValue(displayedLayersCountState);
   const setElementsScreenSize = useSetRecoilState(elementsScreenSizeState);
   const [showFacets, setShowFacets] = useState(false);
   const [showLayerManagement, setShowLayerManagement] = useState(false);
 
-  const handleToggleLayerManagement = () => {
+  const handleCloseLayerManagement = useCallback(() => {
+    setShowLayerManagement(false);
+  }, []);
+
+  const handleToggleLayerManagement = useCallback(() => {
     setShowLayerManagement((old) => !old);
-  };
+  }, []);
 
   const handleToggleFacets = () => {
     setShowFacets((oldState) => !oldState);
   };
-
-  useEffect(() => {
-    if (displayedLayerCount === 0 && showLayerManagement) {
-      setShowLayerManagement(false);
-    }
-  }, [displayedLayerCount, showLayerManagement]);
 
   useEffect(() => {
     setElementsScreenSize((elementsScreenSizeState) =>
@@ -51,6 +46,9 @@ export const VerticalLayout = () => {
 
   return (
     <React.Fragment>
+      <LayerManagementCloser
+        onCloseLayerManagement={handleCloseLayerManagement}
+      />
       <div className="vkf-vertical-layout">
         <SearchHeader
           onToggleFacets={handleToggleFacets}

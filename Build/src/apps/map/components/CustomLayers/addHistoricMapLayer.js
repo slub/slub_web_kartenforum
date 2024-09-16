@@ -10,6 +10,7 @@ import {
     MAP_LIBRE_METADATA,
     METADATA,
 } from "../MapWrapper/geojson/constants.js";
+import { MAP_OVERLAY_FILL_ID } from "../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 /**
  * Fetches the maximum zoom value from an XML file located at the specified URL.
@@ -64,13 +65,18 @@ export const addHistoricMapLayer = async (historicMapLayer, map) => {
         bounds: historicMapLayer.getMetadata(METADATA.bounds),
     });
 
-    map.addLayer({
-        id: applicationLayerId,
-        type: "raster",
-        metadata: { [MAP_LIBRE_METADATA.id]: applicationLayerId },
-        source: applicationLayerId,
-        layout: {
-            visibility: "visible",
+    map.addLayer(
+        {
+            id: applicationLayerId,
+            type: "raster",
+            metadata: { [MAP_LIBRE_METADATA.id]: applicationLayerId },
+            source: applicationLayerId,
+            layout: {
+                visibility: "visible",
+            },
         },
-    });
+        MAP_OVERLAY_FILL_ID
+    );
+
+    console.log(map.getLayer(MAP_OVERLAY_FILL_ID), map.getStyle().layers);
 };

@@ -20,12 +20,6 @@ export const currentApplicationStateState = atom({
     default: undefined,
 });
 
-// number of currently displayed layers
-export const displayedLayersCountState = atom({
-    key: "displayedLayersCount",
-    default: 0,
-});
-
 // indicates the screen size of different elements
 export const elementsScreenSizeState = atom({
     key: "elementScreenSize",

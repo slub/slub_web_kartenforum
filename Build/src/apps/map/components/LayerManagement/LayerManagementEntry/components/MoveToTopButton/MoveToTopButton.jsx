@@ -7,19 +7,24 @@
 import { translate } from "../../../../../../../util/util.js";
 import SvgIcons from "../../../../../../../components/SvgIcons/SvgIcons.jsx";
 import React from "react";
-import { useRecoilValue } from "recoil";
-import { mapState } from "../../../../../atoms/atoms.js";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { mapState, selectedFeaturesState } from "../../../../../atoms/atoms.js";
 import PropTypes from "prop-types";
 
 export const MoveToTopButton = (props) => {
   const { layer } = props;
 
   const map = useRecoilValue(mapState);
+  const setSelectedFeatures = useSetRecoilState(selectedFeaturesState);
 
   // Move layer to the top of the stack
   const handleMoveTop = (event) => {
-    map.moveLayer(layer.id, null);
     event.stopPropagation();
+    layer.moveToTop(map);
+    setSelectedFeatures((oldSelectedFeatures) => [
+      ...oldSelectedFeatures.filter((feature) => feature !== layer),
+      layer,
+    ]);
   };
 
   return (

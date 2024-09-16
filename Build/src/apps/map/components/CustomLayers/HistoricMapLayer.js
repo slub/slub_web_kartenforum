@@ -10,6 +10,7 @@ import { addHistoricMapLayer } from "./addHistoricMapLayer.js";
 import { LAYER_TYPES } from "./LayerTypes.js";
 import { isDefined } from "../../../../util/util.js";
 import { bbox } from "@turf/bbox";
+import { MAP_OVERLAY_FILL_ID } from "../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 export class HistoricMapLayer extends ApplicationLayer {
     constructor({ metadata, geometry }) {
@@ -76,19 +77,26 @@ export class HistoricMapLayer extends ApplicationLayer {
     }
 
     setOpacity(map, opacity) {
-        map.setPaintProperty(this.getId(), "raster-opacity", opacity);
+        if (map.getLayer(this.getId())) {
+            map.setPaintProperty(this.getId(), "raster-opacity", opacity);
+        }
     }
 
     getOpacity(map) {
-        return map.getPaintProperty(this.getId(), "raster-opacity") ?? 1;
+        if (map.getLayer(this.getId())) {
+            return map.getPaintProperty(this.getId(), "raster-opacity") ?? 1;
+        }
+
+        return null;
     }
 
-    moveToTop() {
-        throw new Error("Method 'moveToTop' must be implemented.");
+    moveToTop(map) {
+        this.move(map, null);
     }
 
     move(map, beforeLayer) {
-        map.moveLayer(this.getId(), beforeLayer);
+        // We manage the layer order in the application state, no need to send out an event
+        map.moveLayer(this.getId(), beforeLayer ?? MAP_OVERLAY_FILL_ID);
     }
 
     getMapLibreLayerId() {

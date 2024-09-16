@@ -46,6 +46,7 @@ import BasemapSelectorControl from "../BasemapSelectorControl/BasemapSelectorCon
 import { addGeoJsonLayers } from "./geojson/addGeoJsonLayers";
 import VkfMap from "../VkfMap/VkfMap.jsx";
 import PermalinkExporter from "./components/PermalinkControl/PermalinkExporter.jsx";
+import BasemapLayerApplier from "./components/BasemapLayerApplier.jsx";
 
 const style =
   "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json";
@@ -341,6 +342,7 @@ export function MapWrapper(props) {
         {isDefined(map) && <ChildComponent onAddGeoJson={onAddGeoJson} />}
         <BasemapSelectorControl />
         <PermalinkExporter />
+        <BasemapLayerApplier />
       </div>
     </div>
   );

@@ -53,10 +53,8 @@ export const DeactivateMapCollection = () => {
       }
 
       map.on(customEvents.visibilityChanged, handleVisibilityChange);
-      map.on(customEvents.layerAdded, handleVisibilityChange);
       return () => {
         map.off(customEvents.visibilityChanged, handleVisibilityChange);
-        map.off(customEvents.layerAdded, handleVisibilityChange);
         map.off("load", handleLoad);
       };
     }

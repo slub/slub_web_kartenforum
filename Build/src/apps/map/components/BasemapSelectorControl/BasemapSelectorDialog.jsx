@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Glyphicon, Radio } from "react-bootstrap";
 import PropTypes from "prop-types";
 
@@ -28,6 +28,7 @@ import SettingsProvider from "../../../../SettingsProvider.js";
 import { notificationState } from "../../../../atoms/atoms.js";
 //@TODO: Only allow one active dialog at the same time
 //@TODO: Fix WMS basemap applied after selecting default style (configuration?)
+//@TODO: Fix persistence -> Move to effect?
 export const PERSISTENCE_CUSTOM_BASEMAP_KEYS = "vkf-custom-basemaps";
 
 /**
@@ -46,16 +47,8 @@ export const BasemapSelectorDialog = (props) => {
     []
   );
 
-  const baseMapStyleLayers = useRecoilValue(baseMapStyleLayersState);
   const layers = SettingsProvider.getBaseMaps();
   const setNotification = useSetRecoilState(notificationState);
-
-  const activeLayer = useMemo(
-    () =>
-      layers.find((layer) => layer.id === activeBasemapId) ||
-      customLayers.find((layer) => layer.id === activeBasemapId),
-    [activeBasemapId, customLayers, layers]
-  );
 
   const [showAddWmsDialog, setShowAddWmsDialog] = useState(false);
 
@@ -63,28 +56,7 @@ export const BasemapSelectorDialog = (props) => {
   // Handler section
   ////
 
-  // Handler for performing an update of the basemap
-  const handleChangeBaseMapLayer = (newLayer) => {
-    if (activeLayer === undefined) {
-      return;
-    }
-
-    // Remove previous custom layers
-    removeWMSLayer(map);
-    removeXYZLayer(map);
-
-    // Handle the change of the new layer
-    // Currently we expect there to be only a single allowed vector style in the basemaps
-    if (newLayer.type === "vector") {
-      showVectorBaseMapLayer(map, baseMapStyleLayers);
-    } else if (newLayer.type === "wms") {
-      addWMSLayer(map, newLayer, baseMapStyleLayers);
-    } else if (newLayer.type === "xyz") {
-      addXYZLayer(map, newLayer, baseMapStyleLayers);
-    } else {
-      throw new Error("Unknown layer type");
-    }
-
+  const handleSetBasemapLayer = (newLayer) => {
     setActiveBasemapId(newLayer.id);
   };
 
@@ -99,8 +71,8 @@ export const BasemapSelectorDialog = (props) => {
     }
 
     // Set the first default layer if the deleted layer was active
-    if (activeLayer.id === oldLayer.id) {
-      handleChangeBaseMapLayer(layers[0]);
+    if (activeBasemapId === oldLayer.id) {
+      setActiveBasemapId(layers[0].id);
     }
 
     // Remove from custom layers state
@@ -134,19 +106,23 @@ export const BasemapSelectorDialog = (props) => {
     }
   };
 
+  ////
+  // Effect section
+  ////
+
   return (
     <React.Fragment>
-      {activeLayer !== undefined && (
+      {activeBasemapId !== undefined && (
         <React.Fragment>
           <h2>{translate("control-basemapselector-label")}:</h2>
           <ul className="wms-entries">
             {[...layers, ...customLayers].map((l) => (
               <li key={l.id} className="basemap-selector-entry">
                 <Radio
-                  onChange={() => handleChangeBaseMapLayer(l)}
+                  onChange={() => handleSetBasemapLayer(l)}
                   name={l.id}
                   value={l.id}
-                  checked={activeLayer.id === l.id}
+                  checked={activeBasemapId === l.id}
                 >
                   {l.label}
                 </Radio>

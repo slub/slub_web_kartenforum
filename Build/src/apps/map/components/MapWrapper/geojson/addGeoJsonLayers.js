@@ -9,6 +9,7 @@
 // eslint-disable-next-line no-unused-vars
 import { GeoJSONLayer } from "./GeoJSONLayer";
 import { GEOJSON_LAYER_TYPES, MAP_LIBRE_METADATA } from "./constants";
+import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 /**
  * Takes a GeoJSONLayer and creates the necessary maplibre-gl layers for it.
@@ -67,18 +68,21 @@ export const addGeoJsonLayers = (geoJSONLayer, map) => {
     for (const key of Object.keys(GEOJSON_LAYER_TYPES)) {
         const layerType = GEOJSON_LAYER_TYPES[key];
         const layerId = `${applicationLayerId}-${layerType}`;
-        map.addLayer({
-            id: layerId,
-            source: applicationLayerId,
-            metadata: {
-                [MAP_LIBRE_METADATA.id]: applicationLayerId,
+        map.addLayer(
+            {
+                id: layerId,
+                source: applicationLayerId,
+                metadata: {
+                    [MAP_LIBRE_METADATA.id]: applicationLayerId,
+                },
+                ...options[layerType],
+                layout: {
+                    ...options[layerType].layout,
+                    visibility: "visible",
+                },
             },
-            ...options[layerType],
-            layout: {
-                ...options[layerType].layout,
-                visibility: "visible",
-            },
-        });
+            MAP_OVERLAY_FILL_ID
+        );
 
         geoJSONLayer.addMapLayer(layerId);
     }

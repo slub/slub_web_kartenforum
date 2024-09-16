@@ -5,25 +5,19 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useMemo, useRef } from "react";
 import { useRecoilState } from "recoil";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 
-import { isDefined, translate } from "../../../../util/util";
-import {
-  displayedLayersCountState,
-  mapState,
-  selectedFeaturesState,
-} from "../../atoms/atoms";
+import { translate } from "../../../../util/util";
+import { mapState, selectedFeaturesState } from "../../atoms/atoms";
 import DeactivateMapCollection from "./DeactivateMapCollection/DeactivateMapCollection";
 import DynamicMapVisualization from "./DynamicMapVisualization/DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry/LayerManagementEntry";
-import { getIndexToLayer, getLayers } from "./util";
 import { useSetElementScreenSize } from "../../../../util/hooks.js";
 import GeoJsonUploadHint from "./GeoJsonUploadHint/GeoJsonUploadHint.jsx";
 import "./LayerManagement.scss";
-import CustomEvents from "../MapWrapper/customEvents.js";
 
 export const LayerManagement = ({
   onAddGeoJson,
@@ -38,13 +32,16 @@ export const LayerManagement = ({
     showControls;
 
   // state
-  const [displayedLayers, setDisplayedLayers] = useState(undefined);
-  const [displayedLayersCount, setDisplayedLayersCount] = useRecoilState(
-    displayedLayersCountState
-  );
   const map = useRecoilValue(mapState);
   const [selectedFeatures, setSelectedFeatures] = useRecoilState(
     selectedFeaturesState
+  );
+
+  // The selected features should be displayed from top most map layer to bottom most map layer
+  // In the array they are stored as [bottom, ..., top] layer, therefore we need to reverse it to display it correctly
+  const layersInDisplayOrder = useMemo(
+    () => selectedFeatures.toReversed(),
+    [selectedFeatures]
   );
 
   // refs
@@ -57,67 +54,35 @@ export const LayerManagement = ({
   // Handler section
   ////
 
-  // @TODO: We can probably do this a little more efficient, by utilizing the new information from the custom events
-  // Handles changes on the layer container of the map
-  const handleRefresh = useCallback(() => {
-    if (isDefined(map)) {
-      const newLayers = getLayers(map).reverse();
-      setDisplayedLayers(newLayers);
-      setDisplayedLayersCount(newLayers.length);
-    }
-  }, [map]);
-
   // Handles drag and drop moves
   const handleMoveLayer = (dragIndex, hoverIndex) => {
-    const layers = getLayers(map);
+    // clone layers in display order
+    const newSelectedFeatures = [...layersInDisplayOrder];
 
-    // move the dragged layer to the position of the hovered layer
-    if (dragIndex < hoverIndex) {
-      const inbeforeLayer = layers[hoverIndex + 1]?.id ?? null;
+    // Remove the dragged layer from the array
+    const draggedLayer = newSelectedFeatures.splice(dragIndex, 1)[0];
 
-      map.moveLayer(layers[dragIndex].id, inbeforeLayer);
-    } else if (dragIndex > hoverIndex) {
-      // move the dragged layer to the position before the hovered layer
-      map.moveLayer(layers[dragIndex].id, layers[hoverIndex].id);
-    }
+    // Insert the dragged layer at the new position
+    newSelectedFeatures.splice(hoverIndex, 0, draggedLayer);
+
+    // Get the layer that is before the new position
+    const inbeforeIndex = hoverIndex - 1;
+    const inbeforeLayer =
+      inbeforeIndex < 0
+        ? null
+        : newSelectedFeatures[inbeforeIndex].getMapLibreLayerId();
+
+    // Update the layer order on the map
+    draggedLayer.move(map, inbeforeLayer);
+
+    // Update the layer order in application state
+    setSelectedFeatures(newSelectedFeatures.reverse());
   };
-
-  ////
-  // Effect section
-  ////
-
-  // bind event handlers to layer container of the map
-  useEffect(() => {
-    if (map !== undefined) {
-      const registerListeners = () => {
-        // set layers initially
-        handleRefresh();
-
-        // afterwards bind event handlers
-        map.on(CustomEvents.layerAdded, handleRefresh);
-        map.on(CustomEvents.layerRemoved, handleRefresh);
-        map.on(CustomEvents.layerMoved, handleRefresh);
-      };
-
-      if (!map._loaded) {
-        map.on("load", registerListeners);
-      } else {
-        registerListeners();
-      }
-
-      return () => {
-        map.off("load", registerListeners);
-        map.off(CustomEvents.layerAdded, handleRefresh);
-        map.off(CustomEvents.layerRemoved, handleRefresh);
-        map.off(CustomEvents.layerMoved, handleRefresh);
-      };
-    }
-  }, [map, handleRefresh]);
 
   return (
     <div className="vkf-layermanagement-root" ref={refLayermanagement}>
-      {showBadge && displayedLayersCount !== 0 && (
-        <span className="badge">{displayedLayersCount}</span>
+      {showBadge && selectedFeatures.length !== 0 && (
+        <span className="badge">{selectedFeatures.length}</span>
       )}
       {showHeader && (
         <div className="heading">
@@ -142,14 +107,14 @@ export const LayerManagement = ({
             <p>{translate("layermanagement-start-msg-body")}</p>
           </li>
         ) : (
-          selectedFeatures.map((layer) => {
+          layersInDisplayOrder.map((layer, index) => {
             const layerId = layer.getId();
 
             return (
               <LayerManagementEntry
                 onMoveLayer={handleMoveLayer}
                 layer={layer}
-                index={getIndexToLayer(map, layer)}
+                index={index}
                 key={layerId}
                 id={layerId}
               />

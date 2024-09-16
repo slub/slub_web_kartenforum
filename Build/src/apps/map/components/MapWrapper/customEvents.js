@@ -8,9 +8,6 @@
 const CustomEvents = {
     controlAdded: "controlAdded",
     controlRemoved: "controlRemoved",
-    layerAdded: "layerAdded",
-    layerMoved: "layerMoved",
-    layerRemoved: "layerRemoved",
     opacityChanged: "opacityChanged",
     visibilityChanged: "visibilityChanged",
 };

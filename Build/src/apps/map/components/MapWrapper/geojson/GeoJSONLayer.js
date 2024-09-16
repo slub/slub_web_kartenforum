@@ -14,6 +14,7 @@ import {
 import { isDefined } from "../../../../../util/util";
 import { addGeoJsonLayers } from "./addGeoJsonLayers.js";
 import { bbox } from "@turf/bbox";
+import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 export class GeoJSONLayer extends ApplicationLayer {
     geoJSON = {};
@@ -211,5 +212,17 @@ export class GeoJSONLayer extends ApplicationLayer {
         for (const { id } of mapLayers) {
             map.setLayoutProperty(id, "visibility", visibility);
         }
+    }
+
+    move(map, beforeLayer) {
+        const layers = this.#getMapLibreLayers(map);
+
+        layers.forEach(({ id }) => {
+            map.moveLayer(id, beforeLayer ?? MAP_OVERLAY_FILL_ID);
+        });
+    }
+
+    moveToTop(map) {
+        this.move(map, null);
     }
 }
