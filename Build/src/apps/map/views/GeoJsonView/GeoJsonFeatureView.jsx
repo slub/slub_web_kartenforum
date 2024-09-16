@@ -5,22 +5,32 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import clsx from "clsx";
 import VectorSource from "ol/source/Vector.js";
 import GeoJsonPresentationPopUp from "../../components/GeoJsonPresentationPopUp/GeoJsonPresentationPopUp.jsx";
-import { mapState, selectedGeoJsonFeatureState } from "../../atoms/atoms.js";
+import { mapState, layoutState } from "../../atoms/atoms.js";
 import GeoJsonEditPopUp from "../../components/GeoJsonEditPopUp/GeoJsonEditPopUp.jsx";
 import "./GeoJsonFeatureView.scss";
+import useClickedGeoJsonFeature from "../../hooks/useClickedGeoJsonFeature.js";
 
 export const GeoJsonFeatureView = () => {
   const [showPresentationView, setShowPresentationView] = useState(true);
   const map = useRecoilValue(mapState);
-  const [selectedGeoJsonFeature, setSelectedGeoJsonFeature] = useRecoilState(
-    selectedGeoJsonFeatureState
-  );
+  const layout = useRecoilValue(layoutState);
 
-  if (selectedGeoJsonFeature === null && !showPresentationView) {
+  // TODO GEOJSON PORT - Handle map click for geojson feature
+  // make own geojsonPicker component/hook
+  // styles are applied to features while editing and saved to app layer instance on save
+  // when clicked on cancel, initial stles are reapplied
+  // 3d switch can safely be removed
+
+  const { geoJsonFeature, setGeoJsonFeature } = useClickedGeoJsonFeature({
+    map,
+    layout,
+  });
+
+  if (geoJsonFeature === null && !showPresentationView) {
     setShowPresentationView(true);
   }
 
@@ -41,7 +51,7 @@ export const GeoJsonFeatureView = () => {
   };
   // Close the map overlay
   const handleOverlayClose = () => {
-    setSelectedGeoJsonFeature(null);
+    setGeoJsonFeature(null);
   };
 
   const handleShowEditDialog = () => {
@@ -56,26 +66,23 @@ export const GeoJsonFeatureView = () => {
     if (showPresentationView === false) {
       setShowPresentationView(true);
     }
-  }, [selectedGeoJsonFeature]);
+  }, [geoJsonFeature]);
 
   return (
     <div
-      className={clsx(
-        "vkf-geojson-view-root",
-        selectedGeoJsonFeature !== null && "in"
-      )}
+      className={clsx("vkf-geojson-view-root", geoJsonFeature !== null && "in")}
     >
-      {selectedGeoJsonFeature !== null && showPresentationView && (
+      {geoJsonFeature !== null && showPresentationView && (
         <GeoJsonPresentationPopUp
-          feature={selectedGeoJsonFeature}
+          feature={geoJsonFeature}
           showPresentationView={showPresentationView}
           onEdit={handleShowEditDialog}
           onClose={handleOverlayClose}
         />
       )}
-      {selectedGeoJsonFeature !== null && !showPresentationView && (
+      {geoJsonFeature !== null && !showPresentationView && (
         <GeoJsonEditPopUp
-          feature={selectedGeoJsonFeature}
+          feature={geoJsonFeature}
           onDelete={handleFeatureDelete}
           onClose={handleShowPresentationDialog}
         />

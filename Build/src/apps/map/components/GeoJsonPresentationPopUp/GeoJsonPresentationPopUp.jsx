@@ -17,11 +17,11 @@ export const GeoJsonPresentationPopUp = ({
   onEdit,
   onClose,
 }) => {
-  const [Properties, setProperties] = useState(propExtractor(feature));
-  const [imageLink, setImageLink] = useState(feature.get("img_link") || "");
+  const [properties, setProperties] = useState(propExtractor(feature));
+  const [imageLink, setImageLink] = useState(properties["img_link"] || "");
 
   useEffect(() => {
-    setImageLink(feature.get("img_link") || "");
+    setImageLink(properties["img_link"] || "");
     setProperties(propExtractor(feature));
   }, [feature]);
 
@@ -64,27 +64,27 @@ export const GeoJsonPresentationPopUp = ({
         className={`header-container ${!imageLink || false ? "no-image" : ""}`}
       >
         <h2 className="title">
-          {Properties["title"] ?? translate("geojson-featureview-no-title")}
+          {properties["title"] ?? translate("geojson-featureview-no-title")}
         </h2>
         <p className="description body2">
-          {Properties["description"] ??
+          {properties["description"] ??
             translate("geojson-featureview-no-description")}
         </p>
 
-        {Properties["attribution"] !== null &&
-          Properties["attribution"] !== undefined && (
-            <p className="attribution">{Properties["attribution"]}</p>
+        {properties["attribution"] !== null &&
+          properties["attribution"] !== undefined && (
+            <p className="attribution">{properties["attribution"]}</p>
           )}
       </div>
 
       <div className="metadata-container">
-        {Object.keys(Properties).some(
+        {Object.keys(properties).some(
           (key) =>
             !["title", "description", "img_link", "attribution"].includes(key)
         ) && <h3>{translate("geojson-featureview-metadata")}</h3>}
 
-        {Object.keys(Properties).length !== 0 &&
-          Object.entries(Properties).map(([key, value]) => {
+        {Object.keys(properties).length !== 0 &&
+          Object.entries(properties).map(([key, value]) => {
             if (
               ["title", "description", "img_link", "attribution"].includes(key)
             ) {

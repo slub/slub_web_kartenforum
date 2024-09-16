@@ -46,7 +46,7 @@ export const styleFieldSettings = {
             "MultiPolygon",
             "Polygon",
             "GeometryCollection",
-            "Circle",
+            "Circle", // TODO GEOJSON PORT - remove circle geometry? seems to be an openlayers relict
         ],
         type: "color",
         valueExtractor: (style) =>

@@ -42,7 +42,7 @@ export const AppMosaicMap = () => {
         <div className="vkf-plugin-map-mosaic" id="map-container">
           <MapWrapper
             {...{
-              disableClickHandler: true,
+              disableClickHandler: true, // TODO GEOJSON PORT - can safely be removed as geojson feature click handler is ported to a hook
               baseMapUrl: SettingsProvider.getDefaultBaseMapUrls(),
               enable3d: false,
               enableTerrain: false,

@@ -32,8 +32,8 @@ export const convertIntToHex = (int) => {
  * @return {[string, unknown][]}
  */
 export const filterStylingProperties = (feature) => {
-    const geometryType = feature.getGeometry().getType();
-    const properties = Object.entries(feature.getProperties());
+    const geometryType = feature?.geometry?.type;
+    const properties = Object.entries(feature.properties);
 
     return properties.filter(
         ([k]) => !checkForStylingProperty(k, geometryType)
@@ -177,24 +177,26 @@ export const propExtractor = (feature) => {
         "fill-opacity",
         "geometry",
     ];
-    const Properties = Object.keys(feature.values_)
+
+    const properties = Object.keys(feature.properties)
         .filter((property) => !filterList.includes(property))
         .reduce((object, property) => {
             return {
                 ...object,
-                [property]: feature.values_[property],
+                [property]: feature.properties[property],
             };
         }, {});
 
-    return Properties;
+    return properties;
 };
 
 /*
  * Generate the save handler for update and save changed properties
  */
 
-export const saveFeatureChanges = (feature, fieldsRef) => {
-    const oldProperties = feature.getProperties();
+export const saveFeatureChanges = (map, feature, fieldsRef) => {
+    // TODO GEOJSON PORT - does not handle nested properties
+    const oldProperties = Object.assign({}, feature.properties);
     const updatedProperties = {};
 
     fieldsRef.current.forEach(([k, v]) => {
@@ -213,9 +215,26 @@ export const saveFeatureChanges = (feature, fieldsRef) => {
             updatedProperties[k] = v;
         });
 
-    Object.keys(oldProperties).forEach((propertyKey) =>
-        feature.unset(propertyKey)
+    Object.keys(oldProperties).forEach(
+        (propertyKey) => (feature[propertyKey] = null)
     );
 
-    feature.setProperties(Object.assign({}, updatedProperties));
+    // TODO  GEOJSON PORT - generate a GeoJSONSourceDiff to update feature changes
+    // see https://github.com/maplibre/maplibre-gl-js/blob/5c9227dc50544c6eb159ca211d33d5948c72cda2/src/source/geojson_source_diff.ts#L9
+    // ids must be integers: https://github.com/maplibre/maplibre-gl-js/discussions/3134
+    // updates are only saved for attribution, i dont understand this function's logic yet
+    const propertiesInGeodiffFormat = Object.entries(updatedProperties).map(
+        ([key, value]) => ({ key, value })
+    );
+    const sourceLayer = map.getSource(feature.source);
+    const sourceDiff = {
+        update: [
+            {
+                id: feature.properties.id,
+                addOrUpdateProperties: propertiesInGeodiffFormat,
+            },
+        ],
+    };
+
+    sourceLayer.updateData(sourceDiff);
 };

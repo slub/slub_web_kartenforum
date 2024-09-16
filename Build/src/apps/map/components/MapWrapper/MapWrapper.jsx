@@ -30,7 +30,6 @@ import {
   currentApplicationStateState,
   mapState,
   selectedFeaturesState,
-  selectedGeoJsonFeatureState,
 } from "../../atoms/atoms";
 import { getMapClassNameForLayout, LAYOUT_TYPES } from "../../layouts/util";
 import { useSetElementScreenSize } from "../../../../util/hooks";
@@ -40,10 +39,8 @@ import { notificationState } from "../../../../atoms/atoms";
 import "./MapWrapper.scss";
 import SettingsProvider from "../../../../SettingsProvider.js";
 import CustomEvents from "./customEvents.js";
-import customEvents from "./customEvents.js";
 import BasemapSelectorControl from "../BasemapSelectorControl/BasemapSelectorControl.jsx";
 
-import { addGeoJsonLayers } from "./geojson/addGeoJsonLayers";
 import VkfMap from "../VkfMap/VkfMap.jsx";
 import PermalinkExporter from "./components/PermalinkControl/PermalinkExporter.jsx";
 import BasemapLayerApplier from "./components/BasemapLayerApplier.jsx";
@@ -55,7 +52,6 @@ export function MapWrapper(props) {
   const {
     baseMapUrl,
     ChildComponent,
-    disableClickHandler = false,
     enable3d,
     enableTerrain,
     layout,
@@ -79,9 +75,7 @@ export function MapWrapper(props) {
     useRecoilState(activeBasemapIdState);
   const [activeBasemap, setActiveBasemap] = useState(initialBasemap);
   const [map, setMap] = useRecoilState(mapState);
-  const setSelectedGeoJsonFeature = useSetRecoilState(
-    selectedGeoJsonFeatureState
-  );
+
   const setBaseMapStyleLayers = useSetRecoilState(baseMapStyleLayersState);
   const [selectedFeatures, setSelectedFeatures] = useRecoilState(
     selectedFeaturesState
@@ -112,46 +106,6 @@ export function MapWrapper(props) {
     setActiveBasemapId(newBasemapLayer.id);
     setActiveBasemap(newBasemapLayer);
   };
-
-  //@TODO: Handle map click for geojson feature
-  // make own geojsonPicker component/hook
-  // styles are applied to features while editing and saved to app layer instance on save
-  // when clicked on cancel, initial stles are reapplied
-  // 3d switch can safely be removed
-
-  // open overlay on map click and supply it with the first feature under the cursor
-  // const handleMapClick = useCallback(
-  //   (e) => {
-  //     const pixel = e.pixel;
-  //
-  //     let newSelectedFeature;
-  //
-  //     // handle selection process depending on viewmode
-  //     if (!is3dActive) {
-  //       // use ol api for 2d
-  //       newSelectedFeature = map.forEachFeatureAtPixel(
-  //         pixel,
-  //         (feature) => feature
-  //       );
-  //     } else {
-  //       // use cesium api for 3d
-  //       const pickedFeature = olcsMapRef.current
-  //         .getCesiumScene()
-  //         .pick(new Cesium.Cartesian2(pixel[0], pixel[1]));
-  //
-  //       if (pickedFeature !== undefined)
-  //         newSelectedFeature = pickedFeature.primitive.olFeature;
-  //     }
-  //
-  //     if (isDefined(newSelectedFeature)) {
-  //       setSelectedGeoJsonFeature(newSelectedFeature);
-  //     } else {
-  //       // hide overlay
-  //       setSelectedGeoJsonFeature(null);
-  //     }
-  //   },
-  //   [is3dActive, map]
-  // );
 
   ////
   // Effect section
@@ -290,21 +244,6 @@ export function MapWrapper(props) {
   //   }
   // }, [map, width]);
 
-  // bind click handler to map
-  // useEffect(() => {
-  //   if (
-  //     map !== undefined &&
-  //     layout === LAYOUT_TYPES.HORIZONTAL &&
-  //     !disableClickHandler
-  //   ) {
-  //     map.on("click", handleMapClick);
-  //
-  //     return () => {
-  //       map.un("click", handleMapClick);
-  //     };
-  //   }
-  // }, [handleMapClick, layout, map]);
-
   ////
   // Sync state with refs in order for the controls to get the state updates
   ////
@@ -351,7 +290,6 @@ export function MapWrapper(props) {
 export const mapWrapperProps = {
   baseMapUrl: PropTypes.arrayOf(PropTypes.string),
   ChildComponent: PropTypes.func,
-  disableClickHandler: PropTypes.bool,
   enable3d: PropTypes.bool,
   enableTerrain: PropTypes.bool,
   layout: PropTypes.string,

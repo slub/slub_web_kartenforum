@@ -4,15 +4,12 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Button as BootstrapButton } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { useRecoilValue } from "recoil";
-import Feature from "ol/Feature.js";
 
 // Internal dependencies
 import { translate } from "../../../../util/util.js";
-import { map3dState } from "../../atoms/atoms.js";
 import {
   predefinedFieldSettings,
   styleFieldSettings,
@@ -22,13 +19,18 @@ import DeleteDialog from "./components/DeleteDialog/DeleteDialog.jsx";
 import { EditFields } from "./components/EditFields/EditFields.jsx";
 import { filterCustomProperties, saveFeatureChanges } from "./util/util.js";
 import "./GeoJsonEditPopUp.scss";
+import { mapState } from "../../atoms/atoms.js";
+import { useRecoilValue } from "recoil";
 
 const GeoJsonEditPopUp = (props) => {
   const { feature, onDelete, onClose } = props;
-  const is3dEnabled = useRecoilValue(map3dState);
   const [fields, setFields] = useState(filterCustomProperties(feature));
-  const [featureStyle, setFeatureStyle] = useState(feature.getStyle().clone());
+  // FIXME const [featureStyle, setFeatureStyle] = useState(feature.getStyle().clone());
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const map = useRecoilValue(mapState);
+
+  // TODO GEOJSON PORT - keep debounce functionality?
+  const useDebounceChanges = useMemo(() => false);
 
   // refs
   const refFields = useRef(fields);
@@ -48,7 +50,7 @@ const GeoJsonEditPopUp = (props) => {
 
   // Reset feature styles and close overlay
   const handleCancel = () => {
-    feature.setStyle(featureStyle);
+    // FIXME feature.setStyle(featureStyle);
     handleClose();
   };
 
@@ -70,7 +72,7 @@ const GeoJsonEditPopUp = (props) => {
 
   // Change style of the feature
   const handleStyleChange = (changeHandler) => (newValue) => {
-    changeHandler(feature, newValue);
+    // FIXME changeHandler(feature, newValue);
   };
 
   //Change non-style properties of the feature
@@ -95,7 +97,7 @@ const GeoJsonEditPopUp = (props) => {
 
   // Write changes to the feature
   const handleSave = () => {
-    saveFeatureChanges(feature, refFields);
+    saveFeatureChanges(map, feature, refFields);
     refBlockReset.current = true;
     handleClose();
   };
@@ -105,7 +107,7 @@ const GeoJsonEditPopUp = (props) => {
   // update internal state on change of selected feature
   useEffect(() => {
     setFields(filterCustomProperties(feature));
-    setFeatureStyle(feature.getStyle().clone());
+    // FIXME setFeatureStyle(feature.getStyle().clone());
   }, [feature]);
 
   useEffect(() => {
@@ -138,9 +140,9 @@ const GeoJsonEditPopUp = (props) => {
             } = styleFieldSettings[sk];
 
             return (
-              geometryTypes.includes(feature.getGeometry().getType()) && (
+              geometryTypes.includes(feature.geometry?.type) && (
                 <EditFields
-                  debounceChanges={is3dEnabled}
+                  debounceChanges={useDebounceChanges}
                   onChange={handleStyleChange(changeHandler)}
                   key={`${sk}_${feature.ol_uid}`}
                   isHeaderEditable={false}
@@ -148,7 +150,7 @@ const GeoJsonEditPopUp = (props) => {
                   inputProps={settings}
                   value={
                     valueExtractor !== undefined
-                      ? valueExtractor(feature.getStyle())
+                      ? undefined // FIXME valueExtractor(feature.getStyle())
                       : undefined
                   }
                 />
@@ -163,13 +165,13 @@ const GeoJsonEditPopUp = (props) => {
 
             return (
               <EditFields
-                debounceChanges={is3dEnabled}
+                debounceChanges={useDebounceChanges}
                 onChange={handleStyleChange(changeHandler)}
                 key={`${pk}_${feature.ol_uid}`}
                 isHeaderEditable={false}
                 title={pk}
                 inputProps={settings}
-                value={feature.get(pk)}
+                value={feature.properties?.[pk]}
               />
             );
           })}
@@ -227,7 +229,7 @@ const GeoJsonEditPopUp = (props) => {
 };
 
 GeoJsonEditPopUp.propTypes = {
-  feature: PropTypes.instanceOf(Feature),
+  feature: PropTypes.object,
   onClose: PropTypes.func,
   onDelete: PropTypes.func,
 };

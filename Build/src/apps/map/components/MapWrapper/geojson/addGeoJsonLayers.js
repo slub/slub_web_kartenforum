@@ -63,7 +63,13 @@ export const addGeoJsonLayers = (geoJSONLayer, map) => {
         },
     };
 
-    map.addSource(applicationLayerId, { type: sourceType, data });
+    // TODO GEOJSON PORT - find a good way to generate ids
+    map.addSource(applicationLayerId, {
+        type: sourceType,
+        data,
+        promoteId: "id",
+        //generateId: true, // this does not seem to work when using sourceLayer.updateData()
+    });
 
     for (const key of Object.keys(GEOJSON_LAYER_TYPES)) {
         const layerType = GEOJSON_LAYER_TYPES[key];

@@ -28,6 +28,17 @@ export class GeoJSONLayer extends ApplicationLayer {
     }
 
     #initialize() {
+        // TODO GEOJSON PORT - temporary id generation to test saving properties in GeoJsonEditPopUp
+        let features = this.geoJSON.features;
+        features = features.map((feature, idx) => ({
+            ...feature,
+            properties: {
+                ...feature.properties,
+                id: idx + 1,
+            },
+        }));
+        this.geoJSON.features = features;
+
         const bounds = this.geometry ? bbox(this.geometry) : bbox(this.geoJSON);
         this.metadata[METADATA.bounds] = bounds;
 
