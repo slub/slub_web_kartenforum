@@ -28,16 +28,13 @@ export class GeoJSONLayer extends ApplicationLayer {
     }
 
     #initialize() {
-        // TODO GEOJSON PORT - temporary id generation to test saving properties in GeoJsonEditPopUp
-        let features = this.geoJSON.features;
-        features = features.map((feature, idx) => ({
+        // feature.id MUST be integer or string that is castable to integer
+        // see: https://github.com/maplibre/maplibre-gl-js/discussions/3134
+        // see: https://maplibre.org/maplibre-style-spec/expressions/#feature-state
+        this.geoJSON.features = this.geoJSON.features.map((feature, idx) => ({
             ...feature,
-            properties: {
-                ...feature.properties,
-                id: idx + 1,
-            },
+            id: idx + 1,
         }));
-        this.geoJSON.features = features;
 
         const bounds = this.geometry ? bbox(this.geometry) : bbox(this.geoJSON);
         this.metadata[METADATA.bounds] = bounds;
@@ -54,6 +51,39 @@ export class GeoJSONLayer extends ApplicationLayer {
     getGeoJSON() {
         return this.geoJSON;
     }
+
+    updateFeature(id, properties) {
+        const idx = this.geoJSON.features.findIndex(
+            (feature) => feature.id == id
+        );
+
+        if (idx < 0) {
+            console.warn(
+                `Trying to update a feature with non existing id '${id}'`
+            );
+            return;
+        }
+
+        const feature = this.geoJSON.features[idx];
+        feature.properties = properties;
+        this.geoJSON.features[idx] = feature;
+    }
+
+    removeFeature(id) {
+        const idx = this.geoJSON.features.findIndex(
+            (feature) => feature.id == id
+        );
+
+        if (idx < 0) {
+            console.warn(
+                `Trying to remove a feature with non existing id '${id}'`
+            );
+            return;
+        }
+
+        this.geoJSON.features.splice(idx, 1);
+    }
+
     /**
      *
      * @param {maplibregl.Map} map

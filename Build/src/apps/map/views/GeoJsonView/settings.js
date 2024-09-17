@@ -123,24 +123,9 @@ export const styleFieldSettings = {
 };
 
 export const predefinedFieldSettings = {
-    img_link: {
-        changeHandler: (feature, newValue) => {
-            feature.set("img_link", newValue);
-        },
-        type: "text",
-    },
-    title: {
-        changeHandler: (feature, newValue) => {
-            feature.set("title", newValue);
-        },
-        type: "text",
-    },
-    description: {
-        changeHandler: (feature, newValue) => {
-            feature.set("description", newValue);
-        },
-        type: "text",
-    },
+    img_link: { type: "text" },
+    title: { type: "text" },
+    description: { type: "text" },
 };
 
 /*

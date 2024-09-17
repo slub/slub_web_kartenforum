@@ -81,6 +81,7 @@ export const searchIsLoadingState = atom({
 export const selectedFeaturesState = atom({
     key: "selectedFeatureState",
     default: [],
+    dangerouslyAllowMutability: true,
 });
 
 // id of the selected map in order to show the original map view

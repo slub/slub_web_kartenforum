@@ -17,14 +17,15 @@ import {
 import Button from "../Buttons/Button.jsx";
 import DeleteDialog from "./components/DeleteDialog/DeleteDialog.jsx";
 import { EditFields } from "./components/EditFields/EditFields.jsx";
-import { filterCustomProperties, saveFeatureChanges } from "./util/util.js";
+import { filterPropertiesAndSort, saveFeatureChanges } from "./util/util.js";
 import "./GeoJsonEditPopUp.scss";
 import { mapState } from "../../atoms/atoms.js";
 import { useRecoilValue } from "recoil";
+import { isDefined } from "../../../../util/util.js";
 
 const GeoJsonEditPopUp = (props) => {
-  const { feature, onDelete, onClose } = props;
-  const [fields, setFields] = useState(filterCustomProperties(feature));
+  const { feature, onDelete, onClose, onSave } = props;
+  const [fields, setFields] = useState(filterPropertiesAndSort(feature));
   // FIXME const [featureStyle, setFeatureStyle] = useState(feature.getStyle().clone());
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const map = useRecoilValue(mapState);
@@ -97,7 +98,7 @@ const GeoJsonEditPopUp = (props) => {
 
   // Write changes to the feature
   const handleSave = () => {
-    saveFeatureChanges(map, feature, refFields);
+    saveFeatureChanges(map, feature, refFields, onSave);
     refBlockReset.current = true;
     handleClose();
   };
@@ -106,7 +107,7 @@ const GeoJsonEditPopUp = (props) => {
 
   // update internal state on change of selected feature
   useEffect(() => {
-    setFields(filterCustomProperties(feature));
+    setFields(filterPropertiesAndSort(feature));
     // FIXME setFeatureStyle(feature.getStyle().clone());
   }, [feature]);
 
@@ -144,7 +145,7 @@ const GeoJsonEditPopUp = (props) => {
                 <EditFields
                   debounceChanges={useDebounceChanges}
                   onChange={handleStyleChange(changeHandler)}
-                  key={`${sk}_${feature.ol_uid}`}
+                  key={`${sk}`}
                   isHeaderEditable={false}
                   title={sk}
                   inputProps={settings}
@@ -160,32 +161,24 @@ const GeoJsonEditPopUp = (props) => {
         </div>
 
         <div className="none-style-property-container">
-          {Object.keys(predefinedFieldSettings).map((pk) => {
-            const { changeHandler, ...settings } = predefinedFieldSettings[pk];
-
-            return (
-              <EditFields
-                debounceChanges={useDebounceChanges}
-                onChange={handleStyleChange(changeHandler)}
-                key={`${pk}_${feature.ol_uid}`}
-                isHeaderEditable={false}
-                title={pk}
-                inputProps={settings}
-                value={feature.properties?.[pk]}
-              />
-            );
-          })}
           {fields.map((entry, index) => {
-            const [vk, value] = entry;
+            const [key, value] = entry;
+            const isPredefinedField = isDefined(predefinedFieldSettings[key]);
+            const { ...settings } = isPredefinedField
+              ? predefinedFieldSettings[key]
+              : undefined;
 
             return (
               <EditFields
                 onBlur={handlePropertyChange(index)}
                 key={index}
-                isHeaderEditable={true}
-                title={vk}
+                isHeaderEditable={!isPredefinedField}
+                title={key}
+                inputProps={settings}
                 value={value}
-                onDelete={handleDeleteField(index)}
+                onDelete={
+                  !isPredefinedField ? handleDeleteField(index) : undefined
+                }
               />
             );
           })}
@@ -232,6 +225,7 @@ GeoJsonEditPopUp.propTypes = {
   feature: PropTypes.object,
   onClose: PropTypes.func,
   onDelete: PropTypes.func,
+  onSave: PropTypes.func,
 };
 
 export default GeoJsonEditPopUp;

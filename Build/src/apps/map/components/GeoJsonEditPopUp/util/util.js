@@ -11,6 +11,8 @@ import {
     styleFieldSettings,
 } from "../../../views/GeoJsonView/settings.js";
 
+import { isDefined } from "../../../../../util/util.js";
+
 export const checkForStylingProperty = (propertyKey, geometryType) => {
     return (
         stylingProperties.includes(propertyKey) &&
@@ -18,9 +20,11 @@ export const checkForStylingProperty = (propertyKey, geometryType) => {
     );
 };
 
-export const checkForPredefinedProperty = (propertyKey) => {
-    return predefinedProperties.includes(propertyKey);
-};
+const filterPredefinedEntries = ([propertyKey]) =>
+    !predefinedProperties.includes(propertyKey);
+
+const filterIgnoredEntries = ([propertyKey]) =>
+    !ignoredProperties.includes(propertyKey);
 
 export const convertIntToHex = (int) => {
     return Number(int.toFixed(0)).toString(16).padStart(2, "0");
@@ -31,26 +35,48 @@ export const convertIntToHex = (int) => {
  * @param feature
  * @return {[string, unknown][]}
  */
-export const filterStylingProperties = (feature) => {
+const filterStylingProperties = (feature) => {
     const geometryType = feature?.geometry?.type;
     const properties = Object.entries(feature.properties);
 
-    return properties.filter(
+    const filteredEntries = properties.filter(
         ([k]) => !checkForStylingProperty(k, geometryType)
     );
+
+    return Object.fromEntries(filteredEntries);
 };
 
 /**
- * Filter out styling properties and ignored properties
+ * Create an array of entries from the GeoJSON feature properties. Styling properties are filtered out.
+ * Predefined entries come first and are sorted.
+ *
  * @param feature
  * @return {[string,*][]}
  */
-export const filterCustomProperties = (feature) => {
-    const filteredStylingProperties = filterStylingProperties(feature);
+export const filterPropertiesAndSort = (feature) => {
+    const nonStylingProperties = filterStylingProperties(feature);
 
-    return filteredStylingProperties
-        .filter(([k]) => !ignoredProperties.includes(k))
-        .filter(([k]) => !predefinedProperties.includes(k));
+    const defaultSortedPredefinedEntries = predefinedProperties.map((key) => [
+        key,
+        "",
+    ]);
+
+    const mergedSortedPredefinedEntries = defaultSortedPredefinedEntries.map(
+        ([key, defaultValue]) => {
+            const value = nonStylingProperties[key];
+            if (isDefined(value) && value !== "") {
+                return [key, value];
+            }
+
+            return [key, defaultValue];
+        }
+    );
+
+    const customEntries = Object.entries(nonStylingProperties)
+        .filter(filterPredefinedEntries)
+        .filter(filterIgnoredEntries);
+
+    return [...mergedSortedPredefinedEntries, ...customEntries];
 };
 
 export const parseRgbStringToHex = (rgbString) => {
@@ -194,35 +220,27 @@ export const propExtractor = (feature) => {
  * Generate the save handler for update and save changed properties
  */
 
-export const saveFeatureChanges = (map, feature, fieldsRef) => {
-    // TODO GEOJSON PORT - does not handle nested properties
-    const oldProperties = Object.assign({}, feature.properties);
-    const updatedProperties = {};
+export const saveFeatureChanges = (map, feature, fieldsRef, handleSave) => {
+    const featureId = feature.id;
 
+    const updatedProperties = {};
     fieldsRef.current.forEach(([k, v]) => {
-        if (k !== undefined && k !== "") {
+        const isPredefinedKey = predefinedProperties.includes(k);
+        const isEmptyValue = v === "";
+        const isPredefinedKeyWithEmptyValue = isPredefinedKey && isEmptyValue;
+        if (isDefined(k) && k !== "" && !isPredefinedKeyWithEmptyValue) {
             updatedProperties[k] = v;
         }
     });
 
-    Object.entries(oldProperties)
-        .filter(
-            (entry) =>
-                ignoredProperties.includes(entry[0]) ||
-                predefinedProperties.includes(entry[0])
-        )
-        .forEach(([k, v]) => {
-            updatedProperties[k] = v;
-        });
-
-    Object.keys(oldProperties).forEach(
-        (propertyKey) => (feature[propertyKey] = null)
+    const removedPropertyKeys = Object.keys(feature.properties).filter(
+        (key) =>
+            !ignoredProperties.includes(key) &&
+            !stylingProperties.includes(key) &&
+            !predefinedProperties.includes(key) &&
+            !fieldsRef.current.some(([key]) => key === key)
     );
 
-    // TODO  GEOJSON PORT - generate a GeoJSONSourceDiff to update feature changes
-    // see https://github.com/maplibre/maplibre-gl-js/blob/5c9227dc50544c6eb159ca211d33d5948c72cda2/src/source/geojson_source_diff.ts#L9
-    // ids must be integers: https://github.com/maplibre/maplibre-gl-js/discussions/3134
-    // updates are only saved for attribution, i dont understand this function's logic yet
     const propertiesInGeodiffFormat = Object.entries(updatedProperties).map(
         ([key, value]) => ({ key, value })
     );
@@ -230,11 +248,19 @@ export const saveFeatureChanges = (map, feature, fieldsRef) => {
     const sourceDiff = {
         update: [
             {
-                id: feature.properties.id,
+                id: featureId,
                 addOrUpdateProperties: propertiesInGeodiffFormat,
+                removeProperties: removedPropertyKeys,
             },
         ],
     };
-
     sourceLayer.updateData(sourceDiff);
+
+    const featureProperties = Object.assign({}, updatedProperties);
+    for (const key of removedPropertyKeys) {
+        delete featureProperties[key];
+    }
+    // TODO GEOJSON PORT - add styling props
+
+    handleSave(featureId, featureProperties);
 };
