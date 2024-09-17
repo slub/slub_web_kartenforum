@@ -25,15 +25,36 @@ const fetchMaxZoomFromTileMapSource = async (url) => {
             response.data,
             "text/xml"
         );
+
+        const boundsElement = xmlDoc.getElementsByTagName("BoundingBox")[0];
+        const bounds = [
+            boundsElement.getAttribute("minx"),
+            boundsElement.getAttribute("miny"),
+            boundsElement.getAttribute("maxx"),
+            boundsElement.getAttribute("maxy"),
+        ].map(parseFloat);
+
         const tileSets = xmlDoc.getElementsByTagName("TileSet");
-        return tileSets.length;
+
+        const tileSize =
+            parseInt(
+                xmlDoc
+                    .getElementsByTagName("TileFormat")[0]
+                    .getAttribute("width")
+            ) ?? 256;
+
+        return { bounds, maxZoom: tileSets.length - 1, tileSize };
     } catch (error) {
         console.error("Error fetching or parsing XML:", error);
         return null;
     }
 };
 
-export const addHistoricMapLayer = async (historicMapLayer, map) => {
+export const addHistoricMapLayer = async (
+    historicMapLayer,
+    map,
+    initialSettings
+) => {
     const applicationLayerId = historicMapLayer.getId();
     const tms_urls = historicMapLayer.getMetadata(METADATA.tmsUrls);
     const wms_capability_url = historicMapLayer
@@ -45,9 +66,12 @@ export const addHistoricMapLayer = async (historicMapLayer, map) => {
     let sourceSettings;
     if (isTmsDefined) {
         // The zoom level starts with 0 till maxZoom - 1
-        const maxZoom = (await fetchMaxZoomFromTileMapSource(tms_urls[0])) - 1;
+        const { maxZoom, bounds, tileSize } =
+            await fetchMaxZoomFromTileMapSource(tms_urls[0]);
         sourceSettings = {
-            maxZoom,
+            bounds,
+            tileSize,
+            maxzoom: maxZoom,
             tiles: tms_urls.map((url) => `${url}/{z}/{x}/{y}.png`),
             scheme: "tms",
         };
@@ -65,6 +89,11 @@ export const addHistoricMapLayer = async (historicMapLayer, map) => {
         bounds: historicMapLayer.getMetadata(METADATA.bounds),
     });
 
+    const beforeLayer =
+        map.getLayer(MAP_OVERLAY_FILL_ID) !== undefined
+            ? MAP_OVERLAY_FILL_ID
+            : undefined;
+
     map.addLayer(
         {
             id: applicationLayerId,
@@ -72,11 +101,12 @@ export const addHistoricMapLayer = async (historicMapLayer, map) => {
             metadata: { [MAP_LIBRE_METADATA.id]: applicationLayerId },
             source: applicationLayerId,
             layout: {
-                visibility: "visible",
+                visibility: initialSettings.visibility,
+            },
+            paint: {
+                "raster-opacity": initialSettings.opacity,
             },
         },
-        MAP_OVERLAY_FILL_ID
+        beforeLayer
     );
-
-    console.log(map.getLayer(MAP_OVERLAY_FILL_ID), map.getStyle().layers);
 };

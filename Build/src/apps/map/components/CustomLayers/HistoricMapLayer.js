@@ -24,8 +24,11 @@ export class HistoricMapLayer extends ApplicationLayer {
         this.metadata[METADATA.bounds] = bounds;
     }
 
-    addLayerToMap(map) {
-        return addHistoricMapLayer(this, map);
+    addLayerToMap(
+        map,
+        opt_initial_settings = { visibility: "visible", opacity: 1 }
+    ) {
+        return addHistoricMapLayer(this, map, opt_initial_settings);
     }
 
     toGeoJSON() {

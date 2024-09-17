@@ -9,12 +9,10 @@ import PropTypes from "prop-types";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import axios from "axios";
 import { equals } from "ol/extent";
-import { transformExtent } from "ol/proj";
 
 import {
   elementsScreenSizeState,
   facetState,
-  map3dState,
   mapCountState,
   mapState,
   timeExtentState,
@@ -27,14 +25,12 @@ import { isDefined } from "../../../../util/util";
 import { createStatisticQuery, getSpatialQuery } from "../../../../util/query";
 import { readFeatures } from "../../../../util/parser";
 import SettingsProvider from "../../../../SettingsProvider";
-import { MAP_PROJECTION } from "../MapSearch/MapSearch";
 import { getSearchExtent, limitExtent } from "./util";
 import { useDebounce } from "../../../../util/hooks";
 import { LngLatBounds } from "maplibre-gl";
 
 export const PaginatingDataController = ({
   customQuery,
-  projection = MAP_PROJECTION,
   minimumBatchSize = 20,
   renderConsumer,
   sortSettings,
@@ -45,7 +41,6 @@ export const PaginatingDataController = ({
   // state
   const elementsScreenSize = useRecoilValue(elementsScreenSizeState);
   const { facets } = useRecoilValue(facetState);
-  const is3dEnabled = useRecoilValue(map3dState);
   const layout = useRecoilValue(layoutState);
   const map = useRecoilValue(mapState);
   const [mapView, setMapView] = useState(undefined);
@@ -61,7 +56,6 @@ export const PaginatingDataController = ({
   // derived
   const settings = SettingsProvider.getSettings();
   const elasticsearch_node = settings.API_SEARCH;
-  const elasticsearch_srs = "EPSG:4326";
 
   /**
    * @param {Array.<number>} extent An array of numbers representing an extent: [minx, miny, maxx, maxy]

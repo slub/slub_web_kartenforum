@@ -15,9 +15,9 @@ import { translate } from "../../../../../../../../util/util.js";
 import LoadingSpinner from "../../../../../../../../components/LoadingSpinner/LoadingSpinner.jsx";
 import { useLocalStorage } from "../../../../../../persistence/util.js";
 import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../../../../../BasemapSelectorControl/BasemapSelectorDialog.jsx";
-import "./MapViewInput.scss";
 import { useRecoilValue } from "recoil";
 import { currentApplicationStateState } from "../../../../../../atoms/atoms.js";
+import "./MapViewInput.scss";
 
 export const MapViewInput = () => {
   const [customLayers] = useLocalStorage(PERSISTENCE_CUSTOM_BASEMAP_KEYS, []);
@@ -30,6 +30,8 @@ export const MapViewInput = () => {
 
   const handleUploadMapView = useCallback(() => {
     if (localStorageWriter !== undefined) {
+      // filter out searchOptions, because they should not be persisted
+      // eslint-disable-next-line no-unused-vars
       const { searchOptions, ...mapView } = localStorageWriter();
 
       const customBasemaps = customLayers.filter(

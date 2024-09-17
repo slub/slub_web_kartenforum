@@ -7,11 +7,12 @@
 
 import { atom } from "recoil";
 import { LAYOUT_TYPES } from "../layouts/util.js";
+import SettingsProvider from "../../../SettingsProvider.js";
 
 // stores the currently active basemap ID
 export const activeBasemapIdState = atom({
     key: "activeBasemapId",
-    default: null,
+    default: SettingsProvider.getSettings().BASEMAPS[0].id,
 });
 
 // current state for the persistence controller

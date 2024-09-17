@@ -52,3 +52,7 @@ export function createBaseMapLayer({
 
     return newBaseMapLayer;
 }
+
+export function radiansToDegrees(rads) {
+    return rads * (180 / Math.PI);
+}

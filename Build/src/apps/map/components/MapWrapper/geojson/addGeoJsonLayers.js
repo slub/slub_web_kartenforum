@@ -68,6 +68,11 @@ export const addGeoJsonLayers = (geoJSONLayer, map) => {
         data,
     });
 
+    const beforeLayer =
+        map.getLayer(MAP_OVERLAY_FILL_ID) !== undefined
+            ? MAP_OVERLAY_FILL_ID
+            : undefined;
+
     for (const key of Object.keys(GEOJSON_LAYER_TYPES)) {
         const layerType = GEOJSON_LAYER_TYPES[key];
         const layerId = `${applicationLayerId}-${layerType}`;
@@ -84,7 +89,7 @@ export const addGeoJsonLayers = (geoJSONLayer, map) => {
                     visibility: "visible",
                 },
             },
-            MAP_OVERLAY_FILL_ID
+            beforeLayer
         );
 
         geoJSONLayer.addMapLayer(layerId);

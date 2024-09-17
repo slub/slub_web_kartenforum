@@ -8,7 +8,7 @@ import React, { useCallback, useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
-  serializeMapView,
+  serializeCameraOptions,
   serializeOperationalLayer,
   useLocalStorage,
   useOnPageLeave,
@@ -47,23 +47,9 @@ export const LocalStorageWriter = function () {
       const newPersistenceObject = {
         activeBasemapId,
         is3dEnabled: mapIs3dEnabled,
-        // @TODO: Refactor after new layer abstraction is implemented
-        operationalLayers: map
-          .getStyle()
-          .layers.filter(
-            (layer) =>
-              layer.metadata !== undefined &&
-              layer.metadata["vkf:id"] !== undefined
-          )
-          .map((mapLayer) => {
-            const selectedFeature = selectedFeatures.find(
-              (sf) => mapLayer.metadata["vkf:id"] === sf.feature.getId()
-            );
-            if (selectedFeature === undefined) {
-              return null;
-            }
-
-            return serializeOperationalLayer(selectedFeature, mapLayer);
+        operationalLayers: selectedFeatures
+          .map((selectedFeature) => {
+            return serializeOperationalLayer(selectedFeature, map);
           })
           .filter((layer) => layer !== null),
         searchOptions: {
@@ -74,10 +60,11 @@ export const LocalStorageWriter = function () {
       };
 
       // Persist map view
-      newPersistenceObject.mapView = serializeMapView(map);
+      newPersistenceObject.cameraOptions = serializeCameraOptions(map);
 
       // write changes to localStorage
       setPersistenceObject(newPersistenceObject);
+
       return newPersistenceObject;
     }
   }, [activeBasemapId, map, facets, selectedFeatures, timeExtent, timeRange]);

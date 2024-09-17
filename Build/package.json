@@ -65,7 +65,7 @@
     "lint-staged": "^10.4.2",
     "lodash.debounce": "^4.0.8",
     "lodash.round": "^4.0.4",
-    "maplibre-gl": "^4.6.0",
+    "maplibre-gl": "^4.7.0",
     "node-sass": "^9.0.0",
     "ol": "^6.7.0",
     "proj4": "^2.7.5",

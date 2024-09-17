@@ -5,17 +5,14 @@
  * file 'LICENSE.txt', which is part of this source code package
  */
 
-import { View } from "ol";
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { parse } from "query-string";
 
 import {
   activeBasemapIdState,
   facetState,
-  map3dState,
   mapState,
-  olcsMapState,
   selectedFeaturesState,
   timeExtentState,
   timeRangeState,
@@ -23,17 +20,14 @@ import {
 
 import SettingsProvider from "../../../SettingsProvider";
 import {
-  adjustMapView,
   areAllUndefined,
   deSerializeOperationalLayer,
   fitMapToFeatures,
   joinArrayPathParameters,
-  updateCameraFromMapview,
   useLocalStorage,
-  wrapMapFeatures,
 } from "./util";
 import { notificationState } from "../../../atoms/atoms";
-import { parseMapView, parseViewMode } from "./urlParser";
+import { parseCameraOptions, parseViewMode } from "./urlParser";
 import { translate } from "../../../util/util";
 import LocalStorageWriter from "./LocalStorageWriter.jsx";
 import { fetchFeatureForMapId } from "./api.js";
@@ -41,6 +35,8 @@ import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../components/BasemapSelectorCo
 import { validatePersistenceObject } from "./validation.js";
 
 export const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
+
+//@TODO: Correctly handle transformation for legacy map view parameters
 
 /**
  * Handles the persistence aspects of the application
@@ -55,8 +51,6 @@ export const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
  */
 export const PersistenceController = () => {
   const map = useRecoilValue(mapState);
-  const [mapIs3dEnabled, setMapIs3dEnabled] = useRecoilState(map3dState);
-  const olcsMap = useRecoilValue(olcsMapState);
   const [restoreSource, setRestoreSource] = useState(undefined);
   const setActiveBasemapId = useSetRecoilState(activeBasemapIdState);
   const setFacets = useSetRecoilState(facetState);
@@ -71,7 +65,7 @@ export const PersistenceController = () => {
    * @type {{
    * activeBasemapId: string,
    * is3dEnabled: boolean,
-   * mapView: {center: [number, number], resolution: number, rotation: number, zoom: number } | {altitude: number, center: number[], distance: number, heading: number, position: number[], tilt: number} ,
+   * cameraOptions: {center: [number, number], resolution: number, rotation: number, zoom: number } | {altitude: number, center: number[], distance: number, heading: number, position: number[], tilt: number} ,
    * operationalLayers: { coordinates: number[], id: string, properties: Object, isVisible: boolean, opacity: number }[],
    * searchOptions: {
    *     facets: {}[],
@@ -142,7 +136,7 @@ export const PersistenceController = () => {
       const urlPersistenceObject = {
         activeBasemapId: b,
         is3dEnabled: urlViewMode,
-        mapView: parseMapView(rest, urlViewMode),
+        cameraOptions: parseCameraOptions(rest),
         oid: joinArrayPathParameters(oid, map_id),
       };
 
@@ -165,7 +159,7 @@ export const PersistenceController = () => {
         is3dEnabled: persistenceIs3dEnabled,
         oid,
         operationalLayers,
-        mapView = {},
+        cameraOptions = {},
       } = restoreSource;
 
       // do not restore from the source if it is determined to be invalid
@@ -183,29 +177,18 @@ export const PersistenceController = () => {
         }
 
         // restore mapview if available
-        if (map !== undefined && olcsMap !== undefined) {
-          const adjustedMapView = adjustMapView(mapView);
+        if (map !== undefined) {
+          const cameraSettings = Object.assign(
+            {},
+            SettingsProvider.getDefaultMapView(),
+            cameraOptions
+          );
 
-          // update camera in case the 3d view mode will be activated, else update ol map view
+          map.jumpTo(cameraSettings);
+
           if (persistenceIs3dEnabled) {
-            const camera = olcsMap.getCesiumScene().camera;
-
-            // enable 3d
-            olcsMap.setEnabled(true);
-
-            updateCameraFromMapview(camera, adjustedMapView);
-          } else {
-            const mapViewSettings = Object.assign(
-              {},
-              SettingsProvider.getDefaultMapView(),
-              adjustedMapView
-            );
-
-            map.setView(new View(mapViewSettings));
+            map.enableTerrain();
           }
-
-          // only set the 3d state after the map was initialized in order to handle correct view initalization
-          setMapIs3dEnabled(persistenceIs3dEnabled);
 
           // restore features from localstorage if available and no query param for oid is specified
           if (
@@ -218,7 +201,28 @@ export const PersistenceController = () => {
                 deSerializeOperationalLayer
               );
 
-              setSelectedFeatures(newOperationalLayers);
+              const layerLoaders = [];
+
+              for (const {
+                feature,
+                isVisible,
+                opacity,
+              } of newOperationalLayers) {
+                if (feature !== undefined) {
+                  const layerLoadPromise = feature.addLayerToMap(map, {
+                    visibility: isVisible ? "visible" : "none",
+                    opacity,
+                  });
+
+                  layerLoaders.push(layerLoadPromise);
+                }
+              }
+
+              Promise.all(layerLoaders).then(() => {
+                setSelectedFeatures(
+                  newOperationalLayers.map((layer) => layer.feature)
+                );
+              });
             } catch (e) {
               console.error(e);
               handleNotification(
@@ -229,18 +233,20 @@ export const PersistenceController = () => {
             // restore features from oid
             const mapIds = Array.isArray(oid) ? oid : [oid];
 
-            const fetchProcesses = mapIds.map((id) =>
-              fetchFeatureForMapId(id, mapIs3dEnabled)
-            );
+            const fetchProcesses = mapIds.map((id) => fetchFeatureForMapId(id));
 
             Promise.all(fetchProcesses)
               .then((features) => {
-                setSelectedFeatures(wrapMapFeatures(features));
+                Promise.all(
+                  features.map((feature) => feature.addLayerToMap(map))
+                ).then(() => {
+                  setSelectedFeatures(features);
+                });
 
                 // fit view to features if the mapView param is undefined
                 if (
-                  mapView === undefined ||
-                  Object.entries(mapView).length === 0
+                  cameraOptions === undefined ||
+                  Object.entries(cameraOptions).length === 0
                 ) {
                   fitMapToFeatures(map, features);
                 }
@@ -261,7 +267,7 @@ export const PersistenceController = () => {
         );
       }
     }
-  }, [map, olcsMap, restoreSource]);
+  }, [map, restoreSource]);
 
   // restore searchOptions from persistence object
   useEffect(() => {

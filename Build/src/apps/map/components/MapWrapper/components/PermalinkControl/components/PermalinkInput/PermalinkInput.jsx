@@ -7,12 +7,12 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import {
-  mapViewToUrlParams,
+  cameraToUrlParams,
   serializeBasemapId,
   serializeSelectedFeatures,
   serializeViewMode,
 } from "../../../../../../persistence/urlSerializer.js";
-import { serializeMapView } from "../../../../../../persistence/util.js";
+import { serializeCameraOptions } from "../../../../../../persistence/util.js";
 import { stringify } from "query-string";
 import { getUrlWithQuery } from "../../PermalinkExporterTabs.jsx";
 import CopyToClipboardButton from "../CopyToClipboardButton/CopyToClipboardButton.jsx";
@@ -35,7 +35,7 @@ export const PermalinkInput = () => {
   // update the shown permalink value
   const handleUpdatePermalink = useCallback(() => {
     if (!isDefined(map)) return;
-    const mapViewParams = mapViewToUrlParams(serializeMapView(map, true));
+    const cameraParams = cameraToUrlParams(serializeCameraOptions(map, true));
 
     const viewModeParam = serializeViewMode(map.hasTerrain());
 
@@ -46,7 +46,7 @@ export const PermalinkInput = () => {
     const queryString = stringify(
       Object.assign(
         {},
-        mapViewParams,
+        cameraParams,
         viewModeParam,
         selectedFeatureParam,
         basemapParam

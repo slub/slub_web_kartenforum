@@ -133,42 +133,22 @@ export const validatePersistenceObject = (persistenceObject) => {
  * @param is3d
  * @returns {false}
  */
-export const validateMapView = (mapView, is3d) => {
+export const validateMapView = (mapView) => {
     let result;
 
-    if (is3d) {
-        const { direction, position, right, up } = mapView;
+    const { bearing, center, pitch, zoom } = mapView;
 
-        // validate direction
-        result = direction === undefined || is3dPoint(direction);
+    // validate center
+    result = center === undefined || isValidCoordinate(center);
 
-        // validate position
-        result &&=
-            position === undefined ||
-            (is3dPoint(position) &&
-                isValidCoordinate([position.x, position.y, position.z]));
+    // validate resolution
+    result &&= pitch === undefined || (!isNaN(pitch) && pitch >= 0);
 
-        // validate right
-        result &&= right === undefined || is3dPoint(right);
+    // validate rotation
+    result &&= bearing === undefined || !isNaN(bearing);
 
-        // validate up
-        result &&= up === undefined || is3dPoint(up);
-    } else {
-        const { center, resolution, rotation, zoom } = mapView;
-
-        // validate center
-        result = center === undefined || isValidCoordinate(center);
-
-        // validate resolution
-        result &&=
-            resolution === undefined || (!isNaN(resolution) && resolution > 0);
-
-        // validate rotation
-        result &&= rotation === undefined || !isNaN(rotation);
-
-        // validate zoom
-        result &&= zoom === undefined || !isNaN(zoom);
-    }
+    // validate zoom
+    result &&= zoom === undefined || !isNaN(zoom);
 
     return result;
 };

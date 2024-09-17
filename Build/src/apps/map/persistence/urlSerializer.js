@@ -14,7 +14,7 @@ import SettingsProvider from "../../../SettingsProvider.js";
  * @param is3dEnabled
  * @return {any}
  */
-export const mapViewToUrlParams = (mapView) => {
+export const cameraToUrlParams = (mapView) => {
     const { center, bearing, pitch, zoom } = mapView;
 
     // only assign defined properties to the resulting mapview item
@@ -72,8 +72,8 @@ export const serializeBasemapId = (basemapId) => {
 export const serializeSelectedFeatures = (selectedFeatures) => {
     return {
         map_id: selectedFeatures
-            .filter(({ type }) => type === LAYER_TYPES.HISTORIC_MAP)
-            .map(({ feature }) => feature.getId()),
+            .filter((feature) => feature.getType() === LAYER_TYPES.HISTORIC_MAP)
+            .map((feature) => feature.getId()),
     };
 };
 

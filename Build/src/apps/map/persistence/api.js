@@ -4,7 +4,6 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { Feature } from "ol";
 import { queryDocument } from "../../../util/apiEs.js";
 import { readFeature } from "../../../util/parser.js";
 
@@ -14,17 +13,18 @@ import { readFeature } from "../../../util/parser.js";
  * @param is3dEnabled
  * @return {Promise<ol.Feature>}
  */
-export const fetchFeatureForMapId = (mapId, is3dEnabled) =>
+export const fetchFeatureForMapId = (mapId) =>
     queryDocument(mapId)
-        .then((res) =>
-            readFeature(mapId, res, undefined, undefined, is3dEnabled)
-        )
+        .then((res) => readFeature(mapId, res))
         .catch(() => {
-            const feature = new Feature({
-                id: mapId,
-                isMissing: true,
-                has_georeference: false,
-            });
-            feature.setId(mapId);
-            return feature;
+            //@TODO: Add missing feature to new abstraction
+            // const feature = new Feature({
+            //     id: mapId,
+            //     isMissing: true,
+            //     has_georeference: false,
+            // });
+            // feature.setId(mapId);
+            // return feature;
+
+            return null;
         });

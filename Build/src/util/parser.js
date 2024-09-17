@@ -17,7 +17,7 @@ import { HistoricMapLayer } from "../apps/map/components/CustomLayers/HistoricMa
  * @param {boolean} is3d
  * @return {HistoricMapLayer}
  */
-export const readFeature = function (id, record, is3d) {
+export const readFeature = function (id, record) {
     const geometry = "geometry" in record ? record["geometry"] : undefined;
     const properties = {};
 

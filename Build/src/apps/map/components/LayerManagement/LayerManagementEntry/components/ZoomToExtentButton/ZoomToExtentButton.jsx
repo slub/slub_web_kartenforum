@@ -22,6 +22,7 @@ export const ZoomToExtentButton = (props) => {
     if (isDefined(map)) {
       const extent = layer.getMetadata(METADATA.bounds);
       // add percentage based padding
+      //@TODO: Adjust for mobile layout
       map.fitBounds(extent, {
         padding: { left: 350, right: 350, top: 50, bottom: 50 },
         animate: false,

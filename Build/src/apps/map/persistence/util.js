@@ -5,49 +5,13 @@
  * file 'LICENSE.txt', which is part of this source code package
  */
 import { useEffect, useState } from "react";
-import { Feature } from "ol";
-import { Polygon } from "ol/geom";
-import { extend } from "ol/extent";
-import { toLonLat } from "ol/proj";
-import { fromLonLat } from "ol/proj";
 
-import {
-    deserializeGeojson,
-    serializeGeojson,
-} from "../components/GeoJsonEditPopUp/util/geojsonSerializer";
 import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
 import { isDefined } from "../../../util/util";
-import { MAP_PROJECTION } from "../components/MapSearch/MapSearch.jsx";
-import { isValidLonLat } from "./validation.js";
-
-/**
- * Transform the map view in case of invalid lon/lat values
- * => interpret coordinates as MapProjection in this case
- * @param mapView
- * @returns {{center: number[]}}
- */
-export const adjustMapView = (mapView) => {
-    const { center, position, ...rest } = mapView;
-
-    const adjustedMapView = {};
-
-    if (center !== undefined) {
-        const [lon, lat] = center;
-        adjustedMapView["center"] = isValidLonLat(lon, lat)
-            ? fromLonLat(center, MAP_PROJECTION)
-            : center;
-    }
-
-    if (position !== undefined) {
-        const { x, y, z } = position;
-
-        adjustedMapView["position"] = isValidLonLat(x, y)
-            ? Cesium.Cartesian3.fromDegrees(x, y, z)
-            : position;
-    }
-
-    return Object.assign(adjustedMapView, rest);
-};
+import { HistoricMapLayer } from "../components/CustomLayers/HistoricMapLayer.js";
+import { METADATA } from "../components/MapWrapper/geojson/constants.js";
+import { LngLatBounds } from "maplibre-gl";
+import { GeoJSONLayer } from "../components/MapWrapper/geojson/GeoJSONLayer.js";
 
 /**
  * Checks if all values of an object are either undefined or objects without entries
@@ -105,7 +69,7 @@ const countDecimals = (value) => {
  * @param coordinates
  * @param isVisible
  * @param opacity
- * @return {{displayedInMap: boolean, feature: Feature, isVisible: boolean, opacity}}
+ * @return {{displayedInMap: boolean, feature: HistoricMapLayer|GeoJsonLayer, isVisible: boolean, opacity}}
  */
 export const deSerializeOperationalLayer = ({
     isVisible,
@@ -114,7 +78,6 @@ export const deSerializeOperationalLayer = ({
     ...featureSpecific
 }) => {
     return {
-        displayedInMap: false,
         feature:
             type === LAYER_TYPES.GEOJSON
                 ? deserializeGeojsonLayer(featureSpecific)
@@ -125,25 +88,16 @@ export const deSerializeOperationalLayer = ({
     };
 };
 
-export const deserializeGeojsonLayer = ({ id, geojson, properties }) => {
-    const { geometry, ...rest } = properties;
-
-    const feature = new Feature({
-        geojsonFeatures: deserializeGeojson(geojson),
-        ...rest,
+export const deserializeGeojsonLayer = ({ geometry, geojson, properties }) => {
+    return new GeoJSONLayer({
+        metadata: properties,
+        geoJSON: geojson,
+        geometry,
     });
-
-    feature.setId(id);
-
-    return feature;
 };
 
-export const deserializeMapLayer = ({ coordinates, id, properties }) => {
-    const feature = new Feature({ geometry: new Polygon(coordinates) });
-    feature.setId(id);
-    const { geometry, ...rest } = properties;
-    feature.setProperties(rest);
-    return feature;
+export const deserializeMapLayer = ({ geometry, properties }) => {
+    return new HistoricMapLayer({ metadata: properties, geometry });
 };
 
 /**
@@ -154,15 +108,19 @@ export const deserializeMapLayer = ({ coordinates, id, properties }) => {
 export const fitMapToFeatures = (map, features) => {
     let boundingExtent;
     features.forEach((feature) => {
-        const featureBoundingExtent = feature.getGeometry().getExtent();
+        const featureBoundingExtent = feature.getMetadata(METADATA.bounds);
         boundingExtent =
             boundingExtent === undefined
-                ? featureBoundingExtent
-                : extend(boundingExtent, featureBoundingExtent);
+                ? new LngLatBounds(featureBoundingExtent)
+                : boundingExtent.extend(featureBoundingExtent);
     });
 
+    //@TODO: Adjust for mobile layout
     if (boundingExtent !== undefined) {
-        map.getView().fit(boundingExtent, { padding: [50, 350, 50, 350] });
+        map.fitBounds(boundingExtent, {
+            animate: false,
+            padding: { left: 350, right: 350, top: 50, bottom: 50 },
+        });
     }
 };
 
@@ -195,54 +153,47 @@ export const joinArrayPathParameters = (a, b) => {
 
 /**
  * Serializes an operational layer
- * @param feature
- * @param type - type of the layer
- * @param mapLayer
+ * @param feature {HistoricMapLayer|GeoJSONLayer}
+ * @param map {maplibre-gl.Map}
  * @return {{coordinates: *, id: *, isVisible: *, opacity: *, properties: *}}
  */
-export const serializeOperationalLayer = ({ feature, type }, mapLayer) => {
-    const isVisible =
-        mapLayer.layoutProperties?.visibility === "none" ? false : true;
-    const opacity = mapLayer.paint?.["raster-opacity"] || 1;
+export const serializeOperationalLayer = (feature, map) => {
+    const isVisible = feature.isVisible(map);
+    const opacity = feature.getOpacity(map);
 
+    const type = feature.getType();
     const base = {
         id: feature.getId(),
         isVisible,
         opacity,
-        properties: feature.properties,
+        properties: feature.getMetadata(),
     };
 
     if (type === LAYER_TYPES.GEOJSON) {
-        const {
-            properties: { geojsonFeatures, ...rest },
-        } = base;
-
-        const newGeojsonFeatures = mapLayer.getSource().getFeatures();
-
         // add in geojson specific parts
         return Object.assign(base, {
-            geojson: serializeGeojson(newGeojsonFeatures),
+            geojson: feature.getGeoJSON(),
             type: LAYER_TYPES.GEOJSON,
-            properties: rest,
         });
     } else {
         // add in map specific parts
         return Object.assign(base, {
-            coordinates: feature.getGeometry().getCoordinates(),
             type: LAYER_TYPES.HISTORIC_MAP,
+            //@TODO: Move this to base after its implemented on geojson layer
+            geometry: feature.getGeometry(),
         });
     }
 };
 
-export const serializeMapView = (map, beautify = false) => {
-    const mapView = {
+export const serializeCameraOptions = (map, beautify = false) => {
+    const cameraOptions = {
         center: map.getCenter().toArray(),
         bearing: map.getBearing(),
         pitch: map.getPitch(),
         zoom: map.getZoom(),
     };
 
-    return beautify ? beautifyMapView(mapView, 5) : mapView;
+    return beautify ? beautifyMapView(cameraOptions, 5) : cameraOptions;
 };
 
 /**
