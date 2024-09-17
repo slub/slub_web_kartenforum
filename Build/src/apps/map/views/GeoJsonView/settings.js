@@ -12,7 +12,7 @@ import {
     splitAlphaChannel,
     updateAlphaChannel,
     updateColorChannels,
-} from "../../components/GeoJsonEditPopUp/util/util.js";
+} from "../../components/GeoJsonEditPopUp/util/styleUtils.js";
 import { getDefaultIconSettings } from "../../components/MapWrapper/getDefaultStyles.js";
 import {
     getMarkerIdFromUrl,
@@ -99,13 +99,6 @@ export const styleFieldSettings = {
             splitAlphaChannel(style.getStroke().getColor())[1],
     },
     "stroke-width": {
-        changeHandler: (feature, newValue) => {
-            const newStyle = feature.getStyle().clone();
-            const newStroke = newStyle.getStroke();
-            newStroke.setWidth(newValue);
-            newStyle.setStroke(newStroke);
-            feature.setStyle(newStyle);
-        },
         geometryTypes: [
             "MultiPolygon",
             "Polygon",

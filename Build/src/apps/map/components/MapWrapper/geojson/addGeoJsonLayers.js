@@ -38,8 +38,16 @@ export const addGeoJsonLayers = (geoJSONLayer, map) => {
         [GEOJSON_LAYER_TYPES.LINE]: {
             type: "line",
             paint: {
-                "line-color": ["get", "stroke"],
-                "line-width": ["get", "stroke-width"],
+                "line-color": [
+                    "coalesce",
+                    ["feature-state", "stroke"],
+                    ["get", "stroke"],
+                ],
+                "line-width": [
+                    "coalesce",
+                    ["feature-state", "stroke-width"],
+                    ["get", "stroke-width"],
+                ],
                 "line-opacity": ["get", "stroke-opacity"],
             },
             filter: ["==", "$type", "LineString"],

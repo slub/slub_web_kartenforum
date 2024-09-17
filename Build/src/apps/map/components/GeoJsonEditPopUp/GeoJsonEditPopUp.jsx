@@ -46,6 +46,9 @@ const GeoJsonEditPopUp = (props) => {
 
   // Close the overlay
   const handleClose = () => {
+    const source = feature.source;
+    const id = feature.id;
+    map.removeFeatureState({ source, id });
     onClose();
   };
 
@@ -72,8 +75,11 @@ const GeoJsonEditPopUp = (props) => {
   };
 
   // Change style of the feature
-  const handleStyleChange = (changeHandler) => (newValue) => {
-    // FIXME changeHandler(feature, newValue);
+  const handleStyleChange = (styleProperty) => (newValue) => {
+    const source = feature.source;
+    const id = feature.id;
+    const valueAsNumber = Number.parseFloat(newValue);
+    map.setFeatureState({ source, id }, { [styleProperty]: valueAsNumber });
   };
 
   //Change non-style properties of the feature
@@ -132,26 +138,26 @@ const GeoJsonEditPopUp = (props) => {
       </div>
       <div className="property-container">
         <div className="style-property-container">
-          {Object.keys(styleFieldSettings).map((sk) => {
+          {Object.keys(styleFieldSettings).map((styleProperty) => {
             const {
-              changeHandler,
               geometryTypes,
               valueExtractor,
+              changeHandler,
               ...settings
-            } = styleFieldSettings[sk];
+            } = styleFieldSettings[styleProperty];
 
             return (
               geometryTypes.includes(feature.geometry?.type) && (
                 <EditFields
                   debounceChanges={useDebounceChanges}
-                  onChange={handleStyleChange(changeHandler)}
-                  key={`${sk}`}
+                  onChange={handleStyleChange(styleProperty)}
+                  key={`${styleProperty}`}
                   isHeaderEditable={false}
-                  title={sk}
+                  title={styleProperty}
                   inputProps={settings}
                   value={
                     valueExtractor !== undefined
-                      ? undefined // FIXME valueExtractor(feature.getStyle())
+                      ? 1 // FIXME valueExtractor(feature.getStyle())
                       : undefined
                   }
                 />
