@@ -33,10 +33,12 @@ import LocalStorageWriter from "./LocalStorageWriter.jsx";
 import { fetchFeatureForMapId } from "./api.js";
 import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../components/BasemapSelectorControl/BasemapSelectorDialog.jsx";
 import { validatePersistenceObject } from "./validation.js";
+import {
+  convertLegacyMapViewToCameraOptions,
+  isLegacyMapView,
+} from "./backwardsCompatibility.js";
 
 export const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
-
-//@TODO: Correctly handle transformation for legacy map view parameters
 
 /**
  * Handles the persistence aspects of the application
@@ -128,6 +130,10 @@ export const PersistenceController = () => {
           );
         }
 
+        if (rest.mapView && isLegacyMapView(rest.mapView)) {
+          rest.mapView = convertLegacyMapViewToCameraOptions(rest.mapView);
+        }
+
         setRestoreSource(rest);
       });
     } else {
@@ -185,6 +191,23 @@ export const PersistenceController = () => {
           );
 
           map.jumpTo(cameraSettings);
+
+          // if we are restoring a legacy 3d map view, we shift the center a little
+          // to make the map view resemble the old one closer (the old position stored was the camera position not the
+          // center of the map)
+          // @TODO: Improve quality of restored map views => 3d legacy map views are still not close to the old map view
+          if (cameraSettings.legacy3dMapView) {
+            const canvas = map.getCanvas();
+            const height = canvas.height;
+            const width = canvas.width;
+            const newCenter = map.unproject([width / 2, height * 0.3]);
+            map.setCenter(newCenter);
+
+            handleNotification(
+              translate("persistencecontroller-deprecated-3d-map-view"),
+              "warning"
+            );
+          }
 
           if (persistenceIs3dEnabled) {
             map.enableTerrain();

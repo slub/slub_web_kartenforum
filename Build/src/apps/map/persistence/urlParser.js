@@ -4,7 +4,11 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { radiansToDegrees } from "../../../util/geo.js";
+import {
+    convertLegacyMapViewToCameraOptions,
+    areLegacyMapViewParams,
+    parseLegacyMapViewParams,
+} from "./backwardsCompatibility.js";
 
 export const URL_VIEW_MODES = {
     "2D": 0,
@@ -30,6 +34,13 @@ export const parseViewMode = (urlViewMode) => {
  * @return {any}
  */
 export const parseCameraOptions = (cameraParams) => {
+    // backwards compatibility layer
+    if (areLegacyMapViewParams(cameraParams)) {
+        const mapView = parseLegacyMapViewParams(cameraParams);
+
+        return convertLegacyMapViewToCameraOptions(mapView);
+    }
+
     const { c, be, p, z } = cameraParams;
 
     return Object.assign(
@@ -37,17 +48,6 @@ export const parseCameraOptions = (cameraParams) => {
         c === undefined ? null : { center: c },
         be === undefined ? null : { bearing: be },
         p === undefined ? null : { pitch: p },
-        z === undefined ? null : { zoom: z }
-    );
-};
-
-export const parseLegacyMapView = (mapViewParams) => {
-    const { c, r, z } = mapViewParams;
-
-    return Object.assign(
-        {},
-        c === undefined ? null : { center: c },
-        r === undefined ? null : { bearing: radiansToDegrees(r) },
         z === undefined ? null : { zoom: z }
     );
 };

@@ -65,13 +65,6 @@ export const mapCountState = atom({
     default: 10,
 });
 
-// stores the openlayers-cesium map
-export const olcsMapState = atom({
-    key: "olcsMapState",
-    default: undefined,
-    dangerouslyAllowMutability: true,
-});
-
 // flag indicating if the search is loading
 export const searchIsLoadingState = atom({
     key: "searchIsLoadingState",

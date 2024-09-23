@@ -533,6 +533,9 @@
             <trans-unit id="plugin.map.persistencecontroller.errorSingleMap">
                 <source>The selected map could not be loaded.</source>
             </trans-unit>
+			<trans-unit id="plugin.map.persistencecontroller.errorSingleMap">
+				<source>The restored map view was created in an old version of the map forum. This may result in deviations of the view.</source>
+			</trans-unit>
 
 			<!-- PlacenameSearch -->
 			<trans-unit id="plugin.map.placenamesearch.placeholder">
