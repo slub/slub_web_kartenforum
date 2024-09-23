@@ -44,6 +44,7 @@ import BasemapSelectorControl from "../BasemapSelectorControl/BasemapSelectorCon
 import VkfMap from "../VkfMap/VkfMap.jsx";
 import PermalinkExporter from "./components/PermalinkControl/PermalinkExporter.jsx";
 import BasemapLayerApplier from "./components/BasemapLayerApplier.jsx";
+import { getLocale } from "./locale.js";
 
 const style =
   "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json";
@@ -118,6 +119,7 @@ export function MapWrapper(props) {
       center: mapViewSettings.center,
       zoom: mapViewSettings.zoom,
       style,
+      locale: getLocale(),
     });
 
     // Wait for the style to be fully loaded

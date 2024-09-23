@@ -699,8 +699,11 @@
             </trans-unit>
 
            <!-- Global > Map > Control > Fullscreen -->
-			<trans-unit id="global.map.control-fullscreen.title">
-				<source>Toggle full-screen</source>
+			<trans-unit id="global.map.control-fullscreen.Enter">
+				<source>Enter fullscreen</source>
+			</trans-unit>
+            <trans-unit id="global.map.control-fullscreen.Exit">
+				<source>Exit fullscreen</source>
 			</trans-unit>
 
            <!-- Global > Map > Control > Rotation -->
@@ -711,6 +714,9 @@
            <!-- Global > Map > Control > LocateMe -->
 			<trans-unit id="global.map.control-locateme.title">
 				<source>Locate me</source>
+			</trans-unit>
+            <trans-unit id="global.map.control-locateme.LocationNotAvailable">
+				<source>Location not available</source>
 			</trans-unit>
 
             <!-- Global > Map > Control > Attribution -->

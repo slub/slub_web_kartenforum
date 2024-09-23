@@ -828,9 +828,13 @@
             </trans-unit>
 
            <!-- Global > Map > Control > Fullscreen -->
-			<trans-unit id="global.map.control-fullscreen.title" approved="yes">
-				<source><![CDATA[Toggle full-screen]]></source>
+			<trans-unit id="global.map.control-fullscreen.Enter" approved="yes">
+				<source><![CDATA[Enter fullscreen]]></source>
 				<target><![CDATA[Umschalten zu Vollbild]]></target>
+			</trans-unit>
+            <trans-unit id="global.map.control-fullscreen.Exit" approved="yes">
+				<source><![CDATA[Exit fullscreen]]></source>
+				<target><![CDATA[Vollbildmodus beenden]]></target>
 			</trans-unit>
 
            <!-- Global > Map > Control > Rotation -->
@@ -843,6 +847,10 @@
 			<trans-unit id="global.map.control-locateme.title"  approved="yes">
 				<source><![CDATA[Locate me]]></source>
 				<target><![CDATA[Lokalisiere mich]]></target>
+			</trans-unit>
+            <trans-unit id="global.map.control-locateme.LocationNotAvailable"  approved="yes">
+				<source><![CDATA[Location not available]]></source>
+				<target><![CDATA[Standort nicht verfügbar]]></target>
 			</trans-unit>
 
             <!-- Global > Map > Control > Attribution -->
