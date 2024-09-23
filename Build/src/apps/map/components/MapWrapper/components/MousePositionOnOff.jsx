@@ -22,19 +22,22 @@ export class MousePositionOnOff {
 
   targetEl = undefined;
   _container = undefined;
+  _button = undefined;
   savedPosition = undefined;
 
   onAdd(map) {
     this._map = map;
     const element = document.createElement("div");
-    element.className = "mouse-position maplibregl-ctrl maplibregl-ctrl-group";
+    element.className = "maplibregl-ctrl maplibregl-ctrl-group";
 
     const button = document.createElement("button");
     button.title = translate("control-mouseposition-title");
+    button.className = "maplibregl-ctrl-mouse-position";
     button.type = "button";
 
     element.appendChild(button);
     this._container = element;
+    this._button = button;
     button.addEventListener("click", this.toggleMousePosition, false);
 
     return this._container;
@@ -120,13 +123,13 @@ export class MousePositionOnOff {
     event.preventDefault();
 
     const activeClass = "active";
-    const isActive = this._container.classList.contains(activeClass);
+    const isActive = this._button.classList.contains(activeClass);
     const map = this._map;
     if (!map) {
       return;
     }
     // toggle activation on anchor
-    this._container.classList.toggle(activeClass);
+    this._button.classList.toggle(activeClass);
 
     // initialize container for mouseposition display
     let targetEl = this.targetEl;

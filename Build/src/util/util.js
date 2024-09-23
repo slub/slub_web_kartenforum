@@ -106,7 +106,10 @@ export const getDefaultControls = (params) => {
             position: "top-left",
             control: new PermalinkControl(),
         },
-        { position: "bottom-right", control: new ScaleControl() },
+        {
+            position: "bottom-right",
+            control: new ScaleControl({ maxWidth: 137 }),
+        },
 
         // new Rotate({
         //     className: "rotate-north ol-unselectable",

@@ -47,7 +47,7 @@ export const PermalinkExporter = () => {
     ? createPortal(
         <>
           <button
-            className={clsx(isActive && "active")}
+            className={clsx("maplibregl-ctrl-permalink", isActive && "active")}
             onClick={() => {
               setIsActive((oldIsActive) => !oldIsActive);
             }}

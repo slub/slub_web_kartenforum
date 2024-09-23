@@ -5,6 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useEffect, useState } from "react";
+import clsx from "clsx";
 import { useRecoilValue } from "recoil";
 import { mapState } from "../../atoms/atoms.js";
 import { isDefined, translate } from "../../../../util/util.js";
@@ -51,12 +52,17 @@ export const BasemapSelectorControl = () => {
           <button
             onClick={() => setIsModalOpen(!isModalOpen)}
             title={translate("control-basemapselector-open")}
+            className={clsx(
+              "maplibregl-ctrl-basemap-selector",
+              isModalOpen && "active"
+            )}
           ></button>
           {isModalOpen && (
             <div
-              className={`basemap-selector-modal ${
-                isModalOpen ? "active" : "inactive"
-              }`}
+              className={clsx(
+                "basemap-selector-modal",
+                isModalOpen && "active"
+              )}
             >
               <BasemapSelectorDialog map={map} />
             </div>

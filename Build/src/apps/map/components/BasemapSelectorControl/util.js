@@ -89,12 +89,19 @@ export const addWMSLayer = (map, baseMap, baseMapStyleLayers) => {
     // Add the WMS source if it does not already exist
     if (!map.getSource(WMS_SOURCE_ID)) {
         // Add the WMS source
-        map.addSource(WMS_SOURCE_ID, {
+        const wmsSource = {
             type: "raster",
             tiles: [
                 `${baseMap.urls[0]}?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=2.0.0&request=GetMap&CRS=EPSG:3857&transparent=true&width=512&height=512&layers=${baseMap.layers}&STYLES=`,
             ],
-        });
+        };
+        // Conditionally add attribution if it exists
+        if (baseMap.attribution) {
+            wmsSource.attribution = baseMap.attribution;
+        }
+        // Add the source to the map
+        map.addSource(WMS_SOURCE_ID, wmsSource);
+
         const inbeforeLayer = map.getStyle().layers[0].id;
 
         map.addLayer(
