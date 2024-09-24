@@ -15,8 +15,8 @@ import DialogAddGeoJson from "./components/DialogAddGeoJson/DialogAddGeoJson";
 import { mapState, selectedFeaturesState } from "../../atoms/atoms";
 import MapWrapper, { mapWrapperProps } from "./MapWrapper";
 
-import { GeoJSONLayer } from "./geojson/GeoJSONLayer";
-import { METADATA } from "./geojson/constants";
+import GeoJsonLayer from "../CustomLayers/GeoJsonLayer/GeoJsonLayer";
+import { METADATA } from "../CustomLayers/GeoJsonLayer/constants";
 
 export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
   // state
@@ -42,7 +42,7 @@ export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
           [METADATA.timeChanged]: refGeoJSON.current.modified,
         };
 
-        const geoJSONLayer = new GeoJSONLayer({
+        const geoJSONLayer = new GeoJsonLayer({
           metadata,
           geoJSON,
         });

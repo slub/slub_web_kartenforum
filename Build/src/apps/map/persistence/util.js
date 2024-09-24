@@ -9,9 +9,9 @@ import { useEffect, useState } from "react";
 import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
 import { isDefined } from "../../../util/util";
 import { HistoricMapLayer } from "../components/CustomLayers/HistoricMapLayer.js";
-import { METADATA } from "../components/MapWrapper/geojson/constants.js";
+import { METADATA } from "../components/CustomLayers/GeoJsonLayer/constants.js";
 import { LngLatBounds } from "maplibre-gl";
-import { GeoJSONLayer } from "../components/MapWrapper/geojson/GeoJSONLayer.js";
+import GeoJsonLayer from "../components/CustomLayers/GeoJsonLayer/GeoJsonLayer.js";
 
 /**
  * Checks if all values of an object are either undefined or objects without entries
@@ -89,7 +89,7 @@ export const deSerializeOperationalLayer = ({
 };
 
 export const deserializeGeojsonLayer = ({ geometry, geojson, properties }) => {
-    return new GeoJSONLayer({
+    return new GeoJsonLayer({
         metadata: properties,
         geoJSON: geojson,
         geometry,
@@ -153,7 +153,7 @@ export const joinArrayPathParameters = (a, b) => {
 
 /**
  * Serializes an operational layer
- * @param feature {HistoricMapLayer|GeoJSONLayer}
+ * @param feature {HistoricMapLayer|GeoJsonLayer}
  * @param map {maplibre-gl.Map}
  * @return {{coordinates: *, id: *, isVisible: *, opacity: *, properties: *}}
  */

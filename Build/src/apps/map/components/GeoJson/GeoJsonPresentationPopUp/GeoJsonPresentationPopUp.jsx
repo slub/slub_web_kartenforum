@@ -6,8 +6,8 @@
  */
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { translate } from "../../../../util/util.js";
-import { propExtractor } from "../GeoJsonEditPopUp/util/util.js";
+import { translate } from "../../../../../util/util.js";
+import { propExtractor } from "../util/util.js";
 import ImageFallback from "../GeoJsonEditPopUp/components/ImageFallback/ImageFallback.jsx";
 import "./GeoJsonPresentationPopUp.scss";
 

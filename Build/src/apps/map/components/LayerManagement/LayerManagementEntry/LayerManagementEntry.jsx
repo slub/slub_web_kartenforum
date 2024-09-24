@@ -14,9 +14,10 @@ import { useDoubleTap } from "use-double-tap";
 import { translate } from "../../../../../util/util";
 import { OpacitySlider } from "../../../../../components/OpacitySlider/OpacitySlider";
 import SettingsProvider from "../../../../../SettingsProvider";
-import { LAYER_TYPES } from "../../CustomLayers/LayerTypes";
 import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
-import GeoJsonLayer from "../../CustomLayers/GeoJsonLayer.js";
+import GeoJsonLayer from "../../CustomLayers/GeoJsonLayer/GeoJsonLayer.js";
+import HistoricMapLayer from "../../CustomLayers/HistoricMapLayer";
+import { LAYER_TYPES } from "../../CustomLayers/LayerTypes";
 import DragButton from "./components/DragButton/DragButton.jsx";
 import VisibilityButton from "./components/VisibilityButton/VisibilityButton.jsx";
 import RemoveLayerButton from "./components/RemoveLayerButton/RemoveLayerButton.jsx";
@@ -25,7 +26,7 @@ import MoveToTopButton from "./components/MoveToTopButton/MoveToTopButton.jsx";
 import LayerManagementThumbnail from "./components/LayerManagementThumbnail/LayerManagementThumbnail.jsx";
 import ShowOriginalButton from "./components/ShowOriginalButton/ShowOriginalButton.jsx";
 import ExportGeojsonButton from "./components/ExportGeojsonButton/ExportGeojsonButton.jsx";
-import { METADATA } from "../../MapWrapper/geojson/constants";
+import { METADATA } from "../../CustomLayers/GeoJsonLayer/constants";
 import "./LayerManagementEntry.scss";
 
 export const ItemTypes = {
@@ -232,9 +233,8 @@ LayerManagementEntry.propTypes = {
   id: PropTypes.string,
   index: PropTypes.number,
   layer: PropTypes.oneOfType([
-    // @TODO: Add some more specific types here
-    PropTypes.object,
     PropTypes.instanceOf(GeoJsonLayer),
+    PropTypes.instanceOf(HistoricMapLayer),
   ]),
   onMoveLayer: PropTypes.func,
   showActions: PropTypes.func,

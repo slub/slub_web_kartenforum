@@ -11,7 +11,7 @@ import { useRecoilValue } from "recoil";
 import { mapState } from "../../../../../atoms/atoms.js";
 import customEvents from "../../../../MapWrapper/customEvents.js";
 import PropTypes from "prop-types";
-import { METADATA } from "../../../../MapWrapper/geojson/constants.js";
+import { METADATA } from "../../../../CustomLayers/GeoJsonLayer/constants.js";
 
 export const VisibilityButton = (props) => {
   const { layer } = props;

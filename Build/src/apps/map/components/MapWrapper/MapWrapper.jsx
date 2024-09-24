@@ -33,7 +33,6 @@ import {
 } from "../../atoms/atoms";
 import { getMapClassNameForLayout, LAYOUT_TYPES } from "../../layouts/util";
 import { useSetElementScreenSize } from "../../../../util/hooks";
-import GeoJsonLayer from "../CustomLayers/GeoJsonLayer";
 import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
 import { notificationState } from "../../../../atoms/atoms";
 import "./MapWrapper.scss";
@@ -144,74 +143,8 @@ export function MapWrapper(props) {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (map) {
-  //     selectedFeatures.forEach((selectedLayer) => {
-  //       const type = selectedLayer.getType();
-  //
-  //       if (
-  //         !selectedLayer.isDisplayedInMap(map) &&
-  //         selectedLayer.getMetadata()
-  //       ) {
-  //         try {
-  //           if (type === LAYER_TYPES.GEOJSON) {
-  //             addGeoJsonLayers(selectedLayer, map);
-  //           } else {
-  //             createHistoricMapForFeature(selectedLayer, map);
-  //           }
-  //         } catch (e) {
-  //           // there was an error mounting the layer => remove the selected feature and display an errror message
-  //           setNotification({
-  //             id: "map-wrapper",
-  //             type: "danger",
-  //             text: translate("mapwrapper-mount-layer-error"),
-  //           });
-  //
-  //           setSelectedFeatures((oldSelectedLayers) =>
-  //             oldSelectedLayers.filter(
-  //               (layer) => layer.getId() !== selectedLayer.getId()
-  //             )
-  //           );
-  //         }
-  //       }
-  //     });
-  //   }
-  // }, [map, selectedFeatures]);
-
-  // useEffect(() => {
-  //   if (isDefined(controlsRef.current)) {
-  //     controlsRef.current.forEach((control) => {
-  //       const updateFn = control.handleExternal3dStateUpdate;
-  //       if (updateFn !== undefined) {
-  //         updateFn(is3dActive);
-  //       }
-  //     });
-  //   }
-  // }, [is3dActive]);
-
-  // update the basemap selector state externally
-  // useEffect(() => {
-  //   if (isDefined(controlsRef.current) && isDefined(map)) {
-  //     controlsRef.current.forEach((control) => {
-  //       const updateFn = control.handleExternalBasemapUpdate;
-  //       if (updateFn !== undefined) {
-  //         updateFn(activeBasemapId);
-  //       }
-  //     });
-  //   }
-  // }, [activeBasemapId, map]);
-
-  // @TODO: Reenable controls
-  // update controls on layout change
   useEffect(() => {
-    //   // only add new controls if the first time there is an activeBasemapId available and if the layout changes
     if (isDefined(map)) {
-      //     if (isDefined(controlsRef.current)) {
-      //       controlsRef.current.forEach((control) => {
-      //         map.removeControl(control);
-      //       });
-      //     }
-      //
       const newControls = getDefaultControls({
         layout,
         basemapSelectorProps: {
@@ -219,7 +152,6 @@ export function MapWrapper(props) {
           onSetNotification: setNotification,
         },
         permalinkProps: {
-          // camera: olcsMapRef.current?.getCesiumScene().camera,
           refActiveBasemapId: unsafe_refBasemapId,
           refApplicationStateUpdater: unsafe_refApplicationStateUpdater,
           refSelectedFeatures: unsafe_refSelectedFeatures,
@@ -239,22 +171,10 @@ export function MapWrapper(props) {
     }
   }, [map]);
 
-  // fit map to viewport after resize (e.g switch from landscape to portrait mode)
-  // useEffect(() => {
-  //   if (map !== undefined) {
-  //     const timeout = setTimeout(() => {
-  //       map.updateSize();
-  //     }, 200);
-  //     return () => {
-  //       clearTimeout(timeout);
-  //     };
-  //   }
-  // }, [map, width]);
-
   ////
   // Sync state with refs in order for the controls to get the state updates
   ////
-
+  // TODO commented code; check if still needed
   // useEffect(() => {
   //   // clear collection
   //   unsafe_refSelectedFeatures.current.clear();
@@ -263,20 +183,6 @@ export function MapWrapper(props) {
   //   // mark as changed
   //   unsafe_refSelectedFeatures.current.changed();
   // }, [selectedFeatures]);
-
-  // useEffect(() => {
-  //   if (map !== undefined && unsafe_refSpyLayer.current !== undefined) {
-  //     unsafe_refSpyLayer.current.changeLayer(createBaseMapLayer(activeBasemap));
-  //   }
-  // }, [activeBasemap, map]);
-
-  // useEffect(() => {
-  //   unsafe_refApplicationStateUpdater.current = localStorageWriter;
-  // }, [localStorageWriter]);
-  //
-  // useEffect(() => {
-  //   unsafe_refBasemapId.current = activeBasemapId;
-  // }, [activeBasemapId]);
 
   return (
     <div className="map-container">

@@ -4,8 +4,8 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { ApplicationLayer } from "../MapWrapper/geojson/ApplicationLayer.js";
-import { METADATA } from "../MapWrapper/geojson/constants.js";
+import { ApplicationLayer } from "./ApplicationLayer.js";
+import { METADATA } from "./GeoJsonLayer/constants.js";
 import { addHistoricMapLayer } from "./addHistoricMapLayer.js";
 import { LAYER_TYPES } from "./LayerTypes.js";
 import { isDefined } from "../../../../util/util.js";
@@ -127,3 +127,5 @@ export class HistoricMapLayer extends ApplicationLayer {
         );
     }
 }
+
+export default HistoricMapLayer;

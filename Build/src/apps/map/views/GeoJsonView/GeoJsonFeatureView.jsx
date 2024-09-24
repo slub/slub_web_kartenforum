@@ -7,15 +7,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import clsx from "clsx";
-import GeoJsonPresentationPopUp from "../../components/GeoJsonPresentationPopUp/GeoJsonPresentationPopUp.jsx";
+import GeoJsonPresentationPopUp from "../../components/GeoJson/GeoJsonPresentationPopUp";
 import {
   mapState,
   layoutState,
   selectedFeaturesState,
 } from "../../atoms/atoms.js";
-import GeoJsonEditPopUp from "../../components/GeoJsonEditPopUp/GeoJsonEditPopUp.jsx";
-import "./GeoJsonFeatureView.scss";
+import GeoJsonEditPopUp from "../../components/GeoJson/GeoJsonEditPopUp";
 import useClickedGeoJsonFeature from "../../hooks/useClickedGeoJsonFeature.js";
+import "./GeoJsonFeatureView.scss";
 
 export const GeoJsonFeatureView = () => {
   const [showPresentationView, setShowPresentationView] = useState(true);

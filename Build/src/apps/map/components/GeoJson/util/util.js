@@ -9,7 +9,7 @@ import {
     predefinedProperties,
     stylingProperties,
     styleFieldSettings,
-} from "../../../views/GeoJsonView/settings.js";
+} from "../constants.js";
 
 import { isDefined } from "../../../../../util/util.js";
 

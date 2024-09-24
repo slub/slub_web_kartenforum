@@ -7,7 +7,7 @@
 import {
     DEFAULT_STYLE_VALUES,
     GEOJSON_LAYER_TYPES,
-} from "../../components/MapWrapper/geojson/constants.js";
+} from "../CustomLayers/GeoJsonLayer/constants.js";
 
 const isLine = (geometry) =>
     ["MultiLineString", "LineString"].includes(geometry);

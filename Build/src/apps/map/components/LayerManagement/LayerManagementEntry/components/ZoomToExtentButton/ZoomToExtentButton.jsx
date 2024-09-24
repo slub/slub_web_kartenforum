@@ -10,7 +10,7 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 import { mapState } from "../../../../../atoms/atoms.js";
 import PropTypes from "prop-types";
-import { METADATA } from "../../../../MapWrapper/geojson/constants.js";
+import { METADATA } from "../../../../CustomLayers/GeoJsonLayer/constants.js";
 
 export const ZoomToExtentButton = (props) => {
   const { layer } = props;

@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import { METADATA } from "../../MapWrapper/geojson/constants.js";
+import { METADATA } from "../../CustomLayers/GeoJsonLayer/constants.js";
 
 /**
  * Resets visibility of layers to a clean state

@@ -8,21 +8,17 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Button as BootstrapButton } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-import { translate } from "../../../../util/util.js";
-import {
-  predefinedFieldSettings,
-  styleFieldSettings,
-} from "../../views/GeoJsonView/settings.js";
-import Button from "../Buttons/Button.jsx";
+import { translate, isDefined } from "../../../../../util/util.js";
+import { predefinedFieldSettings, styleFieldSettings } from "../constants.js";
+import Button from "../../Buttons/Button.jsx";
 import DeleteDialog from "./components/DeleteDialog/DeleteDialog.jsx";
 import { EditFields } from "./components/EditFields/EditFields.jsx";
 import {
   extractAndSortNonStyleProperties,
   extractStyleProperties,
   buildGeoJSONSourceDiff,
-} from "./util/util.js";
+} from "../util/util.js";
 import "./GeoJsonEditPopUp.scss";
-import { isDefined } from "../../../../util/util.js";
 
 const GeoJsonEditPopUp = (props) => {
   const { feature, onFeatureStateChange, onDelete, onClose, onSave } = props;

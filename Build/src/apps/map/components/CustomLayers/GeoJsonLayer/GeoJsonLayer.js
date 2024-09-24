@@ -5,7 +5,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 import { LAYER_TYPES } from "../../CustomLayers/LayerTypes";
-import { ApplicationLayer } from "./ApplicationLayer";
+import { ApplicationLayer } from "../ApplicationLayer.js";
 import {
     METADATA,
     MAPLIBRE_OPACITY_KEYS,
@@ -18,7 +18,7 @@ import { addGeoJsonLayers } from "./addGeoJsonLayers.js";
 import { bbox } from "@turf/bbox";
 import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
-export class GeoJSONLayer extends ApplicationLayer {
+export class GeoJsonLayer extends ApplicationLayer {
     geoJSON = {};
     mapLibreLayerIds = [];
 
@@ -277,3 +277,5 @@ export class GeoJSONLayer extends ApplicationLayer {
         this.move(map, null);
     }
 }
+
+export default GeoJsonLayer;

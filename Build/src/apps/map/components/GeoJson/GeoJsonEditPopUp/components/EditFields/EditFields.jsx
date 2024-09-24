@@ -12,14 +12,14 @@ import React, {
   useMemo,
 } from "react";
 import PropTypes from "prop-types";
-import { isDefined, translate } from "../../../../../../util/util.js";
+import { isDefined, translate } from "../../../../../../../util/util.js";
 import ImageFallback from "../ImageFallback/ImageFallback.jsx";
 import "./EditFields.scss";
-import { parseColorStringToHexWithLegacy } from "../../util/colorUtil.js";
+import { parseColorStringToHexWithLegacy } from "../../../util/colorUtil.js";
 import {
   DEFAULT_STYLE_VALUES,
   GEOJSON_LAYER_TYPES,
-} from "../../../MapWrapper/geojson/constants.js";
+} from "../../../../CustomLayers/GeoJsonLayer/constants.js";
 
 export const EditFields = (props) => {
   const {

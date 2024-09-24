@@ -6,10 +6,10 @@
  */
 
 import React from "react";
-import { translate } from "../../../../../../util/util.js";
+import { translate } from "../../../../../../../util/util";
+import SettingsProvider from "../../../../../../../SettingsProvider.js";
 import PropTypes from "prop-types";
 import "./ImageFallback.scss";
-import SettingsProvider from "../../../../../../SettingsProvider.js";
 
 export const ImageFallback = ({ typeOfView }) => {
   return (

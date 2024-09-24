@@ -9,12 +9,12 @@ import SvgIcons from "../../../../../../../components/SvgIcons/SvgIcons.jsx";
 import React, { useCallback } from "react";
 import { triggerJsonDownload } from "../../../util.js";
 import PropTypes from "prop-types";
-import { GeoJSONLayer } from "../../../../MapWrapper/geojson/GeoJSONLayer.js";
-import { METADATA } from "../../../../MapWrapper/geojson/constants.js";
+import GeoJsonLayer from "../../../../CustomLayers/GeoJsonLayer/GeoJsonLayer.js";
+import { METADATA } from "../../../../CustomLayers/GeoJsonLayer/constants.js";
 
 /**
  * @typedef {Object} ExportGeojsonButtonProps React props for the ExportGeojsonButton component
- * @property {GeoJSONLayer} layer The application layer instance for geoJSON map layers
+ * @property {GeoJsonLayer} layer The application layer instance for geoJSON map layers
  */
 
 /**
@@ -43,7 +43,7 @@ export const ExportGeojsonButton = ({ layer }) => {
 };
 
 ExportGeojsonButton.propTypes = {
-  layer: PropTypes.instanceOf(GeoJSONLayer).isRequired,
+  layer: PropTypes.instanceOf(GeoJsonLayer).isRequired,
 };
 
 export default ExportGeojsonButton;

@@ -5,24 +5,23 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-// @TODO find other import method for jsdoc, maybe typedefs?
 // eslint-disable-next-line no-unused-vars
-import { GeoJSONLayer } from "./GeoJSONLayer";
+import GeoJsonLayer from "./GeoJsonLayer";
 import {
     GEOJSON_LAYER_TYPES,
     MAP_LIBRE_METADATA,
     LAYER_DEFINITIONS,
-} from "./constants";
+} from "./constants.js";
 import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 /**
- * Takes a GeoJSONLayer and creates the necessary maplibre-gl layers for it.
+ * Takes a GeoJsonLayer and creates the necessary maplibre-gl layers for it.
  *
- * @param {GeoJSONLayer} geoJSONLayer
+ * @param {GeoJsonLayer} geoJsonLayer
  * @param {maplibregl.Map} map
  */
-export const addGeoJsonLayers = (geoJSONLayer, map) => {
-    const layer = geoJSONLayer;
+export const addGeoJsonLayers = (geoJsonLayer, map) => {
+    const layer = geoJsonLayer;
 
     const applicationLayerId = layer.getId();
     const data = layer.getGeoJSON();
@@ -58,6 +57,6 @@ export const addGeoJsonLayers = (geoJSONLayer, map) => {
             beforeLayer
         );
 
-        geoJSONLayer.addMapLayer(layerId);
+        geoJsonLayer.addMapLayer(layerId);
     }
 };

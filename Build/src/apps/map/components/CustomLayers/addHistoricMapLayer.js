@@ -6,10 +6,7 @@
  */
 import { fetchAndParseWmsCapabilities } from "../BasemapSelectorControl/util.js";
 import axios from "axios";
-import {
-    MAP_LIBRE_METADATA,
-    METADATA,
-} from "../MapWrapper/geojson/constants.js";
+import { MAP_LIBRE_METADATA, METADATA } from "./GeoJsonLayer/constants.js";
 import { MAP_OVERLAY_FILL_ID } from "../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 /**

@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import SettingsProvider from "../../../../../../../SettingsProvider.js";
 import { FALLBACK_SRC } from "../../../../MapSearch/components/MapSearchListElement/MapSearchListElementBase.jsx";
 import PropTypes from "prop-types";
-import { METADATA } from "../../../../MapWrapper/geojson/constants.js";
+import { METADATA } from "../../../../CustomLayers/GeoJsonLayer/constants.js";
 
 export const LayerManagementThumbnail = (props) => {
   const { layer } = props;
