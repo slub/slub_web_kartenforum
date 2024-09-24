@@ -11,6 +11,9 @@
  * Geometry = envelope from search index
  * @class ApplicationLayer
  */
+
+// TODO CLEANUP - move common methods from geoJson and historic layer to ApplicationLayer
+
 export class ApplicationLayer {
     metadata = {};
     geometry = {};

@@ -10,6 +10,8 @@ import {
     METADATA,
     MAPLIBRE_OPACITY_KEYS,
     GEOJSON_OPACITY_KEYS,
+    layerHasOpacityProperty,
+    DEFAULT_STYLE_VALUES,
 } from "./constants";
 import { isDefined } from "../../../../../util/util";
 import { addGeoJsonLayers } from "./addGeoJsonLayers.js";
@@ -52,21 +54,8 @@ export class GeoJSONLayer extends ApplicationLayer {
         return this.geoJSON;
     }
 
-    updateFeature(id, properties) {
-        const idx = this.geoJSON.features.findIndex(
-            (feature) => feature.id == id
-        );
-
-        if (idx < 0) {
-            console.warn(
-                `Trying to update a feature with non existing id '${id}'`
-            );
-            return;
-        }
-
-        const feature = this.geoJSON.features[idx];
-        feature.properties = properties;
-        this.geoJSON.features[idx] = feature;
+    setGeoJSON(geoJson) {
+        this.geoJSON = geoJson;
     }
 
     removeFeature(id) {
@@ -168,34 +157,45 @@ export class GeoJSONLayer extends ApplicationLayer {
     }
 
     /**
-     * All layers share the same opacity. Only the first map layer is considered for the opacity value.
+     * All layers share the same opacity. The SYMBOL layer does not have an opacity value.
+     * Cycle through all GeoJSON layers until a layer with an opacity property is found.
      *
      * @param {maplibregl.Map} map
      */
     getOpacity(map) {
         const mapLayers = this.#getMapLibreLayers(map);
+        let opacityExpression = 1;
+        const fallbackOpacity = 1;
 
         if (mapLayers.length === 0) {
             return null;
         }
 
-        const mapLibreLayerType = mapLayers[0].type;
-        const opacityKey = MAPLIBRE_OPACITY_KEYS[mapLibreLayerType];
+        for (const { id, type } of mapLayers) {
+            if (!layerHasOpacityProperty(type)) {
+                continue;
+            }
 
-        const opacityExpression = map.getPaintProperty(
-            mapLayers[0].id,
-            opacityKey
-        );
+            const opacityKey = MAPLIBRE_OPACITY_KEYS[type];
+            opacityExpression = map.getPaintProperty(id, opacityKey);
+            break;
+        }
 
         if (typeof opacityExpression === "number") {
             return opacityExpression;
         }
 
-        if (opacityExpression) {
-            return opacityExpression[2];
+        if (Array.isArray(opacityExpression) && opacityExpression.length > 0) {
+            if (opacityExpression[0] === "*") {
+                return opacityExpression[2];
+            }
+
+            if (opacityExpression[0] === "coalesce") {
+                return opacityExpression[3];
+            }
         }
 
-        return 1;
+        return fallbackOpacity;
     }
 
     /**
@@ -210,13 +210,23 @@ export class GeoJSONLayer extends ApplicationLayer {
             return;
         }
 
-        // TODO console warnings: Expected value to be of type number, but found null instead
         for (const { id, type } of mapLayers) {
+            if (!layerHasOpacityProperty(type)) {
+                continue;
+            }
+
+            const DEFAULT_OPACITY = DEFAULT_STYLE_VALUES[type].OPACITY;
+
             const opacityKey = MAPLIBRE_OPACITY_KEYS[type];
             const propertyOpacityKey = GEOJSON_OPACITY_KEYS[type];
             map.setPaintProperty(id, opacityKey, [
                 "*",
-                ["coalesce", ["get", propertyOpacityKey], 1],
+                [
+                    "coalesce",
+                    ["feature-state", propertyOpacityKey],
+                    ["get", propertyOpacityKey],
+                    DEFAULT_OPACITY,
+                ],
                 opacity,
             ]);
         }

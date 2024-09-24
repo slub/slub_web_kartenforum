@@ -138,15 +138,7 @@
 				<target><![CDATA[Um eine neue GeoJSON-Ebene hinzuzufügen, ziehen Sie Ihre GeoJSON-Datei einfach via drag and drop auf dieses Fenster oder drücken Sie diese Schaltfläche um eine Datei von Ihrem System auszuwählen.]]></target>
 			</trans-unit>
 
-            <!-- Global > Map > MarkerPicker -->
-            <trans-unit id="plugin.map.markerpicker.select" approved="yes">
-                <source><![CDATA[Select marker]]></source>
-                <target><![CDATA[Marker auswählen]]></target>
-            </trans-unit>
-            <trans-unit id="plugin.map.markerpicker.preview" approved="yes">
-                <source><![CDATA[Preview of the selected marker]]></source>
-                <target><![CDATA[Vorschaubild des ausgewählten Markers]]></target>
-            </trans-unit>
+            <!-- Global > Map -->
             <trans-unit id="plugin.map.dropzone.wrongFiletype" approved="yes">
                 <source><![CDATA[Wrong filetype]]></source>
                 <target><![CDATA[Falscher Dateityp]]></target>

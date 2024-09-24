@@ -269,14 +269,6 @@
 				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
 			</trans-unit>
 
-            <!-- Global > Map > MarkerPicker -->
-            <trans-unit id="plugin.map.markerpicker.select">
-                <source>Select marker</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.markerpicker.preview">
-                <source>Preview of the selected marker</source>
-            </trans-unit>
-
             <!-- map Geojson Feature View -->
             <trans-unit id="plugin.map.geojson.featureview">
                 <source>Description</source>
@@ -616,14 +608,6 @@
 			<trans-unit id="plugin.map.adddialog.body">
 				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
 			</trans-unit>
-
-            <!-- Global > Map > MarkerPicker -->
-            <trans-unit id="plugin.map.markerpicker.select">
-                <source>Select marker</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.markerpicker.preview">
-                <source>Preview of the selected marker</source>
-            </trans-unit>
 
             <!-- Global > Map > Dropzone -->
             <trans-unit id="plugin.map.dropzone.wrongFiletype">

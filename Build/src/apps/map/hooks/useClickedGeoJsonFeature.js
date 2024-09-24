@@ -5,7 +5,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import { LAYOUT_TYPES } from "../layouts/util";
 import { MAP_LIBRE_METADATA } from "../components/MapWrapper/geojson/constants";
 import { isDefined } from "../../../util/util";
@@ -28,6 +28,21 @@ const isApplicationFeature = (feature) =>
  */
 function useClickedGeoJsonFeature({ map, layout }) {
     const [geoJsonFeature, setGeoJsonFeature] = useState(null);
+    const [sourceId, setSourceId] = useState(null);
+
+    const storedRemovalOptions = useRef(null);
+
+    const removeFeatureState = useCallback(() => {
+        if (isDefined(storedRemovalOptions.current)) {
+            map.removeFeatureState(storedRemovalOptions.current);
+        }
+    }, [map]);
+
+    const resetClickedFeature = useCallback(() => {
+        removeFeatureState();
+        setGeoJsonFeature(null);
+        setSourceId(null);
+    }, [setSourceId, setGeoJsonFeature]);
 
     const handleMapClick = useCallback(
         /**
@@ -41,8 +56,13 @@ function useClickedGeoJsonFeature({ map, layout }) {
 
             if (isDefined(feature)) {
                 setGeoJsonFeature(feature);
+                setSourceId(feature.source);
+                storedRemovalOptions.current = {
+                    id: feature.id,
+                    source: feature.source,
+                };
             } else {
-                setGeoJsonFeature(null);
+                resetClickedFeature();
             }
         },
         [map]
@@ -53,12 +73,18 @@ function useClickedGeoJsonFeature({ map, layout }) {
             map.on("click", handleMapClick);
 
             return () => {
-                map.un("click", handleMapClick);
+                map.off("click", handleMapClick);
             };
         }
     }, [map, layout, handleMapClick]);
 
-    return { geoJsonFeature, setGeoJsonFeature };
+    return {
+        geoJsonFeature,
+        setGeoJsonFeature,
+        sourceId,
+        resetClickedFeature,
+        removeFeatureState,
+    };
 }
 
 export default useClickedGeoJsonFeature;

@@ -8,7 +8,11 @@
 // @TODO find other import method for jsdoc, maybe typedefs?
 // eslint-disable-next-line no-unused-vars
 import { GeoJSONLayer } from "./GeoJSONLayer";
-import { GEOJSON_LAYER_TYPES, MAP_LIBRE_METADATA } from "./constants";
+import {
+    GEOJSON_LAYER_TYPES,
+    MAP_LIBRE_METADATA,
+    LAYER_DEFINITIONS,
+} from "./constants";
 import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 /**
@@ -24,52 +28,6 @@ export const addGeoJsonLayers = (geoJSONLayer, map) => {
     const data = layer.getGeoJSON();
 
     const sourceType = layer.getType();
-
-    //@TODO: Add defaults
-    //@TODO: Add filters to layer, to only draw their respective geometry types
-    const options = {
-        [GEOJSON_LAYER_TYPES.SYMBOL]: {
-            type: "symbol",
-            layout: {
-                "icon-image": ["get", "marker"],
-                "icon-size": 1,
-            },
-        },
-        [GEOJSON_LAYER_TYPES.LINE]: {
-            type: "line",
-            paint: {
-                "line-color": [
-                    "coalesce",
-                    ["feature-state", "stroke"],
-                    ["get", "stroke"],
-                ],
-                "line-width": [
-                    "coalesce",
-                    ["feature-state", "stroke-width"],
-                    ["get", "stroke-width"],
-                ],
-                "line-opacity": ["get", "stroke-opacity"],
-            },
-            filter: ["==", "$type", "LineString"],
-        },
-        [GEOJSON_LAYER_TYPES.OUTLINE]: {
-            type: "line",
-            paint: {
-                "line-color": ["get", "stroke"],
-                "line-width": ["get", "stroke-width"],
-                "line-opacity": ["get", "stroke-opacity"],
-            },
-            filter: ["!=", "$type", "LineString"],
-        },
-        [GEOJSON_LAYER_TYPES.FILL]: {
-            type: "fill",
-            paint: {
-                "fill-color": ["get", "fill"],
-                "fill-opacity": ["get", "fill-opacity"],
-            },
-            filter: ["!=", "$type", "LineString"],
-        },
-    };
 
     map.addSource(applicationLayerId, {
         type: sourceType,
@@ -91,9 +49,9 @@ export const addGeoJsonLayers = (geoJSONLayer, map) => {
                 metadata: {
                     [MAP_LIBRE_METADATA.id]: applicationLayerId,
                 },
-                ...options[layerType],
+                ...LAYER_DEFINITIONS[layerType],
                 layout: {
-                    ...options[layerType].layout,
+                    ...LAYER_DEFINITIONS[layerType].layout,
                     visibility: "visible",
                 },
             },

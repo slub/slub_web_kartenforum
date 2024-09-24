@@ -4,16 +4,25 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from "react";
 import PropTypes from "prop-types";
-import { translate } from "../../../../../../util/util.js";
-import MarkerPicker from "../MarkerPicker/MarkerPicker.jsx";
+import { isDefined, translate } from "../../../../../../util/util.js";
 import ImageFallback from "../ImageFallback/ImageFallback.jsx";
 import "./EditFields.scss";
+import { parseColorStringToHexWithLegacy } from "../../util/colorUtil.js";
+import {
+  DEFAULT_STYLE_VALUES,
+  GEOJSON_LAYER_TYPES,
+} from "../../../MapWrapper/geojson/constants.js";
 
 export const EditFields = (props) => {
   const {
-    debounceChanges,
     isHeaderEditable,
     onBlur,
     onChange,
@@ -25,68 +34,84 @@ export const EditFields = (props) => {
 
   const [imageLink, setImageLink] = useState(title === "img_link" ? value : "");
   const headerInputRef = useRef();
-  const timeoutRef = useRef();
   const valueInputRef = useRef();
+
+  const useTextarea = useMemo(() => {
+    return isDefined(value) && value.length > 30;
+  }, [value]);
+
+  const validate = useCallback(
+    (value) => {
+      const { type, min, max } = inputProps;
+      let newValue = value;
+
+      if (type === "number") {
+        newValue = Number.parseFloat(newValue);
+        newValue = Number.isNaN(newValue) ? 1 : newValue;
+
+        if (isDefined(min)) {
+          newValue = Math.max(min, newValue);
+        }
+
+        if (isDefined(max)) {
+          newValue = Math.min(max, newValue);
+        }
+      } else if (type === "color") {
+        try {
+          newValue = parseColorStringToHexWithLegacy(newValue);
+        } catch (error) {
+          newValue = DEFAULT_STYLE_VALUES[GEOJSON_LAYER_TYPES.SYMBOL].COLOR;
+        }
+      }
+
+      return newValue;
+    },
+    [inputProps]
+  );
+
+  const validatedValue = useMemo(() => {
+    return validate(value);
+  }, [value, validate]);
 
   ///
   // Handler section
   ///
+  const handleBlur = useCallback(
+    (type) => (e) => {
+      const title = headerInputRef.current.value;
+      const value = validate(valueInputRef.current.value);
 
-  //  Handle blur of inputs
-  const handleBlur = (e) => {
-    if (!e.target.readOnly) {
-      const { type, min, max } = inputProps;
-      let val = e.target.value;
-
-      // Cap input value to range
-      if (type === "number") {
-        if (min !== undefined) {
-          val = Math.max(min, val);
-        }
-
-        if (max !== undefined) {
-          val = Math.min(max, val);
-        }
-
-        e.target.value = val;
-
-        if (onChange !== undefined) {
-          onChange(val);
-        }
+      e.target.value = value;
+      if (type === "title") {
+        e.target.value = title;
       }
 
-      if (onBlur !== undefined) {
-        onBlur([headerInputRef.current.value, valueInputRef.current.value]);
+      if (isDefined(onBlur)) {
+        onBlur([title, value]);
       }
 
-      if (headerInputRef.current.value === "img_link") {
-        setImageLink(valueInputRef.current.value);
+      if (title === "img_link") {
+        setImageLink(value);
       }
-    }
-  };
-
-  // Propagate changes
+    },
+    [validate, onBlur, setImageLink]
+  );
 
   const handleChange = useCallback(
     (e) => {
-      if (onChange !== undefined) {
-        if (debounceChanges) {
-          clearTimeout(timeoutRef.current);
-          timeoutRef.current = setTimeout(() => {
-            onChange(e.target.value);
-          }, 300);
-        } else {
-          onChange(e.target.value);
-        }
+      if (isDefined(onChange)) {
+        const value = validate(e.target.value);
+        onChange([title, value]);
       }
     },
-    [debounceChanges]
+    [validate, onChange]
   );
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     onDelete();
-  };
+  }, [onDelete]);
 
+  // TODO what does the empty useEffect do?
   useEffect(() => {}, [imageLink]);
 
   return (
@@ -109,7 +134,7 @@ export const EditFields = (props) => {
       <div className="input-field">
         <input
           className="editable-label body1"
-          onBlur={handleBlur}
+          onBlur={isHeaderEditable ? handleBlur("title") : undefined}
           type="text"
           defaultValue={title}
           readOnly={!isHeaderEditable}
@@ -125,25 +150,23 @@ export const EditFields = (props) => {
         )}
       </div>
 
-      {inputProps.type === "marker" ? (
-        <MarkerPicker onChange={onChange} src={value} />
-      ) : value !== undefined && value.length > 30 ? (
+      {useTextarea ? (
         <textarea
           className="body2"
           {...inputProps}
-          defaultValue={value}
+          defaultValue={validatedValue}
           onChange={handleChange}
-          onBlur={handleBlur}
+          onBlur={handleBlur("value")}
           ref={valueInputRef}
-          rows={Math.ceil(value.length / 20)}
+          rows={Math.ceil(validatedValue.length / 20)}
         />
       ) : (
         <input
           className="body2"
           {...inputProps}
-          defaultValue={value}
+          defaultValue={validatedValue}
           onChange={handleChange}
-          onBlur={handleBlur}
+          onBlur={handleBlur("value")}
           ref={valueInputRef}
         />
       )}

@@ -126,6 +126,11 @@ export function MapWrapper(props) {
     const handleStyleLoad = () => {
       setMap(initialMap);
       setBaseMapStyleLayers(initialMap.getStyle().layers);
+
+      const { id, url } = SettingsProvider.getMarkerSettings();
+      initialMap.loadImage(url).then((image) => {
+        initialMap.addImage(id, image.data, { sdf: true });
+      });
     };
 
     // Add event listener for style load

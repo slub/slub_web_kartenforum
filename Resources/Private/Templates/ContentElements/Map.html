@@ -21,12 +21,11 @@
        value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Icons/ReactIconSprite.svg')}"
        id="settings-icon-sprite"/>
 <input type="hidden"
-       value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Images/markers/')}"
-       id="settings-marker-base-url"/>
-<input type="hidden"
        value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Images/not-found.png')}"
        id="settings-fallback-not-found"/>
-
+<input type="hidden"
+       value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Images/marker.png')}"
+       id="settings-marker-url"/>
 
 <f:security.ifAuthenticated>
     <f:then>
@@ -72,8 +71,6 @@
             document.getElementById("settings-fallback-not-found").value,
             ICON_SPRITE:
             document.getElementById("settings-icon-sprite").value,
-            MARKER_BASE_URL:
-            document.getElementById("settings-marker-base-url").value,
             LINK_TO_GEOREFERENCE:
                 document.getElementById("setting-is-auth") !== null
                     ? "/georeferenzierung"
@@ -81,12 +78,13 @@
             MAPVIEW_PARAMS: JSON.parse(
                 document.getElementById("setting-mapView").value
             ),
+            MARKER_URL:document.getElementById("settings-marker-url").value,
             NOMINATIM_URL: document.getElementById("setting-urlNominatim")
                 .value,
             TERRAIN_TILES: JSON.parse(
                 document.getElementById("setting-terrain").value
             ),
-        USER_ISAUTHENTICATED: document.getElementById("setting-is-auth") !== null
+            USER_ISAUTHENTICATED: document.getElementById("setting-is-auth") !== null,
             });
 
         vk2.SettingsProvider.appendSettings({
@@ -156,12 +154,6 @@
                         "<f:translate key='plugin.map.adddialog.projectionLabel' extensionName='SlubWebKartenforum' />",
                     "geojson-adddialog-body":
                         "<f:translate key='plugin.map.adddialog.body' extensionName='SlubWebKartenforum' />",
-
-                    // geojson marker picker
-                    "geojson-markerpicker-select":
-                        "<f:translate key='plugin.map.markerpicker.select' extensionName='SlubWebKartenforum' />",
-                    "geojson-markerpicker-preview":
-                        "<f:translate key='plugin.map.markerpicker.preview' extensionName='SlubWebKartenforum' />",
 
                     // dropzone
                     "dropzone-wrong-filetype":

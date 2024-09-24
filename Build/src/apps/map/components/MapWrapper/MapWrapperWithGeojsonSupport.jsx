@@ -18,7 +18,6 @@ import MapWrapper, { mapWrapperProps } from "./MapWrapper";
 import { GeoJSONLayer } from "./geojson/GeoJSONLayer";
 import { METADATA } from "./geojson/constants";
 
-//@TODO GeoJSON  - "upload" entry point
 export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
   // state
   const [isDialogOpen, setIsDialogOpen] = useState(false);

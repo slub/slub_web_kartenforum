@@ -30,6 +30,7 @@ let settingsObject = {
     ],
     ENABLE_TILE_PRELOADING: false,
     LANGUAGE_CODE: "en",
+    MARKER_IMAGE_ID: "marker",
     USERNAME: "anonymous",
     USER_ISAUTHENTICATED: false,
 };
@@ -186,5 +187,17 @@ export default {
 
         this.initAxiosGeoRefApiInstance();
         return this.axiosGeoRefApiInstance;
+    },
+
+    getMarkerSettings() {
+        const url = settingsObject["MARKER_URL"];
+
+        if (!isDefined(url)) {
+            throw new Error("The marker icon url is not set.");
+        }
+
+        const id = settingsObject["MARKER_IMAGE_ID"];
+
+        return { id, url };
     },
 };

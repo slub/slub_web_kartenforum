@@ -20,7 +20,6 @@ export const VisibilityButton = (props) => {
 
   const map = useRecoilValue(mapState);
 
-  //@TODO this gets called before the map layers are loaded and returns false
   const initialVisibility = useMemo(() => {
     return layer.isVisible(map);
   }, [layer, map]);
@@ -39,7 +38,7 @@ export const VisibilityButton = (props) => {
   };
 
   // Update visibility from layer if it is different from the internal state
-  //@TODO gets fired 4 times for a geoJson layer
+  // NOTE gets fired 4 times for a geoJson layer; might be relevant for the dynamic map visualization
   const handleUpdateVisibility = ({ layerId, value }) => {
     if (layerId === layer.getId()) {
       setIsVisible(value === "visible" ? true : false);

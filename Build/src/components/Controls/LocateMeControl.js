@@ -12,7 +12,7 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { Icon, Style } from "ol/style";
 import { translate } from "../../util/util";
-import { getMarkerUrl } from "../../apps/map/components/GeoJsonEditPopUp/components/MarkerPicker/MarkerPicker.jsx";
+// DEPRECATED import { getMarkerUrl } from "../../apps/map/components/GeoJsonEditPopUp/components/MarkerPicker/MarkerPicker.jsx";
 import "./LocateMeControl.scss";
 
 /**
@@ -98,7 +98,7 @@ export class LocateMeControl extends Control {
                                 anchor: [0.5, 1],
                                 anchorXUnits: "fraction",
                                 anchorYUnits: "fraction",
-                                src: getMarkerUrl(`location_marker`),
+                                // DEPRECATED src: getMarkerUrl(`location_marker`),
                                 scale: 0.6,
                             }),
                         }),

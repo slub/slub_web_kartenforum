@@ -4,121 +4,104 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { Icon, Style } from "ol/style";
+import {
+    DEFAULT_STYLE_VALUES,
+    GEOJSON_LAYER_TYPES,
+} from "../../components/MapWrapper/geojson/constants.js";
 
-import {
-    generateFillChangeHandler,
-    generateStrokeChangeHandler,
-    splitAlphaChannel,
-    updateAlphaChannel,
-    updateColorChannels,
-} from "../../components/GeoJsonEditPopUp/util/styleUtils.js";
-import { getDefaultIconSettings } from "../../components/MapWrapper/getDefaultStyles.js";
-import {
-    getMarkerIdFromUrl,
-    getMarkerUrl,
-} from "../../components/GeoJsonEditPopUp/components/MarkerPicker/MarkerPicker.jsx";
+const isLine = (geometry) =>
+    ["MultiLineString", "LineString"].includes(geometry);
+const isPolygon = (geometry) => ["MultiPolygon", "Polygon"].includes(geometry);
+
+const getType = (geometry) => {
+    if (isLine(geometry)) {
+        return GEOJSON_LAYER_TYPES.LINE;
+    }
+
+    if (isPolygon(geometry)) {
+        return GEOJSON_LAYER_TYPES.OUTLINE;
+    }
+
+    return GEOJSON_LAYER_TYPES.LINE;
+};
+
+const DEFAULT_STYLE_FIELD_VALUES = {
+    marker: () => DEFAULT_STYLE_VALUES[GEOJSON_LAYER_TYPES.SYMBOL].COLOR,
+    fill: () => DEFAULT_STYLE_VALUES[GEOJSON_LAYER_TYPES.FILL].COLOR,
+    "fill-opacity": () =>
+        DEFAULT_STYLE_VALUES[GEOJSON_LAYER_TYPES.FILL].OPACITY,
+    stroke: (geometry) => {
+        const layerType = getType(geometry);
+        return DEFAULT_STYLE_VALUES[layerType].COLOR;
+    },
+    "stroke-opacity": (geometry) => {
+        const layerType = getType(geometry);
+        return DEFAULT_STYLE_VALUES[layerType].OPACITY;
+    },
+    "stroke-width": (geometry) => {
+        const layerType = getType(geometry);
+        return DEFAULT_STYLE_VALUES[layerType].WIDTH;
+    },
+};
 
 /**
  * Configure styling fields of the geojson edit dialog
  */
 export const styleFieldSettings = {
     marker: {
-        changeHandler: (feature, newValue) => {
-            const newStyle = new Style({
-                image: new Icon(
-                    Object.assign({}, getDefaultIconSettings(), {
-                        src: getMarkerUrl(newValue),
-                    })
-                ),
-            });
-            feature.setStyle(newStyle);
-        },
+        default: DEFAULT_STYLE_FIELD_VALUES["marker"],
         geometryTypes: ["Point", "MultiPoint"],
-        type: "marker",
-        valueExtractor: (style) => {
-            return getMarkerIdFromUrl(style.getImage().getSrc());
-        },
+        inputProps: { type: "color" },
     },
     fill: {
-        changeHandler: generateFillChangeHandler(updateColorChannels),
-        geometryTypes: [
-            "MultiPolygon",
-            "Polygon",
-            "GeometryCollection",
-            "Circle", // TODO GEOJSON PORT - remove circle geometry? seems to be an openlayers relict
-        ],
-        type: "color",
-        valueExtractor: (style) =>
-            splitAlphaChannel(style.getFill().getColor())[0],
+        default: DEFAULT_STYLE_FIELD_VALUES["fill"],
+        geometryTypes: ["MultiPolygon", "Polygon", "GeometryCollection"],
+        inputProps: { type: "color" },
     },
     "fill-opacity": {
-        changeHandler: generateFillChangeHandler(updateAlphaChannel),
-        geometryTypes: [
-            "MultiPolygon",
-            "Polygon",
-            "GeometryCollection",
-            "Circle",
-        ],
-        step: 0.05,
-        min: 0,
-        max: 1,
-        type: "number",
-        valueExtractor: (style) =>
-            splitAlphaChannel(style.getFill().getColor())[1],
+        default: DEFAULT_STYLE_FIELD_VALUES["fill-opacity"],
+        geometryTypes: ["MultiPolygon", "Polygon", "GeometryCollection"],
+        inputProps: { step: 0.05, min: 0, max: 1, type: "number" },
     },
     stroke: {
-        changeHandler: generateStrokeChangeHandler(updateColorChannels),
+        default: DEFAULT_STYLE_FIELD_VALUES["stroke"],
         geometryTypes: [
             "MultiPolygon",
             "Polygon",
             "GeometryCollection",
-            "Circle",
             "LineString",
             "MultiLineString",
         ],
-        type: "color",
-        valueExtractor: (style) =>
-            splitAlphaChannel(style.getStroke().getColor())[0],
+        inputProps: { type: "color" },
     },
     "stroke-opacity": {
-        changeHandler: generateStrokeChangeHandler(updateAlphaChannel),
+        default: DEFAULT_STYLE_FIELD_VALUES["stroke-opacity"],
         geometryTypes: [
             "MultiPolygon",
             "Polygon",
             "GeometryCollection",
-            "Circle",
             "LineString",
             "MultiLineString",
         ],
-        max: 1,
-        min: 0,
-        step: 0.05,
-        type: "number",
-        valueExtractor: (style) =>
-            splitAlphaChannel(style.getStroke().getColor())[1],
+        inputProps: { max: 1, min: 0, step: 0.05, type: "number" },
     },
     "stroke-width": {
+        default: DEFAULT_STYLE_FIELD_VALUES["stroke-width"],
         geometryTypes: [
             "MultiPolygon",
             "Polygon",
             "GeometryCollection",
-            "Circle",
             "LineString",
             "MultiLineString",
         ],
-        step: 0.1,
-        min: 0,
-        max: 20,
-        type: "number",
-        valueExtractor: (style) => style.getStroke().getWidth(),
+        inputProps: { step: 0.1, min: 0, max: 20, type: "number" },
     },
 };
 
 export const predefinedFieldSettings = {
-    img_link: { type: "text" },
-    title: { type: "text" },
-    description: { type: "text" },
+    img_link: { inputProps: { type: "text" } },
+    title: { inputProps: { type: "text" } },
+    description: { inputProps: { type: "text" } },
 };
 
 /*
