@@ -8,6 +8,7 @@
 import { atom } from "recoil";
 import { LAYOUT_TYPES } from "../layouts/util.js";
 import SettingsProvider from "../../../SettingsProvider.js";
+import { ActiveDialog } from "../components/VkfMap/constants.js";
 
 // stores the currently active basemap ID
 export const activeBasemapIdState = atom({
@@ -100,4 +101,10 @@ export const timeRangeState = atom({
 export const baseMapStyleLayersState = atom({
     key: "baseMapStyleLayersState",
     default: [],
+});
+
+// store the current active dialog in control container
+export const activeDialogState = atom({
+    key: "activeDialogState",
+    default: ActiveDialog.None,
 });

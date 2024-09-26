@@ -254,6 +254,9 @@
             display: none;
         }
     }
+    &:fullscreen .maplibregl-ctrl-top-left {
+        top: 14px;
+    }
 
     .maplibregl-ctrl-bottom-right {
         display: flex;

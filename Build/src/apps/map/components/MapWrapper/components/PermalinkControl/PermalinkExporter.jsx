@@ -4,61 +4,37 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useState } from "react";
-import { isDefined, translate } from "../../../../../../util/util.js";
-import customEvents from "../../customEvents.js";
-import { useRecoilValue } from "recoil";
-import { mapState } from "../../../../atoms/atoms.js";
+
+import React from "react";
 import { createPortal } from "react-dom";
-import { PERMALINK_CONTROL_ID } from "../../../Controls/PermalinkControl.jsx";
-import PermalinkExporterTabs from "./PermalinkExporterTabs.jsx";
 import clsx from "clsx";
+import PermalinkExporterTabs from "./PermalinkExporterTabs.jsx";
+import { PERMALINK_CONTROL_ID } from "../../../Controls/PermalinkControl.jsx";
+import { translate } from "../../../../../../util/util.js";
+import useControlContainer from "../../../../hooks/useControlContainer.js";
+import { ActiveDialog } from "../../../VkfMap/constants.js";
 
 export const PermalinkExporter = () => {
-  const [baseMapControlEl, setBaseMapControlEl] = useState(null);
-  const [isActive, setIsActive] = useState(false);
-  const map = useRecoilValue(mapState);
-
-  useEffect(() => {
-    if (isDefined(map)) {
-      const handleAddControl = (e) => {
-        if (e.control?.id === PERMALINK_CONTROL_ID) {
-          setBaseMapControlEl(e.control._container);
-        }
-      };
-
-      const handleRemoveControl = (e) => {
-        if (e.control?.id === PERMALINK_CONTROL_ID) {
-          setBaseMapControlEl(null);
-        }
-      };
-
-      map.on(customEvents.controlAdded, handleAddControl);
-      map.on(customEvents.controlRemoved, handleRemoveControl);
-
-      return () => {
-        map.off(customEvents.controlAdded, handleAddControl);
-        map.off(customEvents.controlRemoved, handleRemoveControl);
-      };
-    }
-  }, [map]);
+  const { baseMapControlEl, activeDialog, toggleDialog, dialogRef } =
+    useControlContainer(PERMALINK_CONTROL_ID, ActiveDialog.Permalink);
 
   return baseMapControlEl !== null
     ? createPortal(
-        <>
+        <div ref={dialogRef}>
           <button
-            className={clsx("maplibregl-ctrl-permalink", isActive && "active")}
-            onClick={() => {
-              setIsActive((oldIsActive) => !oldIsActive);
-            }}
+            className={clsx(
+              "maplibregl-ctrl-permalink",
+              activeDialog === ActiveDialog.Permalink && "active"
+            )}
+            onClick={toggleDialog}
             title={translate("control-permalink-open")}
           ></button>
-          {isActive && (
+          {activeDialog === ActiveDialog.Permalink && (
             <div className="content-container">
               <PermalinkExporterTabs />
             </div>
           )}
-        </>,
+        </div>,
         baseMapControlEl
       )
     : null;

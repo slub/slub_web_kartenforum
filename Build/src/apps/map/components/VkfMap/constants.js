@@ -20,3 +20,9 @@ export const OPACITY_PROPERTIES = new Set([
 ]);
 
 export const LAYOUT_PROPERTIES = new Set(["visibility"]);
+
+export const ActiveDialog = {
+    None: "NONE",
+    BasemapSelector: "BASEMAP_SELECTOR",
+    Permalink: "PERMALINK",
+};

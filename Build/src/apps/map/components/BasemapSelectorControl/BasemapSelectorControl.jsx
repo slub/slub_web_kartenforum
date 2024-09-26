@@ -4,70 +4,44 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useState } from "react";
-import clsx from "clsx";
-import { useRecoilValue } from "recoil";
-import { mapState } from "../../atoms/atoms.js";
-import { isDefined, translate } from "../../../../util/util.js";
-import customEvents from "../MapWrapper/customEvents.js";
-import { BASEMAP_SELECTOR_CONTROL_ID } from "../Controls/BasemapSelectorControl.jsx";
+import React, { Fragment } from "react";
 import { createPortal } from "react-dom";
+import clsx from "clsx";
 import BasemapSelectorDialog from "./BasemapSelectorDialog.jsx";
+import { BASEMAP_SELECTOR_CONTROL_ID } from "../Controls/BasemapSelectorControl.jsx";
+import useControlContainer from "../../hooks/useControlContainer.js";
+import { translate } from "../../../../util/util";
+import { ActiveDialog } from "../VkfMap/constants.js";
 
 export const BasemapSelectorControl = () => {
-  const map = useRecoilValue(mapState);
-
-  const [baseMapControlEl, setBaseMapControlEl] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    if (isDefined(map)) {
-      const handleAddControl = (e) => {
-        if (e.control?.id === BASEMAP_SELECTOR_CONTROL_ID) {
-          setBaseMapControlEl(e.control._container);
-        }
-      };
-
-      const handleRemoveControl = (e) => {
-        if (e.control?.id === BASEMAP_SELECTOR_CONTROL_ID) {
-          setBaseMapControlEl(null);
-        }
-      };
-
-      map.on(customEvents.controlAdded, handleAddControl);
-      map.on(customEvents.controlRemoved, handleRemoveControl);
-      map.on("move", () => setIsModalOpen(false));
-      map.on("click", () => setIsModalOpen(false));
-
-      return () => {
-        map.off(customEvents.controlAdded, handleAddControl);
-        map.off(customEvents.controlRemoved, handleRemoveControl);
-      };
-    }
-  }, [map, isModalOpen]);
+  const { baseMapControlEl, activeDialog, toggleDialog, dialogRef } =
+    useControlContainer(
+      BASEMAP_SELECTOR_CONTROL_ID,
+      ActiveDialog.BasemapSelector
+    );
 
   return baseMapControlEl !== null
     ? createPortal(
-        <>
+        <div ref={dialogRef}>
           <button
-            onClick={() => setIsModalOpen(!isModalOpen)}
+            onClick={toggleDialog}
             title={translate("control-basemapselector-open")}
             className={clsx(
               "maplibregl-ctrl-basemap-selector",
-              isModalOpen && "active"
+              activeDialog === ActiveDialog.BasemapSelector && "active"
             )}
           ></button>
-          {isModalOpen && (
+          {activeDialog === ActiveDialog.BasemapSelector && (
             <div
               className={clsx(
                 "basemap-selector-modal",
-                isModalOpen && "active"
+                activeDialog === ActiveDialog.BasemapSelector && "active"
               )}
             >
-              <BasemapSelectorDialog map={map} />
+              <BasemapSelectorDialog />
             </div>
           )}
-        </>,
+        </div>,
         baseMapControlEl
       )
     : null;
