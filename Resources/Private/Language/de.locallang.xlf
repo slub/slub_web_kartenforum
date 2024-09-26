@@ -832,6 +832,11 @@
 				<source><![CDATA[Exit fullscreen]]></source>
 				<target><![CDATA[Vollbildmodus beenden]]></target>
 			</trans-unit>
+			<!-- Legacy usage, by georeferencer > openlayers-->
+            <trans-unit id="global.map.control-fullscreen.title" approved="yes">
+				<source><![CDATA[Toggle fullscreen]]></source>
+				<target><![CDATA[Vollbild umschalten]]></target>
+			</trans-unit>
 
            <!-- Global > Map > Control > Rotation -->
 			<trans-unit id="global.map.control-rotate.title" approved="yes">

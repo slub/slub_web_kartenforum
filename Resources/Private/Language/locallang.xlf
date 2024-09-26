@@ -692,6 +692,10 @@
             <trans-unit id="global.map.control-fullscreen.Exit">
 				<source>Exit fullscreen</source>
 			</trans-unit>
+			<!-- Legacy usage, by georeferencer > openlayers-->
+			<trans-unit id="global.map.control-fullscreen.title">
+            	<source>Toggle fullscreen</source>
+            </trans-unit>
 
            <!-- Global > Map > Control > Rotation -->
 			<trans-unit id="global.map.control-rotate.title">

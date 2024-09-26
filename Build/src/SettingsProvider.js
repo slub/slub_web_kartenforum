@@ -65,7 +65,10 @@ export default {
      * @returns {string[]}
      */
     getDefaultBaseMapUrls() {
-        return settingsObject.BASEMAPS[0].urls;
+        return [
+            "https://tile-1.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
+            "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
+        ];
     },
 
     /**
