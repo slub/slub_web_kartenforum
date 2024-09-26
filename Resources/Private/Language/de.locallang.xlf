@@ -169,7 +169,7 @@
                 <source><![CDATA[no title]]></source>
                 <target><![CDATA[kein Titel]]></target>
             </trans-unit>
-            <trans-unit id="plugin.map.geojson.featureView-no-description" approved="yes">
+            <trans-unit id="plugin.map.geojson.featureview-no-description" approved="yes">
                 <source><![CDATA[no description]]></source>
                 <target><![CDATA[keine Beschreibung]]></target>
             </trans-unit>
