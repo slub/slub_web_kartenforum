@@ -14,6 +14,7 @@ button.vkf-control-button {
     transition: $transition;
 
     &.disabled {
+        background-color: $color-grey;
         color: $color-midgrey;
         cursor: default;
         pointer-events: none;
@@ -21,8 +22,6 @@ button.vkf-control-button {
         svg.icon {
             fill: $color-lightgrey;
         }
-
-        background-color: $color-grey;
     }
 
     svg.icon {

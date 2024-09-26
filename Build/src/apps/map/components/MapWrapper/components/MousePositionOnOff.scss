@@ -2,6 +2,8 @@
 
 .ol-control {
     &.ol-mouse-position-box {
+        display: none;
+
         p {
             margin: 0;
         }
@@ -22,20 +24,17 @@
                 background-color: $secondary-color-dark;
 
                 > span {
-                    &:before {
-                        left: -1px;
-                    }
-
                     pointer-events: none;
                     width: 22px;
                     height: 22px;
                     font-size: 14px;
                     padding: 2px;
+                    &:before {
+                        left: -1px;
+                    }
                 }
             }
         }
-
-        display: none;
 
         .no-touchevents & {
             position: absolute;

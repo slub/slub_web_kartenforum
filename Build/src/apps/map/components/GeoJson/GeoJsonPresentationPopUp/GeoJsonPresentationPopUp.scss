@@ -83,6 +83,10 @@
     }
 
     .metadata-container {
+        display: flex;
+        flex-direction: column;
+        padding: 25px 15px 15px 15px;
+
         h3 {
             margin: 0;
             border-top: 1px solid rgb(246, 246, 250);
@@ -103,10 +107,6 @@
             margin: 0;
             word-wrap: break-word;
         }
-
-        display: flex;
-        flex-direction: column;
-        padding: 25px 15px 15px 15px;
 
         > div {
             display: flex;
