@@ -186,30 +186,42 @@ export const propExtractor = (feature) => {
     return properties;
 };
 
+const getPropertyKeysToBeRemoved = (oldProperties, newProperties) => {
+    const removedPropertyKeys = Object.keys(oldProperties).filter((oldKey) => {
+        const isIgnoredProperty = ignoredProperties.includes(oldKey);
+        const isStylingProperty = stylingProperties.includes(oldKey);
+        const isAPropertyToBeRemoved =
+            !isDefined(newProperties[oldKey]) || newProperties[oldKey] === "";
+
+        return (
+            !isIgnoredProperty && !isStylingProperty && isAPropertyToBeRemoved
+        );
+    });
+
+    return removedPropertyKeys;
+};
+
 export const buildGeoJSONSourceDiff = ({
-    feature,
+    oldProperties,
     propertyFields,
     styleFields,
 }) => {
     const updatedProperties = {};
-    propertyFields.forEach(([k, v]) => {
-        const isPredefinedKey = predefinedProperties.includes(k);
-        const isEmptyValue = v === "";
-        const isPredefinedKeyWithEmptyValue = isPredefinedKey && isEmptyValue;
-        if (isDefined(k) && k !== "" && !isPredefinedKeyWithEmptyValue) {
-            updatedProperties[k] = v;
+    propertyFields.forEach(([key, value]) => {
+        const isEmptyValue = value === "";
+        const isEmptyKey = key === "";
+        if (isDefined(key) && !isEmptyKey && !isEmptyValue) {
+            updatedProperties[key] = value;
         }
     });
-    styleFields.forEach(([k, v]) => {
-        updatedProperties[k] = v;
+    styleFields.forEach(([key, value]) => {
+        updatedProperties[key] = value;
     });
 
-    const removedPropertyKeys = Object.keys(feature.properties).filter(
-        (key) =>
-            !ignoredProperties.includes(key) &&
-            !stylingProperties.includes(key) &&
-            !predefinedProperties.includes(key) &&
-            !propertyFields.some(([customKey]) => customKey === key)
+    const newProperties = Object.fromEntries(propertyFields);
+    const removedPropertyKeys = getPropertyKeysToBeRemoved(
+        oldProperties,
+        newProperties
     );
 
     const propertiesInGeodiffFormat = Object.entries(updatedProperties).map(

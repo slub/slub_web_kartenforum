@@ -101,7 +101,7 @@ const GeoJsonEditPopUp = (props) => {
   const handleSave = useCallback(() => {
     doBlockComponentReset.current = true;
     const geoJSONSourceDiff = buildGeoJSONSourceDiff({
-      feature,
+      oldProperties: feature.properties,
       propertyFields,
       styleFields,
     });

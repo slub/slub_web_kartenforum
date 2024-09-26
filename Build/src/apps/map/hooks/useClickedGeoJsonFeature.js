@@ -13,6 +13,8 @@ import { isDefined } from "../../../util/util";
 const isApplicationFeature = (feature) =>
     isDefined(feature.layer.metadata?.[MAP_LIBRE_METADATA.id]);
 
+const naiveUniqueFeatureId = (id, source) => `${id}-${source}`;
+
 /**
  * The hook properties
  * @typedef {Object} useClickGeoJsonFeatureProps
@@ -30,6 +32,7 @@ function useClickedGeoJsonFeature({ map, layout }) {
     const [geoJsonFeature, setGeoJsonFeature] = useState(null);
     const [sourceId, setSourceId] = useState(null);
 
+    const uniqueCachedFeatureId = useRef(null);
     const storedRemovalOptions = useRef(null);
 
     const removeFeatureState = useCallback(() => {
@@ -39,6 +42,7 @@ function useClickedGeoJsonFeature({ map, layout }) {
     }, [map]);
 
     const resetClickedFeature = useCallback(() => {
+        uniqueCachedFeatureId.current = null;
         removeFeatureState();
         setGeoJsonFeature(null);
         setSourceId(null);
@@ -55,12 +59,21 @@ function useClickedGeoJsonFeature({ map, layout }) {
                 .at(0);
 
             if (isDefined(feature)) {
+                const { id, source } = feature;
+                if (
+                    uniqueCachedFeatureId?.current ===
+                    naiveUniqueFeatureId(id, source)
+                ) {
+                    return;
+                }
+
                 setGeoJsonFeature(feature);
-                setSourceId(feature.source);
-                storedRemovalOptions.current = {
-                    id: feature.id,
-                    source: feature.source,
-                };
+                setSourceId(source);
+                uniqueCachedFeatureId.current = naiveUniqueFeatureId(
+                    id,
+                    source
+                );
+                storedRemovalOptions.current = { id, source };
             } else {
                 resetClickedFeature();
             }

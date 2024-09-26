@@ -4,12 +4,15 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { translate } from "../../../../../util/util.js";
+import { translate, isDefined } from "../../../../../util/util.js";
+import { predefinedProperties } from "../constants.js";
 import { propExtractor } from "../util/util.js";
 import ImageFallback from "../GeoJsonEditPopUp/components/ImageFallback/ImageFallback.jsx";
 import "./GeoJsonPresentationPopUp.scss";
+
+const HEADER_PROPERTIES = [...predefinedProperties, "attribution"];
 
 export const GeoJsonPresentationPopUp = ({
   feature,
@@ -18,11 +21,31 @@ export const GeoJsonPresentationPopUp = ({
   onClose,
 }) => {
   const [properties, setProperties] = useState(propExtractor(feature));
-  const [imageLink, setImageLink] = useState(properties["img_link"] || "");
+  const [isImageBroken, setIsImageBroken] = useState(false);
+
+  const { imageLink, title, description, attribution } = useMemo(() => {
+    return {
+      imageLink: properties["img_link"],
+      title: properties["title"],
+      description: properties["description"],
+      attribution: properties["attribution"],
+    };
+  }, [properties]);
+
+  const isValidImage = useMemo(
+    () => isDefined(imageLink) && imageLink.length > 0 && !isImageBroken,
+    [imageLink, isImageBroken]
+  );
+
+  const customEntries = useMemo(() => {
+    return Object.entries(properties).filter(
+      ([key]) => !HEADER_PROPERTIES.includes(key)
+    );
+  }, [properties]);
 
   useEffect(() => {
-    setImageLink(properties["img_link"] || "");
     setProperties(propExtractor(feature));
+    setIsImageBroken(false);
   }, [feature]);
 
   return (
@@ -50,56 +73,41 @@ export const GeoJsonPresentationPopUp = ({
         )}
       </div>
       <div className="image-container">
-        {imageLink && imageLink !== "broken" ? (
+        {isValidImage && (
           <img
             src={imageLink}
             className="image"
-            onError={() => setImageLink("broken")}
+            onError={() => setIsImageBroken(true)}
           />
-        ) : null}
+        )}
 
-        {imageLink === "broken" && <ImageFallback typeOfView={"view"} />}
+        {isImageBroken && <ImageFallback typeOfView={"view"} />}
       </div>
       <div
         className={`header-container ${!imageLink || false ? "no-image" : ""}`}
       >
         <h2 className="title">
-          {properties["title"] ?? translate("geojson-featureview-no-title")}
+          {title ?? translate("geojson-featureview-no-title")}
         </h2>
         <p className="description body2">
-          {properties["description"] ??
-            translate("geojson-featureview-no-description")}
+          {description ?? translate("geojson-featureview-no-description")}
         </p>
 
-        {properties["attribution"] !== null &&
-          properties["attribution"] !== undefined && (
-            <p className="attribution">{properties["attribution"]}</p>
-          )}
+        {isDefined(attribution) && <p className="attribution">{attribution}</p>}
       </div>
 
       <div className="metadata-container">
-        {Object.keys(properties).some(
-          (key) =>
-            !["title", "description", "img_link", "attribution"].includes(key)
-        ) && <h3>{translate("geojson-featureview-metadata")}</h3>}
-
-        {Object.keys(properties).length !== 0 &&
-          Object.entries(properties).map(([key, value]) => {
-            if (
-              ["title", "description", "img_link", "attribution"].includes(key)
-            ) {
-              return null;
-            }
-
-            return (
-              <div key={key}>
-                <label htmlFor={key}>{key}</label>
-                <p className="body1" key={key}>
-                  {value}
-                </p>
-              </div>
-            );
-          })}
+        {customEntries.length > 0 && (
+          <h3>{translate("geojson-featureview-metadata")}</h3>
+        )}
+        {customEntries.map(([key, value]) => (
+          <div key={key}>
+            <label htmlFor={key}>{key}</label>
+            <p className="body1" key={key}>
+              {value}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );
