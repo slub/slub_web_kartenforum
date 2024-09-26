@@ -5,7 +5,6 @@
 <input type="hidden" value="{urlNominatim}" id="setting-urlNominatim"/>
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
 <input type="hidden" value="{terrain}" id="setting-terrain"/>
-<input type="hidden" value="{enableTilePreloading}" id="settings-enableTilePreloading"/>
 <input type="hidden"
        value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Images/layer_default.png')}"
        id="settings-layer-fallback"/>
@@ -35,7 +34,6 @@
             "API_GEOREFERENCE_BASEURL": document.getElementById("setting-georefApi").value,
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
             "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
-            "ENABLE_TILE_PRELOADING": JSON.parse(document.getElementById("settings-enableTilePreloading").value),
             FALLBACK_THUMBNAIL: document.getElementById("settings-layer-fallback").value,
             ICON_SPRITE: document.getElementById("settings-icon-sprite").value,
             "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,

@@ -13,6 +13,10 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const baseOptions = {
     bundle: true,
+    define: {
+        "process.env.DEV_MODE_SECRET": JSON.stringify("xxx"),
+        "process.env.DEV_MODE_NAME": JSON.stringify("xxx"),
+    },
     loader: {
         ".gif": "dataurl",
         ".png": "dataurl",

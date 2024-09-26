@@ -117,6 +117,7 @@ export function MapWrapper(props) {
       container: mapElement.current,
       center: mapViewSettings.center,
       zoom: mapViewSettings.zoom,
+      maxZoom: mapViewSettings.maxZoom,
       style,
       locale: getLocale(),
     });

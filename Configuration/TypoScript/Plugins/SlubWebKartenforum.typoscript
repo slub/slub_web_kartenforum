@@ -9,8 +9,6 @@ tt_content.slubwebkartenforum_map {
     variables {
         basemaps = TEXT
         basemaps.value = {$plugin.tx_slubwebkartenforum.settings.basemaps}
-        enableTilePreloading = TEXT
-        enableTilePreloading.value = {$plugin.tx_slubwebkartenforum.settings.enableTilePreloading}
         georefApi = TEXT
         georefApi.value = {$plugin.tx_slubwebkartenforum.settings.georefApi}
         mapView = TEXT
@@ -31,8 +29,6 @@ tt_content.slubwebkartenforum_mosaicmap {
     variables {
         basemaps = TEXT
         basemaps.value = {$plugin.tx_slubwebkartenforum.settings.basemaps}
-        enableTilePreloading = TEXT
-        enableTilePreloading.value = {$plugin.tx_slubwebkartenforum.settings.enableTilePreloading}
         georefApi = TEXT
         georefApi.value = {$plugin.tx_slubwebkartenforum.settings.georefApi}
         mapView = TEXT

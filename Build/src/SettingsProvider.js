@@ -36,7 +36,7 @@ let settingsObject = {
 };
 
 export default {
-    axiosGeoRefApiInstance: null,
+    axiosApiInstance: null,
 
     appendSettings(newSettings) {
         settingsObject = Object.assign({}, settingsObject, newSettings);
@@ -69,10 +69,8 @@ export default {
     },
 
     /**
-     * Returns the default map view
+     * Returns the default map view. Center should always be in EPSG:4326.
      * @returns {{
-     *     projection: string,
-     *     extent: [number, number, number, number],
      *     center: [number, number],
      *     zoom: number,
      *     maxZoom: number,
@@ -82,23 +80,13 @@ export default {
     getDefaultMapView() {
         return Object.assign(
             {
-                projection: "EPSG:3857",
-                extent: [-20026376.39, -20048966.1, 20026375.39, 20048966.1],
-                center: [1528150, 6630500],
-                zoom: 2,
+                center: [14.9928, 51.1463],
+                zoom: 6.3,
                 maxZoom: 19,
                 minZoom: 0,
             },
             settingsObject["MAPVIEW_PARAMS"]
         );
-    },
-
-    /**
-     * Returns the 3d preloading state from the settings object
-     * @return {*}
-     */
-    getIsTilePreloadingEnabled() {
-        return settingsObject.ENABLE_TILE_PRELOADING === 1;
     },
 
     /**
@@ -166,7 +154,7 @@ export default {
         settingsObject = newSettings;
     },
 
-    initAxiosGeoRefApiInstance() {
+    _initAxiosApiInstance() {
         const baseURL = settingsObject["API_GEOREFERENCE_BASEURL"];
 
         const isEmptyBaseURL = isString(baseURL) && baseURL.length === 0;
@@ -174,19 +162,43 @@ export default {
             throw new Error("The URL for the georeference service is not set.");
         }
 
-        this.axiosGeoRefApiInstance = axios.create({
-            baseURL,
-            withCredentials: true,
-        });
+        //
+        // Build axios instance configuration
+        //
+
+        // Debug credentials have the form of { "Dev-Mode-Secret": "some_secret", "Dev-Mode-Name": "some_name" }. They
+        // can only be used if the server is started with the proper credentials.
+        const debugCredentials = {
+            "Dev-Mode-Secret": process.env.DEV_MODE_SECRET,
+            "Dev-Mode-Name": process.env.DEV_MODE_NAME,
+        };
+        const config = Object.assign(
+            {
+                baseURL,
+                withCredentials: true,
+            },
+            debugCredentials
+                ? {
+                      headers: {
+                          get: debugCredentials,
+                          post: debugCredentials,
+                          put: debugCredentials,
+                          delete: debugCredentials,
+                      },
+                  }
+                : {}
+        );
+
+        this.axiosApiInstance = axios.create(config);
     },
 
     getGeoreferenceApiClient() {
-        if (isDefined(this.axiosGeoRefApiInstance)) {
-            return this.axiosGeoRefApiInstance;
+        if (isDefined(this.axiosApiInstance)) {
+            return this.axiosApiInstance;
         }
 
-        this.initAxiosGeoRefApiInstance();
-        return this.axiosGeoRefApiInstance;
+        this._initAxiosApiInstance();
+        return this.axiosApiInstance;
     },
 
     getMarkerSettings() {
