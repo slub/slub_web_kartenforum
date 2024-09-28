@@ -287,8 +287,9 @@
         }
 
         .maplibregl-ctrl-attrib-inner {
+            color: #fff;
             background-color: rgba($secondary-color-dark, 0.7);
-            font-size: 0;
+            font-size: 12px;
             display: flex;
             flex-wrap: wrap;
             bottom: 26px;

@@ -4,7 +4,8 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { TERRAIN_SOURCE_ID, TERRAIN_URL } from "./constants.js";
+import SettingsProvider from "../../../../SettingsProvider.js";
+import { TERRAIN_SOURCE_ID } from "./constants.js";
 import { flyToAsync, sleepAsync } from "./util.js";
 import { Map } from "maplibre-gl";
 
@@ -14,7 +15,8 @@ import { Map } from "maplibre-gl";
  * Extends the Map class with an animation when enabling the terrain.
  */
 export class MapWithTerrainBehavior extends Map {
-  terrainExaggeration = 1;
+  terrainConfiguration = SettingsProvider.getTerrain();
+  terrainExaggeration = this.terrainConfiguration.exaggeration;
   isTerrainEnabled = false;
   abortController = new AbortController();
 
@@ -139,13 +141,13 @@ export class MapWithTerrainBehavior extends Map {
 
       // Mapping it to the "data" event so that we can check that the terrain
       // growing starts only when terrain tiles are loaded (to reduce glitching)
-
       this.addSource(TERRAIN_SOURCE_ID, {
+        attribution: this.terrainConfiguration.attribution,
         type: "raster-dem",
-        tiles: [TERRAIN_URL],
+        tiles: [this.terrainConfiguration.url],
         tileSize: 256,
-        minzoom: 0,
-        maxzoom: 12,
+        minzoom: this.terrainConfiguration.minZoom,
+        maxzoom: this.terrainConfiguration.maxZoom,
         encoding: "terrarium",
       });
 

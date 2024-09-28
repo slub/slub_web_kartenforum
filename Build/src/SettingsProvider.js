@@ -116,29 +116,28 @@ export default {
         return settingsObject["NOMINATIM_URL"];
     },
 
-    getTerrainAttribution() {
-        return settingsObject["TERRAIN_TILES"].attribution;
-    },
-
     /**
-     * Returns the description of a terrain tile services
+     * Returns the terrain configuration
      * @returns {{
-     *     asset: number,
-     *     token: string,
-     *     type: "cesium" | "maptiler",
-     *     url: string | number
+     *     url: string,
+     *     attribution: string,
+     *     exaggeration: number,
+     *     minZoom: number,
+     *     maxZoom: number,
      * }}
      */
-    getTerrainService() {
-        return {
-            asset: settingsObject["TERRAIN_TILES"].asset,
-            token: settingsObject["TERRAIN_TILES"].token,
-            type:
-                settingsObject["TERRAIN_TILES"].type !== undefined
-                    ? settingsObject["TERRAIN_TILES"].type.toLowerCase()
-                    : "maptiler",
-            url: settingsObject["TERRAIN_TILES"].url,
-        };
+    getTerrain() {
+        return Object.assign(
+            {
+                url: "https://terrain.kartenforum.slub-dresden.de/v2/{z}/{x}/{y}.png",
+                attribution:
+                    "<a href='https://kartenforum.slub-dresden.de/attribution' target='_blank'>© U.S. Geological Survey and others</a>",
+                exaggeration: 1,
+                minZoom: 0,
+                maxZoom: 12,
+            },
+            settingsObject["TERRAIN_TILES"]
+        );
     },
 
     /**

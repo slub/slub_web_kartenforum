@@ -61,7 +61,6 @@ export function MapWrapper(props) {
       zoom: 2,
     },
     onAddGeoJson,
-    terrainTilesService,
   } = props;
 
   const initialBasemap = {
@@ -120,6 +119,7 @@ export function MapWrapper(props) {
       maxZoom: mapViewSettings.maxZoom,
       style,
       locale: getLocale(),
+      attributionControl: false,
     });
 
     // Wait for the style to be fully loaded
@@ -213,12 +213,6 @@ export const mapWrapperProps = {
     zoom: PropTypes.number,
   }),
   onAddGeoJson: PropTypes.func,
-  terrainTilesService: PropTypes.shape({
-    asset: PropTypes.number,
-    token: PropTypes.string,
-    type: PropTypes.oneOf(["cesium", "maptiler"]).isRequired,
-    url: PropTypes.string,
-  }),
 };
 
 MapWrapper.propTypes = mapWrapperProps;

@@ -7,7 +7,6 @@
 import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
 
 import SettingsProvider from "../SettingsProvider";
-import CustomAttribution from "../apps/map/components/MapWrapper/components/CustomAttribution";
 import LocateMeControl from "../components/Controls/LocateMeControl";
 import ToggleViewMode from "../components/ToggleViewmode/ToggleViewmode";
 import LayerSpy from "../components/Controls/LayerSpyControl";
@@ -20,6 +19,7 @@ import {
     GeolocateControl,
     NavigationControl,
     ScaleControl,
+    AttributionControl,
 } from "maplibre-gl";
 import { TerrainControl } from "../apps/map/components/Controls/TerrainControl.jsx";
 
@@ -108,9 +108,12 @@ export const getDefaultControls = (params) => {
         },
         {
             position: "bottom-right",
+            control: new AttributionControl({ compact: true }),
+        },
+        {
+            position: "bottom-right",
             control: new ScaleControl({ maxWidth: 137 }),
         },
-
         // new Rotate({
         //     className: "rotate-north ol-unselectable",
         //     tipLabel: translate("control-rotate"),
