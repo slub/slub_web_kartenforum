@@ -4,7 +4,6 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { translate } from "../../../../util/util";
 
 export const UNIQUE_CONTROL_PANEL_CLASS = "vkf-unique-control-panel";
 

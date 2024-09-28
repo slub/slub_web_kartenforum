@@ -11,7 +11,7 @@ import { translate } from "../../../../../../util/util.js";
 import PermalinkInput from "./components/PermalinkInput/PermalinkInput.jsx";
 import { MapViewInput } from "./components/MapViewInput/MapViewInput";
 import SettingsProvider from "../../../../../../SettingsProvider.js";
-import "./PermalinkExporter.scss";
+import "./PermalinkExporterTabs.scss";
 
 export const getUrlWithQuery = (query) => {
   return `${window.location.origin}${window.location.pathname}?${query}`;

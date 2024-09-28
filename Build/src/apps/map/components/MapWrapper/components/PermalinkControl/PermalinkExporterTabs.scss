@@ -1,0 +1,131 @@
+@import "../../../../../../../../Resources/Private/Scss/Variables";
+
+.vkf-permalink-exporter {
+    width: 400px;
+    color: white;
+
+    #permalink-exporter-tabs {
+        ul {
+            margin: 0;
+
+            li {
+                padding: 0;
+                text-align: center;
+                width: 50%;
+                &:before {
+                    display: none;
+                }
+
+                a {
+                    border: none;
+                    color: lighten(transparentize($secondary-color, 0.15), 10);
+                    margin-bottom: 1px;
+                    padding: 0 0 10px 0;
+                    text-decoration: none;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    &:before {
+                        display: none;
+                    }
+
+                    &:hover {
+                        color: white;
+                        border: none;
+                        background-color: transparentize(
+                            $secondary-color-dark,
+                            0.5
+                        );
+                    }
+                }
+
+                &.active {
+                    a {
+                        color: #fff;
+                        background-color: transparent;
+                        border-bottom: 3px solid white;
+                    }
+                }
+
+                &.disabled {
+                    cursor: not-allowed;
+                    a {
+                        color: transparentize($color-lightgrey, 0.3);
+                    }
+                }
+            }
+        }
+    }
+
+    input {
+        background: rgba(51, 85, 85, 1);
+        border: 1px solid #fff;
+        flex-grow: 1;
+        line-height: 1;
+        padding: 5px;
+
+        &::placeholder {
+            color: transparentize(#fff, 0.25);
+        }
+    }
+
+    .permalink-exporter-title {
+        h4 {
+            margin-top: 0;
+            color: white;
+        }
+    }
+
+    .permalink-exporter-content {
+        display: flex;
+        flex-direction: column;
+        padding: 20px 0 0 0;
+
+        .action-content {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .copy-button,
+            .upload-button {
+                background: transparent;
+                margin: 0 8px;
+                border-radius: 16px;
+                border-top: none;
+                padding: 5px 6px;
+                height: 32px;
+                width: 32px;
+                font-size: 1.14em;
+
+                &:focus {
+                    background: transparent;
+                }
+
+                &:hover {
+                    background: transparentize($primary-color, 0.3);
+                }
+
+                .glyphicon {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+        }
+
+        .description {
+            p {
+                margin: 1em 0 0 0;
+                font-size: 1.3rem;
+            }
+        }
+
+        .upload-button {
+            padding: 6px;
+        }
+    }
+}
+
+.ol-map-small {
+    .vkf-permalink-exporter {
+        max-width: calc(85vw - 40px);
+    }
+}

@@ -13,6 +13,7 @@ import { PERMALINK_CONTROL_ID } from "../../../Controls/PermalinkControl.jsx";
 import { translate } from "../../../../../../util/util.js";
 import useControlContainer from "../../../../hooks/useControlContainer.js";
 import { ActiveDialog } from "../../../VkfMap/constants.js";
+import "./PermalinkExporter.scss";
 
 export const PermalinkExporter = () => {
   const { baseMapControlEl, activeDialog, toggleDialog, dialogRef } =

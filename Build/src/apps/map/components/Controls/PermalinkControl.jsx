@@ -4,6 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
+import { DOMcreate } from "../MapWrapper/tools.js";
 
 export const PERMALINK_CONTROL_ID = "permalink-control";
 
@@ -20,15 +21,12 @@ export class PermalinkControl {
    */
   onAdd(map) {
     this._map = map;
-    const defaultClass = `maplibregl-ctrl maplibregl-ctrl-group permalink-control`;
+    this._container = DOMcreate(
+      "div",
+      "maplibregl-ctrl maplibregl-ctrl-group permalink-control"
+    );
 
-    // Load default html and behavior
-    const container = document.createElement("div");
-    container.className = defaultClass;
-
-    this._container = container;
-
-    return container;
+    return this._container;
   }
 
   onRemove() {

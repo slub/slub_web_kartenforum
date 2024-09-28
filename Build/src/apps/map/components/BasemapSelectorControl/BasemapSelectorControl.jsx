@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { Fragment } from "react";
+import React from "react";
 import { createPortal } from "react-dom";
 import clsx from "clsx";
 import BasemapSelectorDialog from "./BasemapSelectorDialog.jsx";
