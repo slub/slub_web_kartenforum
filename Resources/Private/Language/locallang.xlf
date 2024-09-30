@@ -502,6 +502,9 @@
 			<trans-unit id="plugin.map.facetedsearch.titleCM">
 				<source>City Map</source>
 			</trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleGL">
+				<source>Geological maps (1:25.000)</source>
+			</trans-unit>
 			<trans-unit id="plugin.map.facetedsearch.titleMB">
 				<source>Meilenblätter (1:12.000)</source>
 			</trans-unit>

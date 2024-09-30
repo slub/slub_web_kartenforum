@@ -76,7 +76,7 @@
 				<target><![CDATA[Stadtpläne]]></target>
 			</trans-unit>
 			<trans-unit id="plugin.map.facetedsearch.titleGL" approved="yes">
-				<source><![CDATA[]]></source>
+				<source><![CDATA[Geological maps (1:25.000)]]></source>
 				<target><![CDATA[Geologische Karten (1:25.000)]]></target>
 			</trans-unit>
 			<trans-unit id="plugin.map.facetedsearch.titleMB" approved="yes">
