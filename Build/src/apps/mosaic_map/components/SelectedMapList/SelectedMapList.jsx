@@ -6,7 +6,7 @@
  */
 import React from "react";
 import clsx from "clsx";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { Button, Glyphicon } from "react-bootstrap";
 
 import MapSearchResultList from "../../../map/components/MapSearch/components/MapSearchResultList/MapSearchResultList";
@@ -16,79 +16,89 @@ import FacetedSearch from "../../../map/components/FacetedSearch/FacetedSearch.j
 import { mosaicMapSelectedFeaturesState } from "../../atoms/atoms.js";
 import MosaicMapSelectedMapListElement from "../ListElement/MosaicMapSelectedMapListElement/MosaicMapSelectedMapListElement.jsx";
 import { selectedFeaturesState } from "../../../map/atoms/atoms.js";
-import { LAYER_TYPES } from "../../../map/components/CustomLayers/LayerTypes.js";
+
+import { mapState } from "../../../map/atoms/atoms.js";
+import {
+  MOSAIC_MAP_OVERLAY_SOURCE_ID,
+  moveMosaicOverlayToTop,
+  resetMosaicOverlaySource,
+} from "../MosaicMapOverlayLayer/MosaicMapOverlayLayer";
 
 import "./SelectedMapList.scss";
 
 export const SelectedMapList = () => {
+  const map = useRecoilValue(mapState);
   const selectedSingleSheets = useRecoilValue(selectedFeaturesState);
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
+  const [selectedMosaicLayers, setSelectedMosaicLayers] = useRecoilState(
     mosaicMapSelectedFeaturesState
   );
 
+  const setSelectedLayers = useSetRecoilState(selectedFeaturesState);
+
   // derived state
-  const disabled = selectedFeatures.length === 0;
+  const disabled = selectedMosaicLayers.length === 0;
+
   const areAllShown =
     !disabled &&
-    selectedFeatures.every((selectedFeature) => selectedFeature.showPreview);
+    selectedMosaicLayers.every((selectedMosaicLayer) =>
+      selectedMosaicLayer.isDisplayedInMap(map)
+    );
 
   // only enable the button in case there are selected features which are not in the mosaic map selection
   const disableAddSelectedButton =
     selectedSingleSheets.length === 0 ||
     selectedSingleSheets.filter(
       (sheet) =>
-        selectedFeatures.find(
-          (selectedFeature) =>
-            selectedFeature.feature.getId() ===
-            `${sheet.feature.getId()}_mosaic_map_preview`
+        selectedMosaicLayers.find(
+          (selectedMosaicLayer) => selectedMosaicLayer.getId() === sheet.getId()
         ) !== undefined
     ).length === selectedSingleSheets.length;
 
   const handleAddAll = () => {
-    selectedSingleSheets.forEach(({ feature }) => {
-      const id = `${feature.getId()}_mosaic_map_preview`;
+    selectedSingleSheets.forEach((sheet) => {
+      const id = sheet.getId();
 
       if (
-        selectedFeatures.find(
-          (selectedFeature) => selectedFeature.feature.getId() === id
+        selectedMosaicLayers.find(
+          (selectedFeature) => selectedFeature.getId() === id
         ) === undefined
       ) {
-        const newFeature = feature.clone();
-
-        // adjust properties to reflect the preview usage
-        newFeature.setId(id);
-        newFeature.set("layer_type", LAYER_TYPES.PREVIEW);
-        setSelectedFeatures((oldFeatures) => [
-          ...oldFeatures,
-          {
-            feature: newFeature,
-            type: LAYER_TYPES.HISTORIC_MAP,
-          },
-        ]);
+        setSelectedMosaicLayers((oldFeatures) => [...oldFeatures, sheet]);
+        sheet.addToOverlay(map, MOSAIC_MAP_OVERLAY_SOURCE_ID);
       }
     });
   };
 
-  const handleHideAll = () => {
-    setSelectedFeatures((oldSelectedFeatures) =>
-      oldSelectedFeatures.map((selectedFeature) => ({
-        ...selectedFeature,
-        showPreview: false,
-      }))
+  const handleToggleMapDisplay = () => {
+    const selectedMosaicIds = selectedMosaicLayers.map((layer) =>
+      layer.getId()
     );
+
+    if (areAllShown) {
+      setSelectedLayers((selectedLayers) =>
+        selectedLayers.filter(
+          (layer) => !selectedMosaicIds.includes(layer.getId())
+        )
+      );
+
+      selectedMosaicLayers.forEach((layer) => layer.removeMapLibreLayers(map));
+      return;
+    }
+
+    //@TODO: Add loading feedback, while layer is added to map
+    selectedMosaicLayers
+      .filter((layer) => !layer.isDisplayedInMap(map))
+      .forEach((layer) =>
+        layer.addLayerToMap(map).then(() => {
+          setSelectedLayers((selectedLayers) => [...selectedLayers, layer]);
+        })
+      );
+    moveMosaicOverlayToTop(map);
   };
 
   const handleRemoveAll = () => {
-    setSelectedFeatures([]);
-  };
-
-  const handleShowAll = () => {
-    setSelectedFeatures((oldSelectedFeatures) =>
-      oldSelectedFeatures.map((selectedFeature) => ({
-        ...selectedFeature,
-        showPreview: true,
-      }))
-    );
+    setSelectedMosaicLayers([]);
+    resetMosaicOverlaySource(map);
   };
 
   return (
@@ -115,7 +125,7 @@ export const SelectedMapList = () => {
                     <button
                       className={clsx(!areAllShown && "selected")}
                       disabled={disabled}
-                      onClick={areAllShown ? handleHideAll : handleShowAll}
+                      onClick={handleToggleMapDisplay}
                     >
                       <Glyphicon
                         glyph={areAllShown ? "eye-open" : "eye-close"}
@@ -135,9 +145,9 @@ export const SelectedMapList = () => {
               <div className="panel-heading">
                 <div className="content">
                   <div>
-                    {selectedFeatures.length === 0
+                    {selectedMosaicLayers.length === 0
                       ? translate("mosaic-maps-selected-no-maps")
-                      : `${selectedFeatures.length} ${translate(
+                      : `${selectedMosaicLayers.length} ${translate(
                           "mosaic-maps-selected-maps"
                         )}`}
                   </div>

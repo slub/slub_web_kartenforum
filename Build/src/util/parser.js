@@ -7,6 +7,8 @@
 
 import { HistoricMapLayer } from "../apps/map/components/CustomLayers/HistoricMapLayer.js";
 
+// TODO rename to readLayer; update jsdoc
+
 /**
  * Function parses a search record from an elasticsearch query into
  * an ol object.

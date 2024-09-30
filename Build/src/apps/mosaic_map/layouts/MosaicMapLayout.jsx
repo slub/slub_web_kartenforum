@@ -12,7 +12,7 @@ import SpatialTemporalSearch from "../../map/components/SpatialTemporalSearch/Sp
 import { useSetElementScreenSize } from "../../../util/hooks";
 import SelectedMapList from "../components/SelectedMapList/SelectedMapList.jsx";
 import MosaicMapSearchListElement from "../components/ListElement/MosaicMapSearchListElement/MosaicMapSearchListElement.jsx";
-import MosaicGeometryLayer from "../components/MosaicGeometryLayer/MosaicGeometryLayer";
+import MosaicMapOverlayLayer from "../components/MosaicMapOverlayLayer/MosaicMapOverlayLayer";
 
 import "../../map/layouts/HorizontalLayout/HorizontalLayout.scss";
 import "./MosaicMapLayout.scss";
@@ -25,7 +25,7 @@ export const HorizontalLayout = () => {
 
   return (
     <React.Fragment>
-      <MosaicGeometryLayer />
+      <MosaicMapOverlayLayer />
       <div className="vkf-horizontal-layout">
         <div
           className="spatialsearch-container"

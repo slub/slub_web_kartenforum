@@ -12,7 +12,11 @@ import { isDefined } from "../../../../util/util.js";
 import { bbox } from "@turf/bbox";
 import { MAP_OVERLAY_FILL_ID } from "../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
+// TODO discuss whether it makes sense to use a MoscaicMapLayer
+// the need may arise when single sheet mosaic maps need to be moved and the different overlay layers need to be considered
 export class HistoricMapLayer extends ApplicationLayer {
+    #isMissing = false;
+
     constructor({ metadata, geometry }) {
         super({ metadata, geometry });
 
@@ -28,7 +32,31 @@ export class HistoricMapLayer extends ApplicationLayer {
         map,
         opt_initial_settings = { visibility: "visible", opacity: 1 }
     ) {
+        if (map.getSource(this.getId())) {
+            return Promise.reject(
+                `Source with id '${this.getId()}' exists already in map.`
+            );
+        }
+
         return addHistoricMapLayer(this, map, opt_initial_settings);
+    }
+
+    addToOverlay(map, overlayId) {
+        const source = map.getSource(overlayId);
+        if (source) {
+            const feature = this.toGeoJSON();
+            feature.id = this.getId();
+            const add = [feature];
+            source.updateData({ add });
+        }
+    }
+
+    removeFromOverlay(map, overlayId) {
+        const source = map.getSource(overlayId);
+        if (source) {
+            const remove = [this.getId()];
+            source.updateData({ remove });
+        }
     }
 
     toGeoJSON() {
@@ -125,6 +153,14 @@ export class HistoricMapLayer extends ApplicationLayer {
             map.getLayoutProperty(this.getMapLibreLayerId(), "visibility") ===
             "visible"
         );
+    }
+
+    isMissing() {
+        return this.#isMissing;
+    }
+
+    setIsMissing(isMissing) {
+        this.#isMissing = isMissing;
     }
 }
 

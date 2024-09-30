@@ -42,14 +42,15 @@ export const AppMosaicMap = () => {
         <div className="vkf-plugin-map-mosaic" id="map-container">
           <MapWrapper
             {...{
-              disableClickHandler: true, // TODO GEOJSON PORT - can safely be removed as geojson feature click handler is ported to a hook
+              //disableClickHandler: true, // TODO GEOJSON PORT - can safely be removed as geojson feature click handler is ported to a hook
               baseMapUrl: SettingsProvider.getDefaultBaseMapUrls(),
-              enable3d: false,
-              enableTerrain: false,
+              //enable3d: false,
+              //enableTerrain: false,
               layout: LAYOUT_TYPES.HORIZONTAL,
               mapViewSettings: SettingsProvider.getDefaultMapView(),
-              terrainTilesService: SettingsProvider.getTerrainService(),
+              //terrainTilesService: SettingsProvider.getTerrainService(),
               ChildComponent: MosaiMapLayout,
+              loadMarkerIcon: false,
             }}
           />
         </div>

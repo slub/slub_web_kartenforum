@@ -18,14 +18,15 @@ import {
 } from "../../atoms/atoms.js";
 import { translate } from "../../../../util/util.js";
 import { fetchFeatureForMapId } from "../../../map/persistence/api.js";
-import {
-  fitMapToFeatures,
-  wrapMapFeatures,
-} from "../../../map/persistence/util.js";
+import { fitMapToFeatures } from "../../../map/persistence/util.js";
 import { notificationState } from "../../../../atoms/atoms.js";
 import { mapState } from "../../../map/atoms/atoms.js";
 
 import "./MosaicMapSelectorDropdown.scss";
+import {
+  MOSAIC_MAP_OVERLAY_SOURCE_ID,
+  resetMosaicOverlaySource,
+} from "../MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
 
 export const VALUE_CREATE_NEW_MAP = "create-new-mosaic-map";
 
@@ -39,7 +40,7 @@ export const MosaicMapSelectorDropdown = () => {
   const [selectedMosaicMap, setSelectedMosaicMap] = useRecoilState(
     mosaicMapSelectedMosaicMapState
   );
-  const setMosaicMapSelectedFeatures = useSetRecoilState(
+  const setSelectedMosaicLayers = useSetRecoilState(
     mosaicMapSelectedFeaturesState
   );
   const setNotification = useSetRecoilState(notificationState);
@@ -82,23 +83,22 @@ export const MosaicMapSelectorDropdown = () => {
       );
 
       Promise.all(fetchProcesses)
-        .then((features) => {
-          features.forEach((feature) => {
-            feature.setId(`${feature.getId()}_mosaic_map_preview`);
-          });
-
-          // fit map to features
+        .then((layers) => {
           if (map !== undefined) {
-            fitMapToFeatures(map, features);
+            fitMapToFeatures(map, layers);
           }
 
-          setMosaicMapSelectedFeatures(wrapMapFeatures(features));
+          setSelectedMosaicLayers(layers);
+          layers.forEach((layer) =>
+            layer.addToOverlay(map, MOSAIC_MAP_OVERLAY_SOURCE_ID)
+          );
         })
         .catch((e) => {
           console.error(e);
         });
     } else {
-      setMosaicMapSelectedFeatures([]);
+      setSelectedMosaicLayers([]);
+      resetMosaicOverlaySource(map);
     }
   };
 

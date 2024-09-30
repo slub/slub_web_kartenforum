@@ -6,7 +6,9 @@
  */
 import { queryDocument } from "../../../util/apiEs.js";
 import { readFeature } from "../../../util/parser.js";
+import HistoricMapLayer from "../components/CustomLayers/HistoricMapLayer.js";
 
+// TODO MAPLIBRE PORT - rename to fetchLayersForMapId, upd jsdoc
 /**
  * Fetches a feature based on a map id and parses it
  * @param mapId
@@ -17,14 +19,13 @@ export const fetchFeatureForMapId = (mapId) =>
     queryDocument(mapId)
         .then((res) => readFeature(mapId, res))
         .catch(() => {
-            //@TODO: Add missing feature to new abstraction
-            // const feature = new Feature({
-            //     id: mapId,
-            //     isMissing: true,
-            //     has_georeference: false,
-            // });
-            // feature.setId(mapId);
-            // return feature;
+            const layer = new HistoricMapLayer({
+                metadata: {
+                    id: mapId,
+                    has_georeference: false,
+                },
+            });
 
-            return null;
+            layer.setIsMissing(true);
+            return layer;
         });

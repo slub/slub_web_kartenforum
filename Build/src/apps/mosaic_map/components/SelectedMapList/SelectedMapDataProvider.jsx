@@ -18,8 +18,8 @@ import { mosaicMapSelectedFeaturesState } from "../../atoms/atoms.js";
  */
 export function sortFeaturesByKey(array, key) {
   return array.sort(function (a, b) {
-    let x = a.get(key);
-    let y = b.get(key);
+    let x = a.getMetadata(key);
+    let y = b.getMetadata(key);
 
     if (typeof x == "string") {
       x = ("" + x).toLowerCase();
@@ -45,20 +45,18 @@ export const SelectedMapDataProvider = ({
     itemCount: 10,
     id: Date.now(),
   });
-  const selectedFeatures = useRecoilValue(mosaicMapSelectedFeaturesState);
+  const selectedMosaicLayers = useRecoilValue(mosaicMapSelectedFeaturesState);
 
   // fetch the results from the index
   const fetchResults = useCallback(
     (start, size) => {
-      if (selectedFeatures === undefined) {
+      if (selectedMosaicLayers === undefined) {
         return new Promise((res) => res([]));
       }
 
       return new Promise((resolve) => {
         const result = sortFeaturesByKey(
-          selectedFeatures
-            .slice(start, start + size)
-            .map(({ feature }) => feature),
+          selectedMosaicLayers.slice(start, start + size),
           sortAttribute
         );
 
@@ -69,7 +67,7 @@ export const SelectedMapDataProvider = ({
         resolve(result);
       });
     },
-    [selectedFeatures, sortOrder, sortAttribute]
+    [selectedMosaicLayers, sortOrder, sortAttribute]
   );
 
   ////
@@ -78,14 +76,14 @@ export const SelectedMapDataProvider = ({
 
   const handleRefresh = useCallback(() => {
     setSearchResultDescriptor({
-      itemCount: selectedFeatures.length,
+      itemCount: selectedMosaicLayers.length,
       id: Date.now(),
     });
   }, [fetchResults]);
 
   useEffect(() => {
     handleRefresh();
-  }, [selectedFeatures, sortAttribute, sortOrder]);
+  }, [selectedMosaicLayers, sortAttribute, sortOrder]);
 
   return (
     <React.Fragment>

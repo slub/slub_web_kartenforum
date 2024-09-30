@@ -61,6 +61,8 @@ export function MapWrapper(props) {
       zoom: 2,
     },
     onAddGeoJson,
+    terrainTilesService,
+    loadMarkerIcon = true,
   } = props;
 
   const initialBasemap = {
@@ -127,10 +129,12 @@ export function MapWrapper(props) {
       setMap(initialMap);
       setBaseMapStyleLayers(initialMap.getStyle().layers);
 
-      const { id, url } = SettingsProvider.getMarkerSettings();
-      initialMap.loadImage(url).then((image) => {
-        initialMap.addImage(id, image.data, { sdf: true });
-      });
+      if (loadMarkerIcon === true) {
+        const { id, url } = SettingsProvider.getMarkerSettings();
+        initialMap.loadImage(url).then((image) => {
+          initialMap.addImage(id, image.data, { sdf: true });
+        });
+      }
     };
 
     // Add event listener for style load
@@ -213,6 +217,13 @@ export const mapWrapperProps = {
     zoom: PropTypes.number,
   }),
   onAddGeoJson: PropTypes.func,
+  terrainTilesService: PropTypes.shape({
+    asset: PropTypes.number,
+    token: PropTypes.string,
+    type: PropTypes.oneOf(["cesium", "maptiler"]).isRequired,
+    url: PropTypes.string,
+  }),
+  loadMarkerIcon: PropTypes.bool,
 };
 
 MapWrapper.propTypes = mapWrapperProps;

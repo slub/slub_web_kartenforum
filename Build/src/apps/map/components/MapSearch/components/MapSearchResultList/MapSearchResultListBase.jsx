@@ -22,7 +22,7 @@ import { HistoricMapLayer } from "../../../CustomLayers/HistoricMapLayer.js";
 
 const SEARCH_COLS = ["map_scale", "time_published", "title", "georeference"];
 
-export let LOADING_FEATURE = new HistoricMapLayer({
+export const LOADING_FEATURE = new HistoricMapLayer({
   metadata: {
     has_georeference: true,
     map_scale: "0",

@@ -321,15 +321,3 @@ export const useOnPageLeave = (handler) => {
         };
     }, [handler]);
 };
-
-/**
- * Wraps a set of features for the usage in the selected features state
- * @param features
- * @return {*}
- */
-export const wrapMapFeatures = (features) =>
-    features.map((feature) => ({
-        feature,
-        displayedInMap: false,
-        type: LAYER_TYPES.HISTORIC_MAP,
-    }));

@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { Button, Glyphicon } from "react-bootstrap";
 
 import ControlButton from "../../../../georeferencer/components/ControlButton/ControlButton.jsx";
@@ -20,8 +20,10 @@ import Modal from "../../../../../components/Modal/Modal.jsx";
 import { VALUE_CREATE_NEW_MAP } from "../../MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
 import { deleteMosaicMap } from "../../../../../util/apiMosaicMaps.js";
 import { notificationState } from "../../../../../atoms/atoms.js";
+import { mapState } from "../../../../map/atoms/atoms.js";
 
 import "./DeleteMosaicMapButton.scss";
+import { resetMosaicOverlaySource } from "../../MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
 
 export const SaveMosaicMapButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,14 +32,18 @@ export const SaveMosaicMapButton = () => {
   );
   const setLoadingState = useSetRecoilState(mosaicMapLoadingState);
   const setNotification = useSetRecoilState(notificationState);
-  const setSelectedFeatures = useSetRecoilState(mosaicMapSelectedFeaturesState);
+  const setSelectedMosaicLayers = useSetRecoilState(
+    mosaicMapSelectedFeaturesState
+  );
+  const map = useRecoilValue(mapState);
 
   const handleDeleteMosaicMap = () => {
     deleteMosaicMap(selectedMosaicMap.id)
       .then(() => {
         handleCloseModal();
         setSelectedMosaicMap({ id: VALUE_CREATE_NEW_MAP });
-        setSelectedFeatures([]);
+        setSelectedMosaicLayers([]);
+        resetMosaicOverlaySource(map);
         // trigger reload of list
         setLoadingState(MosaicMapLoadingStates.DOWNLOADING_LIST);
         setNotification({

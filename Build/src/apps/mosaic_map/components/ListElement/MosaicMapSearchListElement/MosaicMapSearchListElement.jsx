@@ -6,50 +6,49 @@
  */
 import React from "react";
 import clsx from "clsx";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import MapSearchListElement from "../../../../map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.jsx";
 import { mosaicMapSelectedFeaturesState } from "../../../atoms/atoms.js";
-import { LAYER_TYPES } from "../../../../map/components/CustomLayers/LayerTypes.js";
-import { checkIfArrayContainsFeature } from "../../../../map/components/MapSearch/util.js";
+import { checkIfArrayContainsLayer } from "../../../../map/components/MapSearch/util.js";
+import { mapState } from "../../../../map/atoms/atoms.js";
+import {
+  moveMosaicOverlayToTop,
+  MOSAIC_MAP_OVERLAY_SOURCE_ID,
+} from "../../MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
 
 import "./MosaicMapSearchListElement.scss";
+import { isDefined } from "../../../../../util/util.js";
 
 export const MosaicMapSearchListElement = ({ data, index, style }) => {
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
+  const [selectedMosaicLayers, setSelectedMosaicLayers] = useRecoilState(
     mosaicMapSelectedFeaturesState
   );
 
-  const feature = data.maps[index];
+  const map = useRecoilValue(mapState);
+
+  const layer = data.maps[index];
   const isSelected =
-    feature !== undefined &&
-    checkIfArrayContainsFeature(selectedFeatures, feature);
+    isDefined(layer) && checkIfArrayContainsLayer(selectedMosaicLayers, layer);
 
   const handleAddClick = (e) => {
-    if (e !== undefined) {
+    if (isDefined(e)) {
       e.stopPropagation();
       e.preventDefault();
     }
 
-    if (feature !== undefined) {
-      const id = `${feature.getId()}_mosaic_map_preview`;
+    if (isDefined(layer)) {
       if (!isSelected) {
-        const newFeature = feature.clone();
-
-        // adjust properties to reflect the preview usage
-        newFeature.setId(id);
-        newFeature.set("layer_type", LAYER_TYPES.PREVIEW);
-
-        setSelectedFeatures((selectedFeatures) => [
-          ...selectedFeatures,
-          { feature: newFeature, type: LAYER_TYPES.HISTORIC_MAP },
-        ]);
+        setSelectedMosaicLayers((selectedLayers) => [...selectedLayers, layer]);
+        layer.addToOverlay(map, MOSAIC_MAP_OVERLAY_SOURCE_ID);
+        moveMosaicOverlayToTop(map);
       } else {
-        setSelectedFeatures((selectedFeatures) =>
-          selectedFeatures.filter(
-            (selectedFeature) => selectedFeature.feature.getId() !== id
+        setSelectedMosaicLayers((selectedLayers) =>
+          selectedLayers.filter(
+            (selectedLayer) => selectedLayer.getId() !== layer.getId()
           )
         );
+        layer.removeFromOverlay(map, MOSAIC_MAP_OVERLAY_SOURCE_ID);
       }
     }
   };

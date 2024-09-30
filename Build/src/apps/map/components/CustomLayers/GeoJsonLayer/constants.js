@@ -18,6 +18,8 @@ export const METADATA = {
     tmsUrls: "tms_urls",
     onlineResources: "online_resources",
     mapScale: "map_scale",
+    rawMapIds: "raw_map_ids",
+    name: "name",
 };
 
 export const GEOJSON_LAYER_TYPES = {

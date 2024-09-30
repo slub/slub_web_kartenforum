@@ -4,45 +4,13 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect } from "react";
-import { useRecoilValue } from "recoil";
+import React from "react";
 
-import { mapState } from "../../../../atoms/atoms";
-import { isDefined } from "../../../../../../util/util";
+import BaseOverlayLayer from "../../../../../../components/BaseOverlayLayer";
 
 export const MAP_OVERLAY_SOURCE_ID = "vkf-map-overlay-source";
 export const MAP_OVERLAY_FILL_ID = "vkf-map-overlay-fill";
 export const MAP_OVERLAY_OUTLINE_ID = "vkf-map-overlay-outline";
-
-const addOverlayLayer = (map) => {
-  map.addSource(MAP_OVERLAY_SOURCE_ID, {
-    type: "geojson",
-    data: {
-      type: "FeatureCollection",
-      features: [],
-    },
-  });
-
-  map.addLayer({
-    id: MAP_OVERLAY_FILL_ID,
-    type: "fill",
-    source: MAP_OVERLAY_SOURCE_ID,
-    paint: {
-      "fill-color": "#ff0000",
-      "fill-opacity": 0.2,
-    },
-  });
-
-  map.addLayer({
-    id: MAP_OVERLAY_OUTLINE_ID,
-    type: "line",
-    source: MAP_OVERLAY_SOURCE_ID,
-    paint: {
-      "line-color": "#ff0000",
-      "line-width": 1,
-    },
-  });
-};
 
 export const updateOverlayLayer = (map, data) => {
   const source = map.getSource(MAP_OVERLAY_SOURCE_ID);
@@ -51,48 +19,16 @@ export const updateOverlayLayer = (map, data) => {
   }
 };
 
-const removeOverlayLayer = (map) => {
-  if (map.getLayer(MAP_OVERLAY_FILL_ID)) {
-    map.removeLayer(MAP_OVERLAY_FILL_ID);
-  }
-
-  if (map.getLayer(MAP_OVERLAY_OUTLINE_ID)) {
-    map.removeLayer(MAP_OVERLAY_OUTLINE_ID);
-  }
-
-  if (map.getSource(MAP_OVERLAY_SOURCE_ID)) {
-    map.removeSource(MAP_OVERLAY_SOURCE_ID);
-  }
-};
-
 export const MapSearchOverlayLayer = () => {
-  // State
-  const map = useRecoilValue(mapState);
-
-  ////
-  // Effect section
-  ////
-
-  useEffect(() => {
-    if (isDefined(map)) {
-      const handleLoad = () => {
-        addOverlayLayer(map);
-      };
-
-      if (map._loaded) {
-        addOverlayLayer(map);
-      } else {
-        map.once("load", handleLoad);
-      }
-
-      return () => {
-        removeOverlayLayer(map);
-        map.off("load", handleLoad);
-      };
-    }
-  }, [map]);
-
-  return <></>;
+  return (
+    <>
+      <BaseOverlayLayer
+        sourceId={MAP_OVERLAY_SOURCE_ID}
+        fillId={MAP_OVERLAY_FILL_ID}
+        outlineId={MAP_OVERLAY_OUTLINE_ID}
+      />
+    </>
+  );
 };
 
 MapSearchOverlayLayer.propTypes = {};

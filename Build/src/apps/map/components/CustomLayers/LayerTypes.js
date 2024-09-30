@@ -8,5 +8,4 @@
 export const LAYER_TYPES = {
     GEOJSON: "geojson",
     HISTORIC_MAP: "historic_map",
-    PREVIEW: "preview",
 };
