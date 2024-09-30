@@ -46,13 +46,17 @@ function parseLayerFromCapabilities(url, capabilities) {
     return capabilities.Capability.Layer.Layer.filter((l) =>
         l.CRS.includes("EPSG:3857")
     ).map((l) => {
+        const tileSize = 512;
+        const layerName = l.Name;
         return {
             id: l.Title,
             label: l.Title,
-            urls: [url],
+            // This request does not work with a WMS in version 1.1.0. The VKF WMS services also support version 1.1.0. Nevertheless
+            // it could become a problem, if we need to support other WMS services in the future.
+            urls: [`${url}?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.0&request=GetMap&srs=EPSG:3857&transparent=true&width=${tileSize}&height=${tileSize}&layers=${layerName}`],
             type: "wms",
-            layers: l.Name,
-            tileSize: 512,
+            layers: layerName,
+            tileSize: tileSize,
         };
     });
 }
