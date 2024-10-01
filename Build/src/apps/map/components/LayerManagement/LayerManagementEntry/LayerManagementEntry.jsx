@@ -149,7 +149,8 @@ export const LayerManagementEntry = (props) => {
   const layerType = layer.getType();
   const layerPublished = layer.getMetadata(METADATA.timePublished);
   const layerTitle = layer.getMetadata(METADATA.title);
-  const isMosaicMap = layerType === "mosaic";
+  const layerMetadataType = layer.getMetadata(METADATA.type);
+  const isMosaicMap = layerMetadataType === "mosaic";
 
   return (
     <li
