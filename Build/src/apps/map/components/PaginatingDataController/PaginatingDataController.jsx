@@ -23,7 +23,7 @@ import {
 } from "../../atoms/atoms";
 import { isDefined } from "../../../../util/util";
 import { createStatisticQuery, getSpatialQuery } from "../../../../util/query";
-import { readFeatures } from "../../../../util/parser";
+import { readLayers } from "../../../../util/parser";
 import SettingsProvider from "../../../../SettingsProvider";
 import { getSearchExtent, limitExtent } from "./util";
 import { useDebounce } from "../../../../util/hooks";
@@ -106,7 +106,7 @@ export const PaginatingDataController = ({
           if (resp.status === 200) {
             const data = resp.data;
 
-            return opt_raw ? data : readFeatures(data["hits"]["hits"]);
+            return opt_raw ? data : readLayers(data["hits"]["hits"]);
           }
         })
         .catch((e) => {

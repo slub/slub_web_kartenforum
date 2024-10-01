@@ -122,32 +122,6 @@ class GeoJsonLayer extends ApplicationLayer {
         return LAYER_TYPES.GEOJSON;
     }
 
-    getId() {
-        return this.metadata.id;
-    }
-
-    getMetadata(key) {
-        if (isDefined(key)) {
-            return this.metadata[key];
-        }
-
-        return this.metadata;
-    }
-
-    updateMetadata(key, value) {
-        if (!isDefined(key) || !isDefined(value)) {
-            console.warn(`Trying to update metadata without key or value`);
-            return;
-        }
-
-        if (!isDefined(METADATA[key])) {
-            console.warn(`Trying to update metadata with invalid key '${key}'`);
-            return;
-        }
-
-        this.metadata[key] = value;
-    }
-
     /**
      *
      * @param {string} mapLayerId

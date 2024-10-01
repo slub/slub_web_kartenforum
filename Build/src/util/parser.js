@@ -7,19 +7,16 @@
 
 import HistoricMapLayer from "../apps/map/components/CustomLayers/HistoricMapLayer";
 
-// TODO rename to readLayer; update jsdoc
-
 /**
  * Function parses a search record from an elasticsearch query into
- * an ol object.
+ * an application layer instance.
  *
  * @static
  * @param {string} id
  * @param {Object} record
- * @param {boolean} is3d
  * @return {HistoricMapLayer}
  */
-export const readFeature = function (id, record) {
+export const readLayer = function (id, record) {
     const geometry = "geometry" in record ? record["geometry"] : undefined;
     const properties = {};
 
@@ -43,17 +40,17 @@ export const readFeature = function (id, record) {
 };
 
 /**
- * Function parses an array of search record from an elasticsearch query into
- * an ol object.
+ * Parses an array of search records from an elasticsearch query into
+ * an array of application layer instances.
  *
  * @static
  * @param {Array.<Object>} records
- * @return {Array.<ol.Feature>}
+ * @return {Array.<HistoricMapLayer>}
  */
-export const readFeatures = function (records) {
+export const readLayers = function (records) {
     const features = [];
     for (let i = 0, ii = records.length; i < ii; i++) {
-        features.push(readFeature(records[i]["_id"], records[i]["_source"]));
+        features.push(readLayer(records[i]["_id"], records[i]["_source"]));
     }
 
     return features;

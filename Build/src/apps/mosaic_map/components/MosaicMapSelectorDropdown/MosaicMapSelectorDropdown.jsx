@@ -17,7 +17,7 @@ import {
   mosaicMapSelectedMosaicMapState,
 } from "../../atoms/atoms.js";
 import { translate } from "../../../../util/util.js";
-import { fetchFeatureForMapId } from "../../../map/persistence/api.js";
+import { fetchLayerForMapId } from "../../../map/persistence/api.js";
 import { fitMapToFeatures } from "../../../map/persistence/util.js";
 import { notificationState } from "../../../../atoms/atoms.js";
 import { mapState } from "../../../map/atoms/atoms.js";
@@ -79,7 +79,7 @@ export const MosaicMapSelectorDropdown = () => {
 
     if (newSelectedMosaicMap.raw_map_ids !== undefined) {
       const fetchProcesses = newSelectedMosaicMap.raw_map_ids.map((id) =>
-        fetchFeatureForMapId(id, false)
+        fetchLayerForMapId(id)
       );
 
       Promise.all(fetchProcesses)

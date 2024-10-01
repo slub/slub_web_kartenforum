@@ -12,7 +12,8 @@
  * @class ApplicationLayer
  */
 
-// TODO CLEANUP - move common methods from geoJson and historic layer to ApplicationLayer
+import { isDefined } from "../../../../util/util";
+import { METADATA } from "./constants";
 
 export class ApplicationLayer {
     metadata = {};
@@ -30,18 +31,37 @@ export class ApplicationLayer {
     }
 
     getGeometry() {
-        throw new Error("Method 'getGeometry' must be implemented.");
+        return this.geometry;
     }
+
+    getId() {
+        return this.metadata.id;
+    }
+
+    getMetadata(key) {
+        if (isDefined(key)) {
+            return this.metadata[key];
+        }
+
+        return this.metadata;
+    }
+
+    updateMetadata(key, value) {
+        if (!isDefined(key) || !isDefined(value)) {
+            console.warn(`Trying to update metadata without key or value`);
+            return;
+        }
+
+        if (!isDefined(METADATA[key])) {
+            console.warn(`Trying to update metadata with invalid key '${key}'`);
+            return;
+        }
+
+        this.metadata[key] = value;
+    }
+
     isDisplayedInMap() {
         throw new Error("Method 'isDisplayedInMap' must be implemented.");
-    }
-
-    getMetadata() {
-        throw new Error("Method 'getGeometry' must be implemented.");
-    }
-
-    updateMetadata() {
-        throw new Error("Method 'updateMetadata' must be implemented.");
     }
 
     getType() {

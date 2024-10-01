@@ -5,19 +5,17 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import { queryDocument } from "../../../util/apiEs.js";
-import { readFeature } from "../../../util/parser.js";
+import { readLayer } from "../../../util/parser.js";
 import { HistoricMapLayer } from "../components/CustomLayers";
 
-// TODO MAPLIBRE PORT - rename to fetchLayersForMapId, upd jsdoc
 /**
- * Fetches a feature based on a map id and parses it
+ * Fetches an application layer based on a map id
  * @param mapId
- * @param is3dEnabled
- * @return {Promise<ol.Feature>}
+ * @return {Promise<HistoricMapLayer>}
  */
-export const fetchFeatureForMapId = (mapId) =>
+export const fetchLayerForMapId = (mapId) =>
     queryDocument(mapId)
-        .then((res) => readFeature(mapId, res))
+        .then((res) => readLayer(mapId, res))
         .catch(() => {
             const layer = new HistoricMapLayer({
                 metadata: {

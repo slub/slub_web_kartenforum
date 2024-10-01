@@ -7,7 +7,6 @@
 import { ApplicationLayer } from "../ApplicationLayer.js";
 import { METADATA, LAYER_TYPES } from "../constants.js";
 import { addHistoricMapLayer } from "./addHistoricMapLayer.js";
-import { isDefined } from "../../../../../util/util.js";
 import { bbox } from "@turf/bbox";
 import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
@@ -66,40 +65,11 @@ class HistoricMapLayer extends ApplicationLayer {
         };
     }
 
-    getGeometry() {
-        return this.geometry;
-    }
     isDisplayedInMap(map) {
         return (
             map.getSource(this.getId()) !== undefined &&
             map.getLayer(this.getId()) !== undefined
         );
-    }
-
-    getMetadata(key) {
-        if (isDefined(key)) {
-            return this.metadata[key];
-        }
-
-        return this.metadata;
-    }
-
-    updateMetadata(key, value) {
-        if (!isDefined(key) || !isDefined(value)) {
-            console.warn(`Trying to update metadata without key or value`);
-            return;
-        }
-
-        if (!isDefined(METADATA[key])) {
-            console.warn(`Trying to update metadata with invalid key '${key}'`);
-            return;
-        }
-
-        this.metadata[key] = value;
-    }
-
-    getId() {
-        return this.metadata.id;
     }
 
     getType() {

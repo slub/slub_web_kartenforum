@@ -155,34 +155,33 @@ export const joinArrayPathParameters = (a, b) => {
 
 /**
  * Serializes an operational layer
- * @param feature {HistoricMapLayer|GeoJsonLayer}
+ * @param layer {HistoricMapLayer|GeoJsonLayer}
  * @param map {maplibre-gl.Map}
  * @return {{coordinates: *, id: *, isVisible: *, opacity: *, properties: *}}
  */
-export const serializeOperationalLayer = (feature, map) => {
-    const isVisible = feature.isVisible(map);
-    const opacity = feature.getOpacity(map);
+export const serializeOperationalLayer = (layer, map) => {
+    const isVisible = layer.isVisible(map);
+    const opacity = layer.getOpacity(map);
 
-    const type = feature.getType();
+    const type = layer.getType();
     const base = {
-        id: feature.getId(),
+        id: layer.getId(),
         isVisible,
         opacity,
-        properties: feature.getMetadata(),
+        properties: layer.getMetadata(),
     };
 
     if (type === LAYER_TYPES.GEOJSON) {
         // add in geojson specific parts
         return Object.assign(base, {
-            geojson: feature.getGeoJSON(),
+            geojson: layer.getGeoJSON(),
             type: LAYER_TYPES.GEOJSON,
         });
     } else {
         // add in map specific parts
         return Object.assign(base, {
             type: LAYER_TYPES.HISTORIC_MAP,
-            //@TODO: Move this to base after its implemented on geojson layer
-            geometry: feature.getGeometry(),
+            geometry: layer.getGeometry(),
         });
     }
 };

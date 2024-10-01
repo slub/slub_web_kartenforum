@@ -30,7 +30,7 @@ import { notificationState } from "../../../atoms/atoms";
 import { parseCameraOptions, parseViewMode } from "./urlParser";
 import { translate } from "../../../util/util";
 import LocalStorageWriter from "./LocalStorageWriter.jsx";
-import { fetchFeatureForMapId } from "./api.js";
+import { fetchLayerForMapId } from "./api.js";
 import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../components/BasemapSelectorControl/BasemapSelectorDialog.jsx";
 import { validatePersistenceObject } from "./validation.js";
 import {
@@ -243,7 +243,6 @@ export const PersistenceController = () => {
 
               Promise.all(layerLoaders).then(() => {
                 setSelectedLayers(
-                  // TODO CLEANUP SELECTED FEATURES .feature?
                   newOperationalLayers.map((layer) => layer.feature)
                 );
               });
@@ -257,7 +256,7 @@ export const PersistenceController = () => {
             // restore features from oid
             const mapIds = Array.isArray(oid) ? oid : [oid];
 
-            const fetchProcesses = mapIds.map((id) => fetchFeatureForMapId(id));
+            const fetchProcesses = mapIds.map((id) => fetchLayerForMapId(id));
 
             Promise.all(fetchProcesses)
               .then((layers) => {
