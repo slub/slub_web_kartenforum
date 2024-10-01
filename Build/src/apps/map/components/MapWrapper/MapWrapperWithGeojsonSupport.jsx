@@ -14,9 +14,7 @@ import { notificationState } from "../../../../atoms/atoms";
 import DialogAddGeoJson from "./components/DialogAddGeoJson/DialogAddGeoJson";
 import { mapState, selectedFeaturesState } from "../../atoms/atoms";
 import MapWrapper, { mapWrapperProps } from "./MapWrapper";
-
-import GeoJsonLayer from "../CustomLayers/GeoJsonLayer/GeoJsonLayer";
-import { METADATA } from "../CustomLayers/GeoJsonLayer/constants";
+import { METADATA, GeoJsonLayer } from "../CustomLayers";
 
 export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
   // state

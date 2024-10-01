@@ -15,7 +15,7 @@ import { translate } from "../../../../../../util/util";
 import { checkIfArrayContainsLayer } from "../../util";
 import { LOADING_FEATURE } from "../MapSearchResultList/MapSearchResultListBase.jsx";
 import "./MapSearchListElement.scss";
-import { METADATA } from "../../../CustomLayers/GeoJsonLayer/constants.js";
+import { METADATA } from "../../../CustomLayers";
 
 export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";

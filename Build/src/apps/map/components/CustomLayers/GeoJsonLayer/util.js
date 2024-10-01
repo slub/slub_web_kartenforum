@@ -7,11 +7,8 @@
 
 // eslint-disable-next-line no-unused-vars
 import GeoJsonLayer from "./GeoJsonLayer";
-import {
-    GEOJSON_LAYER_TYPES,
-    MAP_LIBRE_METADATA,
-    LAYER_DEFINITIONS,
-} from "./constants.js";
+import { GEOJSON_LAYER_TYPES, LAYER_DEFINITIONS } from "./constants.js";
+import { MAP_LIBRE_METADATA } from "../constants";
 import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 /**

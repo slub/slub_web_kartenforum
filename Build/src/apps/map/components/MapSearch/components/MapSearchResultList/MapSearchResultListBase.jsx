@@ -18,7 +18,7 @@ import { useSize } from "../../../../../../util/hooks";
 import { translate } from "../../../../../../util/util";
 import "./MapSearchResultList.scss";
 import MapSearchListElement from "../MapSearchListElement/MapSearchListElement.jsx";
-import { HistoricMapLayer } from "../../../CustomLayers/HistoricMapLayer.js";
+import { HistoricMapLayer } from "../../../CustomLayers";
 
 const SEARCH_COLS = ["map_scale", "time_published", "title", "georeference"];
 

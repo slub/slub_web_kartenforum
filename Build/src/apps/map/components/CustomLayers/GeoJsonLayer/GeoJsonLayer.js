@@ -4,10 +4,9 @@
  * This file is subject to the terms and conditions defined in
  * file "LICENSE.txt", which is part of this source code package.
  */
-import { LAYER_TYPES } from "../../CustomLayers/LayerTypes";
+
 import { ApplicationLayer } from "../ApplicationLayer.js";
 import {
-    METADATA,
     MAPLIBRE_OPACITY_KEYS,
     GEOJSON_OPACITY_KEYS,
     layerHasOpacityProperty,
@@ -15,10 +14,11 @@ import {
 } from "./constants";
 import { isDefined } from "../../../../../util/util";
 import { addGeoJsonLayers } from "./util.js";
+import { METADATA, LAYER_TYPES } from "../constants";
 import { bbox } from "@turf/bbox";
 import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
-export class GeoJsonLayer extends ApplicationLayer {
+class GeoJsonLayer extends ApplicationLayer {
     #geoJSON = {};
     #mapLibreLayerIds = [];
     #handlers = [];

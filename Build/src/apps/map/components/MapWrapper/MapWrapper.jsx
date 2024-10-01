@@ -33,7 +33,7 @@ import {
 } from "../../atoms/atoms";
 import { getMapClassNameForLayout, LAYOUT_TYPES } from "../../layouts/util";
 import { useSetElementScreenSize } from "../../../../util/hooks";
-import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
+import { LAYER_TYPES } from "../CustomLayers";
 import { notificationState } from "../../../../atoms/atoms";
 import "./MapWrapper.scss";
 import SettingsProvider from "../../../../SettingsProvider.js";

@@ -8,7 +8,7 @@ import CustomEvents from "../MapWrapper/customEvents.js";
 import customEvents from "../MapWrapper/customEvents.js";
 import { MapWithTerrainBehavior } from "./MapWithTerrainBehavior.jsx";
 import { LAYOUT_PROPERTIES, OPACITY_PROPERTIES } from "./constants.js";
-import { MAP_LIBRE_METADATA } from "../CustomLayers/GeoJsonLayer/constants.js";
+import { MAP_LIBRE_METADATA } from "../CustomLayers";
 
 // Extend the maplibre map object with some custom events
 export class VkfMap extends MapWithTerrainBehavior {

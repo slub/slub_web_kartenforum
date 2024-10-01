@@ -4,12 +4,11 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { LAYER_TYPES } from "../../../../CustomLayers/LayerTypes.js";
+import { LAYER_TYPES, METADATA } from "../../../../CustomLayers";
 import React, { useState } from "react";
 import SettingsProvider from "../../../../../../../SettingsProvider.js";
 import { FALLBACK_SRC } from "../../../../MapSearch/components/MapSearchListElement/MapSearchListElementBase.jsx";
 import PropTypes from "prop-types";
-import { METADATA } from "../../../../CustomLayers/GeoJsonLayer/constants.js";
 
 export const LayerManagementThumbnail = (props) => {
   const { layer } = props;

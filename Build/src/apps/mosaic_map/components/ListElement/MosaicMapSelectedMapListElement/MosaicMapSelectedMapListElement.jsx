@@ -27,7 +27,7 @@ import { translate } from "../../../../../util/util.js";
 
 import "../../../../map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.scss";
 import "./MosaicMapSelectedMapListElement.scss";
-import { METADATA } from "../../../../map/components/CustomLayers/GeoJsonLayer/constants.js";
+import { METADATA } from "../../../../map/components/CustomLayers";
 import { checkIfArrayContainsLayer } from "../../../../map/components/MapSearch/util.js";
 import { MOSAIC_MAP_OVERLAY_SOURCE_ID } from "../../MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
 

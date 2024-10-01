@@ -9,8 +9,7 @@ import SvgIcons from "../../../../../../../components/SvgIcons/SvgIcons.jsx";
 import React, { useCallback } from "react";
 import { triggerJsonDownload } from "../../../util.js";
 import PropTypes from "prop-types";
-import GeoJsonLayer from "../../../../CustomLayers/GeoJsonLayer/GeoJsonLayer.js";
-import { METADATA } from "../../../../CustomLayers/GeoJsonLayer/constants.js";
+import { GeoJsonLayer, METADATA } from "../../../../CustomLayers";
 
 /**
  * @typedef {Object} ExportGeojsonButtonProps React props for the ExportGeojsonButton component

@@ -4,17 +4,16 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { ApplicationLayer } from "./ApplicationLayer.js";
-import { METADATA } from "./GeoJsonLayer/constants.js";
+import { ApplicationLayer } from "../ApplicationLayer.js";
+import { METADATA, LAYER_TYPES } from "../constants.js";
 import { addHistoricMapLayer } from "./addHistoricMapLayer.js";
-import { LAYER_TYPES } from "./LayerTypes.js";
-import { isDefined } from "../../../../util/util.js";
+import { isDefined } from "../../../../../util/util.js";
 import { bbox } from "@turf/bbox";
-import { MAP_OVERLAY_FILL_ID } from "../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
+import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 // TODO discuss whether it makes sense to use a MoscaicMapLayer
 // the need may arise when single sheet mosaic maps need to be moved and the different overlay layers need to be considered
-export class HistoricMapLayer extends ApplicationLayer {
+class HistoricMapLayer extends ApplicationLayer {
     #isMissing = false;
 
     constructor({ metadata, geometry }) {

@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import { HistoricMapLayer } from "../apps/map/components/CustomLayers/HistoricMapLayer.js";
+import HistoricMapLayer from "../apps/map/components/CustomLayers/HistoricMapLayer";
 
 // TODO rename to readLayer; update jsdoc
 

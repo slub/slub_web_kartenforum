@@ -6,12 +6,14 @@
  */
 import { useEffect, useState } from "react";
 
-import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
+import {
+    HistoricMapLayer,
+    GeoJsonLayer,
+    LAYER_TYPES,
+    METADATA,
+} from "../components/CustomLayers";
 import { isDefined } from "../../../util/util";
-import { HistoricMapLayer } from "../components/CustomLayers/HistoricMapLayer.js";
-import { METADATA } from "../components/CustomLayers/GeoJsonLayer/constants.js";
 import { LngLatBounds } from "maplibre-gl";
-import GeoJsonLayer from "../components/CustomLayers/GeoJsonLayer/GeoJsonLayer.js";
 
 /**
  * Checks if all values of an object are either undefined or objects without entries

@@ -6,7 +6,7 @@
  */
 import { queryDocument } from "../../../util/apiEs.js";
 import { readFeature } from "../../../util/parser.js";
-import HistoricMapLayer from "../components/CustomLayers/HistoricMapLayer.js";
+import { HistoricMapLayer } from "../components/CustomLayers";
 
 // TODO MAPLIBRE PORT - rename to fetchLayersForMapId, upd jsdoc
 /**

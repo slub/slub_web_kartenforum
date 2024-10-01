@@ -7,7 +7,7 @@
 
 import { useEffect, useCallback, useState, useRef } from "react";
 import { LAYOUT_TYPES } from "../layouts/util";
-import { MAP_LIBRE_METADATA } from "../components/CustomLayers/GeoJsonLayer/constants";
+import { MAP_LIBRE_METADATA } from "../components/CustomLayers";
 import { isDefined } from "../../../util/util";
 
 const isApplicationFeature = (feature) =>
