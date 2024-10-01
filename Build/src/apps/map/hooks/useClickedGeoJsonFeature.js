@@ -15,6 +15,14 @@ const isApplicationFeature = (feature) =>
 
 const naiveUniqueFeatureId = (id, source) => `${id}-${source}`;
 
+const calculateBoundingBox = (point, offset) => {
+    const { x, y } = point;
+    return [
+        [x - offset, y - offset],
+        [x + offset, y + offset],
+    ];
+};
+
 /**
  * The hook properties
  * @typedef {Object} useClickGeoJsonFeatureProps
@@ -53,8 +61,11 @@ function useClickedGeoJsonFeature({ map, layout }) {
          *  @param {maplibregl.MapMouseEvent} event
          */
         (event) => {
+            const { point } = event;
+            const boxAroundPoint = calculateBoundingBox(point, 2);
+
             const feature = map
-                .queryRenderedFeatures(event.point)
+                .queryRenderedFeatures(boxAroundPoint)
                 .filter(isApplicationFeature)
                 .at(0);
 

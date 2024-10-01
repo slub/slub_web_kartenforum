@@ -14,17 +14,18 @@ import {
     DEFAULT_STYLE_VALUES,
 } from "./constants";
 import { isDefined } from "../../../../../util/util";
-import { addGeoJsonLayers } from "./addGeoJsonLayers.js";
+import { addGeoJsonLayers } from "./util.js";
 import { bbox } from "@turf/bbox";
 import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 export class GeoJsonLayer extends ApplicationLayer {
-    geoJSON = {};
-    mapLibreLayerIds = [];
+    #geoJSON = {};
+    #mapLibreLayerIds = [];
+    #handlers = [];
 
     constructor({ metadata, geometry, geoJSON }) {
         super({ metadata, geometry });
-        this.geoJSON = geoJSON;
+        this.#geoJSON = geoJSON;
 
         this.#initialize();
     }
@@ -33,12 +34,14 @@ export class GeoJsonLayer extends ApplicationLayer {
         // feature.id MUST be integer or string that is castable to integer
         // see: https://github.com/maplibre/maplibre-gl-js/discussions/3134
         // see: https://maplibre.org/maplibre-style-spec/expressions/#feature-state
-        this.geoJSON.features = this.geoJSON.features.map((feature, idx) => ({
+        this.#geoJSON.features = this.#geoJSON.features.map((feature, idx) => ({
             ...feature,
             id: idx + 1,
         }));
 
-        const bounds = this.geometry ? bbox(this.geometry) : bbox(this.geoJSON);
+        const bounds = this.geometry
+            ? bbox(this.geometry)
+            : bbox(this.#geoJSON);
         this.metadata[METADATA.bounds] = bounds;
 
         this.metadata[METADATA.id] = crypto.randomUUID();
@@ -46,20 +49,50 @@ export class GeoJsonLayer extends ApplicationLayer {
         this.metadata[METADATA.hasGeoReference] = true;
     }
 
+    #registerEventHandlers(map) {
+        const mousemove = {
+            type: "mousemove",
+            handler: () => (map.getCanvas().style.cursor = "pointer"),
+        };
+        const mouseleave = {
+            type: "mouseleave",
+            handler: () => (map.getCanvas().style.cursor = ""),
+        };
+
+        this.#handlers.push(mousemove, mouseleave);
+
+        for (const { id } of this.#getMapLibreLayers(map)) {
+            for (const { type, handler } of this.#handlers) {
+                map.on(type, id, handler);
+            }
+        }
+    }
+
+    #unregisterEventHandlers(map, layerId) {
+        for (const { type, handler } of this.#handlers) {
+            map.off(type, layerId, handler);
+        }
+    }
+
     addLayerToMap(map) {
+        if (!isDefined(map)) {
+            return;
+        }
+
         addGeoJsonLayers(this, map);
+        this.#registerEventHandlers(map);
     }
 
     getGeoJSON() {
-        return this.geoJSON;
+        return this.#geoJSON;
     }
 
     setGeoJSON(geoJson) {
-        this.geoJSON = geoJson;
+        this.#geoJSON = geoJson;
     }
 
     removeFeature(id) {
-        const idx = this.geoJSON.features.findIndex(
+        const idx = this.#geoJSON.features.findIndex(
             (feature) => feature.id == id
         );
 
@@ -70,7 +103,7 @@ export class GeoJsonLayer extends ApplicationLayer {
             return;
         }
 
-        this.geoJSON.features.splice(idx, 1);
+        this.#geoJSON.features.splice(idx, 1);
     }
 
     /**
@@ -121,7 +154,7 @@ export class GeoJsonLayer extends ApplicationLayer {
      */
     addMapLayer(mapLayerId) {
         if (isDefined(mapLayerId)) {
-            this.mapLibreLayerIds.push(mapLayerId);
+            this.#mapLibreLayerIds.push(mapLayerId);
         }
     }
 
@@ -133,7 +166,7 @@ export class GeoJsonLayer extends ApplicationLayer {
      * @returns {maplibregl.StyleLayer[]}
      */
     #getMapLibreLayers(map) {
-        const mapLayers = this.mapLibreLayerIds.map((layerId) => {
+        const mapLayers = this.#mapLibreLayerIds.map((layerId) => {
             return map.getLayer(layerId);
         });
 
@@ -145,13 +178,18 @@ export class GeoJsonLayer extends ApplicationLayer {
     }
 
     getMapLibreLayerId() {
-        return this.mapLibreLayerIds.length > 0
-            ? this.mapLibreLayerIds[0]
+        return this.#mapLibreLayerIds.length > 0
+            ? this.#mapLibreLayerIds[0]
             : null;
     }
 
     removeMapLibreLayers(map) {
+        if (!isDefined(map)) {
+            return;
+        }
+
         for (const { id } of this.#getMapLibreLayers(map)) {
+            this.#unregisterEventHandlers(map, id);
             map.removeLayer(id);
         }
     }
