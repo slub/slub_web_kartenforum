@@ -30,18 +30,20 @@ export const MapTargetView = (props) => {
 
   // Handle select position via placename
   const handleSelectPosition = (feature) => {
-    const featureProjection = "EPSG:4326";
-    const lonlat = [feature["lonlat"]["x"], feature["lonlat"]["y"]];
+    const [lon, lat] = [feature.lonlat.x, feature.lonlat.y];
+    const sourceProjection = "EPSG:4326";
+    const targetProjection = "EPSG:3857";
 
     const center = transform(
-      [parseFloat(lonlat[0]), parseFloat(lonlat[1])],
-      featureProjection,
-      SettingsProvider.getDefaultMapView().projection
+      [parseFloat(lon), parseFloat(lat)],
+      sourceProjection,
+      targetProjection
     );
 
-    if (targetViewParams !== null) {
-      targetViewParams.map.getView().setCenter(center);
-      targetViewParams.map.getView().setZoom(12);
+    if (targetViewParams?.map) {
+      const mapView = targetViewParams.map.getView();
+      mapView.setCenter(center);
+      mapView.setZoom(12);
     }
   };
 
