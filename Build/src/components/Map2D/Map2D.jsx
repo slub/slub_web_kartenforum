@@ -127,6 +127,10 @@ Map2D.propTypes = {
   onLoad: PropTypes.func,
   urlNominatim: PropTypes.string,
   urlsOsmBaseMap: PropTypes.arrayOf(PropTypes.string),
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
 export default Map2D;

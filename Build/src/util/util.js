@@ -5,12 +5,8 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import SettingsProvider from "../SettingsProvider";
-import LocateMeControl from "../components/Controls/LocateMeControl";
-import ToggleViewMode from "../components/ToggleViewmode/ToggleViewmode";
-import LayerSpy from "../components/Controls/LayerSpyControl";
 import BasemapSelectorControl from "../apps/map/components/Controls/BasemapSelectorControl";
 import { MousePositionOnOff } from "../apps/map/components/MapWrapper/components/MousePositionOnOff";
-import { LAYOUT_TYPES } from "../apps/map/layouts/util";
 import PermalinkControl from "../apps/map/components/Controls/PermalinkControl.jsx";
 import {
     FullscreenControl,
@@ -103,35 +99,7 @@ export const getDefaultControls = () => {
             position: "bottom-right",
             control: new ScaleControl({ maxWidth: 137 }),
         },
-        // TODO CLEANUP - remove commented code or uncomment it
-        // new Rotate({
-        //     className: "rotate-north ol-unselectable",
-        //     tipLabel: translate("control-rotate"),
-        // }),
-        // new ScaleLine(),
-        // new ToggleViewMode({
-        //     initialState: is3dActive,
-        //     onViewModeChange,
-        // }),
-        // new LocateMeControl(),
-
-        // new PermalinkControl({ is3dActive, ...permalinkProps }),
     ];
-
-    // TODO CLEANUP - remove commented code or uncomment it
-    // if (layout === LAYOUT_TYPES.HORIZONTAL) {
-    //     defaultControls.push(
-    //         new Zoom({
-    //             zoomInTipLabel: translate("control-zoom-in"),
-    //             zoomOutTipLabel: translate("control-zoom-out"),
-    //         }),
-    //         new LayerSpy({
-    //             refActiveBasemapId: permalinkProps.refActiveBasemapId,
-    //             refSpyLayer,
-    //         }),
-    //         new MousePositionOnOff()
-    //     );
-    // }
 
     return defaultControls;
 };

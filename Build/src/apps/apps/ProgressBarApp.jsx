@@ -5,7 +5,6 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { queryStatistics } from "../../util/apiGeo";
 import SettingsProvider from "../../SettingsProvider";
 import "./ProgressBarApp.scss";

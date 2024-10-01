@@ -18,4 +18,7 @@ module.exports = {
       version: "detect",
     },
   },
+  globals: {
+    process: "readonly",
+  },
 };

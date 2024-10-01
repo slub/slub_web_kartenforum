@@ -66,6 +66,7 @@ export const postRefreshMosaicMaps = async (mosaicMapId) => {
 
 export const postMosaicMap = async (mosaicMap) => {
     if (mosaicMap.id === undefined || mosaicMap.id === VALUE_CREATE_NEW_MAP) {
+        // eslint-disable-next-line no-unused-vars
         const { id, ...rest } = mosaicMap;
         return await postCreateMosaicMap(rest);
     } else {
