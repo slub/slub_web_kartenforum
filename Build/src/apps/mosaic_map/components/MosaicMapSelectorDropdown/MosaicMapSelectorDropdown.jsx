@@ -13,7 +13,7 @@ import { getMosaicMaps } from "../../../../util/apiMosaicMaps.js";
 import {
   mosaicMapLoadingState,
   MosaicMapLoadingStates,
-  mosaicMapSelectedFeaturesState,
+  mosaicMapSelectedLayersState,
   mosaicMapSelectedMosaicMapState,
 } from "../../atoms/atoms.js";
 import { translate } from "../../../../util/util.js";
@@ -41,7 +41,7 @@ export const MosaicMapSelectorDropdown = () => {
     mosaicMapSelectedMosaicMapState
   );
   const setSelectedMosaicLayers = useSetRecoilState(
-    mosaicMapSelectedFeaturesState
+    mosaicMapSelectedLayersState
   );
   const setNotification = useSetRecoilState(notificationState);
 

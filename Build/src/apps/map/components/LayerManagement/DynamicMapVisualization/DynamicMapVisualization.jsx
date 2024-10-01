@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 
 import { isDefined, translate } from "../../../../../util/util";
-import { mapState, selectedFeaturesState } from "../../../atoms/atoms";
+import { mapState, selectedLayersState } from "../../../atoms/atoms";
 import { groupLayers, setLayersToInitialState, sortLayers } from "./util";
 import "./DynamicMapVisualization.scss";
 
@@ -22,9 +22,8 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const [open, setOpen] = useState(false);
   const map = useRecoilValue(mapState);
   const title = translate(`dynamicmapvis-${open ? "close" : "open"}`);
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
-    selectedFeaturesState
-  );
+  const [selectedLayers, setSelectedLayers] =
+    useRecoilState(selectedLayersState);
 
   // refs
   const activeRef = useRef(false);
@@ -99,10 +98,10 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const handleStart = () => {
     setActive(true);
     activeRef.current = true;
-    const sortedLayers = sortLayers(selectedFeatures);
+    const sortedLayers = sortLayers(selectedLayers);
     const groupedLayers = groupLayers(sortedLayers, map);
 
-    setSelectedFeatures(sortedLayers);
+    setSelectedLayers(sortedLayers);
 
     startAnimation({ ...animationOptions, sortedLayers: groupedLayers });
   };

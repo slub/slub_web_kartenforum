@@ -10,10 +10,10 @@ import { useRecoilValue } from "recoil";
 import clsx from "clsx";
 import { default as Skeleton } from "react-loading-skeleton/lib/skeleton";
 
-import { selectedFeaturesState } from "../../../../atoms/atoms";
+import { selectedLayersState } from "../../../../atoms/atoms";
 import { translate } from "../../../../../../util/util";
 import { checkIfArrayContainsLayer } from "../../util";
-import { LOADING_FEATURE } from "../MapSearchResultList/MapSearchResultListBase.jsx";
+import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase.jsx";
 import "./MapSearchListElement.scss";
 import { METADATA } from "../../../CustomLayers";
 
@@ -30,9 +30,9 @@ export const MapSearchListElementBase = ({
   style,
 }) => {
   const { direction, maps } = data;
-  const operationalLayer = maps[index] ?? LOADING_FEATURE;
+  const operationalLayer = maps[index] ?? LOADING_LAYER;
 
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const selectedLayers = useRecoilValue(selectedLayersState);
   const [src, setSrc] = useState(
     operationalLayer.getMetadata(METADATA.thumbnailUrl) === undefined
       ? ""
@@ -63,15 +63,15 @@ export const MapSearchListElementBase = ({
   // Effect section
   ///
 
-  // update thumb url if feature changes
+  // update thumb url if layer changes
   useEffect(() => {
     setSrc(operationalLayer.getMetadata(METADATA.thumbnailUrl));
   }, [operationalLayer]);
 
-  const isLoading = operationalLayer === LOADING_FEATURE;
+  const isLoading = operationalLayer === LOADING_LAYER;
 
   const isSelected =
-    checkIfArrayContainsLayer(selectedFeatures, operationalLayer) && !isLoading;
+    checkIfArrayContainsLayer(selectedLayers, operationalLayer) && !isLoading;
 
   const scale =
     operationalLayer.getMetadata(METADATA.mapScale) === "0" ||

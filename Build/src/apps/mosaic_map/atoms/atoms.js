@@ -8,8 +8,8 @@ import { atom } from "recoil";
 import { VALUE_CREATE_NEW_MAP } from "../components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
 
 // maps selected for the current mosaic map
-export const mosaicMapSelectedFeaturesState = atom({
-    key: "mosaicMapSelectedFeaturesState",
+export const mosaicMapSelectedLayersState = atom({
+    key: "mosaicMapSelectedLayersState",
     default: [],
     dangerouslyAllowMutability: true,
 });

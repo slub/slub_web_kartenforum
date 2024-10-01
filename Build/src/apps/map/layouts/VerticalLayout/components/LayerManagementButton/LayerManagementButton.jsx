@@ -10,13 +10,13 @@ import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 import SvgIcons from "../../../../../../components/SvgIcons/SvgIcons.jsx";
 
-import { selectedFeaturesState } from "../../../../atoms/atoms";
+import { selectedLayersState } from "../../../../atoms/atoms";
 import "./LayerManagementButton.scss";
 
 export const LayerManagementButton = ({ buttonState, onClick }) => {
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const selectedLayers = useRecoilValue(selectedLayersState);
 
-  const disabled = selectedFeatures.length === 0;
+  const disabled = selectedLayers.length === 0;
 
   return (
     <button
@@ -28,7 +28,7 @@ export const LayerManagementButton = ({ buttonState, onClick }) => {
       disabled={disabled}
       onClick={onClick}
     >
-      {!disabled && <span className="badge">{selectedFeatures.length}</span>}
+      {!disabled && <span className="badge">{selectedLayers.length}</span>}
       <SvgIcons name="layers" />
     </button>
   );

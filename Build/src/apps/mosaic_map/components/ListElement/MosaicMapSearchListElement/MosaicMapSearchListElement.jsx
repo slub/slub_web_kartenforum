@@ -9,7 +9,7 @@ import clsx from "clsx";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 import MapSearchListElement from "../../../../map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.jsx";
-import { mosaicMapSelectedFeaturesState } from "../../../atoms/atoms.js";
+import { mosaicMapSelectedLayersState } from "../../../atoms/atoms.js";
 import { checkIfArrayContainsLayer } from "../../../../map/components/MapSearch/util.js";
 import { mapState } from "../../../../map/atoms/atoms.js";
 import {
@@ -22,7 +22,7 @@ import { isDefined } from "../../../../../util/util.js";
 
 export const MosaicMapSearchListElement = ({ data, index, style }) => {
   const [selectedMosaicLayers, setSelectedMosaicLayers] = useRecoilState(
-    mosaicMapSelectedFeaturesState
+    mosaicMapSelectedLayersState
   );
 
   const map = useRecoilValue(mapState);

@@ -13,7 +13,7 @@ import {
   activeBasemapIdState,
   facetState,
   mapState,
-  selectedFeaturesState,
+  selectedLayersState,
   timeExtentState,
   timeRangeState,
 } from "../atoms/atoms";
@@ -57,7 +57,7 @@ export const PersistenceController = () => {
   const setActiveBasemapId = useSetRecoilState(activeBasemapIdState);
   const setFacets = useSetRecoilState(facetState);
   const setNotification = useSetRecoilState(notificationState);
-  const setSelectedFeatures = useSetRecoilState(selectedFeaturesState);
+  const setSelectedLayers = useSetRecoilState(selectedLayersState);
   const setTimeRange = useSetRecoilState(timeRangeState);
   const setTimeExtent = useSetRecoilState(timeExtentState);
 
@@ -242,7 +242,8 @@ export const PersistenceController = () => {
               }
 
               Promise.all(layerLoaders).then(() => {
-                setSelectedFeatures(
+                setSelectedLayers(
+                  // TODO CLEANUP SELECTED FEATURES .feature?
                   newOperationalLayers.map((layer) => layer.feature)
                 );
               });
@@ -259,11 +260,11 @@ export const PersistenceController = () => {
             const fetchProcesses = mapIds.map((id) => fetchFeatureForMapId(id));
 
             Promise.all(fetchProcesses)
-              .then((features) => {
+              .then((layers) => {
                 Promise.all(
-                  features.map((feature) => feature.addLayerToMap(map))
+                  layers.map((layer) => layer.addLayerToMap(map))
                 ).then(() => {
-                  setSelectedFeatures(features);
+                  setSelectedLayers(layers);
                 });
 
                 // fit view to features if the mapView param is undefined
@@ -271,7 +272,7 @@ export const PersistenceController = () => {
                   cameraOptions === undefined ||
                   Object.entries(cameraOptions).length === 0
                 ) {
-                  fitMapToFeatures(map, features);
+                  fitMapToFeatures(map, layers);
                 }
               })
               .catch((e) => {

@@ -18,7 +18,7 @@ import {
   facetState,
   currentApplicationStateState,
   mapState,
-  selectedFeaturesState,
+  selectedLayersState,
   timeExtentState,
   timeRangeState,
 } from "../atoms/atoms.js";
@@ -30,7 +30,7 @@ export const LocalStorageWriter = function () {
   const map = useRecoilValue(mapState);
   const timeExtent = useRecoilValue(timeExtentState);
   const timeRange = useRecoilValue(timeRangeState);
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const selectedLayers = useRecoilValue(selectedLayersState);
   const setLocalStorageWriter = useSetRecoilState(currentApplicationStateState);
 
   const [, setPersistenceObject] = useLocalStorage(PERSISTENCE_OBJECT_KEY, {
@@ -47,9 +47,9 @@ export const LocalStorageWriter = function () {
       const newPersistenceObject = {
         activeBasemapId,
         is3dEnabled: mapIs3dEnabled,
-        operationalLayers: selectedFeatures
-          .map((selectedFeature) => {
-            return serializeOperationalLayer(selectedFeature, map);
+        operationalLayers: selectedLayers
+          .map((selectedLayer) => {
+            return serializeOperationalLayer(selectedLayer, map);
           })
           .filter((layer) => layer !== null),
         searchOptions: {
@@ -67,7 +67,7 @@ export const LocalStorageWriter = function () {
 
       return newPersistenceObject;
     }
-  }, [activeBasemapId, map, facets, selectedFeatures, timeExtent, timeRange]);
+  }, [activeBasemapId, map, facets, selectedLayers, timeExtent, timeRange]);
 
   // Write state on page leave to storage
   useOnPageLeave(writeStateToLocalStorage);

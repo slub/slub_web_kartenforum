@@ -21,7 +21,7 @@ import { HistoricMapLayer } from "../../../CustomLayers";
 
 const SEARCH_COLS = ["map_scale", "time_published", "title", "georeference"];
 
-export const LOADING_FEATURE = new HistoricMapLayer({
+export const LOADING_LAYER = new HistoricMapLayer({
   metadata: {
     has_georeference: true,
     map_scale: "0",
@@ -60,7 +60,7 @@ export const MapSearchResultListBase = ({
     (index) =>
       !refClearResults.current &&
       items[index] !== undefined &&
-      items[index] !== LOADING_FEATURE,
+      items[index] !== LOADING_LAYER,
     [items]
   );
 
@@ -96,9 +96,9 @@ export const MapSearchResultListBase = ({
   // Effect section
   ////
 
-  // initialize title of the loading feature (has to be done here, because of translation)
+  // initialize title of the loading layer (has to be done here, because of translation)
   useEffect(() => {
-    LOADING_FEATURE.updateMetadata(
+    LOADING_LAYER.updateMetadata(
       "title",
       translate("mapsearch-listelement-loading")
     );

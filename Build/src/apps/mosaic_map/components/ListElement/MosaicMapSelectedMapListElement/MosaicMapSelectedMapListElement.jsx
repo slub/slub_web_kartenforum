@@ -17,12 +17,9 @@ import clsx from "clsx";
 import { default as Skeleton } from "react-loading-skeleton/lib/skeleton";
 import { Glyphicon } from "react-bootstrap";
 
-import { LOADING_FEATURE } from "../../../../map/components/MapSearch/components/MapSearchResultList/MapSearchResultListBase.jsx";
-import { mosaicMapSelectedFeaturesState } from "../../../atoms/atoms.js";
-import {
-  mapState,
-  selectedFeaturesState,
-} from "../../../../map/atoms/atoms.js";
+import { LOADING_LAYER } from "../../../../map/components/MapSearch/components/MapSearchResultList/MapSearchResultListBase.jsx";
+import { mosaicMapSelectedLayersState } from "../../../atoms/atoms.js";
+import { mapState, selectedLayersState } from "../../../../map/atoms/atoms.js";
 import { translate } from "../../../../../util/util.js";
 
 import "../../../../map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.scss";
@@ -45,13 +42,12 @@ export const MosaicMapSelectedMapListElement = ({
   const { direction, maps } = data;
   const map = useRecoilValue(mapState);
   const [selectedMosaicLayers, setSelectedMosaicLayers] = useRecoilState(
-    mosaicMapSelectedFeaturesState
+    mosaicMapSelectedLayersState
   );
-  const [selectedLayers, setSelectedLayers] = useRecoilState(
-    selectedFeaturesState
-  );
+  const [selectedLayers, setSelectedLayers] =
+    useRecoilState(selectedLayersState);
 
-  const operationalLayer = maps[index] ?? LOADING_FEATURE;
+  const operationalLayer = maps[index] ?? LOADING_LAYER;
   const selectedLayer = selectedMosaicLayers.find(
     (selectedLayer) => selectedLayer.getId() === operationalLayer.getId()
   );
@@ -62,7 +58,7 @@ export const MosaicMapSelectedMapListElement = ({
   );
 
   // derived state
-  const isLoading = operationalLayer === LOADING_FEATURE;
+  const isLoading = operationalLayer === LOADING_LAYER;
 
   const isMissing = operationalLayer.isMissing();
 
@@ -130,7 +126,7 @@ export const MosaicMapSelectedMapListElement = ({
   // Effect section
   ///
 
-  // update thumb url if feature changes
+  // update thumb url if layer changes
   useEffect(() => {
     setSrc(operationalLayer.getMetadata(METADATA.thumbnailUrl));
   }, [operationalLayer]);

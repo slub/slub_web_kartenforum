@@ -7,14 +7,13 @@
 import React from "react";
 import { checkIfArrayContainsLayer } from "../../util.js";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { mapState, selectedFeaturesState } from "../../../../atoms/atoms.js";
+import { mapState, selectedLayersState } from "../../../../atoms/atoms.js";
 import MapSearchListElementWithGeometryPreview from "./MapSearchListElementWithGeometryPreview.jsx";
 
 export const MapSearchListElement = (props) => {
   const map = useRecoilValue(mapState);
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
-    selectedFeaturesState
-  );
+  const [selectedLayers, setSelectedLayers] =
+    useRecoilState(selectedLayersState);
 
   ////
   // Handler section
@@ -22,14 +21,14 @@ export const MapSearchListElement = (props) => {
 
   // Toggle selected state of layer and update global state
   const handleElementClick = (layer) => {
-    const containsLayer = checkIfArrayContainsLayer(selectedFeatures, layer);
+    const containsLayer = checkIfArrayContainsLayer(selectedLayers, layer);
 
-    // remove feature if it is already contained
+    // remove layer if it is already contained
     if (containsLayer) {
-      // remove from selectedFeaturesList
-      setSelectedFeatures((selectedFeatures) =>
-        selectedFeatures.filter(
-          (selectedLayer) => selectedLayer.getId() !== layer.getId()
+      // remove from selectedLayers list
+      setSelectedLayers((oldSelectedLayers) =>
+        oldSelectedLayers.filter(
+          (oldLayer) => oldLayer.getId() !== layer.getId()
         )
       );
 
@@ -37,7 +36,7 @@ export const MapSearchListElement = (props) => {
     } else {
       //@TODO: Add loading feedback, while layer is added to map
       layer.addLayerToMap(map).then(() => {
-        setSelectedFeatures((selectedFeatures) => [...selectedFeatures, layer]);
+        setSelectedLayers((oldSelectedLayers) => [...oldSelectedLayers, layer]);
       });
     }
   };

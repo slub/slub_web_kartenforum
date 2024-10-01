@@ -72,9 +72,11 @@ export const searchIsLoadingState = atom({
     default: false,
 });
 
-// selected Features
-export const selectedFeaturesState = atom({
-    key: "selectedFeatureState",
+/**
+ * Tracks the selected application layers e.g., HistoricMapLayer, GeoJsonLayer.
+ */
+export const selectedLayersState = atom({
+    key: "selectedLayersState",
     default: [],
     dangerouslyAllowMutability: true,
 });

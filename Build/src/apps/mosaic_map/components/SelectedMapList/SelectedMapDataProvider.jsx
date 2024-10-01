@@ -8,7 +8,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
-import { mosaicMapSelectedFeaturesState } from "../../atoms/atoms.js";
+import { mosaicMapSelectedLayersState } from "../../atoms/atoms.js";
 
 /**
  * Sort array of features by key
@@ -45,7 +45,7 @@ export const SelectedMapDataProvider = ({
     itemCount: 10,
     id: Date.now(),
   });
-  const selectedMosaicLayers = useRecoilValue(mosaicMapSelectedFeaturesState);
+  const selectedMosaicLayers = useRecoilValue(mosaicMapSelectedLayersState);
 
   // fetch the results from the index
   const fetchResults = useCallback(

@@ -13,7 +13,7 @@ import { translate } from "../../../../../util/util.js";
 import {
   mosaicMapLoadingState,
   MosaicMapLoadingStates,
-  mosaicMapSelectedFeaturesState,
+  mosaicMapSelectedLayersState,
   mosaicMapSelectedMosaicMapState,
 } from "../../../atoms/atoms.js";
 import Modal from "../../../../../components/Modal/Modal.jsx";
@@ -33,7 +33,7 @@ export const SaveMosaicMapButton = () => {
   const setLoadingState = useSetRecoilState(mosaicMapLoadingState);
   const setNotification = useSetRecoilState(notificationState);
   const setSelectedMosaicLayers = useSetRecoilState(
-    mosaicMapSelectedFeaturesState
+    mosaicMapSelectedLayersState
   );
   const map = useRecoilValue(mapState);
 

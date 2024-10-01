@@ -12,7 +12,7 @@ import Dropzone from "../Dropzone/Dropzone";
 import { isDefined, translate } from "../../../../util/util";
 import { notificationState } from "../../../../atoms/atoms";
 import DialogAddGeoJson from "./components/DialogAddGeoJson/DialogAddGeoJson";
-import { mapState, selectedFeaturesState } from "../../atoms/atoms";
+import { mapState, selectedLayersState } from "../../atoms/atoms";
 import MapWrapper, { mapWrapperProps } from "./MapWrapper";
 import { METADATA, GeoJsonLayer } from "../CustomLayers";
 
@@ -20,7 +20,7 @@ export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
   // state
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const setNotification = useSetRecoilState(notificationState);
-  const setSelectedFeatures = useSetRecoilState(selectedFeaturesState);
+  const setSelectedLayers = useSetRecoilState(selectedLayersState);
   const map = useRecoilValue(mapState);
 
   // refs
@@ -47,7 +47,10 @@ export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
 
         geoJSONLayer.addLayerToMap(map);
 
-        setSelectedFeatures((selFeatures) => [...selFeatures, geoJSONLayer]);
+        setSelectedLayers((oldSelectedLayers) => [
+          ...oldSelectedLayers,
+          geoJSONLayer,
+        ]);
       } catch (e) {
         console.log(e);
         handleParseError();

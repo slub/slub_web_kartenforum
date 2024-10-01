@@ -5,18 +5,18 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import { useRecoilValue } from "recoil";
-import { selectedFeaturesState } from "../../../../atoms/atoms.js";
+import { selectedLayersState } from "../../../../atoms/atoms.js";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 
 export const LayerManagementCloser = ({ onCloseLayerManagement }) => {
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const selectedLayers = useRecoilValue(selectedLayersState);
 
   useEffect(() => {
-    if (selectedFeatures.length === 0) {
+    if (selectedLayers.length === 0) {
       onCloseLayerManagement();
     }
-  }, [selectedFeatures]);
+  }, [selectedLayers]);
 
   return null;
 };

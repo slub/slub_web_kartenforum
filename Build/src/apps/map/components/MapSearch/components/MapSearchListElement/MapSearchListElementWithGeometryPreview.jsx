@@ -16,7 +16,7 @@ import { useRecoilValue } from "recoil";
 import MapSearchListElementBase from "./MapSearchListElementBase.jsx";
 import { isDefined } from "../../../../../../util/util.js";
 import { mapState } from "../../../../atoms/atoms.js";
-import { LOADING_FEATURE } from "../MapSearchResultList/MapSearchResultListBase.jsx";
+import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase.jsx";
 import { updateOverlayLayer } from "../MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 export const MapSearchListElementWithGeometryPreview = (props) => {
@@ -24,7 +24,7 @@ export const MapSearchListElementWithGeometryPreview = (props) => {
   const { maps } = data;
   const map = useRecoilValue(mapState);
 
-  const operationalLayer = maps[index] ?? LOADING_FEATURE;
+  const operationalLayer = maps[index] ?? LOADING_LAYER;
 
   // @TODO: Rework search element parsing before implementing this correctly
   const handleMouseEnter = useCallback(() => {

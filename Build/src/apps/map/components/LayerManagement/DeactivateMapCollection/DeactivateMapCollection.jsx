@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
 import { translate } from "../../../../../util/util";
-import { mapState, selectedFeaturesState } from "../../../atoms/atoms";
+import { mapState, selectedLayersState } from "../../../atoms/atoms";
 import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
 import { CustomEvents } from "../../VkfMap/constants";
 
@@ -18,7 +18,7 @@ import "./DeactivateMapCollection.scss";
 export const DeactivateMapCollection = () => {
   const map = useRecoilValue(mapState);
   const [isActive, setIsActive] = useState(true);
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const selectedLayers = useRecoilValue(selectedLayersState);
 
   const title = translate(
     isActive
@@ -27,18 +27,18 @@ export const DeactivateMapCollection = () => {
   );
 
   const handleClick = useCallback(() => {
-    selectedFeatures.forEach((layer) => {
+    selectedLayers.forEach((layer) => {
       layer.setVisibility(map, isActive ? "none" : "visible");
     });
-  }, [map, isActive, selectedFeatures]);
+  }, [map, isActive, selectedLayers]);
 
   useEffect(() => {
     if (map) {
       const handleLoad = () => {
         const isActive =
-          selectedFeatures.length === 0
+          selectedLayers.length === 0
             ? true
-            : selectedFeatures.some((layer) => layer.isVisible(map));
+            : selectedLayers.some((layer) => layer.isVisible(map));
 
         setIsActive(isActive);
       };
@@ -59,7 +59,7 @@ export const DeactivateMapCollection = () => {
         map.off("load", handleLoad);
       };
     }
-  }, [map, selectedFeatures]);
+  }, [map, selectedLayers]);
 
   return (
     <button

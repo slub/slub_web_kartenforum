@@ -11,7 +11,7 @@ import GeoJsonPresentationPopUp from "../../components/GeoJson/GeoJsonPresentati
 import {
   mapState,
   layoutState,
-  selectedFeaturesState,
+  selectedLayersState,
 } from "../../atoms/atoms.js";
 import GeoJsonEditPopUp from "../../components/GeoJson/GeoJsonEditPopUp";
 import useClickedGeoJsonFeature from "../../hooks/useClickedGeoJsonFeature.js";
@@ -21,7 +21,7 @@ export const GeoJsonFeatureView = () => {
   const [showPresentationView, setShowPresentationView] = useState(true);
   const map = useRecoilValue(mapState);
   const layout = useRecoilValue(layoutState);
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const selectedLayers = useRecoilValue(selectedLayersState);
 
   const {
     geoJsonFeature,
@@ -39,8 +39,8 @@ export const GeoJsonFeatureView = () => {
   }, [setShowPresentationView, geoJsonFeature]);
 
   const selectedLayer = useMemo(() => {
-    return selectedFeatures.find((feature) => feature.getId() === sourceId);
-  }, [geoJsonFeature, selectedFeatures, sourceId]);
+    return selectedLayers.find((layer) => layer.getId() === sourceId);
+  }, [geoJsonFeature, selectedLayers, sourceId]);
 
   const sourceLayer = useMemo(() => {
     return map.getSource(sourceId);

@@ -9,12 +9,12 @@ import SvgIcons from "../../../../../../../components/SvgIcons/SvgIcons.jsx";
 import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import PropTypes from "prop-types";
-import { mapState, selectedFeaturesState } from "../../../../../atoms/atoms.js";
+import { mapState, selectedLayersState } from "../../../../../atoms/atoms.js";
 
 export const RemoveLayerButton = (props) => {
   const { layer } = props;
   const map = useRecoilValue(mapState);
-  const setSelectedFeatures = useSetRecoilState(selectedFeaturesState);
+  const setSelectedLayers = useSetRecoilState(selectedLayersState);
 
   // Remove layer from layer stack
   const handleRemoveLayer = (event) => {
@@ -22,9 +22,9 @@ export const RemoveLayerButton = (props) => {
     if (isDefined(map)) {
       layer.removeMapLibreLayers(map);
 
-      setSelectedFeatures((oldSelectedFeatures) =>
-        oldSelectedFeatures.filter(
-          (selectedLayer) => selectedLayer.getId() !== layer.getId()
+      setSelectedLayers((oldSelectedLayers) =>
+        oldSelectedLayers.filter(
+          (oldLayer) => oldLayer.getId() !== layer.getId()
         )
       );
     }

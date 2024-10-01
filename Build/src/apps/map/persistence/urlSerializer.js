@@ -42,15 +42,15 @@ export const serializeBasemapId = (basemapId) => {
 };
 
 /**
- * serializes a selected feature state to an url parameter
- * @param selectedFeatures
+ * Serializes a selected layer state to an url parameter
+ * @param {[object]} selectedLayers an array of HistoricMapLayer instances
  * @return {{oid: *}}
  */
-export const serializeSelectedFeatures = (selectedFeatures) => {
+export const serializeSelectedLayers = (selectedLayers) => {
     return {
-        map_id: selectedFeatures
-            .filter((feature) => feature.getType() === LAYER_TYPES.HISTORIC_MAP)
-            .map((feature) => feature.getId()),
+        map_id: selectedLayers
+            .filter((layer) => layer.getType() === LAYER_TYPES.HISTORIC_MAP)
+            .map((layer) => layer.getId()),
     };
 };
 

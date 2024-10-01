@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   cameraToUrlParams,
   serializeBasemapId,
-  serializeSelectedFeatures,
+  serializeSelectedLayers,
   serializeViewMode,
 } from "../../../../../../persistence/urlSerializer.js";
 import { serializeCameraOptions } from "../../../../../../persistence/util.js";
@@ -21,12 +21,12 @@ import { useRecoilValue } from "recoil";
 import {
   activeBasemapIdState,
   mapState,
-  selectedFeaturesState,
+  selectedLayersState,
 } from "../../../../../../atoms/atoms.js";
 
 export const PermalinkInput = () => {
   const map = useRecoilValue(mapState);
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const selectedLayers = useRecoilValue(selectedLayersState);
   const activeBasemapId = useRecoilValue(activeBasemapIdState);
   const [value, setValue] = useState("");
 
@@ -39,7 +39,7 @@ export const PermalinkInput = () => {
 
     const viewModeParam = serializeViewMode(map.hasTerrain());
 
-    const selectedFeatureParam = serializeSelectedFeatures(selectedFeatures);
+    const selectedLayerParam = serializeSelectedLayers(selectedLayers);
 
     const basemapParam = serializeBasemapId(activeBasemapId);
 
@@ -48,7 +48,7 @@ export const PermalinkInput = () => {
         {},
         cameraParams,
         viewModeParam,
-        selectedFeatureParam,
+        selectedLayerParam,
         basemapParam
       ),
       { arrayFormat: "comma" }

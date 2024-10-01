@@ -11,7 +11,7 @@ import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 
 import { translate } from "../../../../util/util";
-import { mapState, selectedFeaturesState } from "../../atoms/atoms";
+import { mapState, selectedLayersState } from "../../atoms/atoms";
 import DeactivateMapCollection from "./DeactivateMapCollection/DeactivateMapCollection";
 import DynamicMapVisualization from "./DynamicMapVisualization/DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry/LayerManagementEntry";
@@ -33,15 +33,14 @@ export const LayerManagement = ({
 
   // state
   const map = useRecoilValue(mapState);
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
-    selectedFeaturesState
-  );
+  const [selectedLayers, setSelectedLayers] =
+    useRecoilState(selectedLayersState);
 
   // The selected features should be displayed from top most map layer to bottom most map layer
   // In the array they are stored as [bottom, ..., top] layer, therefore we need to reverse it to display it correctly
   const layersInDisplayOrder = useMemo(
-    () => selectedFeatures.toReversed(),
-    [selectedFeatures]
+    () => selectedLayers.toReversed(),
+    [selectedLayers]
   );
 
   // refs
@@ -57,32 +56,32 @@ export const LayerManagement = ({
   // Handles drag and drop moves
   const handleMoveLayer = (dragIndex, hoverIndex) => {
     // clone layers in display order
-    const newSelectedFeatures = [...layersInDisplayOrder];
+    const newSelectedLayers = [...layersInDisplayOrder];
 
     // Remove the dragged layer from the array
-    const draggedLayer = newSelectedFeatures.splice(dragIndex, 1)[0];
+    const draggedLayer = newSelectedLayers.splice(dragIndex, 1)[0];
 
     // Insert the dragged layer at the new position
-    newSelectedFeatures.splice(hoverIndex, 0, draggedLayer);
+    newSelectedLayers.splice(hoverIndex, 0, draggedLayer);
 
     // Get the layer that is before the new position
     const inbeforeIndex = hoverIndex - 1;
     const inbeforeLayer =
       inbeforeIndex < 0
         ? null
-        : newSelectedFeatures[inbeforeIndex].getMapLibreLayerId();
+        : newSelectedLayers[inbeforeIndex].getMapLibreLayerId();
 
     // Update the layer order on the map
     draggedLayer.move(map, inbeforeLayer);
 
     // Update the layer order in application state
-    setSelectedFeatures(newSelectedFeatures.reverse());
+    setSelectedLayers(newSelectedLayers.reverse());
   };
 
   return (
     <div className="vkf-layermanagement-root" ref={refLayermanagement}>
-      {showBadge && selectedFeatures.length !== 0 && (
-        <span className="badge">{selectedFeatures.length}</span>
+      {showBadge && selectedLayers.length !== 0 && (
+        <span className="badge">{selectedLayers.length}</span>
       )}
       {showHeader && (
         <div className="heading">
@@ -101,7 +100,7 @@ export const LayerManagement = ({
         </div>
       )}
       <ul className="layermanagement-body">
-        {selectedFeatures === undefined || selectedFeatures.length === 0 ? (
+        {selectedLayers === undefined || selectedLayers.length === 0 ? (
           <li className="empty">
             <h4>{translate("layermanagement-start-msg-header")}</h4>
             <p>{translate("layermanagement-start-msg-body")}</p>

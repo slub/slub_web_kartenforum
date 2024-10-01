@@ -6,16 +6,16 @@
  */
 import React from "react";
 import clsx from "clsx";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { Button, Glyphicon } from "react-bootstrap";
 
 import MapSearchResultList from "../../../map/components/MapSearch/components/MapSearchResultList/MapSearchResultList";
 import { SelectedMapDataProvider } from "./SelectedMapDataProvider.jsx";
 import { translate } from "../../../../util/util.js";
 import FacetedSearch from "../../../map/components/FacetedSearch/FacetedSearch.jsx";
-import { mosaicMapSelectedFeaturesState } from "../../atoms/atoms.js";
+import { mosaicMapSelectedLayersState } from "../../atoms/atoms.js";
 import MosaicMapSelectedMapListElement from "../ListElement/MosaicMapSelectedMapListElement/MosaicMapSelectedMapListElement.jsx";
-import { selectedFeaturesState } from "../../../map/atoms/atoms.js";
+import { selectedLayersState } from "../../../map/atoms/atoms.js";
 
 import { mapState } from "../../../map/atoms/atoms.js";
 import {
@@ -28,12 +28,11 @@ import "./SelectedMapList.scss";
 
 export const SelectedMapList = () => {
   const map = useRecoilValue(mapState);
-  const selectedSingleSheets = useRecoilValue(selectedFeaturesState);
+  const [selectedLayers, setSelectedLayers] =
+    useRecoilState(selectedLayersState);
   const [selectedMosaicLayers, setSelectedMosaicLayers] = useRecoilState(
-    mosaicMapSelectedFeaturesState
+    mosaicMapSelectedLayersState
   );
-
-  const setSelectedLayers = useSetRecoilState(selectedFeaturesState);
 
   // derived state
   const disabled = selectedMosaicLayers.length === 0;
@@ -46,21 +45,21 @@ export const SelectedMapList = () => {
 
   // only enable the button in case there are selected features which are not in the mosaic map selection
   const disableAddSelectedButton =
-    selectedSingleSheets.length === 0 ||
-    selectedSingleSheets.filter(
+    selectedLayers.length === 0 ||
+    selectedLayers.filter(
       (sheet) =>
         selectedMosaicLayers.find(
           (selectedMosaicLayer) => selectedMosaicLayer.getId() === sheet.getId()
         ) !== undefined
-    ).length === selectedSingleSheets.length;
+    ).length === selectedLayers.length;
 
   const handleAddAll = () => {
-    selectedSingleSheets.forEach((sheet) => {
+    selectedLayers.forEach((sheet) => {
       const id = sheet.getId();
 
       if (
         selectedMosaicLayers.find(
-          (selectedFeature) => selectedFeature.getId() === id
+          (selectedLayer) => selectedLayer.getId() === id
         ) === undefined
       ) {
         setSelectedMosaicLayers((oldFeatures) => [...oldFeatures, sheet]);

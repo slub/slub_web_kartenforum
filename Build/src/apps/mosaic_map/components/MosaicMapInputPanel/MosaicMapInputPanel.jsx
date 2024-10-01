@@ -16,7 +16,7 @@ import {
 } from "react-bootstrap";
 
 import {
-  mosaicMapSelectedFeaturesState,
+  mosaicMapSelectedLayersState,
   mosaicMapSelectedMosaicMapState,
 } from "../../atoms/atoms.js";
 import { VALUE_CREATE_NEW_MAP } from "../MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
@@ -68,7 +68,7 @@ const inputFields = [
 ];
 
 export const MosaicMapInputPanel = () => {
-  const selectedMosaicLayers = useRecoilValue(mosaicMapSelectedFeaturesState);
+  const selectedMosaicLayers = useRecoilValue(mosaicMapSelectedLayersState);
   const [selectedMosaicMap, setSelectedMosaicMap] = useRecoilState(
     mosaicMapSelectedMosaicMapState
   );
