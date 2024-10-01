@@ -29,7 +29,11 @@ import PropTypes from "prop-types";
 export const MAP_PROJECTION = "EPSG:3857";
 
 // The general Map Search component for the main view
-export const MapSearch = ({ customQuery, MapSearchListItemComponent }) => {
+export const MapSearch = ({
+  customQuery,
+  MapSearchListItemComponent,
+  mosaicMode,
+}) => {
   // state
   const [facets, setFacets] = useRecoilState(facetState);
   const [isFacetedSearchOpen, setIsFacetedSearchOpen] = useState(false);
@@ -86,7 +90,7 @@ export const MapSearch = ({ customQuery, MapSearchListItemComponent }) => {
             />
           </div>
           <div className="facet-container">
-            <FacetedSearch georeferenceMode={false} />
+            <FacetedSearch georeferenceMode={false} mosaicMode={mosaicMode} />
           </div>
         </div>
         <div className="panel-body">
@@ -104,6 +108,7 @@ export const MapSearch = ({ customQuery, MapSearchListItemComponent }) => {
 MapSearch.propTypes = {
   customQuery: PropTypes.array,
   MapSearchListItemComponent: PropTypes.elementType,
+  mosaicMode: PropTypes.bool,
 };
 
 export default MapSearch;

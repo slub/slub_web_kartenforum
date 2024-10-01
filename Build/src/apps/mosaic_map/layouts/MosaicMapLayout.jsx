@@ -35,6 +35,7 @@ export const HorizontalLayout = () => {
           <SpatialTemporalSearch
             customQuery={[{ term: { type: "single_sheet" } }]}
             MapSearchListItemComponent={MosaicMapSearchListElement}
+            mosaicMode={true}
           />
         </div>
         <div className="selected-maps-container">

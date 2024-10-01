@@ -17,6 +17,7 @@ import "./SpatialTemporalSearch.scss";
 export const SpatialTemporalSearch = ({
   customQuery,
   MapSearchListItemComponent,
+  mosaicMode,
 }) => {
   const timeRange = useRecoilValue(timeRangeState);
 
@@ -29,6 +30,7 @@ export const SpatialTemporalSearch = ({
           <MapSearch
             customQuery={customQuery}
             MapSearchListItemComponent={MapSearchListItemComponent}
+            mosaicMode={mosaicMode}
           />
         </div>
       </div>
@@ -39,6 +41,7 @@ export const SpatialTemporalSearch = ({
 SpatialTemporalSearch.propTypes = {
   customQuery: PropTypes.array,
   MapSearchListItemComponent: PropTypes.elementType,
+  mosaicMode: PropTypes.bool,
 };
 
 export default SpatialTemporalSearch;

@@ -499,6 +499,9 @@
 			<trans-unit id="plugin.map.facetedsearch.titleAK">
 				<source>Other historic maps</source>
 			</trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleMM">
+				<source>Mosaic maps</source>
+			</trans-unit>
 			<trans-unit id="plugin.map.facetedsearch.titleCM">
 				<source>City Map</source>
 			</trans-unit>
