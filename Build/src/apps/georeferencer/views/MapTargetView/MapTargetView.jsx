@@ -7,17 +7,18 @@
 import React, { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
+import { transform } from "ol/proj";
+
 import {
   rectifiedImageParamsState,
   targetViewParamsState,
 } from "../../atoms/atoms";
-import OpacitySlider from "../../../../components/OpacitySlider/OpacitySlider.jsx";
 import Map2D from "../../../../components/Map2D/Map2D";
 import LayerRectifiedImage from "../../../../components/LayerRectifiedImage/LayerRectifiedImage";
 import PlacenameSearch from "../../../../components/PlacenameSearch/PlacenameSearch.jsx";
+import OpenLayerOpacitySlider from "../../../../components/OpacitySlider/OpenLayerOpacitySlider.jsx";
 import SettingsProvider from "../../../../SettingsProvider.js";
 import "./MapTargetView.scss";
-import { transform } from "ol/proj.js";
 
 export const MapTargetView = (props) => {
   const { extent, urlNominatim, urlsOsmBaseMap } = props;
@@ -61,7 +62,10 @@ export const MapTargetView = (props) => {
               />
             </div>
             {pureRectifyLayer !== null && (
-              <OpacitySlider layer={pureRectifyLayer} orientation="vertical" />
+              <OpenLayerOpacitySlider
+                layer={pureRectifyLayer}
+                orientation="vertical"
+              />
             )}
           </div>
         )}
