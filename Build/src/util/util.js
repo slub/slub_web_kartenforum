@@ -4,8 +4,6 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
-
 import SettingsProvider from "../SettingsProvider";
 import LocateMeControl from "../components/Controls/LocateMeControl";
 import ToggleViewMode from "../components/ToggleViewmode/ToggleViewmode";
@@ -62,16 +60,7 @@ export function translate(key) {
 /**
  * Returns the default controls for the map view
  **/
-export const getDefaultControls = (params) => {
-    const {
-        basemapSelectorProps,
-        is3dActive,
-        layout,
-        onViewModeChange,
-        permalinkProps,
-        refSpyLayer,
-    } = params;
-
+export const getDefaultControls = () => {
     const defaultControls = [
         // new CustomAttribution({ is3d: is3dActive }),
         {
@@ -114,6 +103,7 @@ export const getDefaultControls = (params) => {
             position: "bottom-right",
             control: new ScaleControl({ maxWidth: 137 }),
         },
+        // TODO CLEANUP - remove commented code or uncomment it
         // new Rotate({
         //     className: "rotate-north ol-unselectable",
         //     tipLabel: translate("control-rotate"),
@@ -128,6 +118,7 @@ export const getDefaultControls = (params) => {
         // new PermalinkControl({ is3dActive, ...permalinkProps }),
     ];
 
+    // TODO CLEANUP - remove commented code or uncomment it
     // if (layout === LAYOUT_TYPES.HORIZONTAL) {
     //     defaultControls.push(
     //         new Zoom({
