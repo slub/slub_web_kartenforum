@@ -4,15 +4,16 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
+import clsx from "clsx";
 import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 
-import clsx from "clsx";
 import { translate } from "../../../../../util/util";
 import { mapState, selectedFeaturesState } from "../../../atoms/atoms";
-import "./DeactivateMapCollection.scss";
 import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
-import customEvents from "../../MapWrapper/customEvents.js";
+import { CustomEvents } from "../../VkfMap/constants";
+
+import "./DeactivateMapCollection.scss";
 
 export const DeactivateMapCollection = () => {
   const map = useRecoilValue(mapState);
@@ -52,9 +53,9 @@ export const DeactivateMapCollection = () => {
         map.on("load", handleLoad);
       }
 
-      map.on(customEvents.visibilityChanged, handleVisibilityChange);
+      map.on(CustomEvents.visibilityChanged, handleVisibilityChange);
       return () => {
-        map.off(customEvents.visibilityChanged, handleVisibilityChange);
+        map.off(CustomEvents.visibilityChanged, handleVisibilityChange);
         map.off("load", handleLoad);
       };
     }

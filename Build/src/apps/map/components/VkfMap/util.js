@@ -6,7 +6,7 @@
  */
 
 export function flyToAsync(map, options) {
-    return new Promise(function (myResolve, myReject) {
+    return new Promise(function (myResolve) {
         const onAbort = () => {
             myResolve(false);
         };

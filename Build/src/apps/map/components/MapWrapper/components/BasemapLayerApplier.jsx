@@ -11,7 +11,7 @@ import {
   removeXYZLayer,
   showVectorBaseMapLayer,
 } from "../../BasemapSelectorControl/util.js";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import {
   activeBasemapIdState,
   baseMapStyleLayersState,

@@ -28,29 +28,6 @@ export const cameraToUrlParams = (mapView) => {
 };
 
 /**
- * Check if an element is a 3d point
- * @param el
- * @return {boolean}
- */
-const isPoint = (el) => {
-    return (
-        el !== undefined &&
-        el.x !== undefined &&
-        el.y !== undefined &&
-        el.z !== undefined
-    );
-};
-
-/**
- * Converts a 3 dimensional point to an array
- * @param point
- * @return {[undefined,undefined,*]}
- */
-const pointTo3dArray = (point) => {
-    return [point.x, point.y, point.z];
-};
-
-/**
  * serializes the basemap id to an url parameter
  * @param basemapId
  * @return {{b}}

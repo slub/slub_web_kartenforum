@@ -5,15 +5,16 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useEffect, useRef, useState } from "react";
+import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
-import "./OpacitySlider.scss";
-import { useRecoilValue } from "recoil";
 import { mapState } from "../../apps/map/atoms/atoms.js";
-import customEvents from "../../apps/map/components/MapWrapper/customEvents.js";
+import { CustomEvents } from "../../apps/map/components/VkfMap/constants";
 import { isDefined } from "../../util/util";
+
+import "./OpacitySlider.scss";
 
 export const OpacitySlider = (props) => {
   const { onEndDrag, onStartDrag, orientation = "horizontal", layer } = props;
@@ -64,10 +65,10 @@ export const OpacitySlider = (props) => {
 
   useEffect(() => {
     if (map) {
-      map.on(customEvents.opacityChanged, handleOpacityChange);
+      map.on(CustomEvents.opacityChanged, handleOpacityChange);
 
       return () => {
-        map.off(customEvents.opacityChanged, handleOpacityChange);
+        map.off(CustomEvents.opacityChanged, handleOpacityChange);
       };
     }
   }, [map]);

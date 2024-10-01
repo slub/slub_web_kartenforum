@@ -4,13 +4,14 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { translate } from "../../../../../../../util/util.js";
-import React, { useEffect, useState, useMemo } from "react";
 import clsx from "clsx";
-import { useRecoilValue } from "recoil";
-import { mapState } from "../../../../../atoms/atoms.js";
-import customEvents from "../../../../MapWrapper/customEvents.js";
 import PropTypes from "prop-types";
+import React, { useEffect, useState, useMemo } from "react";
+import { useRecoilValue } from "recoil";
+
+import { mapState } from "../../../../../atoms/atoms.js";
+import { CustomEvents } from "../../../../VkfMap/constants";
+import { translate } from "../../../../../../../util/util.js";
 import { METADATA } from "../../../../CustomLayers";
 
 export const VisibilityButton = (props) => {
@@ -48,9 +49,9 @@ export const VisibilityButton = (props) => {
   // Add visibility change handler to layer
   useEffect(() => {
     if (map) {
-      map.on(customEvents.visibilityChanged, handleUpdateVisibility);
+      map.on(CustomEvents.visibilityChanged, handleUpdateVisibility);
       return () => {
-        map.off(customEvents.visibilityChanged, handleUpdateVisibility);
+        map.off(CustomEvents.visibilityChanged, handleUpdateVisibility);
       };
     }
   }, [map]);

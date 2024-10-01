@@ -6,10 +6,9 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import customEvents from "../components/MapWrapper/customEvents.js";
 import { activeDialogState, mapState } from "../atoms/atoms.js";
 import { isDefined } from "../../../util/util.js";
-import { ActiveDialog } from "../components/VkfMap/constants.js";
+import { ActiveDialog, CustomEvents } from "../components/VkfMap/constants.js";
 
 const useControlContainer = (controlId, dialogType) => {
     const map = useRecoilValue(mapState);
@@ -43,12 +42,12 @@ const useControlContainer = (controlId, dialogType) => {
                 }
             };
 
-            map.on(customEvents.controlAdded, handleAddControl);
-            map.on(customEvents.controlRemoved, handleRemoveControl);
+            map.on(CustomEvents.controlAdded, handleAddControl);
+            map.on(CustomEvents.controlRemoved, handleRemoveControl);
 
             return () => {
-                map.off(customEvents.controlAdded, handleAddControl);
-                map.off(customEvents.controlRemoved, handleRemoveControl);
+                map.off(CustomEvents.controlAdded, handleAddControl);
+                map.off(CustomEvents.controlRemoved, handleRemoveControl);
             };
         }
     }, [map]);

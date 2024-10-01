@@ -21,7 +21,7 @@ import { updateOverlayLayer } from "../MapSearchOverlayLayer/MapSearchOverlayLay
 
 export const MapSearchListElementWithGeometryPreview = (props) => {
   const { data, index } = props;
-  const { maps, is3d } = data;
+  const { maps } = data;
   const map = useRecoilValue(mapState);
 
   const operationalLayer = maps[index] ?? LOADING_FEATURE;

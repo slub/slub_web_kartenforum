@@ -73,6 +73,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
         const currentKey = keys[0];
         const layers = sortedLayers[currentKey];
 
+        // eslint-disable-next-line no-unused-vars
         const { [currentKey]: _, ...newSortedLayers } = sortedLayers;
 
         const successCallback = () => {

@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Glyphicon, Radio } from "react-bootstrap";
 import PropTypes from "prop-types";
 
@@ -12,18 +12,9 @@ import { translate } from "../../../../util/util";
 import DialogAddWms from "./DialogAddWms";
 import { useLocalStorage } from "../../persistence/util";
 import "./BasemapSelector.scss";
-import {
-  addWMSLayer,
-  addXYZLayer,
-  removeWMSLayer,
-  removeXYZLayer,
-  showVectorBaseMapLayer,
-} from "./util.js";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  activeBasemapIdState,
-  baseMapStyleLayersState,
-} from "../../atoms/atoms.js";
+import { removeWMSLayer } from "./util.js";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { activeBasemapIdState } from "../../atoms/atoms.js";
 import SettingsProvider from "../../../../SettingsProvider.js";
 import { notificationState } from "../../../../atoms/atoms.js";
 //@TODO: Only allow one active dialog at the same time

@@ -10,7 +10,6 @@ import { useRecoilValue } from "recoil";
 import clsx from "clsx";
 import { FixedSizeList as List } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
-import Feature from "ol/Feature";
 
 import { map3dState } from "../../../../atoms/atoms";
 import MapSearchSortColumn from "../MapSearchSortColumn/MapSearchSortColumn";

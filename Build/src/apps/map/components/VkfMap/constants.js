@@ -23,3 +23,10 @@ export const ActiveDialog = {
     BasemapSelector: "BASEMAP_SELECTOR",
     Permalink: "PERMALINK",
 };
+
+export const CustomEvents = {
+    controlAdded: "controlAdded",
+    controlRemoved: "controlRemoved",
+    opacityChanged: "opacityChanged",
+    visibilityChanged: "visibilityChanged",
+};

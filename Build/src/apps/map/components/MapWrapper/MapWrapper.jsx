@@ -4,46 +4,31 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { Collection, Map } from "ol";
-import View from "ol/View";
-import VectorLayer from "ol/layer/Vector";
-import VectorSource from "ol/source/Vector";
-import { defaults, DragRotate } from "ol/interaction";
-import { shiftKeyOnly } from "ol/events/condition";
-import { Map as MaplibreMap } from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { Collection } from "ol";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import clsx from "clsx";
-import { useWindowWidth } from "@react-hook/window-size";
 
-import { createBaseMapLayer } from "../../../../util/geo";
-import {
-  getDefaultControls,
-  isDefined,
-  translate,
-} from "../../../../util/util";
+import { getDefaultControls, isDefined } from "../../../../util/util";
 import {
   activeBasemapIdState,
   baseMapStyleLayersState,
-  currentApplicationStateState,
   mapState,
-  selectedFeaturesState,
 } from "../../atoms/atoms";
-import { getMapClassNameForLayout, LAYOUT_TYPES } from "../../layouts/util";
+import { getMapClassNameForLayout } from "../../layouts/util";
 import { useSetElementScreenSize } from "../../../../util/hooks";
-import { LAYER_TYPES } from "../CustomLayers";
 import { notificationState } from "../../../../atoms/atoms";
-import "./MapWrapper.scss";
 import SettingsProvider from "../../../../SettingsProvider.js";
-import CustomEvents from "./customEvents.js";
 import BasemapSelectorControl from "../BasemapSelectorControl/BasemapSelectorControl.jsx";
-
 import VkfMap from "../VkfMap/VkfMap.jsx";
+
 import PermalinkExporter from "./components/PermalinkControl/PermalinkExporter.jsx";
 import BasemapLayerApplier from "./components/BasemapLayerApplier.jsx";
 import { getLocale } from "./locale.js";
+
+import "maplibre-gl/dist/maplibre-gl.css";
+import "./MapWrapper.scss";
 
 const style =
   "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json";
@@ -52,8 +37,6 @@ export function MapWrapper(props) {
   const {
     baseMapUrl,
     ChildComponent,
-    enable3d,
-    enableTerrain,
     layout,
     mapViewSettings = {
       center: [13.5981217, 59.562795],
@@ -61,7 +44,6 @@ export function MapWrapper(props) {
       zoom: 2,
     },
     onAddGeoJson,
-    terrainTilesService,
     loadMarkerIcon = true,
   } = props;
 
@@ -74,21 +56,18 @@ export function MapWrapper(props) {
   // state
   const [activeBasemapId, setActiveBasemapId] =
     useRecoilState(activeBasemapIdState);
+
+  // TODO CLEANUP - check if unsafe activeBasemap is still needed
   const [activeBasemap, setActiveBasemap] = useState(initialBasemap);
   const [map, setMap] = useRecoilState(mapState);
 
   const setBaseMapStyleLayers = useSetRecoilState(baseMapStyleLayersState);
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
-    selectedFeaturesState
-  );
   const setNotification = useSetRecoilState(notificationState);
-  const width = useWindowWidth();
 
   // refs
-  const controlsRef = useRef();
   const mapElement = useRef();
-  const refDialogEditFeature = useRef();
 
+  // TODO CLEANUP - check if unsafe refs are still needed
   // used to make state easily accessible outside of the react tree in the permalink component
   // do not access otherwise
   const unsafe_refBasemapId = useRef(activeBasemapId);
@@ -179,7 +158,7 @@ export function MapWrapper(props) {
   ////
   // Sync state with refs in order for the controls to get the state updates
   ////
-  // TODO commented code; check if still needed
+  // TODO CLEANUP - commented code; check if still needed
   // useEffect(() => {
   //   // clear collection
   //   unsafe_refSelectedFeatures.current.clear();
@@ -208,8 +187,6 @@ export function MapWrapper(props) {
 export const mapWrapperProps = {
   baseMapUrl: PropTypes.arrayOf(PropTypes.string),
   ChildComponent: PropTypes.func,
-  enable3d: PropTypes.bool,
-  enableTerrain: PropTypes.bool,
   layout: PropTypes.string,
   mapViewSettings: PropTypes.shape({
     center: PropTypes.arrayOf(PropTypes.number),
@@ -217,12 +194,6 @@ export const mapWrapperProps = {
     zoom: PropTypes.number,
   }),
   onAddGeoJson: PropTypes.func,
-  terrainTilesService: PropTypes.shape({
-    asset: PropTypes.number,
-    token: PropTypes.string,
-    type: PropTypes.oneOf(["cesium", "maptiler"]).isRequired,
-    url: PropTypes.string,
-  }),
   loadMarkerIcon: PropTypes.bool,
 };
 

@@ -4,7 +4,6 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { radiansToDegrees } from "../../../util/geo.js";
 
 const EARTH_RADIUS = 6378137.0;
 const DEFAULT_PITCH = 50;
@@ -63,6 +62,8 @@ const estimateBearing = (position, direction) => {
 
     return { bearing, legacy3dMapView: true };
 };
+
+const radiansToDegrees = (rads) => rads * (180 / Math.PI);
 
 const calculateBearing = (dir) => {
     const angleInRads = Math.PI + (Math.atan2(dir[0], dir[1]) - Math.PI / 2);

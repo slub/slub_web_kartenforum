@@ -4,10 +4,12 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import CustomEvents from "../MapWrapper/customEvents.js";
-import customEvents from "../MapWrapper/customEvents.js";
 import { MapWithTerrainBehavior } from "./MapWithTerrainBehavior.jsx";
-import { LAYOUT_PROPERTIES, OPACITY_PROPERTIES } from "./constants.js";
+import {
+  LAYOUT_PROPERTIES,
+  OPACITY_PROPERTIES,
+  CustomEvents,
+} from "./constants.js";
 import { MAP_LIBRE_METADATA } from "../CustomLayers";
 
 // Extend the maplibre map object with some custom events
@@ -35,7 +37,7 @@ export class VkfMap extends MapWithTerrainBehavior {
     const applicationLayerId = layer?.metadata?.[MAP_LIBRE_METADATA.id];
 
     if (OPACITY_PROPERTIES.has(name) && applicationLayerId) {
-      this.fire(customEvents.opacityChanged, {
+      this.fire(CustomEvents.opacityChanged, {
         layerId: applicationLayerId,
         property: name,
         value,
@@ -52,7 +54,7 @@ export class VkfMap extends MapWithTerrainBehavior {
     const applicationLayerId = layer?.metadata?.[MAP_LIBRE_METADATA.id];
 
     if (LAYOUT_PROPERTIES.has(name) && applicationLayerId) {
-      this.fire(customEvents.visibilityChanged, {
+      this.fire(CustomEvents.visibilityChanged, {
         layerId: applicationLayerId,
         property: name,
         value,

@@ -24,7 +24,6 @@ export const MapSearchSortColumn = ({ onClick, sortOrder, type }) => {
     <div className={clsx("inner-col", type)}>
       <div
         className={clsx("sort-element", type, sortOrder)}
-        datatype={type}
         onClick={handleClick}
         onKeyDown={handleEnter}
         tabIndex={0}
