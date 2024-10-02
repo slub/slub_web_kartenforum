@@ -18,10 +18,21 @@ import { METADATA, LAYER_TYPES } from "../constants";
 import { bbox } from "@turf/bbox";
 import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
+// NOTE mousemove event handler could be replaced with mouseenter if the polygon outline should not trigger an event
+const eventHandlers = [
+    {
+        type: "mousemove",
+        handler: (e) => (e.target.getCanvas().style.cursor = "pointer"),
+    },
+    {
+        type: "mouseleave",
+        handler: (e) => (e.target.getCanvas().style.cursor = ""),
+    },
+];
+
 class GeoJsonLayer extends ApplicationLayer {
     #geoJSON = {};
     #mapLibreLayerIds = [];
-    #handlers = [];
 
     constructor({ metadata, geometry, geoJSON }) {
         super({ metadata, geometry });
@@ -50,26 +61,15 @@ class GeoJsonLayer extends ApplicationLayer {
     }
 
     #registerEventHandlers(map) {
-        const mousemove = {
-            type: "mousemove",
-            handler: () => (map.getCanvas().style.cursor = "pointer"),
-        };
-        const mouseleave = {
-            type: "mouseleave",
-            handler: () => (map.getCanvas().style.cursor = ""),
-        };
-
-        this.#handlers.push(mousemove, mouseleave);
-
         for (const { id } of this.#getMapLibreLayers(map)) {
-            for (const { type, handler } of this.#handlers) {
+            for (const { type, handler } of eventHandlers) {
                 map.on(type, id, handler);
             }
         }
     }
 
     #unregisterEventHandlers(map, layerId) {
-        for (const { type, handler } of this.#handlers) {
+        for (const { type, handler } of eventHandlers) {
             map.off(type, layerId, handler);
         }
     }
