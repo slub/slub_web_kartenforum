@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import { useRecoilValue } from "recoil";
-import { mapState } from "../../apps/map/atoms/atoms.js";
+import { mapState } from "@map/atoms";
 import React, { useCallback } from "react";
 import PlacenameSearch from "./PlacenameSearch.jsx";
 import PropTypes from "prop-types";

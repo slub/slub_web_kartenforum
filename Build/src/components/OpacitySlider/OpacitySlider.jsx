@@ -10,9 +10,9 @@ import PropTypes from "prop-types";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
-import { mapState } from "../../apps/map/atoms/atoms.js";
-import { CustomEvents } from "../../apps/map/components/VkfMap/constants";
-import { isDefined } from "../../util/util";
+import { mapState } from "@map/atoms";
+import { CustomEvents } from "@map/components/VkfMap/constants";
+import { isDefined } from "@util/util";
 
 import "./OpacitySlider.scss";
 

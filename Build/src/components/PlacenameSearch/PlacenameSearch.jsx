@@ -9,8 +9,8 @@ import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import { useSetRecoilState } from "recoil";
 
-import { notificationState } from "../../atoms/atoms.js";
-import { translate } from "../../util/util.js";
+import { notificationState } from "@atoms";
+import { translate } from "@util/util.js";
 import { Autocomplete } from "./Autocomplete/Autocomplete.jsx";
 import { requestPlacenameData } from "./util.js";
 import "./PlacenameSearch.scss";

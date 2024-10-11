@@ -10,8 +10,8 @@ import React, { useEffect } from "react";
 import { useRecoilValue } from "recoil";
 
 // TODO maybe it makes sense to move map atom into global atoms as its shared by map and mosaic map anyhow
-import { mapState } from "../../apps/map/atoms/atoms";
-import { isDefined } from "../../util/util";
+import { mapState } from "@map/atoms/atoms";
+import { isDefined } from "@util/util";
 import PropTypes from "prop-types";
 
 const addOverlayLayer = (map, { sourceId, fillId, outlineId }) => {

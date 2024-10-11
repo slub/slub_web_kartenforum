@@ -7,7 +7,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import SettingsProvider from "../../SettingsProvider.js";
+import SettingsProvider from "@settings-provider";
 
 const SvgIcons = ({ name, color, size }) => (
   <svg

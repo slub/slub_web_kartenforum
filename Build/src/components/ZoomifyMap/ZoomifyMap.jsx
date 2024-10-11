@@ -17,10 +17,10 @@ import View from "ol/View";
 import Zoom from "ol/control/Zoom";
 import Zoomify from "ol/source/Zoomify";
 import ZoomToExtent from "ol/control/ZoomToExtent";
-import { translate } from "../../util/util";
+import { translate } from "@util/util";
 import ImageManipulationControl, {
   variables,
-} from "../Controls/ImageManipulationControl";
+} from "@components/Controls/ImageManipulationControl";
 import "./ZoomifyMap.scss";
 
 /**

@@ -14,8 +14,8 @@ import React, { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 
-import { notificationState } from "../../atoms/atoms";
-import { usePrevious } from "../../util/hooks";
+import { notificationState } from "@atoms";
+import { usePrevious } from "@util/hooks";
 import clsx from "clsx";
 import "./Notifications.scss";
 
