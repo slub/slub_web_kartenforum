@@ -20,13 +20,13 @@ import {
   searchIsLoadingState,
   defaultTimeRange,
   layoutState,
-} from "../../atoms/atoms";
-import { isDefined } from "../../../../util/util";
-import { createStatisticQuery, getSpatialQuery } from "../../../../util/query";
-import { readLayers } from "../../../../util/parser";
-import SettingsProvider from "../../../../SettingsProvider";
+} from "@map/atoms";
+import { isDefined } from "@util/util";
+import { createStatisticQuery, getSpatialQuery } from "@util/query";
+import { readLayers } from "@util/parser";
+import SettingsProvider from "@settings-provider";
 import { getSearchExtent, limitExtent } from "./util";
-import { useDebounce } from "../../../../util/hooks";
+import { useDebounce } from "@util/hooks";
 import { LngLatBounds } from "maplibre-gl";
 
 export const PaginatingDataController = ({

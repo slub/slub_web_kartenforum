@@ -9,10 +9,10 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState, useMemo } from "react";
 import { useRecoilValue } from "recoil";
 
-import { mapState } from "../../../../../atoms/atoms.js";
-import { CustomEvents } from "../../../../VkfMap/constants";
-import { translate } from "../../../../../../../util/util.js";
-import { METADATA } from "../../../../CustomLayers";
+import { mapState } from "@map/atoms";
+import { CustomEvents } from "@map/components/VkfMap/constants";
+import { translate } from "@util/util.js";
+import { METADATA } from "@map/components/CustomLayers";
 
 export const VisibilityButton = (props) => {
   const { layer } = props;

@@ -8,13 +8,13 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 
-import SpatialTemporalSearch from "../../map/components/SpatialTemporalSearch/SpatialTemporalSearch";
-import { useSetElementScreenSize } from "../../../util/hooks";
-import SelectedMapList from "../components/SelectedMapList/SelectedMapList.jsx";
-import MosaicMapSearchListElement from "../components/ListElement/MosaicMapSearchListElement/MosaicMapSearchListElement.jsx";
-import MosaicMapOverlayLayer from "../components/MosaicMapOverlayLayer/MosaicMapOverlayLayer";
+import SpatialTemporalSearch from "@map/components/SpatialTemporalSearch/SpatialTemporalSearch";
+import { useSetElementScreenSize } from "@util/hooks";
+import SelectedMapList from "@mosaic-map/components/SelectedMapList/SelectedMapList.jsx";
+import MosaicMapSearchListElement from "@mosaic-map/components/ListElement/MosaicMapSearchListElement/MosaicMapSearchListElement.jsx";
+import MosaicMapOverlayLayer from "@mosaic-map/components/MosaicMapOverlayLayer/MosaicMapOverlayLayer";
 
-import "../../map/layouts/HorizontalLayout/HorizontalLayout.scss";
+import "@map/layouts/HorizontalLayout/HorizontalLayout.scss";
 import "./MosaicMapLayout.scss";
 
 export const HorizontalLayout = () => {

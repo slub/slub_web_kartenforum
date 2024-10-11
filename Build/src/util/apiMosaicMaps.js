@@ -4,9 +4,9 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import SettingsProvider from "../SettingsProvider.js";
+import SettingsProvider from "@settings-provider";
 import { readMosaicMap, serializeMosaicMap } from "./parser.js";
-import { VALUE_CREATE_NEW_MAP } from "../apps/mosaic_map/components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
+import { VALUE_CREATE_NEW_MAP } from "@mosaic-map/components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
 
 export const deleteMosaicMap = async (mosaicMapId) => {
     const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();

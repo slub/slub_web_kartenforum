@@ -4,13 +4,13 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { isDefined, translate } from "../../../../../../../util/util.js";
-import SvgIcons from "../../../../../../../components/SvgIcons/SvgIcons.jsx";
+import { isDefined, translate } from "@util/util.js";
+import SvgIcons from "@components/SvgIcons";
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { mapState } from "../../../../../atoms/atoms.js";
+import { mapState } from "@map/atoms";
 import PropTypes from "prop-types";
-import { METADATA } from "../../../../CustomLayers";
+import { METADATA } from "@map/components/CustomLayers";
 
 export const ZoomToExtentButton = (props) => {
   const { layer } = props;

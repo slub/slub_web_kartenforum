@@ -7,7 +7,7 @@
 
 import React from "react";
 
-import BaseOverlayLayer from "../../../../components/BaseOverlayLayer";
+import BaseOverlayLayer from "@components/BaseOverlayLayer";
 
 export const MOSAIC_MAP_OVERLAY_SOURCE_ID = "mosaic-map-overlay-source";
 export const MOSAIC_MAP_OVERLAY_FILL_ID = "mosaic-map-overlay-fill";

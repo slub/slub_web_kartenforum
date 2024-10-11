@@ -10,10 +10,10 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import { useSetRecoilState } from "recoil";
 
-import { translate } from "../../../../../util/util.js";
-import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
-import { notificationState } from "../../../../../atoms/atoms.js";
-import { parseGeoJsonFile } from "../../Dropzone/util.js";
+import { translate } from "@util/util.js";
+import SvgIcons from "@components/SvgIcons";
+import { notificationState } from "@atoms";
+import { parseGeoJsonFile } from "@map/components/Dropzone/util.js";
 import "./GeoJsonUploadHint.scss";
 
 export const GeoJsonUploadHint = ({ onAddGeoJson }) => {

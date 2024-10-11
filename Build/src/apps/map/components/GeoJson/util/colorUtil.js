@@ -7,7 +7,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import { isDefined } from "../../../../../util/util";
+import { isDefined } from "@util/util";
 
 const DEFAULT_ALPHA = "FF";
 

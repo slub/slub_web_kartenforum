@@ -12,11 +12,11 @@ import {
     layerHasOpacityProperty,
     DEFAULT_STYLE_VALUES,
 } from "./constants";
-import { isDefined } from "../../../../../util/util";
+import { isDefined } from "@util/util";
 import { addGeoJsonLayers } from "./util.js";
 import { METADATA, LAYER_TYPES } from "../constants";
 import { bbox } from "@turf/bbox";
-import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
+import { MAP_OVERLAY_FILL_ID } from "@map/components/MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 // NOTE mousemove event handler could be replaced with mouseenter if the polygon outline should not trigger an event
 const eventHandlers = [

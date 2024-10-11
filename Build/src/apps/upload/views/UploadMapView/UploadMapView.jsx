@@ -8,23 +8,23 @@ import React, { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 
-import Input from "../../components/InputElement/InputElement.jsx";
-import UploadHeader from "../../components/UploadHeader/UploadHeader.jsx";
-import UploadFile from "../../components/UploadFile/UploadFile.jsx";
-import { translate } from "../../../../util/util.js";
-import { formValidations } from "../../utils/inputValidation.js";
-import DeleteDialog from "../../components/DeleteDialog/DeleteDialog.jsx";
+import Input from "@upload/components/InputElement/InputElement.jsx";
+import UploadHeader from "@upload/components/UploadHeader/UploadHeader.jsx";
+import UploadFile from "@upload/components/UploadFile/UploadFile.jsx";
+import { translate } from "@util/util.js";
+import { formValidations } from "@upload/utils/inputValidation.js";
+import DeleteDialog from "@upload/components/DeleteDialog/DeleteDialog.jsx";
 
 import {
   createNewMap,
   deleteMapForMapId,
   readMapForMapId,
   updateMap,
-} from "../../utils/apiUpload.js";
+} from "@upload/utils/apiUpload.js";
 import {
   getCleanMapMetadata,
   areMetadataPropertiesDistinct,
-} from "../../utils/util.js";
+} from "@upload/utils/util.js";
 import "./UploadMapView.scss";
 
 export default function UploadMapView(props) {

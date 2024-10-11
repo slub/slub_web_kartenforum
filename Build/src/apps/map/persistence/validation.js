@@ -7,7 +7,7 @@
 
 import { toLonLat } from "ol/proj";
 
-import { MAP_PROJECTION } from "../components/MapSearch/MapSearch.jsx";
+import { MAP_PROJECTION } from "@map/components/MapSearch/MapSearch.jsx";
 
 /**
  * Check if an array represents a three dimensional point

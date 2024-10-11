@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
-import { translate } from "../../../../../../util/util";
+import { translate } from "@util/util";
 
 export const MapSearchSortColumn = ({ onClick, sortOrder, type }) => {
   const handleClick = () => {

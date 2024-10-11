@@ -6,9 +6,9 @@
  */
 
 import { atom } from "recoil";
-import { LAYOUT_TYPES } from "../layouts/util.js";
-import SettingsProvider from "../../../SettingsProvider.js";
-import { ActiveDialog } from "../components/VkfMap/constants.js";
+import SettingsProvider from "@settings-provider";
+import { ActiveDialog } from "@map/components/VkfMap/constants.js";
+import { LAYOUT_TYPES } from "@map/layouts/util.js";
 
 // stores the currently active basemap ID
 export const activeBasemapIdState = atom({

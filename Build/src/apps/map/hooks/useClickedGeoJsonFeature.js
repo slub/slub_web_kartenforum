@@ -6,9 +6,9 @@
  */
 
 import { useEffect, useCallback, useState, useRef } from "react";
-import { LAYOUT_TYPES } from "../layouts/util";
-import { MAP_LIBRE_METADATA } from "../components/CustomLayers";
-import { isDefined } from "../../../util/util";
+import { LAYOUT_TYPES } from "@map/layouts/util";
+import { MAP_LIBRE_METADATA } from "@map/components/CustomLayers";
+import { isDefined } from "@util/util";
 
 const isApplicationFeature = (feature) =>
     isDefined(feature.layer.metadata?.[MAP_LIBRE_METADATA.id]);

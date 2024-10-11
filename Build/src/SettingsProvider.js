@@ -6,7 +6,7 @@
  */
 
 import axios from "axios";
-import { isDefined, isString } from "./util/util";
+import { isDefined, isString } from "@util/util";
 
 let settingsObject = {
     BASEMAPS: [

@@ -8,7 +8,7 @@ import { ApplicationLayer } from "../ApplicationLayer.js";
 import { METADATA, LAYER_TYPES } from "../constants.js";
 import { addHistoricMapLayer } from "./addHistoricMapLayer.js";
 import { bbox } from "@turf/bbox";
-import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
+import { MAP_OVERLAY_FILL_ID } from "@map/components/MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 // TODO discuss whether it makes sense to use a MoscaicMapLayer
 // the need may arise when single sheet mosaic maps need to be moved and the different overlay layers need to be considered

@@ -8,13 +8,13 @@ import React, { useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import PropTypes from "prop-types";
 
-import Dropzone from "../Dropzone/Dropzone";
-import { isDefined, translate } from "../../../../util/util";
-import { notificationState } from "../../../../atoms/atoms";
+import Dropzone from "@map/components/Dropzone/Dropzone";
+import { isDefined, translate } from "@util/util";
+import { notificationState } from "@atoms";
 import DialogAddGeoJson from "./components/DialogAddGeoJson/DialogAddGeoJson";
-import { mapState, selectedLayersState } from "../../atoms/atoms";
+import { mapState, selectedLayersState } from "@map/atoms";
 import MapWrapper, { mapWrapperProps } from "./MapWrapper";
-import { METADATA, GeoJsonLayer } from "../CustomLayers";
+import { METADATA, GeoJsonLayer } from "@map/components/CustomLayers";
 
 export const MapWrapperWithGeojsonSupport = ({ mapWrapperProps }) => {
   // state

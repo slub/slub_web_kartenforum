@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Glyphicon, Overlay, Tooltip } from "react-bootstrap";
 
-import { translate } from "../../../../../../../../util/util.js";
+import { translate } from "@util/util.js";
 
 export const CopyToClipboardButton = ({ onClick, value }) => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);

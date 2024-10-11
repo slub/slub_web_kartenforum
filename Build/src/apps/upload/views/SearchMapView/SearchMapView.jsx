@@ -7,10 +7,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import debounce from "lodash.debounce";
-import { translate } from "../../../../util/util.js";
-import { readMapForMapId } from "../../utils/apiUpload.js";
-import SearchInputField from "../../components/SearchInputField/SearchInputField.jsx";
-import MapEntry from "../../components/MapEntry/MapEntry.jsx";
+import { translate } from "@util/util.js";
+import { readMapForMapId } from "@upload/utils/apiUpload.js";
+import SearchInputField from "@upload/components/SearchInputField/SearchInputField.jsx";
+import MapEntry from "@upload/components/MapEntry/MapEntry.jsx";
 import "./SearchMapView.scss";
 
 export default function SearchMapView(props) {

@@ -11,7 +11,7 @@ import {
     styleFieldSettings,
 } from "../constants.js";
 
-import { isDefined } from "../../../../../util/util.js";
+import { isDefined } from "@util/util.js";
 
 /**
  * A utility function to merge an array of entries with values from an existing Object.

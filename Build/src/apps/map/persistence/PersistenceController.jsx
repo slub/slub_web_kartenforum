@@ -16,9 +16,9 @@ import {
   selectedLayersState,
   timeExtentState,
   timeRangeState,
-} from "../atoms/atoms";
+} from "@map/atoms";
 
-import SettingsProvider from "../../../SettingsProvider";
+import SettingsProvider from "@settings-provider";
 import {
   areAllUndefined,
   deSerializeOperationalLayer,
@@ -26,12 +26,12 @@ import {
   joinArrayPathParameters,
   useLocalStorage,
 } from "./util";
-import { notificationState } from "../../../atoms/atoms";
+import { notificationState } from "@atoms";
 import { parseCameraOptions, parseViewMode } from "./urlParser";
-import { translate } from "../../../util/util";
+import { translate } from "@util/util";
 import LocalStorageWriter from "./LocalStorageWriter.jsx";
 import { fetchLayerForMapId } from "./api.js";
-import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../components/BasemapSelectorControl/BasemapSelectorDialog.jsx";
+import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "@map/components/BasemapSelectorControl/BasemapSelectorDialog.jsx";
 import { validatePersistenceObject } from "./validation.js";
 import {
   convertLegacyMapViewToCameraOptions,

@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { LAYOUT_TYPES } from "../../layouts/util.js";
+import { LAYOUT_TYPES } from "@map/layouts/util.js";
 
 /**
  * Calculate relevant search area of the screen in pixel sizes

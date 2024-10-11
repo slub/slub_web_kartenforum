@@ -14,8 +14,8 @@ import React, { useCallback } from "react";
 import { useRecoilValue } from "recoil";
 
 import MapSearchListElementBase from "./MapSearchListElementBase.jsx";
-import { isDefined } from "../../../../../../util/util.js";
-import { mapState } from "../../../../atoms/atoms.js";
+import { isDefined } from "@util/util.js";
+import { mapState } from "@map/atoms";
 import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase.jsx";
 import { updateOverlayLayer } from "../MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 

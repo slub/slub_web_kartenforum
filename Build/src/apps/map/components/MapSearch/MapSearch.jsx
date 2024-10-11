@@ -14,16 +14,16 @@ import {
   facetState,
   searchIsLoadingState,
   mapCountState,
-} from "../../atoms/atoms";
-import { translate } from "../../../../util/util";
-import FacetedSearch from "../FacetedSearch/FacetedSearch";
+} from "@map/atoms";
+import { translate } from "@util/util";
+import FacetedSearch from "@map/components/FacetedSearch";
 import MapSearchResultList from "./components/MapSearchResultList/MapSearchResultList";
 import ToggleFacetsButton from "./components/ToggleFacetsButton/ToggleFacetsButton";
-import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner";
-import SvgIcons from "../../../../components/SvgIcons/SvgIcons.jsx";
+import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
+import SvgIcons from "@components/SvgIcons/SvgIcons.jsx";
 
 import "./MapSearch.scss";
-import PaginatingDataController from "../PaginatingDataController/PaginatingDataController.jsx";
+import PaginatingDataController from "@map/components/PaginatingDataController/PaginatingDataController.jsx";
 import PropTypes from "prop-types";
 
 export const MAP_PROJECTION = "EPSG:3857";

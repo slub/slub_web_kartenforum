@@ -4,10 +4,10 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { fetchAndParseWmsCapabilities } from "../../BasemapSelectorControl/util.js";
+import { fetchAndParseWmsCapabilities } from "@map/components/BasemapSelectorControl/util.js";
 import axios from "axios";
 import { MAP_LIBRE_METADATA, METADATA } from "../constants.js";
-import { MAP_OVERLAY_FILL_ID } from "../../MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
+import { MAP_OVERLAY_FILL_ID } from "@map/components/MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 /**
  * Fetches the maximum zoom value from an XML file located at the specified URL.

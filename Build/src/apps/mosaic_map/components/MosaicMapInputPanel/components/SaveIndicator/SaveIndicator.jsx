@@ -13,11 +13,11 @@ import {
   mosaicMapLoadingState,
   MosaicMapLoadingStates,
   mosaicMapSelectedMosaicMapState,
-} from "../../../../atoms/atoms.js";
-import { VALUE_CREATE_NEW_MAP } from "../../../MosaicMapSelectorDropdown/MosaicMapSelectorDropdown";
-import LoadingSpinner from "../../../../../../components/LoadingSpinner/LoadingSpinner.jsx";
-import { usePrevious } from "../../../../../../util/hooks.js";
-import { translate } from "../../../../../../util/util.js";
+} from "@mosaic-map/atoms";
+import { VALUE_CREATE_NEW_MAP } from "@mosaic-map/components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown";
+import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner.jsx";
+import { usePrevious } from "@util/hooks.js";
+import { translate } from "@util/util.js";
 import "./SaveIndicator.scss";
 
 export const SaveStates = {

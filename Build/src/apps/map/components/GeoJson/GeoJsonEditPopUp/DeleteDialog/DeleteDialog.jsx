@@ -7,8 +7,8 @@
 import React from "react";
 import { Modal, ModalHeader, ModalFooter, ModalBody } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { translate } from "../../../../../../../util/util.js";
-import Button from "../../../../../components/Buttons/Button";
+import { translate } from "../../../../../../util/util.js";
+import Button from "../../../Buttons/Button.jsx";
 import "./DeleteDialog.scss";
 
 const DeleteDialog = ({ show, onClose, onDelete }) => {

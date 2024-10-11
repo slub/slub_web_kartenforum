@@ -9,7 +9,9 @@ import React from "react";
 import { RecoilRoot } from "recoil";
 import { useWindowWidth } from "@react-hook/window-size";
 import PropTypes from "prop-types";
-import Notifications from "../../components/Notifications/Notifications";
+
+import Notifications from "@components/Notifications";
+
 import { PersistenceController } from "./persistence/PersistenceController";
 import { getLayoutForWidth } from "./layouts/util";
 import LayoutSwitcher from "./layouts/LayoutSwitcher";

@@ -9,14 +9,14 @@ import PropTypes from "prop-types";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import clsx from "clsx";
 
-import { getDefaultControls, isDefined } from "../../../../util/util";
-import { baseMapStyleLayersState, mapState } from "../../atoms/atoms";
-import { getMapClassNameForLayout } from "../../layouts/util";
-import { useSetElementScreenSize } from "../../../../util/hooks";
+import { getDefaultControls, isDefined } from "@util/util";
+import { baseMapStyleLayersState, mapState } from "@map/atoms";
+import { getMapClassNameForLayout } from "@map/layouts/util";
+import { useSetElementScreenSize } from "@util/hooks";
 
-import SettingsProvider from "../../../../SettingsProvider.js";
-import BasemapSelectorControl from "../BasemapSelectorControl/BasemapSelectorControl.jsx";
-import VkfMap from "../VkfMap/VkfMap.jsx";
+import SettingsProvider from "@settings-provider";
+import BasemapSelectorControl from "@map/components/BasemapSelectorControl";
+import VkfMap from "@map/components/VkfMap";
 
 import PermalinkExporter from "./components/PermalinkControl/PermalinkExporter.jsx";
 import BasemapLayerApplier from "./components/BasemapLayerApplier.jsx";

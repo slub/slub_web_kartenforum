@@ -8,16 +8,16 @@
 import React from "react";
 import { RecoilRoot } from "recoil";
 
-import MapWrapper from "../map/components/MapWrapper/MapWrapper.jsx";
-import SettingsProvider from "../../SettingsProvider.js";
-import { LAYOUT_TYPES } from "../map/layouts/util.js";
+import MapWrapper from "@map/components/MapWrapper/MapWrapper.jsx";
+import SettingsProvider from "@settings-provider";
+import { LAYOUT_TYPES } from "@map/layouts/util.js";
 import MosaiMapLayout from "./layouts/MosaicMapLayout.jsx";
 import MosaicMapSelectorDropdown from "./components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
 import RefreshOverviewButton from "./components/ToolbarControls/RefreshOverviewButton.jsx";
 import SaveMosaicMapButton from "./components/ToolbarControls/SaveMosaicMapButton/SaveMosaicMapButton.jsx";
 import DeleteMosaicMapButton from "./components/ToolbarControls/DeleteMosaicMapButton/DeleteMosaicMapButton.jsx";
 import MosaicMapInputPanel from "./components/MosaicMapInputPanel/MosaicMapInputPanel.jsx";
-import Notifications from "../../components/Notifications/Notifications.jsx";
+import Notifications from "@components/Notifications/Notifications.jsx";
 
 import "./AppMosaicMap.scss";
 

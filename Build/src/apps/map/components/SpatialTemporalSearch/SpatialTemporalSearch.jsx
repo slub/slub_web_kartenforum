@@ -7,11 +7,11 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
-import { timeRangeState } from "../../atoms/atoms";
-import MapSearch from "../MapSearch/MapSearch";
-import TimeSlider from "../TimeSlider/TimeSlider";
-import SettingsProvider from "../../../../SettingsProvider";
-import PlacenameSearchMap from "../../../../components/PlacenameSearch/PlacenameSearchMap.jsx";
+import { timeRangeState } from "@map/atoms";
+import MapSearch from "@map/components/MapSearch/MapSearch";
+import TimeSlider from "@map/components/TimeSlider/TimeSlider";
+import SettingsProvider from "@settings-provider";
+import PlacenameSearchMap from "@components/PlacenameSearch/PlacenameSearchMap.jsx";
 import "./SpatialTemporalSearch.scss";
 
 export const SpatialTemporalSearch = ({

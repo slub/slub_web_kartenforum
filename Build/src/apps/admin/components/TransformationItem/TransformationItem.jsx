@@ -8,9 +8,9 @@ import React, { useState } from "react";
 import { DropdownButton, MenuItem } from "react-bootstrap";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import SettingsProvider from "../../../../SettingsProvider";
-import { postJob } from "../../../../util/apiGeo";
-import DialogValidation from "../DialogValidation/DialogValidation";
+import SettingsProvider from "@settings-provider";
+import { postJob } from "@util/apiGeo";
+import DialogValidation from "@admin/components/DialogValidation/DialogValidation";
 import "./TransformationItem.scss";
 
 const validationStates = ["missing", "valid", "invalid"];

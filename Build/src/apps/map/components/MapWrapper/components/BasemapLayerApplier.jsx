@@ -10,18 +10,18 @@ import {
   removeWMSLayer,
   removeXYZLayer,
   showVectorBaseMapLayer,
-} from "../../BasemapSelectorControl/util.js";
+} from "@map/components/BasemapSelectorControl/util.js";
 import { useRecoilValue } from "recoil";
 import {
   activeBasemapIdState,
   baseMapStyleLayersState,
   mapState,
-} from "../../../atoms/atoms.js";
+} from "@map/atoms";
 import { useEffect, useMemo } from "react";
-import { useLocalStorage } from "../../../persistence/util.js";
-import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../../BasemapSelectorControl/BasemapSelectorDialog.jsx";
-import SettingsProvider from "../../../../../SettingsProvider.js";
-import { isDefined } from "../../../../../util/util.js";
+import { useLocalStorage } from "@map/persistence/util.js";
+import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "@map/components/BasemapSelectorControl/BasemapSelectorDialog.jsx";
+import SettingsProvider from "@settings-provider";
+import { isDefined } from "@util/util.js";
 
 export const BasemapLayerApplier = () => {
   const map = useRecoilValue(mapState);

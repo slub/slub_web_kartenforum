@@ -8,15 +8,15 @@ import React, { useState } from "react";
 import { Glyphicon, Radio } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-import { translate } from "../../../../util/util";
-import DialogAddWms from "./DialogAddWms";
-import { useLocalStorage } from "../../persistence/util";
+import { translate } from "@util/util";
+import { useLocalStorage } from "@map/persistence/util";
 import "./BasemapSelector.scss";
+import DialogAddWms from "./DialogAddWms";
 import { removeWMSLayer } from "./util.js";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { activeBasemapIdState } from "../../atoms/atoms.js";
-import SettingsProvider from "../../../../SettingsProvider.js";
-import { notificationState } from "../../../../atoms/atoms.js";
+import { activeBasemapIdState } from "@map/atoms/atoms.js";
+import SettingsProvider from "@settings-provider";
+import { notificationState } from "@atoms";
 //@TODO: Only allow one active dialog at the same time
 //@TODO: Fix WMS basemap applied after selecting default style (configuration?)
 //@TODO: Fix persistence -> Move to effect?

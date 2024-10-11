@@ -8,9 +8,9 @@ import React from "react";
 import clsx from "clsx";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
-import SvgIcons from "../../../../../../components/SvgIcons/SvgIcons.jsx";
+import SvgIcons from "@components/SvgIcons";
 
-import { selectedLayersState } from "../../../../atoms/atoms";
+import { selectedLayersState } from "@map/atoms";
 import "./LayerManagementButton.scss";
 
 export const LayerManagementButton = ({ buttonState, onClick }) => {

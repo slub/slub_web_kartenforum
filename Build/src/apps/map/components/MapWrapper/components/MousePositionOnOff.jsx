@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import round from "lodash.round";
-import { translate } from "../../../../../util/util";
+import { translate } from "@util/util";
 import { getControlFeedbackContainer } from "../util.js";
 import "./MousePositionOnOff.scss";
 

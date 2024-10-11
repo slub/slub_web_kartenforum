@@ -16,7 +16,7 @@ import {
 import PropTypes from "prop-types";
 import { ControlLabel, FormGroup, FormControl } from "react-bootstrap";
 
-import { isDefined, translate } from "../../../../../../util/util";
+import { isDefined, translate } from "@util/util";
 import "./DialogAddGeoJson.scss";
 
 export const DialogAddGeoJson = ({ initialName, onClose, onSubmit }) => {

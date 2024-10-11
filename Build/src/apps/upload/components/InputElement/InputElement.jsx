@@ -7,7 +7,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import PropTypes from "prop-types";
-import { findInputError } from "../../utils/util.js";
+import { findInputError } from "@upload/utils/util.js";
 import "./InputElement.scss";
 
 const isFormInvalid = (err) => {

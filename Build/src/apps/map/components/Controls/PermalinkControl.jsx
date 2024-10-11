@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { DOMcreate } from "../MapWrapper/tools.js";
+import { DOMcreate } from "@map/components/MapWrapper/tools.js";
 
 export const PERMALINK_CONTROL_ID = "permalink-control";
 

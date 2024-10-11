@@ -5,8 +5,8 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import { URL_VIEW_MODES } from "./urlParser";
-import { LAYER_TYPES } from "../components/CustomLayers";
-import SettingsProvider from "../../../SettingsProvider.js";
+import { LAYER_TYPES } from "@map/components/CustomLayers";
+import SettingsProvider from "@settings-provider";
 
 /**
  * Convert a mapview representation to url parameters

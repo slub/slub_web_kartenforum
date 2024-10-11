@@ -8,17 +8,17 @@ import React from "react";
 import clsx from "clsx";
 import { useRecoilState, useRecoilValue } from "recoil";
 
-import MapSearchListElement from "../../../../map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.jsx";
-import { mosaicMapSelectedLayersState } from "../../../atoms/atoms.js";
-import { checkIfArrayContainsLayer } from "../../../../map/components/MapSearch/util.js";
-import { mapState } from "../../../../map/atoms/atoms.js";
+import MapSearchListElement from "@map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.jsx";
+import { mosaicMapSelectedLayersState } from "@mosaic-map/atoms";
+import { checkIfArrayContainsLayer } from "@map/components/MapSearch/util.js";
+import { mapState } from "@map/atoms/atoms.js";
 import {
   moveMosaicOverlayToTop,
   MOSAIC_MAP_OVERLAY_SOURCE_ID,
-} from "../../MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
+} from "@mosaic-map/components/MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
 
 import "./MosaicMapSearchListElement.scss";
-import { isDefined } from "../../../../../util/util.js";
+import { isDefined } from "@util/util.js";
 
 export const MosaicMapSearchListElement = ({ data, index, style }) => {
   const [selectedMosaicLayers, setSelectedMosaicLayers] = useRecoilState(

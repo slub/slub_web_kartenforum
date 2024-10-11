@@ -7,11 +7,11 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import clsx from "clsx";
+import useControlContainer from "@map/hooks/useControlContainer.js";
+import { translate } from "@util/util";
+import { BASEMAP_SELECTOR_CONTROL_ID } from "@map/components/Controls/BasemapSelectorControl.jsx";
+import { ActiveDialog } from "@map/components/VkfMap/constants.js";
 import BasemapSelectorDialog from "./BasemapSelectorDialog.jsx";
-import { BASEMAP_SELECTOR_CONTROL_ID } from "../Controls/BasemapSelectorControl.jsx";
-import useControlContainer from "../../hooks/useControlContainer.js";
-import { translate } from "../../../../util/util";
-import { ActiveDialog } from "../VkfMap/constants.js";
 
 export const BasemapSelectorControl = () => {
   const { baseMapControlEl, activeDialog, toggleDialog, dialogRef } =

@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { translate } from "../../../../util/util.js";
+import { translate } from "@util/util.js";
 
 export function getLocale() {
     return {

@@ -13,8 +13,8 @@ import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { DndProvider } from "react-dnd-multi-backend";
 import { NativeTypes } from "react-dnd-html5-backend";
 
-import SvgIcons from "../../../../components/SvgIcons/SvgIcons.jsx";
-import { translate } from "../../../../util/util";
+import SvgIcons from "@components/SvgIcons/SvgIcons.jsx";
+import { translate } from "@util/util";
 import { parseGeoJsonFile } from "./util.js";
 import "./Dropzone.scss";
 

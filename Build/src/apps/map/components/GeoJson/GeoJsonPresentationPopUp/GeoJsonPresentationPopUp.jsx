@@ -6,10 +6,10 @@
  */
 import React, { useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { translate, isDefined } from "../../../../../util/util.js";
+import { translate, isDefined } from "@util/util.js";
 import { predefinedProperties } from "../constants.js";
 import { propExtractor } from "../util/util.js";
-import ImageFallback from "../GeoJsonEditPopUp/components/ImageFallback/ImageFallback.jsx";
+import ImageFallback from "../ImageFallback";
 import "./GeoJsonPresentationPopUp.scss";
 
 const HEADER_PROPERTIES = [...predefinedProperties, "attribution"];

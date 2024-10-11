@@ -6,9 +6,12 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { activeDialogState, mapState } from "../atoms/atoms.js";
-import { isDefined } from "../../../util/util.js";
-import { ActiveDialog, CustomEvents } from "../components/VkfMap/constants.js";
+import { activeDialogState, mapState } from "@map/atoms";
+import { isDefined } from "@util/util.js";
+import {
+    ActiveDialog,
+    CustomEvents,
+} from "@map/components/VkfMap/constants.js";
 
 const useControlContainer = (controlId, dialogType) => {
     const map = useRecoilValue(mapState);

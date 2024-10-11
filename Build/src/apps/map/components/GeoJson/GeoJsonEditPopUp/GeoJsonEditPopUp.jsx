@@ -8,11 +8,11 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Button as BootstrapButton } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-import { translate, isDefined } from "../../../../../util/util.js";
+import { translate, isDefined } from "@util/util.js";
 import { predefinedFieldSettings, styleFieldSettings } from "../constants.js";
-import Button from "../../Buttons/Button.jsx";
-import DeleteDialog from "./components/DeleteDialog/DeleteDialog.jsx";
-import { EditFields } from "./components/EditFields/EditFields.jsx";
+import Button from "@map/components/Buttons";
+import DeleteDialog from "./DeleteDialog/index.js";
+import EditFields from "./EditFields/index.js";
 import {
   extractAndSortNonStyleProperties,
   extractStyleProperties,

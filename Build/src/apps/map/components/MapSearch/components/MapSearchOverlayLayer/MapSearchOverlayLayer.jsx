@@ -6,7 +6,7 @@
  */
 import React from "react";
 
-import BaseOverlayLayer from "../../../../../../components/BaseOverlayLayer";
+import BaseOverlayLayer from "@components/BaseOverlayLayer";
 
 export const MAP_OVERLAY_SOURCE_ID = "vkf-map-overlay-source";
 export const MAP_OVERLAY_FILL_ID = "vkf-map-overlay-fill";

@@ -10,7 +10,7 @@ import {
   OPACITY_PROPERTIES,
   CustomEvents,
 } from "./constants.js";
-import { MAP_LIBRE_METADATA } from "../CustomLayers";
+import { MAP_LIBRE_METADATA } from "@map/components/CustomLayers";
 
 // Extend the maplibre map object with some custom events
 export class VkfMap extends MapWithTerrainBehavior {

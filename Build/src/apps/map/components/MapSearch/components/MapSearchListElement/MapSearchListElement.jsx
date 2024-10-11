@@ -7,7 +7,7 @@
 import React from "react";
 import { checkIfArrayContainsLayer } from "../../util.js";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { mapState, selectedLayersState } from "../../../../atoms/atoms.js";
+import { mapState, selectedLayersState } from "@map/atoms";
 import MapSearchListElementWithGeometryPreview from "./MapSearchListElementWithGeometryPreview.jsx";
 
 export const MapSearchListElement = (props) => {

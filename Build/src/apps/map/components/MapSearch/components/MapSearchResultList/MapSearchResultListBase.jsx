@@ -11,13 +11,13 @@ import clsx from "clsx";
 import { FixedSizeList as List } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
 
-import { map3dState } from "../../../../atoms/atoms";
+import { map3dState } from "@map/atoms";
 import MapSearchSortColumn from "../MapSearchSortColumn/MapSearchSortColumn";
-import { useSize } from "../../../../../../util/hooks";
-import { translate } from "../../../../../../util/util";
+import { useSize } from "@util/hooks";
+import { translate } from "@util/util";
 import "./MapSearchResultList.scss";
 import MapSearchListElement from "../MapSearchListElement/MapSearchListElement.jsx";
-import { HistoricMapLayer } from "../../../CustomLayers";
+import { HistoricMapLayer } from "@map/components/CustomLayers";
 
 const SEARCH_COLS = ["map_scale", "time_published", "title", "georeference"];
 

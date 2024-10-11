@@ -8,7 +8,7 @@ import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useRecoilState } from "recoil";
 
-import { facetState } from "../../atoms/atoms";
+import { facetState } from "@map/atoms";
 import FacetedSearchEntry from "./FacetedSearchEntry";
 import "./FacetedSearch.scss";
 

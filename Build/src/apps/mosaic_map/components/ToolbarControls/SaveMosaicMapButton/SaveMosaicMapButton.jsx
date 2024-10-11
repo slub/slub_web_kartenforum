@@ -8,21 +8,21 @@ import React, { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { Button } from "react-bootstrap";
 
-import { postMosaicMap } from "../../../../../util/apiMosaicMaps.js";
-import ControlButton from "../../../../georeferencer/components/ControlButton/ControlButton.jsx";
-import { translate } from "../../../../../util/util.js";
+import { postMosaicMap } from "@util/apiMosaicMaps.js";
+import ControlButton from "@georeferencer/components/ControlButton";
+import { translate } from "@util/util.js";
 import {
   mosaicMapLoadingState,
   MosaicMapLoadingStates,
   mosaicMapSelectedMosaicMapState,
-} from "../../../atoms/atoms.js";
-import { notificationState } from "../../../../../atoms/atoms.js";
-import Modal from "../../../../../components/Modal/Modal.jsx";
-import { VALUE_CREATE_NEW_MAP } from "../../MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
+} from "@mosaic-map/atoms";
+import { notificationState } from "@atoms";
+import Modal from "@components/Modal";
+import { VALUE_CREATE_NEW_MAP } from "@mosaic-map/components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
 import {
   useSavedState,
   SaveStates,
-} from "../../MosaicMapInputPanel/components/SaveIndicator/SaveIndicator.jsx";
+} from "@mosaic-map/components/MosaicMapInputPanel/components/SaveIndicator/SaveIndicator.jsx";
 
 import "./SaveMosaicMapButton.scss";
 

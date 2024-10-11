@@ -10,8 +10,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-import { isDefined, translate } from "../../../../../util/util";
-import { mapState, selectedLayersState } from "../../../atoms/atoms";
+import { isDefined, translate } from "@util/util";
+import { mapState, selectedLayersState } from "@map/atoms";
 import { groupLayers, setLayersToInitialState, sortLayers } from "./util";
 import "./DynamicMapVisualization.scss";
 

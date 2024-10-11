@@ -9,8 +9,8 @@ import { Modal, Button } from "react-bootstrap";
 import { useSetRecoilState } from "recoil";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import { notificationState } from "../../../../atoms/atoms";
-import { translate } from "../../../../util/util";
+import { notificationState } from "@atoms";
+import { translate } from "@util/util";
 import { isValidUrl, fetchAndParseWmsCapabilities } from "./util";
 import "./DialogAddWms.scss";
 

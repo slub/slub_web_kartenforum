@@ -12,18 +12,18 @@ import { transform } from "ol/proj";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import round from "lodash.round";
-import Observer from "../../../../util/observer";
+import Observer from "@util/observer";
 import {
     createClipPolygonStyle,
     createGcpDefaultStyle,
-} from "../../util/styles";
+} from "@georeferencer/util/styles";
 import {
     activateAddGcpAction,
     activateMoveGcpAction,
     activateDelGcpAction,
     activateDrawClipAction,
 } from "./actions";
-import { DEFAULT_PROJ } from "../../util/util.js";
+import { DEFAULT_PROJ } from "@georeferencer/util/util.js";
 
 /**
  * Transforms the given pixel coordinates to geo pixel coordinate system.

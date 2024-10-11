@@ -17,16 +17,16 @@ import clsx from "clsx";
 import { default as Skeleton } from "react-loading-skeleton/lib/skeleton";
 import { Glyphicon } from "react-bootstrap";
 
-import { LOADING_LAYER } from "../../../../map/components/MapSearch/components/MapSearchResultList/MapSearchResultListBase.jsx";
-import { mosaicMapSelectedLayersState } from "../../../atoms/atoms.js";
-import { mapState, selectedLayersState } from "../../../../map/atoms/atoms.js";
-import { translate } from "../../../../../util/util.js";
+import { LOADING_LAYER } from "@map/components/MapSearch/components/MapSearchResultList/MapSearchResultListBase.jsx";
+import { mosaicMapSelectedLayersState } from "@mosaic-map/atoms";
+import { mapState, selectedLayersState } from "@map/atoms";
+import { translate } from "@util/util.js";
 
-import "../../../../map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.scss";
+import "@map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.scss";
 import "./MosaicMapSelectedMapListElement.scss";
-import { METADATA } from "../../../../map/components/CustomLayers";
-import { checkIfArrayContainsLayer } from "../../../../map/components/MapSearch/util.js";
-import { MOSAIC_MAP_OVERLAY_SOURCE_ID } from "../../MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
+import { METADATA } from "@map/components/CustomLayers";
+import { checkIfArrayContainsLayer } from "@map/components/MapSearch/util.js";
+import { MOSAIC_MAP_OVERLAY_SOURCE_ID } from "@mosaic-map/components/MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
 
 export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";

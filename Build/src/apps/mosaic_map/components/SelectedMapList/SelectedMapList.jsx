@@ -9,20 +9,18 @@ import clsx from "clsx";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Button, Glyphicon } from "react-bootstrap";
 
-import MapSearchResultList from "../../../map/components/MapSearch/components/MapSearchResultList/MapSearchResultList";
+import MapSearchResultList from "@map/components/MapSearch/components/MapSearchResultList/MapSearchResultList";
 import { SelectedMapDataProvider } from "./SelectedMapDataProvider.jsx";
-import { translate } from "../../../../util/util.js";
-import FacetedSearch from "../../../map/components/FacetedSearch/FacetedSearch.jsx";
-import { mosaicMapSelectedLayersState } from "../../atoms/atoms.js";
-import MosaicMapSelectedMapListElement from "../ListElement/MosaicMapSelectedMapListElement/MosaicMapSelectedMapListElement.jsx";
-import { selectedLayersState } from "../../../map/atoms/atoms.js";
-
-import { mapState } from "../../../map/atoms/atoms.js";
+import { translate } from "@util/util.js";
+import FacetedSearch from "@map/components/FacetedSearch";
+import { mosaicMapSelectedLayersState } from "@mosaic-map/atoms";
+import MosaicMapSelectedMapListElement from "@mosaic-map/components/ListElement/MosaicMapSelectedMapListElement/MosaicMapSelectedMapListElement.jsx";
+import { selectedLayersState, mapState } from "@map/atoms";
 import {
   MOSAIC_MAP_OVERLAY_SOURCE_ID,
   moveMosaicOverlayToTop,
   resetMosaicOverlaySource,
-} from "../MosaicMapOverlayLayer/MosaicMapOverlayLayer";
+} from "@mosaic-map/components/MosaicMapOverlayLayer/MosaicMapOverlayLayer";
 
 import "./SelectedMapList.scss";
 

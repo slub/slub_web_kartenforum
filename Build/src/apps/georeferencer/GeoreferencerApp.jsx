@@ -8,8 +8,8 @@ import React from "react";
 import { RecoilRoot } from "recoil";
 import Toolbar from "./components/Toolbar/Toolbar";
 import GeoreferenceView from "./views/GeoreferenceView/GeoreferenceView";
-import Notifications from "../../components/Notifications/Notifications";
-import SettingsProvider from "../../SettingsProvider";
+import Notifications from "@components/Notifications";
+import SettingsProvider from "@settings-provider";
 import "./GeoreferencerApp.scss";
 
 export const GeoreferencerApp = () => {

@@ -4,10 +4,10 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { LAYER_TYPES, METADATA } from "../../../../CustomLayers";
+import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
 import React, { useState } from "react";
-import SettingsProvider from "../../../../../../../SettingsProvider.js";
-import { FALLBACK_SRC } from "../../../../MapSearch/components/MapSearchListElement/MapSearchListElementBase.jsx";
+import SettingsProvider from "@settings-provider";
+import { FALLBACK_SRC } from "@map/components/MapSearch/components/MapSearchListElement/MapSearchListElementBase.jsx";
 import PropTypes from "prop-types";
 
 export const LayerManagementThumbnail = (props) => {

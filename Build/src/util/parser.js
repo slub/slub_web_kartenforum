@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import HistoricMapLayer from "../apps/map/components/CustomLayers/HistoricMapLayer";
+import { HistoricMapLayer } from "@map/components/CustomLayers";
 
 /**
  * Function parses a search record from an elasticsearch query into

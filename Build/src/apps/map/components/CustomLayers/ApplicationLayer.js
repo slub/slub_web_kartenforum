@@ -12,7 +12,7 @@
  * @class ApplicationLayer
  */
 
-import { isDefined } from "../../../../util/util";
+import { isDefined } from "@util/util";
 import { METADATA } from "./constants";
 
 export class ApplicationLayer {

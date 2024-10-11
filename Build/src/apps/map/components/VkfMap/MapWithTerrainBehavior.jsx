@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import SettingsProvider from "../../../../SettingsProvider.js";
+import SettingsProvider from "@settings-provider";
 import { TERRAIN_SOURCE_ID } from "./constants.js";
 import { flyToAsync, sleepAsync } from "./util.js";
 import { Map } from "maplibre-gl";

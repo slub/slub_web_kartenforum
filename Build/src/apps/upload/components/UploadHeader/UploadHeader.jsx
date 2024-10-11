@@ -6,7 +6,7 @@
  */
 import React from "react";
 import PropTypes from "prop-types";
-import { translate } from "../../../../util/util.js";
+import { translate } from "@util/util.js";
 import "./UploadHeader.scss";
 
 export default function UploadHeader(props) {

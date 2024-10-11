@@ -4,12 +4,12 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { translate } from "../../../../../../../util/util.js";
-import SvgIcons from "../../../../../../../components/SvgIcons/SvgIcons.jsx";
+import { translate } from "@util/util.js";
+import SvgIcons from "@components/SvgIcons/SvgIcons.jsx";
 import React, { useCallback } from "react";
 import { triggerJsonDownload } from "../../../util.js";
 import PropTypes from "prop-types";
-import { GeoJsonLayer, METADATA } from "../../../../CustomLayers";
+import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
 
 /**
  * @typedef {Object} ExportGeojsonButtonProps React props for the ExportGeojsonButton component

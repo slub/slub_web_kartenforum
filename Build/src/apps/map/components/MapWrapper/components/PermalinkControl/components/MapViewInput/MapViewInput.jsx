@@ -10,13 +10,13 @@ import clsx from "clsx";
 
 import CopyToClipboardButton from "../CopyToClipboardButton/CopyToClipboardButton.jsx";
 import { getUrlWithQuery } from "../../PermalinkExporterTabs.jsx";
-import SettingsProvider from "../../../../../../../../SettingsProvider.js";
-import { translate } from "../../../../../../../../util/util.js";
-import LoadingSpinner from "../../../../../../../../components/LoadingSpinner/LoadingSpinner.jsx";
-import { useLocalStorage } from "../../../../../../persistence/util.js";
-import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "../../../../../BasemapSelectorControl/BasemapSelectorDialog.jsx";
+import SettingsProvider from "@settings-provider";
+import { translate } from "@util/util.js";
+import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner.jsx";
+import { useLocalStorage } from "@map/persistence/util.js";
+import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "@map/components/BasemapSelectorControl/BasemapSelectorDialog.jsx";
 import { useRecoilValue } from "recoil";
-import { currentApplicationStateState } from "../../../../../../atoms/atoms.js";
+import { currentApplicationStateState } from "@map/atoms";
 import "./MapViewInput.scss";
 
 export const MapViewInput = () => {

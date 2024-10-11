@@ -6,8 +6,8 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { queryStatistics } from "../../util/apiGeo";
-import { translate } from "../../util/util";
+import { queryStatistics } from "@util/apiGeo";
+import { translate } from "@util/util";
 import "./GeoreferenceRanking.scss";
 
 export const GeoreferenceRanking = () => {

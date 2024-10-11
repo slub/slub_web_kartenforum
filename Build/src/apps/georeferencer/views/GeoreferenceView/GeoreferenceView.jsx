@@ -8,21 +8,21 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import queryString from "query-string";
-import LoadingBar from "../../../../components/LoadingBar/LoadingBar";
-import MapSourceView from "../MapSourceView/MapSourceView";
-import MapTargetView from "../MapTargetView/MapTargetView";
-import { notificationState } from "../../../../atoms/atoms";
-import { queryTransformationForMapId } from "../../../../util/apiGeo";
-import { queryDocument } from "../../../../util/apiEs";
+import LoadingBar from "@components/LoadingBar";
+import MapSourceView from "@georeferencer/views/MapSourceView/MapSourceView";
+import MapTargetView from "@georeferencer/views/MapTargetView/MapTargetView";
+import { notificationState } from "@atoms";
+import { queryTransformationForMapId } from "@util/apiGeo";
+import { queryDocument } from "@util/apiEs";
 import {
   isLoadingState,
   mapMetadataState,
   transformationState,
-} from "../../atoms/atoms";
+} from "@georeferencer/atoms";
 import {
   geoJsonExtentFromTransformation,
   geoJsonExtentFromGeoJsonPolygon,
-} from "../../util/util";
+} from "@georeferencer/util/util";
 import "./GeoreferenceView.scss";
 
 const parseTransformation = (transformation) => {

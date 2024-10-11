@@ -18,10 +18,10 @@ import {
 import {
   mosaicMapSelectedLayersState,
   mosaicMapSelectedMosaicMapState,
-} from "../../atoms/atoms.js";
-import { VALUE_CREATE_NEW_MAP } from "../MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
+} from "@mosaic-map/atoms";
+import { VALUE_CREATE_NEW_MAP } from "@mosaic-map/components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
 import SaveIndicator from "./components/SaveIndicator/SaveIndicator.jsx";
-import { translate } from "../../../../util/util.js";
+import { translate } from "@util/util.js";
 
 import "./MosaicMapInputPanel.scss";
 

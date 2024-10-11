@@ -11,16 +11,16 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useDoubleTap } from "use-double-tap";
 
-import { translate } from "../../../../../util/util";
-import { OpacitySlider } from "../../../../../components/OpacitySlider/OpacitySlider";
-import SettingsProvider from "../../../../../SettingsProvider";
-import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
+import { translate } from "@util/util";
+import { OpacitySlider } from "@components/OpacitySlider/OpacitySlider";
+import SettingsProvider from "@settings-provider";
+import SvgIcons from "@components/SvgIcons/SvgIcons.jsx";
 import {
   GeoJsonLayer,
   HistoricMapLayer,
   LAYER_TYPES,
   METADATA,
-} from "../../CustomLayers";
+} from "@map/components/CustomLayers";
 import DragButton from "./components/DragButton/DragButton.jsx";
 import VisibilityButton from "./components/VisibilityButton/VisibilityButton.jsx";
 import RemoveLayerButton from "./components/RemoveLayerButton/RemoveLayerButton.jsx";

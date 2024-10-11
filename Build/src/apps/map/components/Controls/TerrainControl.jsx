@@ -5,7 +5,11 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import { bindAll, DOMcreate, DOMremove } from "../MapWrapper/tools.js";
+import {
+  bindAll,
+  DOMcreate,
+  DOMremove,
+} from "@map/components/MapWrapper/tools.js";
 
 //@TODO: Add license notice for maptiler-sdk
 /**

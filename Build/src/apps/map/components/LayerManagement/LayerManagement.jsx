@@ -10,13 +10,13 @@ import { useRecoilState } from "recoil";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 
-import { translate } from "../../../../util/util";
-import { mapState, selectedLayersState } from "../../atoms/atoms";
-import DeactivateMapCollection from "./DeactivateMapCollection/DeactivateMapCollection";
-import DynamicMapVisualization from "./DynamicMapVisualization/DynamicMapVisualization";
-import LayerManagementEntry from "./LayerManagementEntry/LayerManagementEntry";
-import { useSetElementScreenSize } from "../../../../util/hooks.js";
-import GeoJsonUploadHint from "./GeoJsonUploadHint/GeoJsonUploadHint.jsx";
+import { translate } from "@util/util";
+import { mapState, selectedLayersState } from "@map/atoms";
+import DeactivateMapCollection from "./DeactivateMapCollection";
+import DynamicMapVisualization from "./DynamicMapVisualization";
+import LayerManagementEntry from "./LayerManagementEntry";
+import { useSetElementScreenSize } from "@util/hooks.js";
+import GeoJsonUploadHint from "./GeoJsonUploadHint";
 import "./LayerManagement.scss";
 
 export const LayerManagement = ({

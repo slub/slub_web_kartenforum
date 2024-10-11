@@ -21,7 +21,7 @@ import {
   selectedLayersState,
   timeExtentState,
   timeRangeState,
-} from "../atoms/atoms.js";
+} from "@map/atoms";
 import { PERSISTENCE_OBJECT_KEY } from "./PersistenceController.jsx";
 
 export const LocalStorageWriter = function () {

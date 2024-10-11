@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import { useRecoilValue } from "recoil";
-import { selectedLayersState } from "../../../../atoms/atoms.js";
+import { selectedLayersState } from "@map/atoms";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 

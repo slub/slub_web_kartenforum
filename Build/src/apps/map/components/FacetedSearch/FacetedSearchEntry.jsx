@@ -8,7 +8,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { translate } from "../../../../util/util";
+import { translate } from "@util/util";
 
 export const FacetedSearchEntry = ({
   checked,

@@ -8,7 +8,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "core-js";
 
-import settingsProvider from "../../SettingsProvider";
+import settingsProvider from "@settings-provider";
 import GeoreferenceRanking from "./GeoreferenceRanking";
 import ProgressBarApp from "./ProgressBarApp";
 import UnreferencedMaps from "./UnreferencedMaps";

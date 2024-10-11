@@ -5,7 +5,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import SettingsProvider from "../../../../../SettingsProvider";
+import SettingsProvider from "@settings-provider";
 
 export const GEOJSON_LAYER_TYPES = {
     SYMBOL: "symbol",

@@ -4,11 +4,11 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { translate } from "../../../../../../../util/util.js";
-import SvgIcons from "../../../../../../../components/SvgIcons/SvgIcons.jsx";
+import { translate } from "@util/util.js";
+import SvgIcons from "@components/SvgIcons/SvgIcons.jsx";
 import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { mapState, selectedLayersState } from "../../../../../atoms/atoms.js";
+import { mapState, selectedLayersState } from "@map/atoms";
 import PropTypes from "prop-types";
 
 export const MoveToTopButton = (props) => {

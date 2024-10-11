@@ -11,10 +11,10 @@ import { useSetRecoilState } from "recoil";
 
 import SearchHeader from "./components/SearchHeader/SearchHeader";
 import LayerManagementButton from "./components/LayerManagementButton/LayerManagementButton";
-import LayerManagement from "../../components/LayerManagement/LayerManagement";
-import FacetedSearch from "../../components/FacetedSearch/FacetedSearch";
-import Modal from "../../../../components/Modal/Modal";
-import { elementsScreenSizeState } from "../../atoms/atoms";
+import LayerManagement from "@map/components/LayerManagement";
+import FacetedSearch from "@map/components/FacetedSearch";
+import Modal from "@components/Modal";
+import { elementsScreenSizeState } from "@map//atoms";
 import LayerManagementCloser from "./components/LayerManagementCloser/LayerManagementCloser.jsx";
 import "./VerticalLayout.scss";
 

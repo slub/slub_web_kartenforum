@@ -6,8 +6,8 @@
  */
 
 import React from "react";
-import { translate } from "../../../../../../../util/util";
-import SettingsProvider from "../../../../../../../SettingsProvider.js";
+import { translate } from "@util/util";
+import SettingsProvider from "@settings-provider";
 import PropTypes from "prop-types";
 import "./ImageFallback.scss";
 

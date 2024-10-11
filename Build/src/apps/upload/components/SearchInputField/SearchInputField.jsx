@@ -6,7 +6,7 @@
  */
 import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
-import { translate } from "../../../../util/util.js";
+import { translate } from "@util/util.js";
 import "./SearchInputField.scss";
 
 export default function SearchInputField(props) {

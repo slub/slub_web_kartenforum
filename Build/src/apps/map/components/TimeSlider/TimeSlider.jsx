@@ -9,8 +9,8 @@ import PropTypes from "prop-types";
 import { useRecoilState } from "recoil";
 import { Range } from "rc-slider";
 
-import { translate } from "../../../../util/util";
-import { timeExtentState } from "../../atoms/atoms";
+import { translate } from "@util/util";
+import { timeExtentState } from "@map/atoms";
 import "rc-slider/assets/index.css";
 import "./TimeSlider.scss";
 

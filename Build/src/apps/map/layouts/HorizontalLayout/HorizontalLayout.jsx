@@ -9,13 +9,13 @@ import React, { useRef } from "react";
 import { useRecoilState } from "recoil";
 import PropTypes from "prop-types";
 
-import { selectedOriginalMapIdState } from "../../atoms/atoms";
-import LayerManagement from "../../components/LayerManagement/LayerManagement";
-import SpatialTemporalSearch from "../../components/SpatialTemporalSearch/SpatialTemporalSearch";
-import OriginalMapView from "../../views/OriginalMapView/OriginalMapView";
-import { useSetElementScreenSize } from "../../../../util/hooks";
+import { selectedOriginalMapIdState } from "@map/atoms";
+import LayerManagement from "@map/components/LayerManagement/LayerManagement";
+import SpatialTemporalSearch from "@map/components/SpatialTemporalSearch/SpatialTemporalSearch";
+import OriginalMapView from "@map/views/OriginalMapView/OriginalMapView";
+import { useSetElementScreenSize } from "@util/hooks";
 import "./HorizontalLayout.scss";
-import GeoJsonFeatureView from "../../views/GeoJsonView/GeoJsonFeatureView.jsx";
+import GeoJsonFeatureView from "@map/views/GeoJsonView/GeoJsonFeatureView.jsx";
 
 export const HorizontalLayout = ({ onAddGeoJson }) => {
   const [selectedOriginalMapId, setOriginalMapId] = useRecoilState(

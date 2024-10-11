@@ -7,13 +7,13 @@
 
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import SettingsProvider from "../../../SettingsProvider";
+import SettingsProvider from "@settings-provider";
 import { LAYOUT_TYPES } from "./util";
 import { HorizontalLayout } from "./HorizontalLayout/HorizontalLayout";
 import VerticalLayout from "./VerticalLayout/VerticalLayout";
-import { MapWrapperWithGeojsonSupport } from "../components/MapWrapper/MapWrapperWithGeojsonSupport";
+import { MapWrapperWithGeojsonSupport } from "@map/components/MapWrapper/MapWrapperWithGeojsonSupport";
 import { useSetRecoilState } from "recoil";
-import { layoutState } from "../atoms/atoms.js";
+import { layoutState } from "@map/atoms";
 
 const getLayoutComponent = (layout) => {
   switch (layout) {

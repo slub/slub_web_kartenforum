@@ -12,12 +12,12 @@ import { transform } from "ol/proj";
 import {
   rectifiedImageParamsState,
   targetViewParamsState,
-} from "../../atoms/atoms";
-import Map2D from "../../../../components/Map2D/Map2D";
-import LayerRectifiedImage from "../../../../components/LayerRectifiedImage/LayerRectifiedImage";
-import PlacenameSearch from "../../../../components/PlacenameSearch/PlacenameSearch.jsx";
-import OpenLayerOpacitySlider from "../../../../components/OpacitySlider/OpenLayerOpacitySlider.jsx";
-import SettingsProvider from "../../../../SettingsProvider.js";
+} from "@georeferencer/atoms";
+import Map2D from "@components/Map2D";
+import LayerRectifiedImage from "@components/LayerRectifiedImage";
+import PlacenameSearch from "@components/PlacenameSearch/PlacenameSearch.jsx";
+import OpenLayerOpacitySlider from "@components/OpacitySlider/OpenLayerOpacitySlider.jsx";
+import SettingsProvider from "@settings-provider";
 import "./MapTargetView.scss";
 
 export const MapTargetView = (props) => {

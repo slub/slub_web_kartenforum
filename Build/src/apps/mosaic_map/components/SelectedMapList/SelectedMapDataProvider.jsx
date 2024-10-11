@@ -8,7 +8,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
-import { mosaicMapSelectedLayersState } from "../../atoms/atoms.js";
+import { mosaicMapSelectedLayersState } from "@mosaic-map/atoms";
 
 /**
  * Sort array of features by key

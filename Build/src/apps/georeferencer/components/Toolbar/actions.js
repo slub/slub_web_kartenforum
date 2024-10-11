@@ -9,7 +9,10 @@ import Draw from "ol/interaction/Draw";
 import Modify from "ol/interaction/Modify";
 import Select from "ol/interaction/Select";
 import { shiftKeyOnly, singleClick } from "ol/events/condition";
-import { createGcpDefaultStyle, createGcpHoverStyle } from "../../util/styles";
+import {
+    createGcpDefaultStyle,
+    createGcpHoverStyle,
+} from "@georeferencer/util/styles";
 
 /**
  * Actives the zoom pan action. Returns a function which disables action

@@ -11,8 +11,8 @@ import {
     GeoJsonLayer,
     LAYER_TYPES,
     METADATA,
-} from "../components/CustomLayers";
-import { isDefined } from "../../../util/util";
+} from "@map/components/CustomLayers";
+import { isDefined } from "@util/util";
 import { LngLatBounds } from "maplibre-gl";
 
 /**

@@ -8,25 +8,25 @@ import React, { useEffect, useState } from "react";
 import { Glyphicon } from "react-bootstrap";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
-import ControlDropDown from "../../../georeferencer/components/ControlDropDown/ControlDropDown.jsx";
-import { getMosaicMaps } from "../../../../util/apiMosaicMaps.js";
+import ControlDropDown from "@georeferencer/components/ControlDropDown";
+import { getMosaicMaps } from "@util/apiMosaicMaps.js";
 import {
   mosaicMapLoadingState,
   MosaicMapLoadingStates,
   mosaicMapSelectedLayersState,
   mosaicMapSelectedMosaicMapState,
-} from "../../atoms/atoms.js";
-import { translate } from "../../../../util/util.js";
-import { fetchLayerForMapId } from "../../../map/persistence/api.js";
-import { fitMapToFeatures } from "../../../map/persistence/util.js";
-import { notificationState } from "../../../../atoms/atoms.js";
-import { mapState } from "../../../map/atoms/atoms.js";
+} from "@mosaic-map/atoms";
+import { translate } from "@util/util.js";
+import { fetchLayerForMapId } from "@map/persistence/api.js";
+import { fitMapToFeatures } from "@map/persistence/util.js";
+import { notificationState } from "@atoms";
+import { mapState } from "@map/atoms";
 
 import "./MosaicMapSelectorDropdown.scss";
 import {
   MOSAIC_MAP_OVERLAY_SOURCE_ID,
   resetMosaicOverlaySource,
-} from "../MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
+} from "@mosaic-map/components/MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
 
 export const VALUE_CREATE_NEW_MAP = "create-new-mosaic-map";
 

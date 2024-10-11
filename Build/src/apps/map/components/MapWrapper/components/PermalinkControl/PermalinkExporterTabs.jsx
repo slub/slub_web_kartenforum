@@ -7,10 +7,10 @@
 import React from "react";
 import { Tab, Tabs } from "react-bootstrap";
 
-import { translate } from "../../../../../../util/util.js";
+import { translate } from "@util/util.js";
 import PermalinkInput from "./components/PermalinkInput/PermalinkInput.jsx";
 import { MapViewInput } from "./components/MapViewInput/MapViewInput";
-import SettingsProvider from "../../../../../../SettingsProvider.js";
+import SettingsProvider from "@settings-provider";
 import "./PermalinkExporterTabs.scss";
 
 export const getUrlWithQuery = (query) => {

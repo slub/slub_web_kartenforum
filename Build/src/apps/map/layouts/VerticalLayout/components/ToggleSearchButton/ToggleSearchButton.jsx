@@ -6,7 +6,7 @@
  */
 import React from "react";
 import PropTypes from "prop-types";
-import SvgIcons from "../../../../../../components/SvgIcons/SvgIcons.jsx";
+import SvgIcons from "@components/SvgIcons";
 
 import "./ToggleSearchButton.scss";
 
