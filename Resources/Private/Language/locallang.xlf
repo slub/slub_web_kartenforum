@@ -907,6 +907,9 @@
             <trans-unit id="plugin.upload.common.errors.unexpected" approved="yes">
                 <source>An unexpected error occured. Please contact an administrator.</source>
             </trans-unit>
+            <trans-unit id="plugin.upload.common.errors.upload.file" approved="yes">
+                <source>Please upload a file before submitting.</source>
+            </trans-unit>
 
     		<!-- Plugin Upload - SearchMapView -->
             <trans-unit id="plugin.upload.searchmap.title" approved="yes">

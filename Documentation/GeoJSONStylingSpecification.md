@@ -2,22 +2,21 @@
 
 ### Introduction
 
-The internally used geojson format is very similar to the format used by [geojson.io]().
-
-This will be explained in the next paragraphs using some example geometries, where individual features are mapped according to the geojson standard. Instead of explaining the standard, we refer to the page [geojson.org](https://geojson.org/) or to the [RFC 7946](https://tools.ietf.org/html/rfc7946). Instead, it is mainly explained how the application makes use of special styling properties stored under the properties keyword.<br>
+The internally used geojson format is very similar to the format used by [geojson.io](https://geojson.io/). For more information about the basic structure and content of a GeoJSON file please check the page [geojson.org](https://geojson.org/) or to the [RFC 7946](https://tools.ietf.org/html/rfc7946). Below you find more information about the support of GeoJSON features through the VKF.
 
 ### **Geometry Types:**
 
+The following geometries are supported through the VKF:
+
 1. Marker (point)
 2. Line String
-3. Multi-Line String
-4. Circle
-5. Polygon
-6. Multi-Polygon
-7. Geometry Collection
+3. Polygon
+
+More geometry types can be basically displayed, but are not fully supported through all GeoJSON functions of the VKF.
 
 ### **Coordinate reference system:**
 The coordinate reference system (CRS) of a [GeoJSON](http://wiki.geojson.org/GeoJSON_draft_version_6) object is determined by its "crs" member.If no CRS can be so acquired, the default CRS shall apply to the GeoJSON object.
+
 1. **Default coordinate reference system**: The default is a geographic coordinate reference system, using the World Geodetic
    System 1984 (WGS84) datum, and with longitude and latitude units of decimal degrees. **It's recommended to use WGS84 as a CRS in your GeoJSON.**
 
@@ -41,12 +40,12 @@ The coordinate reference system (CRS) of a [GeoJSON](http://wiki.geojson.org/Geo
 
 | Property Name  | Feature Geometry                                   | Type   | Default Value | Example | Explanation                                          |
 |:---------------| :------------------------------------------------- | :----- | :------------ | :------ | :--------------------------------------------------- |
-| marker         | Point, Multi Point                                 | String | Blue          | Yellow  | Supported Colors: Blue, Green, Orange, Pink, Yellow   |
-| fill           | Polygon, Multi Polygon, Geometry Collection, Circle | String | #0000FFFF     | #FFFF0044 | Fill color for polygons                              |
-| fill-opacity   | Polygon, Multi Polygon, Geometry Collection, Circle | Number | 0.13          | 0.7     | Transparency of fill color (0 to 1)                  |
-| stroke         | Line String, Multi-Line String, Polygon, Circle     | String | #0000FFFF     | #00FF00FF | Stroke color for lines and polygons                  |
-| stroke-opacity | Line String, Multi-Line String, Polygon, Circle     | Number | 1             | 0.7     | Stroke opacity (0 to 1)                              |
-| stroke-width   | Line String, Multi-Line String, Polygon, Circle     | Number | 3             | 13.5    | Width of the stroke (0 to 20 pixels)                  |
+| marker         | Point                                              | String | Blue          | Yellow  | Supported Colors: Blue, Green, Orange, Pink, Yellow  |
+| fill           | Polygon                                            | String | #0000FFFF     | #FFFF0044 | Fill color for polygons                            |
+| fill-opacity   | Polygon                                            | Number | 0.13          | 0.7     | Transparency of fill color (0 to 1)                  |
+| stroke         | LineString, Polygon                                | String | #0000FFFF     | #00FF00FF | Stroke color for lines and polygons                |
+| stroke-opacity | LineString, Polygon                                | Number | 1             | 0.7     | Stroke opacity (0 to 1)                              |
+| stroke-width   | LineString, Polygon                                | Number | 3             | 13.5    | Width of the stroke (0 to 20 pixels)                 |
 
 <br>
 <br>
@@ -253,5 +252,4 @@ The coordinate reference system (CRS) of a [GeoJSON](http://wiki.geojson.org/Geo
         }
     ]
 }
-
 ```

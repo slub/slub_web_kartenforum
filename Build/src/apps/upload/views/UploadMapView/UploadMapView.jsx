@@ -30,10 +30,12 @@ import "./UploadMapView.scss";
 export default function UploadMapView(props) {
   const { mapId, mapMetadata, onBack, onRefresh } = props;
   const [file, setFile] = useState(null);
+  const [isFileMissing, setIsFileMissing] = useState(false);
   const [pendingMapId, setPendingMapId] = useState(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [httpErrorStatusCode, setHttpErrorStatusCode] = useState(null);
+  const [reloadKey, setReloadKey] = useState(Date.now());
   const methods = useForm({
     defaultValues: {
       ...mapMetadata,
@@ -46,16 +48,31 @@ export default function UploadMapView(props) {
   //
   // Handler section
   //
-
   // Handle click on the back button
   const handleClickBack = useCallback(() => {
     onBack();
   }, [onBack]);
 
+  // Handle file selection
+  const handleFileSelect = (file) => {
+    if (file !== null) {
+      setFile(file);
+      setIsFileMissing(false);
+    }
+  };
+
   // Handle click on the submit button
   const handleClickSubmit = methods.handleSubmit(async (data) => {
     const newMetadata = getCleanMapMetadata(data);
     setIsLoading(true);
+    setIsFileMissing(false);
+
+    const isUploadAndFileMissing = file === null && mapId === null;
+    if (isUploadAndFileMissing) {
+      setIsFileMissing(true);
+      setIsLoading(false);
+      return;
+    }
 
     // Check if the metadata has changed >
     const hasMetadataChanged = areMetadataPropertiesDistinct(
@@ -109,6 +126,7 @@ export default function UploadMapView(props) {
       setPendingMapId(null);
       setFile(null);
       setHttpErrorStatusCode(null);
+      setReloadKey(Date.now());
     } else {
       setHttpErrorStatusCode(response.httpErrorStatusCode);
     }
@@ -169,6 +187,9 @@ export default function UploadMapView(props) {
             )}
           </div>
         )}
+        {isFileMissing && (
+          <p className="bg-danger">{translate("common-errors-upload-file")}</p>
+        )}
       </div>
 
       <div
@@ -202,8 +223,9 @@ export default function UploadMapView(props) {
             <div className="right-container">
               <UploadFile
                 mapMetadata={mapMetadata}
-                onFileSelect={setFile}
+                onFileSelect={handleFileSelect}
                 isPending={file !== null}
+                reloadKey={reloadKey}
               />
 
               <div>

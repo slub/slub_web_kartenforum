@@ -1111,6 +1111,10 @@
                 <source><![CDATA[An unexpected error occured. Please contact an administrator.]]></source>
                 <target><![CDATA[Ein unerwarteter Fehler ist aufgetreten. Kontaktieren sie bitte ggf. den Administrator.]]></target>
             </trans-unit>
+            <trans-unit id="plugin.upload.common.errors.upload.file" approved="yes">
+                <source><![CDATA[Please upload a file before submitting.]]></source>
+                <target><![CDATA[Bitte laden Sie vor dem Absenden eine Datei hoch.]]></target>
+            </trans-unit>
 
     		<!-- Plugin Upload -> SearchMapView -->
             <trans-unit id="plugin.upload.searchmap.title" approved="yes">
