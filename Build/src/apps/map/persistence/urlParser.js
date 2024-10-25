@@ -4,7 +4,11 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { is3dArray } from "./validation.js";
+import {
+    convertLegacyMapViewToCameraOptions,
+    areLegacyMapViewParams,
+    parseLegacyMapViewParams,
+} from "./backwardsCompatibility.js";
 
 export const URL_VIEW_MODES = {
     "2D": 0,
@@ -26,45 +30,24 @@ export const parseViewMode = (urlViewMode) => {
 
 /**
  * Parse the url parameters to an internal map view representation
- * @param mapViewParams
- * @param is3dEnabled
+ * @param cameraParams
  * @return {any}
  */
-export const parseMapView = (mapViewParams, is3dEnabled) => {
-    if (is3dEnabled) {
-        const { d, p, ri, u } = mapViewParams;
+export const parseCameraOptions = (cameraParams) => {
+    // backwards compatibility layer
+    if (areLegacyMapViewParams(cameraParams)) {
+        const mapView = parseLegacyMapViewParams(cameraParams);
 
-        // only assign defined properties to the resulting mapview item
-        return Object.assign(
-            {},
-            is3dArray(p) ? { position: array3dToPoint(p) } : null,
-            is3dArray(d) ? { direction: array3dToPoint(d) } : null,
-            is3dArray(u) ? { up: array3dToPoint(u) } : null,
-            is3dArray(ri) ? { right: array3dToPoint(ri) } : null
-        );
-    } else {
-        const { c, re, r, z } = mapViewParams;
-
-        // only assign defined properties to the resulting mapview item
-        return Object.assign(
-            {},
-            c === undefined ? null : { center: c },
-            re === undefined ? null : { resolution: re },
-            r === undefined ? null : { rotation: r },
-            z === undefined ? null : { zoom: z }
-        );
+        return convertLegacyMapViewToCameraOptions(mapView);
     }
-};
 
-/**
- * convert an array to a three dimensional point
- * @param arr
- * @return {{x: *, y: *, z: *}}
- */
-const array3dToPoint = (arr) => {
-    return {
-        x: arr[0],
-        y: arr[1],
-        z: arr[2],
-    };
+    const { c, be, p, z } = cameraParams;
+
+    return Object.assign(
+        {},
+        c === undefined ? null : { center: c },
+        be === undefined ? null : { bearing: be },
+        p === undefined ? null : { pitch: p },
+        z === undefined ? null : { zoom: z }
+    );
 };

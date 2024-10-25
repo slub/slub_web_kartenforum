@@ -9,7 +9,7 @@ import ReactDOM from "react-dom";
 import "core-js";
 
 import App from "./App";
-import settingsProvider from "../../SettingsProvider";
+import settingsProvider from "@settings-provider";
 export const SettingsProvider = settingsProvider;
 export function renderApp(element) {
   ReactDOM.render(<App id={element.id} />, element);

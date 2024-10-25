@@ -16,7 +16,6 @@ const AppViewStates = {
 };
 
 export const App = () => {
-  const [credentials, setCredentials] = useState(null);
   const [currentViewState, setCurrentViewState] = useState(
     AppViewStates.SEARCH
   );
@@ -47,17 +46,10 @@ export const App = () => {
     });
   };
 
-  // Handle login of user
-  const handleLogin = (newCredentials) => {
-    setCredentials(newCredentials);
-  };
-
   return (
     <div className="vkf-plugin-upload-map">
       {currentViewState === AppViewStates.SEARCH && (
         <SearchMapView
-          credentials={credentials}
-          onLogin={handleLogin}
           onSelectMap={handleSelectMap}
           onStartUpload={handleStartUpload}
         />
@@ -65,7 +57,6 @@ export const App = () => {
 
       {currentViewState === AppViewStates.UPLOAD && (
         <UploadMapView
-          credentials={credentials}
           mapId={selectedMap.mapId}
           mapMetadata={selectedMap.metadata}
           onBack={handleBackClick}

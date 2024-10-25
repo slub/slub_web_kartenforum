@@ -1,86 +1,57 @@
 @import "../../../../../../../../Resources/Private/Scss/Variables";
 
 .vkf-toggle-search-result-list {
-    position: relative;
-    top: 0;
     transition: $transition;
+    position: absolute;
+    top: 43px;
+    left: 50%;
+    width: 80px;
+    height: 30px;
+    margin-left: -40px;
+    appearance: none;
+    display: block;
+    background: transparent;
+    overflow: hidden;
+    border: 0;
+    z-index: 119;
 
-    button {
-        position: absolute;
-        left: 50%;
-        bottom: -35px;
-        width: 80px;
-        z-index: 110;
-        height: 30px;
-        margin-left: -40px;
-        appearance: none;
-        display: block;
-        background: transparent;
-        overflow: hidden;
-        border: 0;
-
-        &:focus {
-            border: none;
-            outline: none;
-        }
-
-        &:before {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 0;
-            height: 0;
-            margin-left: -23px;
-            border: 16px solid transparent;
-            border-bottom-color: white;
-            border-left-color: white;
-            transform-origin: 0 0;
-            transform: rotate(-45deg);
-            box-shadow: $shadow;
-            content: " ";
-        }
+    &:focus {
+        border: none;
+        outline: none;
     }
 
-    &:after {
+    .background {
         position: absolute;
-        top: -5px;
-        left: 50%;
-        margin-left: -10px;
+        bottom: 12px;
+        left: 21px;
+        background-color: white;
+        transform: rotate(45deg);
+        height: 36px;
+        width: 36px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        box-shadow: $shadow;
+    }
+
+    .chevron {
+        position: absolute;
+        bottom: 14px;
+        left: 29px;
+        transform: rotate(45deg);
         width: 20px;
         height: 20px;
         border: solid $secondary-color;
         border-width: 0 3px 3px 0;
-        content: " ";
-        transform: rotate(45deg);
         pointer-events: none;
         transition: $transition;
-        z-index: 111;
     }
 
     &.open {
-        top: 30%;
+        transform: translateY(calc(30vh - 5px));
 
-        button {
-            bottom: -30px;
-        }
-
-        &:before {
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            margin-left: -10px;
-            width: 20px;
-            height: 20px;
-            border: solid white;
-            border-width: 0 8px 8px 0;
-            content: " ";
-            transform: rotate(-135deg);
-            pointer-events: none;
-            transition: $transition;
-        }
-
-        &:after {
-            transform: rotate(225deg) scale(0.7);
+        .chevron {
+            transform: rotate(225deg) scale(0.7) translate(-6px, -6px);
         }
     }
 

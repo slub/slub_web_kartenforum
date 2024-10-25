@@ -4,29 +4,15 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import SettingsProvider from "../SettingsProvider.js";
-import axios from "axios";
+import SettingsProvider from "@settings-provider";
 import { readMosaicMap, serializeMosaicMap } from "./parser.js";
-import { VALUE_CREATE_NEW_MAP } from "../apps/mosaic_map/components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
-
-const validatebaseUrl = (baseUrl) => {
-    if (baseUrl === undefined) {
-        throw new Error("The url for the map_mposaic endpoint is not set.");
-    }
-};
-
-const getMosaicMapIdSearchParam = (mosaicMapId) => {
-    const urlParams = new URLSearchParams({ mosaic_map_id: mosaicMapId });
-    return urlParams.toString();
-};
+import { VALUE_CREATE_NEW_MAP } from "@mosaic-map/components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
 
 export const deleteMosaicMap = async (mosaicMapId) => {
-    const baseUrl =
-        SettingsProvider.getSettings().API_GEOREFERENCE_DELETE_MOSAIC_MAP;
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
-    const response = await axios.get(
-        `${baseUrl}&${getMosaicMapIdSearchParam(mosaicMapId)}`
-    );
+    const path = `/mosaic_maps/${mosaicMapId}`;
+    const response = await georeferenceApi.delete(path);
 
     if (response.status === 200) {
         return response.data;
@@ -41,13 +27,11 @@ export const deleteMosaicMap = async (mosaicMapId) => {
 };
 
 export const getMosaicMaps = async () => {
-    const baseUrl =
-        SettingsProvider.getSettings().API_GEOREFERENCE_GET_MOSAIC_MAPS;
-
-    validatebaseUrl(baseUrl);
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
+    const path = "/mosaic_maps/";
 
     // Build url and query it
-    const response = await axios.get(`${baseUrl}`);
+    const response = await georeferenceApi.get(path);
 
     if (response.status === 200) {
         return response.data.map(readMosaicMap);
@@ -62,16 +46,11 @@ export const getMosaicMaps = async () => {
 };
 
 export const postRefreshMosaicMaps = async (mosaicMapId) => {
-    const baseUrl =
-        SettingsProvider.getSettings()
-            .API_GEOREFERENCE_REFRESH_MOSAIC_MAP_SERVICE;
-
-    validatebaseUrl(baseUrl);
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
     // Build url and query it
-    const response = await axios.post(
-        `${baseUrl}&${getMosaicMapIdSearchParam(mosaicMapId)}`
-    );
+    const path = `/mosaic_maps/${mosaicMapId}/refresh`;
+    const response = await georeferenceApi.post(path);
 
     if (response.status === 200) {
         return response.data;
@@ -87,6 +66,7 @@ export const postRefreshMosaicMaps = async (mosaicMapId) => {
 
 export const postMosaicMap = async (mosaicMap) => {
     if (mosaicMap.id === undefined || mosaicMap.id === VALUE_CREATE_NEW_MAP) {
+        // eslint-disable-next-line no-unused-vars
         const { id, ...rest } = mosaicMap;
         return await postCreateMosaicMap(rest);
     } else {
@@ -95,12 +75,12 @@ export const postMosaicMap = async (mosaicMap) => {
 };
 
 export const postCreateMosaicMap = async (mosaicMap) => {
-    const baseUrl =
-        SettingsProvider.getSettings().API_GEOREFERENCE_CREATE_MOSAIC_MAP;
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
-    validatebaseUrl(baseUrl);
-
-    const response = await axios.post(baseUrl, serializeMosaicMap(mosaicMap));
+    // Build url and query it
+    const path = `/mosaic_maps/`;
+    const payload = serializeMosaicMap(mosaicMap);
+    const response = await georeferenceApi.post(path, payload);
 
     if (response.status === 200) {
         return readMosaicMap(response.data);
@@ -115,15 +95,14 @@ export const postCreateMosaicMap = async (mosaicMap) => {
 };
 
 export const postUpdateMosaicMap = async (mosaicMap) => {
-    const baseUrl =
-        SettingsProvider.getSettings().API_GEOREFERENCE_UPDATE_MOSAIC_MAP;
+    const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
-    validatebaseUrl(baseUrl);
+    // Build url and query it
+    const { id: mosaicMapId } = mosaicMap;
+    const path = `/mosaic_maps/${mosaicMapId}`;
+    const payload = serializeMosaicMap(mosaicMap);
 
-    const response = await axios.post(
-        `${baseUrl}&${getMosaicMapIdSearchParam(mosaicMap.id)}`,
-        serializeMosaicMap(mosaicMap)
-    );
+    const response = await georeferenceApi.post(path, payload);
 
     if (response.status === 200) {
         return readMosaicMap(response.data);

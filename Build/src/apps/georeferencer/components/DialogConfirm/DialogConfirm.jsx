@@ -7,7 +7,7 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { translate } from "../../../../util/util";
+import { translate } from "@util/util";
 import "./DialogConfirm.scss";
 
 export const DialogConfirm = (props) => {

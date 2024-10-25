@@ -11,8 +11,8 @@ import {
   queryTransformationForMapId,
   queryTransformationForUserId,
   queryTransformationForValidation,
-} from "../../../../util/apiGeo";
-import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner.jsx";
+} from "@util/apiGeo";
+import LoadingSpinner from "@components/LoadingSpinner";
 import "./SelectTransformations.scss";
 
 const SELECTION_IDS = {

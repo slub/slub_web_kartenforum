@@ -4,12 +4,24 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import axios from "axios";
-import SettingsProvider from "../../../SettingsProvider.js";
+import SettingsProvider from "@settings-provider";
 import { getDefaultMapMetadata } from "./defaultMapMetaData.js";
+import { Response } from "./util.js";
 
-const dummy_username = "";
-const dummy_password = "";
+/**
+ * Check if the provided error is unexpected. That means it is an axios response error with an error.response.status property greather than 404 or any other error.
+ */
+function hasUnexpectedErrorStatusCode(error) {
+    const isAxiosResponseError = error.response || false;
+    const isAxiosResponseErrorSmallerOrEqualThan404 =
+        error.response && error.response.status <= 404;
+
+    if (isAxiosResponseError && isAxiosResponseErrorSmallerOrEqualThan404) {
+        return false;
+    }
+
+    return true;
+}
 
 /**
  * This function makes sure, that we do not handle properties keys from the server response, which are currently not supported
@@ -43,100 +55,56 @@ function cleanClientMetadata(newMapMetadata) {
 /**
  * Deletes a map for a given map id
  */
-export async function deleteMapForMapId(
-    mapId,
-    username = dummy_username,
-    password = dummy_password
-) {
+export async function deleteMapForMapId(mapId) {
     try {
-        const baseUrl = SettingsProvider.getSettings().API_GEOREFERENCE_MAP;
-
-        if (baseUrl === undefined) {
-            throw new Error("The url for the map upload endpoint is not set.");
-        }
+        const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
         // Build url and query it
-        const response = await axios.delete(`${baseUrl}/maps/${mapId}`, {
-            auth: {
-                username: username,
-                password: password,
-            },
-        });
+        const path = `/maps/${mapId}`;
+        await georeferenceApi.delete(path);
 
-        if (response.status === 200) {
-            return true;
-        } else {
-            console.error(
-                "Something went wrong while trying to delete map id."
-            );
-            return null;
+        return Response.ok(true);
+    } catch (error) {
+        if (hasUnexpectedErrorStatusCode(error)) {
+            console.error(error);
         }
-    } catch (e) {
-        console.log(
-            "Something unexpected occurred while trying to delete map id."
-        );
-        console.error(e);
-        return null;
+
+        return Response.error(error);
     }
 }
 
 /**
  * Queries a map for a specific map id and returns the json body.
  */
-export async function readMapForMapId(
-    mapId,
-    username = dummy_username,
-    password = dummy_password
-) {
+export async function readMapForMapId(mapId) {
     try {
-        const baseUrl = SettingsProvider.getSettings().API_GEOREFERENCE_MAP;
-
-        if (baseUrl === undefined) {
-            throw new Error("The url for the map upload endpoint is not set.");
-        }
+        const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
         // Build url and query it
-        const response = await axios.get(`${baseUrl}/maps/${mapId}`, {
-            auth: {
-                username: username,
-                password: password,
-            },
-        });
+        const path = `/maps/${mapId}`;
+        const response = await georeferenceApi.get(path);
 
-        if (response.status === 200) {
-            if (response.data.map_id !== mapId) {
-                console.error(
-                    "The map id from the server does not match the given map id."
-                );
-                return null;
-            }
-
-            return cleanServerMetadata(response.data);
-        } else {
-            console.error("Something went wrong while trying to fetch map id.");
-            return null;
+        // TODO check if this is still a realistic error scenario
+        if (response.data.map_id !== mapId) {
+            const errorMsg =
+                "The map id from the server does not match the given map id.";
+            throw new Error(errorMsg);
         }
-    } catch (e) {
-        console.log(
-            "Something unexpected occurred while trying to fetch map id."
-        );
-        console.error(e);
-        return null;
+
+        const cleanedMetadata = cleanServerMetadata(response.data);
+        return Response.ok(cleanedMetadata);
+    } catch (error) {
+        if (hasUnexpectedErrorStatusCode(error)) {
+            console.error(error);
+        }
+
+        return Response.error(error);
     }
 }
 
-export async function createNewMap(
-    mapMetadata,
-    mapImageFile,
-    username = dummy_username,
-    password = dummy_password
-) {
+export async function createNewMap(mapMetadata, mapImageFile) {
     try {
-        const baseUrl = SettingsProvider.getSettings().API_GEOREFERENCE_MAP;
-
-        if (baseUrl === undefined) {
-            throw new Error("The url for the map upload endpoint is not set.");
-        }
+        const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
         // Create FormData
         const formData = new FormData();
@@ -148,57 +116,35 @@ export async function createNewMap(
             );
             formData.append("file", mapImageFile);
         } else {
-            console.error(
-                "Either the map metadata or the map image file is not set."
-            );
-            return null;
+            const errorMsg =
+                "Either the map metadata or the map image file is not set.";
+
+            throw new Error(errorMsg);
         }
 
         // Build url and query it
-        const response = await axios.post(
-            `${baseUrl}/maps/?user_id=${SettingsProvider.getUsername()}`,
-            formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                auth: {
-                    username: username,
-                    password: password,
-                },
-            }
-        );
+        const options = {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        };
+        const path = "/maps/";
+        const response = await georeferenceApi.post(path, formData, options);
+        const coercedMapId = "" + response.data.map_id;
 
-        if (response.status === 200) {
-            return response.data.map_id;
-        } else {
-            console.error(
-                "Something went wrong while trying to post new data."
-            );
-            return null;
+        return Response.ok(coercedMapId);
+    } catch (error) {
+        if (hasUnexpectedErrorStatusCode(error)) {
+            console.error(error);
         }
-    } catch (e) {
-        console.log(
-            "Something unexpected occurred while trying to fetch map id."
-        );
-        console.error(e);
-        return null;
+
+        return Response.error(error);
     }
 }
 
-export async function updateMap(
-    mapId,
-    mapMetadata,
-    mapImageFile,
-    username = dummy_username,
-    password = dummy_password
-) {
+export async function updateMap(mapId, mapMetadata, mapImageFile) {
     try {
-        const baseUrl = SettingsProvider.getSettings().API_GEOREFERENCE_MAP;
-
-        if (baseUrl === undefined) {
-            throw new Error("The url for the map upload endpoint is not set.");
-        }
+        const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
         // Create FormData
         const formData = new FormData();
@@ -215,82 +161,20 @@ export async function updateMap(
         }
 
         // Build url and query it
-        const response = await axios.post(
-            `${baseUrl}/maps/${mapId}?user_id=test_user`,
-            formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                auth: {
-                    username: username,
-                    password: password,
-                },
-            }
-        );
-
-        if (response.status === 200) {
-            console.log(response.data);
-            return response.data.map_id;
-        } else {
-            console.error(
-                "Something went wrong while trying to post new data."
-            );
-            return null;
-        }
-    } catch (e) {
-        console.log(
-            "Something unexpected occurred while trying to fetch map id."
-        );
-        console.error(e);
-        return null;
-    }
-}
-
-export async function testCredentials(username, password) {
-    try {
-        const baseUrl = SettingsProvider.getSettings().API_GEOREFERENCE_MAP;
-
-        if (baseUrl === undefined) {
-            throw new Error("The url for the credentials endpoint is not set.");
-        }
-
-        // Build url and query it
-        const response = await axios.get(`${baseUrl}/statistics`, {
-            auth: {
-                username: username,
-                password: password,
+        const options = {
+            headers: {
+                "Content-Type": "multipart/form-data",
             },
-        });
-
-        if (response.status === 200) {
-            return {
-                credentialsValid: true,
-                msg: "Credentials are valid.",
-                status: response.status,
-            };
-        } else if (response.status === 401) {
-            return {
-                credentialsValid: false,
-                msg: "Credentials are not valid.",
-                status: response.status,
-            };
-        } else {
-            return {
-                credentialsValid: false,
-                msg: "Unknown error.",
-                status: response.status,
-            };
-        }
-    } catch (e) {
-        console.log(
-            "Something unexpected occurred while trying to fetch map id."
-        );
-        console.error(e);
-        return {
-            credentialsValid: false,
-            msg: "Unknown error.",
-            status: null,
         };
+        const path = `/maps/${mapId}`;
+        const response = await georeferenceApi.post(path, formData, options);
+
+        return Response.ok(response.data.map_id);
+    } catch (error) {
+        if (hasUnexpectedErrorStatusCode(error)) {
+            console.error(error);
+        }
+
+        return Response.error(error);
     }
 }

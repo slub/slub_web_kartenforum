@@ -17,14 +17,5 @@ urlSearch = https://search-slub.pikobytes.de/vk20
 # cat=Global; type=string; label=JSON string (object) containing the terrain configuration
 terrain = {"url": "https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=kRAKrA0wcbZZFOT64bX5", "attribution": "<a href='https://www.maptiler.com/maps/3d/#10.4800/46.8400/4300/281/-24' target='_blank'>© MapTiler</a>"}
 
-# cat=Global; type=boolean; label=Enable preloading of 3d-Tiles in 2d-View  (in order to speed up the first switch between view modes)
-enableTilePreloading = false
-
 # cat=Georeference; type=string; label=API endpoint of the georeference service
 georefApi = https://geo-slub.pikobytes.de
-
-# cat=Georeference; type=string; label=Basic user for georeference authentication
-georefAuthUser =
-
-# cat=Georeference; type=string; label=Password for georeference authentication
-georefAuthPassword =

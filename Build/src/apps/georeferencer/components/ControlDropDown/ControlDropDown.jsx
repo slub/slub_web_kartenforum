@@ -8,8 +8,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Dropdown, MenuItem } from "react-bootstrap";
 import clsx from "clsx";
-import { translate } from "../../../../util/util";
-import SvgIcons from "../../../../components/SvgIcons/SvgIcons";
+import { translate } from "@util/util";
+import SvgIcons from "@components/SvgIcons";
 
 import "./ControlDropDown.scss";
 

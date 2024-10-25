@@ -5,8 +5,8 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import { URL_VIEW_MODES } from "./urlParser";
-import { LAYER_TYPES } from "../components/CustomLayers/LayerTypes";
-import SettingsProvider from "../../../SettingsProvider.js";
+import { LAYER_TYPES } from "@map/components/CustomLayers";
+import SettingsProvider from "@settings-provider";
 
 /**
  * Convert a mapview representation to url parameters
@@ -14,53 +14,17 @@ import SettingsProvider from "../../../SettingsProvider.js";
  * @param is3dEnabled
  * @return {any}
  */
-export const mapViewToUrlParams = (mapView, is3dEnabled) => {
-    if (is3dEnabled) {
-        const { direction, position, right, up } = mapView;
+export const cameraToUrlParams = (mapView) => {
+    const { center, bearing, pitch, zoom } = mapView;
 
-        // only assign defined properties to the resulting mapview item
-        return Object.assign(
-            {},
-            isPoint(position) ? { p: pointTo3dArray(position) } : null,
-            isPoint(direction) ? { d: pointTo3dArray(direction) } : null,
-            isPoint(up) ? { u: pointTo3dArray(up) } : null,
-            isPoint(right) ? { ri: pointTo3dArray(right) } : null
-        );
-    } else {
-        const { center, resolution, rotation, zoom } = mapView;
-
-        // only assign defined properties to the resulting mapview item
-        return Object.assign(
-            {},
-            center === undefined ? null : { c: center },
-            resolution === undefined ? null : { re: resolution },
-            rotation === undefined ? null : { r: rotation },
-            zoom === undefined ? null : { z: zoom }
-        );
-    }
-};
-
-/**
- * Check if an element is a 3d point
- * @param el
- * @return {boolean}
- */
-const isPoint = (el) => {
-    return (
-        el !== undefined &&
-        el.x !== undefined &&
-        el.y !== undefined &&
-        el.z !== undefined
+    // only assign defined properties to the resulting mapview item
+    return Object.assign(
+        {},
+        center === undefined ? null : { c: center },
+        bearing === undefined ? null : { be: bearing },
+        pitch === undefined ? null : { p: pitch },
+        zoom === undefined ? null : { z: zoom }
     );
-};
-
-/**
- * Converts a 3 dimensional point to an array
- * @param point
- * @return {[undefined,undefined,*]}
- */
-const pointTo3dArray = (point) => {
-    return [point.x, point.y, point.z];
 };
 
 /**
@@ -78,15 +42,15 @@ export const serializeBasemapId = (basemapId) => {
 };
 
 /**
- * serializes a selected feature state to an url parameter
- * @param selectedFeatures
+ * Serializes a selected layer state to an url parameter
+ * @param {[object]} selectedLayers an array of HistoricMapLayer instances
  * @return {{oid: *}}
  */
-export const serializeSelectedFeatures = (selectedFeatures) => {
+export const serializeSelectedLayers = (selectedLayers) => {
     return {
-        map_id: selectedFeatures
-            .filter(({ type }) => type === LAYER_TYPES.HISTORIC_MAP)
-            .map(({ feature }) => feature.getId()),
+        map_id: selectedLayers
+            .filter((layer) => layer.getType() === LAYER_TYPES.HISTORIC_MAP)
+            .map((layer) => layer.getId()),
     };
 };
 

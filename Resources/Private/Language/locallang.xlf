@@ -269,14 +269,6 @@
 				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
 			</trans-unit>
 
-            <!-- Global > Map > MarkerPicker -->
-            <trans-unit id="plugin.map.markerpicker.select">
-                <source>Select marker</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.markerpicker.preview">
-                <source>Preview of the selected marker</source>
-            </trans-unit>
-
             <!-- map Geojson Feature View -->
             <trans-unit id="plugin.map.geojson.featureview">
                 <source>Description</source>
@@ -507,8 +499,14 @@
 			<trans-unit id="plugin.map.facetedsearch.titleAK">
 				<source>Other historic maps</source>
 			</trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleMM">
+				<source>Mosaic maps</source>
+			</trans-unit>
 			<trans-unit id="plugin.map.facetedsearch.titleCM">
 				<source>City Map</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleGL">
+				<source>Geological maps (1:25.000)</source>
 			</trans-unit>
 			<trans-unit id="plugin.map.facetedsearch.titleMB">
 				<source>Meilenblätter (1:12.000)</source>
@@ -533,6 +531,9 @@
             <trans-unit id="plugin.map.persistencecontroller.errorSingleMap">
                 <source>The selected map could not be loaded.</source>
             </trans-unit>
+			<trans-unit id="plugin.map.persistencecontroller.errorSingleMap">
+				<source>The restored map view was created in an old version of the map forum. This may result in deviations of the view.</source>
+			</trans-unit>
 
 			<!-- PlacenameSearch -->
 			<trans-unit id="plugin.map.placenamesearch.placeholder">
@@ -614,14 +615,6 @@
 				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
 			</trans-unit>
 
-            <!-- Global > Map > MarkerPicker -->
-            <trans-unit id="plugin.map.markerpicker.select">
-                <source>Select marker</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.markerpicker.preview">
-                <source>Preview of the selected marker</source>
-            </trans-unit>
-
             <!-- Global > Map > Dropzone -->
             <trans-unit id="plugin.map.dropzone.wrongFiletype">
                 <source>Wrong filetype</source>
@@ -699,9 +692,16 @@
             </trans-unit>
 
            <!-- Global > Map > Control > Fullscreen -->
-			<trans-unit id="global.map.control-fullscreen.title">
-				<source>Toggle full-screen</source>
+			<trans-unit id="global.map.control-fullscreen.Enter">
+				<source>Enter fullscreen</source>
 			</trans-unit>
+            <trans-unit id="global.map.control-fullscreen.Exit">
+				<source>Exit fullscreen</source>
+			</trans-unit>
+			<!-- Legacy usage, by georeferencer > openlayers-->
+			<trans-unit id="global.map.control-fullscreen.title">
+            	<source>Toggle fullscreen</source>
+            </trans-unit>
 
            <!-- Global > Map > Control > Rotation -->
 			<trans-unit id="global.map.control-rotate.title">
@@ -711,6 +711,9 @@
            <!-- Global > Map > Control > LocateMe -->
 			<trans-unit id="global.map.control-locateme.title">
 				<source>Locate me</source>
+			</trans-unit>
+            <trans-unit id="global.map.control-locateme.LocationNotAvailable">
+				<source>Location not available</source>
 			</trans-unit>
 
             <!-- Global > Map > Control > Attribution -->
@@ -756,7 +759,9 @@
             <trans-unit id="global.map.control-basemapselector.errorInitialization">
                 <source>The selected base map is not available</source>
             </trans-unit>
-
+            <trans-unit id="global.map.control-basemapselector.error-invalid-url">
+                <source>The URL you entered is invalid or does not support WMS services. Please check the URL and try again.</source>
+            </trans-unit>
 			<!-- Plugin Map > OriginalMapview -->
 			<trans-unit id="plugin.map.originalview.title">
                 <source>Original map</source>
@@ -892,6 +897,20 @@
     			<source>Save georeference</source>
     		</trans-unit>
 
+    		<!-- Plugin Upload -> Common error messages -->
+            <trans-unit id="plugin.upload.common.errors.http.401" approved="yes">
+                <source>You must be logged in to carry out this action.</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.common.errors.http.403" approved="yes">
+                <source>You are not allowed to carry out this action.</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.common.errors.unexpected" approved="yes">
+                <source>An unexpected error occured. Please contact an administrator.</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.common.errors.upload.file" approved="yes">
+                <source>Please upload a file before submitting.</source>
+            </trans-unit>
+
     		<!-- Plugin Upload - SearchMapView -->
             <trans-unit id="plugin.upload.searchmap.title" approved="yes">
                 <source>choose a map</source>
@@ -905,18 +924,10 @@
             <trans-unit id="plugin.upload.searchmap.upload-button" approved="yes">
                 <source>upload map</source>
             </trans-unit>
-
-            <!-- Plugin Upload -> SearchMapView -> UserLogin -->
-            <trans-unit id="plugin.upload.searchmap.login.info" approved="yes">
-                <source>Please log in first with your access data.</source>
+            <trans-unit id="plugin.upload.searchmap.errors.http.400" approved="yes">
+                <source>Your search input does not match the expected format. Correct example: oai:de:slub-dresden:vk:id-10010325.</source>
             </trans-unit>
 
-            <trans-unit id="plugin.upload.searchmap.login.danger" approved="yes">
-                <source>You could not be logged in. Please check your username and password.</source>
-            </trans-unit>
-            <trans-unit id="plugin.upload.searchmap.login.success" approved="yes">
-                <source>You are successfully logged in as %REPLACE%.</source>
-            </trans-unit>
 
     		<!-- Plugin Upload -> UploadMapView -->
             <trans-unit id="plugin.upload.uploadmap.title" approved="yes">
@@ -937,6 +948,9 @@
             <trans-unit id="plugin.upload.uploadmap.save-btn" approved="yes">
                 <source>save</source>
             </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.save-btn-disabled-title" approved="yes">
+                <source>The uploaded map has not yet been processed. Please try refreshing.</source>
+            </trans-unit>
             <trans-unit id="plugin.upload.uploadmap.no-results-li1" approved="yes">
                 <source>Make sure all the words are spelled correctly.</source>
             </trans-unit>
@@ -951,6 +965,9 @@
             </trans-unit>
             <trans-unit id="plugin.upload.uploadmap.success-upload" approved="yes">
                 <source>The maps have been updated. Please wait a few minutes and then reload the map. Alternatively, you can upload or edit more maps.</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload.uploadmap.errors.refresh.http.404" approved="yes">
+                <source>The uploaded map has not yet been processed. Please wait an instant and click on Refresh.</source>
             </trans-unit>
 
             <!--  Plugin Upload -> UploadMapView -> DeleteDialog -->

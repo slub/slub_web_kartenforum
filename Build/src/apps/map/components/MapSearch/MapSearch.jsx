@@ -14,22 +14,26 @@ import {
   facetState,
   searchIsLoadingState,
   mapCountState,
-} from "../../atoms/atoms";
-import { translate } from "../../../../util/util";
-import FacetedSearch from "../FacetedSearch/FacetedSearch";
+} from "@map/atoms";
+import { translate } from "@util/util";
+import FacetedSearch from "@map/components/FacetedSearch";
 import MapSearchResultList from "./components/MapSearchResultList/MapSearchResultList";
 import ToggleFacetsButton from "./components/ToggleFacetsButton/ToggleFacetsButton";
-import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner";
-import SvgIcons from "../../../../components/SvgIcons/SvgIcons.jsx";
+import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner";
+import SvgIcons from "@components/SvgIcons/SvgIcons.jsx";
 
 import "./MapSearch.scss";
-import PaginatingDataController from "../PaginatingDataController/PaginatingDataController.jsx";
+import PaginatingDataController from "@map/components/PaginatingDataController/PaginatingDataController.jsx";
 import PropTypes from "prop-types";
 
 export const MAP_PROJECTION = "EPSG:3857";
 
 // The general Map Search component for the main view
-export const MapSearch = ({ customQuery, MapSearchListItemComponent }) => {
+export const MapSearch = ({
+  customQuery,
+  MapSearchListItemComponent,
+  mosaicMode,
+}) => {
   // state
   const [facets, setFacets] = useRecoilState(facetState);
   const [isFacetedSearchOpen, setIsFacetedSearchOpen] = useState(false);
@@ -86,7 +90,7 @@ export const MapSearch = ({ customQuery, MapSearchListItemComponent }) => {
             />
           </div>
           <div className="facet-container">
-            <FacetedSearch georeferenceMode={false} />
+            <FacetedSearch georeferenceMode={false} mosaicMode={mosaicMode} />
           </div>
         </div>
         <div className="panel-body">
@@ -104,6 +108,7 @@ export const MapSearch = ({ customQuery, MapSearchListItemComponent }) => {
 MapSearch.propTypes = {
   customQuery: PropTypes.array,
   MapSearchListItemComponent: PropTypes.elementType,
+  mosaicMode: PropTypes.bool,
 };
 
 export default MapSearch;

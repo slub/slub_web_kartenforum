@@ -34,7 +34,6 @@ foreach ($icons as $icon) {
 /***************
  * Pass some extension configuration variables to typoscript constants
  */
-ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.enableTilePreloading= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['enableTilePreloading']);
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.basemaps= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['basemaps']);
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.mapView= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['mapView']);
 ExtensionManagementUtility::addTypoScriptConstants("plugin.tx_slubwebkartenforum.settings.urlNominatim= " . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlNominatim']);
@@ -56,8 +55,8 @@ ExtensionUtility::configurePlugin(
 ExtensionUtility::configurePlugin(
     'SlubWebKartenforum',
     'georeference',
-    [GeorefController::class => 'getStatistics, getTransformationForMapId, getTransformationForUserId, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, getTest, postMapView, getMapView, getMosaicMaps, postMosaicMaps, postMosaicMap, refreshMosaicMap, deleteMosaicMap'],
-    [GeorefController::class => 'getStatistics, getTransformationForMapId, getTransformationForUserId, getTransformationForValidation, getUserHistory, postJob, postTransformationByMapId, getTest, postMapView, getMapView, getMosaicMaps, postMosaicMaps, postMosaicMap, refreshMosaicMap, deleteMosaicMap'],
+    [GeorefController::class => 'getSession'],
+    [GeorefController::class => 'getSession'],
     ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
 

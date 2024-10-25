@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
-import { translate } from "../../../../../../util/util";
+import { translate } from "@util/util";
 
 export const MapSearchSortColumn = ({ onClick, sortOrder, type }) => {
   const handleClick = () => {
@@ -24,7 +24,6 @@ export const MapSearchSortColumn = ({ onClick, sortOrder, type }) => {
     <div className={clsx("inner-col", type)}>
       <div
         className={clsx("sort-element", type, sortOrder)}
-        datatype={type}
         onClick={handleClick}
         onKeyDown={handleEnter}
         tabIndex={0}

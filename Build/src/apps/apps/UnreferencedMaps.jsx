@@ -5,9 +5,9 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useEffect, useState, useRef } from "react";
-import { queryUnreferencedDocuments } from "../../util/apiEs";
-import { translate } from "../../util/util";
-import SettingsProvider from "../../SettingsProvider";
+import { queryUnreferencedDocuments } from "@util/apiEs";
+import { translate } from "@util/util";
+import SettingsProvider from "@settings-provider";
 
 import "./UnreferencedMaps.scss";
 

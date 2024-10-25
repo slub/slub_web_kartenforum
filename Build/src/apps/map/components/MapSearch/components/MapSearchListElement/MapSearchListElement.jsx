@@ -5,54 +5,39 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React from "react";
-import { checkIfArrayContainsFeature } from "../../util.js";
-import { LAYER_TYPES } from "../../../CustomLayers/LayerTypes.js";
+import { checkIfArrayContainsLayer } from "../../util.js";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { mapState, selectedFeaturesState } from "../../../../atoms/atoms.js";
+import { mapState, selectedLayersState } from "@map/atoms";
 import MapSearchListElementWithGeometryPreview from "./MapSearchListElementWithGeometryPreview.jsx";
 
 export const MapSearchListElement = (props) => {
   const map = useRecoilValue(mapState);
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
-    selectedFeaturesState
-  );
+  const [selectedLayers, setSelectedLayers] =
+    useRecoilState(selectedLayersState);
 
   ////
   // Handler section
   ////
 
-  // Toggle selected state of fature and update global state
-  const handleElementClick = (feature) => {
-    const containsFeature = checkIfArrayContainsFeature(
-      selectedFeatures,
-      feature
-    );
+  // Toggle selected state of layer and update global state
+  const handleElementClick = (layer) => {
+    const containsLayer = checkIfArrayContainsLayer(selectedLayers, layer);
 
-    // remove feature if it is already contained
-    if (containsFeature) {
-      // remove from selectedFeaturesList
-      setSelectedFeatures((selectedFeatures) =>
-        selectedFeatures.filter(
-          ({ feature: selFeature }) =>
-            selFeature.get("id") !== feature.get("id")
+    // remove layer if it is already contained
+    if (containsLayer) {
+      // remove from selectedLayers list
+      setSelectedLayers((oldSelectedLayers) =>
+        oldSelectedLayers.filter(
+          (oldLayer) => oldLayer.getId() !== layer.getId()
         )
       );
 
-      // remove map layer
-      const layers = map
-        .getLayers()
-        .getArray()
-        .filter((lay) => lay.allowUseInLayerManagement);
-      const layer = layers.find((layer) => {
-        return layer.getId() === feature.get("id");
-      });
-
-      map.removeLayer(layer);
+      layer.removeMapLibreLayers(map);
     } else {
-      setSelectedFeatures((selectedFeatures) => [
-        ...selectedFeatures,
-        { feature, type: LAYER_TYPES.HISTORIC_MAP },
-      ]);
+      //@TODO: Add loading feedback, while layer is added to map
+      layer.addLayerToMap(map).then(() => {
+        setSelectedLayers((oldSelectedLayers) => [...oldSelectedLayers, layer]);
+      });
     }
   };
 

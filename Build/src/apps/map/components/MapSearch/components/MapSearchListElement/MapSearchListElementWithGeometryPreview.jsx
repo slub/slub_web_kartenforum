@@ -10,41 +10,37 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React from "react";
+import React, { useCallback } from "react";
 import { useRecoilValue } from "recoil";
 
 import MapSearchListElementBase from "./MapSearchListElementBase.jsx";
-import { isDefined } from "../../../../../../util/util.js";
-import {
-  mapSearchOverlayLayerState,
-  olcsMapState,
-} from "../../../../atoms/atoms.js";
-import { LOADING_FEATURE } from "../MapSearchResultList/MapSearchResultListBase.jsx";
+import { isDefined } from "@util/util.js";
+import { mapState } from "@map/atoms";
+import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase.jsx";
+import { updateOverlayLayer } from "../MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 
 export const MapSearchListElementWithGeometryPreview = (props) => {
   const { data, index } = props;
-  const { maps, is3d } = data;
-  const olcsMap = useRecoilValue(olcsMapState);
-  const mapOverlayLayer = useRecoilValue(mapSearchOverlayLayerState);
-  const operationalLayer = maps[index] ?? LOADING_FEATURE;
+  const { maps } = data;
+  const map = useRecoilValue(mapState);
 
-  const handleMouseEnter = () => {
-    if (isDefined(mapOverlayLayer)) {
-      // clear old features and add hover feature
-      mapOverlayLayer.getSource().clear();
-      mapOverlayLayer.getSource().addFeature(operationalLayer);
-      if (is3d && olcsMap !== undefined) {
-        // for updating the vector layer
-        olcsMap.getAutoRenderLoop().restartRenderLoop();
-      }
-    }
-  };
+  const operationalLayer = maps[index] ?? LOADING_LAYER;
 
-  const handleMouseLeave = () => {
-    if (isDefined(mapOverlayLayer)) {
-      mapOverlayLayer.getSource().clear();
+  // @TODO: Rework search element parsing before implementing this correctly
+  const handleMouseEnter = useCallback(() => {
+    if (isDefined(map)) {
+      updateOverlayLayer(map, operationalLayer.toGeoJSON());
     }
-  };
+  }, [map, operationalLayer]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (isDefined(map)) {
+      updateOverlayLayer(map, {
+        type: "FeatureCollection",
+        features: [],
+      });
+    }
+  }, [map, operationalLayer]);
 
   return (
     <MapSearchListElementBase

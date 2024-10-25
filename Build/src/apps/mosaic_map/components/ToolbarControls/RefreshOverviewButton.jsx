@@ -7,12 +7,12 @@
 import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { postRefreshMosaicMaps } from "../../../../util/apiMosaicMaps.js";
-import ControlButton from "../../../georeferencer/components/ControlButton/ControlButton.jsx";
-import { translate } from "../../../../util/util.js";
-import { mosaicMapSelectedMosaicMapState } from "../../atoms/atoms.js";
-import { VALUE_CREATE_NEW_MAP } from "../MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
-import { notificationState } from "../../../../atoms/atoms.js";
+import { postRefreshMosaicMaps } from "@util/apiMosaicMaps.js";
+import ControlButton from "@georeferencer/components/ControlButton";
+import { translate } from "@util/util.js";
+import { mosaicMapSelectedMosaicMapState } from "@mosaic-map/atoms";
+import { VALUE_CREATE_NEW_MAP } from "@mosaic-map/components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
+import { notificationState } from "@atoms";
 
 export const RefreshOverviewButton = () => {
   const selectedMosaicMap = useRecoilValue(mosaicMapSelectedMosaicMapState);

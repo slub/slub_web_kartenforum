@@ -8,15 +8,15 @@ import React from "react";
 import clsx from "clsx";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
-import SvgIcons from "../../../../../../components/SvgIcons/SvgIcons.jsx";
+import SvgIcons from "@components/SvgIcons";
 
-import { displayedLayersCountState } from "../../../../atoms/atoms";
+import { selectedLayersState } from "@map/atoms";
 import "./LayerManagementButton.scss";
 
 export const LayerManagementButton = ({ buttonState, onClick }) => {
-  const displayedLayerCount = useRecoilValue(displayedLayersCountState);
+  const selectedLayers = useRecoilValue(selectedLayersState);
 
-  const disabled = displayedLayerCount === 0;
+  const disabled = selectedLayers.length === 0;
 
   return (
     <button
@@ -28,7 +28,7 @@ export const LayerManagementButton = ({ buttonState, onClick }) => {
       disabled={disabled}
       onClick={onClick}
     >
-      {!disabled && <span className="badge">{displayedLayerCount}</span>}
+      {!disabled && <span className="badge">{selectedLayers.length}</span>}
       <SvgIcons name="layers" />
     </button>
   );

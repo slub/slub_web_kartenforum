@@ -4,37 +4,26 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import axios from "axios";
-import { Feature } from "ol";
-import { queryDocument } from "../../../util/apiEs.js";
-import { readFeature } from "../../../util/parser.js";
+import { queryDocument } from "@util/apiEs.js";
+import { readLayer } from "@util/parser.js";
+import { HistoricMapLayer } from "@map/components/CustomLayers";
 
 /**
- * Fetches a feature based on a map id and parses it
+ * Fetches an application layer based on a map id
  * @param mapId
- * @param is3dEnabled
- * @return {Promise<ol.Feature>}
+ * @return {Promise<HistoricMapLayer>}
  */
-export const fetchFeatureForMapId = (mapId, is3dEnabled) =>
+export const fetchLayerForMapId = (mapId) =>
     queryDocument(mapId)
-        .then((res) =>
-            readFeature(mapId, res, undefined, undefined, is3dEnabled)
-        )
+        .then((res) => readLayer(mapId, res))
         .catch(() => {
-            const feature = new Feature({
-                id: mapId,
-                isMissing: true,
-                has_georeference: false,
+            const layer = new HistoricMapLayer({
+                metadata: {
+                    id: mapId,
+                    has_georeference: false,
+                },
             });
-            feature.setId(mapId);
-            return feature;
-        });
 
-/**
- * Fetches a map view from the backend and returns the corresponding json
- * @param url
- * @return {Promise<Pick<unknown, number|symbol>>}
- */
-export const fetchMapView = (url) => {
-    return axios.get(url).then((res) => res.data.map_view_json);
-};
+            layer.setIsMissing(true);
+            return layer;
+        });

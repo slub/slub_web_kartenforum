@@ -8,9 +8,11 @@ import round from "lodash.round";
 import Draw from "ol/interaction/Draw";
 import Modify from "ol/interaction/Modify";
 import Select from "ol/interaction/Select";
-import Polygon from "ol/geom/Polygon";
 import { shiftKeyOnly, singleClick } from "ol/events/condition";
-import { createGcpDefaultStyle, createGcpHoverStyle } from "../../util/styles";
+import {
+    createGcpDefaultStyle,
+    createGcpHoverStyle,
+} from "@georeferencer/util/styles";
 
 /**
  * Actives the zoom pan action. Returns a function which disables action
@@ -448,7 +450,7 @@ export function activateDrawClipAction(
     });
 
     // Make sure to always preventing drawing if already a polygon exists
-    interactionDraw.on("drawstart", (e) => {
+    interactionDraw.on("drawstart", () => {
         if (trgVecSou.getFeatures().length >= 1) {
             this.abortDrawing();
         }

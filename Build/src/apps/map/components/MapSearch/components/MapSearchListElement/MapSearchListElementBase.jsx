@@ -10,11 +10,12 @@ import { useRecoilValue } from "recoil";
 import clsx from "clsx";
 import { default as Skeleton } from "react-loading-skeleton/lib/skeleton";
 
-import { selectedFeaturesState } from "../../../../atoms/atoms";
-import { translate } from "../../../../../../util/util";
-import { checkIfArrayContainsFeature } from "../../util";
-import { LOADING_FEATURE } from "../MapSearchResultList/MapSearchResultListBase.jsx";
+import { selectedLayersState } from "@map/atoms";
+import { translate } from "@util/util";
+import { checkIfArrayContainsLayer } from "../../util";
+import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase.jsx";
 import "./MapSearchListElement.scss";
+import { METADATA } from "@map/components/CustomLayers";
 
 export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";
@@ -29,13 +30,13 @@ export const MapSearchListElementBase = ({
   style,
 }) => {
   const { direction, maps } = data;
-  const operationalLayer = maps[index] ?? LOADING_FEATURE;
+  const operationalLayer = maps[index] ?? LOADING_LAYER;
 
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const selectedLayers = useRecoilValue(selectedLayersState);
   const [src, setSrc] = useState(
-    operationalLayer.get("thumb_url") === undefined
+    operationalLayer.getMetadata(METADATA.thumbnailUrl) === undefined
       ? ""
-      : operationalLayer.get("thumb_url").replace("http:", "")
+      : operationalLayer.getMetadata(METADATA.thumbnailUrl).replace("http:", "")
   );
 
   ////
@@ -62,26 +63,28 @@ export const MapSearchListElementBase = ({
   // Effect section
   ///
 
-  // update thumb url if feature changes
+  // update thumb url if layer changes
   useEffect(() => {
-    setSrc(operationalLayer.get("thumb_url"));
+    setSrc(operationalLayer.getMetadata(METADATA.thumbnailUrl));
   }, [operationalLayer]);
 
-  const isLoading = operationalLayer === LOADING_FEATURE;
+  const isLoading = operationalLayer === LOADING_LAYER;
 
   const isSelected =
-    checkIfArrayContainsFeature(selectedFeatures, operationalLayer) &&
-    !isLoading;
+    checkIfArrayContainsLayer(selectedLayers, operationalLayer) && !isLoading;
 
   const scale =
-    operationalLayer.get("map_scale") === "0" ||
-    operationalLayer.get("map_scale") === 0
+    operationalLayer.getMetadata(METADATA.mapScale) === "0" ||
+    operationalLayer.getMetadata(METADATA.mapScale) === 0
       ? translate("mapsearch-listelement-unknown")
-      : `1:${operationalLayer.get("map_scale")}`;
+      : `1:${operationalLayer.getMetadata(METADATA.mapScale)}`;
 
-  const timePublished = parseInt(operationalLayer.get("time_published"), 0);
+  const timePublished = parseInt(
+    operationalLayer.getMetadata(METADATA.timePublished),
+    0
+  );
 
-  const isMosaicMap = operationalLayer.get("type") === "mosaic";
+  const isMosaicMap = operationalLayer.getMetadata(METADATA.type) === "mosaic";
 
   return (
     <li
@@ -89,12 +92,12 @@ export const MapSearchListElementBase = ({
       style={style}
       className={clsx(
         "vkf-mapsearch-record",
-        operationalLayer.get("map_type"),
+        operationalLayer.getMetadata(METADATA.type),
         isSelected && "selected",
         direction,
         isLoading && "loading"
       )}
-      id={operationalLayer.get("id")}
+      id={operationalLayer.getMetadata(METADATA.id)}
       onClick={isLoading ? undefined : handleClick}
       onKeyDown={isLoading ? undefined : handleKeyDown}
       onMouseEnter={onMouseEnter}
@@ -104,7 +107,9 @@ export const MapSearchListElementBase = ({
       <span className="data-col time">
         {isNaN(timePublished) ? "" : timePublished}
       </span>
-      <span className="data-col title">{operationalLayer.get("title")}</span>
+      <span className="data-col title">
+        {operationalLayer.getMetadata(METADATA.title)}
+      </span>
       <span className="data-col time">1</span>
       <div className="view-item">
         <span className="thumbnail" href="#">
@@ -112,9 +117,9 @@ export const MapSearchListElementBase = ({
             <Skeleton.default height="calc(100% - 6px)" />
           ) : (
             <img
-              alt={`Thumbnail Image of Map ${operationalLayer.get(
-                "title"
-              )} ${operationalLayer.get("time_published")}`}
+              alt={`Thumbnail Image of Map ${operationalLayer.getMetadata(
+                METADATA.title
+              )} ${operationalLayer.getMetadata(METADATA.timePublished)}`}
               onError={handleError}
               src={src}
             />
@@ -127,7 +132,11 @@ export const MapSearchListElementBase = ({
         </span>
         <div className="overview">
           <h2>
-            {isLoading ? <Skeleton.default /> : operationalLayer.get("title")}
+            {isLoading ? (
+              <Skeleton.default />
+            ) : (
+              operationalLayer.getMetadata(METADATA.title)
+            )}
           </h2>
           <div className="details">
             <div className="timestamp">
@@ -136,7 +145,7 @@ export const MapSearchListElementBase = ({
               ) : (
                 `${translate(
                   "mapsearch-listelement-time"
-                )} ${operationalLayer.get("time_published")}`
+                )} ${operationalLayer.getMetadata(METADATA.timePublished)}`
               )}
             </div>
             <div className="scale">
@@ -155,7 +164,7 @@ export const MapSearchListElementBase = ({
                 )}
               </div>
             )}
-            {!operationalLayer.get("has_georeference") && (
+            {!operationalLayer.getMetadata(METADATA.hasGeoReference) && (
               <div className="georeference">
                 {translate("mapsearch-listelement-no-georef")}
               </div>

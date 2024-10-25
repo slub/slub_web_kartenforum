@@ -5,7 +5,9 @@
     lang="en"
 >
     <input type="hidden" value="{georefApi}" id="setting-georefApi" />
-
+    <input type="hidden"
+           value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Images/layer_default.png')}"
+           id="settings-layer-fallback"/>
     <f:security.ifAuthenticated>
         <f:then>
             <input type="hidden" id="setting-is-auth" />
@@ -13,10 +15,6 @@
     </f:security.ifAuthenticated>
 
     <f:section name="HeaderAssets">
-        <link
-            rel="stylesheet"
-            href="{f:uri.resource(path: 'Contrib/Css/bootstrap-3.3.7.min.css', extensionName: 'slub_web_kartenforum')}"
-        />
         <link
             rel="stylesheet"
             href="{f:uri.resource(path: 'Build/plugin-upload-map.css', extensionName: 'slub_web_kartenforum')}"
@@ -30,10 +28,9 @@
     <f:section name="FooterAssets">
         <script type="text/javascript">
             vk2.SettingsProvider.appendSettings({
-                FALLBACK_THUMBNAIL:
-                    "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
-                API_GEOREFERENCE_MAP:
+                API_GEOREFERENCE_BASEURL:
                     document.getElementById("setting-georefApi").value,
+                FALLBACK_THUMBNAIL: document.getElementById("settings-layer-fallback").value,
                 USERNAME: "<vk:username field='username'/>",
             });
 
@@ -42,6 +39,16 @@
                     {},
                     vk2.SettingsProvider.getSettings().dictionary,
                     {
+                        // plugin upload common errors
+                        "common-errors-http-401":
+                            "<f:translate key='plugin.upload.common.errors.http.401' extensionName='SlubWebKartenforum' />",
+                        "common-errors-http-403":
+                            "<f:translate key='plugin.upload.common.errors.http.403' extensionName='SlubWebKartenforum' />",
+                        "common-errors-unexpected":
+                            "<f:translate key='plugin.upload.common.errors.unexpected' extensionName='SlubWebKartenforum' />",
+                        "common-errors-upload-file":
+                            "<f:translate key='plugin.upload.common.errors.upload.file' extensionName='SlubWebKartenforum' />",
+
                         // plugin upload searchmapview
                         "searchmap-title":
                             "<f:translate key='plugin.upload.searchmap.title' extensionName='SlubWebKartenforum' />",
@@ -51,13 +58,8 @@
                             "<f:translate key='plugin.upload.searchmap.placeholder' extensionName='SlubWebKartenforum' />",
                         "searchmap-upload-button":
                             "<f:translate key='plugin.upload.searchmap.upload-button' extensionName='SlubWebKartenforum' />",
-
-                        "searchmap-upload-login-info":
-                            "<f:translate key='plugin.upload.searchmap.login.info' extensionName='SlubWebKartenforum' />",
-                        "searchmap-upload-login-danger":
-                            "<f:translate key='plugin.upload.searchmap.login.danger' extensionName='SlubWebKartenforum' />",
-                        "searchmap-upload-login-success":
-                            "<f:translate key='plugin.upload.searchmap.login.success' extensionName='SlubWebKartenforum' />",
+                        "searchmap-errors-http-400":
+                            "<f:translate key='plugin.upload.searchmap.errors.http.400' extensionName='SlubWebKartenforum' />",
 
                         // plugin upload uploadmapview
                         "uploadmap-title":
@@ -72,6 +74,8 @@
                             "<f:translate key='plugin.upload.uploadmap.georef-btn' extensionName='SlubWebKartenforum' />",
                         "uploadmap-save-btn":
                             "<f:translate key='plugin.upload.uploadmap.save-btn' extensionName='SlubWebKartenforum' />",
+                        "uploadmap-save-btn-disabled-title":
+                            "<f:translate key='plugin.upload.uploadmap.save-btn-disabled-title' extensionName='SlubWebKartenforum' />",
                         "uploadmap-li1":
                             "<f:translate key='plugin.upload.uploadmap.no-results-li1' extensionName='SlubWebKartenforum' />",
                         "uploadmap-li2":
@@ -90,6 +94,8 @@
                             "<f:translate key='plugin.upload.uploadmap.deletedialog.cancel-btn' extensionName='SlubWebKartenforum' />",
                         "deletemodal-body":
                             "<f:translate key='plugin.upload.uploadmap.deletedialog.body' extensionName='SlubWebKartenforum' />",
+                        "uploadmap-errors-refresh-http-400":
+                            "<f:translate key='plugin.upload.uploadmap.errors.refresh.http.404' extensionName='SlubWebKartenforum' />",
                     }
                 ),
             });

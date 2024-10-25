@@ -4,17 +4,18 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { FullScreen, Rotate, ScaleLine, Zoom } from "ol/control";
-
-import SettingsProvider from "../SettingsProvider";
-import CustomAttribution from "../apps/map/components/MapWrapper/components/CustomAttribution";
-import LocateMeControl from "../components/Controls/LocateMeControl";
-import ToggleViewMode from "../components/ToggleViewmode/ToggleViewmode";
-import LayerSpy from "../components/Controls/LayerSpyControl";
-import BasemapSelector from "../apps/map/components/Controls/BasemapSelectorControl";
-import { MousePositionOnOff } from "../apps/map/components/MapWrapper/components/MousePositionOnOff";
-import { LAYOUT_TYPES } from "../apps/map/layouts/util";
-import PermalinkControl from "../apps/map/components/MapWrapper/components/PermalinkControl/PermalinkControl";
+import SettingsProvider from "@settings-provider";
+import BasemapSelectorControl from "@map/components/Controls/BasemapSelectorControl";
+import { MousePositionOnOff } from "@map/components/MapWrapper/components/MousePositionOnOff";
+import PermalinkControl from "@map/components/Controls/PermalinkControl.jsx";
+import {
+    FullscreenControl,
+    GeolocateControl,
+    NavigationControl,
+    ScaleControl,
+    AttributionControl,
+} from "maplibre-gl";
+import { TerrainControl } from "@map/components/Controls/TerrainControl.jsx";
 
 /*
  * ol does not export an inherits function in the current version
@@ -55,49 +56,50 @@ export function translate(key) {
 /**
  * Returns the default controls for the map view
  **/
-export const getDefaultControls = (params) => {
-    const {
-        basemapSelectorProps,
-        is3dActive,
-        layout,
-        onViewModeChange,
-        permalinkProps,
-        refSpyLayer,
-    } = params;
-
+export const getDefaultControls = () => {
     const defaultControls = [
-        new CustomAttribution({ is3d: is3dActive }),
-        new FullScreen({
-            activeClassName: "active",
-            tipLabel: translate("control-fullscreen-title"),
-        }),
-        new Rotate({
-            className: "rotate-north ol-unselectable",
-            tipLabel: translate("control-rotate"),
-        }),
-        new ScaleLine(),
-        new ToggleViewMode({
-            initialState: is3dActive,
-            onViewModeChange,
-        }),
-        new LocateMeControl(),
-        new BasemapSelector(basemapSelectorProps),
-        new PermalinkControl({ is3dActive, ...permalinkProps }),
-    ];
+        // new CustomAttribution({ is3d: is3dActive }),
+        {
+            position: "top-left",
+            control: new NavigationControl({
+                showZoom: true,
+                showCompass: false,
+                visualizePitch: false,
+            }),
+        },
+        { position: "top-left", control: new FullscreenControl() },
 
-    if (layout === LAYOUT_TYPES.HORIZONTAL) {
-        defaultControls.push(
-            new Zoom({
-                zoomInTipLabel: translate("control-zoom-in"),
-                zoomOutTipLabel: translate("control-zoom-out"),
+        {
+            position: "top-left",
+            control: new NavigationControl({
+                showZoom: false,
+                showCompass: true,
+                visualizePitch: true,
             }),
-            new LayerSpy({
-                refActiveBasemapId: permalinkProps.refActiveBasemapId,
-                refSpyLayer,
-            }),
-            new MousePositionOnOff()
-        );
-    }
+        },
+        {
+            position: "top-left",
+            control: new MousePositionOnOff(),
+        },
+        { position: "top-left", control: new TerrainControl() },
+        { position: "top-left", control: new BasemapSelectorControl() },
+        {
+            position: "top-left",
+            control: new GeolocateControl({ trackUserLocation: true }),
+        },
+        {
+            position: "top-left",
+            control: new PermalinkControl(),
+        },
+        {
+            position: "bottom-right",
+            control: new AttributionControl({ compact: true }),
+        },
+        {
+            position: "bottom-right",
+            control: new ScaleControl({ maxWidth: 137 }),
+        },
+    ];
 
     return defaultControls;
 };

@@ -6,11 +6,11 @@
  */
 import React, { useState, useEffect } from "react";
 import { transformExtent } from "ol/proj";
-import SettingsProvider from "../../SettingsProvider";
-import Map2D from "../../components/Map2D/Map2D";
-import LoadingBar from "../../components/LoadingBar/LoadingBar";
-import { queryTransformationPreview } from "../../util/apiGeo";
-import LayerRectifiedImage from "../../components/LayerRectifiedImage/LayerRectifiedImage";
+import SettingsProvider from "@settings-provider";
+import Map2D from "@components/Map2D";
+import LoadingBar from "@components/LoadingBar";
+import { queryTransformationPreview } from "@util/apiGeo";
+import LayerRectifiedImage from "@components/LayerRectifiedImage";
 import SelectTransformations from "./components/SelectTransformations/SelectTransformations";
 import TransformationItem from "./components/TransformationItem/TransformationItem";
 import "./Evaluation.scss";

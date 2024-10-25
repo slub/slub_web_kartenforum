@@ -10,10 +10,10 @@ import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
 import clsx from "clsx";
 
-import { translate } from "../../../../../../util/util";
-import { facetState } from "../../../../atoms/atoms";
+import { translate } from "@util/util";
+import { facetState } from "@map/atoms";
 import "./ToggleFacetsButton.scss";
-import SvgIcons from "../../../../../../components/SvgIcons/SvgIcons.jsx";
+import SvgIcons from "@components/SvgIcons/SvgIcons.jsx";
 
 export const ToggleFacetsButton = ({ onClick, isOpen }) => {
   const facets = useRecoilValue(facetState);

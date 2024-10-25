@@ -5,7 +5,13 @@
 <input type="hidden" value="{urlNominatim}" id="setting-urlNominatim"/>
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
 <input type="hidden" value="{terrain}" id="setting-terrain"/>
-<input type="hidden" value="{enableTilePreloading}" id="settings-enableTilePreloading"/>
+<input type="hidden"
+       value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Images/layer_default.png')}"
+       id="settings-layer-fallback"/>
+<input type="hidden"
+       value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Icons/ReactIconSprite.svg')}"
+       id="settings-icon-sprite"/>
+<input type="hidden" value="{georefApi}" id="setting-georefApi"/>
 <f:security.ifAuthenticated>
     <f:then>
         <input type="hidden" id="setting-is-auth"/>
@@ -19,25 +25,17 @@
     <script type="text/javascript"
             src="{f:uri.resource(path: 'Contrib/JavaScript/glif.min.js', extensionName: 'slub_web_kartenforum')}"></script>
     <script type="text/javascript"
-            src="{f:uri.resource(path: 'Contrib/JavaScript/Cesium/Cesium.js', extensionName: 'slub_web_kartenforum')}"></script>
-    <script type="text/javascript"
             src="{f:uri.resource(path: 'Build/plugin-map-mosaic.js', extensionName: 'slub_web_kartenforum')}"></script>
 </f:section>
 
 <f:section name="FooterAssets">
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
-            "API_MAP_VIEW_LOAD": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getMapView&type=9991",
-            "API_MAP_VIEW_PERSIST": document.getElementById("setting-is-auth") !== null ? "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMapView&type=9991" : undefined,
-            "API_GEOREFERENCE_GET_MOSAIC_MAPS": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getMosaicMaps&type=9991",
-            "API_GEOREFERENCE_REFRESH_MOSAIC_MAP_SERVICE": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=refreshMosaicMap&type=9991",
-            "API_GEOREFERENCE_UPDATE_MOSAIC_MAP": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMosaicMap&type=9991",
-            "API_GEOREFERENCE_CREATE_MOSAIC_MAP": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postMosaicMaps&type=9991",
-            "API_GEOREFERENCE_DELETE_MOSAIC_MAP": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=deleteMosaicMap&type=9991",
+            "API_GEOREFERENCE_BASEURL": document.getElementById("setting-georefApi").value,
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
             "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
-            "ENABLE_TILE_PRELOADING": JSON.parse(document.getElementById("settings-enableTilePreloading").value),
-            "FALLBACK_THUMBNAIL": "/typo3conf/ext/slub_web_kartenforum/Resources/Public/Images/layer_default.png",
+            FALLBACK_THUMBNAIL: document.getElementById("settings-layer-fallback").value,
+            ICON_SPRITE: document.getElementById("settings-icon-sprite").value,
             "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
             "MAPVIEW_PARAMS": JSON.parse(document.getElementById("setting-mapView").value),
             "NOMINATIM_URL": document.getElementById("setting-urlNominatim").value,
@@ -128,6 +126,7 @@
                     "facet-mtb": "<f:translate key='plugin.map.facetedsearch.titleMTB' extensionName='SlubWebKartenforum' />",
                     "facet-tk": "<f:translate key='plugin.map.facetedsearch.titleTK' extensionName='SlubWebKartenforum' />",
                     "facet-tkx": "<f:translate key='plugin.map.facetedsearch.titleTKX' extensionName='SlubWebKartenforum' />",
+                    "facet-mm": "<f:translate key='plugin.map.facetedsearch.titleMM' extensionName='SlubWebKartenforum' />",
 
                     // layer management
                     "layermanagement-show-map": "<f:translate key='plugin.map.layermanagement.showMap' extensionName='SlubWebKartenforum' />",

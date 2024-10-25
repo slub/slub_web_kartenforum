@@ -3,6 +3,7 @@
 <input type="hidden" value="{importApp}" id="setting-importapp"/>
 <input type="hidden" value="{urlNominatim}" id="setting-urlNominatim" />
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
+<input type="hidden" value="{georefApi}" id="setting-georefApi"/>
 <f:security.ifAuthenticated>
     <f:then>
         <input type="hidden" id="setting-is-auth"/>
@@ -25,8 +26,7 @@
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
-            "API_GEOREFERENCE_STATISTICS":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getStatistics&type=9991",
-            "API_GEOREFERENCE_USER_HISTORY":  "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getUserHistory&type=9991",
+            "API_GEOREFERENCE_BASEURL": document.getElementById("setting-georefApi").value,
             "LINK_TO_FAQ":  "/faq",
             "LINK_TO_GEOREFERENCE": document.getElementById("setting-is-auth") !== null ? "/georeferenzierung" : undefined,
             "LINK_TO_MAIN":  "/",

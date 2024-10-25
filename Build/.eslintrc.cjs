@@ -13,4 +13,12 @@ module.exports = {
   },
   plugins: ["react"],
   rules: {},
+  settings: {
+    react: {
+      version: "detect",
+    },
+  },
+  globals: {
+    process: "readonly",
+  },
 };

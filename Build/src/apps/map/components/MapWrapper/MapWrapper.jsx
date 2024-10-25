@@ -4,203 +4,51 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { Collection, Map } from "ol";
-import View from "ol/View";
-import VectorLayer from "ol/layer/Vector";
-import VectorSource from "ol/source/Vector";
-import { defaults, DragRotate } from "ol/interaction";
-import { shiftKeyOnly } from "ol/events/condition";
-import OLCesium from "olcs/OLCesium";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import olcsCore from "olcs/core";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import clsx from "clsx";
-import { useWindowWidth } from "@react-hook/window-size";
-import RasterSynchronizer from "olcs/RasterSynchronizer";
-import VectorSynchronizer from "olcs/VectorSynchronizer";
-import OverlaySynchronizer from "olcs/OverlaySynchronizer.js";
 
-import { createBaseMapLayer } from "../../../../util/geo";
-import {
-  getDefaultControls,
-  isDefined,
-  translate,
-} from "../../../../util/util";
-import {
-  activeBasemapIdState,
-  currentApplicationStateState,
-  map3dState,
-  mapState,
-  olcsMapState,
-  selectedFeaturesState,
-  selectedGeoJsonFeatureState,
-} from "../../atoms/atoms";
-import {
-  createHistoricMapForFeature,
-  generateLimitCamera,
-  setOptimizedCesiumSettings,
-} from "./util";
-import { getMapClassNameForLayout, LAYOUT_TYPES } from "../../layouts/util";
-import { useSetElementScreenSize } from "../../../../util/hooks";
-import GeoJsonLayer from "../CustomLayers/GeoJsonLayer";
-import customFeatureConverter from "./components/customFeatureConverter/customFeatureConverter";
-import { LAYER_TYPES } from "../CustomLayers/LayerTypes";
-import { notificationState } from "../../../../atoms/atoms";
+import { getDefaultControls, isDefined } from "@util/util";
+import { baseMapStyleLayersState, mapState } from "@map/atoms";
+import { getMapClassNameForLayout } from "@map/layouts/util";
+import { useSetElementScreenSize } from "@util/hooks";
+
+import SettingsProvider from "@settings-provider";
+import BasemapSelectorControl from "@map/components/BasemapSelectorControl";
+import VkfMap from "@map/components/VkfMap";
+
+import PermalinkExporter from "./components/PermalinkControl/PermalinkExporter.jsx";
+import BasemapLayerApplier from "./components/BasemapLayerApplier.jsx";
+import { getLocale } from "./locale.js";
+
+import "maplibre-gl/dist/maplibre-gl.css";
 import "./MapWrapper.scss";
-import SettingsProvider from "../../../../SettingsProvider.js";
+
+const style =
+  "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json";
 
 export function MapWrapper(props) {
   const {
-    baseMapUrl,
     ChildComponent,
-    disableClickHandler = false,
-    enable3d,
-    enableTerrain,
     layout,
     mapViewSettings = {
-      center: [1528150, 6630500],
+      center: [13.5981217, 59.562795],
       projection: "EPSG:3857",
       zoom: 2,
     },
     onAddGeoJson,
-    terrainTilesService,
+    loadMarkerIcon = true,
   } = props;
 
-  const initialBasemap = {
-    id: "slub-osm",
-    type: "xyz",
-    urls: baseMapUrl,
-  };
-
-  // state
-  const [activeBasemapId, setActiveBasemapId] =
-    useRecoilState(activeBasemapIdState);
-  const [activeBasemap, setActiveBasemap] = useState(initialBasemap);
-  const [is3dActive, set3dActive] = useRecoilState(map3dState);
-  const localStorageWriter = useRecoilValue(currentApplicationStateState);
   const [map, setMap] = useRecoilState(mapState);
-  const setOlcsMap = useSetRecoilState(olcsMapState);
-  const setSelectedGeoJsonFeature = useSetRecoilState(
-    selectedGeoJsonFeatureState
-  );
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
-    selectedFeaturesState
-  );
-  const setNotification = useSetRecoilState(notificationState);
-  const width = useWindowWidth();
+  const setBaseMapStyleLayers = useSetRecoilState(baseMapStyleLayersState);
 
   // refs
-  const controlsRef = useRef();
   const mapElement = useRef();
-  const olcsMapRef = useRef();
-  const refDialogEditFeature = useRef();
-
-  // used to make state easily accessible outside of the react tree in the permalink component
-  // do not access otherwise
-  const unsafe_refBasemapId = useRef(activeBasemapId);
-  const unsafe_refApplicationStateUpdater = useRef(undefined);
-  const unsafe_refSelectedFeatures = useRef(new Collection());
-  const unsafe_refSpyLayer = useRef(undefined);
 
   // publish elements size to global state
   useSetElementScreenSize(mapElement, "map");
-
-  ////
-  // Handler section
-  ////
-
-  // update active basemap
-  const handleBasemapChange = (newBasemapLayer) => {
-    setActiveBasemapId(newBasemapLayer.id);
-    setActiveBasemap(newBasemapLayer);
-  };
-
-  // toggle viewmode from 2d to 3d and vice versa
-  const handleChangeViewMode = (new3dStateGenerator) => {
-    let new3dState;
-    set3dActive((oldState) => {
-      new3dState = new3dStateGenerator(oldState);
-      return new3dState;
-    });
-
-    const ol3d = olcsMapRef.current;
-
-    if (ol3d !== undefined) {
-      if (new3dState) {
-        const scene = ol3d.getCesiumScene(),
-          camera = scene.camera,
-          bottom = olcsCore.pickBottomPoint(scene),
-          angle = Cesium.Math.toRadians(50),
-          transform = Cesium.Matrix4.fromTranslation(bottom);
-
-        if (ol3d.getEnabled()) return;
-        // 2d -> 3d transition
-        ol3d.setEnabled(true);
-
-        // take care that every time the view is reset when zoom out
-        olcsCore.rotateAroundAxis(camera, -angle, camera.right, transform, {
-          duration: 500,
-        });
-      } else {
-        if (!ol3d.getEnabled()) return;
-
-        const scene = ol3d.getCesiumScene(),
-          camera = scene.camera,
-          bottom = olcsCore.pickBottomPoint(scene),
-          transform = Cesium.Matrix4.fromTranslation(bottom),
-          angle = olcsCore.computeAngleToZenith(scene, bottom);
-
-        // 3d -> 2d transition
-        olcsCore.rotateAroundAxis(camera, -angle, camera.right, transform, {
-          callback: function () {
-            ol3d.setEnabled(false);
-            const view = ol3d.getOlMap().getView();
-            const resolution = view.getResolution();
-            const rotation = view.getRotation();
-
-            // constraints apply on setting them
-            view.setResolution(resolution);
-            view.setRotation(rotation);
-          },
-        });
-      }
-    }
-  };
-
-  // open overlay on map click and supply it with the first feature under the cursor
-  const handleMapClick = useCallback(
-    (e) => {
-      const pixel = e.pixel;
-
-      let newSelectedFeature;
-
-      // handle selection process depending on viewmode
-      if (!is3dActive) {
-        // use ol api for 2d
-        newSelectedFeature = map.forEachFeatureAtPixel(
-          pixel,
-          (feature) => feature
-        );
-      } else {
-        // use cesium api for 3d
-        const pickedFeature = olcsMapRef.current
-          .getCesiumScene()
-          .pick(new Cesium.Cartesian2(pixel[0], pixel[1]));
-
-        if (pickedFeature !== undefined)
-          newSelectedFeature = pickedFeature.primitive.olFeature;
-      }
-
-      if (isDefined(newSelectedFeature)) {
-        setSelectedGeoJsonFeature(newSelectedFeature);
-      } else {
-        // hide overlay
-        setSelectedGeoJsonFeature(null);
-      }
-    },
-    [is3dActive, map]
-  );
 
   ////
   // Effect section
@@ -208,249 +56,55 @@ export function MapWrapper(props) {
 
   // initialize map on first render - logic formerly put into componentDidMount
   useEffect(() => {
-    const view = new View(mapViewSettings);
-
-    // create and add vector source layer
-    const initalFeaturesLayer = new VectorLayer({
-      source: new VectorSource(),
+    const initialMap = new VkfMap({
+      container: mapElement.current,
+      center: mapViewSettings.center,
+      zoom: mapViewSettings.zoom,
+      maxZoom: mapViewSettings.maxZoom,
+      style,
+      locale: getLocale(),
+      attributionControl: false,
     });
 
-    const interactions = defaults({ shiftDragZoom: false });
-    interactions.extend([new DragRotate({ condition: shiftKeyOnly })]);
+    // Wait for the style to be fully loaded
+    const handleStyleLoad = () => {
+      setMap(initialMap);
+      setBaseMapStyleLayers(initialMap.getStyle().layers);
 
-    // create map
-    const initialMap = new Map({
-      controls: [],
-      layers: [createBaseMapLayer(initialBasemap), initalFeaturesLayer],
-      interactions,
-      renderer: "canvas",
-      target: mapElement.current,
-      view,
-    });
-    setMap(initialMap);
-
-    if (enable3d && enableTerrain) {
-      //
-      // Some code regarding the 3d capabilities is based on the work of https://github.com/geoadmin/mf-geoadmin3
-      //
-
-      //// initialize the globe
-      const ol3d = new OLCesium({
-        createSynchronizers: (map, scene) => [
-          new RasterSynchronizer(map, scene),
-          new VectorSynchronizer(map, scene, new customFeatureConverter(scene)),
-          new OverlaySynchronizer(map, scene),
-        ],
-        map: initialMap,
-        sceneOptions: {
-          scene3DOnly: true,
-        },
-      });
-
-      // hide cesium ion credits - because ion services are not used
-      ol3d.getCesiumScene()._creditContainer.style.display = "none";
-
-      // update terrain Exaggeration
-      ol3d.getCesiumScene().globe.terrainExaggeration = 3.0;
-
-      ol3d.enableAutoRenderLoop();
-
-      // initialize a terrain map
-      const scene = ol3d.getCesiumScene();
-
-      // initialize and load the terrain provider
-      if (terrainTilesService.type === "cesium") {
-        Cesium.Ion.defaultAccessToken = terrainTilesService.token;
+      if (loadMarkerIcon === true) {
+        const { id, url } = SettingsProvider.getMarkerSettings();
+        initialMap.loadImage(url).then((image) => {
+          initialMap.addImage(id, image.data, { sdf: true });
+        });
       }
+    };
 
-      scene.terrainProvider = new Cesium.CesiumTerrainProvider({
-        url:
-          terrainTilesService.type === "cesium"
-            ? Cesium.IonResource.fromAssetId(terrainTilesService.asset)
-            : terrainTilesService.url,
-        requestVertexNormals: true,
-      });
+    // Add event listener for style load
+    initialMap.on("style.load", handleStyleLoad);
 
-      setOptimizedCesiumSettings(scene);
-      // setShadowsActivated(scene);
-
-      scene.postRender.addEventListener(generateLimitCamera(mapViewSettings));
-
-      setOlcsMap(ol3d);
-      olcsMapRef.current = ol3d;
-
-      // preload 3d mode in order to improve start up time
-      if (SettingsProvider.getIsTilePreloadingEnabled()) {
-        ol3d.warmUp(ol3d.getCamera().getAltitude(), 5000);
-      }
-    }
+    return () => {
+      // Clean up event listener and remove map on unmount
+      initialMap.off("style.load", handleStyleLoad);
+      setMap(undefined);
+      initialMap.remove();
+    };
   }, []);
 
   useEffect(() => {
-    selectedFeatures.forEach((selectedFeature) => {
-      const {
-        displayedInMap = false,
-        feature,
-        isVisible = true,
-        opacity = 1,
-        type,
-      } = selectedFeature;
-
-      if (!displayedInMap && feature.get("has_georeference")) {
-        try {
-          const prom =
-            type === LAYER_TYPES.GEOJSON
-              ? new Promise((resolve) => resolve(new GeoJsonLayer({ feature })))
-              : createHistoricMapForFeature(feature);
-
-          prom.then((layer) => {
-            layer.allowUseInLayerManagement = true;
-
-            layer.setOpacity(opacity);
-            layer.setVisible(isVisible);
-            map.addLayer(layer);
-          });
-          selectedFeature.displayedInMap = true;
-        } catch (e) {
-          // there was an error mounting the layer => remove the selected feature and display an errror message
-          setNotification({
-            id: "map-wrapper",
-            type: "danger",
-            text: translate("mapwrapper-mount-layer-error"),
-          });
-
-          setSelectedFeatures((oldSelectedFeatures) =>
-            oldSelectedFeatures.filter(
-              (f) => f.feature.getId() !== feature.getId()
-            )
-          );
-        }
-      }
-    });
-  }, [selectedFeatures]);
-
-  useEffect(() => {
-    if (isDefined(controlsRef.current)) {
-      controlsRef.current.forEach((control) => {
-        const updateFn = control.handleExternal3dStateUpdate;
-        if (updateFn !== undefined) {
-          updateFn(is3dActive);
-        }
-      });
-    }
-  }, [is3dActive]);
-
-  // update the basemap selector state externally
-  useEffect(() => {
-    if (isDefined(controlsRef.current) && isDefined(map)) {
-      controlsRef.current.forEach((control) => {
-        const updateFn = control.handleExternalBasemapUpdate;
-        if (updateFn !== undefined) {
-          updateFn(activeBasemapId);
-        }
-      });
-    }
-  }, [activeBasemapId, map]);
-
-  // update controls on layout change
-  useEffect(() => {
-    // only add new controls if the first time there is an activeBasemapId available and if the layout changes
     if (isDefined(map)) {
-      if (isDefined(controlsRef.current)) {
-        controlsRef.current.forEach((control) => {
+      const newControls = getDefaultControls();
+
+      newControls.forEach(({ control, position }) => {
+        map.addControl(control, position);
+      });
+
+      return () => {
+        newControls.forEach(({ control }) => {
           map.removeControl(control);
         });
-      }
-
-      const newControls = getDefaultControls({
-        is3dActive,
-        layout,
-        basemapSelectorProps: {
-          onBasemapChange: handleBasemapChange,
-          onSetNotification: setNotification,
-        },
-        onViewModeChange: handleChangeViewMode,
-        permalinkProps: {
-          camera: olcsMapRef.current?.getCesiumScene().camera,
-          refActiveBasemapId: unsafe_refBasemapId,
-          refApplicationStateUpdater: unsafe_refApplicationStateUpdater,
-          refSelectedFeatures: unsafe_refSelectedFeatures,
-        },
-        refSpyLayer: unsafe_refSpyLayer,
-      });
-
-      newControls.forEach((control) => {
-        map.addControl(control);
-
-        // handle external state updates
-        let updateFn = control.handleExternalBasemapUpdate;
-        if (updateFn !== undefined) {
-          updateFn(activeBasemapId);
-        }
-
-        updateFn = control.handleExternal3dStateUpdate;
-        if (updateFn !== undefined) {
-          updateFn(is3dActive);
-        }
-      });
-
-      controlsRef.current = newControls;
-    }
-  }, [layout, map]);
-
-  // fit map to viewport after resize (e.g switch from landscape to portrait mode)
-  useEffect(() => {
-    if (map !== undefined) {
-      const timeout = setTimeout(() => {
-        map.updateSize();
-      }, 200);
-      return () => {
-        clearTimeout(timeout);
       };
     }
-  }, [map, width]);
-
-  // bind click handler to map
-  useEffect(() => {
-    if (
-      map !== undefined &&
-      layout === LAYOUT_TYPES.HORIZONTAL &&
-      !disableClickHandler
-    ) {
-      map.on("click", handleMapClick);
-
-      return () => {
-        map.un("click", handleMapClick);
-      };
-    }
-  }, [handleMapClick, layout, map]);
-
-  ////
-  // Sync state with refs in order for the controls to get the state updates
-  ////
-
-  useEffect(() => {
-    // clear collection
-    unsafe_refSelectedFeatures.current.clear();
-    // add in selected features
-    unsafe_refSelectedFeatures.current.extend(selectedFeatures);
-    // mark as changed
-    unsafe_refSelectedFeatures.current.changed();
-  }, [selectedFeatures]);
-
-  useEffect(() => {
-    if (map !== undefined && unsafe_refSpyLayer.current !== undefined) {
-      unsafe_refSpyLayer.current.changeLayer(createBaseMapLayer(activeBasemap));
-    }
-  }, [activeBasemap, map]);
-
-  useEffect(() => {
-    unsafe_refApplicationStateUpdater.current = localStorageWriter;
-  }, [localStorageWriter]);
-
-  useEffect(() => {
-    unsafe_refBasemapId.current = activeBasemapId;
-  }, [activeBasemapId]);
+  }, [map]);
 
   return (
     <div className="map-container">
@@ -460,6 +114,9 @@ export function MapWrapper(props) {
         tabIndex={0}
       >
         {isDefined(map) && <ChildComponent onAddGeoJson={onAddGeoJson} />}
+        <BasemapSelectorControl />
+        <PermalinkExporter />
+        <BasemapLayerApplier />
       </div>
     </div>
   );
@@ -468,9 +125,6 @@ export function MapWrapper(props) {
 export const mapWrapperProps = {
   baseMapUrl: PropTypes.arrayOf(PropTypes.string),
   ChildComponent: PropTypes.func,
-  disableClickHandler: PropTypes.bool,
-  enable3d: PropTypes.bool,
-  enableTerrain: PropTypes.bool,
   layout: PropTypes.string,
   mapViewSettings: PropTypes.shape({
     center: PropTypes.arrayOf(PropTypes.number),
@@ -478,12 +132,7 @@ export const mapWrapperProps = {
     zoom: PropTypes.number,
   }),
   onAddGeoJson: PropTypes.func,
-  terrainTilesService: PropTypes.shape({
-    asset: PropTypes.number,
-    token: PropTypes.string,
-    type: PropTypes.oneOf(["cesium", "maptiler"]).isRequired,
-    url: PropTypes.string,
-  }),
+  loadMarkerIcon: PropTypes.bool,
 };
 
 MapWrapper.propTypes = mapWrapperProps;

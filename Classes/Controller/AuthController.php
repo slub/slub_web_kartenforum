@@ -7,6 +7,8 @@ use TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
+use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserGroupRepository;
+use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
@@ -53,6 +55,20 @@ class AuthController extends ActionController
     protected $feUserRepository;
 
     /**
+     * userGroupRepository
+     *
+     * @var FrontendUserGroupRepository
+     */
+    protected $feUserGroupRepository;
+
+    /**
+     * persistenceManager
+     *
+     * @var PersistenceManager
+     */
+    protected $persistenceManager;
+
+    /**
      * @param FrontendUserRepository $feUserRepository
      */
     public function injectfeUserRepository(FrontendUserRepository $feUserRepository)
@@ -61,20 +77,20 @@ class AuthController extends ActionController
     }
 
     /**
-     * userGroupRepository
-     *
-     * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserGroupRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @param FrontendUserGroupRepository $feUserGroupRepository
      */
-    protected $userGroupRepository;
+    public function injectfeUserGroupRepository(FrontendUserGroupRepository $feUserGroupRepository)
+    {
+        $this->feUserGroupRepository = $feUserGroupRepository;
+    }
 
     /**
-     * persistenceManager
-     *
-     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @param PersistenceManager $persistenceManager
      */
-    protected $persistenceManager;
+    public function injectpersistenceManager(PersistenceManager $persistenceManager)
+    {
+        $this->persistenceManager = $persistenceManager;
+    }
 
     /**
      * Handle signup form
@@ -100,7 +116,7 @@ class AuthController extends ActionController
     public function addUserAction(User $user)
     {
         // attach user group to user
-        $usergroup = $this->userGroupRepository->findByTitle('vk2-user')[0];
+        $usergroup = $this->feUserGroupRepository->findByTitle('vk2-user')[0];
         $user->addUsergroup($usergroup);
 
         // handle password

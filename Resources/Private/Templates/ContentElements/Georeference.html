@@ -3,6 +3,8 @@
 <input type="hidden" value="{basemaps}" id="setting-basemaps"/>
 <input type="hidden" value="{urlNominatim}" id="setting-urlNominatim" />
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
+<input type="hidden" value="{georefApi}" id="setting-georefApi"/>
+<input type="hidden" value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Icons/ReactIconSprite.svg')}" id="settings-icon-sprite"/>
 
 <f:section name="HeaderAssets">
     <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/ol.css', extensionName: 'slub_web_kartenforum')}"/>
@@ -16,8 +18,8 @@
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
-            "API_GEOREFERENCE_TRANSFORMATION_FOR_MAPID": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationForMapId&type=9991",
-            "API_GEOREFERENCE_TRANSFORMATION_CONFIRM": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationByMapId&type=9991",
+            "API_GEOREFERENCE_BASEURL": document.getElementById("setting-georefApi").value,
+            "ICON_SPRITE": document.getElementById("settings-icon-sprite").value,
             "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
             "NOMINATIM_URL": document.getElementById("setting-urlNominatim").value,
         });
@@ -43,6 +45,7 @@
                     "georef-dialog-content": "<f:translate key='plugin.georeference.submit-dialog.content' extensionName='SlubWebKartenforum' />",
                     "georef-dialog-btn-cancel": "<f:translate key='plugin.georeference.submit-dialog.btn-cancel' extensionName='SlubWebKartenforum' />",
                     "georef-dialog-btn-submit": "<f:translate key='plugin.georeference.submit-dialog.btn-submit' extensionName='SlubWebKartenforum' />",
+                    "control-fullscreen-title": "<f:translate key='global.map.control-fullscreen.title' extensionName='SlubWebKartenforum' />",
                 }
             )
         });

@@ -6,8 +6,8 @@
  */
 import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { mapMetadataState, sourceViewParamsState } from "../../atoms/atoms";
-import ZoomifyMap from "../../../../components/ZoomifyMap/ZoomifyMap";
+import { mapMetadataState, sourceViewParamsState } from "@georeferencer/atoms";
+import ZoomifyMap from "@components/ZoomifyMap";
 import "./MapSourceView.scss";
 
 export const MapSourceView = () => {

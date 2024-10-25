@@ -6,7 +6,7 @@
  */
 import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
-import { translate } from "../../../../util/util.js";
+import { translate } from "@util/util.js";
 import "./SearchInputField.scss";
 
 export default function SearchInputField(props) {
@@ -24,6 +24,12 @@ export default function SearchInputField(props) {
     [setSearchValue]
   );
 
+  const submit = () => {
+    const trimmedValue = searchValue.trim();
+    onEnterId(trimmedValue);
+    setSearchValue(trimmedValue);
+  };
+
   return (
     <div className="search-input-field">
       <label htmlFor={idInputField} className="body1">
@@ -40,14 +46,14 @@ export default function SearchInputField(props) {
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
-              onEnterId(searchValue);
+              submit();
             }
           }}
         />
         <button
           type="button"
           className="search-button"
-          onClick={() => onEnterId(searchValue)}
+          onClick={() => submit()}
         >
           <span className="glyphicon glyphicon-search"></span>
         </button>

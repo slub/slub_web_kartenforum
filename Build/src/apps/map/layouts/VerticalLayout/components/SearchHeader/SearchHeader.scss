@@ -38,16 +38,17 @@
 
 .vkf-search-result-container {
     position: absolute;
-    height: 30%;
+    height: 30vh;
     width: 100%;
     background: white;
     overflow: auto;
     z-index: 100;
     box-shadow: $shadow;
+    transition: $transition;
 
     &.hide-search-result-list {
         transition: $transition;
-        height: 5px;
+        transform: translateY(calc(-100% + 5px));
 
         > div {
             opacity: 0;
@@ -55,7 +56,6 @@
     }
 
     &.show-search-result-list {
-        transition: $transition;
         transform: translateY(0);
     }
 

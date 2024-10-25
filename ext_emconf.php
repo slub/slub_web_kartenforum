@@ -9,7 +9,7 @@ $EM_CONF[$_EXTKEY] = [
     'category' => 'templates',
     'constraints' => [
         'depends' => [
-            'typo3' => '10.4.0-10.4.99'
+            'typo3' => '10.4.0-12.4.15'
         ],
         'conflicts' => [
         ],
@@ -26,5 +26,5 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Alexander Bigga',
     'author_email' => 'typo3@slub-dresden.de',
     'author_company' => 'SLUB Dresden',
-    'version' => '2.1.0',
+    'version' => '2.4.0',
 ];

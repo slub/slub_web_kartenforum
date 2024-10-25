@@ -8,24 +8,25 @@ import React, { useEffect, useState } from "react";
 import { Glyphicon } from "react-bootstrap";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
-import ControlDropDown from "../../../georeferencer/components/ControlDropDown/ControlDropDown.jsx";
-import { getMosaicMaps } from "../../../../util/apiMosaicMaps.js";
+import ControlDropDown from "@georeferencer/components/ControlDropDown";
+import { getMosaicMaps } from "@util/apiMosaicMaps.js";
 import {
   mosaicMapLoadingState,
   MosaicMapLoadingStates,
-  mosaicMapSelectedFeaturesState,
+  mosaicMapSelectedLayersState,
   mosaicMapSelectedMosaicMapState,
-} from "../../atoms/atoms.js";
-import { translate } from "../../../../util/util.js";
-import { fetchFeatureForMapId } from "../../../map/persistence/api.js";
-import {
-  fitMapToFeatures,
-  wrapMapFeatures,
-} from "../../../map/persistence/util.js";
-import { notificationState } from "../../../../atoms/atoms.js";
-import { mapState } from "../../../map/atoms/atoms.js";
+} from "@mosaic-map/atoms";
+import { translate } from "@util/util.js";
+import { fetchLayerForMapId } from "@map/persistence/api.js";
+import { fitMapToFeatures } from "@map/persistence/util.js";
+import { notificationState } from "@atoms";
+import { mapState } from "@map/atoms";
 
 import "./MosaicMapSelectorDropdown.scss";
+import {
+  MOSAIC_MAP_OVERLAY_SOURCE_ID,
+  resetMosaicOverlaySource,
+} from "@mosaic-map/components/MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
 
 export const VALUE_CREATE_NEW_MAP = "create-new-mosaic-map";
 
@@ -39,8 +40,8 @@ export const MosaicMapSelectorDropdown = () => {
   const [selectedMosaicMap, setSelectedMosaicMap] = useRecoilState(
     mosaicMapSelectedMosaicMapState
   );
-  const setMosaicMapSelectedFeatures = useSetRecoilState(
-    mosaicMapSelectedFeaturesState
+  const setSelectedMosaicLayers = useSetRecoilState(
+    mosaicMapSelectedLayersState
   );
   const setNotification = useSetRecoilState(notificationState);
 
@@ -78,27 +79,26 @@ export const MosaicMapSelectorDropdown = () => {
 
     if (newSelectedMosaicMap.raw_map_ids !== undefined) {
       const fetchProcesses = newSelectedMosaicMap.raw_map_ids.map((id) =>
-        fetchFeatureForMapId(id, false)
+        fetchLayerForMapId(id)
       );
 
       Promise.all(fetchProcesses)
-        .then((features) => {
-          features.forEach((feature) => {
-            feature.setId(`${feature.getId()}_mosaic_map_preview`);
-          });
-
-          // fit map to features
+        .then((layers) => {
           if (map !== undefined) {
-            fitMapToFeatures(map, features);
+            fitMapToFeatures(map, layers);
           }
 
-          setMosaicMapSelectedFeatures(wrapMapFeatures(features));
+          setSelectedMosaicLayers(layers);
+          layers.forEach((layer) =>
+            layer.addToOverlay(map, MOSAIC_MAP_OVERLAY_SOURCE_ID)
+          );
         })
         .catch((e) => {
           console.error(e);
         });
     } else {
-      setMosaicMapSelectedFeatures([]);
+      setSelectedMosaicLayers([]);
+      resetMosaicOverlaySource(map);
     }
   };
 

@@ -6,9 +6,9 @@
  */
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
-import { queryUserHistory } from "../../util/apiGeo";
-import { translate } from "../../util/util";
-import SettingsProvider from "../../SettingsProvider";
+import { queryUserHistory } from "@util/apiGeo";
+import { translate } from "@util/util";
+import SettingsProvider from "@settings-provider";
 import "./UserHistory.scss";
 
 const VALIDATION_CLASSES = {

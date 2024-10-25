@@ -8,10 +8,10 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-import Modal from "../../../../components/Modal/Modal";
-import { queryDocument } from "../../../../util/apiEs";
-import { translate } from "../../../../util/util";
-import ZoomifyMap from "../../../../components/ZoomifyMap/ZoomifyMap";
+import Modal from "@components/Modal";
+import { queryDocument } from "@util/apiEs";
+import { translate } from "@util/util";
+import ZoomifyMap from "@components/ZoomifyMap";
 import "./OriginalMapView.scss";
 
 export const OriginalMapView = (props) => {

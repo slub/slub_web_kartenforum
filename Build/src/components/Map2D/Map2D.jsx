@@ -16,8 +16,8 @@ import Zoom from "ol/control/Zoom";
 import ZoomToExtent from "ol/control/ZoomToExtent";
 import XYZ from "ol/source/XYZ";
 import { transformExtent } from "ol/proj";
-import { translate } from "../../util/util";
-import LayerSpyControl from "../Controls/LayerSpyControl";
+import { translate } from "@util/util";
+import LayerSpyControl from "@components/Controls/LayerSpyControl";
 import "./Map2D.scss";
 
 export const Map2D = (props) => {
@@ -127,6 +127,10 @@ Map2D.propTypes = {
   onLoad: PropTypes.func,
   urlNominatim: PropTypes.string,
   urlsOsmBaseMap: PropTypes.arrayOf(PropTypes.string),
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
 export default Map2D;

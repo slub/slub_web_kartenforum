@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import axios from "axios";
-import SettingsProvider from "../SettingsProvider";
+import SettingsProvider from "@settings-provider";
 
 /**
  * The function queries the search index for a specific document id and returns the json body.

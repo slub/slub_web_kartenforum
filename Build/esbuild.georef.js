@@ -4,35 +4,15 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import esbuild from "esbuild";
-import sass from "esbuild-plugin-sass";
+import { build } from "./esbuild.base.js";
 
 // Define constants
 const outputDir = "../Resources/Public/Build/";
-const isWatch = process.env.MODE === "watch";
-const isProduction = process.env.NODE_ENV === "production";
 
-esbuild
-    .build({
-        bundle: true,
-        entryPoints: ["./src/apps/georeferencer/index.jsx"],
-        globalName: "vk2",
-        loader: {
-            ".gif": "dataurl",
-            ".png": "dataurl",
-            ".svg": "dataurl",
-        },
-        minify: !isWatch && isProduction,
-        target: "es6",
-        plugins: [sass()],
-        outfile: `${outputDir}plugin-georeferencer.js`,
-        watch: isWatch
-            ? {
-                  onRebuild(error, result) {
-                      if (error) console.error("watch build failed:", error);
-                      else console.log("watch build succeeded:", result);
-                  },
-              }
-            : false,
-    })
-    .catch(() => process.exit(1));
+const options = {
+    entryPoints: ["./src/apps/georeferencer/index.jsx"],
+    outfile: `${outputDir}plugin-georeferencer.js`,
+};
+
+// Run the build process with the supplied options
+build(options);

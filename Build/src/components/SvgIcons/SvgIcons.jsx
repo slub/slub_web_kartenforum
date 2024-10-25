@@ -7,6 +7,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
+import SettingsProvider from "@settings-provider";
 
 const SvgIcons = ({ name, color, size }) => (
   <svg
@@ -16,9 +17,7 @@ const SvgIcons = ({ name, color, size }) => (
     width={size}
     height={size}
   >
-    <use
-      xlinkHref={`/typo3conf/ext/slub_web_kartenforum/Resources/Public/Icons/ReactIconSprite.svg#${name}`}
-    />
+    <use xlinkHref={`${SettingsProvider.getSettings().ICON_SPRITE}#${name}`} />
   </svg>
 );
 

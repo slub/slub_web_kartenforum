@@ -16,12 +16,12 @@ import {
 } from "react-bootstrap";
 
 import {
-  mosaicMapSelectedFeaturesState,
+  mosaicMapSelectedLayersState,
   mosaicMapSelectedMosaicMapState,
-} from "../../atoms/atoms.js";
-import { VALUE_CREATE_NEW_MAP } from "../MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
+} from "@mosaic-map/atoms";
+import { VALUE_CREATE_NEW_MAP } from "@mosaic-map/components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
 import SaveIndicator from "./components/SaveIndicator/SaveIndicator.jsx";
-import { translate } from "../../../../util/util.js";
+import { translate } from "@util/util.js";
 
 import "./MosaicMapInputPanel.scss";
 
@@ -68,7 +68,7 @@ const inputFields = [
 ];
 
 export const MosaicMapInputPanel = () => {
-  const selectedFeatures = useRecoilValue(mosaicMapSelectedFeaturesState);
+  const selectedMosaicLayers = useRecoilValue(mosaicMapSelectedLayersState);
   const [selectedMosaicMap, setSelectedMosaicMap] = useRecoilState(
     mosaicMapSelectedMosaicMapState
   );
@@ -142,10 +142,9 @@ export const MosaicMapInputPanel = () => {
   useEffect(() => {
     setSelectedMosaicMap((oldSelectedMosaicMap) => ({
       ...oldSelectedMosaicMap,
-      raw_map_ids:
-        selectedFeatures?.map(({ feature }) => feature.get("map_id")) ?? [],
+      raw_map_ids: selectedMosaicLayers?.map((layer) => layer.getId()) ?? [],
     }));
-  }, [selectedFeatures]);
+  }, [selectedMosaicLayers]);
 
   return (
     <div className="vk-mosaic-map-input-panel-content">
@@ -178,9 +177,11 @@ export const MosaicMapInputPanel = () => {
               id={field.id}
               type={field.type}
               label={translate(`mosaic-maps-input-panel-field_${field.id}`)}
-              placeholder={translate(
-                `mosaic-maps-input-panel-help_${field.id}`
-              )}
+              placeholder={
+                field.id === "name"
+                  ? translate(`mosaic-maps-input-panel-help_${field.id}`)
+                  : undefined
+              }
               onBlur={handleChange}
               onKeyDown={handleKeyDown}
               validationState={validateField(field.id, field)}

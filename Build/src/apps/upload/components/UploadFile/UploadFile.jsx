@@ -7,7 +7,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import { translate } from "../../../../util/util";
+import { translate } from "@util/util";
 import "./UploadFile.scss";
 
 const fileUpload = {
@@ -17,7 +17,7 @@ const fileUpload = {
 };
 
 export default function UploadFile(props) {
-  const { mapMetadata, isPending, onFileSelect } = props;
+  const { mapMetadata, isPending, onFileSelect, reloadKey } = props;
 
   //
   // Handler section
@@ -40,7 +40,7 @@ export default function UploadFile(props) {
       <div className="upload-section" onClick={handleUploadClick}>
         {mapMetadata.link_thumb_mid !== null && isPending === false && (
           <img
-            src={mapMetadata.link_thumb_mid}
+            src={`${mapMetadata.link_thumb_mid}?${reloadKey}`}
             alt="Thumbnail"
             className="thumbnail-img"
           />
@@ -80,4 +80,5 @@ UploadFile.propTypes = {
   isPending: PropTypes.bool,
   mapMetadata: PropTypes.object,
   onFileSelect: PropTypes.func,
+  reloadKey: PropTypes.number,
 };

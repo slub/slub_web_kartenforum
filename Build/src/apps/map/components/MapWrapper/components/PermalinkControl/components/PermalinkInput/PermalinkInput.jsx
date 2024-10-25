@@ -5,61 +5,57 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
-import { Collection, Map } from "ol";
 
 import {
-  mapViewToUrlParams,
+  cameraToUrlParams,
   serializeBasemapId,
-  serializeSelectedFeatures,
+  serializeSelectedLayers,
   serializeViewMode,
-} from "../../../../../../persistence/urlSerializer.js";
-import { serializeMapView } from "../../../../../../persistence/util.js";
+} from "@map/persistence/urlSerializer.js";
+import { serializeCameraOptions } from "@map/persistence/util.js";
 import { stringify } from "query-string";
-import { getUrlWithQuery } from "../../PermalinkExporter.jsx";
+import { getUrlWithQuery } from "../../PermalinkExporterTabs.jsx";
 import CopyToClipboardButton from "../CopyToClipboardButton/CopyToClipboardButton.jsx";
-import { translate } from "../../../../../../../../util/util.js";
+import { isDefined, translate } from "@util/util.js";
+import { useRecoilValue } from "recoil";
+import {
+  activeBasemapIdState,
+  mapState,
+  selectedLayersState,
+} from "@map/atoms";
 
-export const PermalinkInput = ({
-  camera,
-  map,
-  isActive,
-  is3dActive,
-  refActiveBasemapId,
-  refSelectedFeatures,
-}) => {
+export const PermalinkInput = () => {
+  const map = useRecoilValue(mapState);
+  const selectedLayers = useRecoilValue(selectedLayersState);
+  const activeBasemapId = useRecoilValue(activeBasemapIdState);
   const [value, setValue] = useState("");
 
   const refInput = useRef();
 
   // update the shown permalink value
   const handleUpdatePermalink = useCallback(() => {
-    const mapViewParams = mapViewToUrlParams(
-      serializeMapView(camera, map, is3dActive, true),
-      is3dActive
-    );
+    if (!isDefined(map)) return;
+    const cameraParams = cameraToUrlParams(serializeCameraOptions(map, true));
 
-    const viewModeParam = serializeViewMode(is3dActive);
+    const viewModeParam = serializeViewMode(map.hasTerrain());
 
-    const selectedFeatureParam = serializeSelectedFeatures(
-      refSelectedFeatures.current.getArray()
-    );
+    const selectedLayerParam = serializeSelectedLayers(selectedLayers);
 
-    const basemapParam = serializeBasemapId(refActiveBasemapId.current);
+    const basemapParam = serializeBasemapId(activeBasemapId);
 
     const queryString = stringify(
       Object.assign(
         {},
-        mapViewParams,
+        cameraParams,
         viewModeParam,
-        selectedFeatureParam,
+        selectedLayerParam,
         basemapParam
       ),
       { arrayFormat: "comma" }
     );
 
     setValue(getUrlWithQuery(queryString));
-  }, [isActive, is3dActive]);
+  }, [map]);
 
   ////
   // Effect section
@@ -67,23 +63,14 @@ export const PermalinkInput = ({
 
   // Handle permalink updates as long as the popover is open
   useEffect(() => {
-    if (isActive) {
+    if (map) {
       handleUpdatePermalink();
-    }
-  }, [handleUpdatePermalink]);
-
-  // register event handlers to handle live updates of selected features/mapView
-  useEffect(() => {
-    if (isActive) {
       map.on("moveend", handleUpdatePermalink);
-      refSelectedFeatures.current.on("change", handleUpdatePermalink);
-
       return () => {
-        map.un("moveend", handleUpdatePermalink);
-        refSelectedFeatures.current.un("change", handleUpdatePermalink);
+        map.off("moveend", handleUpdatePermalink);
       };
     }
-  }, [isActive, handleUpdatePermalink]);
+  }, [map, handleUpdatePermalink]);
 
   return (
     <>
@@ -99,17 +86,6 @@ export const PermalinkInput = ({
       </div>
     </>
   );
-};
-
-PermalinkInput.propTypes = {
-  camera: PropTypes.object,
-  map: PropTypes.instanceOf(Map),
-  isActive: PropTypes.bool,
-  is3dActive: PropTypes.bool,
-  refActiveBasemapId: PropTypes.shape({ current: PropTypes.string }),
-  refSelectedFeatures: PropTypes.shape({
-    current: PropTypes.instanceOf(Collection),
-  }),
 };
 
 export default PermalinkInput;

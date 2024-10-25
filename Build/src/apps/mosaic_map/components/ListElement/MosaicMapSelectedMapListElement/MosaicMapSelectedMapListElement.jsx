@@ -12,17 +12,21 @@
  */
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import clsx from "clsx";
 import { default as Skeleton } from "react-loading-skeleton/lib/skeleton";
 import { Glyphicon } from "react-bootstrap";
 
-import { LOADING_FEATURE } from "../../../../map/components/MapSearch/components/MapSearchResultList/MapSearchResultListBase.jsx";
-import { mosaicMapSelectedFeaturesState } from "../../../atoms/atoms.js";
-import { translate } from "../../../../../util/util.js";
+import { LOADING_LAYER } from "@map/components/MapSearch/components/MapSearchResultList/MapSearchResultListBase.jsx";
+import { mosaicMapSelectedLayersState } from "@mosaic-map/atoms";
+import { mapState, selectedLayersState } from "@map/atoms";
+import { translate } from "@util/util.js";
 
-import "../../../../map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.scss";
+import "@map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.scss";
 import "./MosaicMapSelectedMapListElement.scss";
+import { METADATA } from "@map/components/CustomLayers";
+import { checkIfArrayContainsLayer } from "@map/components/MapSearch/util.js";
+import { MOSAIC_MAP_OVERLAY_SOURCE_ID } from "@mosaic-map/components/MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
 
 export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";
@@ -36,34 +40,40 @@ export const MosaicMapSelectedMapListElement = ({
   style,
 }) => {
   const { direction, maps } = data;
-  const operationalLayer = maps[index] ?? LOADING_FEATURE;
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
-    mosaicMapSelectedFeaturesState
+  const map = useRecoilValue(mapState);
+  const [selectedMosaicLayers, setSelectedMosaicLayers] = useRecoilState(
+    mosaicMapSelectedLayersState
   );
-  const selectedFeature = selectedFeatures.find(
-    (selectedFeature) =>
-      selectedFeature.feature.getId() === operationalLayer.getId()
+  const [selectedLayers, setSelectedLayers] =
+    useRecoilState(selectedLayersState);
+
+  const operationalLayer = maps[index] ?? LOADING_LAYER;
+  const selectedLayer = selectedMosaicLayers.find(
+    (selectedLayer) => selectedLayer.getId() === operationalLayer.getId()
   );
   const [src, setSrc] = useState(
-    operationalLayer.get("thumb_url") === undefined
+    operationalLayer.getMetadata(METADATA.thumbnailUrl) === undefined
       ? ""
-      : operationalLayer.get("thumb_url").replace("http:", "")
+      : operationalLayer.getMetadata(METADATA.thumbnailUrl).replace("http:", "")
   );
 
   // derived state
-  const isLoading = operationalLayer === LOADING_FEATURE;
+  const isLoading = operationalLayer === LOADING_LAYER;
 
-  const isMissing = operationalLayer.get("isMissing");
+  const isMissing = operationalLayer.isMissing();
 
-  const isSelected = selectedFeature?.showPreview;
+  const isSelected = selectedLayer?.isDisplayedInMap(map);
 
   const scale =
-    operationalLayer.get("map_scale") === "0" ||
-    operationalLayer.get("map_scale") === 0
+    operationalLayer.getMetadata(METADATA.mapScale) === "0" ||
+    operationalLayer.getMetadata(METADATA.mapScale) === 0
       ? translate("mapsearch-listelement-unknown")
-      : `1:${operationalLayer.get("map_scale")}`;
+      : `1:${operationalLayer.getMetadata(METADATA.mapScale)}`;
 
-  const timePublished = parseInt(operationalLayer.get("time_published"), 0);
+  const timePublished = parseInt(
+    operationalLayer.getMetadata(METADATA.timePublished),
+    0
+  );
 
   ////
   // Handler section
@@ -72,21 +82,28 @@ export const MosaicMapSelectedMapListElement = ({
   const handleClick = (e) => {
     e.stopPropagation();
 
-    setSelectedFeatures((oldSelectedFeatures) => {
-      const newSelectedFeatures = oldSelectedFeatures.slice();
-      const oldFeatureIndex = newSelectedFeatures.findIndex(
-        (selectedFeature) =>
-          selectedFeature.feature.getId() === operationalLayer.getId()
+    const containsLayer = checkIfArrayContainsLayer(
+      selectedLayers,
+      selectedLayer
+    );
+
+    // remove layer if it is already contained
+    if (containsLayer) {
+      setSelectedLayers((selectedLayers) =>
+        selectedLayers.filter(
+          (layer) => layer.getId() !== selectedLayer.getId()
+        )
       );
-      const oldFeature = newSelectedFeatures[oldFeatureIndex];
-
-      newSelectedFeatures.splice(oldFeatureIndex, 1, {
-        ...oldFeature,
-        showPreview: !oldFeature.showPreview,
+      selectedLayer.removeMapLibreLayers(map);
+    } else {
+      //@TODO: Add loading feedback, while layer is added to map
+      selectedLayer.addLayerToMap(map).then(() => {
+        setSelectedLayers((selectedLayers) => [
+          ...selectedLayers,
+          selectedLayer,
+        ]);
       });
-
-      return newSelectedFeatures;
-    });
+    }
   };
 
   const handleError = () => {
@@ -97,21 +114,21 @@ export const MosaicMapSelectedMapListElement = ({
 
   const handleRemove = (e) => {
     e.stopPropagation();
-    setSelectedFeatures((oldSelectedFeatures) =>
-      oldSelectedFeatures.filter(
-        (selectedFeature) =>
-          selectedFeature.feature.getId() !== operationalLayer.getId()
+    setSelectedMosaicLayers((oldSelectedLayers) =>
+      oldSelectedLayers.filter(
+        (selectedLayer) => selectedLayer.getId() !== operationalLayer.getId()
       )
     );
+    selectedLayer.removeFromOverlay(map, MOSAIC_MAP_OVERLAY_SOURCE_ID);
   };
 
   ///
   // Effect section
   ///
 
-  // update thumb url if feature changes
+  // update thumb url if layer changes
   useEffect(() => {
-    setSrc(operationalLayer.get("thumb_url"));
+    setSrc(operationalLayer.getMetadata(METADATA.thumbnailUrl));
   }, [operationalLayer]);
 
   return (
@@ -121,13 +138,13 @@ export const MosaicMapSelectedMapListElement = ({
       className={clsx(
         "vkf-mapsearch-record",
         "vkf-mosaic-map-selected-list-element",
-        operationalLayer.get("maptype"),
+        operationalLayer.getType(),
         isSelected && "selected",
         direction,
         isLoading && "loading",
         isMissing && "missing"
       )}
-      id={operationalLayer.get("id")}
+      id={operationalLayer.getId()}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
@@ -135,7 +152,9 @@ export const MosaicMapSelectedMapListElement = ({
       <span className="data-col time">
         {isNaN(timePublished) ? "" : timePublished}
       </span>
-      <span className="data-col title">{operationalLayer.get("title")}</span>
+      <span className="data-col title">
+        {operationalLayer.getMetadata(METADATA.title)}
+      </span>
       <span className="data-col time">1</span>
       <div className="view-item">
         {!isMissing && (
@@ -144,9 +163,9 @@ export const MosaicMapSelectedMapListElement = ({
               <Skeleton.default height="calc(100% - 6px)" />
             ) : (
               <img
-                alt={`Thumbnail Image of Map ${operationalLayer.get(
-                  "title"
-                )} ${operationalLayer.get("time_published")}`}
+                alt={`Thumbnail Image of Map ${operationalLayer.getMetadata(
+                  METADATA.title
+                )} ${operationalLayer.getMetadata(METADATA.timePublished)}`}
                 onError={handleError}
                 src={src}
               />
@@ -162,7 +181,7 @@ export const MosaicMapSelectedMapListElement = ({
                 "mosaic-map-missing-sheet"
               )}: ${operationalLayer.getId()}`
             ) : (
-              operationalLayer.get("title")
+              operationalLayer.getMetadata(METADATA.title)
             )}
           </h2>
           <div className="details">
@@ -174,7 +193,7 @@ export const MosaicMapSelectedMapListElement = ({
                   ) : (
                     `${translate(
                       "mapsearch-listelement-time"
-                    )} ${operationalLayer.get("time_published")}`
+                    )} ${operationalLayer.getMetadata(METADATA.timePublished)}`
                   )}
                 </div>
                 <div className="scale">
@@ -186,7 +205,7 @@ export const MosaicMapSelectedMapListElement = ({
                 </div>
               </>
             )}
-            {!operationalLayer.get("has_georeference") && (
+            {!operationalLayer.getMetadata(METADATA.hasGeoReference) && (
               <div className="georeference">
                 {translate("mapsearch-listelement-no-georef")}
               </div>
@@ -213,7 +232,6 @@ MosaicMapSelectedMapListElement.propTypes = {
   data: PropTypes.shape({
     direction: PropTypes.oneOf(["horizontal", "vertical"]),
     feature: PropTypes.object,
-    is3d: PropTypes.bool,
     maps: PropTypes.object,
     selected: PropTypes.bool,
   }),

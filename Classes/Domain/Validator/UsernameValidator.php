@@ -28,26 +28,26 @@ namespace Slub\SlubWebKartenforum\Domain\Validator;
 use TYPO3\CMS\Extbase\Annotation as Extbase;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * User
  */
 class UsernameValidator extends AbstractValidator
 {
-
-	/**
-	 * feUserRepository
-	 *
-	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
-	 */
-	protected $feUserRepository;
-
-	/**
-     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $controller
+    /**
+     * feUserRepository
+     *
+     * @var FrontendUserRepository
      */
-    public function injectfeUserRepository(FrontendUserRepository $feUserRepository)
+    protected $feUserRepository;
+
+    public function __construct(array $options = [])
     {
-        $this->feUserRepository = $feUserRepository;
+        // TODO when upgrading to TYPO3 12 this can be replaced by DI
+        // see https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ExtensionArchitecture/Extbase/Reference/Domain/Validator.html#dependency-injection-in-validators
+        $this->feUserRepository = GeneralUtility::makeInstance(FrontendUserRepository::class);
+        parent::__construct($options);
     }
 
     /**

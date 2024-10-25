@@ -8,7 +8,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import useResizeObserver from "@react-hook/resize-observer";
 import { useSetRecoilState } from "recoil";
 
-import { elementsScreenSizeState } from "../apps/map/atoms/atoms";
+import { elementsScreenSizeState } from "@map/atoms";
 
 /**
  * Debounces a function call for the specificed delay
@@ -46,6 +46,7 @@ export function usePrevious(value) {
     return prevData;
 }
 
+//@TODO: Rework
 /**
  * Custom hook to persist element screen sizes to the defined recoil state
  * @param target

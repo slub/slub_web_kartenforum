@@ -5,10 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import round from "lodash.round";
-import { Control } from "ol/control";
-import { transform } from "ol/proj";
-import { translate } from "../../../../../util/util";
-import SettingsProvider from "../../../../../SettingsProvider";
+import { translate } from "@util/util";
 import { getControlFeedbackContainer } from "../util.js";
 import "./MousePositionOnOff.scss";
 
@@ -18,31 +15,40 @@ const formatCoordinate = (coordinate) => {
   return `${round(coordinate[0], 7)},${round(coordinate[1], 7)}`;
 };
 
-export class MousePositionOnOff extends Control {
+export class MousePositionOnOff {
   buttonCopyPosition = undefined;
   textElCurrentPosition = undefined;
   textElSavedPosition = undefined;
 
   targetEl = undefined;
-  containerEl = undefined;
+  _container = undefined;
+  _button = undefined;
   savedPosition = undefined;
 
-  constructor(opt_options) {
-    const options = opt_options || {};
-
+  onAdd(map) {
+    this._map = map;
     const element = document.createElement("div");
-    element.className = "mouse-position ol-unselectable ol-control";
+    element.className = "maplibregl-ctrl maplibregl-ctrl-group";
 
     const button = document.createElement("button");
     button.title = translate("control-mouseposition-title");
+    button.className = "maplibregl-ctrl-mouse-position";
     button.type = "button";
 
     element.appendChild(button);
-
-    super({ element, target: options.target });
-
-    this.containerEl = element;
+    this._container = element;
+    this._button = button;
     button.addEventListener("click", this.toggleMousePosition, false);
+
+    return this._container;
+  }
+
+  onRemove() {
+    this._map.off("mousemove", this.updatePosition);
+    this._map.off("click", this.savePosition);
+
+    this._map = null;
+    this._container.parentNode.removeChild(this._container);
   }
 
   generateSavedText = () => {
@@ -71,38 +77,30 @@ export class MousePositionOnOff extends Control {
   };
 
   savePosition = (event) => {
-    const map = this.getMap();
-    const coordinate = transform(
-      map.getCoordinateFromPixel(event.pixel),
-      SettingsProvider.getDefaultMapView().projection,
-      "EPSG:4326"
-    );
+    if (this._map) {
+      const coordinate = event.lngLat.toArray();
 
-    // write position to state
-    this.savedPosition = coordinate.slice();
+      // write position to state
+      this.savedPosition = coordinate.slice();
 
-    // write to clipboard
-    navigator.clipboard.writeText(formatCoordinate(coordinate));
+      // write to clipboard
+      navigator.clipboard.writeText(formatCoordinate(coordinate));
 
-    // update displayed text
-    this.updatePosition(event.originalEvent);
+      // update displayed text
+      this.updatePosition(event);
+    }
   };
 
   updatePosition = (event) => {
     const textElCurrentPosition = this.textElCurrentPosition;
     const textElSavedPosition = this.textElSavedPosition;
-    const map = this.getMap();
-    const coordinate = transform(
-      map.getEventCoordinate(event),
-      SettingsProvider.getDefaultMapView().projection,
-      "EPSG:4326"
-    );
+    const { lngLat } = event;
 
     textElCurrentPosition.innerHTML =
       "Lon: " +
-      round(coordinate[0], COORDINATE_DECIMALS) +
+      round(lngLat.lng, COORDINATE_DECIMALS) +
       ", Lat: " +
-      round(coordinate[1], COORDINATE_DECIMALS);
+      round(lngLat.lat, COORDINATE_DECIMALS);
 
     textElSavedPosition.innerHTML = this.generateSavedText();
   };
@@ -125,11 +123,13 @@ export class MousePositionOnOff extends Control {
     event.preventDefault();
 
     const activeClass = "active";
-    const isActive = this.containerEl.classList.contains(activeClass);
-    const map = this.getMap();
-
+    const isActive = this._button.classList.contains(activeClass);
+    const map = this._map;
+    if (!map) {
+      return;
+    }
     // toggle activation on anchor
-    this.containerEl.classList.toggle(activeClass);
+    this._button.classList.toggle(activeClass);
 
     // initialize container for mouseposition display
     let targetEl = this.targetEl;
@@ -174,15 +174,17 @@ export class MousePositionOnOff extends Control {
     // register / unregister mouse event listener
     if (!isActive) {
       this.savedPosition = undefined;
-      map.getViewport().addEventListener("mousemove", this.updatePosition);
+      map.on("mousemove", this.updatePosition);
       map.on("click", this.savePosition);
     } else {
-      map.getViewport().removeEventListener("mousemove", this.updatePosition);
-      map.un("click", this.savePosition);
+      map.off("mousemove", this.updatePosition);
+      map.off("click", this.savePosition);
     }
 
-    // activate behavior
-    this.updatePosition(event);
+    this.updatePosition({
+      lngLat: map.unproject([event.clientX, event.clientY]),
+    });
+
     targetEl.classList.toggle(activeClass);
     viewport.classList.toggle(`mouseposition-${activeClass}`);
   };

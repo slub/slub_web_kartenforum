@@ -10,16 +10,16 @@ import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
 import clsx from "clsx";
 
-import MapSearchResultList from "../../../../components/MapSearch/components/MapSearchResultList/MapSearchResultList.jsx";
-import { mapCountState, timeRangeState } from "../../../../atoms/atoms";
-import ToggleFacetsButton from "../../../../components/MapSearch/components/ToggleFacetsButton/ToggleFacetsButton";
+import MapSearchResultList from "@map/components/MapSearch/components/MapSearchResultList/MapSearchResultList";
+import { mapCountState, timeRangeState } from "@map/atoms";
+import ToggleFacetsButton from "@map/components/MapSearch/components/ToggleFacetsButton/ToggleFacetsButton";
 import ToggleSearchButton from "../ToggleSearchButton/ToggleSearchButton";
 import { ToggleResultListButton } from "../ToggleResultListButton/ToggleResultListButton";
-import PlacenameSearch from "../../../../../../components/PlacenameSearch/PlacenameSearch";
-import PaginatingDataController from "../../../../components/PaginatingDataController/PaginatingDataController.jsx";
-import TimeSlider from "../../../../components/TimeSlider/TimeSlider";
-import SettingsProvider from "../../../../../../SettingsProvider";
-import { translate } from "../../../../../../util/util";
+import PaginatingDataController from "@map/components/PaginatingDataController/PaginatingDataController";
+import TimeSlider from "@map/components/TimeSlider/TimeSlider";
+import SettingsProvider from "@settings-provider";
+import { translate } from "@util/util";
+import PlacenameSearchMap from "@components/PlacenameSearch/PlacenameSearchMap";
 import "./SearchHeader.scss";
 
 export const SearchHeader = ({
@@ -75,8 +75,7 @@ export const SearchHeader = ({
         </div>
         {showSearch && (
           <div className="bottom-container">
-            <PlacenameSearch
-              projection={SettingsProvider.getDefaultMapView().projection}
+            <PlacenameSearchMap
               searchUrl={SettingsProvider.getNominatimUrl()}
             />
             <TimeSlider timeRange={timeRange} />

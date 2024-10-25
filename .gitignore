@@ -1,5 +1,6 @@
 .vscode
 .idea
+LOCAL.md
 package-lock.json
 Build/**/node_modules
 !Build/package-lock.json

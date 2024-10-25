@@ -50,83 +50,29 @@
         display: flex;
         flex-direction: column;
     }
-
-    // open layer overwrites for mosaic map module
+    // maplibre overwrites for mosaic map module
     .vkf-plugin-map-mosaic {
         .ol-map-large {
             .ol-control {
-                &.ol-layerspy-radius-box,
-                &.ol-mouse-position-box,
-                &.ol-zoom-extent,
-                &.rotate-north,
-                &.ol-full-screen,
-                &.ol-layerspy,
-                &.mouse-position,
-                &.flip-view-mode,
-                &.basemap-selector,
-                &.ol-permalink,
-                &.ol-locate-me,
-                &.ol-zoom {
+                &.ol-mouse-position-box {
                     left: 710px;
                 }
-
-                &.ol-zoom {
-                    top: 15px;
-                }
-
-                &.ol-full-screen {
-                    top: 76px;
-                    right: unset;
-                }
-
-                &.ol-layerspy {
-                    top: 114px;
-                }
-
-                &.rotate-north {
-                    top: 152px;
-                }
-
-                &.mouse-position {
-                    top: 190px;
-                }
-
-                &.flip-view-mode {
-                    display: none;
-                }
-
-                &.basemap-selector {
-                    top: 228px;
-                }
-
-                &.ol-locate-me {
-                    top: 266px;
-                }
-
-                &.ol-permalink {
+            }
+            .maplibregl-ctrl-top-left {
+                left: 710px;
+                > div:nth-child(5),
+                > div:nth-child(8) {
                     display: none;
                 }
             }
-
+            .maplibregl-ctrl-bottom-right {
+                right: 15px;
+                left: 710px;
+            }
             &:fullscreen {
                 .vkf-horizontal-layout {
                     .spatialsearch-container {
                         display: block;
-                    }
-                }
-
-                .ol-control {
-                    &.ol-zoom-extent,
-                    &.rotate-north,
-                    &.ol-full-screen,
-                    &.ol-layerspy,
-                    &.mouse-position,
-                    &.flip-view-mode,
-                    &.basemap-selector,
-                    &.ol-locate-me,
-                    &.ol-permalink,
-                    &.ol-zoom {
-                        left: 710px;
                     }
                 }
             }

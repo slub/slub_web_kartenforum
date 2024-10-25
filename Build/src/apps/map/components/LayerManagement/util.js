@@ -6,21 +6,27 @@
  */
 
 export const getLayers = (map) => {
-    const layers = map.getLayers();
-    const allLayers = layers.getArray();
-    const l = [];
-    allLayers.forEach((layer) => {
-        if (layer.allowUseInLayerManagement) {
-            l.push(layer);
-        }
-    });
-    return l;
+    const layers = map.getStyle().layers;
+    return layers.filter(
+        (layer) => layer?.metadata?.["vkf:allowUseInLayerManagement"]
+    );
+};
+
+export const removeLayerForFeature = (map, feature) => {
+    const sourceId = feature.getSourceId();
+
+    removeLayer(map, sourceId);
+};
+
+export const removeLayer = (map, id) => {
+    if (map.getLayer(id)) map.removeLayer(id);
+
+    if (map.getSource(id)) map.removeSource(id);
 };
 
 export const getIndexToLayer = (map, layer) => {
-    const layers = map.getLayers();
-    const l = layers.getArray();
-    return l.findIndex((lay) => lay === layer);
+    const layers = getLayers(map);
+    return layers.findIndex((lay) => lay.id === layer.id);
 };
 
 /**

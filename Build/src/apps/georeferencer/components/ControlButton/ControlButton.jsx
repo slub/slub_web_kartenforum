@@ -8,7 +8,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-import SvgIcons from "../../../../components/SvgIcons/SvgIcons";
+import SvgIcons from "@components/SvgIcons";
 import "./ControlButton.scss";
 
 export const ControlButton = (props) => {

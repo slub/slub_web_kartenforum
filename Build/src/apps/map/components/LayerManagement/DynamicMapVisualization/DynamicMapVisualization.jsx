@@ -5,15 +5,14 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useState, useEffect, useRef } from "react";
-import { useRecoilValue } from "recoil";
+import React, { useState, useRef } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-import { isDefined, translate } from "../../../../../util/util";
-import { mapState } from "../../../atoms/atoms";
-import { getOperationalLayers } from "../../MapWrapper/util";
-import { setLayersToInitialState, sortLayers } from "./util";
+import { isDefined, translate } from "@util/util";
+import { mapState, selectedLayersState } from "@map/atoms";
+import { groupLayers, setLayersToInitialState, sortLayers } from "./util";
 import "./DynamicMapVisualization.scss";
 
 export const DynamicMapVisualization = ({ animationOptions = {} }) => {
@@ -23,6 +22,8 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const [open, setOpen] = useState(false);
   const map = useRecoilValue(mapState);
   const title = translate(`dynamicmapvis-${open ? "close" : "open"}`);
+  const [selectedLayers, setSelectedLayers] =
+    useRecoilState(selectedLayersState);
 
   // refs
   const activeRef = useRef(false);
@@ -30,8 +31,8 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const startFadeInAnimation = (options) => {
     const { layers, delay = 500 } = options;
     layers.forEach((layer) => {
-      layer.setOpacity(0);
-      layer.setVisible(true);
+      layer.setOpacity(map, 0);
+      layer.setVisibility(map, "visible");
     });
     setTimeout(() => {
       incrementalFadeIn(options);
@@ -41,10 +42,10 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const incrementalFadeIn = (options) => {
     const { layers, steps = 0.1, delay = 500, successCallback } = options;
     if (activeRef.current) {
-      const newOpacity = layers[0].getOpacity() + steps;
+      const newOpacity = (layers[0].getOpacity(map) ?? 0) + steps;
       if (newOpacity > 1) {
         layers.forEach((layer) => {
-          layer.setOpacity(1);
+          layer.setOpacity(map, 1);
         });
 
         if (isDefined(successCallback)) {
@@ -52,7 +53,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
         }
       } else {
         layers.forEach((layer) => {
-          layer.setOpacity(newOpacity);
+          layer.setOpacity(map, newOpacity);
         });
         setTimeout(() => {
           incrementalFadeIn(options);
@@ -64,13 +65,14 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const startAnimation = (options) => {
     const { sortedLayers, delay = 500 } = options;
 
-    setLayersToInitialState(sortedLayers);
+    setLayersToInitialState(sortedLayers, map);
     if (activeRef.current) {
       const keys = Object.keys(sortedLayers);
       if (keys.length > 0) {
         const currentKey = keys[0];
         const layers = sortedLayers[currentKey];
 
+        // eslint-disable-next-line no-unused-vars
         const { [currentKey]: _, ...newSortedLayers } = sortedLayers;
 
         const successCallback = () => {
@@ -83,7 +85,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
 
         setAnimatedLayer(currentKey);
       } else {
-        setActive(false);
+        handleStop();
       }
     }
   };
@@ -93,22 +95,29 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   ////
 
   // handle animation start
-  const handleStart = (e) => {
-    e.preventDefault();
+  const handleStart = () => {
     setActive(true);
+    activeRef.current = true;
+    const sortedLayers = sortLayers(selectedLayers);
+    const groupedLayers = groupLayers(sortedLayers, map);
+
+    setSelectedLayers(sortedLayers);
+
+    startAnimation({ ...animationOptions, sortedLayers: groupedLayers });
   };
 
   // handle animation stop
-  const handleStop = (e) => {
-    e.preventDefault();
+  const handleStop = () => {
     setActive(false);
+    activeRef.current = false;
+    setAnimatedLayer(undefined);
   };
 
   // Toggle open state of the menu
   const handleToggleMenu = (e) => {
     e.preventDefault();
     if (open) {
-      setActive(false);
+      handleStop();
       setOpen(false);
     } else {
       setOpen(true);
@@ -118,18 +127,6 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   ////
   //   Effect section
   ////
-
-  // Handle start/stop of animation based on active state
-  useEffect(() => {
-    activeRef.current = active;
-    if (active) {
-      const layers = getOperationalLayers(map);
-      const sortedLayers = sortLayers(layers, map);
-      startAnimation({ ...animationOptions, sortedLayers });
-    } else {
-      setAnimatedLayer(undefined);
-    }
-  }, [active]);
 
   const feedback =
     animatedLayer && animatedLayer.length > 4
@@ -144,6 +141,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
       id="dynamic-map-visualization"
     >
       <button
+        type="button"
         className="open-dyn-vis"
         onClick={handleToggleMenu}
         aria-labelledby="dynamic-map-visualization"
@@ -182,6 +180,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
           onClick={handleStart}
           tabIndex={open ? undefined : -1}
           title={translate("dynamicmapvis-start")}
+          type="button"
         >
           Start
         </button>
@@ -191,6 +190,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
           onClick={handleStop}
           tabIndex={open ? undefined : -1}
           title={translate("dynamicmapvis-stop")}
+          type="button"
         >
           Stop
         </button>

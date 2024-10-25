@@ -4,80 +4,150 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useRecoilValue } from "recoil";
 import clsx from "clsx";
-import VectorSource from "ol/source/Vector.js";
-import GeoJsonPresentationPopUp from "../../components/GeoJsonPresentationPopUp/GeoJsonPresentationPopUp.jsx";
-import { mapState, selectedGeoJsonFeatureState } from "../../atoms/atoms.js";
-import GeoJsonEditPopUp from "../../components/GeoJsonEditPopUp/GeoJsonEditPopUp.jsx";
+import GeoJsonPresentationPopUp from "@map/components/GeoJson/GeoJsonPresentationPopUp";
+import { mapState, layoutState, selectedLayersState } from "@map/atoms";
+import GeoJsonEditPopUp from "@map/components/GeoJson/GeoJsonEditPopUp";
+import useClickedGeoJsonFeature from "@map/hooks/useClickedGeoJsonFeature.js";
 import "./GeoJsonFeatureView.scss";
 
 export const GeoJsonFeatureView = () => {
   const [showPresentationView, setShowPresentationView] = useState(true);
   const map = useRecoilValue(mapState);
-  const [selectedGeoJsonFeature, setSelectedGeoJsonFeature] = useRecoilState(
-    selectedGeoJsonFeatureState
-  );
+  const layout = useRecoilValue(layoutState);
+  const selectedLayers = useRecoilValue(selectedLayersState);
 
-  if (selectedGeoJsonFeature === null && !showPresentationView) {
-    setShowPresentationView(true);
-  }
-
-  // deletes a feature from the map and closes the overlay afterwards
-  const handleFeatureDelete = (feature) => {
-    map.getLayers().forEach((layer) => {
-      const source = layer.getSource();
-      if (source instanceof VectorSource) {
-        const features = source.getFeatures();
-        const containsFeature = features.includes(feature);
-        if (containsFeature) {
-          source.removeFeature(feature);
-        }
-      }
-    });
-
-    handleOverlayClose();
-  };
-  // Close the map overlay
-  const handleOverlayClose = () => {
-    setSelectedGeoJsonFeature(null);
-  };
-
-  const handleShowEditDialog = () => {
-    setShowPresentationView(false);
-  };
-
-  const handleShowPresentationDialog = () => {
-    setShowPresentationView(true);
-  };
+  const {
+    geoJsonFeature,
+    setGeoJsonFeature,
+    sourceId,
+    resetClickedFeature,
+    removeFeatureState,
+  } = useClickedGeoJsonFeature({
+    map,
+    layout,
+  });
 
   useEffect(() => {
-    if (showPresentationView === false) {
+    setShowPresentationView(true);
+  }, [setShowPresentationView, geoJsonFeature]);
+
+  const selectedLayer = useMemo(() => {
+    return selectedLayers.find((layer) => layer.getId() === sourceId);
+  }, [geoJsonFeature, selectedLayers, sourceId]);
+
+  const sourceLayer = useMemo(() => {
+    return map.getSource(sourceId);
+  }, [map, sourceId]);
+
+  const handleFeatureStateChange = useCallback(
+    (featureState) => {
+      const source = sourceId;
+      const id = geoJsonFeature.id;
+      map.setFeatureState({ source, id }, featureState);
+    },
+    [map, sourceId, geoJsonFeature]
+  );
+
+  /**
+   * The close handler for the GeoJsonEditPopUp component.
+   * If options.doRemoveFeatureState is set to true, the feature state for the currently selected feature is cleared.
+   * The feature state must NOT be cleared when saving the feature data, as this causes a glitch during rendering.
+   * @param {object} options
+   */
+  const handleEditPopupClose = useCallback(
+    ({ doRemoveFeatureState } = { doRemoveFeatureState: true }) => {
+      if (doRemoveFeatureState) {
+        removeFeatureState();
+      }
       setShowPresentationView(true);
-    }
-  }, [selectedGeoJsonFeature]);
+    },
+    [setShowPresentationView, removeFeatureState]
+  );
+
+  const handleFeatureSave = useCallback(
+    ({ addOrUpdateProperties, removeProperties }) => {
+      const featureId = geoJsonFeature.id;
+      const sourceDiff = {
+        update: [
+          {
+            id: geoJsonFeature.id,
+            addOrUpdateProperties,
+            removeProperties,
+          },
+        ],
+      };
+
+      sourceLayer
+        .updateData(sourceDiff)
+        .getData()
+        .then((geoJSON) => {
+          const idx = geoJSON.features.findIndex(
+            (feature) => feature.id === featureId
+          );
+
+          if (idx < 0) {
+            console.error(
+              `Cannot save feature with inexisting id '${featureId}'.`
+            );
+            return;
+          }
+
+          selectedLayer.setGeoJSON(geoJSON);
+          setGeoJsonFeature(geoJSON.features[idx]);
+          handleEditPopupClose({ doRemoveFeatureState: false });
+        });
+    },
+    [
+      geoJsonFeature,
+      sourceLayer,
+      selectedLayer,
+      setGeoJsonFeature,
+      handleEditPopupClose,
+    ]
+  );
+
+  // Close the map overlay
+  const handleOverlayClose = useCallback(() => {
+    resetClickedFeature();
+  }, [resetClickedFeature]);
+
+  const handleShowEditDialog = useCallback(() => {
+    setShowPresentationView(false);
+  }, [setShowPresentationView]);
+
+  const handleFeatureDelete = useCallback(
+    (feature) => {
+      const { id } = feature;
+      sourceLayer.updateData({ remove: [id] });
+      selectedLayer.removeFeature(id);
+
+      handleOverlayClose();
+    },
+    [sourceLayer, selectedLayer, handleOverlayClose]
+  );
 
   return (
     <div
-      className={clsx(
-        "vkf-geojson-view-root",
-        selectedGeoJsonFeature !== null && "in"
-      )}
+      className={clsx("vkf-geojson-view-root", geoJsonFeature !== null && "in")}
     >
-      {selectedGeoJsonFeature !== null && showPresentationView && (
+      {geoJsonFeature !== null && showPresentationView && (
         <GeoJsonPresentationPopUp
-          feature={selectedGeoJsonFeature}
+          feature={geoJsonFeature}
           showPresentationView={showPresentationView}
           onEdit={handleShowEditDialog}
           onClose={handleOverlayClose}
         />
       )}
-      {selectedGeoJsonFeature !== null && !showPresentationView && (
+      {geoJsonFeature !== null && !showPresentationView && (
         <GeoJsonEditPopUp
-          feature={selectedGeoJsonFeature}
+          feature={geoJsonFeature}
+          onFeatureStateChange={handleFeatureStateChange}
           onDelete={handleFeatureDelete}
-          onClose={handleShowPresentationDialog}
+          onClose={handleEditPopupClose}
+          onSave={handleFeatureSave}
         />
       )}
     </div>

@@ -4,6 +4,7 @@
 <input type="hidden" value="{basemaps}" id="setting-basemaps"/>
 <input type="hidden" value="{urlNominatim}" id="setting-urlNominatim"/>
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
+<input type="hidden" value="{georefApi}" id="setting-georefApi"/>
 
 <f:section name="HeaderAssets">
     <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/ol.css', extensionName: 'slub_web_kartenforum')}"/>
@@ -24,11 +25,7 @@
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
-            "API_GEOREFERENCE_JOB": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postJob&type=9991",
-            "API_GEOREFERENCE_TRANSFORMATION_FOR_MAPID": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationForMapId&type=9991",
-            "API_GEOREFERENCE_TRANSFORMATION_FOR_USERID": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationForUserId&type=9991",
-            "API_GEOREFERENCE_TRANSFORMATION_FOR_VALIDATION": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=getTransformationForValidation&type=9991",
-            "API_GEOREFERENCE_TRANSFORMATION_CONFIRM": "/?tx_slubwebkartenforum_georeference[controller]=Georef&tx_slubwebkartenforum_georeference[action]=postTransformationByMapId&type=9991",
+            "API_GEOREFERENCE_BASEURL": document.getElementById("setting-georefApi").value,
             "BASEMAPS": JSON.parse(document.getElementById("setting-basemaps").value),
             "LINK_TO_FAQ": "/faq",
             "LINK_TO_GEOREFERENCE": "/georeferenzierung",

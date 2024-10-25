@@ -8,17 +8,16 @@
 import React from "react";
 import { RecoilRoot } from "recoil";
 
-import StyleAppender from "../map/components/StyleAppender/StyleAppender";
-import MapWrapper from "../map/components/MapWrapper/MapWrapper.jsx";
-import SettingsProvider from "../../SettingsProvider.js";
-import { LAYOUT_TYPES } from "../map/layouts/util.js";
+import MapWrapper from "@map/components/MapWrapper/MapWrapper.jsx";
+import SettingsProvider from "@settings-provider";
+import { LAYOUT_TYPES } from "@map/layouts/util.js";
 import MosaiMapLayout from "./layouts/MosaicMapLayout.jsx";
 import MosaicMapSelectorDropdown from "./components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
 import RefreshOverviewButton from "./components/ToolbarControls/RefreshOverviewButton.jsx";
 import SaveMosaicMapButton from "./components/ToolbarControls/SaveMosaicMapButton/SaveMosaicMapButton.jsx";
 import DeleteMosaicMapButton from "./components/ToolbarControls/DeleteMosaicMapButton/DeleteMosaicMapButton.jsx";
 import MosaicMapInputPanel from "./components/MosaicMapInputPanel/MosaicMapInputPanel.jsx";
-import Notifications from "../../components/Notifications/Notifications.jsx";
+import Notifications from "@components/Notifications/Notifications.jsx";
 
 import "./AppMosaicMap.scss";
 
@@ -43,17 +42,13 @@ export const AppMosaicMap = () => {
         <div className="vkf-plugin-map-mosaic" id="map-container">
           <MapWrapper
             {...{
-              disableClickHandler: true,
               baseMapUrl: SettingsProvider.getDefaultBaseMapUrls(),
-              enable3d: false,
-              enableTerrain: false,
               layout: LAYOUT_TYPES.HORIZONTAL,
               mapViewSettings: SettingsProvider.getDefaultMapView(),
-              terrainTilesService: SettingsProvider.getTerrainService(),
               ChildComponent: MosaiMapLayout,
+              loadMarkerIcon: false,
             }}
           />
-          <StyleAppender mapContainerId={"map-container"} />
         </div>
       </div>
     </RecoilRoot>

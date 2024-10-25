@@ -8,8 +8,8 @@ import { atom } from "recoil";
 import { VALUE_CREATE_NEW_MAP } from "../components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
 
 // maps selected for the current mosaic map
-export const mosaicMapSelectedFeaturesState = atom({
-    key: "mosaicMapSelectedFeaturesState",
+export const mosaicMapSelectedLayersState = atom({
+    key: "mosaicMapSelectedLayersState",
     default: [],
     dangerouslyAllowMutability: true,
 });
@@ -21,7 +21,7 @@ export const mosaicMapGeometryLayerState = atom({
     dangerouslyAllowMutability: true,
 });
 
-// currently selected mosaic map
+// represents the metadata of a HistoricMapLayer
 export const mosaicMapSelectedMosaicMapState = atom({
     key: "mosaicMapSelectedMosaicMapState",
     default: { id: VALUE_CREATE_NEW_MAP },

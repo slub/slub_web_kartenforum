@@ -5,17 +5,18 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
+import axios from "axios";
+import { isDefined, isString } from "@util/util";
+
 let settingsObject = {
     BASEMAPS: [
         {
             id: "slub-osm",
             label: "SLUB OSM",
             urls: [
-                "https://basemaps-1.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}@2x.png",
-                "https://basemaps-2.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}@2x.png",
-                "https://basemaps-3.pikobytes.de/styles/maptiler-basic-v2/{z}/{x}/{y}@2x.png",
+                "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json",
             ],
-            type: "xyz",
+            type: "vector",
             tileSize: 512,
         },
         {
@@ -29,10 +30,14 @@ let settingsObject = {
     ],
     ENABLE_TILE_PRELOADING: false,
     LANGUAGE_CODE: "en",
+    MARKER_IMAGE_ID: "marker",
     USERNAME: "anonymous",
+    USER_ISAUTHENTICATED: false,
 };
 
 export default {
+    axiosApiInstance: null,
+
     appendSettings(newSettings) {
         settingsObject = Object.assign({}, settingsObject, newSettings);
     },
@@ -60,14 +65,15 @@ export default {
      * @returns {string[]}
      */
     getDefaultBaseMapUrls() {
-        return settingsObject.BASEMAPS[0].urls;
+        return [
+            "https://tile-1.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
+            "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/{z}/{x}/{y}.png",
+        ];
     },
 
     /**
-     * Returns the default map view
+     * Returns the default map view. Center should always be in EPSG:4326.
      * @returns {{
-     *     projection: string,
-     *     extent: [number, number, number, number],
      *     center: [number, number],
      *     zoom: number,
      *     maxZoom: number,
@@ -77,23 +83,13 @@ export default {
     getDefaultMapView() {
         return Object.assign(
             {
-                projection: "EPSG:3857",
-                extent: [-20026376.39, -20048966.1, 20026375.39, 20048966.1],
-                center: [1528150, 6630500],
-                zoom: 2,
+                center: [14.9928, 51.1463],
+                zoom: 6.3,
                 maxZoom: 19,
                 minZoom: 0,
             },
             settingsObject["MAPVIEW_PARAMS"]
         );
-    },
-
-    /**
-     * Returns the 3d preloading state from the settings object
-     * @return {*}
-     */
-    getIsTilePreloadingEnabled() {
-        return settingsObject.ENABLE_TILE_PRELOADING === 1;
     },
 
     /**
@@ -120,29 +116,28 @@ export default {
         return settingsObject["NOMINATIM_URL"];
     },
 
-    getTerrainAttribution() {
-        return settingsObject["TERRAIN_TILES"].attribution;
-    },
-
     /**
-     * Returns the description of a terrain tile services
+     * Returns the terrain configuration
      * @returns {{
-     *     asset: number,
-     *     token: string,
-     *     type: "cesium" | "maptiler",
-     *     url: string | number
+     *     url: string,
+     *     attribution: string,
+     *     exaggeration: number,
+     *     minZoom: number,
+     *     maxZoom: number,
      * }}
      */
-    getTerrainService() {
-        return {
-            asset: settingsObject["TERRAIN_TILES"].asset,
-            token: settingsObject["TERRAIN_TILES"].token,
-            type:
-                settingsObject["TERRAIN_TILES"].type !== undefined
-                    ? settingsObject["TERRAIN_TILES"].type.toLowerCase()
-                    : "maptiler",
-            url: settingsObject["TERRAIN_TILES"].url,
-        };
+    getTerrain() {
+        return Object.assign(
+            {
+                url: "https://terrain.kartenforum.slub-dresden.de/v2/{z}/{x}/{y}.png",
+                attribution:
+                    "<a href='https://kartenforum.slub-dresden.de/attribution' target='_blank'>© U.S. Geological Survey and others</a>",
+                exaggeration: 1,
+                minZoom: 0,
+                maxZoom: 12,
+            },
+            settingsObject["TERRAIN_TILES"]
+        );
     },
 
     /**
@@ -153,7 +148,70 @@ export default {
         return settingsObject["USERNAME"];
     },
 
+    isUserAuthenticated() {
+        return settingsObject["USER_ISAUTHENTICATED"] === true;
+    },
+
     updateSettings(newSettings) {
         settingsObject = newSettings;
+    },
+
+    _initAxiosApiInstance() {
+        const baseURL = settingsObject["API_GEOREFERENCE_BASEURL"];
+
+        const isEmptyBaseURL = isString(baseURL) && baseURL.length === 0;
+        if (!isDefined(baseURL) || isEmptyBaseURL) {
+            throw new Error("The URL for the georeference service is not set.");
+        }
+
+        //
+        // Build axios instance configuration
+        //
+
+        // Debug credentials have the form of { "Dev-Mode-Secret": "some_secret", "Dev-Mode-Name": "some_name" }. They
+        // can only be used if the server is started with the proper credentials.
+        const debugCredentials = {
+            "Dev-Mode-Secret": process.env.DEV_MODE_SECRET,
+            "Dev-Mode-Name": process.env.DEV_MODE_NAME,
+        };
+        const config = Object.assign(
+            {
+                baseURL,
+                withCredentials: true,
+            },
+            debugCredentials
+                ? {
+                      headers: {
+                          get: debugCredentials,
+                          post: debugCredentials,
+                          put: debugCredentials,
+                          delete: debugCredentials,
+                      },
+                  }
+                : {}
+        );
+
+        this.axiosApiInstance = axios.create(config);
+    },
+
+    getGeoreferenceApiClient() {
+        if (isDefined(this.axiosApiInstance)) {
+            return this.axiosApiInstance;
+        }
+
+        this._initAxiosApiInstance();
+        return this.axiosApiInstance;
+    },
+
+    getMarkerSettings() {
+        const url = settingsObject["MARKER_URL"];
+
+        if (!isDefined(url)) {
+            throw new Error("The marker icon url is not set.");
+        }
+
+        const id = settingsObject["MARKER_IMAGE_ID"];
+
+        return { id, url };
     },
 };

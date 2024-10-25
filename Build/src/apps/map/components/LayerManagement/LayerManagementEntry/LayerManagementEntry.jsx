@@ -5,31 +5,30 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React from "react";
-import { useEffect, useRef, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import React, { useEffect, useRef, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useDoubleTap } from "use-double-tap";
 
-import { isDefined, translate } from "../../../../../util/util";
+import { translate } from "@util/util";
+import { OpacitySlider } from "@components/OpacitySlider/OpacitySlider";
+import SettingsProvider from "@settings-provider";
+import SvgIcons from "@components/SvgIcons/SvgIcons.jsx";
 import {
-  mapState,
-  olcsMapState,
-  selectedFeaturesState,
-  selectedOriginalMapIdState,
-} from "../../../atoms/atoms";
-import { OpacitySlider } from "../../../../../components/OpacitySlider/OpacitySlider";
-import { FALLBACK_SRC } from "../../MapSearch/components/MapSearchListElement/MapSearchListElementBase.jsx";
-import HistoricMap from "../../CustomLayers/HistoricMapLayer";
-import SettingsProvider from "../../../../../SettingsProvider";
-import { serializeOperationalLayer } from "../../../persistence/util";
-import { triggerJsonDownload } from "../util";
-import { LAYER_TYPES } from "../../CustomLayers/LayerTypes";
-import SvgIcons from "../../../../../components/SvgIcons/SvgIcons.jsx";
-import GeoJsonLayer from "../../CustomLayers/GeoJsonLayer.js";
+  GeoJsonLayer,
+  HistoricMapLayer,
+  LAYER_TYPES,
+  METADATA,
+} from "@map/components/CustomLayers";
 import DragButton from "./components/DragButton/DragButton.jsx";
+import VisibilityButton from "./components/VisibilityButton/VisibilityButton.jsx";
+import RemoveLayerButton from "./components/RemoveLayerButton/RemoveLayerButton.jsx";
+import ZoomToExtentButton from "./components/ZoomToExtentButton/ZoomToExtentButton.jsx";
+import MoveToTopButton from "./components/MoveToTopButton/MoveToTopButton.jsx";
+import LayerManagementThumbnail from "./components/LayerManagementThumbnail/LayerManagementThumbnail.jsx";
+import ShowOriginalButton from "./components/ShowOriginalButton/ShowOriginalButton.jsx";
+import ExportGeojsonButton from "./components/ExportGeojsonButton/ExportGeojsonButton.jsx";
 import "./LayerManagementEntry.scss";
 
 export const ItemTypes = {
@@ -41,18 +40,8 @@ export const LayerManagementEntry = (props) => {
   const [entered, setEntered] = useState(false);
   const [isSliding, setIsSliding] = useState(false);
   const [isShowActions, setShowActions] = useState(false);
-  const [isVisible, setIsVisible] = useState(layer["getVisible"]());
   const [isHovered, setIsHovered] = useState(false);
-  const map = useRecoilValue(mapState);
-  const olcsMap = useRecoilValue(olcsMapState);
   const ref = useRef(null);
-  const [selectedFeatures, setSelectedFeatures] = useRecoilState(
-    selectedFeaturesState
-  );
-  const setSelectedOriginalMapId = useSetRecoilState(
-    selectedOriginalMapIdState
-  );
-  const [src, setSrc] = useState(layer.getThumbnail());
   const settings = SettingsProvider.getSettings();
 
   // drag/drop handlers from: https://react-dnd.github.io/react-dnd/examples/sortable/simple
@@ -78,6 +67,7 @@ export const LayerManagementEntry = (props) => {
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
@@ -114,32 +104,6 @@ export const LayerManagementEntry = (props) => {
       }
     }, 100);
 
-  // load fallback image in case the image from the supplied url cannot be loaded
-  const handleError = () => {
-    if (src !== FALLBACK_SRC) {
-      setSrc(FALLBACK_SRC);
-    }
-  };
-
-  // change visibility of the layer
-  const handleChangeVisibility = () => {
-    setIsVisible(!isVisible);
-  };
-
-  // triggers the download of a geojson file name like the clicked layer
-  const handleExportGeojson = () => {
-    const id = layer.getId();
-    const selectedFeature = selectedFeatures.find(
-      (selFeature) => selFeature.feature.getId() === id
-    );
-    const serializedLayer = serializeOperationalLayer(selectedFeature, layer);
-
-    triggerJsonDownload(
-      serializedLayer.properties.title,
-      JSON.stringify(serializedLayer.geojson)
-    );
-  };
-
   // propagate hovered layer id if no drag is in progress
   const handleMouseEnter = () => {
     setEntered(true);
@@ -154,55 +118,6 @@ export const LayerManagementEntry = (props) => {
   const handleDoubleTap = useDoubleTap(() => {
     setShowActions((oldShowActions) => !oldShowActions);
   }, 500);
-
-  // Move layer to the top of the stack
-  const handleMoveTop = (event) => {
-    map.removeLayer(layer);
-    map.addLayer(layer);
-    event.stopPropagation();
-    if (olcsMap !== undefined) {
-      olcsMap.getAutoRenderLoop().restartRenderLoop();
-    }
-  };
-
-  // Remove layer from layer stack
-  const handleRemoveLayer = (event) => {
-    map.removeLayer(layer);
-    event.stopPropagation();
-
-    setSelectedFeatures(
-      selectedFeatures.filter(
-        ({ feature }) => feature.getId() !== layer.getId()
-      )
-    );
-
-    if (olcsMap !== undefined) {
-      olcsMap.getAutoRenderLoop().restartRenderLoop();
-    }
-  };
-
-  // Update visibility from layer if it is different from the internal state
-  const handleUpdateVisibility = () => {
-    const layerVisibility = layer["getVisible"]();
-    if (layerVisibility !== isVisible) setIsVisible(layerVisibility);
-  };
-
-  // zoom to the layer
-  const handleZoomToExtent = () => {
-    if (isDefined(map)) {
-      const extent =
-        layer.get("layer_type") === LAYER_TYPES.GEOJSON
-          ? layer.getSource().getExtent()
-          : layer.getExtent();
-      // add percentage based padding
-      map.getView().fit(extent, { padding: [50, 350, 50, 350] });
-    }
-  };
-
-  // Open original map
-  const handleOriginalMap = () => {
-    setSelectedOriginalMapId(id);
-  };
 
   const handleStartSliding = () => {
     setIsSliding(true);
@@ -228,37 +143,28 @@ export const LayerManagementEntry = (props) => {
     }
   }, [entered, isHovered, isSliding, draggedItem]);
 
-  // Add visibility change handler to layer
-  useEffect(() => {
-    layer.on("change:visible", handleUpdateVisibility);
-    return () => {
-      layer.un("change:visible", handleUpdateVisibility);
-    };
-  });
-
-  // Set layer visibility on local change of visibility
-  useEffect(() => {
-    layer["setVisible"](isVisible);
-  }, [isVisible]);
-
   drag(drop(ref));
 
-  const isMosaicMap = layer.get("type") === "mosaic";
+  const layerId = layer.getId();
+  const layerType = layer.getType();
+  const layerPublished = layer.getMetadata(METADATA.timePublished);
+  const layerTitle = layer.getMetadata(METADATA.title);
+  const layerMetadataType = layer.getMetadata(METADATA.type);
+  const isMosaicMap = layerMetadataType === "mosaic";
 
   return (
     <li
       className={clsx(
         "vkf-layermanagement-record",
-        isVisible ? "record-visible" : "record-hidden",
         isDragging && "drag-and-drop-placeholder",
         isShowActions && "show-actions",
-        layer.get("layer_type") === LAYER_TYPES.GEOJSON && "geojson-data",
+        layerType === LAYER_TYPES.GEOJSON && "geojson-data",
         isHovered &&
-          (draggedItem === null || draggedItem.id === layer.getId()) &&
+          (draggedItem === null || draggedItem.id === layerId) &&
           "force-hover"
       )}
       id={index}
-      data-id={layer.getId()}
+      data-id={layerId}
       data-handler-id={handlerId}
       onFocus={handleMouseEnter}
       onBlur={handleBlur}
@@ -269,40 +175,15 @@ export const LayerManagementEntry = (props) => {
       ref={ref}
     >
       <div className="visibility-container">
-        <button
-          className="disable-layer minimize-tool"
-          onClick={handleChangeVisibility}
-          type="button"
-          title={translate("layermanagement-show-map")}
-        >
-          {` ${translate("layermanagement-show-map")}: ${layer.getTitle()}`}
-        </button>
+        <VisibilityButton layer={layer} />
       </div>
-      {layer.get("layer_type") === LAYER_TYPES.GEOJSON ? (
-        <React.Fragment>
-          <div className="thumbnail-container">
-            <img
-              src={settings.FALLBACK_THUMBNAIL}
-              alt={`GeoJSON Image for ${layer.getTitle()}`}
-            />
-            <span className="geojson-badge">GeoJSON</span>
-          </div>
-        </React.Fragment>
-      ) : (
-        <div className="thumbnail-container">
-          <img
-            onError={handleError}
-            src={src}
-            alt={`Thumbnail Image of Map for ${layer.getTitle()}`}
-          />
-        </div>
-      )}
+      <LayerManagementThumbnail layer={layer} />
       <div className="metadata-container">
-        <h3>{layer.getTitle()}</h3>
+        <h3>{layerTitle}</h3>
         <div className="timestamps">
           <span className="timestamps-label">{`${translate(
             "layermanagement-timestamp"
-          )} ${layer.getTimePublished()}`}</span>
+          )} ${layerPublished}`}</span>
         </div>
         {isMosaicMap && (
           <div className="type">
@@ -313,58 +194,23 @@ export const LayerManagementEntry = (props) => {
         )}
       </div>
       <div className="control-container">
-        <button
-          className="move-layer-top minimize-tool"
-          onClick={handleMoveTop}
-          type="button"
-          title={translate("layermanagement-move-top")}
-        >
-          <SvgIcons name="layeraction-totop" />
-        </button>
-        <button
-          className="remove-layer minimize-tool"
-          onClick={handleRemoveLayer}
-          type="button"
-          title={translate("layermanagement-remove-map")}
-        >
-          <SvgIcons name="layeraction-remove-map" />
-        </button>
-        <button
-          className="zoom-layer minimize-tool"
-          onClick={handleZoomToExtent}
-          type="button"
-          title={translate("layermanagement-zoom-to-map")}
-        >
-          <SvgIcons name="layeraction-center" />
-        </button>
-        {layer.get("layer_type") !== LAYER_TYPES.GEOJSON ? (
-          <button
-            className="show-original"
-            onClick={handleOriginalMap}
-            type="button"
-            title={translate("layermanagement-show-original")}
-          >
-            <SvgIcons name="layeraction-showoriginal" />
-          </button>
+        <MoveToTopButton layer={layer} />
+        <RemoveLayerButton layer={layer} />
+        <ZoomToExtentButton layer={layer} />
+        {layerType !== LAYER_TYPES.GEOJSON ? (
+          <ShowOriginalButton layer={layer} />
         ) : (
-          <button
-            className="export-geojson"
-            onClick={handleExportGeojson}
-            type="button"
-            title={translate("layermanagement-export")}
-          >
-            <SvgIcons name="layeraction-export" />
-          </button>
+          <ExportGeojsonButton layer={layer} />
         )}
         {!isMosaicMap &&
           settings["LINK_TO_GEOREFERENCE"] !== undefined &&
-          layer.get("layer_type") !== LAYER_TYPES.GEOJSON && (
+          layerType !== LAYER_TYPES.GEOJSON && (
             <button
               className="georeference-update"
               title={`${translate("layermangement-georef-update")} ...`}
               onClick={() => {
                 window.open(
-                  `${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layer.getId()}`,
+                  `${settings["LINK_TO_GEOREFERENCE"]}?map_id=${layerId}`,
                   "_blank"
                 );
               }}
@@ -390,8 +236,8 @@ LayerManagementEntry.propTypes = {
   id: PropTypes.string,
   index: PropTypes.number,
   layer: PropTypes.oneOfType([
-    PropTypes.instanceOf(HistoricMap),
     PropTypes.instanceOf(GeoJsonLayer),
+    PropTypes.instanceOf(HistoricMapLayer),
   ]),
   onMoveLayer: PropTypes.func,
   showActions: PropTypes.func,

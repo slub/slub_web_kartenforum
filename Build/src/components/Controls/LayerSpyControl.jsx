@@ -6,9 +6,9 @@
  */
 import { Control } from "ol/control";
 
-import { isDefined, translate } from "../../util/util";
+import { isDefined, translate } from "@util/util";
 import "./LayerSpyControl.scss";
-import { getControlFeedbackContainer } from "../../apps/map/components/MapWrapper/util.js";
+import { getControlFeedbackContainer } from "@map/components/MapWrapper/util.js";
 
 export class LayerSpyControl extends Control {
   mousePosition = null;

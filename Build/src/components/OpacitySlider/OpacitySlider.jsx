@@ -5,21 +5,22 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React, { useEffect, useRef, useState } from "react";
+import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 import Slider from "rc-slider";
-import { useRecoilValue } from "recoil";
-import Tile from "ol/layer/Tile";
 import "rc-slider/assets/index.css";
 
-import HistoricMap from "../../apps/map/components/CustomLayers/HistoricMapLayer.js";
-import { olcsMapState } from "../../apps/map/atoms/atoms.js";
-import GeoJsonLayer from "../../apps/map/components/CustomLayers/GeoJsonLayer.js";
+import { mapState } from "@map/atoms";
+import { CustomEvents } from "@map/components/VkfMap/constants";
+import { isDefined } from "@util/util";
+
 import "./OpacitySlider.scss";
 
 export const OpacitySlider = (props) => {
   const { onEndDrag, onStartDrag, orientation = "horizontal", layer } = props;
-  const olcsMap = useRecoilValue(olcsMapState);
-  const [value, setValue] = useState(layer.getOpacity() * 100);
+
+  const map = useRecoilValue(mapState);
+  const [value, setValue] = useState(layer.getOpacity(map) * 100);
 
   const valueRef = useRef(null);
   const baseMin = 0,
@@ -43,17 +44,18 @@ export const OpacitySlider = (props) => {
   };
 
   const handleOpacityChange = (event) => {
-    const opacity = event.target.getOpacity() * 100;
+    const { layerId } = event;
+    if (layerId === layer.getId()) {
+      const opacity = layer.getOpacity(map) * 100;
 
-    setValue(opacity);
+      setValue(opacity);
+    }
   };
 
   const handleSliderChange = (value) => {
     setValue(value);
-    layer.setOpacity(value / 100);
-
-    if (olcsMap !== undefined) {
-      olcsMap.getAutoRenderLoop().restartRenderLoop();
+    if (isDefined(map)) {
+      layer.setOpacity(map, value / 100);
     }
   };
 
@@ -62,11 +64,14 @@ export const OpacitySlider = (props) => {
   }, [value]);
 
   useEffect(() => {
-    layer.on("change:opacity", handleOpacityChange);
-    return () => {
-      layer.un("change:opacity", handleOpacityChange);
-    };
-  });
+    if (map) {
+      map.on(CustomEvents.opacityChanged, handleOpacityChange);
+
+      return () => {
+        map.off(CustomEvents.opacityChanged, handleOpacityChange);
+      };
+    }
+  }, [map]);
 
   return (
     <div className="opacity-container">
@@ -89,11 +94,7 @@ export const OpacitySlider = (props) => {
 OpacitySlider.propTypes = {
   onEndDrag: PropTypes.func,
   onStartDrag: PropTypes.func,
-  layer: PropTypes.oneOfType([
-    PropTypes.instanceOf(HistoricMap),
-    PropTypes.instanceOf(GeoJsonLayer),
-    PropTypes.instanceOf(Tile),
-  ]),
+  layer: PropTypes.object.isRequired,
   orientation: PropTypes.oneOf(["horizontal", "vertical"]),
 };
 

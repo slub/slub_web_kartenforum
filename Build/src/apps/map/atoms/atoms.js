@@ -6,24 +6,20 @@
  */
 
 import { atom } from "recoil";
-import { LAYOUT_TYPES } from "../layouts/util.js";
+import SettingsProvider from "@settings-provider";
+import { ActiveDialog } from "@map/components/VkfMap/constants.js";
+import { LAYOUT_TYPES } from "@map/layouts/util.js";
 
 // stores the currently active basemap ID
 export const activeBasemapIdState = atom({
     key: "activeBasemapId",
-    default: null,
+    default: SettingsProvider.getSettings().BASEMAPS[0].id,
 });
 
 // current state for the persistence controller
 export const currentApplicationStateState = atom({
     key: "currentApplicationState",
     default: undefined,
-});
-
-// number of currently displayed layers
-export const displayedLayersCountState = atom({
-    key: "displayedLayersCount",
-    default: 0,
 });
 
 // indicates the screen size of different elements
@@ -51,13 +47,6 @@ export const layoutState = atom({
     default: LAYOUT_TYPES.VERTICAL,
 });
 
-// allows accessing the maplayer containing the hovered feature outline
-export const mapSearchOverlayLayerState = atom({
-    key: "mapSearchOverlayLayer",
-    default: undefined,
-    dangerouslyAllowMutability: true,
-});
-
 // allows accessing the map
 export const mapState = atom({
     key: "mapState",
@@ -77,29 +66,18 @@ export const mapCountState = atom({
     default: 10,
 });
 
-// stores the openlayers-cesium map
-export const olcsMapState = atom({
-    key: "olcsMapState",
-    default: undefined,
-    dangerouslyAllowMutability: true,
-});
-
 // flag indicating if the search is loading
 export const searchIsLoadingState = atom({
     key: "searchIsLoadingState",
     default: false,
 });
 
-// selected Features
-export const selectedFeaturesState = atom({
-    key: "selectedFeatureState",
+/**
+ * Tracks the selected application layers e.g., HistoricMapLayer, GeoJsonLayer.
+ */
+export const selectedLayersState = atom({
+    key: "selectedLayersState",
     default: [],
-    dangerouslyAllowMutability: true,
-});
-
-export const selectedGeoJsonFeatureState = atom({
-    key: "selectedGeoJsonFeatureState",
-    default: null,
     dangerouslyAllowMutability: true,
 });
 
@@ -120,4 +98,15 @@ export const defaultTimeRange = [1850, 1970];
 export const timeRangeState = atom({
     key: "timeRangeState",
     default: defaultTimeRange,
+});
+
+export const baseMapStyleLayersState = atom({
+    key: "baseMapStyleLayersState",
+    default: [],
+});
+
+// store the current active dialog in control container
+export const activeDialogState = atom({
+    key: "activeDialogState",
+    default: ActiveDialog.None,
 });

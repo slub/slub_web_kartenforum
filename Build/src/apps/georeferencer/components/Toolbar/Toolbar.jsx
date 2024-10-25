@@ -11,20 +11,20 @@ import {
   postTransformation,
   queryTransformationPreview,
   queryTransformationTry,
-} from "../../../../util/apiGeo";
-import { translate } from "../../../../util/util";
-import { notificationState } from "../../../../atoms/atoms";
+} from "@util/apiGeo";
+import { translate } from "@util/util";
+import { notificationState } from "@atoms";
 import {
   isLoadingState,
   rectifiedImageParamsState,
   sourceViewParamsState,
   targetViewParamsState,
   transformationState,
-} from "../../atoms/atoms";
-import ControlButton from "../ControlButton/ControlButton";
-import ControlDropDown from "../ControlDropDown/ControlDropDown";
-import DialogConfirm from "../DialogConfirm/DialogConfirm";
-import { usePrevious } from "../../../../util/hooks";
+} from "@georeferencer/atoms";
+import ControlButton from "@georeferencer/components/ControlButton";
+import ControlDropDown from "@georeferencer/components/ControlDropDown";
+import DialogConfirm from "@georeferencer/components/DialogConfirm";
+import { usePrevious } from "@util/hooks";
 import { Controller } from "./Controller";
 import { activateZoomPanAction } from "./actions";
 import "./Toolbar.scss";

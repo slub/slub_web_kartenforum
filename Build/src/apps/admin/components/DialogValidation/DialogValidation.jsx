@@ -52,14 +52,17 @@ export const DialogValidation = (props) => {
         onHide={handleOnClose}
       >
         <Modal.Header>
-          <Modal.Title>Setze validation="{validationValue}" </Modal.Title>
+          <Modal.Title>
+            Setze validation=&quot;{validationValue}&quot;{" "}
+          </Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
           <div className="dialog-content">
             <p>
               Soll der Validierungsstatus für die Transformation mit der ID{" "}
-              {transformationId} auf "{validationValue}" gesetzt werden.
+              {transformationId} auf &quot;{validationValue}&quot; gesetzt
+              werden.
               {validationValue === "invalid"
                 ? "Für invalide Transformationen geben Sie bitte eine Begründung mit an."
                 : ""}

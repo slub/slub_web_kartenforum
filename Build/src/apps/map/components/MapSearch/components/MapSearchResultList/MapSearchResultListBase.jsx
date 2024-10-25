@@ -10,23 +10,25 @@ import { useRecoilValue } from "recoil";
 import clsx from "clsx";
 import { FixedSizeList as List } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
-import Feature from "ol/Feature";
 
-import { map3dState } from "../../../../atoms/atoms";
+import { map3dState } from "@map/atoms";
 import MapSearchSortColumn from "../MapSearchSortColumn/MapSearchSortColumn";
-import { useSize } from "../../../../../../util/hooks";
-import { translate } from "../../../../../../util/util";
+import { useSize } from "@util/hooks";
+import { translate } from "@util/util";
 import "./MapSearchResultList.scss";
 import MapSearchListElement from "../MapSearchListElement/MapSearchListElement.jsx";
+import { HistoricMapLayer } from "@map/components/CustomLayers";
 
 const SEARCH_COLS = ["map_scale", "time_published", "title", "georeference"];
 
-export let LOADING_FEATURE = new Feature({
-  has_georeference: true,
-  map_scale: "0",
-  thumb_url: "",
-  time_published: "",
-  title: "Loading",
+export const LOADING_LAYER = new HistoricMapLayer({
+  metadata: {
+    has_georeference: true,
+    map_scale: "0",
+    thumb_url: "",
+    time_published: "",
+    title: "Loading",
+  },
 });
 
 export const MapSearchResultListBase = ({
@@ -58,7 +60,7 @@ export const MapSearchResultListBase = ({
     (index) =>
       !refClearResults.current &&
       items[index] !== undefined &&
-      items[index] !== LOADING_FEATURE,
+      items[index] !== LOADING_LAYER,
     [items]
   );
 
@@ -70,18 +72,20 @@ export const MapSearchResultListBase = ({
         const size = stopIndex - startIndex + 1;
 
         return onFetchResults(startIndex, size).then((res) => {
-          setItems((oldItems) => {
-            const newItems = refClearResults.current
-              ? {}
-              : Object.assign({}, oldItems);
+          if (res) {
+            setItems((oldItems) => {
+              const newItems = refClearResults.current
+                ? {}
+                : Object.assign({}, oldItems);
 
-            refClearResults.current = false;
+              refClearResults.current = false;
 
-            res.forEach((map, index) => {
-              newItems[startIndex + index] = map;
+              res.forEach((map, index) => {
+                newItems[startIndex + index] = map;
+              });
+              return newItems;
             });
-            return newItems;
-          });
+          }
         });
       }
     },
@@ -92,9 +96,12 @@ export const MapSearchResultListBase = ({
   // Effect section
   ////
 
-  // initialize title of the loading feature (has to be done here, because of translation)
+  // initialize title of the loading layer (has to be done here, because of translation)
   useEffect(() => {
-    LOADING_FEATURE.set("title", translate("mapsearch-listelement-loading"));
+    LOADING_LAYER.updateMetadata(
+      "title",
+      translate("mapsearch-listelement-loading")
+    );
   }, []);
 
   // reset caches on change of the result set id

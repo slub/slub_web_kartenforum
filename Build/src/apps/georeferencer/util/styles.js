@@ -9,7 +9,7 @@ import Fill from "ol/style/Fill";
 import Stroke from "ol/style/Stroke";
 import Style from "ol/style/Style";
 import Text from "ol/style/Text";
-import { isString } from "../../../util/util";
+import { isString } from "@util/util";
 
 /**
  * @returns {ol.style.Style}

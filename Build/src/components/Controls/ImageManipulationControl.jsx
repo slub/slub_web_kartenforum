@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import Slider from "rc-slider";
 import clsx from "clsx";
 import { Control } from "ol/control";
-import { translate } from "../../util/util";
+import { translate } from "@util/util";
 import "./ImageManipulationControl.scss";
 
 export const variables = {

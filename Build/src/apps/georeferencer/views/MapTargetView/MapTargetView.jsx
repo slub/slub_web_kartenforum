@@ -7,15 +7,17 @@
 import React, { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
+import { transform } from "ol/proj";
+
 import {
   rectifiedImageParamsState,
   targetViewParamsState,
-} from "../../atoms/atoms";
-import OpacitySlider from "../../../../components/OpacitySlider/OpacitySlider.jsx";
-import Map2D from "../../../../components/Map2D/Map2D";
-import LayerRectifiedImage from "../../../../components/LayerRectifiedImage/LayerRectifiedImage";
-import PlacenameSearch from "../../../../components/PlacenameSearch/PlacenameSearch.jsx";
-import SettingsProvider from "../../../../SettingsProvider.js";
+} from "@georeferencer/atoms";
+import Map2D from "@components/Map2D";
+import LayerRectifiedImage from "@components/LayerRectifiedImage";
+import PlacenameSearch from "@components/PlacenameSearch/PlacenameSearch.jsx";
+import OpenLayerOpacitySlider from "@components/OpacitySlider/OpenLayerOpacitySlider.jsx";
+import SettingsProvider from "@settings-provider";
 import "./MapTargetView.scss";
 
 export const MapTargetView = (props) => {
@@ -27,10 +29,21 @@ export const MapTargetView = (props) => {
   );
 
   // Handle select position via placename
-  const handleSelectPosition = ({ center, zoom }) => {
-    if (targetViewParams !== null) {
-      targetViewParams.map.getView().setCenter(center);
-      targetViewParams.map.getView().setZoom(zoom);
+  const handleSelectPosition = (feature) => {
+    const [lon, lat] = [feature.lonlat.x, feature.lonlat.y];
+    const sourceProjection = "EPSG:4326";
+    const targetProjection = "EPSG:3857";
+
+    const center = transform(
+      [parseFloat(lon), parseFloat(lat)],
+      sourceProjection,
+      targetProjection
+    );
+
+    if (targetViewParams?.map) {
+      const mapView = targetViewParams.map.getView();
+      mapView.setCenter(center);
+      mapView.setZoom(12);
     }
   };
 
@@ -47,12 +60,14 @@ export const MapTargetView = (props) => {
             <div className="placenamesearch-container">
               <PlacenameSearch
                 onSelectPosition={handleSelectPosition}
-                projection={SettingsProvider.getDefaultMapView().projection}
                 searchUrl={SettingsProvider.getNominatimUrl()}
               />
             </div>
             {pureRectifyLayer !== null && (
-              <OpacitySlider layer={pureRectifyLayer} orientation="vertical" />
+              <OpenLayerOpacitySlider
+                layer={pureRectifyLayer}
+                orientation="vertical"
+              />
             )}
           </div>
         )}

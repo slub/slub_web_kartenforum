@@ -8,7 +8,7 @@ import React, { useCallback, useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
-  serializeMapView,
+  serializeCameraOptions,
   serializeOperationalLayer,
   useLocalStorage,
   useOnPageLeave,
@@ -17,24 +17,20 @@ import {
   activeBasemapIdState,
   facetState,
   currentApplicationStateState,
-  map3dState,
   mapState,
-  olcsMapState,
-  selectedFeaturesState,
+  selectedLayersState,
   timeExtentState,
   timeRangeState,
-} from "../atoms/atoms.js";
+} from "@map/atoms";
 import { PERSISTENCE_OBJECT_KEY } from "./PersistenceController.jsx";
 
 export const LocalStorageWriter = function () {
   const activeBasemapId = useRecoilValue(activeBasemapIdState);
   const facets = useRecoilValue(facetState);
   const map = useRecoilValue(mapState);
-  const mapIs3dEnabled = useRecoilValue(map3dState);
-  const olcsMap = useRecoilValue(olcsMapState);
   const timeExtent = useRecoilValue(timeExtentState);
   const timeRange = useRecoilValue(timeRangeState);
-  const selectedFeatures = useRecoilValue(selectedFeaturesState);
+  const selectedLayers = useRecoilValue(selectedLayersState);
   const setLocalStorageWriter = useSetRecoilState(currentApplicationStateState);
 
   const [, setPersistenceObject] = useLocalStorage(PERSISTENCE_OBJECT_KEY, {
@@ -45,21 +41,17 @@ export const LocalStorageWriter = function () {
   // Persist current state to localStorage
   const writeStateToLocalStorage = useCallback(() => {
     if (map !== undefined) {
+      const mapIs3dEnabled = map.hasTerrain();
+
       // Persist basic feature settings
       const newPersistenceObject = {
         activeBasemapId,
         is3dEnabled: mapIs3dEnabled,
-        operationalLayers: map
-          .getLayers()
-          .getArray()
-          .filter((layer) => layer.getId !== undefined)
-          .map((mapLayer) => {
-            const selectedFeature = selectedFeatures.find(
-              (sf) => mapLayer.getId() === sf.feature.getId()
-            );
-
-            return serializeOperationalLayer(selectedFeature, mapLayer);
-          }),
+        operationalLayers: selectedLayers
+          .map((selectedLayer) => {
+            return serializeOperationalLayer(selectedLayer, map);
+          })
+          .filter((layer) => layer !== null),
         searchOptions: {
           facets,
           timeExtent,
@@ -68,28 +60,14 @@ export const LocalStorageWriter = function () {
       };
 
       // Persist map view
-      const camera = olcsMap.getCesiumScene().camera;
-
-      newPersistenceObject.mapView = serializeMapView(
-        camera,
-        map,
-        mapIs3dEnabled
-      );
+      newPersistenceObject.cameraOptions = serializeCameraOptions(map);
 
       // write changes to localStorage
       setPersistenceObject(newPersistenceObject);
+
       return newPersistenceObject;
     }
-  }, [
-    activeBasemapId,
-    map,
-    mapIs3dEnabled,
-    olcsMap,
-    facets,
-    selectedFeatures,
-    timeExtent,
-    timeRange,
-  ]);
+  }, [activeBasemapId, map, facets, selectedLayers, timeExtent, timeRange]);
 
   // Write state on page leave to storage
   useOnPageLeave(writeStateToLocalStorage);

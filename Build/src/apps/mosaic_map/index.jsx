@@ -9,7 +9,7 @@ import ReactDOM from "react-dom";
 import "core-js";
 
 import AppMosaicMap from "./AppMosaicMap.jsx";
-import settingsProvider from "../../SettingsProvider";
+import settingsProvider from "@settings-provider";
 
 export const SettingsProvider = settingsProvider;
 

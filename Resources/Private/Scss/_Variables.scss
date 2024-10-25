@@ -17,11 +17,6 @@ $tabletLandscapeViewportWidth: 992px;
 $desktopViewportWidth: 1200px;
 $largerViewportWidth: 1700px;
 
-// Paths
-$base-path: "/typo3conf/ext/slub_web_kartenforum/Resources/Public/";
-$image-path: $base-path + "Images/";
-$icon-path: $base-path + "Icons/";
-
 // Colors
 $primary-color: rgb(255, 51, 51); // The very bright red
 $primary-color-dark: darken($primary-color, 15%);
@@ -30,6 +25,8 @@ $secondary-color-dark: darken($secondary-color, 15%); // a darker tone of green 
 $color-lightgrey: rgb(224, 224, 224); // very light grey
 $color-midgrey: rgb(204, 204, 204); // light grey
 $color-grey: rgb(102, 102, 102); // base grey
+
+$color-disabled: rgb(158, 158, 158); // grey for disabled elements
 
 // Misc
 $transition: all 0.25s ease-in-out;
