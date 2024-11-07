@@ -8,7 +8,7 @@
 <input type="hidden" value="{urlNominatim}" id="setting-urlNominatim"/>
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
 <input type="hidden" value="{terrain}" id="setting-terrain"/>
-<input type="hidden" value="{georefApi}" id="setting-georefApi" />
+<input type="hidden" value="{georefApi}" id="setting-georefApi"/>
 <input type="hidden"
        value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Images/layer_default.png')}"
        id="settings-layer-fallback"/>
@@ -51,8 +51,8 @@
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
             API_SEARCH:
-                document.getElementById("setting-urlSearch").value,
-                    API_GEOREFERENCE_BASEURL: document.getElementById("setting-georefApi").value,
+            document.getElementById("setting-urlSearch").value,
+            API_GEOREFERENCE_BASEURL: document.getElementById("setting-georefApi").value,
             BASEMAPS: JSON.parse(
                 document.getElementById("setting-basemaps").value
             ),
@@ -69,14 +69,14 @@
             MAPVIEW_PARAMS: JSON.parse(
                 document.getElementById("setting-mapView").value
             ),
-            MARKER_URL:document.getElementById("settings-marker-url").value,
+            MARKER_URL: document.getElementById("settings-marker-url").value,
             NOMINATIM_URL: document.getElementById("setting-urlNominatim")
                 .value,
             TERRAIN_TILES: JSON.parse(
                 document.getElementById("setting-terrain").value
             ),
             USER_ISAUTHENTICATED: document.getElementById("setting-is-auth") !== null,
-            });
+        });
 
         vk2.SettingsProvider.appendSettings({
             dictionary: Object.assign(
@@ -231,6 +231,8 @@
                         "<f:translate key='plugin.map.layermanagement.deactivateAll' extensionName='SlubWebKartenforum' />",
                     "layermanagement-activate-all-maps":
                         "<f:translate key='plugin.map.layermanagement.activateAll' extensionName='SlubWebKartenforum' />",
+                    "mosaic-badge-title":
+                        "<f:translate key='plugin.map.layermanagement.mosaic-badge-title' extensionName='SlubWebKartenforum' />",
                     "layermanagement-timestamp":
                         "<f:translate key='plugin.map.layermanagement.timestamp' extensionName='SlubWebKartenforum' />",
                     "layermangement-georef-update":

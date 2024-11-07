@@ -116,13 +116,22 @@ export const MapSearchListElementBase = ({
           {src === "" ? (
             <Skeleton.default height="calc(100% - 6px)" />
           ) : (
-            <img
-              alt={`Thumbnail Image of Map ${operationalLayer.getMetadata(
-                METADATA.title
-              )} ${operationalLayer.getMetadata(METADATA.timePublished)}`}
-              onError={handleError}
-              src={src}
-            />
+            <>
+              <img
+                alt={`Thumbnail Image of Map ${operationalLayer.getMetadata(
+                  METADATA.title
+                )} ${operationalLayer.getMetadata(METADATA.timePublished)}`}
+                onError={handleError}
+                src={src}
+              />
+              {isMosaicMap && (
+                <span
+                  className={clsx("mosaic-badge", isSelected && "selected")}
+                >
+                  {translate("mosaic-badge-title")}
+                </span>
+              )}
+            </>
           )}
           {isSelected && (
             <span className="badge selected-badge">

@@ -7,240 +7,242 @@
         </header>
         <body>
 
-        <trans-unit id="global.language_code">
-        	<source>en</source>
-        </trans-unit>
-		<trans-unit id="label.georefhistorypage">
-			<source>Georeference History</source>
-		</trans-unit>
-		<trans-unit id="label.georefchoosepage">
-			<source>Show unreferenced maps</source>
-		</trans-unit>
-		<trans-unit id="label.evaluationpage">
-			<source>Map Evaluation</source>
-		</trans-unit>
-		<trans-unit id="label.mosaikAdminPage">
-            <source>Mosaic maps</source>
-        </trans-unit>
-	    <trans-unit id="label.uploadMapPage">
-            <source>Upload maps</source>
-        </trans-unit>
-		<trans-unit id="label.login">
-			<source>Login</source>
-		</trans-unit>
-        <trans-unit id="label.logout">
-            <source>Logout</source>
-        </trans-unit>
-        <trans-unit id="label.requiredFields">
-            <source>* required fields</source>
-        </trans-unit>
-        <trans-unit id="login.title">
-            <source>Welcome to the Virtual Map Forum 2.0</source>
-        </trans-unit>
-        <trans-unit id="login.username">
-            <source>Username</source>
-        </trans-unit>
-		<trans-unit id="login.shortusername" approved="yes">
-		    <source>User</source>
-		</trans-unit>
-        <trans-unit id="login.password">
-            <source>Password</source>
-        </trans-unit>
-        <trans-unit id="login.signin">
-            <source>Login</source>
-        </trans-unit>
-        <trans-unit id="login.reset">
-            <source>Reset password?</source>
-        </trans-unit>
-        <trans-unit id="login.newto">
-            <source>New to the Virtual Map Forum 2.0?</source>
-        </trans-unit>
-        <trans-unit id="login.signupnow">
-            <source>Register now</source>
-        </trans-unit>
-        <trans-unit id="login.registration">
-            <source>Registration</source>
-        </trans-unit>
-        <trans-unit id="login.signup">
-            <source>Register</source>
-        </trans-unit>
-        <trans-unit id="login.email">
-            <source>Email</source>
-        </trans-unit>
-        <trans-unit id="login.firstname">
-            <source>First name</source>
-        </trans-unit>
-        <trans-unit id="login.lastname">
-            <source>Last name</source>
-        </trans-unit>
-		<trans-unit id="plugin.signup">
-			<source>Kartenforum: Signup Form</source>
-		</trans-unit>
-		<trans-unit id="plugin.apps">
-			<source>Kartenforum: Apps</source>
-		</trans-unit>
-		<trans-unit id="plugin.map">
-			<source>Kartenforum: Main Map</source>
-		</trans-unit>
-		<trans-unit id="plugin.admin">
-			<source>Kartenforum: Admin</source>
-		</trans-unit>
-		<trans-unit id="plugin.georeference">
-			<source>Kartenforum: Georeferencing</source>
-		</trans-unit>
-        <trans-unit id="plugin.mosaic-map">
-            <source>Kartenforum: Mosaic maps</source>
-        </trans-unit>
-        <trans-unit id="plugin.upload">
-            <source>Kartenforum: Upload maps</source>
-        </trans-unit>
-        <trans-unit id="validationerror_1428504122">
-            <source>The minimum length of the password is 9 characters.</source>
-        </trans-unit>
-        <trans-unit id="validationerror_1596722363">
-            <source>The username is already in use. Please choose another one.</source>
-        </trans-unit>
-        <trans-unit id="georef.rank">
-            <source>Rank</source>
-        </trans-unit>
-        <trans-unit id="georef.username">
-            <source>Username</source>
-        </trans-unit>
-        <trans-unit id="georef.new">
-            <source>New georeference processes</source>
-        </trans-unit>
-        <trans-unit id="plugin.map.layermanagement.georefUpdate">
-            <source>Update georeference processes</source>
-        </trans-unit>
-        <trans-unit id="georef.points">
-            <source>Points</source>
-        </trans-unit>
-        <trans-unit id="georef.timestamp">
-            <source>Updated</source>
-        </trans-unit>
+            <trans-unit id="global.language_code">
+                <source>en</source>
+            </trans-unit>
+            <trans-unit id="label.georefhistorypage">
+                <source>Georeference History</source>
+            </trans-unit>
+            <trans-unit id="label.georefchoosepage">
+                <source>Show unreferenced maps</source>
+            </trans-unit>
+            <trans-unit id="label.evaluationpage">
+                <source>Map Evaluation</source>
+            </trans-unit>
+            <trans-unit id="label.mosaikAdminPage">
+                <source>Mosaic maps</source>
+            </trans-unit>
+            <trans-unit id="label.uploadMapPage">
+                <source>Upload maps</source>
+            </trans-unit>
+            <trans-unit id="label.login">
+                <source>Login</source>
+            </trans-unit>
+            <trans-unit id="label.logout">
+                <source>Logout</source>
+            </trans-unit>
+            <trans-unit id="label.requiredFields">
+                <source>* required fields</source>
+            </trans-unit>
+            <trans-unit id="login.title">
+                <source>Welcome to the Virtual Map Forum 2.0</source>
+            </trans-unit>
+            <trans-unit id="login.username">
+                <source>Username</source>
+            </trans-unit>
+            <trans-unit id="login.shortusername" approved="yes">
+                <source>User</source>
+            </trans-unit>
+            <trans-unit id="login.password">
+                <source>Password</source>
+            </trans-unit>
+            <trans-unit id="login.signin">
+                <source>Login</source>
+            </trans-unit>
+            <trans-unit id="login.reset">
+                <source>Reset password?</source>
+            </trans-unit>
+            <trans-unit id="login.newto">
+                <source>New to the Virtual Map Forum 2.0?</source>
+            </trans-unit>
+            <trans-unit id="login.signupnow">
+                <source>Register now</source>
+            </trans-unit>
+            <trans-unit id="login.registration">
+                <source>Registration</source>
+            </trans-unit>
+            <trans-unit id="login.signup">
+                <source>Register</source>
+            </trans-unit>
+            <trans-unit id="login.email">
+                <source>Email</source>
+            </trans-unit>
+            <trans-unit id="login.firstname">
+                <source>First name</source>
+            </trans-unit>
+            <trans-unit id="login.lastname">
+                <source>Last name</source>
+            </trans-unit>
+            <trans-unit id="plugin.signup">
+                <source>Kartenforum: Signup Form</source>
+            </trans-unit>
+            <trans-unit id="plugin.apps">
+                <source>Kartenforum: Apps</source>
+            </trans-unit>
+            <trans-unit id="plugin.map">
+                <source>Kartenforum: Main Map</source>
+            </trans-unit>
+            <trans-unit id="plugin.admin">
+                <source>Kartenforum: Admin</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference">
+                <source>Kartenforum: Georeferencing</source>
+            </trans-unit>
+            <trans-unit id="plugin.mosaic-map">
+                <source>Kartenforum: Mosaic maps</source>
+            </trans-unit>
+            <trans-unit id="plugin.upload">
+                <source>Kartenforum: Upload maps</source>
+            </trans-unit>
+            <trans-unit id="validationerror_1428504122">
+                <source>The minimum length of the password is 9 characters.</source>
+            </trans-unit>
+            <trans-unit id="validationerror_1596722363">
+                <source>The username is already in use. Please choose another one.</source>
+            </trans-unit>
+            <trans-unit id="georef.rank">
+                <source>Rank</source>
+            </trans-unit>
+            <trans-unit id="georef.username">
+                <source>Username</source>
+            </trans-unit>
+            <trans-unit id="georef.new">
+                <source>New georeference processes</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.georefUpdate">
+                <source>Update georeference processes</source>
+            </trans-unit>
+            <trans-unit id="georef.points">
+                <source>Points</source>
+            </trans-unit>
+            <trans-unit id="georef.timestamp">
+                <source>Updated</source>
+            </trans-unit>
 
             <!-- **************************************** -->
             <!-- language dictionary for using in javascript -->
             <!-- **************************************** -->
 
-			<!-- general terms -->
-			<trans-unit id="client.backToMain">
-				<source>back to main page ...</source>
-			</trans-unit>
-			<trans-unit id="client.goToGeoref">
-				<source>Go to georeference view</source>
-			</trans-unit>
-			<trans-unit id="client.goToOrg">
-				<source>Go to original view</source>
-			</trans-unit>
-			<trans-unit id="client.no">
-				<source>No</source>
-			</trans-unit>
-			<trans-unit id="client.points">
-				<source>Points</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.layermanagement.timestamp">
-				<source>Timestamp</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.mapsearchlistelement.time">
-				<source>Time</source>
-			</trans-unit>
-			<trans-unit id="client.yes">
-				<source>Yes</source>
-			</trans-unit>
-			<trans-unit id="client.mapType">
-				<source>Map type</source>
-			</trans-unit>
+            <!-- general terms -->
+            <trans-unit id="client.backToMain">
+                <source>back to main page ...</source>
+            </trans-unit>
+            <trans-unit id="client.goToGeoref">
+                <source>Go to georeference view</source>
+            </trans-unit>
+            <trans-unit id="client.goToOrg">
+                <source>Go to original view</source>
+            </trans-unit>
+            <trans-unit id="client.no">
+                <source>No</source>
+            </trans-unit>
+            <trans-unit id="client.points">
+                <source>Points</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.timestamp">
+                <source>Timestamp</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapsearchlistelement.time">
+                <source>Time</source>
+            </trans-unit>
+            <trans-unit id="client.yes">
+                <source>Yes</source>
+            </trans-unit>
+            <trans-unit id="client.mapType">
+                <source>Map type</source>
+            </trans-unit>
 
-			<!-- vk2.app.GeoreferenceChooserApp -->
-			<trans-unit id="choosepage.selectMap">
-				<source>Select a map for georeferencing</source>
-			</trans-unit>
-			<trans-unit id="choosepage.amountUnreferencedMaps">
-				<source>Amount of unreferenced maps</source>
-			</trans-unit>
+            <!-- vk2.app.GeoreferenceChooserApp -->
+            <trans-unit id="choosepage.selectMap">
+                <source>Select a map for georeferencing</source>
+            </trans-unit>
+            <trans-unit id="choosepage.amountUnreferencedMaps">
+                <source>Amount of unreferenced maps</source>
+            </trans-unit>
 
-<!-- 			<trans-unit id="client.georeferencechoose.searchField"> -->
-<!--             	<source>Map name</source> -->
-<!--             </trans-unit> -->
-<!-- 			<trans-unit id="client.georeferencechoose.goToGeoreference"> -->
-<!-- 				<source>Georeference</source> -->
-<!-- 			</trans-unit> -->
+            <!-- 			<trans-unit id="client.georeferencechoose.searchField"> -->
+            <!--             	<source>Map name</source> -->
+            <!--             </trans-unit> -->
+            <!-- 			<trans-unit id="client.georeferencechoose.goToGeoreference"> -->
+            <!-- 				<source>Georeference</source> -->
+            <!-- 			</trans-unit> -->
 
-			<!-- vk2.app.AdminEvaluationApp -->
+            <!-- vk2.app.AdminEvaluationApp -->
             <trans-unit id="client.evaluation.btnIsValid">
-				<source>Set 'isvalide'</source>
-			</trans-unit>
+                <source>Set 'isvalide'</source>
+            </trans-unit>
             <trans-unit id="client.evaluation.btnShowMap">
-				<source>Show map</source>
-			</trans-unit>
+                <source>Show map</source>
+            </trans-unit>
             <trans-unit id="client.evaluation.btnGoToProcess">
-				<source>Go to process</source>
-			</trans-unit>
+                <source>Go to process</source>
+            </trans-unit>
             <trans-unit id="client.evaluation.btnSetIsInvalid">
-				<source>Set 'invalide'</source>
-			</trans-unit>
+                <source>Set 'invalide'</source>
+            </trans-unit>
             <!-- vk2.control.DeactiveMapVisualizationControl -->
-			<trans-unit id="plugin.map.layermanagement.deactivateAll">
-				<source>Deactivate all maps</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.layermanagement.activateAll">
-				<source>Activate all maps</source>
-			</trans-unit>
+            <trans-unit id="plugin.map.layermanagement.deactivateAll">
+                <source>Deactivate all maps</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.activateAll">
+                <source>Activate all maps</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.mosaic-badge-title">
+                <source>Mosaic</source>
+            </trans-unit>
 
             <!-- vk2.control.DynamicMapVisualizationControl -->
-			<trans-unit id="plugin.map.dynamicmapvis.start">
-				<source>Start timeseries visualization</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.dynamicmapvis.stop">
-				<source>Stop timeseries visualization</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.dynamicmapvis.open">
-				<source>Open dynamic map visualization tool</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.dynamicmapvis.close">
-				<source>Close dynamic map visualization tool</source>
-			</trans-unit>
+            <trans-unit id="plugin.map.dynamicmapvis.start">
+                <source>Start timeseries visualization</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.dynamicmapvis.stop">
+                <source>Stop timeseries visualization</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.dynamicmapvis.open">
+                <source>Open dynamic map visualization tool</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.dynamicmapvis.close">
+                <source>Close dynamic map visualization tool</source>
+            </trans-unit>
 
             <!-- vk2.control.FlipViewMode -->
-			<trans-unit id="global.map.control-toggleviewmode.title">
-				<source>Switch between 2D and 3D view</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-toggleviewmode.zoomin">
-				<source>Switch to 3D is not possible for this resolution. Please zoom in.</source>
-			</trans-unit>
-
+            <trans-unit id="global.map.control-toggleviewmode.title">
+                <source>Switch between 2D and 3D view</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-toggleviewmode.zoomin">
+                <source>Switch to 3D is not possible for this resolution. Please zoom in.</source>
+            </trans-unit>
 
 
             <!-- vk2.control.MousePositionControl -->
-			<trans-unit id="global.map.control-mouseposition-title">
-				<source>Cursor position</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-save-mouseposition-helper">
-				<source>Click to save current position</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-saved-mouseposition-label">
-				<source>Saved</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-save-mouseposition-button-title">
-				<source>Copy saved position to clipboard</source>
-			</trans-unit>
+            <trans-unit id="global.map.control-mouseposition-title">
+                <source>Cursor position</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-save-mouseposition-helper">
+                <source>Click to save current position</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-saved-mouseposition-label">
+                <source>Saved</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-save-mouseposition-button-title">
+                <source>Copy saved position to clipboard</source>
+            </trans-unit>
 
 
             <!-- vk2.control.RestoreDefaultView -->
-			<trans-unit id="global.map.control-restoredefaultview-title">
-				<source>Restore default view</source>
+            <trans-unit id="global.map.control-restoredefaultview-title">
+                <source>Restore default view</source>
             </trans-unit>
 
             <!-- vk2.factory.MapSearchFactory / vk2.factory.LayerManagementFactory-->
-			<trans-unit id="plugin.map.mapsearchlistelement.scale">
-				<source>Scale</source>
-			</trans-unit>
+            <trans-unit id="plugin.map.mapsearchlistelement.scale">
+                <source>Scale</source>
+            </trans-unit>
             <trans-unit id="plugin.map.mapsearchlistelement.type">
                 <source>Type</source>
             </trans-unit>
-			<trans-unit id="plugin.map.mapsearchlistelement.notGeoref">
-            	<source>Not georeferenced</source>
+            <trans-unit id="plugin.map.mapsearchlistelement.notGeoref">
+                <source>Not georeferenced</source>
             </trans-unit>
             <trans-unit id="plugin.map.mapsearchlistelement.loading">
                 <source>Loading</source>
@@ -265,9 +267,11 @@
             <trans-unit id="plugin.map.adddialog.projectionLabel">
                 <source>Projection</source>
             </trans-unit>
-			<trans-unit id="plugin.map.adddialog.body">
-				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
-			</trans-unit>
+            <trans-unit id="plugin.map.adddialog.body">
+                <source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press
+                    this button to choose a file from your system.
+                </source>
+            </trans-unit>
 
             <!-- map Geojson Feature View -->
             <trans-unit id="plugin.map.geojson.featureview">
@@ -314,25 +318,25 @@
                 <source>We could not find a image. Please check the link again.</source>
             </trans-unit>
 
-			<trans-unit id="plugin.map.layermanagement.showMap">
-				<source>Display map</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.layermanagement.export">
-				<source>Export GeoJSON</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.layermanagement.removeMap">
-				<source>Remove map</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.layermanagement.moveToTop">
-				<source>Move map to top</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.layermanagement.updateGeoref">
-				<source>Update georeferenced map</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.layermanagement.zoomToMap">
+            <trans-unit id="plugin.map.layermanagement.showMap">
+                <source>Display map</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.export">
+                <source>Export GeoJSON</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.removeMap">
+                <source>Remove map</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.moveToTop">
+                <source>Move map to top</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.updateGeoref">
+                <source>Update georeferenced map</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.zoomToMap">
                 <source>Zoom to map</source>
             </trans-unit>
-			<trans-unit id="plugin.map.layermanagement.showOriginal">
+            <trans-unit id="plugin.map.layermanagement.showOriginal">
                 <source>Show Original</source>
             </trans-unit>
 
@@ -345,43 +349,43 @@
             </trans-unit>
 
 
-			<!-- vk2.module.LayerManagementModule -->
-			<trans-unit id="plugin.map.layermanagement.startMessageHeader">
-				<source>Welcome to the Virtual Map Forum 2.0.</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.layermanagement.startMessageBody">
-				<source>Please choose your map collection in the search menu on the left side</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.layermanagement.headerLbl">
-				<source>My maps</source>
-			</trans-unit>
+            <!-- vk2.module.LayerManagementModule -->
+            <trans-unit id="plugin.map.layermanagement.startMessageHeader">
+                <source>Welcome to the Virtual Map Forum 2.0.</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.startMessageBody">
+                <source>Please choose your map collection in the search menu on the left side</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.headerLbl">
+                <source>My maps</source>
+            </trans-unit>
 
-			<!-- vk2.module.MapSearchModule -->
-			<trans-unit id="plugin.map.mapsearch.foundMaps">
-				<source>Maps available</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.mapsearch.foundNoMaps">
-				<source>No maps available</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.mapsearch.georeference">
-				<source>Georeference</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.mapsearch.time_published">
-				<source>Time</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.mapsearch.title">
-				<source>Title</source>
-			</trans-unit>
+            <!-- vk2.module.MapSearchModule -->
+            <trans-unit id="plugin.map.mapsearch.foundMaps">
+                <source>Maps available</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapsearch.foundNoMaps">
+                <source>No maps available</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapsearch.georeference">
+                <source>Georeference</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapsearch.time_published">
+                <source>Time</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapsearch.title">
+                <source>Title</source>
+            </trans-unit>
             <trans-unit id="plugin.map.mapsearch.map_scale">
                 <source>Scale</source>
             </trans-unit>
-			<trans-unit id="plugin.map.mapsearch.sorting">
-				<source>Sorting</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.mapsearch.facetsearch.open">
-			    <source>Open faceted search</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.mapsearch.facetsearch.close">
+            <trans-unit id="plugin.map.mapsearch.sorting">
+                <source>Sorting</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapsearch.facetsearch.open">
+                <source>Open faceted search</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapsearch.facetsearch.close">
                 <source>Close faceted search</source>
             </trans-unit>
 
@@ -434,145 +438,147 @@
             <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_description">
                 <source>Description</source>
             </trans-unit>
-              <trans-unit id="plugin.map.mosaicMaps.inputPanel.help_name">
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.help_name">
                 <source>Snake-case, e.g mosaic_map_1</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_upload">
+            <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_upload">
                 <source>The upload of the mosaic map has failed</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_update_overview">
+            <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_update_overview">
                 <source>The overview update request has failed</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_load_list">
+            <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_load_list">
                 <source>Could not load the list of mosaic maps</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_delete">
+            <trans-unit id="plugin.map.mosaicMaps.error-messages.failed_delete">
                 <source>The deletion of the mosaic map has failed</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.success-messages.delete">
+            <trans-unit id="plugin.map.mosaicMaps.success-messages.delete">
                 <source>Successfully deleted the mosaic map</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.deleteModal.title">
+            <trans-unit id="plugin.map.mosaicMaps.deleteModal.title">
                 <source>Delete mosaic map</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.deleteModal.content">
+            <trans-unit id="plugin.map.mosaicMaps.deleteModal.content">
                 <source>The selected mosaic map will be deleted permanently</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.deleteModal.buttonCancel">
+            <trans-unit id="plugin.map.mosaicMaps.deleteModal.buttonCancel">
                 <source>Cancel</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.deleteModal.buttonDelete">
+            <trans-unit id="plugin.map.mosaicMaps.deleteModal.buttonDelete">
                 <source>Delete</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.savedIndicator.saved">
+            <trans-unit id="plugin.map.mosaicMaps.savedIndicator.saved">
                 <source>Saved</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.savedIndicator.notSaved">
+            <trans-unit id="plugin.map.mosaicMaps.savedIndicator.notSaved">
                 <source>Not saved</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.success-messages.saved">
+            <trans-unit id="plugin.map.mosaicMaps.success-messages.saved">
                 <source>Successfully saved the mosaic map</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.success-messages.updatedOverview">
+            <trans-unit id="plugin.map.mosaicMaps.success-messages.updatedOverview">
                 <source>Successfully requested overview update</source>
             </trans-unit>
-           <trans-unit id="plugin.map.mosaicMaps.missingSheet">
+            <trans-unit id="plugin.map.mosaicMaps.missingSheet">
                 <source>Missing individual sheet</source>
             </trans-unit>
-           <trans-unit id="plugin.map.saveModal.buttonSave">
+            <trans-unit id="plugin.map.saveModal.buttonSave">
                 <source>Save</source>
             </trans-unit>
-           <trans-unit id="plugin.map.saveModal.title">
+            <trans-unit id="plugin.map.saveModal.title">
                 <source>Update mosaic map</source>
             </trans-unit>
-           <trans-unit id="plugin.map.saveModal.content">
+            <trans-unit id="plugin.map.saveModal.content">
                 <source>Saving the mosaic map will overwrite the old state.</source>
             </trans-unit>
 
-			<!-- vk2.tool.FacetedSearchTool -->
-			<trans-unit id="plugin.map.facetedsearch.titleAE">
-				<source>Topological maps (1:25.000)</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.facetedsearch.titleAK">
-				<source>Other historic maps</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.facetedsearch.titleAK">
-				<source>Other historic maps</source>
-			</trans-unit>
+            <!-- vk2.tool.FacetedSearchTool -->
+            <trans-unit id="plugin.map.facetedsearch.titleAE">
+                <source>Topological maps (1:25.000)</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleAK">
+                <source>Other historic maps</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleAK">
+                <source>Other historic maps</source>
+            </trans-unit>
             <trans-unit id="plugin.map.facetedsearch.titleMM">
-				<source>Mosaic maps</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.facetedsearch.titleCM">
-				<source>City Map</source>
-			</trans-unit>
+                <source>Mosaic maps</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleCM">
+                <source>City Map</source>
+            </trans-unit>
             <trans-unit id="plugin.map.facetedsearch.titleGL">
-				<source>Geological maps (1:25.000)</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.facetedsearch.titleMB">
-				<source>Meilenblätter (1:12.000)</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.facetedsearch.titleMTB">
-				<source>Plane survey sheets (1:25.000)</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.facetedsearch.titleTK">
-				<source>Topological maps (1:100.000)</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.facetedsearch.titleTKX">
-				<source>Topological maps (&lt; 1:50.000)</source>
-			</trans-unit>
+                <source>Geological maps (1:25.000)</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleMB">
+                <source>Meilenblätter (1:12.000)</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleMTB">
+                <source>Plane survey sheets (1:25.000)</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleTK">
+                <source>Topological maps (1:100.000)</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleTKX">
+                <source>Topological maps (&lt; 1:50.000)</source>
+            </trans-unit>
 
-			<!-- Global -> Map -> PersistenceController -->
-			<trans-unit id="plugin.map.persistencecontroller.errorOperationalLayers">
-				<source>The persisted maps could not be restored.</source>
-			</trans-unit>
+            <!-- Global -> Map -> PersistenceController -->
+            <trans-unit id="plugin.map.persistencecontroller.errorOperationalLayers">
+                <source>The persisted maps could not be restored.</source>
+            </trans-unit>
             <trans-unit id="plugin.map.persistencecontroller.errorPersistenceObject">
                 <source>There is an error with the persisted map state and it could not be restored.</source>
             </trans-unit>
             <trans-unit id="plugin.map.persistencecontroller.errorSingleMap">
                 <source>The selected map could not be loaded.</source>
             </trans-unit>
-			<trans-unit id="plugin.map.persistencecontroller.errorSingleMap">
-				<source>The restored map view was created in an old version of the map forum. This may result in deviations of the view.</source>
-			</trans-unit>
+            <trans-unit id="plugin.map.persistencecontroller.errorSingleMap">
+                <source>The restored map view was created in an old version of the map forum. This may result in
+                    deviations of the view.
+                </source>
+            </trans-unit>
 
-			<!-- PlacenameSearch -->
-			<trans-unit id="plugin.map.placenamesearch.placeholder">
-				<source>Placename</source>
-			</trans-unit>
-			<trans-unit id="plugin.map.placenamesearch.submit">
-				<source>Search</source>
-			</trans-unit>
+            <!-- PlacenameSearch -->
+            <trans-unit id="plugin.map.placenamesearch.placeholder">
+                <source>Placename</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.placenamesearch.submit">
+                <source>Search</source>
+            </trans-unit>
             <trans-unit id="plugin.map.placenamesearch.unknownPlacename">
                 <source>The chosen placename is unknown.</source>
             </trans-unit>
 
             <!-- vk2.tool.MetadataBindingTool -->
-			<trans-unit id="client.metadatabinding.keyword">
-				<source>Keywords</source>
-			</trans-unit>
-			<trans-unit id="client.metadatabinding.onlineResource">
-				<source>Online Resource</source>
-			</trans-unit>
-			<trans-unit id="client.metadatabinding.spatialResolution">
-				<source>Spatial Resolution</source>
-			</trans-unit>
-			<trans-unit id="client.metadatabinding.uniqueId">
-				<source>Unqiue Identifier</source>
-			</trans-unit>
-			<trans-unit id="client.metadatabinding.gotoFotothek">
-				<source>Goto Fotothek</source>
-			</trans-unit>
+            <trans-unit id="client.metadatabinding.keyword">
+                <source>Keywords</source>
+            </trans-unit>
+            <trans-unit id="client.metadatabinding.onlineResource">
+                <source>Online Resource</source>
+            </trans-unit>
+            <trans-unit id="client.metadatabinding.spatialResolution">
+                <source>Spatial Resolution</source>
+            </trans-unit>
+            <trans-unit id="client.metadatabinding.uniqueId">
+                <source>Unqiue Identifier</source>
+            </trans-unit>
+            <trans-unit id="client.metadatabinding.gotoFotothek">
+                <source>Goto Fotothek</source>
+            </trans-unit>
 
-			<!-- vk2.tool.TimeSliderTool -->
-			<trans-unit id="plugin.map.timeslider.adjustTimePeriod">
-				<source>Adjust time periode</source>
-			</trans-unit>
+            <!-- vk2.tool.TimeSliderTool -->
+            <trans-unit id="plugin.map.timeslider.adjustTimePeriod">
+                <source>Adjust time periode</source>
+            </trans-unit>
 
-			<!-- Global > Map > DialogEditFeature -->
-			<trans-unit id="plugin.map.editdialog.nonUniqueKey">
+            <!-- Global > Map > DialogEditFeature -->
+            <trans-unit id="plugin.map.editdialog.nonUniqueKey">
                 <source>Non unique property key</source>
             </trans-unit>
-			<trans-unit id="plugin.map.editdialog.styleKeyInCustomProperties">
+            <trans-unit id="plugin.map.editdialog.styleKeyInCustomProperties">
                 <source>Style keys are not allowed in custom properties</source>
             </trans-unit>
             <trans-unit id="plugin.map.editdialog.predefinedKeyInCustomProperties">
@@ -611,9 +617,11 @@
             <trans-unit id="plugin.map.adddialog.projectionLabel">
                 <source>Projection</source>
             </trans-unit>
-			<trans-unit id="plugin.map.adddialog.body">
-				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
-			</trans-unit>
+            <trans-unit id="plugin.map.adddialog.body">
+                <source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press
+                    this button to choose a file from your system.
+                </source>
+            </trans-unit>
 
             <!-- Global > Map > Dropzone -->
             <trans-unit id="plugin.map.dropzone.wrongFiletype">
@@ -625,96 +633,102 @@
             </trans-unit>
 
 
-			<!-- Newly sorted -->
+            <!-- Newly sorted -->
 
             <!-- Global > Map > Control > ImageManipulation -->
-			<trans-unit id="global.map.control-imagemanipulation-open">
-				<source>Open image manipulation toolbox</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-imagemanipulation-saturation">
-				<source>Saturation</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-imagemanipulation-contrast">
-				<source>Contrast</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-imagemanipulation-brightness">
-				<source>Brightness</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-imagemanipulation-reset">
-				<source>Reset</source>
-			</trans-unit>
+            <trans-unit id="global.map.control-imagemanipulation-open">
+                <source>Open image manipulation toolbox</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-imagemanipulation-saturation">
+                <source>Saturation</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-imagemanipulation-contrast">
+                <source>Contrast</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-imagemanipulation-brightness">
+                <source>Brightness</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-imagemanipulation-reset">
+                <source>Reset</source>
+            </trans-unit>
 
             <!-- Global > Map > Control > Layerspy -->
-			<trans-unit id="global.map.control-layerspy.title">
-				<source>Get a magnifier for the map</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-layerspy.radiusTooltip">
+            <trans-unit id="global.map.control-layerspy.title">
+                <source>Get a magnifier for the map</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-layerspy.radiusTooltip">
                 <source>(Press X to increase and Y to decrease)</source>
             </trans-unit>
 
             <!-- Global > Map > Control > Zoom -->
             <trans-unit id="global.map.control-zoom.out">
-				<source>Zoom out</source>
-			</trans-unit>
+                <source>Zoom out</source>
+            </trans-unit>
             <trans-unit id="global.map.control-zoom.in">
-				<source>Zoom in</source>
-			</trans-unit>
+                <source>Zoom in</source>
+            </trans-unit>
 
-           <!-- Global > Map > Control > Zoom to extent -->
-			<trans-unit id="global.map.control-zoomtoextent.title">
-				<source>Fit to extent</source>
-			</trans-unit>
+            <!-- Global > Map > Control > Zoom to extent -->
+            <trans-unit id="global.map.control-zoomtoextent.title">
+                <source>Fit to extent</source>
+            </trans-unit>
 
-			 <!-- Global > Map > Control > Permalink -->
+            <!-- Global > Map > Control > Permalink -->
             <trans-unit id="global.map.control-permalink.title">
                 <source>Share current view</source>
             </trans-unit>
             <trans-unit id="global.map.control-permalink.permalinkTitle">
-                 <source>Permalink</source>
+                <source>Permalink</source>
             </trans-unit>
             <trans-unit id="global.map.control-permalink.mapViewTitle">
-                  <source>Mapview</source>
+                <source>Mapview</source>
             </trans-unit>
             <trans-unit id="global.map.control-permalink.inputMapViewPlaceholder">
-                    <source>Link to mapview</source>
+                <source>Link to mapview</source>
             </trans-unit>
             <trans-unit id="global.map.control-permalink.exporterCopy">
-                     <source>Copied</source>
+                <source>Copied</source>
             </trans-unit>
             <trans-unit id="global.map.control-permalink.exporterCopyTitle">
-                  <source>Copy to clipboard</source>
+                <source>Copy to clipboard</source>
             </trans-unit>
             <trans-unit id="global.map.control-permalink.permalinkDescription">
-                  <source>The permalink function allows sharing the current map view. Custom content, such as geojson layers or additional basemaps, cannot be shared with this function. The map view tab, which is only accessible when logged in, allows sharing of all content.</source>
+                <source>The permalink function allows sharing the current map view. Custom content, such as geojson
+                    layers or additional basemaps, cannot be shared with this function. The map view tab, which is only
+                    accessible when logged in, allows sharing of all content.
+                </source>
             </trans-unit>
             <trans-unit id="global.map.control-permalink.mapViewDescription">
-                  <source>The map view function allows sharing the entire application state. For this purpose, a representation of the application state is uploaded and a unique link to this representation is generated.</source>
+                <source>The map view function allows sharing the entire application state. For this purpose, a
+                    representation of the application state is uploaded and a unique link to this representation is
+                    generated.
+                </source>
             </trans-unit>
 
-           <!-- Global > Map > Control > Fullscreen -->
-			<trans-unit id="global.map.control-fullscreen.Enter">
-				<source>Enter fullscreen</source>
-			</trans-unit>
+            <!-- Global > Map > Control > Fullscreen -->
+            <trans-unit id="global.map.control-fullscreen.Enter">
+                <source>Enter fullscreen</source>
+            </trans-unit>
             <trans-unit id="global.map.control-fullscreen.Exit">
-				<source>Exit fullscreen</source>
-			</trans-unit>
-			<!-- Legacy usage, by georeferencer > openlayers-->
-			<trans-unit id="global.map.control-fullscreen.title">
-            	<source>Toggle fullscreen</source>
+                <source>Exit fullscreen</source>
+            </trans-unit>
+            <!-- Legacy usage, by georeferencer > openlayers-->
+            <trans-unit id="global.map.control-fullscreen.title">
+                <source>Toggle fullscreen</source>
             </trans-unit>
 
-           <!-- Global > Map > Control > Rotation -->
-			<trans-unit id="global.map.control-rotate.title">
-				<source>Reset rotation</source>
-			</trans-unit>
+            <!-- Global > Map > Control > Rotation -->
+            <trans-unit id="global.map.control-rotate.title">
+                <source>Reset rotation</source>
+            </trans-unit>
 
-           <!-- Global > Map > Control > LocateMe -->
-			<trans-unit id="global.map.control-locateme.title">
-				<source>Locate me</source>
-			</trans-unit>
+            <!-- Global > Map > Control > LocateMe -->
+            <trans-unit id="global.map.control-locateme.title">
+                <source>Locate me</source>
+            </trans-unit>
             <trans-unit id="global.map.control-locateme.LocationNotAvailable">
-				<source>Location not available</source>
-			</trans-unit>
+                <source>Location not available</source>
+            </trans-unit>
 
             <!-- Global > Map > Control > Attribution -->
             <trans-unit id="global.map.control-attribution.basemapLabel">
@@ -726,178 +740,187 @@
 
 
             <!-- Global > Map > Control > BaseMapSelector -->
-			<trans-unit id="global.map.control-basemapselector.addwms-title">
-				<source>Add WMS</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-basemapselector.addwms-input-label">
-				<source>WMS URL Capabilities</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-basemapselector.addwms-input-description">
-				<source>Please insert a URL to a WMS Capabilities for adding an WMS as a base map. A WMS GetCapabilities URL should look like a Capabilities-Request.</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-basemapselector.addwms-btn-load-capabilities">
-				<source>Load capabilities</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-basemapselector.addwms-select-label">
-				<source>WMS Layer</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-basemapselector.addwms-select-description">
-				<source>Please select the wms layer which should be used as a base map.</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-basemapselector.addwms-btn-cancel">
-				<source>Cancel</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-basemapselector.addwms-btn-submit">
-				<source>Add WMS</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-basemapselector.label">
-				<source>Select base map</source>
-			</trans-unit>
-			<trans-unit id="global.map.control-basemapselector.btn-addwms">
-				<source>Add WMS</source>
-			</trans-unit>
+            <trans-unit id="global.map.control-basemapselector.addwms-title">
+                <source>Add WMS</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-basemapselector.addwms-input-label">
+                <source>WMS URL Capabilities</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-basemapselector.addwms-input-description">
+                <source>Please insert a URL to a WMS Capabilities for adding an WMS as a base map. A WMS GetCapabilities
+                    URL should look like a Capabilities-Request.
+                </source>
+            </trans-unit>
+            <trans-unit id="global.map.control-basemapselector.addwms-btn-load-capabilities">
+                <source>Load capabilities</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-basemapselector.addwms-select-label">
+                <source>WMS Layer</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-basemapselector.addwms-select-description">
+                <source>Please select the wms layer which should be used as a base map.</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-basemapselector.addwms-btn-cancel">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-basemapselector.addwms-btn-submit">
+                <source>Add WMS</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-basemapselector.label">
+                <source>Select base map</source>
+            </trans-unit>
+            <trans-unit id="global.map.control-basemapselector.btn-addwms">
+                <source>Add WMS</source>
+            </trans-unit>
             <trans-unit id="global.map.control-basemapselector.errorInitialization">
                 <source>The selected base map is not available</source>
             </trans-unit>
             <trans-unit id="global.map.control-basemapselector.error-invalid-url">
-                <source>The URL you entered is invalid or does not support WMS services. Please check the URL and try again.</source>
+                <source>The URL you entered is invalid or does not support WMS services. Please check the URL and try
+                    again.
+                </source>
             </trans-unit>
-			<!-- Plugin Map > OriginalMapview -->
-			<trans-unit id="plugin.map.originalview.title">
+            <!-- Plugin Map > OriginalMapview -->
+            <trans-unit id="plugin.map.originalview.title">
                 <source>Original map</source>
             </trans-unit>
             <trans-unit id="plugin.map.originalview.title-mosaic">
                 <source>Mosaic map</source>
             </trans-unit>
-			<trans-unit id="plugin.map.originalview.label-desc">
+            <trans-unit id="plugin.map.originalview.label-desc">
                 <source>Description</source>
             </trans-unit>
-			<trans-unit id="plugin.map.originalview.label-identifier">
+            <trans-unit id="plugin.map.originalview.label-identifier">
                 <source>Identifier</source>
             </trans-unit>
-			<trans-unit id="plugin.map.originalview.label-scale">
+            <trans-unit id="plugin.map.originalview.label-scale">
                 <source>Scale</source>
             </trans-unit>
-			<trans-unit id="plugin.map.originalview.label-services">
+            <trans-unit id="plugin.map.originalview.label-services">
                 <source>Services</source>
             </trans-unit>
-			<trans-unit id="plugin.map.originalview.link-download-label">
+            <trans-unit id="plugin.map.originalview.link-download-label">
                 <source>Download map</source>
             </trans-unit>
-			<trans-unit id="plugin.map.originalview.link-slub-label">
+            <trans-unit id="plugin.map.originalview.link-slub-label">
                 <source>Go to SLUB</source>
             </trans-unit>
 
-     		<!-- Plugin Apps > GeoreferenceRanking -->
-			<trans-unit id="plugin.apps.georeferenceranking.label-place">
-            	<source>Rank</source>
+            <!-- Plugin Apps > GeoreferenceRanking -->
+            <trans-unit id="plugin.apps.georeferenceranking.label-place">
+                <source>Rank</source>
             </trans-unit>
-			<trans-unit id="plugin.apps.georeferenceranking.label-user">
-    			<source>Username</source>
-    		</trans-unit>
-			<trans-unit id="plugin.apps.georeferenceranking.label-transformation-new">
-    			<source>New transformations</source>
-    		</trans-unit>
-			<trans-unit id="plugin.apps.georeferenceranking.label-transformation-update">
-    			<source>Updated transformations</source>
-    		</trans-unit>
-			<trans-unit id="plugin.apps.georeferenceranking.label-points">
-    			<source>Points</source>
-    		</trans-unit>
+            <trans-unit id="plugin.apps.georeferenceranking.label-user">
+                <source>Username</source>
+            </trans-unit>
+            <trans-unit id="plugin.apps.georeferenceranking.label-transformation-new">
+                <source>New transformations</source>
+            </trans-unit>
+            <trans-unit id="plugin.apps.georeferenceranking.label-transformation-update">
+                <source>Updated transformations</source>
+            </trans-unit>
+            <trans-unit id="plugin.apps.georeferenceranking.label-points">
+                <source>Points</source>
+            </trans-unit>
 
-			<!-- Plugin Apps > UserHistory -->
-			<trans-unit id="plugin.apps.userhistory.title">
-            	<source>History of user</source>
+            <!-- Plugin Apps > UserHistory -->
+            <trans-unit id="plugin.apps.userhistory.title">
+                <source>History of user</source>
             </trans-unit>
-			<trans-unit id="plugin.apps.userhistory.subtitle">
-    			<source>Previous Georeferencing - Points</source>
-    		</trans-unit>
-			<trans-unit id="plugin.apps.userhistory.label-mapId">
-    			<source>Map Identifier</source>
-    		</trans-unit>
-			<trans-unit id="plugin.apps.userhistory.label-validation">
-    			<source>Validation</source>
-    		</trans-unit>
-			<trans-unit id="plugin.apps.userhistory.link-showMap">
-    			<source>Show map</source>
-    		</trans-unit>
- 			<trans-unit id="plugin.apps.userhistory.link-goToProcess">
-     			<source>Show transformation</source>
-     		</trans-unit>
+            <trans-unit id="plugin.apps.userhistory.subtitle">
+                <source>Previous Georeferencing - Points</source>
+            </trans-unit>
+            <trans-unit id="plugin.apps.userhistory.label-mapId">
+                <source>Map Identifier</source>
+            </trans-unit>
+            <trans-unit id="plugin.apps.userhistory.label-validation">
+                <source>Validation</source>
+            </trans-unit>
+            <trans-unit id="plugin.apps.userhistory.link-showMap">
+                <source>Show map</source>
+            </trans-unit>
+            <trans-unit id="plugin.apps.userhistory.link-goToProcess">
+                <source>Show transformation</source>
+            </trans-unit>
 
-     		<!-- Plugin Apps > UnreferencedMaps -->
-			<trans-unit id="plugin.apps.unreferencedmaps.title">
-            	<source>Choose a map for georeferencing</source>
+            <!-- Plugin Apps > UnreferencedMaps -->
+            <trans-unit id="plugin.apps.unreferencedmaps.title">
+                <source>Choose a map for georeferencing</source>
             </trans-unit>
-			<trans-unit id="plugin.apps.unreferencedmaps.subtitle">
-    			<source>Previous Georeferencing - Points</source>
-    		</trans-unit>
-			<trans-unit id="plugin.apps.unreferencedmaps.search-placehoder">
-    			<source>Map name</source>
-    		</trans-unit>
-			<trans-unit id="plugin.apps.unreferencedmaps.label-time">
-    			<source>Time of published</source>
-    		</trans-unit>
-			<trans-unit id="plugin.apps.unreferencedmaps.label-maptype">
-    			<source>Map type</source>
-    		</trans-unit>
-			<trans-unit id="plugin.apps.unreferencedmaps.btn-georeference">
-    			<source>Georeference</source>
-    		</trans-unit>
+            <trans-unit id="plugin.apps.unreferencedmaps.subtitle">
+                <source>Previous Georeferencing - Points</source>
+            </trans-unit>
+            <trans-unit id="plugin.apps.unreferencedmaps.search-placehoder">
+                <source>Map name</source>
+            </trans-unit>
+            <trans-unit id="plugin.apps.unreferencedmaps.label-time">
+                <source>Time of published</source>
+            </trans-unit>
+            <trans-unit id="plugin.apps.unreferencedmaps.label-maptype">
+                <source>Map type</source>
+            </trans-unit>
+            <trans-unit id="plugin.apps.unreferencedmaps.btn-georeference">
+                <source>Georeference</source>
+            </trans-unit>
 
             <!-- Plugin Georeference -->
-			<trans-unit id="plugin.georeference.moveMap">
-				<source>Move Map</source>
-			</trans-unit>
-			<trans-unit id="plugin.georeference.setGcp">
-				<source>Set ground control point</source>
-			</trans-unit>
-			<trans-unit id="plugin.georeference.editGcp">
-            	<source>Edit ground control points</source>
+            <trans-unit id="plugin.georeference.moveMap">
+                <source>Move Map</source>
             </trans-unit>
-			<trans-unit id="plugin.georeference.moveGcp">
-				<source>Move ground control point</source>
-			</trans-unit>
-			<trans-unit id="plugin.georeference.deleteGcp">
-				<source>Delete ground control point</source>
-			</trans-unit>
-			<trans-unit id="plugin.georeference.drawClip">
-				<source>Draw clip polygon</source>
-			</trans-unit>
-			<trans-unit id="plugin.georeference.validate">
-				<source>Update preview</source>
-			</trans-unit>
-			<trans-unit id="plugin.georeference.confirm">
-				<source>Confirm georeferencing</source>
-			</trans-unit>
-			<trans-unit id="plugin.georeference.confirmWithoutClipTitle">
-				<source>Confirm georeference params</source>
-			</trans-unit>
-			<trans-unit id="plugin.georeference.confirmWithoutClipMsg">
-				<source>Confirm georeference params without clip params?</source>
-			</trans-unit>
-			<trans-unit id="plugin.georeference.warnMissingGCPs">
-				<source>For producing a georeference preview you need at least 4 ground control points.</source>
-			</trans-unit>
-			<trans-unit id="plugin.georeference.warnWrongClipPolygon">
-				<source>Your clip polygon seems to be malformed. Please check it again or try to contact the administrator.</source>
-			</trans-unit>
+            <trans-unit id="plugin.georeference.setGcp">
+                <source>Set ground control point</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.editGcp">
+                <source>Edit ground control points</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.moveGcp">
+                <source>Move ground control point</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.deleteGcp">
+                <source>Delete ground control point</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.drawClip">
+                <source>Draw clip polygon</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.validate">
+                <source>Update preview</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.confirm">
+                <source>Confirm georeferencing</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.confirmWithoutClipTitle">
+                <source>Confirm georeference params</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.confirmWithoutClipMsg">
+                <source>Confirm georeference params without clip params?</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.warnMissingGCPs">
+                <source>For producing a georeference preview you need at least 4 ground control points.</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.warnWrongClipPolygon">
+                <source>Your clip polygon seems to be malformed. Please check it again or try to contact the
+                    administrator.
+                </source>
+            </trans-unit>
 
-    		<!-- Plugin Georeference > Submit Dialog -->
+            <!-- Plugin Georeference > Submit Dialog -->
             <trans-unit id="plugin.georeference.submit-dialog.title">
-    			<source>Save your georeference</source>
-    		</trans-unit>
-    		<trans-unit id="plugin.georeference.submit-dialog.content">
-                <source>Clicking Save will save your georeferencing results. In a few minutes they will be available to everyone via the Virtual Map Forum. If your georeferencing is still not published on the Virtual Map Forum after several hours, please contact an administrator.</source>
+                <source>Save your georeference</source>
+            </trans-unit>
+            <trans-unit id="plugin.georeference.submit-dialog.content">
+                <source>Clicking Save will save your georeferencing results. In a few minutes they will be available to
+                    everyone via the Virtual Map Forum. If your georeferencing is still not published on the Virtual Map
+                    Forum after several hours, please contact an administrator.
+                </source>
             </trans-unit>
             <trans-unit id="plugin.georeference.submit-dialog.btn-cancel">
-    			<source>Cancel</source>
-    		</trans-unit>
+                <source>Cancel</source>
+            </trans-unit>
             <trans-unit id="plugin.georeference.submit-dialog.btn-submit">
-    			<source>Save georeference</source>
-    		</trans-unit>
+                <source>Save georeference</source>
+            </trans-unit>
 
-    		<!-- Plugin Upload -> Common error messages -->
+            <!-- Plugin Upload -> Common error messages -->
             <trans-unit id="plugin.upload.common.errors.http.401" approved="yes">
                 <source>You must be logged in to carry out this action.</source>
             </trans-unit>
@@ -911,7 +934,7 @@
                 <source>Please upload a file before submitting.</source>
             </trans-unit>
 
-    		<!-- Plugin Upload - SearchMapView -->
+            <!-- Plugin Upload - SearchMapView -->
             <trans-unit id="plugin.upload.searchmap.title" approved="yes">
                 <source>choose a map</source>
             </trans-unit>
@@ -925,11 +948,13 @@
                 <source>upload map</source>
             </trans-unit>
             <trans-unit id="plugin.upload.searchmap.errors.http.400" approved="yes">
-                <source>Your search input does not match the expected format. Correct example: oai:de:slub-dresden:vk:id-10010325.</source>
+                <source>Your search input does not match the expected format. Correct example:
+                    oai:de:slub-dresden:vk:id-10010325.
+                </source>
             </trans-unit>
 
 
-    		<!-- Plugin Upload -> UploadMapView -->
+            <!-- Plugin Upload -> UploadMapView -->
             <trans-unit id="plugin.upload.uploadmap.title" approved="yes">
                 <source>new map</source>
             </trans-unit>
@@ -964,10 +989,13 @@
                 <source>We could not find a map for the ID.</source>
             </trans-unit>
             <trans-unit id="plugin.upload.uploadmap.success-upload" approved="yes">
-                <source>The maps have been updated. Please wait a few minutes and then reload the map. Alternatively, you can upload or edit more maps.</source>
+                <source>The maps have been updated. Please wait a few minutes and then reload the map. Alternatively,
+                    you can upload or edit more maps.
+                </source>
             </trans-unit>
             <trans-unit id="plugin.upload.uploadmap.errors.refresh.http.404" approved="yes">
-                <source>The uploaded map has not yet been processed. Please wait an instant and click on Refresh.</source>
+                <source>The uploaded map has not yet been processed. Please wait an instant and click on Refresh.
+                </source>
             </trans-unit>
 
             <!--  Plugin Upload -> UploadMapView -> DeleteDialog -->
