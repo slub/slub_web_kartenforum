@@ -13,9 +13,9 @@ import { default as Skeleton } from "react-loading-skeleton/lib/skeleton";
 import { selectedLayersState } from "@map/atoms";
 import { translate } from "@util/util";
 import { checkIfArrayContainsLayer } from "../../util";
-import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase.jsx";
+import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase";
 import "./MapSearchListElement.scss";
-import { METADATA } from "@map/components/CustomLayers";
+import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
 
 export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";
@@ -84,7 +84,8 @@ export const MapSearchListElementBase = ({
     0
   );
 
-  const isMosaicMap = operationalLayer.getMetadata(METADATA.type) === "mosaic";
+  const isMosaicMap =
+    operationalLayer.getMetadata(METADATA.type) === LAYER_TYPES.MOSAIC_MAP;
 
   return (
     <li

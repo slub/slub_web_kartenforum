@@ -7,7 +7,7 @@
 import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
 import React, { useState } from "react";
 import SettingsProvider from "@settings-provider";
-import { FALLBACK_SRC } from "@map/components/MapSearch/components/MapSearchListElement/MapSearchListElementBase.jsx";
+import { FALLBACK_SRC } from "@map/components/MapSearch/components/MapSearchListElement/MapSearchListElementBase";
 import PropTypes from "prop-types";
 import { translate } from "@util/util";
 
@@ -18,7 +18,7 @@ export const LayerManagementThumbnail = (props) => {
 
   const layerType = layer.getType();
   const layerTitle = layer.getMetadata(METADATA.title);
-  const isMosaic = layer.getMetadata(METADATA.type) === "mosaic";
+  const isMosaic = layer.getMetadata(METADATA.type) === LAYER_TYPES.MOSAIC_MAP;
 
   // load fallback image in case the image from the supplied url cannot be loaded
   const handleError = () => {
