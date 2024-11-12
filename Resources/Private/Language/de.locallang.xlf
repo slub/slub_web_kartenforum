@@ -923,6 +923,10 @@
                 <source><![CDATA[Original map]]></source>
                 <target><![CDATA[Originale Karte]]></target>
             </trans-unit>
+            <trans-unit id="plugin.map.originalview.mosaic-badge-title" approved="yes">
+                <source><![CDATA[Mosaic]]></source>
+                <target><![CDATA[Mosaik]]></target>
+            </trans-unit>
 			<trans-unit id="plugin.map.originalview.title-mosaic" approved="yes">
                 <source><![CDATA[Mosaic map]]></source>
                 <target><![CDATA[Mosaikkarte]]></target>

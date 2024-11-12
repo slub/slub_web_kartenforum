@@ -13,9 +13,9 @@ import { default as Skeleton } from "react-loading-skeleton/lib/skeleton";
 import { selectedLayersState } from "@map/atoms";
 import { translate } from "@util/util";
 import { checkIfArrayContainsLayer } from "../../util";
-import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase.jsx";
+import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase";
 import "./MapSearchListElement.scss";
-import { METADATA } from "@map/components/CustomLayers";
+import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
 
 export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";
@@ -84,7 +84,8 @@ export const MapSearchListElementBase = ({
     0
   );
 
-  const isMosaicMap = operationalLayer.getMetadata(METADATA.type) === "mosaic";
+  const isMosaicMap =
+    operationalLayer.getMetadata(METADATA.type) === LAYER_TYPES.MOSAIC_MAP;
 
   return (
     <li
@@ -116,13 +117,22 @@ export const MapSearchListElementBase = ({
           {src === "" ? (
             <Skeleton.default height="calc(100% - 6px)" />
           ) : (
-            <img
-              alt={`Thumbnail Image of Map ${operationalLayer.getMetadata(
-                METADATA.title
-              )} ${operationalLayer.getMetadata(METADATA.timePublished)}`}
-              onError={handleError}
-              src={src}
-            />
+            <>
+              <img
+                alt={`Thumbnail Image of Map ${operationalLayer.getMetadata(
+                  METADATA.title
+                )} ${operationalLayer.getMetadata(METADATA.timePublished)}`}
+                onError={handleError}
+                src={src}
+              />
+              {isMosaicMap && (
+                <span
+                  className={clsx("mosaic-badge", isSelected && "selected")}
+                >
+                  {translate("mosaic-badge-title")}
+                </span>
+              )}
+            </>
           )}
           {isSelected && (
             <span className="badge selected-badge">

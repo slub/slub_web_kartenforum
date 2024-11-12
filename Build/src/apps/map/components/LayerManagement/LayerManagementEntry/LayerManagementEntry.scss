@@ -102,7 +102,8 @@ ul.layermanagement-body {
                 margin: 0;
             }
 
-            .geojson-badge {
+            .geojson-badge,
+            .mosaic-badge {
                 position: absolute;
                 top: -5px;
                 right: -5px;
@@ -114,6 +115,9 @@ ul.layermanagement-body {
                 font-weight: 700;
                 border: 1px solid white;
                 color: white;
+                width: 58px;
+                align-content: center;
+                text-align: center;
             }
         }
 
