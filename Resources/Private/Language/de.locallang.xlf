@@ -153,17 +153,25 @@
             </trans-unit>
 
             <!-- map Geojson Feature View -->
-            <trans-unit id="plugin.map.geojson.featureview" approved="yes">
+            <trans-unit id="plugin.map.geojson.featureview-header-text" approved="yes">
+                <source><![CDATA[Details]]></source>
+                <target><![CDATA[Details]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-title" approved="yes">
+                <source><![CDATA[Title]]></source>
+                <target><![CDATA[Titel]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-description" approved="yes">
                 <source><![CDATA[Description]]></source>
                 <target><![CDATA[Beschreibung]]></target>
             </trans-unit>
-            <trans-unit id="plugin.map.geojson.featureview-header" approved="yes">
-                <source><![CDATA[Editing]]></source>
-                <target><![CDATA[Bearbeiten]]></target>
+            <trans-unit id="plugin.map.geojson.featureview-time" approved="yes">
+                <source><![CDATA[Time]]></source>
+                <target><![CDATA[Zeit]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.featureview-cancel-btn" approved="yes">
-                <source><![CDATA[cancel]]></source>
-                <target><![CDATA[abbrechen]]></target>
+                <source><![CDATA[discard]]></source>
+                <target><![CDATA[verwerfen]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.featureview-save-btn" approved="yes">
                 <source><![CDATA[save]]></source>
@@ -177,19 +185,59 @@
                 <source><![CDATA[no description]]></source>
                 <target><![CDATA[keine Beschreibung]]></target>
             </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-no-time" approved="yes">
+                <source><![CDATA[unknown]]></source>
+                <target><![CDATA[unbekannt]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-invalid-time" approved="yes">
+                <source><![CDATA[invalid time]]></source>
+                <target><![CDATA[ungültige Zeitangabe]]></target>
+            </trans-unit>
             <trans-unit id="plugin.map.geojson.featureview-metadata" approved="yes">
                 <source><![CDATA[other metadata]]></source>
                 <target><![CDATA[weitere Metadaten]]></target>
             </trans-unit>
 
             <!-- map Geojson Feature Edit  -->
+            <trans-unit id="plugin.map.geojson.editview-header-text" approved="yes">
+                <source><![CDATA[edit details]]></source>
+                <target><![CDATA[Details bearbeiten]]></target>
+            </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-delete-btn" approved="yes">
-                <source><![CDATA[delete element]]></source>
-                <target><![CDATA[element löschen]]></target>
+                <source><![CDATA[Delete GeoJson feature]]></source>
+                <target><![CDATA[GeoJson-feature löschen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-delete-field-btn" approved="yes">
+                <source><![CDATA[Delete this field]]></source>
+                <target><![CDATA[Dieses Feld Löschen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-add-new-field-btn" approved="yes">
+                <source><![CDATA[add new field]]></source>
+                <target><![CDATA[neues feld hinzufügen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-danger-zone-header" approved="yes">
+                <source><![CDATA[Delete this GeoJson feature.]]></source>
+                <target><![CDATA[Dieses GeoJson-Feature löschen.]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-image-title" approved="yes">
                 <source><![CDATA[Image]]></source>
                 <target><![CDATA[Bild]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-label-placeholder" approved="yes">
+                <source><![CDATA[Enter field values here...]]></source>
+                <target><![CDATA[Feldwerte hier eingeben...]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-input-placeholder" approved="yes">
+                <source><![CDATA[enter field title here...]]></source>
+                <target><![CDATA[Feldtitel hier eingeben...]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-input-placeholder-date" approved="yes">
+                <source><![CDATA[mm/dd/yyyy]]></source>
+                <target><![CDATA[dd.mm.yyyy]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-style-header" approved="yes">
+                <source><![CDATA[Style]]></source>
+                <target><![CDATA[Stil]]></target>
             </trans-unit>
             <!--  Map GeoJson Feature Edit Delete Modal  -->
 
@@ -235,6 +283,10 @@
             <trans-unit id="plugin.map.layermanagement.showOriginal" approved="yes">
                 <source><![CDATA[Show Original]]></source>
                 <target><![CDATA[Zeige Original]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.layermanagement.showGeoJson" approved="yes">
+                <source><![CDATA[Show GeoJson information]]></source>
+                <target><![CDATA[Zeige GeoJson Informationen]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.mapwrapper.parseError" approved="yes">
                 <source><![CDATA[The supplied geojson file could not be parsed]]></source>
@@ -540,7 +592,7 @@
 				<target><![CDATA[Zeit]]></target>
 			</trans-unit>
 			<trans-unit id="plugin.map.timeslider.adjustTimePeriod" approved="yes">
-				<source><![CDATA[Adjust time periode]]></source>
+				<source><![CDATA[Adjust time period]]></source>
 				<target><![CDATA[Definiere Suchzeitraum]]></target>
 			</trans-unit>
 
@@ -1003,6 +1055,10 @@
 				<source><![CDATA[Export GeoJSON]]></source>
 				<target><![CDATA[Exportiere GeoJSON]]></target>
 			</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.filterGeoJsonFeatures" approved="yes">
+				<source><![CDATA[Filter GeoJSON features]]></source>
+				<target><![CDATA[Filtere GeoJSON features]]></target>
+			</trans-unit>
  			<trans-unit id="plugin.apps.userhistory.link-goToProcess" approved="yes">
      			<source><![CDATA[Show transformation]]></source>
      			<target><![CDATA[Zeige Transformation]]></target>
@@ -1214,7 +1270,19 @@
                 <target><![CDATA[Karte ausgewählt, aber noch nicht gespeichert.]]></target>
             </trans-unit>
 
-
+			<!-- Map > GeoJsonLayerPanel -->
+			<trans-unit id="plugin.map.geojsonlayerpanel.header.title" approved="yes">
+                <source><![CDATA[Overview]]></source>
+                <target><![CDATA[Übersicht]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsonlayerpanel.nofeatures" approved="yes">
+                <source><![CDATA[No features available]]></source>
+			    <target><![CDATA[Keine Features gefunden]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsonlayerpanel.timefilter.title" approved="yes">
+                <source><![CDATA[Define filter period]]></source>
+			    <target><![CDATA[Definiere Filterzeitraum]]></target>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

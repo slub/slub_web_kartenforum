@@ -8,6 +8,11 @@
 import axios from "axios";
 import { isDefined, isString } from "@util/util";
 
+export const LANGUAGE_CODE = {
+    EN: "en",
+    DE: "de",
+};
+
 let settingsObject = {
     BASEMAPS: [
         {
@@ -29,7 +34,7 @@ let settingsObject = {
         },
     ],
     ENABLE_TILE_PRELOADING: false,
-    LANGUAGE_CODE: "en",
+    LANGUAGE_CODE: LANGUAGE_CODE.EN,
     MARKER_IMAGE_ID: "marker",
     USERNAME: "anonymous",
     USER_ISAUTHENTICATED: false,

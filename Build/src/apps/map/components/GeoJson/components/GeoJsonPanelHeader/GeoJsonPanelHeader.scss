@@ -1,0 +1,40 @@
+@import "../../../../Variables";
+
+.geojson-panel-header-root {
+    background-color: $secondary-color;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    padding: 15px;
+    align-items: center;
+    border-bottom: 1px solid $background-color;
+
+    .header-title {
+        font-family: $font;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 100%;
+        letter-spacing: 0.64px;
+        text-transform: uppercase;
+        color: white;
+        white-space: nowrap;
+    }
+
+    .header-buttons {
+        align-items: center;
+        display: flex;
+        gap: 13px;
+        justify-content: flex-end;
+    }
+
+    .edit-button {
+        width: 20px;
+        height: 20px;
+    }
+
+    .close-button {
+        width: 30px;
+        height: 30px;
+    }
+}

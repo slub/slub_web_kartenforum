@@ -75,14 +75,13 @@
 
         &.maplibregl-ctrl-group {
             background-color: rgba(255, 255, 255, 0.4);
-            border-radius: 4px;
             box-shadow: none;
-            padding: 3px;
+            border-radius: unset;
+            padding: 2px;
         }
 
         button {
             background-color: $secondary-color;
-            border-radius: 2px;
             background-repeat: no-repeat;
             background-position: center center;
             height: 22px;
@@ -92,7 +91,7 @@
             &:hover,
             &:focus {
                 background-color: $secondary-color-dark;
-                border-radius: 2px;
+                border-radius: unset;
             }
 
             &:disabled {
@@ -112,8 +111,6 @@
             }
 
             &.maplibregl-ctrl-zoom-in {
-                border-radius: 2px 2px 0 0;
-
                 .maplibregl-ctrl-icon {
                     background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjIgMjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZD0iTTkuNTUyIDE5LjI1NHYtNi44NDhIMi43NTRWOS41NDNoNi43OThWMi43NDZoMi44OTZ2Ni43OTdoNi43OTh2Mi44NjNoLTYuNzk4djYuODQ4SDkuNTUyWiIgc3R5bGU9ImZpbGw6I2ZmZiIvPjwvc3ZnPg==");
                     background-size: 18px auto;
@@ -121,8 +118,6 @@
             }
 
             &.maplibregl-ctrl-zoom-out {
-                border-radius: 0 0 2px 2px;
-
                 .maplibregl-ctrl-icon {
                     background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjIgMjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgc3R5bGU9ImZpbGwtcnVsZTpldmVub2RkO2NsaXAtcnVsZTpldmVub2RkO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoyIj48cGF0aCBkPSJNMTkuMjQ2IDEyLjQwNkgyLjc1NFY5LjU0M2gxNi40OTJ2Mi44NjNaIiBzdHlsZT0iZmlsbDojZmZmO2ZpbGwtcnVsZTpub256ZXJvIi8+PC9zdmc+");
                     background-size: 18px auto;
@@ -196,8 +191,8 @@
 
 .ol-map-large {
     .maplibregl-ctrl-top-left {
-        top: 15px;
-        left: 370px;
+        top: 41px;
+        left: 380px;
 
         .maplibregl-ctrl {
             box-sizing: border-box;
@@ -212,12 +207,12 @@
     }
 
     .maplibregl-ctrl-bottom-right {
-        bottom: 15px;
+        bottom: 26px;
         display: flex;
         flex-direction: column-reverse;
         align-items: end;
         gap: 6px;
-        right: 360px;
+        right: 370px;
 
         .maplibregl-ctrl-attrib-button {
             display: none;

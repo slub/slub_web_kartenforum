@@ -5,55 +5,119 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-// eslint-disable-next-line no-unused-vars
-import GeoJsonLayer from "./GeoJsonLayer";
-import { GEOJSON_LAYER_TYPES, LAYER_DEFINITIONS } from "./constants.js";
+import { isDefined } from "@util/util";
+import { parseDateIso, formatDateIso, normalizeDate } from "@util/date";
+import { GEOJSON_LAYER_TYPES, LAYER_DEFINITIONS } from "./constants";
 import { MAP_LIBRE_METADATA } from "../constants";
-import { MAP_OVERLAY_FILL_ID } from "@map/components/MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
+import { FEATURE_PROPERTIES } from "@map/components/GeoJson/constants";
 
-/**
- * Takes a GeoJsonLayer and creates the necessary maplibre-gl layers for it.
- *
- * @param {GeoJsonLayer} geoJsonLayer
- * @param {maplibregl.Map} map
- */
-export const addGeoJsonLayers = (geoJsonLayer, map) => {
-    const layer = geoJsonLayer;
-
-    const applicationLayerId = layer.getId();
-    const data = layer.getGeoJSON();
-
-    const sourceType = layer.getType();
-
-    map.addSource(applicationLayerId, {
-        type: sourceType,
-        data,
-    });
-
-    const beforeLayer =
-        map.getLayer(MAP_OVERLAY_FILL_ID) !== undefined
-            ? MAP_OVERLAY_FILL_ID
-            : undefined;
+export const getLayerConfig = (sourceId) => {
+    const config = {};
 
     for (const key of Object.keys(GEOJSON_LAYER_TYPES)) {
         const layerType = GEOJSON_LAYER_TYPES[key];
-        const layerId = `${applicationLayerId}-${layerType}`;
-        map.addLayer(
-            {
-                id: layerId,
-                source: applicationLayerId,
-                metadata: {
-                    [MAP_LIBRE_METADATA.id]: applicationLayerId,
-                },
-                ...LAYER_DEFINITIONS[layerType],
-                layout: {
-                    ...LAYER_DEFINITIONS[layerType].layout,
-                    visibility: "visible",
-                },
+        const layerId = `${sourceId}-${layerType}`;
+        config[layerId] = {
+            id: layerId,
+            source: sourceId,
+            metadata: {
+                [MAP_LIBRE_METADATA.id]: sourceId,
             },
-            beforeLayer
-        );
-
-        geoJsonLayer.addMapLayer(layerId);
+            ...LAYER_DEFINITIONS[layerType],
+            layout: {
+                ...LAYER_DEFINITIONS[layerType].layout,
+                visibility: "visible",
+            },
+        };
     }
+
+    return config;
+};
+
+export const convertFeatureForMapState = (feature) => {
+    const { properties } = feature;
+
+    const newProperties = convertForMapState(properties);
+
+    return { ...feature, properties: newProperties };
+};
+
+export const convertFeatureForApplicationState = (feature) => {
+    const { properties } = feature;
+
+    const newProperties = convertForApplicationState(properties);
+
+    return { ...feature, properties: newProperties };
+};
+
+// invalid property values must not reach this stage and must be handled before building the geojson source diff
+// if invalid values are thrown out here, the property won't get updated as it's not part of maplibre's feature diff any more
+export const convertFeatureDiffPropertyForMapState = ({ key, value }) => {
+    if (key === FEATURE_PROPERTIES.time) {
+        value = normalizeDate(parseDateIso(value)).valueOf();
+    }
+
+    return { key, value };
+};
+
+const convertForMapState = (properties) => {
+    const time = properties[FEATURE_PROPERTIES.time] ?? "";
+
+    const parsedTime = normalizeDate(parseDateIso(time)).valueOf();
+
+    if (Number.isNaN(parsedTime)) {
+        delete properties[FEATURE_PROPERTIES.time];
+        return properties;
+    }
+
+    const newProperties = {
+        ...properties,
+        [FEATURE_PROPERTIES.time]: parsedTime,
+    };
+
+    return newProperties;
+};
+
+const convertForApplicationState = (properties) => {
+    const time = properties[FEATURE_PROPERTIES.time] ?? "";
+    const parsedTime = formatDateIso(time);
+
+    if (parsedTime === "") {
+        delete properties[FEATURE_PROPERTIES.time];
+        return properties;
+    }
+
+    const newProperties = {
+        ...properties,
+        [FEATURE_PROPERTIES.time]: parsedTime,
+    };
+
+    return newProperties;
+};
+
+/**.
+ * Returns the maplibregl time filter expression
+ * @param {[number,number]} timeExtent The time extent in unix seconds.
+ * @returns maplibrgl filter expression or empty array.
+ */
+export const getTimeFilter = (timeExtent) => {
+    if (!isDefined(timeExtent)) {
+        return [];
+    }
+
+    const [min, max] = timeExtent;
+
+    if (!isDefined(min) || !isDefined(max)) {
+        return [];
+    }
+
+    return [
+        "any",
+        ["!has", FEATURE_PROPERTIES.time],
+        [
+            "all",
+            [">=", FEATURE_PROPERTIES.time, min * 1000],
+            ["<=", FEATURE_PROPERTIES.time, max * 1000],
+        ],
+    ];
 };

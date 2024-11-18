@@ -235,3 +235,19 @@ export const buildGeoJSONSourceDiff = ({
 
     return geoJSONSourceDiff;
 };
+
+export const validatePropertyField = (key, value, existingFields) => {
+    const errors = { key: false, value: false };
+    const isKeyExists = existingFields.some(
+        ([existingKey]) => existingKey.toLowerCase() === key.toLowerCase()
+    );
+    if (!key.trim() || isKeyExists) {
+        errors.key = true;
+    }
+    if (!value.trim()) errors.value = true;
+
+    return {
+        isValid: !errors.key && !errors.value,
+        errors,
+    };
+};

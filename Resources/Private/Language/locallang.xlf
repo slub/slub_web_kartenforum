@@ -270,14 +270,20 @@
 			</trans-unit>
 
             <!-- map Geojson Feature View -->
-            <trans-unit id="plugin.map.geojson.featureview">
+            <trans-unit id="plugin.map.geojson.featureview-header-text">
+                <source>Details</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-description">
                 <source>Description</source>
             </trans-unit>
-            <trans-unit id="plugin.map.geojson.featureview-header">
-                <source>Editing</source>
+            <trans-unit id="plugin.map.geojson.featureview-time">
+                <source>Time</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.featureview-cancel-btn">
-                <source>cancel</source>
+                <source>discard</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.featureview-save-btn">
                 <source>save</source>
@@ -289,18 +295,47 @@
             <trans-unit id="plugin.map.geojson.featureview-no-description">
                 <source>no description</source>
             </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-no-time">
+                <source>unknown</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-invalid-time" approved="yes">
+                <source>invalid time</source>
+            </trans-unit>
             <trans-unit id="plugin.map.geojson.featureview-metadata">
                 <source>other metadata</source>
             </trans-unit>
 
             <!-- map Geojson Feature Edit -->
+            <trans-unit id="plugin.map.geojson.editview-header-text">
+                <source>edit details</source>
+            </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-delete-btn">
-                <source>delete element</source>
+                <source>Delete GeoJson feature</source>
+            </trans-unit>
+             <trans-unit id="plugin.map.geojson.editfeature-delete-field-btn">
+                <source>Delete this field</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-add-new-field-btn">
+                <source>add new field</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-danger-zone-header">
+                <source>Delete this GeoJson feature.</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-image-title">
                 <source>Image</source>
             </trans-unit>
-
+            <trans-unit id="plugin.map.geojson.editfeature-label-placeholder">
+                <source>Enter field values here...</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-input-placeholder">
+                <source>enter field title here...</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-input-placeholder-date">
+                <source>mm/dd/yyyy</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-style-header">
+                <source>Style</source>
+            </trans-unit>
             <!--  Map GeoJson Feature Edit Delete Modal  -->
             <trans-unit id="plugin.map.geojson.deletemodal-delete-btn">
                 <source>delete</source>
@@ -335,6 +370,12 @@
 			<trans-unit id="plugin.map.layermanagement.showOriginal">
                 <source>Show Original</source>
             </trans-unit>
+			<trans-unit id="plugin.map.layermanagement.showGeoJson">
+                <source>Show GeoJson information</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.layermanagement.filterGeoJsonFeatures">
+				<source>Filter GeoJSON features</source>
+			</trans-unit>
 
             <!-- Global > Map > MapWrapper -->
             <trans-unit id="plugin.map.mapwrapper.parseError">
@@ -565,7 +606,7 @@
 
 			<!-- vk2.tool.TimeSliderTool -->
 			<trans-unit id="plugin.map.timeslider.adjustTimePeriod">
-				<source>Adjust time periode</source>
+				<source>Adjust time period</source>
 			</trans-unit>
 
 			<!-- Global > Map > DialogEditFeature -->
@@ -991,6 +1032,16 @@
                 <source>Map selected but not yet saved.</source>
             </trans-unit>
 
+            <!-- Map > GeoJsonLayerPanel -->
+			<trans-unit id="plugin.map.geojsonlayerpanel.header.title" approved="yes">
+                <source>Overview</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsonlayerpanel.nofeatures" approved="yes">
+                <source>No features available</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsonlayerpanel.timefilter.title" approved="yes">
+                <source>Define filter period</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

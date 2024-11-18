@@ -6,8 +6,12 @@
  */
 import React from "react";
 import { checkIfArrayContainsLayer } from "../../util.js";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { mapState, selectedLayersState } from "@map/atoms";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import {
+  mapState,
+  selectedLayersState,
+  selectedGeoJsonLayerIdState,
+} from "@map/atoms";
 import MapSearchListElementWithGeometryPreview from "./MapSearchListElementWithGeometryPreview.jsx";
 
 export const MapSearchListElement = (props) => {
@@ -15,12 +19,19 @@ export const MapSearchListElement = (props) => {
   const [selectedLayers, setSelectedLayers] =
     useRecoilState(selectedLayersState);
 
+  const setSelectedGeoJsonLayerId = useSetRecoilState(
+    selectedGeoJsonLayerIdState
+  );
+
   ////
   // Handler section
   ////
 
   // Toggle selected state of layer and update global state
   const handleElementClick = (layer) => {
+    // close GeoJsonLayerPanel in case it's visible
+    setSelectedGeoJsonLayerId(undefined);
+
     const containsLayer = checkIfArrayContainsLayer(selectedLayers, layer);
 
     // remove layer if it is already contained

@@ -12,6 +12,8 @@ import clsx from "clsx";
 import { useDoubleTap } from "use-double-tap";
 
 import { translate } from "@util/util";
+import { formatDateLocalized } from "@util/date";
+
 import { OpacitySlider } from "@components/OpacitySlider/OpacitySlider";
 import SettingsProvider from "@settings-provider";
 import SvgIcons from "@components/SvgIcons/SvgIcons.jsx";
@@ -28,7 +30,7 @@ import ZoomToExtentButton from "./components/ZoomToExtentButton/ZoomToExtentButt
 import MoveToTopButton from "./components/MoveToTopButton/MoveToTopButton.jsx";
 import LayerManagementThumbnail from "./components/LayerManagementThumbnail/LayerManagementThumbnail.jsx";
 import ShowOriginalButton from "./components/ShowOriginalButton/ShowOriginalButton.jsx";
-import ExportGeojsonButton from "./components/ExportGeojsonButton/ExportGeojsonButton.jsx";
+import ShowGeoJsonLayerButton from "./components/ShowGeoJsonLayerButton/ShowGeoJsonLayerButton";
 import "./LayerManagementEntry.scss";
 
 export const ItemTypes = {
@@ -183,7 +185,11 @@ export const LayerManagementEntry = (props) => {
         <div className="timestamps">
           <span className="timestamps-label">{`${translate(
             "layermanagement-timestamp"
-          )} ${layerPublished}`}</span>
+          )} ${
+            layerType === LAYER_TYPES.GEOJSON
+              ? formatDateLocalized(layerPublished)
+              : layerPublished
+          }`}</span>
         </div>
         {isMosaicMap && (
           <div className="type">
@@ -200,7 +206,7 @@ export const LayerManagementEntry = (props) => {
         {layerType !== LAYER_TYPES.GEOJSON ? (
           <ShowOriginalButton layer={layer} />
         ) : (
-          <ExportGeojsonButton layer={layer} />
+          <ShowGeoJsonLayerButton layer={layer} />
         )}
         {!isMosaicMap &&
           settings["LINK_TO_GEOREFERENCE"] !== undefined &&

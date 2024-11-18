@@ -9,13 +9,15 @@ import React, { useRef } from "react";
 import { useRecoilState } from "recoil";
 import PropTypes from "prop-types";
 
+import GeoJsonLayerView from "@map/views/GeoJsonLayerView";
 import { selectedOriginalMapIdState } from "@map/atoms";
 import LayerManagement from "@map/components/LayerManagement/LayerManagement";
 import SpatialTemporalSearch from "@map/components/SpatialTemporalSearch/SpatialTemporalSearch";
 import OriginalMapView from "@map/views/OriginalMapView/OriginalMapView";
 import { useSetElementScreenSize } from "@util/hooks";
+import GeoJsonFeatureViewWithTransition from "@map/views/GeoJsonFeatureView";
+
 import "./HorizontalLayout.scss";
-import GeoJsonFeatureView from "@map/views/GeoJsonView/GeoJsonFeatureView.jsx";
 
 export const HorizontalLayout = ({ onAddGeoJson }) => {
   const [selectedOriginalMapId, setOriginalMapId] = useRecoilState(
@@ -39,12 +41,17 @@ export const HorizontalLayout = ({ onAddGeoJson }) => {
         >
           <SpatialTemporalSearch />
         </div>
-        <GeoJsonFeatureView />
+        <div className="geojson-feature-view-container">
+          <GeoJsonFeatureViewWithTransition />
+        </div>
         <div
           className="layermanagement-container"
           id="layermanagement-container"
         >
           <LayerManagement onAddGeoJson={onAddGeoJson} />
+        </div>
+        <div className="geojson-layer-view-container">
+          <GeoJsonLayerView />
         </div>
       </div>
       <OriginalMapView

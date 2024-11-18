@@ -62,6 +62,7 @@
             document.getElementById("settings-fallback-not-found").value,
             ICON_SPRITE:
             document.getElementById("settings-icon-sprite").value,
+            LANGUAGE_CODE: "<f:translate key='global.language_code' extensionName='SlubWebKartenforum' />",
             LINK_TO_GEOREFERENCE:
                 document.getElementById("setting-is-auth") !== null
                     ? "/georeferenzierung"
@@ -155,8 +156,8 @@
                         "<f:translate key='plugin.map.dropzone.drop' extensionName='SlubWebKartenforum' />",
 
                     // GeoJson Feature View
-                    "geojson-featureview-header":
-                        "<f:translate key='plugin.map.geojson.featureview-header' extensionName='SlubWebKartenforum' />",
+                    "geojson-featureview-header-text":
+                        "<f:translate key='plugin.map.geojson.featureview-header-text' extensionName='SlubWebKartenforum' />",
                     "geojson-featureview-cancel-btn":
                         "<f:translate key='plugin.map.geojson.featureview-cancel-btn' extensionName='SlubWebKartenforum' />",
                     "geojson-featureview-save-btn":
@@ -165,14 +166,43 @@
                         "<f:translate key='plugin.map.geojson.featureview-no-title' extensionName='SlubWebKartenforum' />",
                     "geojson-featureview-no-description":
                         "<f:translate key='plugin.map.geojson.featureview-no-description' extensionName='SlubWebKartenforum' />",
+                    "geojson-featureview-no-time":
+                        "<f:translate key='plugin.map.geojson.featureview-no-time' extensionName='SlubWebKartenforum' />",
+                    "geojson-featureview-invalid-time":
+                        "<f:translate key='plugin.map.geojson.featureview-invalid-time' extensionName='SlubWebKartenforum' />",
                     "geojson-featureview-metadata":
                         "<f:translate key='plugin.map.geojson.featureView-metadata' extensionName='SlubWebKartenforum' />",
+                    "geojson-featureview-description":
+                        "<f:translate key='plugin.map.geojson.featureview-description' extensionName='SlubWebKartenforum' />",
+                    "geojson-featureview-time":
+                        "<f:translate key='plugin.map.geojson.featureview-time' extensionName='SlubWebKartenforum' />",
+                    "geojson-featureview-title":
+                        "<f:translate key='plugin.map.geojson.featureview-title' extensionName='SlubWebKartenforum' />",
+
 
                     // geojson feature edit
+                    "geojson-editview-header-text":
+                        "<f:translate key='plugin.map.geojson.editview-header-text' extensionName='SlubWebKartenforum' />",
                     "geojson-featureview-delete-btn":
                         "<f:translate key='plugin.map.geojson.editfeature-delete-btn' extensionName='SlubWebKartenforum' />",
                     "geojson-featureview-image-title":
                         "<f:translate key='plugin.map.geojson.editfeature-image-title' extensionName='SlubWebKartenforum' />",
+                    "geojson-editfeature-danger-zone-title":
+                        "<f:translate key='plugin.map.geojson.editfeature-danger-zone-header' extensionName='SlubWebKartenforum' />",
+                    "geojson-editfeature-add-new-field-button":
+                        "<f:translate key='plugin.map.geojson.editfeature-add-new-field-btn' extensionName='SlubWebKartenforum' />",
+                    "geojson-editfeature-label-placeholder":
+                        "<f:translate key='plugin.map.geojson.editfeature-label-placeholder' extensionName='SlubWebKartenforum' />",
+                    "geojson-editfeature-input-placeholder":
+                        "<f:translate key='plugin.map.geojson.editfeature-input-placeholder' extensionName='SlubWebKartenforum' />",
+                    "geojson-editfeature-input-placeholder-date":
+                        "<f:translate key='plugin.map.geojson.editfeature-input-placeholder-date' extensionName='SlubWebKartenforum' />",
+                    "geojson-featureview-delete-field-btn":
+                        "<f:translate key='plugin.map.geojson.editfeature-delete-field-btn' extensionName='SlubWebKartenforum' />",
+                    "geojson-editfeature-style-header":
+                        "<f:translate key='plugin.map.geojson.editfeature-style-header' extensionName='SlubWebKartenforum' />",
+
+
 
                     // GeoJson Feature Edit Delete Modal
                     "geojson-deletemodal-delete-btn":
@@ -221,8 +251,8 @@
                         "<f:translate key='plugin.map.layermanagement.zoomToMap' extensionName='SlubWebKartenforum' />",
                     "layermanagement-show-original":
                         "<f:translate key='plugin.map.layermanagement.showOriginal' extensionName='SlubWebKartenforum' />",
-                    "layermanagement-export":
-                        "<f:translate key='plugin.map.layermanagement.export' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-show-geojson":
+                        "<f:translate key='plugin.map.layermanagement.showGeoJson' extensionName='SlubWebKartenforum' />",
                     "layermanagement-start-msg-header":
                         "<f:translate key='plugin.map.layermanagement.startMessageHeader' extensionName='SlubWebKartenforum' />",
                     "layermanagement-start-msg-body":
@@ -237,6 +267,12 @@
                         "<f:translate key='plugin.map.layermanagement.timestamp' extensionName='SlubWebKartenforum' />",
                     "layermangement-georef-update":
                         "<f:translate key='plugin.map.layermanagement.georefUpdate' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-export-geojson":
+                        "<f:translate key='plugin.map.layermanagement.export' extensionName='SlubWebKartenforum' />",
+                    "layermanagement-filter-geojson-features":
+                        "<f:translate key='plugin.map.layermanagement.filterGeoJsonFeatures' extensionName='SlubWebKartenforum' />",
+
+                        
 
                     // dynamic map vis
                     "dynamicmapvis-open":
@@ -261,6 +297,14 @@
                     // timeslider
                     "timeslider-adjust-timeperiod":
                         "<f:translate key='plugin.map.timeslider.adjustTimePeriod' extensionName='SlubWebKartenforum' />",
+
+                    // map > GeoJsonLayerPanel
+                    "geojsonlayerpanel-header-title":
+                        "<f:translate key='plugin.map.geojsonlayerpanel.header.title' extensionName='SlubWebKartenforum' />",
+                    "geojsonlayerpanel-no-features":
+                        "<f:translate key='plugin.map.geojsonlayerpanel.nofeatures' extensionName='SlubWebKartenforum' />",
+                    "geojsonlayerpanel-timefilter-title":
+                        "<f:translate key='plugin.map.geojsonlayerpanel.timefilter.title' extensionName='SlubWebKartenforum' />",
                 }
             ),
         });

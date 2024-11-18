@@ -1,0 +1,172 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 16.10.24.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+@import "../../Variables";
+
+.vkf-geojson-layer-view-root {
+    position: absolute;
+    top: 26px;
+    bottom: 26px;
+    right: -340px;
+    height: auto;
+    border: 0 none;
+    width: 340px;
+    z-index: 310;
+    background: white;
+    box-shadow: $shadow;
+    opacity: 0;
+    pointer-events: none;
+    transition-property: opacity, right;
+    transition-timing-function: ease-out, ease-out;
+    transition-duration: 0.3s, 0.3s;
+
+    display: flex;
+    flex-direction: column;
+
+    > :not(.scrollable) {
+        flex-shrink: 0;
+    }
+
+    > .scrollable {
+        flex-grow: 1;
+    }
+
+    .scrollable {
+        overflow: auto;
+    }
+
+    &.in {
+        right: 24px;
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .headline-container {
+        padding: 15px;
+
+        .title-row {
+            display: grid;
+            grid-template-columns: 1fr 24px 22px;
+            gap: 8px;
+        }
+
+        .geojson-headline {
+            &--title {
+                text-transform: uppercase;
+                color: $secondary-color-dark;
+                font-size: 24px;
+                font-weight: 300;
+                line-height: 36.5px;
+                letter-spacing: 0.04em;
+            }
+
+            &--date {
+                color: rgba(102, 102, 102, 1);
+                font-size: 12px;
+                font-weight: 700;
+                line-height: 18.25px;
+                letter-spacing: 0.04em;
+            }
+
+            &--button {
+                line-height: 0;
+                opacity: 1;
+                transition: 300ms ease-out opacity;
+
+                &:disabled {
+                    opacity: 0.3;
+                }
+
+                &.filter-button {
+                    align-self: center;
+
+                    svg {
+                        fill: none;
+                        stroke: #666;
+                        height: 24px;
+                        width: 22px;
+
+                        &:hover {
+                            stroke: darken(#666, 15%);
+                        }
+                    }
+                }
+
+                &.export-button {
+                    // center icon visually via margin, technical center appears not centered
+                    margin-top: 4px;
+
+                    svg {
+                        fill: #666;
+                        height: 24px;
+                        width: 24px;
+
+                        &:hover {
+                            fill: darken(#666, 15%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .plain-divider {
+        width: 100%;
+        background-color: rgba(239, 239, 239, 1);
+        border: none;
+        height: 1px;
+        line-height: 0;
+        transition-property: background-color;
+        transition-timing-function: ease-out;
+        transition-duration: 300ms;
+        transition-delay: 0ms;
+
+        &.filtered {
+            background-color: $secondary-color-dark;
+            transition-delay: 150ms;
+        }
+
+        .caret-container {
+            position: relative;
+            left: 280px;
+            top: -20px;
+            opacity: 0;
+            transition-duration: 300ms, 300ms;
+            transition-timing-function: ease-out, ease-out;
+            transition-property: top opacity;
+
+            svg {
+                width: 28px;
+                height: 14px;
+            }
+
+            &.filtered {
+                top: -5px;
+                opacity: 1;
+            }
+        }
+    }
+
+    .filter-container {
+        opacity: 0;
+        height: 0;
+        position: relative;
+        top: 15px;
+        pointer-events: none;
+        transition-duration: 300ms, 300ms;
+        transition-timing-function: ease-out, ease-out;
+        transition-property: opacity, height;
+
+        &.in {
+            opacity: 1;
+            height: 87px; // fixed height is not so nice, could not get it to work with grid-template-rows trick;
+            position: unset;
+            padding-top: 15px;
+            pointer-events: all;
+            border-bottom: 1px $secondary-color-dark solid;
+        }
+    }
+}

@@ -6,18 +6,22 @@
  */
 
 import React, { useMemo, useRef } from "react";
-import { useRecoilState } from "recoil";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 
-import { translate } from "@util/util";
-import { mapState, selectedLayersState } from "@map/atoms";
+import { isDefined, translate } from "@util/util";
+import {
+  mapState,
+  selectedLayersState,
+  selectedGeoJsonLayerIdState,
+} from "@map/atoms";
 import DeactivateMapCollection from "./DeactivateMapCollection";
 import DynamicMapVisualization from "./DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry";
 import { useSetElementScreenSize } from "@util/hooks.js";
 import GeoJsonUploadHint from "./GeoJsonUploadHint";
 import "./LayerManagement.scss";
+import clsx from "clsx";
 
 export const LayerManagement = ({
   onAddGeoJson,
@@ -33,8 +37,14 @@ export const LayerManagement = ({
 
   // state
   const map = useRecoilValue(mapState);
+  const selectedGeoJsonLayerId = useRecoilValue(selectedGeoJsonLayerIdState);
   const [selectedLayers, setSelectedLayers] =
     useRecoilState(selectedLayersState);
+
+  const isGeoJsonLayerSelected = useMemo(
+    () => isDefined(selectedGeoJsonLayerId),
+    [selectedGeoJsonLayerId]
+  );
 
   // The selected features should be displayed from top most map layer to bottom most map layer
   // In the array they are stored as [bottom, ..., top] layer, therefore we need to reverse it to display it correctly
@@ -79,7 +89,13 @@ export const LayerManagement = ({
   };
 
   return (
-    <div className="vkf-layermanagement-root" ref={refLayermanagement}>
+    <div
+      className={clsx(
+        "vkf-layermanagement-root",
+        !isGeoJsonLayerSelected && "in"
+      )}
+      ref={refLayermanagement}
+    >
       {showBadge && selectedLayers.length !== 0 && (
         <span className="badge">{selectedLayers.length}</span>
       )}

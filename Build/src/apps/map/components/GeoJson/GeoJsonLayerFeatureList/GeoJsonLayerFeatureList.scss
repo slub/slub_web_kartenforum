@@ -1,0 +1,39 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 15.10.24.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@import "../../../Variables.scss";
+
+.geojson-layer-feature-list-root {
+    display: flex;
+    flex-direction: column;
+
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease-out;
+
+    &.in {
+        opacity: 1;
+        height: auto;
+        padding-bottom: 20px;
+        pointer-events: all;
+    }
+
+    .feature-list {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    .no-feature-container {
+        color: $secondary-color-dark;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding: 20px 15px;
+    }
+}

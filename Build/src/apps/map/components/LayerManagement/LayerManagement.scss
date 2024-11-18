@@ -97,9 +97,9 @@
 
     @media screen and (min-width: $tabletLandscapeViewportWidth) {
         position: absolute;
-        top: 15px;
-        bottom: 15px;
-        right: 15px;
+        top: 26px;
+        bottom: 26px;
+        right: 52px;
         height: auto;
         border: 0 none;
         width: 340px;
@@ -107,5 +107,16 @@
         overflow: visible;
         background: white;
         box-shadow: $shadow;
+        opacity: 0;
+        pointer-events: none;
+        transition-property: opacity, right;
+        transition-timing-function: ease-out, ease-out;
+        transition-duration: 0.3s, 0.3s;
+
+        &.in {
+            opacity: 1;
+            right: 24px;
+            pointer-events: all;
+        }
     }
 }

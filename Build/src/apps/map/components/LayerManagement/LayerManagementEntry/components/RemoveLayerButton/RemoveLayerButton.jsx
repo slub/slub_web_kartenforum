@@ -7,14 +7,23 @@
 import { isDefined, translate } from "@util/util.js";
 import SvgIcons from "@components/SvgIcons";
 import React from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import PropTypes from "prop-types";
-import { mapState, selectedLayersState } from "@map/atoms";
+import {
+  mapState,
+  selectedLayersState,
+  selectedGeoJsonFeatureIdentifierState,
+} from "@map/atoms";
+import { LAYER_TYPES } from "@map/components/CustomLayers";
 
 export const RemoveLayerButton = (props) => {
   const { layer } = props;
   const map = useRecoilValue(mapState);
   const setSelectedLayers = useSetRecoilState(selectedLayersState);
+  const [
+    selectedGeoJsonFeatureIdentifier,
+    setSelectedGeoJsonFeatureIdentifier,
+  ] = useRecoilState(selectedGeoJsonFeatureIdentifierState);
 
   // Remove layer from layer stack
   const handleRemoveLayer = (event) => {
@@ -27,6 +36,17 @@ export const RemoveLayerButton = (props) => {
           (oldLayer) => oldLayer.getId() !== layer.getId()
         )
       );
+
+      if (
+        layer.getType() === LAYER_TYPES.GEOJSON &&
+        selectedGeoJsonFeatureIdentifier.sourceId === layer.getId()
+      ) {
+        // close geojson feature panel
+        setSelectedGeoJsonFeatureIdentifier({
+          featureId: undefined,
+          sourceId: undefined,
+        });
+      }
     }
   };
 

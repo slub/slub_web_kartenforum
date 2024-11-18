@@ -5,10 +5,11 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 import SettingsProvider from "@settings-provider";
 import { ActiveDialog } from "@map/components/VkfMap/constants.js";
 import { LAYOUT_TYPES } from "@map/layouts/util.js";
+import { isDefined } from "@util/util";
 
 // stores the currently active basemap ID
 export const activeBasemapIdState = atom({
@@ -85,6 +86,53 @@ export const selectedLayersState = atom({
 export const selectedOriginalMapIdState = atom({
     key: "selectedOriginalMapIdState",
     default: undefined,
+});
+
+// The id of the GeoJson layer to be displayed in GeoJsonLayerPanel
+export const selectedGeoJsonLayerIdState = atom({
+    key: "selectedGeoJsonLayerIdState",
+    default: undefined,
+});
+
+// Should trigger state updates when a GeoJson feature is created, updated or deleted from a layer
+export const selectedGeoJsonLayerLastUpdatedState = atom({
+    key: "selectedGeoJsonLayerLastUpdatedState",
+    default: 0,
+});
+
+// Triggers a state update in the geojson layer panel
+export const selectedGeoJsonLayerState = selector({
+    key: "selectedGeoJsonLayerState",
+    get: ({ get }) => {
+        const selectedId = get(selectedGeoJsonLayerIdState);
+        const layers = get(selectedLayersState);
+        const lastUpdated = get(selectedGeoJsonLayerLastUpdatedState);
+        const selectedLayer = layers.find(
+            (layer) => layer.getId() === selectedId
+        );
+        return { selectedLayer, lastUpdated };
+    },
+    dangerouslyAllowMutability: true,
+});
+
+// The geojson feature id and the source id of the feature's layer that should be displayed in GeoJsonFeaturePanel
+export const selectedGeoJsonFeatureIdentifierState = atom({
+    key: "selectedGeoJsonFeatureIdentifierState",
+    default: {
+        featureId: undefined,
+        sourceId: undefined,
+    },
+});
+
+// Tracks whether or not a geojson feature is displayed in GeoJsonFeaturePanel (to toggle animations)
+export const isGeoJsonFeatureSelectedState = selector({
+    key: "isGeoJsonFeatureSelectedState",
+    get: ({ get }) => {
+        const { featureId, sourceId } = get(
+            selectedGeoJsonFeatureIdentifierState
+        );
+        return isDefined(featureId) && isDefined(sourceId);
+    },
 });
 
 // time extent selected by the time slider

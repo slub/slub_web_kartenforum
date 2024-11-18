@@ -1,0 +1,41 @@
+@import "../../../../Variables";
+
+.vkf-delete-dialog {
+    .modal-dialog {
+        top: 30%;
+    }
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5em;
+    }
+
+    .delete-btn,
+    .cancel-btn {
+        padding: 9px 12px;
+        display: flex;
+        gap: 7px;
+    }
+
+    .delete-btn {
+        padding-right: 32px;
+        padding-left: 39px;
+        align-items: center;
+        p {
+            margin: unset;
+        }
+        svg {
+            width: 16px;
+            height: 18px;
+        }
+    }
+    .cancel-btn {
+        font-weight: 400;
+
+        svg {
+            width: 16px;
+            height: 16px;
+            fill: $color-grey;
+        }
+    }
+}
