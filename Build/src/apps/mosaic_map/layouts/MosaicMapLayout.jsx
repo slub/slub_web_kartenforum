@@ -5,11 +5,10 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 import SpatialTemporalSearch from "@map/components/SpatialTemporalSearch/SpatialTemporalSearch";
-import { useSetElementScreenSize } from "@util/hooks";
 import SelectedMapList from "@mosaic-map/components/SelectedMapList/SelectedMapList.jsx";
 import MosaicMapSearchListElement from "@mosaic-map/components/ListElement/MosaicMapSearchListElement/MosaicMapSearchListElement.jsx";
 import MosaicMapOverlayLayer from "@mosaic-map/components/MosaicMapOverlayLayer/MosaicMapOverlayLayer";
@@ -18,20 +17,11 @@ import "@map/layouts/HorizontalLayout/HorizontalLayout.scss";
 import "./MosaicMapLayout.scss";
 
 export const HorizontalLayout = () => {
-  //refs
-  const spatialSearchRef = useRef(null);
-
-  useSetElementScreenSize(spatialSearchRef, "spatialtemporalsearch");
-
   return (
     <React.Fragment>
       <MosaicMapOverlayLayer />
       <div className="vkf-horizontal-layout">
-        <div
-          className="spatialsearch-container"
-          id="spatialsearch-container"
-          ref={spatialSearchRef}
-        >
+        <div className="spatialsearch-container" id="spatialsearch-container">
           <SpatialTemporalSearch
             customQuery={[{ term: { type: "single_sheet" } }]}
             MapSearchListItemComponent={MosaicMapSearchListElement}

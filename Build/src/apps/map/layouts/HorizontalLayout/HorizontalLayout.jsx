@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useRef } from "react";
+import React from "react";
 import { useRecoilState } from "recoil";
 import PropTypes from "prop-types";
 
@@ -14,7 +14,6 @@ import { selectedOriginalMapIdState } from "@map/atoms";
 import LayerManagement from "@map/components/LayerManagement/LayerManagement";
 import SpatialTemporalSearch from "@map/components/SpatialTemporalSearch/SpatialTemporalSearch";
 import OriginalMapView from "@map/views/OriginalMapView/OriginalMapView";
-import { useSetElementScreenSize } from "@util/hooks";
 import GeoJsonFeatureViewWithTransition from "@map/views/GeoJsonFeatureView";
 
 import "./HorizontalLayout.scss";
@@ -24,21 +23,12 @@ export const HorizontalLayout = ({ onAddGeoJson }) => {
     selectedOriginalMapIdState
   );
 
-  //refs
-  const spatialSearchRef = useRef(null);
-
-  useSetElementScreenSize(spatialSearchRef, "spatialtemporalsearch");
-
   const handleClose = () => setOriginalMapId(undefined);
 
   return (
     <React.Fragment>
       <div className="vkf-horizontal-layout">
-        <div
-          className="spatialsearch-container"
-          id="spatialsearch-container"
-          ref={spatialSearchRef}
-        >
+        <div className="spatialsearch-container" id="spatialsearch-container">
           <SpatialTemporalSearch />
         </div>
         <div className="geojson-feature-view-container">

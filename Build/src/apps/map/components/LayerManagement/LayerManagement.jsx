@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useMemo, useRef } from "react";
+import React, { useMemo } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 
@@ -18,7 +18,6 @@ import {
 import DeactivateMapCollection from "./DeactivateMapCollection";
 import DynamicMapVisualization from "./DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry";
-import { useSetElementScreenSize } from "@util/hooks.js";
 import GeoJsonUploadHint from "./GeoJsonUploadHint";
 import "./LayerManagement.scss";
 import clsx from "clsx";
@@ -52,12 +51,6 @@ export const LayerManagement = ({
     () => selectedLayers.toReversed(),
     [selectedLayers]
   );
-
-  // refs
-  const refLayermanagement = useRef();
-
-  // update layermanagement size in recoil state
-  useSetElementScreenSize(refLayermanagement, "layermanagement");
 
   ////
   // Handler section
@@ -94,7 +87,6 @@ export const LayerManagement = ({
         "vkf-layermanagement-root",
         !isGeoJsonLayerSelected && "in"
       )}
-      ref={refLayermanagement}
     >
       {showBadge && selectedLayers.length !== 0 && (
         <span className="badge">{selectedLayers.length}</span>
