@@ -139,7 +139,6 @@ const GeoJsonLayerView = () => {
     resetState();
   }, []);
 
-  // eslint-disable-next-line no-unused-vars
   const handleEditOpenClick = useCallback(() => {
     setIsEditView(true);
 
@@ -218,8 +217,7 @@ const GeoJsonLayerView = () => {
           <>
             <GeoJsonPanelHeader
               title={translate("geojsonlayerpanel-header-title")}
-              // NOTE: Uncomment when edit view is implemented
-              // onEditClick={!isEditView ? handleEditOpenClick : undefined}
+              onEditClick={!isEditView ? handleEditOpenClick : undefined}
               onCloseClick={
                 isEditView ? handleEditCloseClick : handleCloseClick
               }
