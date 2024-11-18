@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "@date-fns/utc": "^2.1.0",
+    "@mapbox/mapbox-gl-draw": "^1.4.3",
     "@react-hook/resize-observer": "^1.2.5",
     "@react-hook/window-size": "^3.0.7",
     "@turf/bbox": "^7.1.0",
