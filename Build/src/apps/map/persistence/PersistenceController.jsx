@@ -37,6 +37,8 @@ import {
   convertLegacyMapViewToCameraOptions,
   isLegacyMapView,
 } from "./backwardsCompatibility.js";
+import { LAYER_TYPES } from "@map/components/CustomLayers";
+import { fetchWmsTmsSettings } from "@map/components/CustomLayers/HistoricMapLayer/fetchWmsTmsSettings";
 
 export const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
 
@@ -232,20 +234,50 @@ export const PersistenceController = () => {
                 opacity,
               } of newOperationalLayers) {
                 if (feature !== undefined) {
-                  const layerLoadPromise = feature.addLayerToMap(map, {
-                    visibility: isVisible ? "visible" : "none",
-                    opacity,
+                  const layerLoadPromise = new Promise((resolve) => {
+                    const visibility = isVisible ? "visible" : "none";
+                    const layerSettings = { visibility, opacity };
+
+                    if (feature.getType() === LAYER_TYPES.HISTORIC_MAP) {
+                      return fetchWmsTmsSettings(feature).then(
+                        (sourceSettings) => {
+                          resolve({
+                            layer: feature,
+                            settings: {
+                              sourceSettings,
+                              layerSettings,
+                            },
+                          });
+                        }
+                      );
+                    } else if (feature.getType() === LAYER_TYPES.GEOJSON) {
+                      return resolve({
+                        layer: feature,
+                        settings: { layerSettings },
+                      });
+                    } else {
+                      console.error(
+                        `Unknown layer type '${feature.getType()}'`
+                      );
+                    }
                   });
 
                   layerLoaders.push(layerLoadPromise);
                 }
               }
 
-              Promise.all(layerLoaders).then(() => {
-                setSelectedLayers(
-                  newOperationalLayers.map((layer) => layer.feature)
-                );
-              });
+              Promise.all(layerLoaders)
+                .then((results) => {
+                  for (const { layer, settings } of results) {
+                    layer.addLayerToMap(map, settings);
+                  }
+
+                  const layers = results.map(({ layer }) => layer);
+                  setSelectedLayers(layers);
+                })
+                .catch((e) => {
+                  throw new Error(e);
+                });
             } catch (e) {
               console.error(e);
               handleNotification(
@@ -261,8 +293,18 @@ export const PersistenceController = () => {
             Promise.all(fetchProcesses)
               .then((layers) => {
                 Promise.all(
-                  layers.map((layer) => layer.addLayerToMap(map))
-                ).then(() => {
+                  layers.map(
+                    (layer) =>
+                      new Promise((resolve) =>
+                        fetchWmsTmsSettings(layer).then((sourceSettings) =>
+                          resolve({ layer, sourceSettings })
+                        )
+                      )
+                  )
+                ).then((results) => {
+                  for (const { layer, sourceSettings } of results) {
+                    layer.addLayerToMap(map, { sourceSettings });
+                  }
                   setSelectedLayers(layers);
                 });
 

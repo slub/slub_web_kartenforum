@@ -13,6 +13,7 @@ import {
   selectedGeoJsonLayerIdState,
 } from "@map/atoms";
 import MapSearchListElementWithGeometryPreview from "./MapSearchListElementWithGeometryPreview.jsx";
+import { fetchWmsTmsSettings } from "@map/components/CustomLayers/HistoricMapLayer/fetchWmsTmsSettings";
 
 export const MapSearchListElement = (props) => {
   const map = useRecoilValue(mapState);
@@ -46,7 +47,8 @@ export const MapSearchListElement = (props) => {
       layer.removeMapLibreLayers(map);
     } else {
       //@TODO: Add loading feedback, while layer is added to map
-      layer.addLayerToMap(map).then(() => {
+      fetchWmsTmsSettings(layer).then((sourceSettings) => {
+        layer.addLayerToMap(map, { sourceSettings });
         setSelectedLayers((oldSelectedLayers) => [...oldSelectedLayers, layer]);
       });
     }

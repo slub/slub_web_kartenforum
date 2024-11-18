@@ -26,17 +26,15 @@ class HistoricMapLayer extends ApplicationLayer {
         this.metadata[METADATA.bounds] = bounds;
     }
 
-    addLayerToMap(
-        map,
-        opt_initial_settings = { visibility: "visible", opacity: 1 }
-    ) {
+    addLayerToMap(map, { sourceSettings, layerSettings }) {
         if (map.getSource(this.getId())) {
-            return Promise.reject(
+            console.error(
                 `Source with id '${this.getId()}' exists already in map.`
             );
+            return;
         }
 
-        return addHistoricMapLayer(this, map, opt_initial_settings);
+        return addHistoricMapLayer(this, map, sourceSettings, layerSettings);
     }
 
     addToOverlay(map, overlayId) {

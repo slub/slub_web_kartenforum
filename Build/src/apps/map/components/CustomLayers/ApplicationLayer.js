@@ -60,6 +60,10 @@ export class ApplicationLayer {
         this.metadata[key] = value;
     }
 
+    addLayerToMap() {
+        throw new Error("Method 'addLayerToMap' must be implemented.");
+    }
+
     isDisplayedInMap() {
         throw new Error("Method 'isDisplayedInMap' must be implemented.");
     }
