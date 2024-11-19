@@ -154,3 +154,8 @@ export const activeDialogState = atom({
     key: "activeDialogState",
     default: ActiveDialog.None,
 });
+
+export const drawState = atom({
+    key: "drawState",
+    default: undefined,
+});

@@ -1,0 +1,74 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 19.11.24.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@import "../../../../Variables.scss";
+
+@mixin button-styles($bg-color, $bg-color-dark) {
+    background-color: $bg-color;
+
+    &:hover,
+    &:focus {
+        background-color: $bg-color-dark;
+    }
+}
+
+.maplibregl-ctrl-top-right {
+    .mapboxgl-ctrl {
+        margin: 0;
+        pointer-events: all;
+
+        &.mapboxgl-ctrl-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            background-color: $secondary-color;
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 22px;
+            overflow: hidden;
+            width: 22px;
+
+            &:hover,
+            &:focus {
+                background-color: $secondary-color-dark;
+                border-radius: unset;
+            }
+
+            &:disabled {
+                background-color: $color-disabled;
+
+                .maplibregl-ctrl-icon {
+                    opacity: 0.8;
+                }
+            }
+
+            &.active {
+                @include button-styles($primary-color, $primary-color-dark);
+            }
+
+            &.maplibregl-ctrl-icon {
+                color: transparent;
+            }
+        }
+    }
+}
+
+.ol-map-large {
+    .maplibregl-ctrl-top-right {
+        top: 41px;
+        right: 380px;
+
+        .maplibregl-ctrl {
+            box-sizing: border-box;
+            border-color: white;
+        }
+    }
+}

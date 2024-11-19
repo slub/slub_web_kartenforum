@@ -135,6 +135,27 @@ class GeoJsonLayer extends ApplicationLayer {
             });
     }
 
+    setDataOnMap(map, geoJson) {
+        if (!isDefined(map) || !isDefined(geoJson)) {
+            return;
+        }
+
+        let features = geoJson.features ?? [];
+        features = features.map((feature) => {
+            if (!Object.hasOwn(feature, "properties")) {
+                feature.properties = {};
+            }
+
+            return convertFeatureForApplicationState(feature);
+        });
+
+        const geojsonMapState = { type: "FeatureCollection", features };
+
+        const sourceLayer = map.getSource(this.getId());
+        sourceLayer.setData(geojsonMapState);
+        this.setGeoJson(geoJson);
+    }
+
     removeFeatureFromMap(map, id) {
         const sourceLayer = map.getSource(this.getId());
 

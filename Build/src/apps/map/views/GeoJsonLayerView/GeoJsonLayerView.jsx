@@ -36,6 +36,7 @@ import TimeSlider from "@components/TimeSlider";
 import { FEATURE_PROPERTIES } from "@map/components/GeoJson/constants";
 import VkfIcon from "@components/VkfIcon";
 import CustomButton from "@map/components/GeoJson/components/CustomButton";
+import MapboxDrawLoader from "@map/components/GeoJson/components/MapboxDrawLoader";
 
 import { triggerJsonDownload } from "@map/components/LayerManagement/util";
 
@@ -311,6 +312,8 @@ const GeoJsonLayerView = () => {
                 viewMode === VIEW_MODE.EDIT && "in"
               )}
             />
+
+            {viewMode === VIEW_MODE.EDIT && <MapboxDrawLoader />}
           </>
         )}
       </div>
