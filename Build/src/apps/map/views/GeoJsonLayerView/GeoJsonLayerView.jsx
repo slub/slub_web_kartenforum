@@ -41,9 +41,14 @@ import { triggerJsonDownload } from "@map/components/LayerManagement/util";
 
 import "./GeoJsonLayerView.scss";
 
+const VIEW_MODE = {
+  INITIAL: 1,
+  FILTER: 2,
+  EDIT: 3,
+};
+
 const GeoJsonLayerView = () => {
-  const [isEditView, setIsEditView] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
+  const [viewMode, setViewMode] = useState(VIEW_MODE.INITIAL);
   const [timeExtentFilter, setTimeExtentFilter] = useState([]);
   const previousTimeExtentFilter = useRef([]);
   const previousSelectedLayer = useRef();
@@ -135,27 +140,31 @@ const GeoJsonLayerView = () => {
 
   const handleCloseClick = useCallback(() => {
     setSelectedGeoJsonLayerId(undefined);
-
+    setViewMode(VIEW_MODE.INITIAL);
     resetState();
   }, []);
 
   const handleEditOpenClick = useCallback(() => {
-    setIsEditView(true);
+    setViewMode(VIEW_MODE.EDIT);
 
     resetState();
   }, []);
 
-  const handleEditCloseClick = useCallback(() => setIsEditView(false), []);
+  const handleEditCloseClick = useCallback(
+    () => setViewMode(VIEW_MODE.INITIAL),
+    []
+  );
 
   const handleFeatureFilterClick = useCallback(() => {
-    if (showFilters) {
+    if (viewMode === VIEW_MODE.FILTER) {
+      setViewMode(VIEW_MODE.INITIAL);
       previousTimeExtentFilter.current = timeExtentFilter;
       setTimeExtentFilter([]);
     } else {
+      setViewMode(VIEW_MODE.FILTER);
       setTimeExtentFilter(previousTimeExtentFilter.current);
     }
-    setShowFilters(!showFilters);
-  }, [showFilters, timeExtentFilter]);
+  }, [viewMode, timeExtentFilter]);
 
   const handleGeoJsonDownloadClick = useCallback(() => {
     const geoJson = {
@@ -179,7 +188,6 @@ const GeoJsonLayerView = () => {
   );
 
   const resetState = useCallback(() => {
-    setShowFilters(false);
     setTimeExtentFilter([]);
     previousTimeExtentFilter.current = [];
   }, []);
@@ -189,6 +197,7 @@ const GeoJsonLayerView = () => {
 
     return () => {
       // clear state when switching layers externally
+      setViewMode(VIEW_MODE.INITIAL);
       resetState();
     };
   }, [selectedLayer]);
@@ -217,9 +226,13 @@ const GeoJsonLayerView = () => {
           <>
             <GeoJsonPanelHeader
               title={translate("geojsonlayerpanel-header-title")}
-              onEditClick={!isEditView ? handleEditOpenClick : undefined}
+              onEditClick={
+                viewMode !== VIEW_MODE.EDIT ? handleEditOpenClick : undefined
+              }
               onCloseClick={
-                isEditView ? handleEditCloseClick : handleCloseClick
+                viewMode === VIEW_MODE.EDIT
+                  ? handleEditCloseClick
+                  : handleCloseClick
               }
             />
             <div className="headline-container">
@@ -238,7 +251,7 @@ const GeoJsonLayerView = () => {
                 </CustomButton>
                 <CustomButton
                   className="geojson-headline--button filter-button"
-                  disabled={isEditView || !isValidTimeRange}
+                  disabled={viewMode === VIEW_MODE.EDIT || !isValidTimeRange}
                   onClick={handleFeatureFilterClick}
                   title={translate("layermanagement-filter-geojson-features")}
                 >
@@ -250,13 +263,15 @@ const GeoJsonLayerView = () => {
             <div
               className={clsx(
                 "plain-divider",
-                showFilters && isValidTimeRange && "filtered"
+                viewMode === VIEW_MODE.FILTER && isValidTimeRange && "filtered"
               )}
             >
               <span
                 className={clsx(
                   "caret-container",
-                  showFilters && isValidTimeRange && "filtered"
+                  viewMode === VIEW_MODE.FILTER &&
+                    isValidTimeRange &&
+                    "filtered"
                 )}
               >
                 <VkfIcon name="caret" />
@@ -266,10 +281,10 @@ const GeoJsonLayerView = () => {
             <div
               className={clsx(
                 "filter-container",
-                showFilters && isValidTimeRange && "in"
+                viewMode === VIEW_MODE.FILTER && isValidTimeRange && "in"
               )}
             >
-              {!isEditView && showFilters && isValidTimeRange && (
+              {viewMode !== VIEW_MODE.EDIT && isValidTimeRange && (
                 <TimeSlider
                   title={`${translate("geojsonlayerpanel-timefilter-title")}: `}
                   timeRange={timeRange}
@@ -284,7 +299,7 @@ const GeoJsonLayerView = () => {
             <GeoJsonLayerFeatureList
               className={clsx(
                 "geojson-layer-feature-list-root ",
-                isEditView === false && ["in", "scrollable"]
+                viewMode !== VIEW_MODE.EDIT && ["in", "scrollable"]
               )}
               features={filteredFeatures}
               onFeatureClick={handleFeatureClick}
@@ -293,7 +308,7 @@ const GeoJsonLayerView = () => {
             <GeoJsonLayerEditPanel
               className={clsx(
                 "geojson-layer-edit-panel-root",
-                isEditView === true && "in"
+                viewMode === VIEW_MODE.EDIT && "in"
               )}
             />
           </>
