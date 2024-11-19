@@ -193,30 +193,12 @@
 
     .footer-container {
         display: flex;
-        gap: 23px;
         justify-content: space-around;
         height: 100px;
         padding: 36px 26px 30px 15px;
 
-        .save-button,
-        .discard-button {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            height: max-content;
-            padding: 9px 0;
-            font-weight: 400;
-
-            svg {
-                width: 16px;
-                height: 16px;
-            }
-        }
-
-        .save-button {
-            padding-right: 32px;
-            padding-left: 39px;
-            font-weight: 700;
+        button {
+            width: 100%;
         }
     }
 }

@@ -82,6 +82,13 @@
 
 .vkf-button-discard {
     color: $gray-500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: max-content;
+    padding: 8px 8px;
+    font-weight: 400;
 
     &:hover,
     &:active,
@@ -99,6 +106,8 @@
     svg {
         fill: $gray-500;
         stroke: $gray-500;
+        height: 16px;
+        width: 16px;
     }
 }
 
@@ -119,10 +128,19 @@
 
     svg {
         fill: $background-color;
+        width: 16px;
+        height: 16px;
     }
 }
 
 .vkf-button-save {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: max-content;
+    padding: 8px 8px;
+
     background-color: $backgroundSecondary;
     color: $background-color;
 
@@ -136,6 +154,8 @@
 
     svg {
         fill: $background-color;
+        width: 16px;
+        height: 16px;
     }
 
     &:disabled,
