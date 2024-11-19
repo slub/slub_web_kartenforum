@@ -14,12 +14,7 @@ import CustomButton from "@map/components/GeoJson/components/CustomButton";
 import VkfIcon from "@components/VkfIcon";
 import DateInput from "@components/DateInput";
 import ImageFallback from "../../components/ImageFallback";
-import {
-  parseDateIso,
-  formatDateLocalized,
-  parseDateLocalized,
-  formatDateIso,
-} from "@util/date";
+import { formatDateLocalized, parseDateLocalized } from "@util/date";
 import { FEATURE_PROPERTIES } from "../../constants";
 
 import "./EditNonStyleField.scss";
@@ -58,9 +53,9 @@ const EditNonStyleField = ({
     const isTimeInputField = title === FEATURE_PROPERTIES.time;
     if (isTimeInputField) {
       if (currentValue !== "") {
-        const parsedValue = formatDateIso(parseDateLocalized(currentValue));
+        const parsedValue = parseDateLocalized(currentValue).valueOf();
 
-        if (parsedValue === "") {
+        if (Number.isNaN(parsedValue)) {
           newErrors = { key: false, value: true };
         } else {
           currentValue = parsedValue;
@@ -155,7 +150,7 @@ const EditNonStyleField = ({
           className={clsx("geojson-feature-property-input", {
             error: errors.value,
           })}
-          value={value === "" ? "" : formatDateLocalized(parseDateIso(value))}
+          value={value === "" ? "" : formatDateLocalized(new Date(value))}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           ref={valueInputRef}

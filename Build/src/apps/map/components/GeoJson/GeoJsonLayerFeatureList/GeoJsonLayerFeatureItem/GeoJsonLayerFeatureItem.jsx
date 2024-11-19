@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 
 import VkfIcon from "@components/VkfIcon";
 import { isDefined, translate } from "@util/util";
-import { formatDateLocalized, isValidDate, parseDateIso } from "@util/date";
+import { formatDateLocalized, isValidDate } from "@util/date";
 import { GEOMETRY_TYPE } from "../../constants";
 
 import { FEATURE_PROPERTIES } from "../../constants";
@@ -52,19 +52,17 @@ const GeoJsonFeatureItem = ({ geometry, properties, onClick }) => {
   }, [geometry]);
 
   const time = useMemo(() => {
-    const timeString = properties[FEATURE_PROPERTIES.time];
+    const timestamp = properties[FEATURE_PROPERTIES.time];
 
-    if (!isDefined(timeString)) {
+    if (!isDefined(timestamp)) {
       return defaultTime;
     }
 
-    const parsedTime = parseDateIso(timeString);
-
-    if (!isValidDate(parsedTime)) {
+    if (!isValidDate(timestamp)) {
       return translate("geojson-featureview-invalid-time");
     }
 
-    return formatDateLocalized(parsedTime);
+    return formatDateLocalized(timestamp);
   }, [properties[FEATURE_PROPERTIES.time]]);
 
   const title = useMemo(

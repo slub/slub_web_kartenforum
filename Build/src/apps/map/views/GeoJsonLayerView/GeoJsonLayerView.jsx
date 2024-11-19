@@ -24,14 +24,13 @@ import { isDefined, translate } from "@util/util";
 import {
   formatDateLocalized,
   isValidDate,
-  parseDateIso,
   getUnixSeconds,
   normalizeDate,
 } from "@util/date";
 import GeoJsonLayerFeatureList from "@map/components/GeoJson/GeoJsonLayerFeatureList";
 import GeoJsonLayerEditPanel from "@map/components/GeoJson/GeoJsonLayerEditPanel";
 import GeoJsonPanelHeader from "@map/components/GeoJson/components/GeoJsonPanelHeader";
-import { METADATA } from "@map/components/CustomLayers";
+import { METADATA, GeoJsonLayer } from "@map/components/CustomLayers";
 import TimeSlider from "@components/TimeSlider";
 import { FEATURE_PROPERTIES } from "@map/components/GeoJson/constants";
 import VkfIcon from "@components/VkfIcon";
@@ -89,9 +88,7 @@ const GeoJsonLayerView = () => {
 
   const timeRange = useMemo(() => {
     const timestamps = geoJsonFeatures
-      .map(({ properties }) =>
-        parseDateIso(properties[FEATURE_PROPERTIES.time])
-      )
+      .map(({ properties }) => new Date(properties[FEATURE_PROPERTIES.time]))
       .filter((date) => isValidDate(date))
       .sort((a, b) => a.valueOf() - b.valueOf());
 
@@ -125,10 +122,8 @@ const GeoJsonLayerView = () => {
     const [min, max] = timeExtentFilter;
 
     return geoJsonFeatures.filter(({ properties }) => {
-      const dateString = properties[FEATURE_PROPERTIES.time];
-      const unixTimestamp = getUnixSeconds(
-        normalizeDate(parseDateIso(dateString))
-      );
+      const timestamp = properties[FEATURE_PROPERTIES.time];
+      const unixTimestamp = getUnixSeconds(normalizeDate(new Date(timestamp)));
 
       // don't filter out features with no or invalid dates
       if (Number.isNaN(unixTimestamp)) {
@@ -173,7 +168,9 @@ const GeoJsonLayerView = () => {
       features: filteredFeatures,
     };
 
-    const jsonString = JSON.stringify(geoJson);
+    const convertedGeoJson = GeoJsonLayer.toPersistence(geoJson);
+
+    const jsonString = JSON.stringify(convertedGeoJson);
     const title = selectedLayer.getMetadata("title");
     triggerJsonDownload(title, jsonString);
   }, [filteredFeatures]);

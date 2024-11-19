@@ -34,10 +34,10 @@ export const getLayerConfig = (sourceId) => {
     return config;
 };
 
-export const convertFeatureForMapState = (feature) => {
+export const convertFeatureForPersistenceState = (feature) => {
     const { properties } = feature;
 
-    const newProperties = convertForMapState(properties);
+    const newProperties = convertForPersistenceState(properties);
 
     return { ...feature, properties: newProperties };
 };
@@ -50,17 +50,7 @@ export const convertFeatureForApplicationState = (feature) => {
     return { ...feature, properties: newProperties };
 };
 
-// invalid property values must not reach this stage and must be handled before building the geojson source diff
-// if invalid values are thrown out here, the property won't get updated as it's not part of maplibre's feature diff any more
-export const convertFeatureDiffPropertyForMapState = ({ key, value }) => {
-    if (key === FEATURE_PROPERTIES.time) {
-        value = normalizeDate(parseDateIso(value)).valueOf();
-    }
-
-    return { key, value };
-};
-
-const convertForMapState = (properties) => {
+const convertForApplicationState = (properties) => {
     const time = properties[FEATURE_PROPERTIES.time] ?? "";
 
     const parsedTime = normalizeDate(parseDateIso(time)).valueOf();
@@ -78,8 +68,9 @@ const convertForMapState = (properties) => {
     return newProperties;
 };
 
-const convertForApplicationState = (properties) => {
+const convertForPersistenceState = (properties) => {
     const time = properties[FEATURE_PROPERTIES.time] ?? "";
+
     const parsedTime = formatDateIso(time);
 
     if (parsedTime === "") {

@@ -14,9 +14,8 @@ import {
 } from "./constants";
 import { isDefined } from "@util/util";
 import {
-    convertFeatureDiffPropertyForMapState,
-    convertFeatureForMapState,
     convertFeatureForApplicationState,
+    convertFeatureForPersistenceState,
     getLayerConfig,
     getTimeFilter,
 } from "./util";
@@ -91,8 +90,7 @@ class GeoJsonLayer extends ApplicationLayer {
         }
 
         const sourceId = this.getId();
-        const data = GeoJsonLayer.#getGeoJsonMapState(this.geoJSON);
-
+        const data = this.getGeoJson();
         const sourceType = this.getType();
         const layerConfig = getLayerConfig(sourceId);
 
@@ -121,17 +119,13 @@ class GeoJsonLayer extends ApplicationLayer {
         }
 
         const sourceLayer = map.getSource(this.getId());
-        const internalSourceDiff =
-            GeoJsonLayer.#parseSourceDiffToMapState(sourceDiff);
 
         return sourceLayer
-            .updateData(internalSourceDiff)
+            .updateData(sourceDiff)
             .getData()
             .then((geoJSON) => {
-                const convertedGeoJson =
-                    GeoJsonLayer.#getGeoJsonApplicationState(geoJSON);
-                this.setGeoJson(convertedGeoJson);
-                return convertedGeoJson;
+                this.setGeoJson(geoJSON);
+                return geoJSON;
             });
     }
 
@@ -140,19 +134,9 @@ class GeoJsonLayer extends ApplicationLayer {
             return;
         }
 
-        let features = geoJson.features ?? [];
-        features = features.map((feature) => {
-            if (!Object.hasOwn(feature, "properties")) {
-                feature.properties = {};
-            }
-
-            return convertFeatureForApplicationState(feature);
-        });
-
-        const geojsonMapState = { type: "FeatureCollection", features };
-
         const sourceLayer = map.getSource(this.getId());
-        sourceLayer.setData(geojsonMapState);
+
+        sourceLayer.setData(geoJson);
         this.setGeoJson(geoJson);
     }
 
@@ -163,49 +147,55 @@ class GeoJsonLayer extends ApplicationLayer {
         this.removeFeature(id);
     }
 
-    // needed for filtering on map
-    static #getGeoJsonMapState(geoJson) {
-        const clonedGeoJson = structuredClone(geoJson);
-        const features = clonedGeoJson.features.map(convertFeatureForMapState);
+    /**
+     * Gets the geoJson object representing the "VKF geoJson specification". Use this for all non-application cases.
+     * E.g. for exporting as a file, persisting in local storage, persisting in database, etc.
+     *
+     * @returns {object} geoJson
+     */
+    getGeoJsonForPersistence() {
+        const convertedGeoJson = structuredClone(this.getGeoJson());
+        let features = convertedGeoJson.features ?? [];
 
-        const internalGeoJson = { ...clonedGeoJson, features };
-        return internalGeoJson;
+        features = features.map(convertFeatureForPersistenceState);
+        convertedGeoJson.features = features;
+
+        return convertedGeoJson;
     }
 
-    static #getGeoJsonApplicationState(geoJson) {
-        const clonedGeoJson = structuredClone(geoJson);
-        const features = clonedGeoJson.features.map(
-            convertFeatureForApplicationState
-        );
+    /**
+     * Gets the geoJson object representing the "VKF geoJson specification". Use this for all non-application cases.
+     * E.g. for exporting as a file, persisting in local storage, persisting in database, etc.
+     *
+     * @returns {object} geoJson
+     */
+    static toPersistence(geoJson) {
+        if (!isDefined(geoJson)) {
+            return;
+        }
 
-        const internalGeoJson = { ...clonedGeoJson, features };
-        return internalGeoJson;
+        const convertedGeoJson = structuredClone(geoJson);
+        let features = convertedGeoJson.features ?? [];
+
+        features = features.map(convertFeatureForPersistenceState);
+        convertedGeoJson.features = features;
+
+        return convertedGeoJson;
     }
 
-    static #parseSourceDiffToMapState(sourceDiff) {
-        let add = sourceDiff.add ?? [];
-        let update = sourceDiff.update ?? [];
-
-        add = add.map(convertFeatureForMapState);
-        update = update.map((featureDiff) => {
-            let convertedProperties = featureDiff.addOrUpdateProperties ?? [];
-            convertedProperties = convertedProperties.map(
-                convertFeatureDiffPropertyForMapState
-            );
-
-            return {
-                ...featureDiff,
-                addOrUpdateProperties: convertedProperties,
-            };
-        });
-
-        return { ...sourceDiff, add, update };
-    }
-
+    /**
+     * Gets the geoJson object representing the application state.
+     * @returns {object} geoJson
+     */
     getGeoJson() {
         return this.geoJSON;
     }
 
+    /**
+     * Sets the geoJson object representing the application state.
+     *
+     * @param {object} geoJson
+     */
     setGeoJson(geoJson) {
         this.geoJSON = geoJson;
     }

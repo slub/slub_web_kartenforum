@@ -7,7 +7,7 @@
 import React, { useCallback, useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { translate, isDefined } from "@util/util";
-import { formatDateLocalized, parseDateIso, isValidDate } from "@util/date";
+import { formatDateLocalized, isValidDate } from "@util/date";
 import { predefinedProperties } from "../constants";
 import { propExtractor } from "../util/util";
 import ImageFallback from "../components/ImageFallback";
@@ -30,18 +30,16 @@ const GeoJsonFeaturePanel = ({ feature, onEdit, onClose }) => {
     };
   }, []);
 
-  const parseTimeForDisplay = useCallback((timeString) => {
-    if (!isDefined(timeString)) {
+  const parseTimeForDisplay = useCallback((timestamp) => {
+    if (!isDefined(timestamp)) {
       return defaultTime;
     }
 
-    const parsedTime = parseDateIso(timeString);
-
-    if (!isValidDate(parsedTime)) {
+    if (!isValidDate(timestamp)) {
       return translate("geojson-featureview-invalid-time");
     }
 
-    return formatDateLocalized(parsedTime);
+    return formatDateLocalized(timestamp);
   }, []);
 
   const { imageLink, title, description, time, attribution } = useMemo(() => {

@@ -174,7 +174,7 @@ export const serializeOperationalLayer = (layer, map) => {
     if (type === LAYER_TYPES.GEOJSON) {
         // add in geojson specific parts
         return Object.assign(base, {
-            geojson: layer.getGeoJson(),
+            geojson: layer.getGeoJsonForPersistence(),
             type: LAYER_TYPES.GEOJSON,
         });
     } else {
