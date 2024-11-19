@@ -28,7 +28,7 @@ const GeoJsonEditPanel = ({ className }) => {
   const map = useRecoilValue(mapState);
 
   const handleSave = useCallback(() => {
-    // TODO set numeric ids for newly added features
+    // TODO DRAWING set numeric ids for newly added features
     console.log(draw.getAll());
     selectedLayer.setDataOnMap(map, draw.getAll());
   }, [draw, selectedLayer, selectedLayers]);

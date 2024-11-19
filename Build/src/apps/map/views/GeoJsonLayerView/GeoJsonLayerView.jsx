@@ -212,6 +212,16 @@ const GeoJsonLayerView = () => {
     selectedLayer.setFilters(map, { timeExtent: timeExtentFilter });
   }, [selectedLayer, timeExtentFilter]);
 
+  useEffect(() => {
+    if (viewMode === VIEW_MODE.EDIT) {
+      selectedLayer?.setVisibility(map, "none");
+    }
+
+    return () => {
+      selectedLayer?.setVisibility(map, "visible");
+    };
+  }, [viewMode, selectedLayer]);
+
   return (
     <>
       <div

@@ -22,6 +22,8 @@ const options = {
   },
 };
 
+// TODO DRAWING: define event handlers when hovering over features when styles are defined
+
 const MapboxDrawLoader = () => {
   const map = useRecoilValue(mapState);
   const setDraw = useSetRecoilState(drawState);
