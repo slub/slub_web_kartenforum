@@ -172,16 +172,8 @@ function useGeoJsonFeature({ map, layout }) {
                 .at(0);
 
             if (isDefined(mapFeature)) {
-                // don't use the map feature for handling application state
-                // e.g., the time property is converted to unix milliseconds
+                // don't use the map feature directly to streamline initialization logic
                 const { id, source } = mapFeature;
-                if (
-                    uniqueCachedFeatureId?.current ===
-                    naiveUniqueFeatureId(id, source)
-                ) {
-                    return;
-                }
-
                 setFeatureIdentifier({ id, source });
             } else {
                 resetFeature();
@@ -210,13 +202,7 @@ function useGeoJsonFeature({ map, layout }) {
             const { featureId: id, sourceId: source } =
                 selectedGeoJsonFeatureIdentifier;
 
-            // only run, if the geojson feature is not already set
-            if (
-                naiveUniqueFeatureId(id, source) !==
-                uniqueCachedFeatureId.current
-            ) {
-                setFeatureIdentifier({ id, source });
-            }
+            setFeatureIdentifier({ id, source });
         }
     }, [selectedGeoJsonFeatureIdentifier]);
 
@@ -233,21 +219,33 @@ function useGeoJsonFeature({ map, layout }) {
         }
 
         const { id, source } = featureIdentifier;
+
+        // only run if the feature is not already selected
+        if (
+            naiveUniqueFeatureId(id, source) === uniqueCachedFeatureId.current
+        ) {
+            return;
+        }
+
         const selectedGeoJsonLayer = selectedLayers.find(
             (layer) => layer.getId() === source
         );
 
         if (!isDefined(selectedGeoJsonLayer)) {
-            const ids = selectedLayers.map((layer) => layer.getId()).join(",");
-            console.error(
-                `An unexpected error occured. There is no layer with the id '${source}'. Layers: '${ids}'`
-            );
+            console.error(`No layer found with id '${source}'.`);
 
             resetFeature();
             return;
         }
 
         const applicationFeature = selectedGeoJsonLayer.getFeature(id);
+
+        if (!isDefined(applicationFeature)) {
+            console.error(`No feature found with id '${id}'.`);
+
+            resetFeature();
+            return;
+        }
 
         uniqueCachedFeatureId.current = naiveUniqueFeatureId(id, source);
         storedFeatureIdentifier.current = { id, source };
