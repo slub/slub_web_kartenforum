@@ -12,6 +12,11 @@ export const LAYOUT_TYPES = {
     // separately
 };
 
+export const HORIZONTAL_LAYOUT_MODE = {
+    STANDARD: "STANDARD",
+    DRAW: "DRAW",
+};
+
 // Specify layout breakpoints
 // based on https://www.w3schools.com/howto/howto_css_media_query_breakpoints.asp
 export const BREAKPOINTS = {

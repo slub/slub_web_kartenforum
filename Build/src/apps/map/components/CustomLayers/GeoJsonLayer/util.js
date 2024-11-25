@@ -112,3 +112,13 @@ export const getTimeFilter = (timeExtent) => {
         ],
     ];
 };
+
+export const naiveUniqueFeatureId = (id, source) => `${id}-${source}`;
+
+export const calculateBoundingBox = (point, offset) => {
+    const { x, y } = point;
+    return [
+        [x - offset, y - offset],
+        [x + offset, y + offset],
+    ];
+};

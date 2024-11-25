@@ -1283,6 +1283,60 @@
                 <source><![CDATA[Define filter period]]></source>
 			    <target><![CDATA[Definiere Filterzeitraum]]></target>
             </trans-unit>
+
+            <!-- Map > GeoJsonControlBar -->
+            <trans-unit id="plugin.map.geojsoncontrolbar.header.edit" approved="yes">
+			    <source><![CDATA[Edit]]></source>
+                <target><![CDATA[Bearbeiten]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.settingsbutton.title" approved="yes">
+				<source><![CDATA[Show vector map settings]]></source>
+                <target><![CDATA[Zeige Einstellungen der Vektor-Karte]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.historybutton.title" approved="yes">
+				<source><![CDATA[Show vector map history]]></source>
+                <target><![CDATA[Zeige Versionen der Vektor-Karte]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.add-feature" approved="yes">
+				<source><![CDATA[Create a new geometry element now.]]></source>
+                <target><![CDATA[Jetzt ein neues Geometrie-Element erstellen.]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.features-present" approved="yes">
+				<source><![CDATA[present in this vector map.]]></source>
+                <target><![CDATA[in dieser Vektor-Karte vorhanden.]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.new" approved="yes">
+				<source><![CDATA[new]]></source>
+                <target><![CDATA[neues]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.deleted" approved="yes">
+				<source><![CDATA[deleted]]></source>
+                <target><![CDATA[gelöschtes]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.changed" approved="yes">
+				<source><![CDATA[changed]]></source>
+                <target><![CDATA[geändertes]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.new.plural" approved="yes">
+				<source><![CDATA[new]]></source>
+                <target><![CDATA[neue]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.deleted.plural" approved="yes">
+				<source><![CDATA[deleted]]></source>
+                <target><![CDATA[gelöschte]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.changed.plural" approved="yes">
+				<source><![CDATA[changed]]></source>
+                <target><![CDATA[geänderte]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.feature" approved="yes">
+				<source><![CDATA[feature]]></source>
+                <target><![CDATA[Detail]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.feature.plural" approved="yes">
+				<source><![CDATA[features]]></source>
+                <target><![CDATA[Details]]></target>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

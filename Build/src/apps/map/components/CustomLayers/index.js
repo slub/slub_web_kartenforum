@@ -8,3 +8,4 @@
 export { default as HistoricMapLayer } from "./HistoricMapLayer";
 export { default as GeoJsonLayer } from "./GeoJsonLayer";
 export * from "./constants";
+export * from "./GeoJsonLayer/util";

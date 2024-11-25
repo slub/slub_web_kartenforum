@@ -6,5 +6,7 @@
  */
 
 import GeoJsonFeaturePanel from "./GeoJsonFeaturePanel";
+import GeoJsonFeaturePanelWrapper from "./GeoJsonFeaturePanelWrapper";
 
 export default GeoJsonFeaturePanel;
+export { GeoJsonFeaturePanelWrapper };

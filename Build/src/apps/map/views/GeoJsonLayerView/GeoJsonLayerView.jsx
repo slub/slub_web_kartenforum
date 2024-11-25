@@ -16,6 +16,7 @@ import {
   selectedGeoJsonLayerIdState,
   selectedGeoJsonLayerState,
   selectedGeoJsonFeatureIdentifierState,
+  horizontalLayoutModeState,
   mapState,
 } from "@map/atoms";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -29,17 +30,17 @@ import {
 } from "@util/date";
 import GeoJsonLayerFeatureList from "@map/components/GeoJson/GeoJsonLayerFeatureList";
 import GeoJsonLayerEditPanel from "@map/components/GeoJson/GeoJsonLayerEditPanel";
-import GeoJsonPanelHeader from "@map/components/GeoJson/components/GeoJsonPanelHeader";
+import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
 import { METADATA, GeoJsonLayer } from "@map/components/CustomLayers";
 import TimeSlider from "@components/TimeSlider";
 import { FEATURE_PROPERTIES } from "@map/components/GeoJson/constants";
 import VkfIcon from "@components/VkfIcon";
 import CustomButton from "@map/components/GeoJson/components/CustomButton";
-import MapboxDrawLoader from "@map/components/GeoJson/components/MapboxDrawLoader";
 
 import { triggerJsonDownload } from "@map/components/LayerManagement/util";
 
 import "./GeoJsonLayerView.scss";
+import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
 
 const VIEW_MODE = {
   INITIAL: 1,
@@ -62,6 +63,8 @@ const GeoJsonLayerView = () => {
   const setSelectedGeoJsonFeatureIdentifier = useSetRecoilState(
     selectedGeoJsonFeatureIdentifierState
   );
+
+  const setHorizontalLayoutMode = useSetRecoilState(horizontalLayoutModeState);
 
   const map = useRecoilValue(mapState);
 
@@ -142,14 +145,17 @@ const GeoJsonLayerView = () => {
 
   const handleEditOpenClick = useCallback(() => {
     setViewMode(VIEW_MODE.EDIT);
+    setHorizontalLayoutMode(HORIZONTAL_LAYOUT_MODE.DRAW);
+    selectedLayer.setVisibility(map, "none");
 
     resetState();
-  }, []);
+  }, [selectedLayer]);
 
-  const handleEditCloseClick = useCallback(
-    () => setViewMode(VIEW_MODE.INITIAL),
-    []
-  );
+  const handleEditCloseClick = useCallback(() => {
+    selectedLayer.setVisibility(map, "visible");
+    setViewMode(VIEW_MODE.INITIAL);
+    setHorizontalLayoutMode(HORIZONTAL_LAYOUT_MODE.STANDARD);
+  }, [selectedLayer]);
 
   const handleFeatureFilterClick = useCallback(() => {
     if (viewMode === VIEW_MODE.FILTER) {
@@ -211,16 +217,6 @@ const GeoJsonLayerView = () => {
 
     selectedLayer.setFilters(map, { timeExtent: timeExtentFilter });
   }, [selectedLayer, timeExtentFilter]);
-
-  useEffect(() => {
-    if (viewMode === VIEW_MODE.EDIT) {
-      selectedLayer?.setVisibility(map, "none");
-    }
-
-    return () => {
-      selectedLayer?.setVisibility(map, "visible");
-    };
-  }, [viewMode, selectedLayer]);
 
   return (
     <>
@@ -319,8 +315,6 @@ const GeoJsonLayerView = () => {
                 viewMode === VIEW_MODE.EDIT && "in"
               )}
             />
-
-            {viewMode === VIEW_MODE.EDIT && <MapboxDrawLoader />}
           </>
         )}
       </div>

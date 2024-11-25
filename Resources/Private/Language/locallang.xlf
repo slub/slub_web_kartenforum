@@ -1042,6 +1042,47 @@
 			<trans-unit id="plugin.map.geojsonlayerpanel.timefilter.title" approved="yes">
                 <source>Define filter period</source>
             </trans-unit>
+
+            <!-- Map > GeoJsonControlBar -->
+            <trans-unit id="plugin.map.geojsoncontrolbar.header.edit" approved="yes">
+                <source>Edit</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.settingsbutton.title" approved="yes">
+                <source>Show vector map settings</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.historybutton.title" approved="yes">
+                <source>Show vector map history</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.add-feature" approved="yes">
+                <source>Create a new geometry element now.</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.features-present" approved="yes">
+                <source>present in this vector map.</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.new" approved="yes">
+                <source>new</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.deleted" approved="yes">
+                <source>deleted</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.changed" approved="yes">
+                <source>changed</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.new.plural" approved="yes">
+				<source>new</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.deleted.plural" approved="yes">
+				<source>deleted</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.changed.plural" approved="yes">
+				<source>changed</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.feature" approved="yes">
+				<source>feature</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.feature.plural" approved="yes">
+				<source>features</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

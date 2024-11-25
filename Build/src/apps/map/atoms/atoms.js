@@ -8,7 +8,7 @@
 import { atom, selector } from "recoil";
 import SettingsProvider from "@settings-provider";
 import { ActiveDialog } from "@map/components/VkfMap/constants.js";
-import { LAYOUT_TYPES } from "@map/layouts/util.js";
+import { HORIZONTAL_LAYOUT_MODE, LAYOUT_TYPES } from "@map/layouts/util.js";
 import { isDefined } from "@util/util";
 
 // stores the currently active basemap ID
@@ -42,6 +42,12 @@ export const facetState = atom({
 export const layoutState = atom({
     key: "layoutState",
     default: LAYOUT_TYPES.VERTICAL,
+});
+
+// indicates the mode of the horizontal layout
+export const horizontalLayoutModeState = atom({
+    key: "horizontalLayoutModeState",
+    default: HORIZONTAL_LAYOUT_MODE.STANDARD,
 });
 
 // allows accessing the map

@@ -11,14 +11,14 @@ import { formatDateLocalized, isValidDate } from "@util/date";
 import { predefinedProperties } from "../constants";
 import { propExtractor } from "../util/util";
 import ImageFallback from "../components/ImageFallback";
-import GeoJsonPanelHeader from "@map/components/GeoJson/components/GeoJsonPanelHeader";
+import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
 import { FEATURE_PROPERTIES } from "../constants";
 
 import "./GeoJsonFeaturePanel.scss";
 
 const HEADER_PROPERTIES = [...predefinedProperties, "attribution"];
 
-const GeoJsonFeaturePanel = ({ feature, onEdit, onClose }) => {
+const GeoJsonFeaturePanel = ({ feature, onClose }) => {
   const [properties, setProperties] = useState(propExtractor(feature));
   const [isImageBroken, setIsImageBroken] = useState(false);
 
@@ -74,7 +74,6 @@ const GeoJsonFeaturePanel = ({ feature, onEdit, onClose }) => {
       <GeoJsonPanelHeader
         title={translate("geojson-featureview-header-text")}
         onCloseClick={onClose}
-        onEditClick={onEdit}
       />
 
       <div className="property-container scrollable">
@@ -143,7 +142,6 @@ const GeoJsonFeaturePanel = ({ feature, onEdit, onClose }) => {
 
 GeoJsonFeaturePanel.propTypes = {
   feature: PropTypes.any,
-  onEdit: PropTypes.func,
   onClose: PropTypes.func,
 };
 

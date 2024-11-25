@@ -5,5 +5,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 import GeoJsonFeatureEditPanel from "./GeoJsonFeatureEditPanel";
+import GeoJsonFeatureEditPanelWrapper from "./GeoJsonFeatureEditPanelWrapper";
 
 export default GeoJsonFeatureEditPanel;
+export { GeoJsonFeatureEditPanelWrapper };

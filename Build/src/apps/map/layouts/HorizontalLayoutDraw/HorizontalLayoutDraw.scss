@@ -1,14 +1,18 @@
-.ol-map-large {
-    &:fullscreen {
-        .vkf-horizontal-layout {
-            .vkf-spatialsearch-root {
-                display: none;
-            }
-        }
-    }
+/*
+ * Created by tom.schulze@pikobytes.de on 22.11.24.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+.geojson-control-bar-container {
+    position: absolute;
+    bottom: 26px;
+    left: calc((100% - 884px) / 2);
+    width: 884px;
 }
 
-.geojson-feature-panel-container {
+.geojson-feature-edit-panel-container {
     position: absolute;
     top: 26px;
     left: -340px;

@@ -14,7 +14,9 @@ import { selectedOriginalMapIdState } from "@map/atoms";
 import LayerManagement from "@map/components/LayerManagement/LayerManagement";
 import SpatialTemporalSearch from "@map/components/SpatialTemporalSearch/SpatialTemporalSearch";
 import OriginalMapView from "@map/views/OriginalMapView/OriginalMapView";
-import GeoJsonFeatureViewWithTransition from "@map/views/GeoJsonFeatureView";
+import { GeoJsonFeaturePanelWrapper } from "@map/components/GeoJson/GeoJsonFeaturePanel";
+import WithExitTransition from "@components/WithExitTransition";
+import useGeoJsonFeature from "@map/hooks/useGeoJsonFeature";
 
 import "./HorizontalLayout.scss";
 
@@ -23,17 +25,21 @@ export const HorizontalLayout = ({ onAddGeoJson }) => {
     selectedOriginalMapIdState
   );
 
+  const geoJsonProps = useGeoJsonFeature();
+
   const handleClose = () => setOriginalMapId(undefined);
 
   return (
-    <React.Fragment>
+    <>
       <div className="vkf-horizontal-layout">
         <div className="spatialsearch-container" id="spatialsearch-container">
           <SpatialTemporalSearch />
         </div>
-        <div className="geojson-feature-view-container">
-          <GeoJsonFeatureViewWithTransition />
-        </div>
+        <WithExitTransition
+          className="geojson-feature-panel-container"
+          Component={GeoJsonFeaturePanelWrapper}
+          props={geoJsonProps}
+        />
         <div
           className="layermanagement-container"
           id="layermanagement-container"
@@ -49,7 +55,7 @@ export const HorizontalLayout = ({ onAddGeoJson }) => {
         isOpen={selectedOriginalMapId !== undefined}
         map_id={selectedOriginalMapId}
       />
-    </React.Fragment>
+    </>
   );
 };
 

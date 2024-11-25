@@ -17,8 +17,9 @@ import {
 } from "../util/util";
 
 import VkfIcon from "@components/VkfIcon";
+import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
+
 import CustomButton from "../components/CustomButton";
-import GeoJsonPanelHeader from "../components/GeoJsonPanelHeader";
 
 import DeleteDialog from "./DeleteDialog";
 import NewField from "./NewField/NewField";

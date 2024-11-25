@@ -16,13 +16,14 @@ import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import "./MapboxDrawLoader.scss";
 
 const options = {
+  userProperties: true,
   controls: {
     combine_features: false,
     uncombine_features: false,
   },
 };
 
-// TODO DRAWING: define event handlers when hovering over features when styles are defined
+// TODO DRAWING: define event handlers when hovering over features (when layer styles are defined)
 
 const MapboxDrawLoader = () => {
   const map = useRecoilValue(mapState);
@@ -34,11 +35,14 @@ const MapboxDrawLoader = () => {
       const draw = new MapboxDraw(options);
       setDraw(draw);
       map.addControl(draw, "top-right");
-
       const geoJson = selectedLayer.getGeoJson();
+
       draw.add(geoJson);
 
       return () => {
+        // TODO DRAWING: the visibility change does not fire a custom event
+        // the event listenener from VisibilityButton is not registered anymore
+        selectedLayer.setVisibility(map, "visible");
         map.removeControl(draw);
         setDraw(undefined);
       };

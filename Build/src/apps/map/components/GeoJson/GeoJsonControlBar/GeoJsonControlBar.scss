@@ -1,0 +1,97 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 22.11.24.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@import "../../../Variables.scss";
+
+.vkf-geojson-control-bar-root {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #fff;
+    box-shadow: $shadow;
+
+    .control-bar-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px;
+        background-color: $secondary-color;
+
+        .control-bar-title {
+            color: #fff;
+            font-family: $font;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 16px;
+            letter-spacing: 0.56px;
+            text-transform: uppercase;
+
+            &--dynamic {
+                font-weight: 700;
+            }
+        }
+
+        .control-bar-layer-buttons {
+            display: flex;
+            flex-direction: row;
+            gap: 6px;
+
+            &--button {
+                line-height: 0;
+
+                &.layer-settings-button {
+                    svg {
+                        width: 16px;
+                        height: 18px;
+                        fill: none;
+
+                        &:hover {
+                            stroke: darken(#fff, 15%);
+                        }
+                    }
+                }
+
+                &.layer-history-button {
+                    svg {
+                        width: 16px;
+                        height: 14px;
+                        fill: none;
+                        stroke: #fff;
+
+                        &:hover {
+                            stroke: darken(#fff, 15%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .control-bar-main {
+        color: #666;
+        font-family: $font;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px;
+
+        align-content: center;
+
+        .bold {
+            font-weight: 700;
+        }
+    }
+
+    .control-bar-footer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 8px;
+    }
+}

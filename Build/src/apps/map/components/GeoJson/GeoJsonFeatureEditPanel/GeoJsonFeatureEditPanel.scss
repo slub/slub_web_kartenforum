@@ -4,6 +4,10 @@
     display: flex;
     flex-direction: column;
 
+    background-color: #fff;
+    height: 100%;
+    box-shadow: $shadow;
+
     .properties-container {
         overflow-y: auto;
         flex-grow: 1;
@@ -200,5 +204,41 @@
         button {
             width: 100%;
         }
+    }
+
+    // TODO DRAWING create a mixin/similar for the following three blocks; same blocks are used for GeoJsonFeatureEditPanel
+    input,
+    textarea {
+        border: 1px solid $gray-500;
+        &:hover,
+        &:focus,
+        &:hover,
+        &:focus-visible {
+            border-color: darken($gray-500, 15%);
+            outline: unset;
+        }
+    }
+
+    .geojson-feature-property-label {
+        color: $color-grey;
+        font-family: $font;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 26px;
+        letter-spacing: 0.48px;
+        text-transform: uppercase;
+        margin: unset;
+    }
+
+    .geojson-feature-property-input {
+        color: $secondary-color-dark;
+        font-family: $font;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        margin: unset;
+        padding: 10px 19px 10px 11px;
     }
 }
