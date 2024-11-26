@@ -11,12 +11,12 @@ import MapboxDrawLoader from "@map/components/GeoJson/MapboxDrawLoader";
 import GeoJsonControlBar from "@map/components/GeoJson/GeoJsonControlBar";
 import ExitTransition from "@components/ExitTransition";
 import { GeoJsonFeatureEditPanelWrapper } from "@map/components/GeoJson/GeoJsonFeatureEditPanel";
-import useGeoJsonFeatureEdit from "@map/hooks/useGeoJsonFeatureEdit";
+import useGeoJsonFeatureDraw from "@map/hooks/useGeoJsonFeatureDraw";
 
 import "./HorizontalLayoutDraw.scss";
 
 export const HorizontalLayoutDraw = () => {
-  const geoJsonProps = useGeoJsonFeatureEdit();
+  const geoJsonProps = useGeoJsonFeatureDraw();
 
   return (
     <>

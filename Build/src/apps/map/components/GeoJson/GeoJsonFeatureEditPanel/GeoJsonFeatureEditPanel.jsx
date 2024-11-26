@@ -29,7 +29,7 @@ import EditNonStyleField from "./EditNonStyleField/EditNonStyleField";
 import "./GeoJsonFeatureEditPanel.scss";
 
 const GeoJsonEditPopUp = (props) => {
-  const { feature, onFeatureStateChange, onDelete, onClose, onSave } = props;
+  const { feature, onDelete, onClose, onSave } = props;
   const [propertyFields, setPropertyFields] = useState(
     extractAndSortNonStyleProperties(feature)
   );
@@ -52,16 +52,14 @@ const GeoJsonEditPopUp = (props) => {
   }, []);
 
   const handleStyleChange = useCallback(
-    (styleProperty, index) => (newField) => {
-      const [title, value] = newField;
+    (index) => (newField) => {
       setStyleFields((oldFields) => {
         const newFields = [...oldFields];
-        newFields[index] = [title, value];
+        newFields[index] = newField;
         return newFields;
       });
-      onFeatureStateChange({ [styleProperty]: value });
     },
-    [onFeatureStateChange]
+    [onSave]
   );
 
   const handlePropertyChange = useCallback(
@@ -149,8 +147,8 @@ const GeoJsonEditPopUp = (props) => {
             const { inputProps } = styleFieldSettings[styleProperty];
             return (
               <EditStyleField
-                onChange={handleStyleChange(styleProperty, index)}
-                onBlur={handleStyleChange(styleProperty, index)}
+                onChange={handleStyleChange(index)}
+                onBlur={handleStyleChange(index)}
                 key={styleProperty}
                 title={styleProperty}
                 inputProps={inputProps}

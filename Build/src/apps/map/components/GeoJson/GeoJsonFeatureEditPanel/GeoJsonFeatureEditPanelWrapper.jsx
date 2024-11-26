@@ -15,7 +15,6 @@ export const GeoJsonFeatureEditPanelWrapper = ({
   saveFeature,
   deleteFeature,
   resetFeature,
-  setFeatureState,
 }) => {
   const handleClose = useCallback(() => {
     resetFeature();
@@ -50,7 +49,6 @@ export const GeoJsonFeatureEditPanelWrapper = ({
     <>
       <GeoJsonFeatureEditPanel
         feature={geoJsonFeature}
-        onFeatureStateChange={setFeatureState}
         onDelete={handleFeatureDelete}
         onClose={handleClose}
         onSave={handleFeatureSave}
@@ -64,8 +62,6 @@ GeoJsonFeatureEditPanelWrapper.propTypes = {
   resetFeature: PropTypes.func.isRequired,
   saveFeature: PropTypes.func.isRequired,
   deleteFeature: PropTypes.func.isRequired,
-  setFeatureState: PropTypes.func.isRequired,
-  removeFeatureState: PropTypes.func.isRequired,
 };
 
 export default GeoJsonFeatureEditPanelWrapper;
