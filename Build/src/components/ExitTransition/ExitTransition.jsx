@@ -16,7 +16,7 @@ import { isDefined } from "@util/util";
  * @typedef {Object} ExitTransitionProps
  * @property {string} className The class name of the container element handling the transitions.
  * @property {function} Component The actual React component receiving the props.
- * @property {object} props The props passed on to Component.
+ * @property {object|null} props The props passed on to Component. Can be null to signal the start of the exit transition.
  */
 
 /**
@@ -64,7 +64,11 @@ const ExitTransition = ({ className, Component, props }) => {
 ExitTransition.propTypes = {
   className: PropTypes.string.isRequired,
   Component: PropTypes.func.isRequired,
-  props: PropTypes.object.isRequired,
+  props: PropTypes.object,
+};
+
+ExitTransition.defaultPropTypes = {
+  props: null,
 };
 
 export default ExitTransition;
