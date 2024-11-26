@@ -9,7 +9,7 @@ import React from "react";
 
 import MapboxDrawLoader from "@map/components/GeoJson/MapboxDrawLoader";
 import GeoJsonControlBar from "@map/components/GeoJson/GeoJsonControlBar";
-import WithExitTransition from "@components/WithExitTransition";
+import ExitTransition from "@components/ExitTransition";
 import { GeoJsonFeatureEditPanelWrapper } from "@map/components/GeoJson/GeoJsonFeatureEditPanel";
 import useGeoJsonFeatureEdit from "@map/hooks/useGeoJsonFeatureEdit";
 
@@ -24,7 +24,7 @@ export const HorizontalLayoutDraw = () => {
         <div className="geojson-control-bar-container">
           <GeoJsonControlBar />
         </div>
-        <WithExitTransition
+        <ExitTransition
           className="geojson-feature-edit-panel-container"
           Component={GeoJsonFeatureEditPanelWrapper}
           props={geoJsonProps}

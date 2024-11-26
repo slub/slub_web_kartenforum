@@ -5,6 +5,6 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import WithExitTransition from "./WithExitTransition";
+import ExitTransition from "./ExitTransition";
 
-export default WithExitTransition;
+export default ExitTransition;

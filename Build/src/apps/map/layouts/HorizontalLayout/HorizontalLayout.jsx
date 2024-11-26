@@ -15,7 +15,7 @@ import LayerManagement from "@map/components/LayerManagement/LayerManagement";
 import SpatialTemporalSearch from "@map/components/SpatialTemporalSearch/SpatialTemporalSearch";
 import OriginalMapView from "@map/views/OriginalMapView/OriginalMapView";
 import { GeoJsonFeaturePanelWrapper } from "@map/components/GeoJson/GeoJsonFeaturePanel";
-import WithExitTransition from "@components/WithExitTransition";
+import ExitTransition from "@components/ExitTransition";
 import useGeoJsonFeature from "@map/hooks/useGeoJsonFeature";
 
 import "./HorizontalLayout.scss";
@@ -35,7 +35,7 @@ export const HorizontalLayout = ({ onAddGeoJson }) => {
         <div className="spatialsearch-container" id="spatialsearch-container">
           <SpatialTemporalSearch />
         </div>
-        <WithExitTransition
+        <ExitTransition
           className="geojson-feature-panel-container"
           Component={GeoJsonFeaturePanelWrapper}
           props={geoJsonProps}
