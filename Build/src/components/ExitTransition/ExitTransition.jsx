@@ -33,6 +33,9 @@ const ExitTransition = ({ className, Component, props }) => {
   // Update previousProps when props change
   if (props !== null) {
     previousProps.current = props;
+  } else if (keepAliveProps !== null) {
+    // reset previousProps when keepAliveProps are set
+    previousProps.current = null;
   }
 
   // If props are null, prepare unmount
