@@ -6,11 +6,11 @@
  */
 
 import { useEffect } from "react";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useRecoilCallback } from "recoil";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 
 import { isDefined } from "@util/util";
-import { mapState, drawState, selectedGeoJsonLayerState } from "@map/atoms";
+import { drawState, mapState, selectedGeoJsonLayerState } from "@map/atoms";
 
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import "./MapboxDrawLoader.scss";
@@ -23,30 +23,59 @@ const options = {
   },
 };
 
+export const useMapboxDrawInitializers = () => {
+  const initializeDraw = useRecoilCallback(({ snapshot, set }) => async () => {
+    const map = await snapshot.getPromise(mapState);
+    const { selectedLayer } = await snapshot.getPromise(
+      selectedGeoJsonLayerState
+    );
+
+    if (isDefined(map) && isDefined(selectedLayer)) {
+      const draw = new MapboxDraw(options);
+      set(drawState, draw);
+      map.addControl(draw, "top-right");
+
+      const geoJson = selectedLayer.getGeoJson();
+      draw.add(geoJson);
+    }
+  });
+
+  const removeDraw = useRecoilCallback(({ snapshot, set }) => async () => {
+    const map = await snapshot.getPromise(mapState);
+    const draw = await snapshot.getPromise(drawState);
+    const { selectedLayer } = await snapshot.getPromise(
+      selectedGeoJsonLayerState
+    );
+
+    // reset visibility state of selected layer
+    if (
+      isDefined(map) &&
+      isDefined(selectedLayer) &&
+      !selectedLayer.isVisible(map)
+    ) {
+      selectedLayer.setVisibility(map, "visible");
+    }
+
+    // remove draw control
+    if (isDefined(map) && isDefined(draw)) {
+      map.removeControl(draw);
+      set(drawState, undefined);
+    }
+  });
+
+  return { initializeDraw, removeDraw };
+};
+
 // TODO DRAWING: define event handlers when hovering over features (when layer styles are defined)
 
 const MapboxDrawLoader = () => {
-  const map = useRecoilValue(mapState);
-  const setDraw = useSetRecoilState(drawState);
-  const { selectedLayer } = useRecoilValue(selectedGeoJsonLayerState);
+  const { initializeDraw, removeDraw } = useMapboxDrawInitializers();
 
   useEffect(() => {
-    if (isDefined(map) && isDefined(selectedLayer)) {
-      const draw = new MapboxDraw(options);
-      setDraw(draw);
-      map.addControl(draw, "top-right");
-      const geoJson = selectedLayer.getGeoJson();
-
-      draw.add(geoJson);
-
-      return () => {
-        // TODO DRAWING: the visibility change does not fire a custom event
-        // the event listenener from VisibilityButton is not registered anymore
-        selectedLayer.setVisibility(map, "visible");
-        map.removeControl(draw);
-        setDraw(undefined);
-      };
-    }
+    initializeDraw();
+    return () => {
+      removeDraw();
+    };
   }, []);
 
   return null;

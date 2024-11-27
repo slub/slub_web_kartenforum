@@ -15,6 +15,7 @@ import CustomButton from "@map/components/GeoJson/components/CustomButton";
 import VkfIcon from "@components/VkfIcon";
 
 import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
+import { useMapboxDrawInitializers } from "@map/components/GeoJson/MapboxDrawLoader/MapboxDrawLoader";
 
 import "./GeoJsonControlBar.scss";
 
@@ -26,6 +27,8 @@ const VIEW_STATE = {
 
 const GeoJsonControlBar = () => {
   const setHorizontalLayoutMode = useSetRecoilState(horizontalLayoutModeState);
+  const { removeDraw } = useMapboxDrawInitializers();
+
   const viewState = 2;
   const featureCount = 1;
 
@@ -52,8 +55,10 @@ const GeoJsonControlBar = () => {
   });
 
   const handleClose = useCallback(() => {
-    setHorizontalLayoutMode(HORIZONTAL_LAYOUT_MODE.STANDARD);
-  });
+    removeDraw().then(() => {
+      setHorizontalLayoutMode(HORIZONTAL_LAYOUT_MODE.STANDARD);
+    });
+  }, [removeDraw]);
 
   return (
     <div className="vkf-geojson-control-bar-root">
