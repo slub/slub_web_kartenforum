@@ -16,7 +16,7 @@ import { FEATURE_PROPERTIES } from "../constants";
 
 import "./GeoJsonFeaturePanel.scss";
 
-const HEADER_PROPERTIES = [...predefinedProperties, "attribution"];
+const HEADER_PROPERTIES = [...predefinedProperties];
 
 const GeoJsonFeaturePanel = ({ feature, onClose }) => {
   const [isImageBroken, setIsImageBroken] = useState(false);
@@ -50,14 +50,13 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
     return formatDateLocalized(timestamp);
   }, []);
 
-  const { imageLink, title, description, time, attribution } = useMemo(() => {
+  const { imageLink, title, description, time } = useMemo(() => {
     return {
       imageLink: properties[FEATURE_PROPERTIES.imgLink],
       title: properties[FEATURE_PROPERTIES.title] ?? defaultTitle,
       description:
         properties[FEATURE_PROPERTIES.description] ?? defaultDescription,
       time: parseTimeForDisplay(properties[FEATURE_PROPERTIES.time]),
-      attribution: properties["attribution"],
     };
   }, [properties]);
 
@@ -116,9 +115,6 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
             </p>
             <p className="time geojson-feature-property-input">{time}</p>
           </div>
-          {isDefined(attribution) && (
-            <p className="attribution">{attribution}</p>
-          )}
         </div>
 
         <div className="properties-container">
