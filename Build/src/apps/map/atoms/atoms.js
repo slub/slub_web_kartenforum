@@ -165,3 +165,19 @@ export const drawState = atom({
     key: "drawState",
     default: undefined,
 });
+
+// Add geojson states
+export const showDropZoneState = atom({
+    key: "showDropZoneState",
+    default: false,
+});
+
+export const addedFileState = atom({
+    key: "addedFileState",
+    default: null,
+});
+
+export const addGeoJsonDialogState = atom({
+    key: "addGeoJsonDialogState",
+    default: false,
+});

@@ -1,6 +1,6 @@
 /*
  * Created by tom.schulze@pikobytes.de on 16.10.24.
- * 
+ *
  * This file is subject to the terms and conditions defined in
  * file "LICENSE.txt", which is part of this source code package.
  */
@@ -133,19 +133,21 @@
             position: relative;
             left: 280px;
             top: -20px;
-            opacity: 0;
-            transition-duration: 300ms, 300ms;
-            transition-timing-function: ease-out, ease-out;
-            transition-property: top opacity;
 
             svg {
+                opacity: 0;
+                transition-duration: 300ms, 300ms;
+                transition-timing-function: ease-out, ease-out;
+                transition-property: transform, opacity;
                 width: 28px;
                 height: 14px;
             }
 
             &.filtered {
-                top: -5px;
-                opacity: 1;
+                svg {
+                    transform: translate3d(0, 15px, 0);
+                    opacity: 1;
+                }
             }
         }
     }

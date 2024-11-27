@@ -5,18 +5,28 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useDrop } from "react-dnd";
-import { HTML5toTouch } from "rdndmb-html5-to-touch";
-import { DndProvider } from "react-dnd-multi-backend";
 import { NativeTypes } from "react-dnd-html5-backend";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
+import { addedFileState, showDropZoneState } from "@map/atoms";
 import SvgIcons from "@components/SvgIcons/SvgIcons.jsx";
 import { translate } from "@util/util";
 import { parseGeoJsonFile } from "./util.js";
+import GeoJsonFileInput from "@map/components/Dropzone/components/GeoJsonFileInput";
+import { notificationState } from "@atoms";
+
 import "./Dropzone.scss";
+import { createPortal } from "react-dom";
 
 const { FILE } = NativeTypes;
 
@@ -24,58 +34,89 @@ const ERROR_TYPES = {
   WRONG_FILETYPE: "wrong-filetype",
 };
 
-export const customBackends = HTML5toTouch.backends.map((backend) => {
-  if (backend.id === "touch") {
-    return {
-      ...backend,
-      options: {
-        ...backend.options,
-        scrollAngleRanges: [
-          { start: 30, end: 150 },
-          { start: 210, end: 330 },
-        ],
-      },
-    };
-  }
-  return backend;
-});
-
-export const Dropzone = ({ children, onDrop, onError }) => {
+export const Dropzone = () => {
   const [error, setError] = useState(undefined);
+  const [showDropzone, setShowDropZone] = useRecoilState(showDropZoneState);
+  const setSelectedFileState = useSetRecoilState(addedFileState);
+  const setNotification = useSetRecoilState(notificationState);
+
+  const refFileInput = useRef();
+
+  const handleParseError = useCallback((e) => {
+    console.error(e);
+
+    setNotification({
+      id: "mapWrapper",
+      type: "danger",
+      text: translate("mapwrapper-geojson-parse-error"),
+    });
+  }, []);
 
   ///
   // Handler section
   ///
 
-  const publishGeoJson = (files) => {
-    const file = files[0];
-    parseGeoJsonFile(file, onDrop, onError);
-  };
+  const handleClickAway = useCallback(() => {
+    setShowDropZone(false);
+  }, []);
+
+  // open file upload dialog
+  const handleOpenFileDialog = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (refFileInput.current !== undefined && refFileInput.current !== null) {
+      refFileInput.current.click();
+      // Prevents the dialog from reopening when Enter is pressed by removing focus from the "Add GeoJSON" button.
+      document.activeElement.blur();
+    }
+  }, []);
+
+  // publish geojson file
+  const handleSelectGeoJsonFile = useCallback(
+    (file) => {
+      parseGeoJsonFile(file)
+        .then((fileState) => {
+          setSelectedFileState(fileState);
+          setShowDropZone(false);
+        })
+        .catch((error) => handleParseError(error));
+    },
+    [handleParseError]
+  );
+
+  const dropOptions = useMemo(
+    () => ({
+      accept: FILE,
+      // disable while dropzone is not shown
+      canDrop: () => showDropzone,
+      collect(monitor) {
+        return {
+          canDrop: monitor.canDrop(),
+          isOver: monitor.isOver(),
+        };
+      },
+      drop: (item) => {
+        handleSelectGeoJsonFile(item.files[0]);
+      },
+      hover: (_, monitor) => {
+        const item = monitor.getItem();
+
+        if (item.items.length > 0) {
+          if (
+            item.items[0].type !== "application/json" &&
+            item.items[0].type !== "application/geo+json"
+          ) {
+            setError(ERROR_TYPES.WRONG_FILETYPE);
+          }
+        }
+      },
+    }),
+    [handleSelectGeoJsonFile, showDropzone]
+  );
 
   // setup drag and drop behaviour
-  const [{ isOver }, drop] = useDrop({
-    accept: FILE,
-    collect(monitor) {
-      return {
-        canDrop: monitor.canDrop(),
-        isOver: monitor.isOver(),
-      };
-    },
-    drop: (item) => {
-      publishGeoJson(item.files);
-    },
-    hover: (_, monitor) => {
-      const item = monitor.getItem();
-      if (item.items.length > 0) {
-        if (
-          item.items[0].type !== "application/json" &&
-          item.items[0].type !== "application/geo+json"
-        ) {
-          setError(ERROR_TYPES.WRONG_FILETYPE);
-        }
-      }
-    },
-  });
+  const [{ isOver }, drop] = useDrop(dropOptions);
 
   ///
   // Effect section
@@ -88,44 +129,39 @@ export const Dropzone = ({ children, onDrop, onError }) => {
     }
   }, [isOver]);
 
-  return (
-    <div
-      className={clsx("vkf-dropzone", isOver && "animation-show")}
-      ref={drop}
-    >
-      {isOver && (
-        <div className="dropzone-content">
-          <p className={clsx("dropzone-info", error !== undefined && "error")}>
-            {error === undefined
-              ? translate("dropzone-drop")
-              : translate(`dropzone-${error}`)}
-          </p>
-          <SvgIcons name="dropzone-upload" />
-        </div>
-      )}
-      {children}
-    </div>
-  );
+  return showDropzone
+    ? createPortal(
+        <div
+          className={clsx("vkf-dropzone", showDropzone && "animation-show")}
+          ref={drop}
+        >
+          <div className="dropzone-content-container" onClick={handleClickAway}>
+            <button onClick={handleOpenFileDialog} className="dropzone-content">
+              <SvgIcons name="dropzone-upload" />
+              <p
+                className={clsx(
+                  "dropzone-info",
+                  error !== undefined && "error"
+                )}
+              >
+                {error === undefined
+                  ? translate("dropzone-drop")
+                  : translate(`dropzone-${error}`)}
+              </p>
+            </button>
+            <GeoJsonFileInput
+              refFileInput={refFileInput}
+              onSelectFile={handleSelectGeoJsonFile}
+            />
+          </div>
+        </div>,
+        document.body
+      )
+    : null;
 };
 
 Dropzone.propTypes = {
   children: PropTypes.node,
-  onDrop: PropTypes.func.isRequired,
-  onError: PropTypes.func.isRequired,
 };
 
-const WrappedDropzone = (props) => {
-  return (
-    <DndProvider
-      options={Object.assign({}, HTML5toTouch, {
-        backends: customBackends,
-      })}
-    >
-      <Dropzone {...props}>{props.children}</Dropzone>
-    </DndProvider>
-  );
-};
-
-WrappedDropzone.propTypes = Dropzone.propTypes;
-
-export default WrappedDropzone;
+export default Dropzone;

@@ -265,9 +265,6 @@
             <trans-unit id="plugin.map.adddialog.projectionLabel">
                 <source>Projection</source>
             </trans-unit>
-			<trans-unit id="plugin.map.adddialog.body">
-				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
-			</trans-unit>
 
             <!-- map Geojson Feature View -->
             <trans-unit id="plugin.map.geojson.featureview-header-text">
@@ -395,6 +392,13 @@
 			</trans-unit>
 			<trans-unit id="plugin.map.layermanagement.headerLbl">
 				<source>My maps</source>
+			</trans-unit>
+
+			<trans-unit id="plugin.map.layermanagement.vectorMapActions.add">
+				<source>Add GeoJSON</source>
+			</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.vectorMapActions.create">
+				<source>Create vector map</source>
 			</trans-unit>
 
 			<!-- vk2.module.MapSearchModule -->
@@ -652,9 +656,6 @@
             <trans-unit id="plugin.map.adddialog.projectionLabel">
                 <source>Projection</source>
             </trans-unit>
-			<trans-unit id="plugin.map.adddialog.body">
-				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
-			</trans-unit>
 
             <!-- Global > Map > Dropzone -->
             <trans-unit id="plugin.map.dropzone.wrongFiletype">
@@ -662,7 +663,7 @@
             </trans-unit>
 
             <trans-unit id="plugin.map.dropzone.drop">
-                <source>Drop geojson file</source>
+                <source>Drop geojson file (or click)</source>
             </trans-unit>
 
 

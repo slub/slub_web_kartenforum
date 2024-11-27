@@ -137,10 +137,6 @@
                 <source><![CDATA[Projection]]></source>
                 <target><![CDATA[Projektion]]></target>
             </trans-unit>
-			<trans-unit id="plugin.map.adddialog.body">
-				<source><![CDATA[In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.]]></source>
-				<target><![CDATA[Um eine neue GeoJSON-Ebene hinzuzufügen, ziehen Sie Ihre GeoJSON-Datei einfach via drag and drop auf dieses Fenster oder drücken Sie diese Schaltfläche um eine Datei von Ihrem System auszuwählen.]]></target>
-			</trans-unit>
 
             <!-- Global > Map -->
             <trans-unit id="plugin.map.dropzone.wrongFiletype" approved="yes">
@@ -148,8 +144,8 @@
                 <target><![CDATA[Falscher Dateityp]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.dropzone.drop" approved="yes">
-                <source><![CDATA[Drop geojson file]]></source>
-                <target><![CDATA[Geojson Datei ablegen]]></target>
+                <source><![CDATA[Drop geojson file (or click)]]></source>
+                <target><![CDATA[GeoJSON Datei hier ablegen (oder klicken)]]></target>
             </trans-unit>
 
             <!-- map Geojson Feature View -->
@@ -358,6 +354,14 @@
 			<trans-unit id="plugin.map.layermanagement.startMessageHeader" approved="yes">
 				<source><![CDATA[Welcome to the Virtual Map Forum 2.0.]]></source>
 				<target><![CDATA[Herzlich Willkommen im Virtuellen Kartenforum 2.0.]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.vectorMapActions.add">
+				<source><![CDATA[Add GeoJSON]]></source>
+                <target><![CDATA[GeoJSON hinzufügen]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.vectorMapActions.create">
+				<source><![CDATA[Create vector map]]></source>
+                <target><![CDATA[Vektor-Karte erstellen]]></target>
 			</trans-unit>
 			<trans-unit id="plugin.map.layermanagement.startMessageBody" approved="yes">
 				<source><![CDATA[Please choose your map collection in the search menu on the left side]]></source>

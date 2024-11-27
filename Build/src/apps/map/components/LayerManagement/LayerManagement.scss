@@ -3,6 +3,35 @@
 .vkf-layermanagement-root {
     height: 100%;
     overflow-y: hidden;
+    display: grid;
+    grid-template-rows: 51px 0 1fr;
+
+    &.show-controls {
+        grid-template-rows: 51px 80px 1fr;
+
+        .heading {
+            border-bottom-color: $secondary-color-dark;
+
+            .header-functions {
+                .deco-caret {
+                    transform: translate(0, 16px);
+                    opacity: 1;
+                }
+
+                button.geojson-upload {
+                    color: $secondary-color-dark;
+
+                    svg {
+                        path {
+                            &:not(:first-child) {
+                                transform: rotate(45deg);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     .heading {
         position: relative;
@@ -11,25 +40,12 @@
         text-transform: uppercase;
         font-weight: 700;
         padding: 5px 10px 5px 25px;
-        height: 40px;
         z-index: 310;
         display: flex;
         justify-content: space-between;
         align-items: center;
         border-bottom: 1px solid $color-lightgrey;
-
-        &:after {
-            position: absolute;
-            bottom: -5px;
-            right: 10px;
-            width: 0;
-            height: 0;
-            content: "";
-            border: 5px solid transparent;
-            border-bottom-width: 0;
-            border-top-color: #eee;
-            z-index: 300;
-        }
+        transition: 300ms ease-out border-color;
 
         .header-functions {
             display: flex;
@@ -39,6 +55,77 @@
             > div,
             > button {
                 margin: 0 5px 0 0;
+            }
+
+            .deco-caret {
+                position: absolute;
+                bottom: 0;
+                opacity: 0;
+                transition: 300ms ease-out;
+                pointer-events: none;
+
+                svg {
+                    width: 28px;
+                    height: 14px;
+                }
+            }
+        }
+
+        button.geojson-upload {
+            position: relative;
+            width: 30px;
+            height: 30px;
+            border: 0;
+            background: transparent;
+            appearance: none;
+            padding: 4px;
+            color: $color-grey;
+            transition: 300ms ease-out color;
+
+            svg {
+                path {
+                    transform-origin: 18px 17px;
+                    transition: 300ms ease-out transform;
+                }
+            }
+
+            .label {
+                display: none;
+            }
+        }
+    }
+
+    .geojson-container {
+        overflow: hidden;
+
+        .geojson-action {
+            padding-left: 16px;
+            height: 40px;
+            width: 100%;
+            border-bottom: 1px solid $color-ultralightgrey;
+            display: flex;
+            align-items: center;
+
+            &:last-child {
+                border-color: $secondary-color-dark;
+            }
+
+            button {
+                appearance: none;
+                background: transparent;
+                border: 0;
+                display: flex;
+                color: $secondary-color-dark;
+                gap: 16px;
+                height: 30px;
+                align-items: center;
+                padding: 0 4px;
+
+                svg {
+                    fill: $secondary-color-dark;
+                    height: 20px;
+                    width: 20px;
+                }
             }
         }
     }
@@ -109,7 +196,7 @@
         box-shadow: $shadow;
         opacity: 0;
         pointer-events: none;
-        transition-property: opacity, right;
+        transition-property: opacity, right, grid-template-rows;
         transition-timing-function: ease-out, ease-out;
         transition-duration: 0.3s, 0.3s;
 

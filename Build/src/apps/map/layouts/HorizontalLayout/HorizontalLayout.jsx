@@ -6,11 +6,8 @@
  */
 
 import React from "react";
-import { useRecoilState } from "recoil";
-import PropTypes from "prop-types";
 
 import GeoJsonLayerView from "@map/views/GeoJsonLayerView";
-import { selectedOriginalMapIdState } from "@map/atoms";
 import LayerManagement from "@map/components/LayerManagement/LayerManagement";
 import SpatialTemporalSearch from "@map/components/SpatialTemporalSearch/SpatialTemporalSearch";
 import OriginalMapView from "@map/views/OriginalMapView/OriginalMapView";
@@ -18,16 +15,13 @@ import { GeoJsonFeaturePanelWrapper } from "@map/components/GeoJson/GeoJsonFeatu
 import ExitTransition from "@components/ExitTransition";
 import useGeoJsonFeature from "@map/hooks/useGeoJsonFeature";
 
+import DialogAddGeoJson from "@map/components/GeoJson/DialogAddGeoJson/DialogAddGeoJson";
+
 import "./HorizontalLayout.scss";
+import Dropzone from "@map/components/Dropzone/Dropzone";
 
-export const HorizontalLayout = ({ onAddGeoJson }) => {
-  const [selectedOriginalMapId, setOriginalMapId] = useRecoilState(
-    selectedOriginalMapIdState
-  );
-
+export const HorizontalLayout = () => {
   const geoJsonProps = useGeoJsonFeature();
-
-  const handleClose = () => setOriginalMapId(undefined);
 
   return (
     <>
@@ -44,23 +38,17 @@ export const HorizontalLayout = ({ onAddGeoJson }) => {
           className="layermanagement-container"
           id="layermanagement-container"
         >
-          <LayerManagement onAddGeoJson={onAddGeoJson} />
+          <LayerManagement />
         </div>
         <div className="geojson-layer-view-container">
           <GeoJsonLayerView />
         </div>
       </div>
-      <OriginalMapView
-        onClose={handleClose}
-        isOpen={selectedOriginalMapId !== undefined}
-        map_id={selectedOriginalMapId}
-      />
+      <OriginalMapView />
+      <DialogAddGeoJson />
+      <Dropzone />
     </>
   );
-};
-
-HorizontalLayout.propTypes = {
-  onAddGeoJson: PropTypes.func,
 };
 
 export default HorizontalLayout;

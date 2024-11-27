@@ -5,25 +5,25 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 
 import { isDefined, translate } from "@util/util";
 import {
   mapState,
-  selectedLayersState,
   selectedGeoJsonLayerIdState,
+  selectedLayersState,
 } from "@map/atoms";
 import DeactivateMapCollection from "./DeactivateMapCollection";
 import DynamicMapVisualization from "./DynamicMapVisualization";
 import LayerManagementEntry from "./LayerManagementEntry";
-import GeoJsonUploadHint from "./GeoJsonUploadHint";
 import "./LayerManagement.scss";
 import clsx from "clsx";
+import VkfIcon from "@components/VkfIcon";
+import GeoJsonActionContainer from "@map/components/LayerManagement/GeoJsonActionContainer/GeoJsonActionContainer";
 
 export const LayerManagement = ({
-  onAddGeoJson,
   showControls = {
     showBadge: true,
     showHideButton: true,
@@ -35,6 +35,7 @@ export const LayerManagement = ({
     showControls;
 
   // state
+  const [showGeojsonCreate, setShowGeojsonCreate] = useState(false);
   const map = useRecoilValue(mapState);
   const selectedGeoJsonLayerId = useRecoilValue(selectedGeoJsonLayerIdState);
   const [selectedLayers, setSelectedLayers] =
@@ -81,11 +82,16 @@ export const LayerManagement = ({
     setSelectedLayers(newSelectedLayers.reverse());
   };
 
+  const handleClickGeojsonButton = () => {
+    setShowGeojsonCreate((oldValue) => !oldValue);
+  };
+
   return (
     <div
       className={clsx(
         "vkf-layermanagement-root",
-        !isGeoJsonLayerSelected && "in"
+        !isGeoJsonLayerSelected && "in",
+        showGeojsonCreate && "show-controls"
       )}
     >
       {showBadge && selectedLayers.length !== 0 && (
@@ -97,7 +103,18 @@ export const LayerManagement = ({
             {translate("layermanagement-header-lbl")}
           </span>
           <div className="header-functions">
-            <GeoJsonUploadHint onAddGeoJson={onAddGeoJson} />
+            <span className="deco-caret">
+              <VkfIcon name="caret" />
+            </span>
+            <button
+              className="geojson-upload"
+              onClick={handleClickGeojsonButton}
+            >
+              <VkfIcon name="uploadVectorMap" />
+              <span className="label" id="geojson-upload-label">
+                {translate("geojson-adddialog-title")}
+              </span>
+            </button>
             {showHideButton && <DeactivateMapCollection />}
             {showDynamicMapVisualization && (
               <DynamicMapVisualization
@@ -107,6 +124,8 @@ export const LayerManagement = ({
           </div>
         </div>
       )}
+
+      <GeoJsonActionContainer />
       <ul className="layermanagement-body">
         {selectedLayers === undefined || selectedLayers.length === 0 ? (
           <li className="empty">
@@ -134,7 +153,6 @@ export const LayerManagement = ({
 };
 
 LayerManagement.propTypes = {
-  onAddGeoJson: PropTypes.func,
   showControls: PropTypes.shape({
     showBadge: PropTypes.bool,
     showDynamicMapVisualization: PropTypes.bool,
