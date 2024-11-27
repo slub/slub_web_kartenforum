@@ -28,11 +28,23 @@ const EditNonStyleField = ({
   isHeaderEditable,
   existingFields,
   onError,
+  id,
 }) => {
   const [imageLink, setImageLink] = useState(
     title === FEATURE_PROPERTIES.imgLink ? value : ""
   );
+
+  const previousId = useRef(id);
+
+  if (previousId.current !== id) {
+    title === FEATURE_PROPERTIES.imgLink
+      ? setImageLink(value)
+      : setImageLink("");
+    previousId.current = id;
+  }
+
   const [errors, setErrors] = useState({ key: false, value: false });
+
   const keyInputRef = useRef();
   const valueInputRef = useRef();
 
@@ -108,6 +120,7 @@ const EditNonStyleField = ({
             {translate("geojson-featureview-image-title")}
           </label>
           <img
+            key={id}
             src={imageLink}
             className="image"
             id="image"
@@ -131,6 +144,7 @@ const EditNonStyleField = ({
         onKeyDown={isHeaderEditable ? handleKeyDown : undefined}
         ref={keyInputRef}
         placeholder={translate("geojson-editfeature-input-placeholder")}
+        key={`header-${id}`}
       />
       {title !== FEATURE_PROPERTIES.time && (
         <input
@@ -143,6 +157,7 @@ const EditNonStyleField = ({
           onKeyDown={handleKeyDown}
           ref={valueInputRef}
           placeholder={translate("geojson-editfeature-label-placeholder")}
+          key={`value-${id}`}
         />
       )}
       {title === FEATURE_PROPERTIES.time && (
@@ -155,6 +170,7 @@ const EditNonStyleField = ({
           onKeyDown={handleKeyDown}
           ref={valueInputRef}
           placeholder={translate("geojson-editfeature-input-placeholder-date")}
+          key={`value-${id}`}
         />
       )}
       {isHeaderEditable && (
@@ -180,6 +196,7 @@ EditNonStyleField.propTypes = {
   isHeaderEditable: PropTypes.bool,
   existingFields: PropTypes.array,
   onError: PropTypes.func,
+  id: PropTypes.string.isRequired,
 };
 
 export default EditNonStyleField;

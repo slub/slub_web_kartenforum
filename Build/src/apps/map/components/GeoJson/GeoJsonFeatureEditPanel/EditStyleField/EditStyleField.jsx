@@ -21,6 +21,7 @@ const EditStyleField = ({
   inputProps = {},
   onChange,
   onBlur,
+  id,
 }) => {
   const valueInputRef = useRef();
 
@@ -79,6 +80,7 @@ const EditStyleField = ({
         onChange={handleChange}
         onBlur={handleBlur}
         ref={valueInputRef}
+        key={id}
       />
     </div>
   );
@@ -90,6 +92,7 @@ EditStyleField.propTypes = {
   inputProps: PropTypes.object,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  id: PropTypes.string.isRequired,
 };
 
 export default EditStyleField;

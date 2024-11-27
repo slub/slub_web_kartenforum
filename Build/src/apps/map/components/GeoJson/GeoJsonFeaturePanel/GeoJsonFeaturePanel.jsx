@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useCallback, useEffect, useState, useMemo } from "react";
+import React, { useCallback, useRef, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { translate, isDefined } from "@util/util";
 import { formatDateLocalized, isValidDate } from "@util/date";
@@ -19,8 +19,16 @@ import "./GeoJsonFeaturePanel.scss";
 const HEADER_PROPERTIES = [...predefinedProperties, "attribution"];
 
 const GeoJsonFeaturePanel = ({ feature, onClose }) => {
-  const [properties, setProperties] = useState(propExtractor(feature));
   const [isImageBroken, setIsImageBroken] = useState(false);
+
+  const previousFeatureId = useRef(feature.id);
+
+  if (feature.id !== previousFeatureId.current) {
+    setIsImageBroken(false);
+    previousFeatureId.current = feature.id;
+  }
+
+  const properties = useMemo(() => propExtractor(feature), [feature]);
 
   const { defaultTitle, defaultTime, defaultDescription } = useMemo(() => {
     return {
@@ -63,11 +71,6 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
       ([key]) => !HEADER_PROPERTIES.includes(key)
     );
   }, [properties]);
-
-  useEffect(() => {
-    setProperties(propExtractor(feature));
-    setIsImageBroken(false);
-  }, [feature]);
 
   return (
     <div className="geojson-feature-panel-root vkf-geojson-feature-view-content">
@@ -141,7 +144,11 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
 };
 
 GeoJsonFeaturePanel.propTypes = {
-  feature: PropTypes.any,
+  feature: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    geometry: PropTypes.object.isRequired,
+    properties: PropTypes.object.isRequired,
+  }).isRequired,
   onClose: PropTypes.func,
 };
 

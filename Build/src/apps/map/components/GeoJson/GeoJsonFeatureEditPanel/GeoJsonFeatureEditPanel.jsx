@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
@@ -37,19 +37,17 @@ const GeoJsonEditPopUp = (props) => {
     extractStyleProperties(feature)
   );
 
-  const doBlockComponentReset = useRef(false);
+  const previousFeatureId = useRef(feature.id);
+
+  if (feature.id !== previousFeatureId.current) {
+    setPropertyFields(extractAndSortNonStyleProperties(feature));
+    setStyleFields(extractStyleProperties(feature));
+    previousFeatureId.current = feature.id;
+  }
+
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showNewField, setShowNewField] = useState(false);
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    return () => {
-      if (doBlockComponentReset.current) {
-        return;
-      }
-      handleClose();
-    };
-  }, []);
 
   const handleStyleChange = useCallback(
     (index) => (newField) => {
@@ -95,7 +93,6 @@ const GeoJsonEditPopUp = (props) => {
   }, [onClose]);
 
   const handleSave = useCallback(() => {
-    doBlockComponentReset.current = true;
     const geoJSONSourceDiff = buildGeoJSONSourceDiff({
       oldProperties: feature.properties,
       propertyFields,
@@ -143,16 +140,17 @@ const GeoJsonEditPopUp = (props) => {
 
         <div className="style-properties-container">
           {styleFields.map((entry, index) => {
-            const [styleProperty, value] = entry;
-            const { inputProps } = styleFieldSettings[styleProperty];
+            const [key, value] = entry;
+            const { inputProps } = styleFieldSettings[key];
             return (
               <EditStyleField
                 onChange={handleStyleChange(index)}
                 onBlur={handleStyleChange(index)}
-                key={styleProperty}
-                title={styleProperty}
+                key={`${key}-${feature.id}`}
+                title={key}
                 inputProps={inputProps}
                 value={value}
+                id={`${key}-${feature.id}`}
               />
             );
           })}
@@ -166,7 +164,7 @@ const GeoJsonEditPopUp = (props) => {
             return (
               <EditNonStyleField
                 onBlur={handlePropertyChange(index)}
-                key={key}
+                key={`${key}-${feature.id}`}
                 isHeaderEditable={!isPredefinedField}
                 title={key}
                 inputProps={inputProps}
@@ -176,6 +174,7 @@ const GeoJsonEditPopUp = (props) => {
                 }
                 existingFields={propertyFields}
                 onError={setErrors}
+                id={`${key}-${feature.id}`}
               />
             );
           })}
