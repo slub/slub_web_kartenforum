@@ -48,6 +48,9 @@ const VIEW_MODE = {
   EDIT: 3,
 };
 
+// TODO DRAWING wrap in ExitTransition component
+// TODO DRAWING refactor selectedGeoJsonLayerState (not needed anymore)
+
 const GeoJsonLayerView = () => {
   const [viewMode, setViewMode] = useState(VIEW_MODE.INITIAL);
   const [timeExtentFilter, setTimeExtentFilter] = useState([]);

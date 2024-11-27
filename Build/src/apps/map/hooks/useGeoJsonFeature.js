@@ -133,13 +133,21 @@ function useGeoJsonFeature() {
         }
     }, []);
 
-    // set feature externally by providing the feature identifier
+    // set or reset feature externally by providing the feature identifier
     useEffect(() => {
         if (
-            isDefined(selectedGeoJsonFeatureIdentifier?.featureId) &&
-            isDefined(selectedGeoJsonFeatureIdentifier?.sourceId) &&
-            selectedLayers.length > 0
+            !isDefined(selectedGeoJsonFeatureIdentifier?.featureId) ||
+            !isDefined(selectedGeoJsonFeatureIdentifier?.sourceId)
         ) {
+            // the feature has been reset externally
+            if (isDefined(uniqueCachedFeatureId.current)) {
+                resetFeature();
+            }
+
+            return;
+        }
+
+        if (isDefined(selectedLayers) && selectedLayers.length > 0) {
             const { featureId: id, sourceId: source } =
                 selectedGeoJsonFeatureIdentifier;
 

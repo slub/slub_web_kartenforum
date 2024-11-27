@@ -51,7 +51,7 @@ class GeoJsonLayer extends ApplicationLayer {
         // feature.id MUST be integer or string that is castable to integer
         // see: https://github.com/maplibre/maplibre-gl-js/discussions/3134
         // see: https://maplibre.org/maplibre-style-spec/expressions/#feature-state
-        this.geoJSON.features = this.geoJSON.features.map((feature, idx) => {
+        const features = this.geoJSON.features.map((feature, idx) => {
             if (!Object.hasOwn(feature, "properties")) {
                 feature.properties = {};
             }
@@ -60,6 +60,8 @@ class GeoJsonLayer extends ApplicationLayer {
 
             return { ...feature, id: idx + 1 };
         });
+
+        this.geoJSON = { ...this.geoJSON, features };
 
         const bounds = this.geometry ? bbox(this.geometry) : bbox(this.geoJSON);
         this.metadata[METADATA.bounds] = bounds;

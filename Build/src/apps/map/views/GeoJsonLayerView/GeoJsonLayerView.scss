@@ -96,16 +96,13 @@
                 }
 
                 &.export-button {
-                    // center icon visually via margin, technical center appears not centered
-                    margin-top: 4px;
-
                     svg {
-                        fill: #666;
-                        height: 24px;
-                        width: 24px;
+                        fill: none;
+                        height: 25px;
+                        width: 21px;
 
-                        &:hover {
-                            fill: darken(#666, 15%);
+                        & path:hover {
+                            stroke: darken(#666, 15%);
                         }
                     }
                 }

@@ -6,9 +6,9 @@
  */
 
 import React, { useCallback, useMemo } from "react";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 
-import { horizontalLayoutModeState } from "@map/atoms";
+import { drawState, horizontalLayoutModeState } from "@map/atoms";
 import { translate } from "@util/util";
 
 import CustomButton from "@map/components/GeoJson/components/CustomButton";
@@ -27,6 +27,7 @@ const VIEW_STATE = {
 
 const GeoJsonControlBar = () => {
   const setHorizontalLayoutMode = useSetRecoilState(horizontalLayoutModeState);
+  const draw = useRecoilValue(drawState);
   const { removeDraw } = useMapboxDrawInitializers();
 
   const viewState = 2;
@@ -51,7 +52,7 @@ const GeoJsonControlBar = () => {
   }, []);
 
   const handleSave = useCallback(() => {
-    console.log("save");
+    console.log(draw.getAll());
   });
 
   const handleClose = useCallback(() => {
