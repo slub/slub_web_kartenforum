@@ -11,27 +11,38 @@ import { useRecoilValue } from "recoil";
 import { drawState, mapState } from "@map/atoms";
 
 const USER_PROPERTY_PREFIX = "user_";
-const MAP_BOX_DRAW_LAYER = {
+
+const DRAW_LAYER = {
     HOT: "mapbox-gl-draw-hot",
     COLD: "mapbox-gl-draw-cold",
+};
+
+const MODE = {
+    DIRECT_SELECT: "direct_select",
+    SIMPLE_SELECT: "simple_select",
 };
 
 const isDrawingFeature = (feature) => {
     const { source } = feature;
     const { properties } = feature;
 
-    const isDrawingSource =
-        (source === MAP_BOX_DRAW_LAYER.HOT ||
-            source === MAP_BOX_DRAW_LAYER.COLD) &&
-        properties.meta === "feature";
+    const { meta, mode } = properties;
 
-    return isDrawingSource;
+    const isDrawingSource =
+        (source === DRAW_LAYER.COLD || source === DRAW_LAYER.HOT) &&
+        meta === "feature";
+
+    const isNotBeingDrawn =
+        mode === MODE.DIRECT_SELECT || mode === MODE.SIMPLE_SELECT;
+
+    return isDrawingSource && isNotBeingDrawn;
 };
 
 const getFeatureProperties = (drawFeature) => {
     const { properties, type, geometry } = drawFeature;
     const { id } = properties;
 
+    // retain user properties only and remove prefix
     const userProperties = Object.entries(properties)
         .filter(([key]) => key.startsWith(USER_PROPERTY_PREFIX))
         .map(([key, value]) => {
@@ -133,13 +144,18 @@ const useGeoJsonFeatureDraw = () => {
         [draw, geoJsonFeature]
     );
 
-    const resetFeature = useCallback(() => {
-        uniqueCachedFeatureId.current = null;
-        setGeoJsonFeature(null);
+    const resetFeature = useCallback(
+        ({ deselect } = { deselect: true }) => {
+            uniqueCachedFeatureId.current = null;
+            setGeoJsonFeature(null);
 
-        // deselect feature
-        draw.changeMode("simple_select", { featureIds: [] });
-    }, [draw]);
+            // deselect feature (unfortunately by deselecting all features, specific ids don't work)
+            if (deselect === true) {
+                draw.changeMode("simple_select", { featureIds: [] });
+            }
+        },
+        [draw, geoJsonFeature]
+    );
 
     const handleMapClick = useCallback(
         /**
@@ -163,7 +179,9 @@ const useGeoJsonFeatureDraw = () => {
                 uniqueCachedFeatureId.current = id;
                 setGeoJsonFeature(getFeatureProperties(drawFeature));
             } else {
-                resetFeature();
+                // dont auto-deselect features when "clicking away", this interferes with drawing features
+                // mapbox-draw handles it for us
+                resetFeature({ deselect: false });
             }
         },
         [draw]

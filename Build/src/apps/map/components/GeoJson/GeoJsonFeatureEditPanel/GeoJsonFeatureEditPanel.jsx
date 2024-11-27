@@ -269,7 +269,7 @@ const GeoJsonEditPopUp = (props) => {
 
 GeoJsonEditPopUp.propTypes = {
   feature: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     geometry: PropTypes.object.isRequired,
     properties: PropTypes.object.isRequired,
   }).isRequired,
