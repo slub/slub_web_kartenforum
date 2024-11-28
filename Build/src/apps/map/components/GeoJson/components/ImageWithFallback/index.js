@@ -4,6 +4,6 @@
  * This file is subject to the terms and conditions defined in
  * file "LICENSE.txt", which is part of this source code package.
  */
-import ImageFallback from "./ImageFallback.jsx";
+import ImageWithFallback from "./ImageWithFallback";
 
-export default ImageFallback;
+export default ImageWithFallback;

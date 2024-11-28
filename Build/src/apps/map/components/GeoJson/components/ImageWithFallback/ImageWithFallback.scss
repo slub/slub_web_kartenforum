@@ -1,0 +1,58 @@
+@import "../../../../Variables.scss";
+
+.image-with-fallback-root {
+    .image-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .image-fallback-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 12px;
+        height: 182px;
+
+        &.error {
+            background-color: #ffdada;
+        }
+
+        &.placeholder {
+            background-color: rgba(217, 217, 217, 0.3);
+            border: 1px solid #999;
+        }
+
+        .image-fallback-icon {
+            height: 66px;
+            width: 66px;
+
+            &.error {
+                svg {
+                    path {
+                        stroke: $primary-color;
+                    }
+                }
+            }
+
+            &.placeholder {
+                svg {
+                    path {
+                        stroke: #ccc;
+                    }
+                }
+            }
+        }
+        .image-fallback-text {
+            color: $primary-color;
+            font-family: "Titillium Web";
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 20px;
+            margin: 0;
+        }
+    }
+}

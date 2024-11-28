@@ -4,13 +4,13 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useCallback, useRef, useState, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { translate, isDefined } from "@util/util";
 import { formatDateLocalized, isValidDate } from "@util/date";
 import { predefinedProperties } from "../constants";
 import { propExtractor } from "../util/util";
-import ImageFallback from "../components/ImageFallback";
+import ImageWithFallback from "../components/ImageWithFallback";
 import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
 import { FEATURE_PROPERTIES } from "../constants";
 
@@ -19,15 +19,6 @@ import "./GeoJsonFeaturePanel.scss";
 const HEADER_PROPERTIES = [...predefinedProperties];
 
 const GeoJsonFeaturePanel = ({ feature, onClose }) => {
-  const [isImageBroken, setIsImageBroken] = useState(false);
-
-  const previousFeatureId = useRef(feature.id);
-
-  if (feature.id !== previousFeatureId.current) {
-    setIsImageBroken(false);
-    previousFeatureId.current = feature.id;
-  }
-
   const properties = useMemo(() => propExtractor(feature), [feature]);
 
   const { defaultTitle, defaultTime, defaultDescription } = useMemo(() => {
@@ -61,8 +52,8 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
   }, [properties]);
 
   const isValidImage = useMemo(
-    () => isDefined(imageLink) && imageLink.length > 0 && !isImageBroken,
-    [imageLink, isImageBroken]
+    () => isDefined(imageLink) && imageLink.length > 0,
+    [imageLink]
   );
 
   const customEntries = useMemo(() => {
@@ -79,22 +70,8 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
       />
 
       <div className="property-container scrollable">
-        <div className="image-container">
-          {isValidImage && (
-            <img
-              src={imageLink}
-              className="image"
-              onError={() => setIsImageBroken(true)}
-            />
-          )}
-
-          {isImageBroken && <ImageFallback typeOfView={"view"} />}
-        </div>
-        <div
-          className={`predefined-properties-container ${
-            !imageLink || false ? "no-image" : ""
-          }`}
-        >
+        {isValidImage && <ImageWithFallback imageLink={imageLink} />}
+        <div className="predefined-properties-container">
           <div className="title-section ">
             <span className="geojson-feature-property-label">
               {translate("geojson-featureview-title")}
