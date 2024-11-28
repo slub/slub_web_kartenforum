@@ -14,10 +14,16 @@ export const LANGUAGE_CODE = {
 };
 
 const hasDebugCredentials =
+    typeof process !== "undefined" &&
     isDefined(process.env.DEV_MODE_SECRET) &&
     process.env.DEV_MODE_SECRET !== "" &&
     isDefined(process.env.DEV_MODE_NAME) &&
     process.env.DEV_MODE_NAME !== "";
+
+const debugCredentials = () => ({
+    "Dev-Mode-Secret": process.env.DEV_MODE_SECRET,
+    "Dev-Mode-Name": process.env.DEV_MODE_NAME,
+});
 
 let settingsObject = {
     BASEMAPS: [
@@ -181,10 +187,6 @@ export default {
 
         // Debug credentials have the form of { "Dev-Mode-Secret": "some_secret", "Dev-Mode-Name": "some_name" }. They
         // can only be used if the server is started with the proper credentials.
-        const debugCredentials = {
-            "Dev-Mode-Secret": process.env.DEV_MODE_SECRET,
-            "Dev-Mode-Name": process.env.DEV_MODE_NAME,
-        };
 
         const config = Object.assign(
             {
@@ -194,10 +196,10 @@ export default {
             hasDebugCredentials
                 ? {
                       headers: {
-                          get: debugCredentials,
-                          post: debugCredentials,
-                          put: debugCredentials,
-                          delete: debugCredentials,
+                          get: debugCredentials(),
+                          post: debugCredentials(),
+                          put: debugCredentials(),
+                          delete: debugCredentials(),
                       },
                   }
                 : {}
