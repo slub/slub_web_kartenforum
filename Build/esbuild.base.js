@@ -6,6 +6,19 @@
  */
 import esbuild from "esbuild";
 import { sassPlugin } from "esbuild-sass-plugin";
+import { config } from "dotenv";
+
+const getDefine = (env = "development") => {
+    config({ path: `.env.${env}` });
+
+    const define = {};
+
+    for (const k in process.env) {
+        define[`process.env.${k}`] = JSON.stringify(process.env[k]);
+    }
+
+    return define;
+};
 
 // Define constants
 const isWatch = process.env.MODE === "watch";
@@ -13,10 +26,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const baseOptions = {
     bundle: true,
-    define: {
-        "process.env.DEV_MODE_SECRET": JSON.stringify(""),
-        "process.env.DEV_MODE_NAME": JSON.stringify(""),
-    },
+    define: getDefine(),
     loader: {
         ".gif": "dataurl",
         ".png": "dataurl",

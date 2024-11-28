@@ -13,6 +13,12 @@ export const LANGUAGE_CODE = {
     DE: "de",
 };
 
+const hasDebugCredentials =
+    isDefined(process.env.DEV_MODE_SECRET) &&
+    process.env.DEV_MODE_SECRET !== "" &&
+    isDefined(process.env.DEV_MODE_NAME) &&
+    process.env.DEV_MODE_NAME !== "";
+
 let settingsObject = {
     BASEMAPS: [
         {
@@ -179,12 +185,13 @@ export default {
             "Dev-Mode-Secret": process.env.DEV_MODE_SECRET,
             "Dev-Mode-Name": process.env.DEV_MODE_NAME,
         };
+
         const config = Object.assign(
             {
                 baseURL,
                 withCredentials: true,
             },
-            debugCredentials
+            hasDebugCredentials
                 ? {
                       headers: {
                           get: debugCredentials,
