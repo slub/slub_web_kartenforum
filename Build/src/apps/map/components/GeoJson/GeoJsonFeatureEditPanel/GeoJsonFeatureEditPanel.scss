@@ -154,45 +154,8 @@
         }
     }
 
-    .danger-zone {
+    .danger-zone-container {
         padding-top: 30px;
-
-        .header-text {
-            padding-left: 15px;
-        }
-
-        .delete-button-container {
-            background-color: $secondary-color-light;
-            padding: 26px 19px 28px 15px;
-
-            .button-header-text {
-                font-family: $font;
-                font-size: 14px;
-                font-style: normal;
-                font-weight: 400;
-                line-height: 18px;
-                color: $color-darkgrey;
-                margin: unset;
-            }
-
-            .delete-feature-button {
-                display: flex;
-                align-items: center;
-                gap: 7px;
-                padding: 9px 45px 9px 49px;
-                margin-top: 14px;
-                width: 100%;
-
-                svg {
-                    width: 16px;
-                    height: 18px;
-                }
-
-                .delete-button-text {
-                    color: white;
-                }
-            }
-        }
     }
 
     .footer-container {

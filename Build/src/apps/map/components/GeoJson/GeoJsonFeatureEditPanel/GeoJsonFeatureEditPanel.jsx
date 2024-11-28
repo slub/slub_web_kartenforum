@@ -20,6 +20,7 @@ import VkfIcon from "@components/VkfIcon";
 import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
 
 import CustomButton from "../components/CustomButton";
+import DangerZone from "../components/DangerZone";
 
 import DeleteDialog from "./DeleteDialog";
 import NewField from "./NewField/NewField";
@@ -212,28 +213,12 @@ const GeoJsonEditPopUp = (props) => {
             </CustomButton>
           </div>
         </div>
-
-        <div className="danger-zone">
-          <p className="header-text geojson-feature-property-label">
-            danger zone
-          </p>
-
-          <div className="delete-button-container">
-            <p className="button-header-text">
-              {translate("geojson-editfeature-danger-zone-title")}
-            </p>
-
-            <CustomButton
-              className="delete-feature-button"
-              onClick={toggleDeleteDialog}
-              type="delete"
-            >
-              <VkfIcon name="delete" />
-              <p className="delete-button-text geojson-feature-property-label">
-                {translate("geojson-featureview-delete-btn")}
-              </p>
-            </CustomButton>
-          </div>
+        <div className="danger-zone-container">
+          <DangerZone
+            title={translate("geojson-editfeature-danger-zone-title")}
+            onDeleteClick={toggleDeleteDialog}
+            buttonLabel={translate("geojson-featureview-delete-btn")}
+          />
         </div>
       </div>
       <div className="footer-container">

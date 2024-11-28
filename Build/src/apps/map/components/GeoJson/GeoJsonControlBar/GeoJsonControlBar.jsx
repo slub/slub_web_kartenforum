@@ -8,13 +8,20 @@
 import React, { useCallback, useMemo } from "react";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 
-import { drawState, horizontalLayoutModeState } from "@map/atoms";
+import {
+  drawState,
+  horizontalLayoutModeState,
+  drawModePanelState,
+} from "@map/atoms";
 import { translate } from "@util/util";
 
 import CustomButton from "@map/components/GeoJson/components/CustomButton";
 import VkfIcon from "@components/VkfIcon";
 
-import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
+import {
+  HORIZONTAL_LAYOUT_MODE,
+  DRAW_MODE_PANEL_STATE,
+} from "@map/layouts/util";
 import { useMapboxDrawInitializers } from "@map/components/GeoJson/MapboxDrawLoader/MapboxDrawLoader";
 
 import "./GeoJsonControlBar.scss";
@@ -27,6 +34,7 @@ const VIEW_STATE = {
 
 const GeoJsonControlBar = () => {
   const setHorizontalLayoutMode = useSetRecoilState(horizontalLayoutModeState);
+  const setDrawModePanel = useSetRecoilState(drawModePanelState);
   const draw = useRecoilValue(drawState);
   const { removeDraw } = useMapboxDrawInitializers();
 
@@ -43,8 +51,8 @@ const GeoJsonControlBar = () => {
     return `1 ${translate("geojson-control-bar-feature")}`;
   }, [featureCount]);
 
-  const handleSettingsPanelClick = useCallback(() => {
-    console.log("settings panel");
+  const handleMetadataPanelClick = useCallback(() => {
+    setDrawModePanel(DRAW_MODE_PANEL_STATE.METADATA);
   }, []);
 
   const handleHistoryClick = useCallback(() => {
@@ -72,11 +80,11 @@ const GeoJsonControlBar = () => {
         </div>
         <div className="control-bar-layer-buttons">
           <CustomButton
-            className="control-bar-layer-buttons--button layer-settings-button"
-            onClick={handleSettingsPanelClick}
-            title={translate("geojson-control-bar-settings-btn-title")}
+            className="control-bar-layer-buttons--button layer-metadata-button"
+            onClick={handleMetadataPanelClick}
+            title={translate("geojson-control-bar-metadata-btn-title")}
           >
-            <VkfIcon name="settings-panel" />
+            <VkfIcon name="metadata-panel" />
           </CustomButton>
           <CustomButton
             className="control-bar-layer-buttons--button layer-history-button"

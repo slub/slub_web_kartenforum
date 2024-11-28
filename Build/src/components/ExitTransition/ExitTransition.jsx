@@ -26,7 +26,7 @@ import { isDefined } from "@util/util";
  *
  * @returns
  */
-const ExitTransition = ({ className, Component, props }) => {
+const ExitTransition = ({ className, Component, props, enter }) => {
   const [keepAliveProps, setKeepAliveProps] = useState(props);
   const previousProps = useRef(props);
 
@@ -55,7 +55,7 @@ const ExitTransition = ({ className, Component, props }) => {
   return (
     <div
       onTransitionEnd={handleExitTransitionEnd}
-      className={clsx(className, props !== null && "in")}
+      className={clsx(className, enter === true && "in")}
     >
       {(props !== null || keepAliveProps !== null) && isDefined(Component) && (
         <Component {...(props === null ? keepAliveProps : props)} />
@@ -68,6 +68,7 @@ ExitTransition.propTypes = {
   className: PropTypes.string.isRequired,
   Component: PropTypes.func.isRequired,
   props: PropTypes.object,
+  enter: PropTypes.bool.isRequired,
 };
 
 ExitTransition.defaultPropTypes = {

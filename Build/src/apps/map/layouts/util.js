@@ -5,6 +5,13 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
+// determines which of the left/right panels is shown in HORIZONTAL_LAYOUT_MODE.DRAW
+export const DRAW_MODE_PANEL_STATE = {
+    NONE: 0,
+    FEATURE: 1,
+    METADATA: 2,
+};
+
 export const LAYOUT_TYPES = {
     HORIZONTAL: "HORIZONTAL",
     VERTICAL: "VERTICAL",

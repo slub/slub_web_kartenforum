@@ -7,8 +7,9 @@
 
 import { useEffect, useCallback, useState, useRef } from "react";
 import { isDefined } from "@util/util";
-import { useRecoilValue } from "recoil";
-import { drawState, mapState } from "@map/atoms";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { drawModePanelState, drawState, mapState } from "@map/atoms";
+import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
 
 const USER_PROPERTY_PREFIX = "user_";
 
@@ -89,6 +90,8 @@ const CLICK_BUFFER = 2;
 const useGeoJsonFeatureDraw = () => {
     const map = useRecoilValue(mapState);
     const draw = useRecoilValue(drawState);
+    const [drawModePanel, setDrawModePanel] =
+        useRecoilState(drawModePanelState);
 
     const [geoJsonFeature, setGeoJsonFeature] = useState(null);
 
@@ -145,16 +148,17 @@ const useGeoJsonFeatureDraw = () => {
     );
 
     const resetFeature = useCallback(
-        ({ deselect } = { deselect: true }) => {
+        ({ skipPanelState } = { skipPanelState: false }) => {
             uniqueCachedFeatureId.current = null;
             setGeoJsonFeature(null);
-
             // deselect feature (unfortunately by deselecting all features, specific ids don't work)
-            if (deselect === true) {
-                draw.changeMode("simple_select", { featureIds: [] });
+            draw.changeMode("simple_select", { featureIds: [] });
+
+            if (!skipPanelState) {
+                setDrawModePanel(DRAW_MODE_PANEL_STATE.NONE);
             }
         },
-        [draw, geoJsonFeature]
+        [draw]
     );
 
     const handleMapClick = useCallback(
@@ -178,10 +182,12 @@ const useGeoJsonFeatureDraw = () => {
 
                 uniqueCachedFeatureId.current = id;
                 setGeoJsonFeature(getFeatureProperties(drawFeature));
+                setDrawModePanel(DRAW_MODE_PANEL_STATE.FEATURE);
             } else {
-                // dont auto-deselect features when "clicking away", this interferes with drawing features
-                // mapbox-draw handles it for us
-                resetFeature({ deselect: false });
+                // only auto-deselect features when "clicking a feature away"
+                if (uniqueCachedFeatureId.current !== null) {
+                    resetFeature();
+                }
             }
         },
         [draw]
@@ -203,6 +209,16 @@ const useGeoJsonFeatureDraw = () => {
             };
         }
     }, [map, handleMapClick]);
+
+    // when another panel opens, clear the state
+    useEffect(() => {
+        if (
+            uniqueCachedFeatureId.current !== null &&
+            drawModePanel !== DRAW_MODE_PANEL_STATE.FEATURE
+        ) {
+            resetFeature({ skipPanelState: true });
+        }
+    }, [drawModePanel, resetFeature]);
 
     if (geoJsonFeature === null) {
         return null;

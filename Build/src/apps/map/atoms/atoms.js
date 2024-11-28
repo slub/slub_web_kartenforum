@@ -8,7 +8,11 @@
 import { atom, selector } from "recoil";
 import SettingsProvider from "@settings-provider";
 import { ActiveDialog } from "@map/components/VkfMap/constants.js";
-import { HORIZONTAL_LAYOUT_MODE, LAYOUT_TYPES } from "@map/layouts/util.js";
+import {
+    HORIZONTAL_LAYOUT_MODE,
+    LAYOUT_TYPES,
+    DRAW_MODE_PANEL_STATE,
+} from "@map/layouts/util.js";
 import { isDefined } from "@util/util";
 
 // stores the currently active basemap ID
@@ -198,4 +202,10 @@ export const addedFileState = atom({
 export const addGeoJsonDialogState = atom({
     key: "addGeoJsonDialogState",
     default: false,
+});
+
+// HorizontalLayoutDraw panel state
+export const drawModePanelState = atom({
+    key: "drawModePanelState",
+    default: DRAW_MODE_PANEL_STATE.NONE,
 });
