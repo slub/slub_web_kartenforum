@@ -49,8 +49,8 @@
 
         .title-row {
             display: grid;
-            grid-template-columns: 1fr 24px 22px;
-            gap: 8px;
+            grid-template-columns: 218px 24px 22px;
+            gap: 20px;
         }
 
         .geojson-headline {
@@ -61,6 +61,14 @@
                 font-weight: 300;
                 line-height: 36.5px;
                 letter-spacing: 0.04em;
+
+                word-break: break-all;
+                overflow: hidden;
+                display: -webkit-box;
+                line-clamp: 3;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                text-overflow: ellipsis;
             }
 
             &--date {
@@ -76,13 +84,15 @@
                 opacity: 1;
                 transition: 300ms ease-out opacity;
 
+                align-self: flex-start;
+                position: relative;
+                top: 6px;
+
                 &:disabled {
                     opacity: 0.3;
                 }
 
                 &.filter-button {
-                    align-self: center;
-
                     svg {
                         fill: none;
                         stroke: #666;
