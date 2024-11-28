@@ -166,9 +166,21 @@ export const drawState = atom({
     default: undefined,
 });
 
-// geojson edit states
-export const editedGeojsonState = atom({
+// Geojson edit states
+export const initialGeoJsonDrawState = atom({
     key: "editedGeojsonState",
+    default: null,
+});
+
+// { [METADATA_KEY]: string | number | null }
+export const metadataDrawState = atom({
+    key: "metadataDrawState",
+    default: null,
+});
+
+// { type:  "remote" | "local", id: string | null }
+export const vectorMapDrawState = atom({
+    key: "vectorMapState",
     default: null,
 });
 

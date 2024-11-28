@@ -18,7 +18,9 @@ import {
   selectedGeoJsonFeatureIdentifierState,
   horizontalLayoutModeState,
   mapState,
-  editedGeojsonState,
+  initialGeoJsonDrawState,
+  metadataDrawState,
+  vectorMapDrawState,
 } from "@map/atoms";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import clsx from "clsx";
@@ -67,7 +69,9 @@ const GeoJsonLayerView = () => {
   const setSelectedGeoJsonFeatureIdentifier = useSetRecoilState(
     selectedGeoJsonFeatureIdentifierState
   );
-  const setEditedGeoJson = useSetRecoilState(editedGeojsonState);
+  const setInitialGeoJsonDraw = useSetRecoilState(initialGeoJsonDrawState);
+  const setMetadataDraw = useSetRecoilState(metadataDrawState);
+  const setVectorMapDraw = useSetRecoilState(vectorMapDrawState);
 
   const setHorizontalLayoutMode = useSetRecoilState(horizontalLayoutModeState);
 
@@ -152,7 +156,19 @@ const GeoJsonLayerView = () => {
     setViewMode(VIEW_MODE.EDIT);
     setHorizontalLayoutMode(HORIZONTAL_LAYOUT_MODE.DRAW);
     selectedLayer.setVisibility(map, "none");
-    setEditedGeoJson(selectedLayer.getGeoJson());
+    setInitialGeoJsonDraw(selectedLayer.getGeoJson());
+
+    setMetadataDraw({
+      [METADATA.title]: selectedLayer.getMetadata(METADATA.title),
+      [METADATA.description]: selectedLayer.getMetadata(METADATA.description),
+      [METADATA.thumbnailUrl]: selectedLayer.getMetadata(METADATA.thumbnailUrl),
+    });
+
+    const vectorMapId = selectedLayer.getMetadata(METADATA.vectorMapId);
+    setVectorMapDraw({
+      type: vectorMapId ? "remote" : "local",
+      id: vectorMapId ?? null,
+    });
 
     resetState();
   }, [selectedLayer]);

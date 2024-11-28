@@ -7,17 +7,20 @@
 import { useRecoilCallback } from "recoil";
 import {
     addGeoJsonDialogState,
-    editedGeojsonState,
+    initialGeoJsonDrawState,
     horizontalLayoutModeState,
     mapState,
     selectedGeoJsonLayerIdState,
     selectedLayersState,
+    metadataDrawState,
+    vectorMapDrawState,
 } from "@map/atoms";
 import { isDefined, translate } from "@util/util";
 import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
 import { notificationState } from "@atoms";
 import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
 import { useCallback } from "react";
+import { VECTOR_MAP_TYPES } from "@map/components/GeoJson/constants";
 
 export const useAddGeoJson = () => {
     // Mount new local geojson layer => Create application layer, add to map and select the layer,
@@ -67,7 +70,12 @@ export const useAddGeoJson = () => {
     const mountNewRemoteGeojsonLayer = useRecoilCallback(
         ({ set }) =>
             async (title, geoJson) => {
-                set(editedGeojsonState, geoJson);
+                set(initialGeoJsonDrawState, geoJson);
+                set(metadataDrawState, { [METADATA.title]: title });
+                set(vectorMapDrawState, {
+                    type: VECTOR_MAP_TYPES.REMOTE,
+                    id: null,
+                });
                 set(horizontalLayoutModeState, HORIZONTAL_LAYOUT_MODE.DRAW);
             }
     );

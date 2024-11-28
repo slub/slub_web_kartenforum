@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import { useRecoilCallback } from "recoil";
-import { editedGeojsonState, horizontalLayoutModeState } from "@map/atoms";
+import { initialGeoJsonDrawState, horizontalLayoutModeState } from "@map/atoms";
 import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
 
 const emptyFeatureCollection = {
@@ -15,7 +15,7 @@ const emptyFeatureCollection = {
 
 export const useCreateNewVectorMap = () => {
     return useRecoilCallback(({ set }) => async () => {
-        set(editedGeojsonState, structuredClone(emptyFeatureCollection));
+        set(initialGeoJsonDrawState, structuredClone(emptyFeatureCollection));
         set(horizontalLayoutModeState, HORIZONTAL_LAYOUT_MODE.DRAW);
     });
 };

@@ -143,3 +143,8 @@ export const FEATURE_PROPERTIES = {
     strokeWidth: "stroke-width",
     strokeOpacity: "stroke-opacity",
 };
+
+export const VECTOR_MAP_TYPES = {
+    LOCAL: "local",
+    REMOTE: "remote",
+};

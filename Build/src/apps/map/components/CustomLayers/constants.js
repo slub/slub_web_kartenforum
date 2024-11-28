@@ -19,6 +19,8 @@ export const METADATA = {
     mapScale: "map_scale",
     rawMapIds: "raw_map_ids",
     name: "name",
+    description: "description",
+    vectorMapId: "vector_map_id",
 };
 
 export const MAP_LIBRE_METADATA = {
