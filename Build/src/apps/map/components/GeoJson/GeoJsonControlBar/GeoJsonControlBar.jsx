@@ -52,6 +52,7 @@ const GeoJsonControlBar = () => {
   }, [featureCount]);
 
   const handleMetadataPanelClick = useCallback(() => {
+    // TODO must be deactivated for non-owners
     setDrawModePanel(DRAW_MODE_PANEL_STATE.METADATA);
   }, []);
 
