@@ -7,6 +7,8 @@
 import { useRecoilCallback } from "recoil";
 import {
     addGeoJsonDialogState,
+    editedGeojsonState,
+    horizontalLayoutModeState,
     mapState,
     selectedGeoJsonLayerIdState,
     selectedLayersState,
@@ -14,11 +16,15 @@ import {
 import { isDefined, translate } from "@util/util";
 import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
 import { notificationState } from "@atoms";
+import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
+import { useCallback } from "react";
 
 export const useAddGeoJson = () => {
-    const addGeoJson = useRecoilCallback(
+    // Mount new local geojson layer => Create application layer, add to map and select the layer,
+    // but dont open the draw view
+    const mountLocalGeoJsonLayer = useRecoilCallback(
         ({ snapshot, set }) =>
-            async (title, geoJSON, selectAfterCreate = false) => {
+            async (title, geoJson) => {
                 const map = await snapshot.getPromise(mapState);
                 if (isDefined(map)) {
                     try {
@@ -27,24 +33,22 @@ export const useAddGeoJson = () => {
                             // [METADATA.timeChanged]: refGeoJSON.current.modified,
                         };
 
-                        const geoJSONLayer = new GeoJsonLayer({
+                        // Create geojson layer
+                        const geoJsonLayer = new GeoJsonLayer({
                             metadata,
-                            geoJSON,
+                            geoJSON: geoJson,
                         });
 
-                        geoJSONLayer.addLayerToMap(map);
+                        // add layer to map
+                        geoJsonLayer.addLayerToMap(map);
 
+                        // select newly created layer (open panel on right hand side)
                         set(selectedLayersState, (oldSelectedLayers) => [
                             ...oldSelectedLayers,
-                            geoJSONLayer,
+                            geoJsonLayer,
                         ]);
 
-                        if (selectAfterCreate) {
-                            set(
-                                selectedGeoJsonLayerIdState,
-                                geoJSONLayer.getId()
-                            );
-                        }
+                        set(selectedGeoJsonLayerIdState, geoJsonLayer.getId());
                     } catch (e) {
                         console.log(e);
                         set(notificationState, {
@@ -59,5 +63,23 @@ export const useAddGeoJson = () => {
             }
     );
 
-    return addGeoJson;
+    // Mount geojson to draw view, without creating an application layer
+    const mountNewRemoteGeojsonLayer = useRecoilCallback(
+        ({ set }) =>
+            async (title, geoJson) => {
+                set(editedGeojsonState, geoJson);
+                set(horizontalLayoutModeState, HORIZONTAL_LAYOUT_MODE.DRAW);
+            }
+    );
+
+    return useCallback(
+        (title, geoJson, shouldPersist) => {
+            if (shouldPersist) {
+                return mountNewRemoteGeojsonLayer(title, geoJson);
+            } else {
+                return mountLocalGeoJsonLayer(title, geoJson);
+            }
+        },
+        [mountLocalGeoJsonLayer, mountNewRemoteGeojsonLayer]
+    );
 };

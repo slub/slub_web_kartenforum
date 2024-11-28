@@ -3,6 +3,15 @@
         margin-top: 25%;
         margin-bottom: 25%;
 
+        .modal-body {
+            .switch-label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                cursor: pointer;
+            }
+        }
+
         .modal-footer {
             height: 45px;
             padding: 5px;

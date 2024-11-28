@@ -18,6 +18,7 @@ import {
   selectedGeoJsonFeatureIdentifierState,
   horizontalLayoutModeState,
   mapState,
+  editedGeojsonState,
 } from "@map/atoms";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import clsx from "clsx";
@@ -66,6 +67,7 @@ const GeoJsonLayerView = () => {
   const setSelectedGeoJsonFeatureIdentifier = useSetRecoilState(
     selectedGeoJsonFeatureIdentifierState
   );
+  const setEditedGeoJson = useSetRecoilState(editedGeojsonState);
 
   const setHorizontalLayoutMode = useSetRecoilState(horizontalLayoutModeState);
 
@@ -150,6 +152,7 @@ const GeoJsonLayerView = () => {
     setViewMode(VIEW_MODE.EDIT);
     setHorizontalLayoutMode(HORIZONTAL_LAYOUT_MODE.DRAW);
     selectedLayer.setVisibility(map, "none");
+    setEditedGeoJson(selectedLayer.getGeoJson());
 
     resetState();
   }, [selectedLayer]);

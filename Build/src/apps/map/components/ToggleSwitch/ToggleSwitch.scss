@@ -1,0 +1,56 @@
+@import "../../../../../../Resources/Private/Scss/_Variables";
+
+.toggle-switch {
+    --width: 30px;
+    --height: 18px;
+    border-radius: 18px;
+    border: 1px solid $color-lightgrey;
+    box-sizing: border-box;
+    display: inline-block;
+    cursor: pointer;
+    transition: 0.3s ease-out border-color;
+
+    .toggle__input {
+        opacity: 0;
+        position: absolute;
+        height: 0;
+        width: 0;
+    }
+
+    .toggle__fill {
+        position: relative;
+        width: var(--width);
+        height: var(--height);
+        background: #dddddd;
+        transition: background 0.3s ease-out;
+        border-radius: 18px;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            height: 12px;
+            width: 12px;
+            background: #ffffff;
+            transition: transform 0.3s ease-out;
+            border-radius: 18px;
+        }
+    }
+
+    &:has(.toggle__input:checked) {
+        border-color: $secondary-color-dark;
+    }
+
+    &:has(.toggle__input:focus-visible) {
+        outline: -webkit-focus-ring-color auto 1px;
+    }
+
+    .toggle__input:checked ~ .toggle__fill {
+        background: $secondary-color;
+    }
+
+    .toggle__input:checked ~ .toggle__fill::after {
+        transform: translateX(12px);
+    }
+}

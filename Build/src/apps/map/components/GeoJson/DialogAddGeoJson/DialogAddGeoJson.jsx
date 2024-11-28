@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   Button,
   ControlLabel,
@@ -17,25 +17,41 @@ import {
   ModalTitle,
 } from "react-bootstrap";
 import PropTypes from "prop-types";
-
-import { isDefined, translate } from "@util/util";
-
 import { useRecoilState } from "recoil";
 import { addedFileState } from "@map/atoms";
 
-import "./DialogAddGeoJson.scss";
 import { useAddGeoJson } from "@map/components/GeoJson/util/useAddGeoJson";
+import ToggleSwitch from "@map/components/ToggleSwitch/ToggleSwitch";
+import { translate } from "@util/util";
+
+import "./DialogAddGeoJson.scss";
+
+const TOGGLE_SWITCH_ID = "persistGeoJson";
 
 const DialogAddGeoJsonBase = ({ initialName, onClose, onSubmit }) => {
-  const refTitleInput = useRef();
+  const handleOnSubmit = useCallback((event) => {
+    const formData = new FormData(event.currentTarget);
+    event.preventDefault();
 
-  const handleOnSubmit = () => {
-    const title = isDefined(refTitleInput.current)
-      ? refTitleInput.current.value
-      : undefined;
+    const title = formData.get("title");
+    const persistGeoJson = formData.get("persistGeoJson") === "on";
 
-    onSubmit(title);
-  };
+    onSubmit(title, persistGeoJson);
+  }, []);
+
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === "Enter") {
+      const submitButton = document.getElementById("submit-add-geojson-form");
+      submitButton.click();
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <div>
@@ -46,7 +62,7 @@ const DialogAddGeoJsonBase = ({ initialName, onClose, onSubmit }) => {
 
         <ModalBody>
           <div className="dialog-content">
-            <form>
+            <form id="add-geojson-form" onSubmit={handleOnSubmit}>
               <FormGroup>
                 <ControlLabel>
                   {translate("geojson-adddialog-layer-title-label")}
@@ -54,17 +70,23 @@ const DialogAddGeoJsonBase = ({ initialName, onClose, onSubmit }) => {
                 <FormControl
                   autoFocus
                   defaultValue={initialName ?? "Unknown"}
-                  inputRef={(ref) => {
-                    refTitleInput.current = ref;
-                  }}
                   name="title"
                   type="text"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleOnSubmit();
-                    }
-                  }}
                 />
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel
+                  className="switch-label"
+                  htmlFor={TOGGLE_SWITCH_ID}
+                >
+                  <ToggleSwitch id={TOGGLE_SWITCH_ID} />
+                  Persistente Vektor-Karte
+                </ControlLabel>
+                <div>
+                  Wählen ob die hinaufgeladenen Daten dauerhaft als
+                  recherchierbare Karte verfügbar sein soll oder lediglich
+                  temporär für Sie persönlich in Ihrem Browser.
+                </div>
               </FormGroup>
             </form>
           </div>
@@ -74,7 +96,12 @@ const DialogAddGeoJsonBase = ({ initialName, onClose, onSubmit }) => {
           <Button onClick={onClose}>
             {translate("geojson-adddialog-cancel")}
           </Button>
-          <Button onClick={handleOnSubmit} bsStyle="primary">
+          <Button
+            id="submit-add-geojson-form"
+            type="submit"
+            form="add-geojson-form"
+            bsStyle="primary"
+          >
             {translate("geojson-adddialog-confirm")}
           </Button>
         </ModalFooter>
@@ -92,24 +119,26 @@ DialogAddGeoJsonBase.propTypes = {
 export const DialogAddGeoJson = () => {
   const [addedFile, setAddedFile] = useRecoilState(addedFileState);
 
-  const addGeoJsonLayer = useAddGeoJson();
+  const addGeoJson = useAddGeoJson();
 
   const handleClose = useCallback(() => {
     setAddedFile(null);
   }, []);
 
   const handleSubmit = useCallback(
-    (title) => {
-      addGeoJsonLayer(title, addedFile.content, true).then(setAddedFile(null));
+    (title, shouldPersist) => {
+      // add geojson according to passed parameters, afterward cleanup file state (either layer or to draw view)
+      addGeoJson(title, addedFile.content, shouldPersist).then(() => {
+        setAddedFile(null);
+      });
     },
-    [addGeoJsonLayer]
+    [addGeoJson]
   );
 
   return addedFile ? (
     <DialogAddGeoJsonBase
       onClose={handleClose}
       onSubmit={handleSubmit}
-      // onSubmit={addGeoJsonLayer}
       initialName={addedFile.name}
     />
   ) : null;

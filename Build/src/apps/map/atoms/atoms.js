@@ -166,6 +166,12 @@ export const drawState = atom({
     default: undefined,
 });
 
+// geojson edit states
+export const editedGeojsonState = atom({
+    key: "editedGeojsonState",
+    default: null,
+});
+
 // Add geojson states
 export const showDropZoneState = atom({
     key: "showDropZoneState",

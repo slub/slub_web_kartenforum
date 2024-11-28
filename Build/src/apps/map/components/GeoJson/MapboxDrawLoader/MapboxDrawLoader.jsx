@@ -10,7 +10,12 @@ import { useRecoilCallback } from "recoil";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 
 import { isDefined } from "@util/util";
-import { drawState, mapState, selectedGeoJsonLayerState } from "@map/atoms";
+import {
+  drawState,
+  editedGeojsonState,
+  mapState,
+  selectedGeoJsonLayerState,
+} from "@map/atoms";
 
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import "./MapboxDrawLoader.scss";
@@ -26,16 +31,13 @@ const options = {
 export const useMapboxDrawInitializers = () => {
   const initializeDraw = useRecoilCallback(({ snapshot, set }) => async () => {
     const map = await snapshot.getPromise(mapState);
-    const { selectedLayer } = await snapshot.getPromise(
-      selectedGeoJsonLayerState
-    );
+    const geoJson = await snapshot.getPromise(editedGeojsonState);
 
-    if (isDefined(map) && isDefined(selectedLayer)) {
+    if (isDefined(map) && isDefined(geoJson)) {
       const draw = new MapboxDraw(options);
       set(drawState, draw);
       map.addControl(draw, "top-right");
 
-      const geoJson = selectedLayer.getGeoJson();
       draw.add(geoJson);
     }
   });

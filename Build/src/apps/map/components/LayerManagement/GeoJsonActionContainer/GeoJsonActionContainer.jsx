@@ -10,12 +10,14 @@ import React, { useCallback } from "react";
 import { useSetRecoilState } from "recoil";
 import { showDropZoneState } from "@map/atoms";
 import { translate } from "@util/util";
+import { useCreateNewVectorMap } from "@map/components/GeoJson/util/useCreateNewVectorMap";
 
 export default function GeoJsonActionContainer() {
+  const createNewVectorMap = useCreateNewVectorMap();
   const setShowDropZone = useSetRecoilState(showDropZoneState);
 
   const handleCreateVectorMap = useCallback(() => {
-    console.log("create vector map");
+    createNewVectorMap();
   }, []);
 
   const handleAddVectorMap = useCallback(() => {
