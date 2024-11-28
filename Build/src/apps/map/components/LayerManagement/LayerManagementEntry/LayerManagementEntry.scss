@@ -135,8 +135,14 @@ ul.layermanagement-body {
                 margin: 0;
                 line-height: 1.2;
                 color: $secondary-color-dark;
-                word-break: break-word;
-                hyphens: auto;
+
+                word-break: break-all;
+                overflow: hidden;
+                display: -webkit-box;
+                line-clamp: 3;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                text-overflow: ellipsis;
             }
         }
 
