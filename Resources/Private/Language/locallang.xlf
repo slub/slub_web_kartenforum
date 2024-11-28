@@ -279,13 +279,6 @@
             <trans-unit id="plugin.map.geojson.featureview-time">
                 <source>Time</source>
             </trans-unit>
-            <trans-unit id="plugin.map.geojson.featureview-cancel-btn">
-                <source>discard</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.geojson.featureview-save-btn">
-                <source>save</source>
-            </trans-unit>
-
             <trans-unit id="plugin.map.geojson.featureview-no-title">
                 <source>no title</source>
             </trans-unit>
@@ -303,6 +296,9 @@
             </trans-unit>
 
             <!-- map Geojson Feature Edit -->
+            <trans-unit id="plugin.map.geojson.editview-intro-text">
+                <source>Edit the graphic settings for the vector element here and assign a title, an image and a description. You can create your own fields below.</source>
+            </trans-unit>
             <trans-unit id="plugin.map.geojson.editview-header-text">
                 <source>edit details</source>
             </trans-unit>
@@ -341,6 +337,17 @@
                 <source>Do you really want to delete the data?</source>
             </trans-unit>
 
+            <!-- GeoJson -->
+            <trans-unit id="plugin.map.geojson.cancel-btn">
+                <source>discard</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.apply-btn">
+                <source>apply</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.save-btn">
+                <source>save</source>
+            </trans-unit>
+
             <!--  Map GeoJson Feature Edit Image Fallback   -->
             <trans-unit id="plugin.map.geojson.img-fallback-p">
                 <source>We could not find a image. Please check the link again.</source>
@@ -373,6 +380,24 @@
 			<trans-unit id="plugin.map.layermanagement.filterGeoJsonFeatures">
 				<source>Filter GeoJSON features</source>
 			</trans-unit>
+
+            <!-- GeoJson Metadata Panel -->
+            <trans-unit id="plugin.map.geojson.metadatapanel.header.create">
+				<source>Create vector map</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.header.edit">
+				<source>Edit vector map</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro">
+				<source>Edit the settings for the entire vector map here. You can define the title, description and preview image here.</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.delete">
+				<source>Delete this vector map.</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.delete-btn">
+				<source>Delete vector map</source>
+			</trans-unit>
+                      
 
             <!-- Global > Map > MapWrapper -->
             <trans-unit id="plugin.map.mapwrapper.parseError">
@@ -1035,7 +1060,7 @@
 
             <!-- Map > GeoJsonLayerPanel -->
 			<trans-unit id="plugin.map.geojsonlayerpanel.header.title" approved="yes">
-                <source>Overview</source>
+                <source>Vector map</source>
             </trans-unit>
 			<trans-unit id="plugin.map.geojsonlayerpanel.nofeatures" approved="yes">
                 <source>No features available</source>

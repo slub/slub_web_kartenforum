@@ -133,6 +133,9 @@ const GeoJsonEditPopUp = (props) => {
         onCloseClick={onClose}
       />
       <div className="geojson-feature-edit-panel-content">
+        <div className="introduction-text">
+          {translate("geojson-editview-intro-text")}
+        </div>
         <div className="properties-container">
           <div className="style-property-header">
             <p className="header-text geojson-feature-property-label">
@@ -231,7 +234,7 @@ const GeoJsonEditPopUp = (props) => {
           disabled={errors.key || errors.value || showNewField}
         >
           <VkfIcon name="save" />
-          {translate("geojson-featureview-save-btn")}
+          {translate("geojson-apply-btn")}
         </CustomButton>
         <CustomButton
           className="discard-button"
@@ -239,7 +242,7 @@ const GeoJsonEditPopUp = (props) => {
           type="discard"
         >
           <VkfIcon name="discard" />
-          {translate("geojson-featureview-cancel-btn")}
+          {translate("geojson-cancel-btn")}
         </CustomButton>
       </div>
       {showDeleteDialog && (

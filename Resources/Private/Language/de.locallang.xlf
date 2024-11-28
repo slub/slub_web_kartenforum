@@ -165,14 +165,6 @@
                 <source><![CDATA[Time]]></source>
                 <target><![CDATA[Zeit]]></target>
             </trans-unit>
-            <trans-unit id="plugin.map.geojson.featureview-cancel-btn" approved="yes">
-                <source><![CDATA[discard]]></source>
-                <target><![CDATA[verwerfen]]></target>
-            </trans-unit>
-            <trans-unit id="plugin.map.geojson.featureview-save-btn" approved="yes">
-                <source><![CDATA[save]]></source>
-                <target><![CDATA[speichern]]></target>
-            </trans-unit>
             <trans-unit id="plugin.map.geojson.featureview-no-title" approved="yes">
                 <source><![CDATA[no title]]></source>
                 <target><![CDATA[kein Titel]]></target>
@@ -195,6 +187,10 @@
             </trans-unit>
 
             <!-- map Geojson Feature Edit  -->
+			<trans-unit id="plugin.map.geojson.editview-intro-text">
+                <source><![CDATA[Edit the graphic settings for the vector element here and assign a title, an image and a description. You can create your own fields below.]]></source>
+				<target><![CDATA[Bearbeiten Sie hier die grafischen Einstellungen für das Vektor-Element und vergeben Sie einen Titel, ein Bild und eine Beschreibung dazu. Weiter unten können Sie eigene Felder erstellen.]]></target>
+            </trans-unit>
             <trans-unit id="plugin.map.geojson.editview-header-text" approved="yes">
                 <source><![CDATA[edit details]]></source>
                 <target><![CDATA[Details bearbeiten]]></target>
@@ -245,6 +241,42 @@
                 <source><![CDATA[Do you really want to delete the data?]]></source>
                 <target><![CDATA[Wollen Sie die Daten wirklich löschen?]]></target>
             </trans-unit>
+
+			<!-- GeoJson -->
+			<trans-unit id="plugin.map.geojson.cancel-btn" approved="yes">
+                <source><![CDATA[discard]]></source>
+                <target><![CDATA[verwerfen]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojson.apply-btn" approved="yes">
+                <source><![CDATA[apply]]></source>
+                <target><![CDATA[übernehmen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.save-btn" approved="yes">
+                <source><![CDATA[save]]></source>
+                <target><![CDATA[speichern]]></target>
+            </trans-unit>
+
+            <!-- GeoJson Metadata Panel -->
+			<trans-unit id="plugin.map.geojson.metadatapanel.header.create">
+				<source><![CDATA[Create vector map]]></source>
+				<target><![CDATA[Vektor-Karte erstellen]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.header.edit">
+				<source><![CDATA[Edit vector map]]></source>
+				<target><![CDATA[Vektor-Karte bearbeiten]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro">
+				<source><![CDATA[Edit the settings for the entire vector map here. You can define the title, description and preview image here.]]></source>
+				<target><![CDATA[Bearbeiten Sie hier die Einstellungen für die gesamte Vektor-Karte. Sie können hier Titel, Beschreibung und Vorschaubild bestimmen.]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.delete">
+				<source><![CDATA[Delete this vector map.]]></source>
+				<target><![CDATA[Diese Vektor-Karte löschen.]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.delete-btn">
+				<source><![CDATA[Delete vector map]]></source>
+				<target><![CDATA[Vektor-Karte löschen]]></target>
+			</trans-unit>
 
             <!--  Map GeoJson Feature Edit Image Fallback   -->
             <trans-unit id="plugin.map.geojson.img-fallback-p" approved="yes">
@@ -1276,8 +1308,8 @@
 
 			<!-- Map > GeoJsonLayerPanel -->
 			<trans-unit id="plugin.map.geojsonlayerpanel.header.title" approved="yes">
-                <source><![CDATA[Overview]]></source>
-                <target><![CDATA[Übersicht]]></target>
+                <source><![CDATA[Vector map]]></source>
+                <target><![CDATA[Vektor-Karte]]></target>
             </trans-unit>
 			<trans-unit id="plugin.map.geojsonlayerpanel.nofeatures" approved="yes">
                 <source><![CDATA[No features available]]></source>

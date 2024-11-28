@@ -116,11 +116,11 @@ const GeoJsonControlBar = () => {
           type="discard"
         >
           <VkfIcon name="discard" />
-          {translate("geojson-featureview-cancel-btn")}
+          {translate("geojson-cancel-btn")}
         </CustomButton>
         <CustomButton className="save-button" onClick={handleSave} type="save">
           <VkfIcon name="save" />
-          {translate("geojson-featureview-save-btn")}
+          {translate("geojson-save-btn")}
         </CustomButton>
       </div>
     </div>

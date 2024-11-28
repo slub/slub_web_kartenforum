@@ -12,6 +12,17 @@
         overflow-y: auto;
         flex-grow: 1;
 
+        .introduction-text {
+            padding: 20px 15px 10px 15px;
+
+            color: #666;
+            font-family: "Titillium Web";
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 20px;
+        }
+
         .properties-container {
             .style-property-header {
                 .header-text {
