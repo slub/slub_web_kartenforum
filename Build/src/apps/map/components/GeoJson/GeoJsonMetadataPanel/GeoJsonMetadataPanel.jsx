@@ -44,11 +44,13 @@ const MetadataPanel = () => {
         können hier Titel, Beschreibung und Vorschaubild bestimmen.
       </div>
       <div className="metadata-form-container"></div>
-      <DangerZone
-        title={"Diese Vektor-Karte löschen"}
-        onDeleteClick={handleDeleteClick}
-        buttonLabel={"Vektor-Karte löschen"}
-      />
+      <div className="danger-zone-container">
+        <DangerZone
+          description={"Diese Vektor-Karte löschen"}
+          onDeleteClick={handleDeleteClick}
+          buttonLabel={"Vektor-Karte löschen"}
+        />
+      </div>
       <div className="footer-container">
         <CustomButton
           className="save-button"

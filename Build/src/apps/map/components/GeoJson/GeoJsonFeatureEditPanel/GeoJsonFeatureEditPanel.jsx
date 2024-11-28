@@ -132,90 +132,92 @@ const GeoJsonEditPopUp = (props) => {
         title={translate("geojson-editview-header-text")}
         onCloseClick={onClose}
       />
-      <div className="properties-container">
-        <div className="style-property-header">
-          <p className="header-text geojson-feature-property-label">
-            {translate("geojson-editfeature-style-header")}
-          </p>
-        </div>
-
-        <div className="style-properties-container">
-          {styleFields.map((entry, index) => {
-            const [key, value] = entry;
-            const { inputProps } = styleFieldSettings[key];
-            return (
-              <EditStyleField
-                onChange={handleStyleChange(index)}
-                onBlur={handleStyleChange(index)}
-                key={`${key}-${feature.id}`}
-                title={key}
-                inputProps={inputProps}
-                value={value}
-                id={`${key}-${feature.id}`}
-              />
-            );
-          })}
-        </div>
-        <div className="none-style-properties-container">
-          {propertyFields.map((entry, index) => {
-            const [key, value] = entry;
-            const isPredefinedField = isDefined(predefinedFieldSettings[key]);
-            const inputProps = predefinedFieldSettings[key]?.inputProps;
-
-            return (
-              <EditNonStyleField
-                onBlur={handlePropertyChange(index)}
-                key={`${key}-${feature.id}`}
-                isHeaderEditable={!isPredefinedField}
-                title={key}
-                inputProps={inputProps}
-                value={value}
-                onDelete={
-                  !isPredefinedField ? handleDeleteField(index) : undefined
-                }
-                existingFields={propertyFields}
-                onError={setErrors}
-                id={`${key}-${feature.id}`}
-              />
-            );
-          })}
-        </div>
-
-        <div className="new-field-container">
-          <div className={clsx("new-fields", showNewField && "in")}>
-            <NewField
-              existingFields={propertyFields}
-              onAddField={handleAddNewField}
-              onClose={() => {
-                setShowNewField(false);
-                setErrors({});
-              }}
-              isDisplayed={showNewField}
-              onError={setErrors}
-            />
+      <div className="geojson-feature-edit-panel-content">
+        <div className="properties-container">
+          <div className="style-property-header">
+            <p className="header-text geojson-feature-property-label">
+              {translate("geojson-editfeature-style-header")}
+            </p>
           </div>
 
-          <div
-            className={clsx(
-              "new-field-button-container",
-              !showNewField && "in"
-            )}
-          >
-            <CustomButton
-              className="new-field-button"
-              onClick={handleAddField}
-              disabled={showNewField || errors.key || errors.value}
+          <div className="style-properties-container">
+            {styleFields.map((entry, index) => {
+              const [key, value] = entry;
+              const { inputProps } = styleFieldSettings[key];
+              return (
+                <EditStyleField
+                  onChange={handleStyleChange(index)}
+                  onBlur={handleStyleChange(index)}
+                  key={`${key}-${feature.id}`}
+                  title={key}
+                  inputProps={inputProps}
+                  value={value}
+                  id={`${key}-${feature.id}`}
+                />
+              );
+            })}
+          </div>
+          <div className="none-style-properties-container">
+            {propertyFields.map((entry, index) => {
+              const [key, value] = entry;
+              const isPredefinedField = isDefined(predefinedFieldSettings[key]);
+              const inputProps = predefinedFieldSettings[key]?.inputProps;
+
+              return (
+                <EditNonStyleField
+                  onBlur={handlePropertyChange(index)}
+                  key={`${key}-${feature.id}`}
+                  isHeaderEditable={!isPredefinedField}
+                  title={key}
+                  inputProps={inputProps}
+                  value={value}
+                  onDelete={
+                    !isPredefinedField ? handleDeleteField(index) : undefined
+                  }
+                  existingFields={propertyFields}
+                  onError={setErrors}
+                  id={`${key}-${feature.id}`}
+                />
+              );
+            })}
+          </div>
+
+          <div className="new-field-container">
+            <div className={clsx("new-fields", showNewField && "in")}>
+              <NewField
+                existingFields={propertyFields}
+                onAddField={handleAddNewField}
+                onClose={() => {
+                  setShowNewField(false);
+                  setErrors({});
+                }}
+                isDisplayed={showNewField}
+                onError={setErrors}
+              />
+            </div>
+
+            <div
+              className={clsx(
+                "new-field-button-container",
+                !showNewField && "in"
+              )}
             >
-              <VkfIcon name="add" />
-              <p className="geojson-feature-property-label">
-                {translate("geojson-editfeature-add-new-field-button")}
-              </p>
-            </CustomButton>
+              <CustomButton
+                className="new-field-button"
+                onClick={handleAddField}
+                disabled={showNewField || errors.key || errors.value}
+              >
+                <VkfIcon name="add" />
+                <p className="geojson-feature-property-label">
+                  {translate("geojson-editfeature-add-new-field-button")}
+                </p>
+              </CustomButton>
+            </div>
           </div>
         </div>
         <div className="danger-zone-container">
           <DangerZone
-            title={translate("geojson-editfeature-danger-zone-title")}
+            description={translate("geojson-editfeature-danger-zone-title")}
             onDeleteClick={toggleDeleteDialog}
             buttonLabel={translate("geojson-featureview-delete-btn")}
           />

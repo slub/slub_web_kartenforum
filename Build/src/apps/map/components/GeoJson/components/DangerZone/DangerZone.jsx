@@ -13,23 +13,21 @@ import CustomButton from "../CustomButton";
 
 import "./DangerZone.scss";
 
-const DangerZone = ({ title, onDeleteClick, buttonLabel }) => {
+const DangerZone = ({ description, onDeleteClick, buttonLabel }) => {
   return (
     <div className="danger-zone-root">
-      <p className="header-text geojson-feature-property-label">danger zone</p>
+      <p className="text text-header">danger zone</p>
 
-      <div className="delete-button-container">
-        <p className="button-header-text">{title}</p>
+      <div className="danger-zone-content">
+        <p className="text text-description">{description}</p>
 
         <CustomButton
-          className="delete-feature-button"
+          className="delete-button"
           onClick={onDeleteClick}
           type="delete"
         >
           <VkfIcon name="delete" />
-          <p className="delete-button-text geojson-feature-property-label">
-            {buttonLabel}
-          </p>
+          <p className="text text-button">{buttonLabel}</p>
         </CustomButton>
       </div>
     </div>
@@ -37,7 +35,7 @@ const DangerZone = ({ title, onDeleteClick, buttonLabel }) => {
 };
 
 DangerZone.propTypes = {
-  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
   buttonLabel: PropTypes.string.isRequired,
 };
