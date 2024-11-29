@@ -9,6 +9,11 @@ import {
     GEOJSON_LAYER_TYPES,
 } from "../CustomLayers/GeoJsonLayer/constants.js";
 
+export const emptyFeatureCollection = {
+    type: "FeatureCollection",
+    features: [],
+};
+
 const isLine = (geometry) =>
     ["MultiLineString", "LineString"].includes(geometry);
 const isPolygon = (geometry) => ["MultiPolygon", "Polygon"].includes(geometry);

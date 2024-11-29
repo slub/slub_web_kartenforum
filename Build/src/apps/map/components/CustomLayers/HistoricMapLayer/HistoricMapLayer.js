@@ -40,7 +40,7 @@ class HistoricMapLayer extends ApplicationLayer {
     addToOverlay(map, overlayId) {
         const source = map.getSource(overlayId);
         if (source) {
-            const feature = this.toGeoJSON();
+            const feature = this.getPreviewFeature();
             feature.id = this.getId();
             const add = [feature];
             source.updateData({ add });
@@ -55,7 +55,7 @@ class HistoricMapLayer extends ApplicationLayer {
         }
     }
 
-    toGeoJSON() {
+    getPreviewFeature() {
         return {
             type: "Feature",
             properties: {},

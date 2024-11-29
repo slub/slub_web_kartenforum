@@ -5,54 +5,68 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import React from "react";
-import { checkIfArrayContainsLayer } from "../../util.js";
-import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import { useRecoilCallback } from "recoil";
 import {
   mapState,
-  selectedLayersState,
   selectedGeoJsonLayerIdState,
+  selectedLayersState,
 } from "@map/atoms";
 import MapSearchListElementWithGeometryPreview from "./MapSearchListElementWithGeometryPreview.jsx";
 import { fetchWmsTmsSettings } from "@map/components/CustomLayers/HistoricMapLayer/fetchWmsTmsSettings";
+import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
+import { getVectorMap } from "@map/components/GeoJson/util/apiVectorMaps";
 
-export const MapSearchListElement = (props) => {
-  const map = useRecoilValue(mapState);
-  const [selectedLayers, setSelectedLayers] =
-    useRecoilState(selectedLayersState);
+const useMapSearchListElementFunctionality = () => {
+  return useRecoilCallback(({ snapshot, set }) => async (layer) => {
+    const selectedLayers = await snapshot.getPromise(selectedLayersState);
+    const map = await snapshot.getPromise(mapState);
 
-  const setSelectedGeoJsonLayerId = useSetRecoilState(
-    selectedGeoJsonLayerIdState
-  );
+    set(selectedGeoJsonLayerIdState, undefined);
 
-  ////
-  // Handler section
-  ////
+    const selectedLayer = selectedLayers.find(
+      (sLayer) => sLayer.getId() === layer.getId()
+    );
 
-  // Toggle selected state of layer and update global state
-  const handleElementClick = (layer) => {
-    // close GeoJsonLayerPanel in case it's visible
-    setSelectedGeoJsonLayerId(undefined);
-
-    const containsLayer = checkIfArrayContainsLayer(selectedLayers, layer);
-
-    // remove layer if it is already contained
-    if (containsLayer) {
-      // remove from selectedLayers list
-      setSelectedLayers((oldSelectedLayers) =>
-        oldSelectedLayers.filter(
-          (oldLayer) => oldLayer.getId() !== layer.getId()
-        )
+    // unselect layer if it is already selected
+    if (selectedLayer) {
+      set(
+        selectedLayersState,
+        selectedLayers.filter((sLayer) => sLayer.getId() !== layer.getId())
       );
 
-      layer.removeMapLibreLayers(map);
-    } else {
-      //@TODO: Add loading feedback, while layer is added to map
-      fetchWmsTmsSettings(layer).then((sourceSettings) => {
-        layer.addLayerToMap(map, { sourceSettings });
-        setSelectedLayers((oldSelectedLayers) => [...oldSelectedLayers, layer]);
-      });
+      // use the selected layer and not the layer from the list,
+      // to remove layers from the map (might be a different instance, representing the same map)
+      selectedLayer.removeMapLibreLayers(map);
+      return;
     }
-  };
+
+    // select layer
+    const type = layer.getMetadata(METADATA.type);
+
+    //@TODO: Add loading feedback, while layer is added to map
+    if (type === LAYER_TYPES.VECTOR_MAP) {
+      const vectorMap = await getVectorMap(
+        layer.getMetadata(METADATA.vectorMapId)
+      );
+
+      layer.setGeoJson(vectorMap.geojson);
+      layer.addLayerToMap(map);
+      set(selectedLayersState, (oldSelectedLayers) =>
+        oldSelectedLayers.concat(layer)
+      );
+    } else {
+      const sourceSettings = await fetchWmsTmsSettings(layer);
+
+      layer.addLayerToMap(map, { sourceSettings });
+      set(selectedLayersState, (oldSelectedLayers) =>
+        oldSelectedLayers.concat(layer)
+      );
+    }
+  });
+};
+
+export const MapSearchListElement = (props) => {
+  const handleElementClick = useMapSearchListElementFunctionality();
 
   return (
     <MapSearchListElementWithGeometryPreview

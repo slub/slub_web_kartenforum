@@ -11,6 +11,19 @@ import { GEOJSON_LAYER_TYPES, LAYER_DEFINITIONS } from "./constants";
 import { MAP_LIBRE_METADATA } from "../constants";
 import { FEATURE_PROPERTIES } from "@map/components/GeoJson/constants";
 
+export const boundsToPolygon = (bounds) => ({
+    type: "Polygon",
+    coordinates: [
+        [
+            [bounds[0], bounds[1]],
+            [bounds[2], bounds[1]],
+            [bounds[2], bounds[3]],
+            [bounds[0], bounds[3]],
+            [bounds[0], bounds[1]],
+        ],
+    ],
+});
+
 export const getLayerConfig = (sourceId) => {
     const config = {};
 

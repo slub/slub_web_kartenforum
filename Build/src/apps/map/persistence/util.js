@@ -14,6 +14,7 @@ import {
 } from "@map/components/CustomLayers";
 import { isDefined } from "@util/util";
 import { LngLatBounds } from "maplibre-gl";
+import { emptyFeatureCollection } from "@map/components/GeoJson/constants";
 
 /**
  * Checks if all values of an object are either undefined or objects without entries
@@ -81,7 +82,7 @@ export const deSerializeOperationalLayer = ({
 }) => {
     return {
         feature:
-            type === LAYER_TYPES.GEOJSON
+            type === LAYER_TYPES.VECTOR_MAP || type === LAYER_TYPES.GEOJSON
                 ? deserializeGeojsonLayer(featureSpecific)
                 : deserializeMapLayer(featureSpecific),
         isVisible,
@@ -93,7 +94,7 @@ export const deSerializeOperationalLayer = ({
 export const deserializeGeojsonLayer = ({ geometry, geojson, properties }) => {
     return new GeoJsonLayer({
         metadata: properties,
-        geoJSON: geojson,
+        geoJSON: geojson ?? structuredClone(emptyFeatureCollection),
         geometry,
     });
 };
@@ -163,7 +164,7 @@ export const serializeOperationalLayer = (layer, map) => {
     const isVisible = layer.isVisible(map);
     const opacity = layer.getOpacity(map);
 
-    const type = layer.getType();
+    const type = layer.getMetadata(METADATA.type);
     const base = {
         id: layer.getId(),
         isVisible,
@@ -176,6 +177,11 @@ export const serializeOperationalLayer = (layer, map) => {
         return Object.assign(base, {
             geojson: layer.getGeoJsonForPersistence(),
             type: LAYER_TYPES.GEOJSON,
+        });
+    } else if (type === LAYER_TYPES.VECTOR_MAP) {
+        return Object.assign(base, {
+            type: LAYER_TYPES.VECTOR_MAP,
+            geometry: layer.getGeometry(),
         });
     } else {
         // add in map specific parts

@@ -37,8 +37,9 @@ import {
   convertLegacyMapViewToCameraOptions,
   isLegacyMapView,
 } from "./backwardsCompatibility.js";
-import { LAYER_TYPES } from "@map/components/CustomLayers";
+import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
 import { fetchWmsTmsSettings } from "@map/components/CustomLayers/HistoricMapLayer/fetchWmsTmsSettings";
+import { getVectorMap } from "@map/components/GeoJson/util/apiVectorMaps";
 
 export const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
 
@@ -237,8 +238,9 @@ export const PersistenceController = () => {
                   const layerLoadPromise = new Promise((resolve) => {
                     const visibility = isVisible ? "visible" : "none";
                     const layerSettings = { visibility, opacity };
+                    const type = feature.getMetadata(METADATA.type);
 
-                    if (feature.getType() === LAYER_TYPES.HISTORIC_MAP) {
+                    if (type === LAYER_TYPES.HISTORIC_MAP) {
                       return fetchWmsTmsSettings(feature).then(
                         (sourceSettings) => {
                           resolve({
@@ -250,7 +252,19 @@ export const PersistenceController = () => {
                           });
                         }
                       );
-                    } else if (feature.getType() === LAYER_TYPES.GEOJSON) {
+                    } else if (type === LAYER_TYPES.VECTOR_MAP) {
+                      // In case the map is a remote vector map, we do not store the geojson in the persistence object
+                      // instead we fetch it from the server on restore
+                      return getVectorMap(
+                        feature.getMetadata(METADATA.vectorMapId)
+                      ).then((vectorMap) => {
+                        feature.setGeoJson(vectorMap.geojson);
+                        return resolve({
+                          layer: feature,
+                          settings: { layerSettings },
+                        });
+                      });
+                    } else if (type === LAYER_TYPES.GEOJSON) {
                       return resolve({
                         layer: feature,
                         settings: { layerSettings },

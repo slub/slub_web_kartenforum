@@ -12,6 +12,13 @@ import {
 } from "../constants.js";
 
 import { isDefined } from "@util/util.js";
+import {
+    horizontalLayoutModeState,
+    initialGeoJsonDrawState,
+    metadataDrawState,
+    vectorMapDrawState,
+} from "@map/atoms";
+import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
 
 /**
  * A utility function to merge an array of entries with values from an existing Object.
@@ -250,4 +257,11 @@ export const validatePropertyField = (key, value, existingFields) => {
         isValid: !errors.key && !errors.value,
         errors,
     };
+};
+
+export const exitDrawMode = (set) => {
+    set(vectorMapDrawState, null);
+    set(initialGeoJsonDrawState, null);
+    set(metadataDrawState, null);
+    set(horizontalLayoutModeState, HORIZONTAL_LAYOUT_MODE.STANDARD);
 };

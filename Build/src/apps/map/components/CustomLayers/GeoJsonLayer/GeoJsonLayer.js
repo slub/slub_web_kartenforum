@@ -14,6 +14,7 @@ import {
 } from "./constants";
 import { isDefined } from "@util/util";
 import {
+    boundsToPolygon,
     convertFeatureForApplicationState,
     convertFeatureForPersistenceState,
     getLayerConfig,
@@ -240,6 +241,16 @@ class GeoJsonLayer extends ApplicationLayer {
         map.setFeatureState({ source, id }, featureState);
     }
 
+    getPreviewFeature() {
+        const bounds = this.getMetadata(METADATA.bounds);
+
+        return {
+            type: "Feature",
+            properties: {},
+            geometry: boundsToPolygon(bounds),
+        };
+    }
+
     /**
      *
      * @param {maplibregl.Map} map
@@ -290,6 +301,9 @@ class GeoJsonLayer extends ApplicationLayer {
             this.#unregisterEventHandlers(map, id);
             map.removeLayer(id);
         }
+
+        map.removeSource(this.getId());
+        this.#mapLibreLayerIds = [];
     }
 
     /**

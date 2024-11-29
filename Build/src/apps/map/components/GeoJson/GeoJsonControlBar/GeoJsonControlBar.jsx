@@ -25,6 +25,7 @@ import {
 import { useMapboxDrawInitializers } from "@map/components/GeoJson/MapboxDrawLoader/MapboxDrawLoader";
 
 import "./GeoJsonControlBar.scss";
+import useSaveGeoJson from "@map/components/GeoJson/util/hooks/useSaveGeoJson";
 
 const VIEW_STATE = {
   DEFAULT: 1,
@@ -37,6 +38,7 @@ const GeoJsonControlBar = () => {
   const setDrawModePanel = useSetRecoilState(drawModePanelState);
   const draw = useRecoilValue(drawState);
   const { removeDraw } = useMapboxDrawInitializers();
+  const saveGeoJson = useSaveGeoJson();
 
   const viewState = 2;
   const featureCount = 1;
@@ -61,8 +63,9 @@ const GeoJsonControlBar = () => {
   }, []);
 
   const handleSave = useCallback(() => {
-    console.log(draw.getAll());
-  });
+    console.log("handle save");
+    saveGeoJson();
+  }, [saveGeoJson]);
 
   const handleClose = useCallback(() => {
     removeDraw().then(() => {

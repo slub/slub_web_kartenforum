@@ -10,7 +10,7 @@ import React, { useCallback } from "react";
 import { useSetRecoilState } from "recoil";
 import { showDropZoneState } from "@map/atoms";
 import { translate } from "@util/util";
-import { useCreateNewVectorMap } from "@map/components/GeoJson/util/useCreateNewVectorMap";
+import { useCreateNewVectorMap } from "@map/components/GeoJson/util/hooks/useCreateNewVectorMap";
 
 export default function GeoJsonActionContainer() {
   const createNewVectorMap = useCreateNewVectorMap();

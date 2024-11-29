@@ -29,7 +29,7 @@ export const MapSearchListElementWithGeometryPreview = (props) => {
   // @TODO: Rework search element parsing before implementing this correctly
   const handleMouseEnter = useCallback(() => {
     if (isDefined(map)) {
-      updateOverlayLayer(map, operationalLayer.toGeoJSON());
+      updateOverlayLayer(map, operationalLayer.getPreviewFeature());
     }
   }, [map, operationalLayer]);
 

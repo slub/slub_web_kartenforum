@@ -20,7 +20,7 @@ import PropTypes from "prop-types";
 import { useRecoilState } from "recoil";
 import { addedFileState } from "@map/atoms";
 
-import { useAddGeoJson } from "@map/components/GeoJson/util/useAddGeoJson";
+import { useAddGeoJson } from "@map/components/GeoJson/util/hooks/useAddGeoJson";
 import ToggleSwitch from "@map/components/ToggleSwitch/ToggleSwitch";
 import { translate } from "@util/util";
 

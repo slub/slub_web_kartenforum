@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
 import clsx from "clsx";
@@ -16,9 +16,30 @@ import { checkIfArrayContainsLayer } from "../../util";
 import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase";
 import "./MapSearchListElement.scss";
 import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
+import settingsProvider from "@settings-provider";
 
 export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";
+
+const getImageSrcFromLayer = (layer) => {
+  const type = layer.getMetadata(METADATA.type);
+  const thumbnailUrl = layer.getMetadata(METADATA.thumbnailUrl);
+  const isThumbnailUrlDefined =
+    thumbnailUrl !== undefined && thumbnailUrl !== "";
+
+  if (type === LAYER_TYPES.VECTOR_MAP) {
+    if (!isThumbnailUrlDefined) {
+      const settings = settingsProvider.getSettings();
+      return settings.FALLBACK_THUMBNAIL;
+    }
+  } else {
+    if (!isThumbnailUrlDefined) {
+      return FALLBACK_SRC;
+    }
+  }
+
+  return thumbnailUrl.replace("http:", "");
+};
 
 export const MapSearchListElementBase = ({
   children,
@@ -33,10 +54,11 @@ export const MapSearchListElementBase = ({
   const operationalLayer = maps[index] ?? LOADING_LAYER;
 
   const selectedLayers = useRecoilValue(selectedLayersState);
-  const [src, setSrc] = useState(
-    operationalLayer.getMetadata(METADATA.thumbnailUrl) === undefined
-      ? ""
-      : operationalLayer.getMetadata(METADATA.thumbnailUrl).replace("http:", "")
+  const [errored, setErrored] = useState(false);
+
+  const src = useMemo(
+    () => getImageSrcFromLayer(operationalLayer),
+    [operationalLayer]
   );
 
   ////
@@ -53,20 +75,21 @@ export const MapSearchListElementBase = ({
     }
   };
 
-  const handleError = () => {
+  const handleError = useCallback(() => {
     if (src !== "" && src !== FALLBACK_SRC) {
-      setSrc(FALLBACK_SRC);
+      setErrored(true);
     }
-  };
+  }, [src]);
 
   ///
   // Effect section
   ///
 
-  // update thumb url if layer changes
   useEffect(() => {
-    setSrc(operationalLayer.getMetadata(METADATA.thumbnailUrl));
-  }, [operationalLayer]);
+    setErrored(false);
+  }, [operationalLayer.getId()]);
+
+  // update thumb url if layer changes
 
   const isLoading = operationalLayer === LOADING_LAYER;
 
@@ -86,7 +109,10 @@ export const MapSearchListElementBase = ({
 
   const isMosaicMap =
     operationalLayer.getMetadata(METADATA.type) === LAYER_TYPES.MOSAIC_MAP;
+  const isVectorMap =
+    operationalLayer.getMetadata(METADATA.type) === LAYER_TYPES.VECTOR_MAP;
 
+  //@TODO: Add correct label for VECTOR maps
   return (
     <li
       tabIndex={0}
@@ -114,7 +140,7 @@ export const MapSearchListElementBase = ({
       <span className="data-col time">1</span>
       <div className="view-item">
         <span className="thumbnail" href="#">
-          {src === "" ? (
+          {isLoading ? (
             <Skeleton.default height="calc(100% - 6px)" />
           ) : (
             <>
@@ -123,13 +149,20 @@ export const MapSearchListElementBase = ({
                   METADATA.title
                 )} ${operationalLayer.getMetadata(METADATA.timePublished)}`}
                 onError={handleError}
-                src={src}
+                src={errored ? FALLBACK_SRC : src}
               />
               {isMosaicMap && (
                 <span
                   className={clsx("mosaic-badge", isSelected && "selected")}
                 >
                   {translate("mosaic-badge-title")}
+                </span>
+              )}
+              {isVectorMap && (
+                <span
+                  className={clsx("mosaic-badge", isSelected && "selected")}
+                >
+                  VECTOR
                 </span>
               )}
             </>
