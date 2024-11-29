@@ -6,8 +6,10 @@
  */
 
 import React, { useMemo, useState, useRef } from "react";
-import { translate } from "@util/util";
 import PropTypes from "prop-types";
+import { default as Skeleton } from "react-loading-skeleton/lib/skeleton";
+
+import { translate } from "@util/util";
 import VkfIcon from "@components/VkfIcon";
 
 import "./ImageWithFallback.scss";
@@ -17,6 +19,7 @@ const VIEW_MODE = {
   IMAGE: 1,
   ERROR: 2,
   PLACEHOLDER: 3,
+  LOADING: 4,
 };
 
 const ImageWithFallback = ({ imageLink, showPlaceholder, imageAsPreview }) => {
@@ -33,9 +36,12 @@ const ImageWithFallback = ({ imageLink, showPlaceholder, imageAsPreview }) => {
     if (imageLink.length === 0 && showPlaceholder) {
       setViewMode(VIEW_MODE.PLACEHOLDER);
     } else {
-      setViewMode(VIEW_MODE.IMAGE);
+      setViewMode(VIEW_MODE.LOADING);
     }
   }
+
+  const SHOW_IMAGE =
+    viewMode === VIEW_MODE.LOADING || viewMode === VIEW_MODE.IMAGE;
 
   const modifier = useMemo(() => {
     if (viewMode === VIEW_MODE.PLACEHOLDER) {
@@ -52,19 +58,29 @@ const ImageWithFallback = ({ imageLink, showPlaceholder, imageAsPreview }) => {
   return (
     <div className="image-with-fallback-root">
       <div className={`image-container ${modifier}`}>
-        {viewMode === VIEW_MODE.IMAGE && (
-          <img
-            className={`${imageAsPreview ? "preview" : ""}`}
-            src={imageLink}
-            onError={() => setViewMode(VIEW_MODE.ERROR)}
-          />
+        {SHOW_IMAGE && (
+          <>
+            {viewMode === VIEW_MODE.LOADING && (
+              <Skeleton.default height={180} />
+            )}
+
+            <img
+              className={`${imageAsPreview ? "preview" : ""} ${
+                viewMode === VIEW_MODE.LOADING ? "loading" : ""
+              }`}
+              src={imageLink}
+              onLoad={() => setViewMode(VIEW_MODE.IMAGE)}
+              onError={() => setViewMode(VIEW_MODE.ERROR)}
+            />
+          </>
         )}
 
-        {viewMode !== VIEW_MODE.IMAGE && (
+        {!SHOW_IMAGE && (
           <div className={`image-fallback-icon ${modifier}`}>
             <VkfIcon name="image-placeholder" />
           </div>
         )}
+
         {viewMode === VIEW_MODE.ERROR && (
           <p className="image-fallback-text">
             {translate("geojson-image-fallback-p")}

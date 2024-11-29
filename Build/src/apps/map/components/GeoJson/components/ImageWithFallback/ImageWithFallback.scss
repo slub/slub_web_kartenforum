@@ -19,6 +19,10 @@ $image-height: 182px;
                 height: $image-height;
                 object-fit: contain;
             }
+
+            &.loading {
+                height: 0;
+            }
         }
 
         &.error {
