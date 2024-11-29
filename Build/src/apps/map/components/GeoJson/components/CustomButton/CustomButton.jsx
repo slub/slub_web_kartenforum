@@ -16,6 +16,8 @@ const CustomButton = forwardRef(function CustomButton(props, ref) {
     type = "default",
     disabled = false,
     title,
+    buttonType,
+    form,
   } = props;
 
   return (
@@ -25,6 +27,8 @@ const CustomButton = forwardRef(function CustomButton(props, ref) {
       onClick={onClick}
       ref={ref}
       title={title}
+      type={buttonType}
+      form={form}
     >
       {children}
     </button>
@@ -45,5 +49,7 @@ CustomButton.propTypes = {
     "edit",
     "save",
   ]),
+  buttonType: PropTypes.string,
+  form: PropTypes.string,
 };
 export default CustomButton;
