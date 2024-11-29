@@ -282,6 +282,34 @@
 				<target><![CDATA[Vektor-Karte löschen]]></target>
 			</trans-unit>
 
+			<!-- GeoJson Metadata Fields -->
+            <trans-unit id="plugin.map.geojson.metadata.title">
+				<source><![CDATA[Title]]></source>
+				<target><![CDATA[Titel]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.description">
+				<source><![CDATA[Description]]></source>
+				<target><![CDATA[Beschreibung]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.thumbnail_url">
+				<source><![CDATA[Preview image]]></source>
+				<target><![CDATA[Vorschau-Bild]]></target>
+            </trans-unit>
+
+			<!-- GeoJson Metadata Placeholders -->
+            <trans-unit id="plugin.map.geojson.placeholders.title">
+				<source><![CDATA[Insert title here…]]></source>
+				<target><![CDATA[Titel hier eingeben…]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.placeholders.description">
+				<source><![CDATA[Enter description here…]]></source>
+				<target><![CDATA[Beschreibung hier eingeben…]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.placeholders.thumbnail_url">
+				<source><![CDATA[Enter preview image url here…]]></source>
+				<target><![CDATA[Link zum Vorschau-Bild hier eingeben…]]></target>
+            </trans-unit>
+
             <!--  Map GeoJson Feature Edit Image Fallback   -->
             <trans-unit id="plugin.map.geojson.img-fallback-p" approved="yes">
                 <source><![CDATA[We could not find a image. Please check the link again.]]></source>

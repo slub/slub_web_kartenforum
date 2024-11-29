@@ -400,7 +400,29 @@
             <trans-unit id="plugin.map.geojson.metadatapanel.delete-btn">
 				<source>Delete vector map</source>
 			</trans-unit>
-                      
+
+            <!-- GeoJson Metadata Fields -->
+            <trans-unit id="plugin.map.geojson.metadata.title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.description">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.thumbnail_url">
+                <source>Preview image</source>
+            </trans-unit>
+
+
+			<!-- GeoJson Metadata Placeholders -->
+            <trans-unit id="plugin.map.geojson.placeholders.title">
+				<source>Insert title here…</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.placeholders.description">
+				<source>Enter description here…</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.placeholders.thumbnail_url">
+				<source>Enter preview image url here…</source>
+            </trans-unit>
 
             <!-- Global > Map > MapWrapper -->
             <trans-unit id="plugin.map.mapwrapper.parseError">

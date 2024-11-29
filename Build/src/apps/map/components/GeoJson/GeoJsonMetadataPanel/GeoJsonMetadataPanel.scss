@@ -19,13 +19,17 @@
         overflow-y: auto;
         flex-grow: 1;
 
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
         .content-padding {
             padding-left: 15px;
             padding-right: 15px;
         }
 
         .introduction-text {
-            padding: 20px 15px 30px 15px;
+            padding: 20px 15px 0px 15px;
 
             color: #666;
             font-family: "Titillium Web";
