@@ -265,9 +265,13 @@
 				<source><![CDATA[Edit vector map]]></source>
 				<target><![CDATA[Vektor-Karte bearbeiten]]></target>
 			</trans-unit>
-            <trans-unit id="plugin.map.geojson.metadatapanel.intro">
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro.edit">
 				<source><![CDATA[Edit the settings for the entire vector map here. You can define the title, description and preview image here.]]></source>
 				<target><![CDATA[Bearbeiten Sie hier die Einstellungen für die gesamte Vektor-Karte. Sie können hier Titel, Beschreibung und Vorschaubild bestimmen.]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro.create">
+				<source><![CDATA[Add a title, description and a preview image for your new vector map here.]]></source>
+				<target><![CDATA[Fügen Sie hier einen Titel, eine Beschreibung und ein Vorschaubild für Ihre neue Vektor-Karte hinzu.]]></target>
 			</trans-unit>
             <trans-unit id="plugin.map.geojson.metadatapanel.delete">
 				<source><![CDATA[Delete this vector map.]]></source>
@@ -1325,13 +1329,17 @@
 			    <source><![CDATA[Edit]]></source>
                 <target><![CDATA[Bearbeiten]]></target>
             </trans-unit>
-			<trans-unit id="plugin.map.geojsoncontrolbar.settingsbutton.title" approved="yes">
+			<trans-unit id="plugin.map.geojsoncontrolbar.button.metadata.title" approved="yes">
 				<source><![CDATA[Show vector map settings]]></source>
                 <target><![CDATA[Zeige Einstellungen der Vektor-Karte]]></target>
             </trans-unit>
-			<trans-unit id="plugin.map.geojsoncontrolbar.historybutton.title" approved="yes">
+			<trans-unit id="plugin.map.geojsoncontrolbar.button.history.title" approved="yes">
 				<source><![CDATA[Show vector map history]]></source>
                 <target><![CDATA[Zeige Versionen der Vektor-Karte]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.button.permissions.title" approved="yes">
+                <source><![CDATA[Show vector map permission settings]]></source>
+				<target><![CDATA[Zeige Zugriffsberechtigungen der Vektor-Karte]]></target>
             </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.add-feature" approved="yes">
 				<source><![CDATA[Create a new geometry element now.]]></source>

@@ -32,7 +32,6 @@ import {
   normalizeDate,
 } from "@util/date";
 import GeoJsonLayerFeatureList from "@map/components/GeoJson/GeoJsonLayerFeatureList";
-import GeoJsonLayerEditPanel from "@map/components/GeoJson/GeoJsonLayerEditPanel";
 import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
 import { METADATA, GeoJsonLayer } from "@map/components/CustomLayers";
 import TimeSlider from "@components/TimeSlider";
@@ -329,13 +328,6 @@ const GeoJsonLayerView = () => {
               )}
               features={filteredFeatures}
               onFeatureClick={handleFeatureClick}
-            />
-
-            <GeoJsonLayerEditPanel
-              className={clsx(
-                "geojson-layer-edit-panel-root",
-                viewMode === VIEW_MODE.EDIT && "in"
-              )}
             />
           </>
         )}

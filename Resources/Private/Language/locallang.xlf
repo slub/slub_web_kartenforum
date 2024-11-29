@@ -388,7 +388,10 @@
             <trans-unit id="plugin.map.geojson.metadatapanel.header.edit">
 				<source>Edit vector map</source>
 			</trans-unit>
-            <trans-unit id="plugin.map.geojson.metadatapanel.intro">
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro.create">
+				<source>Add a title, description and a preview image for your new vector map here</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro.edit">
 				<source>Edit the settings for the entire vector map here. You can define the title, description and preview image here.</source>
 			</trans-unit>
             <trans-unit id="plugin.map.geojson.metadatapanel.delete">
@@ -1073,11 +1076,14 @@
             <trans-unit id="plugin.map.geojsoncontrolbar.header.edit" approved="yes">
                 <source>Edit</source>
             </trans-unit>
-			<trans-unit id="plugin.map.geojsoncontrolbar.settingsbutton.title" approved="yes">
+			<trans-unit id="plugin.map.geojsoncontrolbar.button.metadata.title" approved="yes">
                 <source>Show vector map settings</source>
             </trans-unit>
-			<trans-unit id="plugin.map.geojsoncontrolbar.historybutton.title" approved="yes">
+			<trans-unit id="plugin.map.geojsoncontrolbar.button.history.title" approved="yes">
                 <source>Show vector map history</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.button.permissions.title" approved="yes">
+                <source>Show vector map permission settings</source>
             </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.add-feature" approved="yes">
                 <source>Create a new geometry element now.</source>

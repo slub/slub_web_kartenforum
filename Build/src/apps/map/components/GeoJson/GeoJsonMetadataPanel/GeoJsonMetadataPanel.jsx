@@ -21,7 +21,13 @@ import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
 const MetadataPanel = () => {
   const setDrawModePanel = useSetRecoilState(drawModePanelState);
 
+  const introText = useMemo(() => {
+    // {translate("geojson-metadata-panel-intro-create")}
+    return translate("geojson-metadata-panel-intro-edit");
+  }, []);
+
   const title = useMemo(() => {
+    // {translate("geojson-metadata-panel-header-create")}
     return translate("geojson-metadata-panel-header-edit");
   }, []);
 
@@ -41,9 +47,7 @@ const MetadataPanel = () => {
     <div className="geojson-metadata-panel-root">
       <GeoJsonPanelHeader title={title} onCloseClick={handleCloseClick} />
       <div className="geojson-metadata-panel-content">
-        <div className="introduction-text content-padding">
-          {translate("geojson-metadata-panel-intro")}
-        </div>
+        <div className="introduction-text content-padding">{introText}</div>
         <div className="metadata-form-container content-padding"></div>
         <div className="danger-zone-container">
           <DangerZone
