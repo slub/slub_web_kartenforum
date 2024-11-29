@@ -8,33 +8,42 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { METADATA } from "@map/components/CustomLayers";
 
-const METADATA = {
-  title: "title",
-  description: "description",
-  imgLink: "img_link",
-};
-
-const GeoJsonMetadataForm = ({ formId, onFormSubmit }) => {
+const GeoJsonMetadataForm = ({ formId, data, onValidatedFormSubmit }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   return (
-    <form id={formId} onSubmit={handleSubmit(onFormSubmit)}>
-      <input {...register(METADATA.title, { required: true })} />
+    <form id={formId} onSubmit={handleSubmit(onValidatedFormSubmit)}>
+      <input
+        defaultValue={data[METADATA.title] ?? ""}
+        {...register(METADATA.title, { required: true })}
+      />
       {errors[METADATA.title] && <span>This field is required</span>}
-      <input {...register(METADATA.description)} />
-      <input {...register(METADATA.imgLink)} />
+      <input
+        defaultValue={data[METADATA.description] ?? ""}
+        {...register(METADATA.description)}
+      />
+      <input
+        defaultValue={data[METADATA.thumbnailUrl] ?? ""}
+        {...register(METADATA.thumbnailUrl)}
+      />
     </form>
   );
 };
 
 GeoJsonMetadataForm.defaultPropTypes = {};
 GeoJsonMetadataForm.propTypes = {
-  onFormSubmit: PropTypes.func.isRequired,
+  onValidatedFormSubmit: PropTypes.func.isRequired,
   formId: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    [METADATA.title]: PropTypes.string,
+    [METADATA.description]: PropTypes.string,
+    [METADATA.thumbnailUrl]: PropTypes.string,
+  }),
 };
 
 export default GeoJsonMetadataForm;

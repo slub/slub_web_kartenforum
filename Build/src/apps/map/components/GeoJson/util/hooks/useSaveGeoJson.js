@@ -12,6 +12,7 @@ import {
     selectedGeoJsonLayerState,
     selectedLayersState,
     vectorMapDrawState,
+    metadataDrawState,
 } from "@map/atoms";
 import { VECTOR_MAP_TYPES } from "@map/components/GeoJson/constants";
 import { isDefined } from "@util/util";
@@ -116,13 +117,17 @@ export const useSaveGeoJson = () => {
                     );
 
                     const map = await snapshot.getPromise(mapState);
-
-                    // @TODO: Update metadata of selectedLayer accordingly
+                    const metadata = await snapshot.getPromise(
+                        metadataDrawState
+                    );
 
                     if (isDefined(map) && isDefined(selectedLayer)) {
                         // update application layer
                         const geojson = draw.getAll();
                         selectedLayer.setDataOnMap(map, geojson);
+                        Object.keys(metadata).forEach((key) => {
+                            selectedLayer.updateMetadata(key, metadata[key]);
+                        });
 
                         // reset state
                         exitDrawMode(set);

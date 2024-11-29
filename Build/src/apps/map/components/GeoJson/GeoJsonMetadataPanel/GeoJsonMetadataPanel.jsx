@@ -6,11 +6,11 @@
  */
 
 import React, { useCallback, useMemo } from "react";
-import { useSetRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilState } from "recoil";
 
 import VkfIcon from "@components/VkfIcon";
 import { translate } from "@util/util";
-import { drawModePanelState } from "@map/atoms";
+import { drawModePanelState, metadataDrawState } from "@map/atoms";
 import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
 
 import DangerZone from "../components/DangerZone";
@@ -25,6 +25,7 @@ const FORM_ID = "vkf-geojson-metadata-form";
 
 const MetadataPanel = () => {
   const setDrawModePanel = useSetRecoilState(drawModePanelState);
+  const [metadataDraw, setMetadataDraw] = useRecoilState(metadataDrawState);
 
   const introText = useMemo(() => {
     // {translate("geojson-metadata-panel-intro-create")}
@@ -44,8 +45,8 @@ const MetadataPanel = () => {
     setDrawModePanel(DRAW_MODE_PANEL_STATE.NONE);
   }, []);
 
-  const handleFormSubmit = useCallback((data) => {
-    console.log("form submit", data);
+  const handleValidatedFormSubmit = useCallback((data) => {
+    setMetadataDraw(data);
     handleCloseClick();
   }, []);
 
@@ -57,7 +58,8 @@ const MetadataPanel = () => {
         <div className="metadata-form-container content-padding">
           <GeoJsonMetadataForm
             formId={FORM_ID}
-            onFormSubmit={handleFormSubmit}
+            data={metadataDraw}
+            onValidatedFormSubmit={handleValidatedFormSubmit}
           />
         </div>
         <div className="danger-zone-container">
