@@ -1,8 +1,8 @@
-/**
- * Created by pouria.rezaei@pikobytes.de on 18/07/23
+/*
+ * Created by tom.schulze@pikobytes.de on 28.11.24.
  *
  * This file is subject to the terms and conditions defined in
- * file 'LICENSE.txt', which is part of this source code package.
+ * file "LICENSE.txt", which is part of this source code package.
  */
 
 import React, { useMemo, useState, useRef } from "react";
@@ -19,7 +19,7 @@ const VIEW_MODE = {
   PLACEHOLDER: 3,
 };
 
-const ImageWithFallback = ({ imageLink, showPlaceHolder }) => {
+const ImageWithFallback = ({ imageLink, showPlaceholder, imageAsPreview }) => {
   const [viewMode, setViewMode] = useState(VIEW_MODE.INITIAL);
 
   const previousImageLink = useRef(imageLink);
@@ -30,7 +30,7 @@ const ImageWithFallback = ({ imageLink, showPlaceHolder }) => {
   }
 
   if (viewMode === VIEW_MODE.INITIAL) {
-    if (imageLink.length === 0 && showPlaceHolder) {
+    if (imageLink.length === 0 && showPlaceholder) {
       setViewMode(VIEW_MODE.PLACEHOLDER);
     } else {
       setViewMode(VIEW_MODE.IMAGE);
@@ -40,45 +40,51 @@ const ImageWithFallback = ({ imageLink, showPlaceHolder }) => {
   const modifier = useMemo(() => {
     if (viewMode === VIEW_MODE.PLACEHOLDER) {
       return "placeholder";
-    } else if (viewMode === VIEW_MODE.ERROR) {
+    }
+
+    if (viewMode === VIEW_MODE.ERROR) {
       return "error";
     }
 
-    // should not happen
-    return "";
+    return "image";
   }, [viewMode]);
 
   return (
     <div className="image-with-fallback-root">
-      {viewMode === VIEW_MODE.IMAGE && (
-        <div className="image-container">
-          <img src={imageLink} onError={() => setViewMode(VIEW_MODE.ERROR)} />
-        </div>
-      )}
-      {viewMode !== VIEW_MODE.IMAGE && (
-        <div className={`image-fallback-container ${modifier}`}>
+      <div className={`image-container ${modifier}`}>
+        {viewMode === VIEW_MODE.IMAGE && (
+          <img
+            className={`${imageAsPreview ? "preview" : ""}`}
+            src={imageLink}
+            onError={() => setViewMode(VIEW_MODE.ERROR)}
+          />
+        )}
+
+        {viewMode !== VIEW_MODE.IMAGE && (
           <div className={`image-fallback-icon ${modifier}`}>
             <VkfIcon name="image-placeholder" />
           </div>
-          {viewMode === VIEW_MODE.ERROR && (
-            <p className="image-fallback-text">
-              {translate("geojson-image-fallback-p")}
-            </p>
-          )}
-        </div>
-      )}
+        )}
+        {viewMode === VIEW_MODE.ERROR && (
+          <p className="image-fallback-text">
+            {translate("geojson-image-fallback-p")}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
 
 ImageWithFallback.defaultPropTypes = {
-  showPlaceHolder: false,
+  imageAsPreview: false,
+  showPlaceholder: false,
   imageLink: "",
 };
 
 ImageWithFallback.propTypes = {
   imageLink: PropTypes.string,
-  showPlaceHolder: PropTypes.bool,
+  showPlaceholder: PropTypes.bool,
+  imageAsPreview: PropTypes.bool,
 };
 
 export default ImageWithFallback;

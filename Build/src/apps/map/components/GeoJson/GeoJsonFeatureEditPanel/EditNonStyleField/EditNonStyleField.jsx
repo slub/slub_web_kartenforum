@@ -112,7 +112,7 @@ const EditNonStyleField = ({
             tabIndex="-1"
             readOnly
           />
-          <ImageWithFallback imageLink={value} showPlaceHolder />
+          <ImageWithFallback imageLink={value} showPlaceholder imageAsPreview />
         </div>
       )}
       <div className="none-style-property-item">

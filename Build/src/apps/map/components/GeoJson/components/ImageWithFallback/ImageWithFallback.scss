@@ -1,58 +1,72 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 28.11.24.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
 @import "../../../../Variables.scss";
+
+$image-height: 182px;
 
 .image-with-fallback-root {
     .image-container {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-    }
 
-    .image-fallback-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        gap: 12px;
-        height: 182px;
+        img {
+            &.preview {
+                height: $image-height;
+                object-fit: contain;
+            }
+        }
 
         &.error {
+            height: $image-height;
+            align-items: center;
+            justify-content: center;
             background-color: #ffdada;
+            gap: 12px;
         }
 
         &.placeholder {
+            height: $image-height;
+            align-items: center;
+            justify-content: center;
             background-color: rgba(217, 217, 217, 0.3);
             border: 1px solid #999;
         }
+    }
 
-        .image-fallback-icon {
-            height: 66px;
-            width: 66px;
+    .image-fallback-icon {
+        height: 66px;
+        width: 66px;
 
-            &.error {
-                svg {
-                    path {
-                        stroke: $primary-color;
-                    }
-                }
-            }
-
-            &.placeholder {
-                svg {
-                    path {
-                        stroke: #ccc;
-                    }
+        &.error {
+            svg {
+                path {
+                    stroke: $primary-color;
                 }
             }
         }
-        .image-fallback-text {
-            color: $primary-color;
-            font-family: "Titillium Web";
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 20px;
-            margin: 0;
+
+        &.placeholder {
+            svg {
+                path {
+                    stroke: #ccc;
+                }
+            }
         }
+    }
+
+    .image-fallback-text {
+        color: $primary-color;
+        font-family: "Titillium Web";
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        margin: 0;
+        text-align: center;
     }
 }
