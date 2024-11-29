@@ -33,7 +33,6 @@ export const HorizontalLayout = () => {
           className="geojson-feature-panel-container"
           Component={GeoJsonFeaturePanelWrapper}
           props={geoJsonProps}
-          enter={geoJsonProps !== null}
         />
         <div
           className="layermanagement-container"

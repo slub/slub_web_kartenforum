@@ -32,14 +32,16 @@ export const HorizontalLayoutDraw = () => {
         <ExitTransition
           className="geojson-metadata-panel-container"
           Component={GeoJsonMetadataPanel}
-          props={{}}
-          enter={drawModePanel === DRAW_MODE_PANEL_STATE.METADATA}
+          props={drawModePanel === DRAW_MODE_PANEL_STATE.METADATA ? {} : null}
         />
         <ExitTransition
           className="geojson-feature-edit-panel-container"
           Component={GeoJsonFeatureEditPanelWrapper}
-          props={geoJsonProps}
-          enter={drawModePanel === DRAW_MODE_PANEL_STATE.FEATURE}
+          props={
+            drawModePanel === DRAW_MODE_PANEL_STATE.FEATURE
+              ? geoJsonProps
+              : null
+          }
         />
       </div>
       <MapboxDrawLoader />
