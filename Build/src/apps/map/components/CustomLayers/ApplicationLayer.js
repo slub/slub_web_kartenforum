@@ -52,7 +52,7 @@ export class ApplicationLayer {
             return;
         }
 
-        if (!isDefined(METADATA[key])) {
+        if (!Object.values(METADATA).includes(key)) {
             console.warn(`Trying to update metadata with invalid key '${key}'`);
             return;
         }

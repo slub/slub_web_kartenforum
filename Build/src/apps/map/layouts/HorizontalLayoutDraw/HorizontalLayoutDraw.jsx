@@ -18,6 +18,7 @@ import "./HorizontalLayoutDraw.scss";
 import { useRecoilValue } from "recoil";
 import { drawModePanelState } from "@map/atoms";
 import { DRAW_MODE_PANEL_STATE } from "../util";
+import GeoJsonHistoryPanel from "@map/components/GeoJson/GeoJsonHistoryPanel/GeoJsonHistoryPanel";
 
 export const HorizontalLayoutDraw = () => {
   const geoJsonProps = useGeoJsonFeatureDraw();
@@ -31,8 +32,17 @@ export const HorizontalLayoutDraw = () => {
         </div>
         <ExitTransition
           className="geojson-metadata-panel-container"
-          Component={GeoJsonMetadataPanel}
-          props={drawModePanel === DRAW_MODE_PANEL_STATE.METADATA ? {} : null}
+          Component={
+            drawModePanel === DRAW_MODE_PANEL_STATE.HISTORY
+              ? GeoJsonHistoryPanel
+              : GeoJsonMetadataPanel
+          }
+          props={
+            drawModePanel === DRAW_MODE_PANEL_STATE.METADATA ||
+            drawModePanel === DRAW_MODE_PANEL_STATE.HISTORY
+              ? {}
+              : null
+          }
         />
         <ExitTransition
           className="geojson-feature-edit-panel-container"

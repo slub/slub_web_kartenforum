@@ -12,7 +12,12 @@ import VkfIcon from "@components/VkfIcon";
 
 import "./GeoJsonPanelHeader.scss";
 
-const GeoJsonPanelHeader = ({ title, onCloseClick, onEditClick }) => {
+const GeoJsonPanelHeader = ({
+  isEditAllowed,
+  title,
+  onCloseClick,
+  onEditClick,
+}) => {
   const isEditView = useMemo(() => !isDefined(onEditClick), [onEditClick]);
 
   return (
@@ -20,6 +25,7 @@ const GeoJsonPanelHeader = ({ title, onCloseClick, onEditClick }) => {
       <div className="header-buttons">
         {!isEditView && (
           <CustomButton
+            disabled={!isEditAllowed}
             className="edit-button"
             onClick={onEditClick}
             type="edit"
@@ -39,6 +45,7 @@ const GeoJsonPanelHeader = ({ title, onCloseClick, onEditClick }) => {
 };
 
 GeoJsonPanelHeader.propTypes = {
+  isEditAllowed: PropTypes.bool,
   title: PropTypes.string.isRequired,
   onCloseClick: PropTypes.func.isRequired,
   onEditClick: PropTypes.func,

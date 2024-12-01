@@ -6,12 +6,16 @@
  */
 import { useRecoilCallback } from "recoil";
 import {
+    drawModePanelState,
     horizontalLayoutModeState,
     initialGeoJsonDrawState,
     metadataDrawState,
     vectorMapDrawState,
 } from "@map/atoms";
-import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
+import {
+    DRAW_MODE_PANEL_STATE,
+    HORIZONTAL_LAYOUT_MODE,
+} from "@map/layouts/util";
 import {
     emptyFeatureCollection,
     VECTOR_MAP_TYPES,
@@ -29,5 +33,8 @@ export const useCreateNewVectorMap = () => {
 
         // switch to draw mode
         set(horizontalLayoutModeState, HORIZONTAL_LAYOUT_MODE.DRAW);
+
+        // open metadata panel
+        set(drawModePanelState, DRAW_MODE_PANEL_STATE.METADATA);
     });
 };

@@ -32,10 +32,9 @@ export const useSaveGeoJson = () => {
                     const geojson = draw.getAll();
                     const map = await snapshot.getPromise(mapState);
 
-                    // @TODO: Fetch metadata from metadataDrawState
-                    const metadata = {
-                        title: "test",
-                    };
+                    const metadata = await snapshot.getPromise(
+                        metadataDrawState
+                    );
 
                     // persist vector map to remote
                     const id = await createNewVectorMap(geojson, metadata);
@@ -73,13 +72,15 @@ export const useSaveGeoJson = () => {
                     );
 
                     const map = await snapshot.getPromise(mapState);
+                    const metadata = await snapshot.getPromise(
+                        metadataDrawState
+                    );
 
                     // @TODO: Only push geojson if there are changes
                     // @TODO: Only push changed metadata properties
-                    // @TODO: Get metadata from metadataDrawState
                     // @TODO: Update metadata has to be None for non owner/admin user
                     const geoJson = draw.getAll();
-                    const metadata = { title: "Test 2" };
+
                     const newVersion = updateVectorMap(
                         selectedLayer.getMetadata(METADATA.vectorMapId),
                         geoJson,

@@ -11,6 +11,7 @@ import { useSetRecoilState } from "recoil";
 import { showDropZoneState } from "@map/atoms";
 import { translate } from "@util/util";
 import { useCreateNewVectorMap } from "@map/components/GeoJson/util/hooks/useCreateNewVectorMap";
+import { isVectorMapCreateAllowed } from "@map/components/GeoJson/util/authorization";
 
 export default function GeoJsonActionContainer() {
   const createNewVectorMap = useCreateNewVectorMap();
@@ -27,7 +28,10 @@ export default function GeoJsonActionContainer() {
   return (
     <div className="geojson-container">
       <div className="geojson-action">
-        <button onClick={handleCreateVectorMap}>
+        <button
+          disabled={!isVectorMapCreateAllowed()}
+          onClick={handleCreateVectorMap}
+        >
           <VkfIcon name="addVectorMap" />
           <span>{translate("layermanagement-create-vector-map")}</span>
         </button>

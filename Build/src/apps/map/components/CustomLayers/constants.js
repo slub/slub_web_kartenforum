@@ -26,6 +26,7 @@ export const METADATA = {
     // Vector map specific metadata
     vectorMapId: "vector_map_id",
     version: "version",
+    userRole: "user_role",
 };
 
 export const MAP_LIBRE_METADATA = {

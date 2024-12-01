@@ -50,6 +50,7 @@ let settingsObject = {
     MARKER_IMAGE_ID: "marker",
     USERNAME: "anonymous",
     USER_ISAUTHENTICATED: false,
+    USER_ROLE: null,
 };
 
 export default {
@@ -227,5 +228,9 @@ export default {
         const id = settingsObject["MARKER_IMAGE_ID"];
 
         return { id, url };
+    },
+
+    getUserRole() {
+        return settingsObject["USER_ROLE"];
     },
 };

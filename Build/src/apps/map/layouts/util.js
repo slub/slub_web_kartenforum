@@ -10,6 +10,7 @@ export const DRAW_MODE_PANEL_STATE = {
     NONE: 0,
     FEATURE: 1,
     METADATA: 2,
+    HISTORY: 3,
 };
 
 export const LAYOUT_TYPES = {

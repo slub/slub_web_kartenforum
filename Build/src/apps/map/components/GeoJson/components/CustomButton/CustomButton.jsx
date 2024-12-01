@@ -8,6 +8,7 @@ import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import "./CustomButton.scss";
 
+//@TODO: Handle disabled state correctly (e.g. set cursor to not-allowed, different style)
 const CustomButton = forwardRef(function CustomButton(props, ref) {
   const {
     children,

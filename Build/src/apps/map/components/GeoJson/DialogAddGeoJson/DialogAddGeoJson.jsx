@@ -23,6 +23,7 @@ import { addedFileState } from "@map/atoms";
 import { useAddGeoJson } from "@map/components/GeoJson/util/hooks/useAddGeoJson";
 import ToggleSwitch from "@map/components/ToggleSwitch/ToggleSwitch";
 import { translate } from "@util/util";
+import { isVectorMapCreateAllowed } from "@map/components/GeoJson/util/authorization";
 
 import "./DialogAddGeoJson.scss";
 
@@ -79,7 +80,10 @@ const DialogAddGeoJsonBase = ({ initialName, onClose, onSubmit }) => {
                   className="switch-label"
                   htmlFor={TOGGLE_SWITCH_ID}
                 >
-                  <ToggleSwitch id={TOGGLE_SWITCH_ID} />
+                  <ToggleSwitch
+                    disabled={!isVectorMapCreateAllowed()}
+                    id={TOGGLE_SWITCH_ID}
+                  />
                   Persistente Vektor-Karte
                 </ControlLabel>
                 <div>

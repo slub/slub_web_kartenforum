@@ -1,3 +1,5 @@
+@import "../../../../../../../Resources/Private/Scss/_Variables";
+
 .vkf-dialog-add-geojson {
     .modal-dialog {
         margin-top: 25%;
@@ -9,6 +11,12 @@
                 align-items: center;
                 gap: 8px;
                 cursor: pointer;
+                user-select: none;
+
+                &:has(input[disabled]) {
+                    cursor: not-allowed;
+                    color: $color-lightgrey;
+                }
             }
         }
 

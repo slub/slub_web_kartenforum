@@ -28,6 +28,9 @@
     </f:then>
 </f:security.ifAuthenticated>
 
+
+
+
 <f:section name="HeaderAssets">
     <link
         rel="stylesheet"
@@ -239,7 +242,7 @@
                     "<f:translate key='plugin.map.geojson.metadata.description' extensionName='SlubWebKartenforum' />",
                     "geojson-metadata-thumbnailUrl":
                     "<f:translate key='plugin.map.geojson.metadata.thumbnail_url' extensionName='SlubWebKartenforum' />",
-   
+
                     // GeoJson Metadata Placeholders
                     "geojson-placeholder-title":
                     "<f:translate key='plugin.map.geojson.placeholders.title' extensionName='SlubWebKartenforum' />",
@@ -382,6 +385,27 @@
         }
     </script>
 </f:section>
+
+
+<f:security.ifHasRole role="vk2-admin">
+    <f:then>
+      <script>
+          vk2.SettingsProvider.appendSettings({
+              USER_ROLE: "vk2-admin"
+          })
+      </script>
+    </f:then>
+</f:security.ifHasRole>
+
+<f:security.ifHasRole role="vk2-editor">
+    <f:then>
+         <script>
+          vk2.SettingsProvider.appendSettings({
+              USER_ROLE: "vk2-editor"
+          })
+      </script>
+    </f:then>
+</f:security.ifHasRole>
 
 <div class="map-plugin-container">
     <div id="vkf-app-map"></div>

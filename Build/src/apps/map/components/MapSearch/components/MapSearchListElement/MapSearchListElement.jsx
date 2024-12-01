@@ -49,6 +49,9 @@ const useMapSearchListElementFunctionality = () => {
         layer.getMetadata(METADATA.vectorMapId)
       );
 
+      layer.updateMetadata(METADATA.userRole, vectorMap[METADATA.userRole]);
+      layer.updateMetadata(METADATA.version, vectorMap[METADATA.version]);
+
       layer.setGeoJson(vectorMap.geojson);
       layer.addLayerToMap(map);
       set(selectedLayersState, (oldSelectedLayers) =>

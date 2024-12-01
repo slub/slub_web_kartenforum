@@ -258,6 +258,15 @@ export const PersistenceController = () => {
                       return getVectorMap(
                         feature.getMetadata(METADATA.vectorMapId)
                       ).then((vectorMap) => {
+                        feature.updateMetadata(
+                          METADATA.userRole,
+                          vectorMap[METADATA.userRole]
+                        );
+                        feature.updateMetadata(
+                          METADATA.version,
+                          vectorMap[METADATA.version]
+                        );
+
                         feature.setGeoJson(vectorMap.geojson);
                         return resolve({
                           layer: feature,

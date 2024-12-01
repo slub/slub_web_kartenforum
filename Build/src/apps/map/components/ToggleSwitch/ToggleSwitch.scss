@@ -53,4 +53,9 @@
     .toggle__input:checked ~ .toggle__fill::after {
         transform: translateX(12px);
     }
+
+    &:has(.toggle__input:disabled) {
+        cursor: not-allowed;
+        border-color: $color-lightgrey;
+    }
 }

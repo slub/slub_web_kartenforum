@@ -42,6 +42,11 @@ const getFeatureProperties = (maplibreFeature) => {
 // https://github.com/mapbox/mapbox-gl-draw/blob/main/docs/API.md
 const CLICK_BUFFER = 2;
 
+const EMPTY_FEATURE = {
+    featureId: null,
+    sourceId: null,
+};
+
 /**
  * The hook API
  * @typedef {Object} useGeoJsonFeatureAPI
@@ -73,9 +78,12 @@ function useGeoJsonFeature() {
     const resetFeature = useCallback(() => {
         uniqueCachedFeatureId.current = null;
         setGeoJsonFeature(null);
-        setSelectedGeoJsonFeatureIdentifier({
-            featureId: null,
-            sourceId: null,
+        setSelectedGeoJsonFeatureIdentifier((oldState) => {
+            if (isDefined(oldState.featureId) || isDefined(oldState.sourceId)) {
+                return EMPTY_FEATURE;
+            }
+
+            return oldState;
         });
     }, []);
 

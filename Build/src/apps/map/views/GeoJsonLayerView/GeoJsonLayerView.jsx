@@ -43,6 +43,7 @@ import { triggerJsonDownload } from "@map/components/LayerManagement/util";
 
 import "./GeoJsonLayerView.scss";
 import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
+import { isVectorMapEditAllowed } from "@map/components/GeoJson/util/authorization";
 
 const VIEW_MODE = {
   INITIAL: 1,
@@ -250,6 +251,7 @@ const GeoJsonLayerView = () => {
         {isDefined(selectedLayer) && (
           <>
             <GeoJsonPanelHeader
+              isEditAllowed={isVectorMapEditAllowed(selectedLayer)}
               title={translate("geojsonlayerpanel-header-title")}
               onEditClick={
                 viewMode !== VIEW_MODE.EDIT ? handleEditOpenClick : undefined

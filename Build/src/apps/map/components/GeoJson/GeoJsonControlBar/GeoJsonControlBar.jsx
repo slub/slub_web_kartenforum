@@ -6,13 +6,22 @@
  */
 
 import React, { useCallback, useMemo } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import { horizontalLayoutModeState, drawModePanelState } from "@map/atoms";
+import {
+  horizontalLayoutModeState,
+  drawModePanelState,
+  vectorMapDrawState,
+} from "@map/atoms";
 import { translate } from "@util/util";
 
 import CustomButton from "@map/components/GeoJson/components/CustomButton";
 import VkfIcon from "@components/VkfIcon";
+import useSaveGeoJson from "@map/components/GeoJson/util/hooks/useSaveGeoJson";
+import {
+  isVectorMapHistoryViewAllowed,
+  isVectorMapMetadataEditAllowed,
+} from "@map/components/GeoJson/util/authorization";
 
 import {
   HORIZONTAL_LAYOUT_MODE,
@@ -21,7 +30,6 @@ import {
 import { useMapboxDrawInitializers } from "@map/components/GeoJson/MapboxDrawLoader/MapboxDrawLoader";
 
 import "./GeoJsonControlBar.scss";
-import useSaveGeoJson from "@map/components/GeoJson/util/hooks/useSaveGeoJson";
 
 const VIEW_STATE = {
   DEFAULT: 1,
@@ -34,6 +42,7 @@ const GeoJsonControlBar = () => {
   const setDrawModePanel = useSetRecoilState(drawModePanelState);
   const { removeDraw } = useMapboxDrawInitializers();
   const saveGeoJson = useSaveGeoJson();
+  const vectorMapDraw = useRecoilValue(vectorMapDrawState);
 
   const viewState = 2;
   const featureCount = 1;
@@ -49,12 +58,11 @@ const GeoJsonControlBar = () => {
   }, [featureCount]);
 
   const handleMetadataPanelClick = useCallback(() => {
-    // TODO must be deactivated for non-owners
     setDrawModePanel(DRAW_MODE_PANEL_STATE.METADATA);
   }, []);
 
   const handleHistoryClick = useCallback(() => {
-    console.log("history");
+    setDrawModePanel(DRAW_MODE_PANEL_STATE.HISTORY);
   }, []);
 
   const handleSave = useCallback(() => {
@@ -68,6 +76,7 @@ const GeoJsonControlBar = () => {
     });
   }, [removeDraw]);
 
+  // @TODO: Disable save button if title is not set
   return (
     <div className="vkf-geojson-control-bar-root">
       <div className="control-bar-header">
@@ -79,19 +88,23 @@ const GeoJsonControlBar = () => {
         </div>
         <div className="control-bar-layer-buttons">
           <CustomButton
+            disabled={!isVectorMapMetadataEditAllowed(vectorMapDraw)}
             className="control-bar-layer-buttons--button layer-metadata-button"
             onClick={handleMetadataPanelClick}
             title={translate("geojson-control-bar-metadata-btn-title")}
           >
             <VkfIcon name="metadata-panel" />
           </CustomButton>
-          <CustomButton
-            className="control-bar-layer-buttons--button layer-history-button"
-            onClick={handleHistoryClick}
-            title={translate("geojson-control-bar-history-btn-title")}
-          >
-            <VkfIcon name="clock" />
-          </CustomButton>
+          {vectorMapDraw?.type === "remote" && (
+            <CustomButton
+              disabled={!isVectorMapHistoryViewAllowed(vectorMapDraw)}
+              className="control-bar-layer-buttons--button layer-history-button"
+              onClick={handleHistoryClick}
+              title={translate("geojson-control-bar-history-btn-title")}
+            >
+              <VkfIcon name="clock" />
+            </CustomButton>
+          )}
         </div>
       </div>
       <div className="control-bar-main">

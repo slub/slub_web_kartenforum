@@ -9,16 +9,23 @@ import React from "react";
 import "./ToggleSwitch.scss";
 import PropTypes from "prop-types";
 
-export const ToggleSwitch = ({ id }) => {
+export const ToggleSwitch = ({ disabled, id }) => {
   return (
     <span className="toggle-switch">
-      <input className="toggle__input" name={id} type="checkbox" id={id} />
+      <input
+        className="toggle__input"
+        disabled={disabled}
+        name={id}
+        type="checkbox"
+        id={id}
+      />
       <div className="toggle__fill" />
     </span>
   );
 };
 
 ToggleSwitch.propTypes = {
+  disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
 };
 
