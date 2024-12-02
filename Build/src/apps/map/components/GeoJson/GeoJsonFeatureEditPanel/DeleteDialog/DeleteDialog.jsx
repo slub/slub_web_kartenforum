@@ -25,7 +25,7 @@ const DeleteDialog = ({ show, onClose, onDelete }) => {
         </CustomButton>
         <CustomButton className="cancel-btn" onClick={onClose} type="discard">
           <VkfIcon name="discard" />
-          {translate("geojson-featureview-cancel-btn")}
+          {translate("geojson-cancel-btn")}
         </CustomButton>
       </ModalFooter>
     </Modal>

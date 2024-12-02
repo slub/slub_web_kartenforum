@@ -42,11 +42,6 @@ const getFeatureProperties = (maplibreFeature) => {
 // https://github.com/mapbox/mapbox-gl-draw/blob/main/docs/API.md
 const CLICK_BUFFER = 2;
 
-const EMPTY_FEATURE = {
-    featureId: null,
-    sourceId: null,
-};
-
 /**
  * The hook API
  * @typedef {Object} useGeoJsonFeatureAPI
@@ -78,13 +73,7 @@ function useGeoJsonFeature() {
     const resetFeature = useCallback(() => {
         uniqueCachedFeatureId.current = null;
         setGeoJsonFeature(null);
-        setSelectedGeoJsonFeatureIdentifier((oldState) => {
-            if (isDefined(oldState.featureId) || isDefined(oldState.sourceId)) {
-                return EMPTY_FEATURE;
-            }
-
-            return oldState;
-        });
+        setSelectedGeoJsonFeatureIdentifier(null);
     }, []);
 
     const handleMapClick = useCallback(
@@ -143,10 +132,7 @@ function useGeoJsonFeature() {
 
     // set or reset feature externally by providing the feature identifier
     useEffect(() => {
-        if (
-            !isDefined(selectedGeoJsonFeatureIdentifier?.featureId) ||
-            !isDefined(selectedGeoJsonFeatureIdentifier?.sourceId)
-        ) {
+        if (!isDefined(selectedGeoJsonFeatureIdentifier)) {
             // the feature has been reset externally
             if (isDefined(uniqueCachedFeatureId.current)) {
                 resetFeature();

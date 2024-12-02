@@ -5,14 +5,21 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import React, { useCallback, useMemo } from "react";
-import { useSetRecoilState, useRecoilState } from "recoil";
+import React, { useCallback, useMemo, useState } from "react";
+import { useSetRecoilState, useRecoilState, useRecoilValue } from "recoil";
 
 import VkfIcon from "@components/VkfIcon";
-import { translate } from "@util/util";
-import { drawModePanelState, metadataDrawState } from "@map/atoms";
+import { translate, isDefined } from "@util/util";
+import {
+  drawModePanelState,
+  metadataDrawState,
+  vectorMapDrawState,
+} from "@map/atoms";
 import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
 
+import DeleteDialog from "../GeoJsonFeatureEditPanel/DeleteDialog";
+import { VECTOR_MAP_TYPES } from "../constants";
+import useDeleteGeojson from "../util/hooks/useDeleteGeoJson";
 import DangerZone from "../components/DangerZone";
 import GeoJsonPanelHeader from "../GeoJsonPanelHeader";
 import CustomButton from "../components/CustomButton";
@@ -23,23 +30,69 @@ import "./GeoJsonMetadataPanel.scss";
 
 const FORM_ID = "vkf-geojson-metadata-form";
 
+const VIEW_STATE = {
+  INITIAL: 0,
+  DELETE_DIALOG: 1,
+};
+
 const MetadataPanel = () => {
   const setDrawModePanel = useSetRecoilState(drawModePanelState);
   const [metadataDraw, setMetadataDraw] = useRecoilState(metadataDrawState);
+  const vectorMapDraw = useRecoilValue(vectorMapDrawState);
+  const deleteGeoJson = useDeleteGeojson();
 
-  const introText = useMemo(() => {
-    // {translate("geojson-metadata-panel-intro-create")}
-    return translate("geojson-metadata-panel-intro-edit");
+  const [viewState, setViewState] = useState(VIEW_STATE.INITIAL);
+
+  const { introText, title } = useMemo(() => {
+    if (!isDefined(vectorMapDraw)) {
+      return { introText: "", title: "" };
+    }
+
+    const { type, id } = vectorMapDraw;
+
+    const edit = {
+      introText: translate("geojson-metadata-panel-intro-edit"),
+      title: translate("geojson-metadata-panel-header-edit"),
+    };
+
+    const create = {
+      introText: translate("geojson-metadata-panel-intro-create"),
+      title: translate("geojson-metadata-panel-header-create"),
+    };
+
+    if (type === VECTOR_MAP_TYPES.REMOTE) {
+      if (isDefined(id)) {
+        return edit;
+      }
+      return create;
+    }
+
+    return edit;
+  }, [vectorMapDraw]);
+
+  const isUnsavedRemoteVectorMap = useMemo(() => {
+    if (!isDefined(vectorMapDraw)) {
+      return false;
+    }
+
+    const { type, id } = vectorMapDraw;
+
+    return type === VECTOR_MAP_TYPES.REMOTE && !isDefined(id);
+  }, [vectorMapDraw]);
+
+  const handleCloseDeleteDialog = useCallback(() => {
+    setViewState(VIEW_STATE.INITIAL);
   }, []);
 
-  const title = useMemo(() => {
-    // {translate("geojson-metadata-panel-header-create")}
-    return translate("geojson-metadata-panel-header-edit");
-  }, []);
+  const handleConfirmDelete = useCallback(() => {
+    deleteGeoJson();
+  }, [deleteGeoJson]);
 
   const handleDeleteClick = useCallback(() => {
-    console.log("delete");
-  }, []);
+    if (viewState !== VIEW_STATE.DELETE_DIALOG) {
+      setViewState(VIEW_STATE.DELETE_DIALOG);
+    }
+  }, [viewState]);
 
   const handleCloseClick = useCallback(() => {
     setDrawModePanel(DRAW_MODE_PANEL_STATE.NONE);
@@ -62,13 +115,15 @@ const MetadataPanel = () => {
             onValidatedFormSubmit={handleValidatedFormSubmit}
           />
         </div>
-        <div className="danger-zone-container">
-          <DangerZone
-            description={translate("geojson-metadata-panel-delete")}
-            onDeleteClick={handleDeleteClick}
-            buttonLabel={translate("geojson-metadata-panel-delete-btn")}
-          />
-        </div>
+        {!isUnsavedRemoteVectorMap && (
+          <div className="danger-zone-container">
+            <DangerZone
+              description={translate("geojson-metadata-panel-delete")}
+              onDeleteClick={handleDeleteClick}
+              buttonLabel={translate("geojson-metadata-panel-delete-btn")}
+            />
+          </div>
+        )}
       </div>
       <div className="footer-container">
         <CustomButton
@@ -89,6 +144,11 @@ const MetadataPanel = () => {
           {translate("geojson-cancel-btn")}
         </CustomButton>
       </div>
+      <DeleteDialog
+        show={viewState === VIEW_STATE.DELETE_DIALOG}
+        onClose={handleCloseDeleteDialog}
+        onDelete={handleConfirmDelete}
+      />
     </div>
   );
 };

@@ -100,6 +100,7 @@ export const selectedGeoJsonLayerIdState = atom({
     default: undefined,
 });
 
+// TODO remove, not needed anymore (update GeoJsonLayerView, too)
 // Should trigger state updates when a GeoJson feature is created, updated or deleted from a layer
 export const selectedGeoJsonLayerLastUpdatedState = atom({
     key: "selectedGeoJsonLayerLastUpdatedState",
@@ -124,19 +125,23 @@ export const selectedGeoJsonLayerState = selector({
 // The geojson feature id and the source id of the feature's layer that should be displayed in GeoJsonFeaturePanel
 export const selectedGeoJsonFeatureIdentifierState = atom({
     key: "selectedGeoJsonFeatureIdentifierState",
-    default: {
-        featureId: undefined,
-        sourceId: undefined,
-    },
+    default: null,
 });
 
 // Tracks whether or not a geojson feature is displayed in GeoJsonFeaturePanel (to toggle animations)
 export const isGeoJsonFeatureSelectedState = selector({
     key: "isGeoJsonFeatureSelectedState",
     get: ({ get }) => {
-        const { featureId, sourceId } = get(
+        const selectedGeoJsonFeatureIdentifier = get(
             selectedGeoJsonFeatureIdentifierState
         );
+
+        if (!isDefined(selectedGeoJsonFeatureIdentifier)) {
+            return false;
+        }
+
+        const { featureId, sourceId } = selectedGeoJsonFeatureIdentifier;
+
         return isDefined(featureId) && isDefined(sourceId);
     },
 });

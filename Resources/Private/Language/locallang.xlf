@@ -1110,6 +1110,9 @@
 			<trans-unit id="plugin.map.geojsoncontrolbar.add-feature" approved="yes">
                 <source>Create a new geometry element now.</source>
             </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.add-title" approved="yes">
+                <source>Please add a title first.</source>
+            </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.features-present" approved="yes">
                 <source>present in this vector map.</source>
             </trans-unit>

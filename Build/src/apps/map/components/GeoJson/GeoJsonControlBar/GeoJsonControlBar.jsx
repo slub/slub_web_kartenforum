@@ -5,15 +5,17 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
   horizontalLayoutModeState,
   drawModePanelState,
   vectorMapDrawState,
+  metadataDrawState,
+  initialGeoJsonDrawState,
 } from "@map/atoms";
-import { translate } from "@util/util";
+import { translate, isDefined } from "@util/util";
 
 import CustomButton from "@map/components/GeoJson/components/CustomButton";
 import VkfIcon from "@components/VkfIcon";
@@ -28,13 +30,16 @@ import {
   DRAW_MODE_PANEL_STATE,
 } from "@map/layouts/util";
 import { useMapboxDrawInitializers } from "@map/components/GeoJson/MapboxDrawLoader/MapboxDrawLoader";
+import { METADATA } from "@map/components/CustomLayers";
 
 import "./GeoJsonControlBar.scss";
 
 const VIEW_STATE = {
+  INITIAL: 0,
   DEFAULT: 1,
-  NEW: 2,
-  UPDATE: 3,
+  NO_TITLE: 2,
+  NO_FEATURES: 3,
+  UNSAVED_FEATURE_CHANGES: 4,
 };
 
 const GeoJsonControlBar = () => {
@@ -43,11 +48,44 @@ const GeoJsonControlBar = () => {
   const { removeDraw } = useMapboxDrawInitializers();
   const saveGeoJson = useSaveGeoJson();
   const vectorMapDraw = useRecoilValue(vectorMapDrawState);
+  const metadataDraw = useRecoilValue(metadataDrawState);
+  const initialGeoJson = useRecoilValue(initialGeoJsonDrawState);
 
-  const viewState = 2;
-  const featureCount = 1;
+  const [viewState, setViewState] = useState(VIEW_STATE.INITIAL);
+
+  // TODO improve and finalize, just a draft state machine
+  if (viewState === VIEW_STATE.INITIAL) {
+    if (!isDefined(metadataDraw[METADATA.title])) {
+      setViewState(VIEW_STATE.NO_TITLE);
+    } else {
+      if (initialGeoJson.features.length === 0) {
+        setViewState(VIEW_STATE.NO_FEATURES);
+      } else {
+        setViewState(VIEW_STATE.DEFAULT);
+      }
+    }
+  } else if (viewState === VIEW_STATE.NO_TITLE) {
+    if (isDefined(metadataDraw[METADATA.title])) {
+      if (initialGeoJson.features.length === 0) {
+        setViewState(VIEW_STATE.NO_FEATURES);
+      } else {
+        setViewState(VIEW_STATE.DEFAULT);
+      }
+    }
+  }
+
+  const layerTitle = useMemo(() => {
+    const title = metadataDraw[METADATA.title] ?? "";
+
+    if (title === "") {
+      return `[${translate("geojson-featureview-no-title")}]`;
+    }
+
+    return title;
+  }, [metadataDraw[METADATA.title]]);
 
   const formattedFeatureCount = useMemo(() => {
+    const featureCount = initialGeoJson.features.length;
     if (featureCount > 1) {
       return `${featureCount} ${translate(
         "geojson-control-bar-feature-plural"
@@ -55,7 +93,7 @@ const GeoJsonControlBar = () => {
     }
 
     return `1 ${translate("geojson-control-bar-feature")}`;
-  }, [featureCount]);
+  }, [initialGeoJson]);
 
   const handleMetadataPanelClick = useCallback(() => {
     setDrawModePanel(DRAW_MODE_PANEL_STATE.METADATA);
@@ -76,7 +114,7 @@ const GeoJsonControlBar = () => {
     });
   }, [removeDraw]);
 
-  // @TODO: Disable save button if title is not set
+  // TODO disable save button if title is not set or geojsonDraw === initialGeoJson?
   return (
     <div className="vkf-geojson-control-bar-root">
       <div className="control-bar-header">
@@ -84,7 +122,7 @@ const GeoJsonControlBar = () => {
           <span className="control-bar-title--static">
             {translate("geojson-control-bar-edit")}:{" "}
           </span>
-          <span className="control-bar-title--dynamic">Test</span>
+          <span className="control-bar-title--dynamic">{layerTitle}</span>
         </div>
         <div className="control-bar-layer-buttons">
           <CustomButton
@@ -111,13 +149,19 @@ const GeoJsonControlBar = () => {
         {viewState === VIEW_STATE.DEFAULT && (
           <>
             <span className="bold">{formattedFeatureCount}</span>{" "}
-            {translate("geojson-control-bar-features-present")}
+            {translate("geojson-control-bar-hint-features-present")}
           </>
         )}
 
-        {viewState === VIEW_STATE.NEW && (
+        {viewState === VIEW_STATE.NO_TITLE && (
           <span className="bold">
-            {translate("geojson-control-bar-add-feature")}
+            {translate("geojson-control-bar-hint-add-title")}
+          </span>
+        )}
+
+        {viewState === VIEW_STATE.NO_FEATURES && (
+          <span className="bold">
+            {translate("geojson-control-bar-hint-add-feature")}
           </span>
         )}
       </div>
@@ -130,7 +174,12 @@ const GeoJsonControlBar = () => {
           <VkfIcon name="discard" />
           {translate("geojson-cancel-btn")}
         </CustomButton>
-        <CustomButton className="save-button" onClick={handleSave} type="save">
+        <CustomButton
+          disabled={viewState === VIEW_STATE.NO_TITLE}
+          className="save-button"
+          onClick={handleSave}
+          type="save"
+        >
           <VkfIcon name="save" />
           {translate("geojson-save-btn")}
         </CustomButton>

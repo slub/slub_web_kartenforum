@@ -23,7 +23,7 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
 
   const { defaultTitle, defaultTime, defaultDescription } = useMemo(() => {
     return {
-      defaultTtitle: translate("geojson-featureview-no-title"),
+      defaultTitle: translate("geojson-featureview-no-title"),
       defaultTime: translate("geojson-featureview-no-time"),
       defaultDescription: translate("geojson-featureview-no-description"),
     };

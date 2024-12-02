@@ -7,12 +7,13 @@
 
 @import "../../../../Variables.scss";
 
-$image-height: 182px;
+$image-height: 180px;
 
 .image-with-fallback-root {
     .image-container {
         display: flex;
         flex-direction: column;
+        line-height: 1;
 
         img {
             &.preview {
@@ -21,7 +22,7 @@ $image-height: 182px;
             }
 
             &.loading {
-                height: 0;
+                display: none;
             }
         }
 

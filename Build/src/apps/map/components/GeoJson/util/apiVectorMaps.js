@@ -36,6 +36,15 @@ export const getVectorMap = async (id) => {
     return result.data;
 };
 
+export const deleteVectorMap = async (id) => {
+    const georeferenceApi = settingsProvider.getGeoreferenceApiClient();
+    const url = `/vector_maps/${id}`;
+
+    const result = await georeferenceApi.delete(url);
+
+    return result.data;
+};
+
 export const getVectorMapVersions = async (id) => {
     const georeferenceApi = settingsProvider.getGeoreferenceApiClient();
     const url = `/vector_maps/${id}/versions`;

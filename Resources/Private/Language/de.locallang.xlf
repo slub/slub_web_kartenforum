@@ -1373,6 +1373,11 @@
 				<source><![CDATA[Create a new geometry element now.]]></source>
                 <target><![CDATA[Jetzt ein neues Geometrie-Element erstellen.]]></target>
             </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.add-title" approved="yes">
+				<source><![CDATA[Please add a title first.]]></source>
+                <target><![CDATA[Bitte füge zunächst einen Titel hinzu.]]></target>
+                <source></source>
+            </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.features-present" approved="yes">
 				<source><![CDATA[present in this vector map.]]></source>
                 <target><![CDATA[in dieser Vektor-Karte vorhanden.]]></target>
