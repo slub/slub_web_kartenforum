@@ -5,26 +5,38 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import PropTypes from "prop-types";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { METADATA } from "@map/components/CustomLayers";
 import clsx from "clsx";
+import PropTypes from "prop-types";
+import React, { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
 
+import { METADATA } from "@map/components/CustomLayers";
 import { translate } from "@util/util";
+
+import ImageWithFallback from "../../components/ImageWithFallback";
 
 import "./GeoJsonMetadataForm.scss";
 
-// TODO validate url
-// TODO show url similar to GeoJsoNFeatureEditPanel
-// TODO refactor to reduce boilerplate
+// refactor before extending the form to reduce boilerplate
+
+const validateThumbnailUrl = (val) => val === "" || URL.canParse(val);
 
 const GeoJsonMetadataForm = ({ formId, data, onValidatedFormSubmit }) => {
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(
+    data[METADATA.thumbnailUrl] ?? ""
+  );
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const handleBlurThumbnailUrl = useCallback(
+    (e) => setImagePreviewUrl(e.target.value),
+    []
+  );
+
   return (
     <form
       className="geojson-metadata-form-root"
@@ -73,11 +85,21 @@ const GeoJsonMetadataForm = ({ formId, data, onValidatedFormSubmit }) => {
           <label className="vkf-form-label" htmlFor={METADATA.thumbnailUrl}>
             {translate("geojson-metadata-thumbnailUrl")}
           </label>
+          <div className="image-with-fallback-container">
+            <ImageWithFallback
+              imageUrl={imagePreviewUrl}
+              showPlaceholder
+              imageAsPreview
+            />
+          </div>
           <input
             className="vkf-form-input"
             placeholder={translate("geojson-placeholder-thumbnailUrl")}
             defaultValue={data[METADATA.thumbnailUrl] ?? ""}
-            {...register(METADATA.thumbnailUrl)}
+            {...register(METADATA.thumbnailUrl, {
+              onBlur: handleBlurThumbnailUrl,
+              validate: validateThumbnailUrl,
+            })}
           />
         </div>
       </div>

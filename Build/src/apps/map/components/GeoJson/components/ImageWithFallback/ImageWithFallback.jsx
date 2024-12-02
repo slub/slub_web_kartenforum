@@ -22,18 +22,18 @@ const VIEW_MODE = {
   LOADING: 4,
 };
 
-const ImageWithFallback = ({ imageLink, showPlaceholder, imageAsPreview }) => {
+const ImageWithFallback = ({ imageUrl, showPlaceholder, imageAsPreview }) => {
   const [viewMode, setViewMode] = useState(VIEW_MODE.INITIAL);
 
-  const previousImageLink = useRef(imageLink);
+  const previousImageUrl = useRef(imageUrl);
 
-  if (imageLink !== previousImageLink.current) {
+  if (imageUrl !== previousImageUrl.current) {
     setViewMode(VIEW_MODE.INITIAL);
-    previousImageLink.current = imageLink;
+    previousImageUrl.current = imageUrl;
   }
 
   if (viewMode === VIEW_MODE.INITIAL) {
-    if (imageLink.length === 0 && showPlaceholder) {
+    if (imageUrl.length === 0 && showPlaceholder) {
       setViewMode(VIEW_MODE.PLACEHOLDER);
     } else {
       setViewMode(VIEW_MODE.LOADING);
@@ -68,7 +68,7 @@ const ImageWithFallback = ({ imageLink, showPlaceholder, imageAsPreview }) => {
               className={`${imageAsPreview ? "preview" : ""} ${
                 viewMode === VIEW_MODE.LOADING ? "loading" : ""
               }`}
-              src={imageLink}
+              src={imageUrl}
               onLoad={() => setViewMode(VIEW_MODE.IMAGE)}
               onError={() => setViewMode(VIEW_MODE.ERROR)}
             />
@@ -94,11 +94,11 @@ const ImageWithFallback = ({ imageLink, showPlaceholder, imageAsPreview }) => {
 ImageWithFallback.defaultPropTypes = {
   imageAsPreview: false,
   showPlaceholder: false,
-  imageLink: "",
+  imageUrl: "",
 };
 
 ImageWithFallback.propTypes = {
-  imageLink: PropTypes.string,
+  imageUrl: PropTypes.string,
   showPlaceholder: PropTypes.bool,
   imageAsPreview: PropTypes.bool,
 };

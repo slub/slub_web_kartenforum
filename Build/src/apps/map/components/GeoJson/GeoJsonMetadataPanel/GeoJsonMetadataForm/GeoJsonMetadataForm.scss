@@ -32,6 +32,10 @@
     margin: unset;
 }
 
+.image-with-fallback-container {
+    padding-bottom: 8px;
+}
+
 .geojson-metadata-form-root {
     .geojson-metadata-form-fields {
         display: flex;

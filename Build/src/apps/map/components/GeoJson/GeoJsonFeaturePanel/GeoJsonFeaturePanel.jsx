@@ -70,7 +70,7 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
       />
 
       <div className="property-container scrollable">
-        {isValidImage && <ImageWithFallback imageLink={imageLink} />}
+        {isValidImage && <ImageWithFallback imageUrl={imageLink} />}
         <div className="predefined-properties-container">
           <div className="title-section ">
             <span className="geojson-feature-property-label">
