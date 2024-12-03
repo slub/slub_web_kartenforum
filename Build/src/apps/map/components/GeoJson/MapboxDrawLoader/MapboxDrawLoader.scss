@@ -17,6 +17,11 @@
 }
 
 .maplibregl-ctrl-top-right {
+    .maplibregl-ctrl {
+        box-sizing: border-box;
+        border-color: white;
+    }
+
     .mapboxgl-ctrl {
         margin: 0;
         pointer-events: all;
@@ -62,13 +67,37 @@
 }
 
 .ol-map-large {
-    .maplibregl-ctrl-top-right {
-        top: 41px;
-        right: 380px;
+    .maplibregl-control-container.draw {
+        // draw controls
+        .maplibregl-ctrl-top-right {
+            top: 41px;
+            transform: translate(-20px, 0px);
+            transition: 300ms ease-out transform;
+            &.shifted {
+                transform: translate(-380px, 0px);
+            }
+        }
 
-        .maplibregl-ctrl {
-            box-sizing: border-box;
-            border-color: white;
+        // attribution container
+        .maplibregl-ctrl-bottom-right {
+            top: 41px;
+            //right: 20px;
+            transform: translate(360px, 0px);
+            transition: 300ms ease-out transform;
+
+            &.shifted {
+                transform: translate(0px, 0px);
+            }
+        }
+
+        // map controls
+        .maplibregl-ctrl-top-left {
+            bottom: 26px;
+            transform: translate(-360px, 0px);
+
+            &.shifted {
+                transform: translate(0px, 0px);
+            }
         }
     }
 }

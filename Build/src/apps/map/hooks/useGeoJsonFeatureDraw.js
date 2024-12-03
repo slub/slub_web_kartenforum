@@ -151,8 +151,11 @@ const useGeoJsonFeatureDraw = () => {
         ({ skipPanelState } = { skipPanelState: false }) => {
             uniqueCachedFeatureId.current = null;
             setGeoJsonFeature(null);
-            // deselect feature (unfortunately by deselecting all features, specific ids don't work)
-            draw.changeMode("simple_select", { featureIds: [] });
+
+            if (isDefined(draw)) {
+                // deselect feature (unfortunately by deselecting all features, specific ids don't work)
+                draw.changeMode("simple_select", { featureIds: [] });
+            }
 
             if (!skipPanelState) {
                 setDrawModePanel(DRAW_MODE_PANEL_STATE.NONE);

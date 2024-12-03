@@ -194,6 +194,8 @@
         top: 41px;
         left: 380px;
 
+        transition: 300ms ease-out transform;
+
         .maplibregl-ctrl {
             box-sizing: border-box;
             border-color: white;
@@ -212,7 +214,9 @@
         flex-direction: column-reverse;
         align-items: end;
         gap: 6px;
-        right: 370px;
+        right: 380px;
+
+        transition: 300ms ease-out transform;
 
         .maplibregl-ctrl-attrib-button {
             display: none;
