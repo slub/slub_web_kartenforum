@@ -5,7 +5,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import React, { useMemo } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 
 import VkfIcon from "@components/VkfIcon";
@@ -17,10 +17,17 @@ import { FEATURE_PROPERTIES } from "../../constants";
 
 import "./GeoJsonLayerFeatureItem.scss";
 
-const GeoJsonFeatureItem = ({ geometry, properties, onClick }) => {
+const GeoJsonFeatureItem = ({ data, index, style }) => {
+  const feature = data.features[index];
+  const { properties, geometry } = feature;
+
+  const onClick = useCallback(() => {
+    data.onFeatureClick(feature.id);
+  }, [data.onFeatureClick, feature.id]);
+
   const { defaultTitle, defaultTime } = useMemo(() => {
     return {
-      defaultTtitle: translate("geojson-featureview-no-title"),
+      defaultTitle: translate("geojson-featureview-no-title"),
       defaultTime: translate("geojson-featureview-no-time"),
     };
   }, []);
@@ -72,7 +79,7 @@ const GeoJsonFeatureItem = ({ geometry, properties, onClick }) => {
   );
 
   return (
-    <div className="geojson-feature-item-root" onClick={onClick}>
+    <li className="geojson-feature-item-root" onClick={onClick} style={style}>
       <div className="geojson-feature-item-container">
         <div className="sub-headline">
           <div className={`type-icon icon--${coercedType}`}>
@@ -85,14 +92,14 @@ const GeoJsonFeatureItem = ({ geometry, properties, onClick }) => {
           {translate("geojson-featureview-time")}: {time}
         </div>
       </div>
-    </div>
+    </li>
   );
 };
 
 GeoJsonFeatureItem.propTypes = {
-  properties: PropTypes.object.isRequired,
-  geometry: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  style: PropTypes.object,
 };
 
-export default GeoJsonFeatureItem;
+export default memo(GeoJsonFeatureItem);

@@ -5,17 +5,27 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import React from "react";
+import React, { useMemo, useRef } from "react";
 import PropTypes from "prop-types";
 import GeoJsonLayerFeatureItem from "./GeoJsonLayerFeatureItem";
 
 import "./GeoJsonLayerFeatureList.scss";
 import { translate } from "@util/util";
+import { FixedSizeList } from "react-window";
+import { useSize } from "@util/hooks";
 
 const GeoJsonLayerFeatureList = ({ className, features, onFeatureClick }) => {
+  const itemData = useMemo(
+    () => ({ features, onFeatureClick }),
+    [features, onFeatureClick]
+  );
+
+  const refContainer = useRef(null);
+  const { height } = useSize(refContainer);
+
   return (
     <>
-      <div className={className}>
+      <div className={className} ref={refContainer}>
         <div className="geojson-layer-feature-list-container">
           {features.length === 0 && (
             <div className="no-feature-container">
@@ -23,16 +33,17 @@ const GeoJsonLayerFeatureList = ({ className, features, onFeatureClick }) => {
             </div>
           )}
           {features.length > 0 && (
-            <div className="feature-list">
-              {features.map((feature) => (
-                <GeoJsonLayerFeatureItem
-                  key={feature.id}
-                  onClick={() => onFeatureClick(feature.id)}
-                  properties={feature.properties}
-                  geometry={feature.geometry}
-                />
-              ))}
-            </div>
+            <FixedSizeList
+              height={height}
+              overscanCount={3}
+              innerElementType="ul"
+              itemData={itemData}
+              itemCount={features.length}
+              width={340}
+              itemSize={98}
+            >
+              {GeoJsonLayerFeatureItem}
+            </FixedSizeList>
           )}
         </div>
       </div>
