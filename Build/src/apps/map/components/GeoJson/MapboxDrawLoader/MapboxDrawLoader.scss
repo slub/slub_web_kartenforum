@@ -81,9 +81,7 @@
         // attribution container
         .maplibregl-ctrl-bottom-right {
             top: 41px;
-            //right: 20px;
             transform: translate(360px, 0px);
-            transition: 300ms ease-out transform;
 
             &.shifted {
                 transform: translate(0px, 0px);
