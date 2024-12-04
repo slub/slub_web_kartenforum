@@ -21,11 +21,12 @@ import {
 import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
 import { exitDrawMode } from "../util/util";
 import { useTrackGeoJsonChanges } from "@map/components/GeoJson/util/hooks/useTrackGeoJsonChanges";
+import { styles } from "./constants";
 
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
-import "./MapboxDrawLoader.scss";
 
 const options = {
+  styles,
   userProperties: true,
   controls: {
     combine_features: false,
