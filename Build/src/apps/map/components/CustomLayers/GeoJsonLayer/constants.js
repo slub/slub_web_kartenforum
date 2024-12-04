@@ -68,7 +68,7 @@ export const LAYER_DEFINITIONS = {
             "icon-halo-color": "#FFF",
             "icon-halo-width": 1,
         },
-        filter: ["in", "$type", "Point"],
+        filter: ["==", ["geometry-type"], "Point"],
     },
     [GEOJSON_LAYER_TYPES.LINE]: {
         type: "line",
@@ -92,7 +92,7 @@ export const LAYER_DEFINITIONS = {
                 DEFAULT_STYLE_VALUES[GEOJSON_LAYER_TYPES.LINE].OPACITY,
             ],
         },
-        filter: ["in", "$type", "LineString"],
+        filter: ["==", ["geometry-type"], "LineString"],
     },
     [GEOJSON_LAYER_TYPES.OUTLINE]: {
         type: "line",
@@ -116,7 +116,7 @@ export const LAYER_DEFINITIONS = {
                 DEFAULT_STYLE_VALUES[GEOJSON_LAYER_TYPES.OUTLINE].OPACITY,
             ],
         },
-        filter: ["in", "$type", "Polygon"],
+        filter: ["==", ["geometry-type"], "Polygon"],
     },
     [GEOJSON_LAYER_TYPES.FILL]: {
         type: "fill",
@@ -134,6 +134,6 @@ export const LAYER_DEFINITIONS = {
                 DEFAULT_STYLE_VALUES[GEOJSON_LAYER_TYPES.FILL].OPACITY,
             ],
         },
-        filter: ["in", "$type", "Polygon"],
+        filter: ["==", ["geometry-type"], "Polygon"],
     },
 };

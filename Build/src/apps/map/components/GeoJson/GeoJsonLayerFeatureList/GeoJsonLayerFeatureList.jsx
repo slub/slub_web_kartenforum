@@ -13,8 +13,12 @@ import "./GeoJsonLayerFeatureList.scss";
 import { translate } from "@util/util";
 import { FixedSizeList } from "react-window";
 import { useSize } from "@util/hooks";
+import { useRecoilValue } from "recoil";
+import { geoJsonLayerViewFilteredFeaturesState } from "@map/views/GeoJsonLayerView/atoms";
 
-const GeoJsonLayerFeatureList = ({ className, features, onFeatureClick }) => {
+const GeoJsonLayerFeatureList = ({ className, onFeatureClick }) => {
+  const features = useRecoilValue(geoJsonLayerViewFilteredFeaturesState);
+
   const itemData = useMemo(
     () => ({ features, onFeatureClick }),
     [features, onFeatureClick]
@@ -53,7 +57,6 @@ const GeoJsonLayerFeatureList = ({ className, features, onFeatureClick }) => {
 
 GeoJsonLayerFeatureList.propTypes = {
   className: PropTypes.string,
-  features: PropTypes.array.isRequired,
   onFeatureClick: PropTypes.func.isRequired,
 };
 

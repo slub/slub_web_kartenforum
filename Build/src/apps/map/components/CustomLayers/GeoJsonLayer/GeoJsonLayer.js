@@ -7,20 +7,21 @@
 
 import { ApplicationLayer } from "../ApplicationLayer";
 import {
-    MAPLIBRE_OPACITY_KEYS,
+    DEFAULT_STYLE_VALUES,
     GEOJSON_OPACITY_KEYS,
     layerHasOpacityProperty,
-    DEFAULT_STYLE_VALUES,
+    MAPLIBRE_OPACITY_KEYS,
 } from "./constants";
 import { isDefined } from "@util/util";
 import {
     boundsToPolygon,
     convertFeatureForApplicationState,
     convertFeatureForPersistenceState,
+    getFullTextFilter,
     getLayerConfig,
     getTimeFilter,
 } from "./util";
-import { METADATA, LAYER_TYPES } from "../constants";
+import { LAYER_TYPES, METADATA } from "../constants";
 import { bbox } from "@turf/bbox";
 import { MAP_OVERLAY_FILL_ID } from "@map/components/MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer";
 
@@ -59,6 +60,7 @@ class GeoJsonLayer extends ApplicationLayer {
 
             feature = convertFeatureForApplicationState(feature);
 
+            //@TODO: Generate stable feature ids (Somewhere)
             return { ...feature, id: idx + 1 };
         });
 
@@ -139,8 +141,24 @@ class GeoJsonLayer extends ApplicationLayer {
 
         const sourceLayer = map.getSource(this.getId());
 
-        sourceLayer.setData(geoJson);
-        this.setGeoJson(geoJson);
+        // feature.id MUST be integer or string that is castable to integer
+        // see: https://github.com/maplibre/maplibre-gl-js/discussions/3134
+        // see: https://maplibre.org/maplibre-style-spec/expressions/#feature-state
+        const features = geoJson.features.map((feature, idx) => {
+            if (!Object.hasOwn(feature, "properties")) {
+                feature.properties = {};
+            }
+
+            feature = convertFeatureForApplicationState(feature);
+
+            //@TODO: Generate stable feature ids (Somewhere)
+            return { ...feature, id: idx + 1 };
+        });
+
+        const preparedGeoJson = { ...geoJson, features };
+
+        sourceLayer.setData(preparedGeoJson);
+        this.setGeoJson(preparedGeoJson);
     }
 
     removeFeatureFromMap(map, id) {
@@ -443,18 +461,30 @@ class GeoJsonLayer extends ApplicationLayer {
         const timeExtent = filterValues?.timeExtent;
         const timeFilter = getTimeFilter(timeExtent);
 
+        const fullText = filterValues?.fullText;
+        const fullTextFilterExpression = getFullTextFilter(fullText);
+
         for (const mapLayer of mapLayers) {
             const { id } = mapLayer;
-
             const defaultFilter = this.#defaultLayerFilters[id];
+            const newFilters = ["all", defaultFilter];
 
-            if (!isDefined(timeFilter) || timeFilter.length === 0) {
-                map.setFilter(id, defaultFilter);
-                continue;
+            if (isDefined(timeFilter) && timeFilter.length > 0) {
+                newFilters.push(timeFilter);
             }
 
-            const appliedFilter = ["all", defaultFilter, timeFilter];
-            map.setFilter(id, appliedFilter);
+            if (
+                isDefined(fullTextFilterExpression) &&
+                fullTextFilterExpression.length > 0
+            ) {
+                newFilters.push(fullTextFilterExpression);
+            }
+
+            if (newFilters.length === 1) {
+                map.setFilter(id, defaultFilter);
+            } else {
+                map.setFilter(id, newFilters);
+            }
         }
     }
 }

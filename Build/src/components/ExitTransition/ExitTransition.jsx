@@ -26,40 +26,33 @@ import { isDefined } from "@util/util";
  *
  * @returns
  */
-const ExitTransition = ({ className, Component, props }) => {
-  const [keepAliveProps, setKeepAliveProps] = useState(props);
-  const previousProps = useRef(props);
+const ExitTransition = ({ className, Component, props, onExit }) => {
+  const prevProps = useRef(props);
+  const [component, setComponent] = useState(null);
+
+  const arePropsDefined = isDefined(props);
 
   // Update previousProps when props change
-  if (props !== null) {
-    previousProps.current = props;
-  } else if (keepAliveProps !== null) {
-    // reset previousProps when keepAliveProps are set
-    previousProps.current = null;
-  }
-
-  // If props are null, prepare unmount
-  if (
-    props === null &&
-    previousProps.current !== null &&
-    keepAliveProps === null
-  ) {
-    setKeepAliveProps(previousProps.current);
+  if (arePropsDefined && prevProps.current !== props) {
+    setComponent(<Component {...props} />);
+    prevProps.current = props;
   }
 
   // Finally unmount the component
   const handleExitTransitionEnd = useCallback(() => {
-    setKeepAliveProps(null);
-  }, []);
+    if (!arePropsDefined) {
+      prevProps.current = null;
+      setComponent(null);
+      onExit && onExit();
+    }
+  }, [arePropsDefined, onExit]);
 
   return (
     <div
       onTransitionEnd={handleExitTransitionEnd}
       className={clsx(className, props !== null && "in")}
     >
-      {(props !== null || keepAliveProps !== null) && isDefined(Component) && (
-        <Component {...(props === null ? keepAliveProps : props)} />
-      )}
+      {component}
     </div>
   );
 };
@@ -68,6 +61,7 @@ ExitTransition.propTypes = {
   className: PropTypes.string.isRequired,
   Component: PropTypes.func.isRequired,
   props: PropTypes.object,
+  onExit: PropTypes.func,
 };
 
 ExitTransition.defaultPropTypes = {

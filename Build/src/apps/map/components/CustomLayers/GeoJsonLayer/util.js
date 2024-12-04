@@ -117,11 +117,36 @@ export const getTimeFilter = (timeExtent) => {
 
     return [
         "any",
-        ["!has", FEATURE_PROPERTIES.time],
+        ["!", ["has", FEATURE_PROPERTIES.time]],
         [
             "all",
-            [">=", FEATURE_PROPERTIES.time, min * 1000],
-            ["<=", FEATURE_PROPERTIES.time, max * 1000],
+            [">=", ["get", FEATURE_PROPERTIES.time], min * 1000],
+            ["<=", ["get", FEATURE_PROPERTIES.time], max * 1000],
+        ],
+    ];
+};
+
+export const getFullTextFilter = (fullTextFilter) => {
+    if (!isDefined(fullTextFilter) || fullTextFilter.length === 0) {
+        return [];
+    }
+
+    return [
+        "let",
+        "fullTextFilter",
+        fullTextFilter,
+        [
+            "any",
+            [
+                "in",
+                ["var", "fullTextFilter"],
+                ["get", FEATURE_PROPERTIES.title],
+            ],
+            [
+                "in",
+                ["var", "fullTextFilter"],
+                ["get", FEATURE_PROPERTIES.description],
+            ],
         ],
     ];
 };

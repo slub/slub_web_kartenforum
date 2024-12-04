@@ -19,9 +19,12 @@ import DialogAddGeoJson from "@map/components/GeoJson/DialogAddGeoJson/DialogAdd
 
 import "./HorizontalLayout.scss";
 import Dropzone from "@map/components/Dropzone/Dropzone";
+import { useRecoilValue } from "recoil";
+import { selectedGeoJsonLayerState } from "@map/atoms";
 
 export const HorizontalLayout = () => {
   const geoJsonProps = useGeoJsonFeature();
+  const { selectedLayer } = useRecoilValue(selectedGeoJsonLayerState);
 
   return (
     <>
@@ -40,9 +43,11 @@ export const HorizontalLayout = () => {
         >
           <LayerManagement />
         </div>
-        <div className="geojson-layer-view-container">
-          <GeoJsonLayerView />
-        </div>
+        <ExitTransition
+          className="vkf-geojson-layer-view-root"
+          Component={GeoJsonLayerView}
+          props={selectedLayer ? { selectedLayer } : null}
+        />
       </div>
       <OriginalMapView />
       <DialogAddGeoJson />

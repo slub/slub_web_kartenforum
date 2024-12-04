@@ -1351,6 +1351,10 @@
                 <source><![CDATA[Define filter period]]></source>
 			    <target><![CDATA[Definiere Filterzeitraum]]></target>
             </trans-unit>
+			<trans-unit id="plugin.map.geojsonlayerpanel.fullText.placeholder" approved="yes">
+               <source><![CDATA[Search]]></source>
+			    <target><![CDATA[Suche]]></target>
+            </trans-unit>
 
             <!-- Map > GeoJsonControlBar -->
             <trans-unit id="plugin.map.geojsoncontrolbar.header.edit" approved="yes">

@@ -1093,6 +1093,10 @@
 			<trans-unit id="plugin.map.geojsonlayerpanel.timefilter.title" approved="yes">
                 <source>Define filter period</source>
             </trans-unit>
+			<trans-unit id="plugin.map.geojsonlayerpanel.fullText.placeholder" approved="yes">
+                <source>Search</source>
+            </trans-unit>
+
 
             <!-- Map > GeoJsonControlBar -->
             <trans-unit id="plugin.map.geojsoncontrolbar.header.edit" approved="yes">

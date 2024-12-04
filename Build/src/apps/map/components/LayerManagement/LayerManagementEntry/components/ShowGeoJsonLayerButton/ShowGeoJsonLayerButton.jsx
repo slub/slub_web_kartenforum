@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { translate, isDefined } from "@util/util.js";
+import { isDefined, translate } from "@util/util.js";
 import SvgIcons from "@components/SvgIcons/SvgIcons.jsx";
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";

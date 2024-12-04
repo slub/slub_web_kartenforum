@@ -19,12 +19,11 @@
     box-shadow: $shadow;
     opacity: 0;
     pointer-events: none;
-    transition-property: opacity, right;
+    transition-property: opacity, right, grid-template-rows;
     transition-timing-function: ease-out, ease-out;
     transition-duration: 0.3s, 0.3s;
-
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 61px auto auto 0 1fr;
 
     > :not(.scrollable) {
         flex-shrink: 0;
@@ -133,7 +132,6 @@
 
         &.filtered {
             background-color: $secondary-color-dark;
-            transition-delay: 150ms;
         }
 
         .caret-container {
@@ -159,21 +157,21 @@
         }
     }
 
+    &:has(.filter-container.in) {
+        grid-template-rows: 61px auto auto 150px 1fr;
+    }
+
     .filter-container {
+        padding-top: 15px;
+        overflow: hidden;
         opacity: 0;
-        height: 0;
-        position: relative;
-        top: 15px;
         pointer-events: none;
         transition-duration: 300ms, 300ms;
         transition-timing-function: ease-out, ease-out;
-        transition-property: opacity, height;
+        transition-property: opacity;
 
         &.in {
             opacity: 1;
-            height: 87px; // fixed height is not so nice, could not get it to work with grid-template-rows trick;
-            position: unset;
-            padding-top: 15px;
             pointer-events: all;
             border-bottom: 1px $secondary-color-dark solid;
         }
