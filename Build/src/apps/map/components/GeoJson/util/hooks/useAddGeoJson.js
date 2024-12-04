@@ -68,7 +68,8 @@ export const useAddGeoJson = () => {
 
                     set(addGeoJsonDialogState, false);
                 }
-            }
+            },
+        []
     );
 
     // Mount geojson to draw view, without creating an application layer
@@ -82,7 +83,8 @@ export const useAddGeoJson = () => {
                     id: null,
                 });
                 set(horizontalLayoutModeState, HORIZONTAL_LAYOUT_MODE.DRAW);
-            }
+            },
+        []
     );
 
     return useCallback(

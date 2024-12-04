@@ -20,8 +20,10 @@ import {
 
 import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
 import { exitDrawMode } from "../util/util";
+import { useTrackGeoJsonChanges } from "@map/components/GeoJson/util/hooks/useTrackGeoJsonChanges";
 
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
+import "./MapboxDrawLoader.scss";
 
 const options = {
   userProperties: true,
@@ -170,11 +172,16 @@ const MapboxDrawLoader = () => {
   const { initializeDraw, removeDraw } = useMapboxDrawInitializers();
   const { shiftControls, removeControlShifts } = useMaplibreControlPositions();
 
+  const { registerMapEventHandler, unregisterMapEventHandler } =
+    useTrackGeoJsonChanges();
+
   useEffect(() => {
     initializeDraw();
+    registerMapEventHandler();
     return () => {
       removeDraw();
       removeControlShifts();
+      unregisterMapEventHandler();
     };
   }, []);
 

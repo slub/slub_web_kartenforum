@@ -59,7 +59,8 @@ export const GeoJsonLayerActions = () => {
         const title = selectedLayer.getMetadata("title");
 
         triggerJsonDownload(title, jsonString);
-      }
+      },
+    []
   );
 
   return (

@@ -10,6 +10,7 @@ import { isDefined } from "@util/util";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { drawModePanelState, drawState, mapState } from "@map/atoms";
 import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
+import { useTrackGeoJsonChanges } from "@map/components/GeoJson/util/hooks/useTrackGeoJsonChanges";
 
 const USER_PROPERTY_PREFIX = "user_";
 
@@ -93,6 +94,9 @@ const useGeoJsonFeatureDraw = () => {
     const [drawModePanel, setDrawModePanel] =
         useRecoilState(drawModePanelState);
 
+    const { handleDeleteFeature, handleUpdateFeature } =
+        useTrackGeoJsonChanges();
+
     const [geoJsonFeature, setGeoJsonFeature] = useState(null);
 
     // don't trigger a state update when same feature is clicked again
@@ -121,6 +125,7 @@ const useGeoJsonFeatureDraw = () => {
                 const { geometry } = drawFeature;
                 geoJsonFeature.geometry = geometry;
 
+                handleUpdateFeature(geoJsonFeature);
                 draw.add(geoJsonFeature);
                 if (isDefined(onSuccess) && typeof onSuccess === "function") {
                     onSuccess();
@@ -139,6 +144,7 @@ const useGeoJsonFeatureDraw = () => {
             const { id } = geoJsonFeature;
 
             draw.delete(id);
+            handleDeleteFeature(id);
 
             if (isDefined(onDone) && typeof onDone === "function") {
                 onDone();

@@ -33,8 +33,9 @@ import { useMapboxDrawInitializers } from "@map/components/GeoJson/MapboxDrawLoa
 import { METADATA } from "@map/components/CustomLayers";
 
 import "./GeoJsonControlBar.scss";
+import GeoJsonControlBarContent from "@map/components/GeoJson/GeoJsonControlBar/components/GeoJsonControlBarContent";
 
-const VIEW_STATE = {
+export const GEOJSON_CONTROL_BAR_VIEW_STATE = {
   INITIAL: 0,
   DEFAULT: 1,
   NO_TITLE: 2,
@@ -51,25 +52,27 @@ const GeoJsonControlBar = () => {
   const metadataDraw = useRecoilValue(metadataDrawState);
   const initialGeoJson = useRecoilValue(initialGeoJsonDrawState);
 
-  const [viewState, setViewState] = useState(VIEW_STATE.INITIAL);
+  const [viewState, setViewState] = useState(
+    GEOJSON_CONTROL_BAR_VIEW_STATE.INITIAL
+  );
 
   // TODO improve and finalize, just a draft state machine
-  if (viewState === VIEW_STATE.INITIAL) {
+  if (viewState === GEOJSON_CONTROL_BAR_VIEW_STATE.INITIAL) {
     if (!isDefined(metadataDraw[METADATA.title])) {
-      setViewState(VIEW_STATE.NO_TITLE);
+      setViewState(GEOJSON_CONTROL_BAR_VIEW_STATE.NO_TITLE);
     } else {
       if (initialGeoJson.features.length === 0) {
-        setViewState(VIEW_STATE.NO_FEATURES);
+        setViewState(GEOJSON_CONTROL_BAR_VIEW_STATE.NO_FEATURES);
       } else {
-        setViewState(VIEW_STATE.DEFAULT);
+        setViewState(GEOJSON_CONTROL_BAR_VIEW_STATE.DEFAULT);
       }
     }
-  } else if (viewState === VIEW_STATE.NO_TITLE) {
+  } else if (viewState === GEOJSON_CONTROL_BAR_VIEW_STATE.NO_TITLE) {
     if (isDefined(metadataDraw[METADATA.title])) {
       if (initialGeoJson.features.length === 0) {
-        setViewState(VIEW_STATE.NO_FEATURES);
+        setViewState(GEOJSON_CONTROL_BAR_VIEW_STATE.NO_FEATURES);
       } else {
-        setViewState(VIEW_STATE.DEFAULT);
+        setViewState(GEOJSON_CONTROL_BAR_VIEW_STATE.DEFAULT);
       }
     }
   }
@@ -145,26 +148,12 @@ const GeoJsonControlBar = () => {
           )}
         </div>
       </div>
-      <div className="control-bar-main">
-        {viewState === VIEW_STATE.DEFAULT && (
-          <>
-            <span className="bold">{formattedFeatureCount}</span>{" "}
-            {translate("geojson-control-bar-hint-features-present")}
-          </>
-        )}
+      <GeoJsonControlBarContent
+        onUpdateViewMode={setViewState}
+        viewState={viewState}
+        formattedFeatureCount={formattedFeatureCount}
+      />
 
-        {viewState === VIEW_STATE.NO_TITLE && (
-          <span className="bold">
-            {translate("geojson-control-bar-hint-add-title")}
-          </span>
-        )}
-
-        {viewState === VIEW_STATE.NO_FEATURES && (
-          <span className="bold">
-            {translate("geojson-control-bar-hint-add-feature")}
-          </span>
-        )}
-      </div>
       <div className="control-bar-footer">
         <CustomButton
           className="discard-button"
@@ -175,7 +164,7 @@ const GeoJsonControlBar = () => {
           {translate("geojson-cancel-btn")}
         </CustomButton>
         <CustomButton
-          disabled={viewState === VIEW_STATE.NO_TITLE}
+          disabled={viewState === GEOJSON_CONTROL_BAR_VIEW_STATE.NO_TITLE}
           className="save-button"
           onClick={handleSave}
           type="save"
