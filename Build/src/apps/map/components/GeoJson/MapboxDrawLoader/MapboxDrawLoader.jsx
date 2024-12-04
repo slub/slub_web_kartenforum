@@ -22,7 +22,6 @@ import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
 import { exitDrawMode } from "../util/util";
 
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
-import "./MapboxDrawLoader.scss";
 
 const options = {
   userProperties: true,
@@ -55,6 +54,22 @@ const getDynamicSelectors = (isLeft) => {
   };
 };
 
+const wrapDrawButtons = (map) => {
+  const drawControlElement = map._controlContainer.querySelector(
+    SELECTORS.topRight
+  );
+  const drawButtons = drawControlElement.querySelectorAll("button");
+
+  for (const element of drawButtons) {
+    const wrapperDiv = document.createElement("div");
+
+    wrapperDiv.classList.add("maplibregl-ctrl", "maplibregl-ctrl-group");
+    element.before(wrapperDiv);
+
+    wrapperDiv.appendChild(element);
+  }
+};
+
 export const useMapboxDrawInitializers = () => {
   const initializeDraw = useRecoilCallback(({ snapshot, set }) => async () => {
     const map = await snapshot.getPromise(mapState);
@@ -64,9 +79,13 @@ export const useMapboxDrawInitializers = () => {
       const draw = new MapboxDraw(options);
       set(drawState, draw);
       map.addControl(draw, "top-right");
+      draw.add(geoJson);
+
+      // add css class to control container for position handling
       map._controlContainer.classList.add(CSS_CLASS_DRAW);
 
-      draw.add(geoJson);
+      // wrap buttons for styling
+      wrapDrawButtons(map);
     }
   });
 
