@@ -1112,10 +1112,13 @@
                 <source>Show vector map permission settings</source>
             </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.add-feature" approved="yes">
-                <source>Create a new geometry element now.</source>
+                <source>No features present. Create a new one now.</source>
             </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.add-title" approved="yes">
                 <source>Please add a title first.</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.no-features" approved="yes">
+				<source>No features</source>
             </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.features-present" approved="yes">
                 <source>present in this vector map.</source>

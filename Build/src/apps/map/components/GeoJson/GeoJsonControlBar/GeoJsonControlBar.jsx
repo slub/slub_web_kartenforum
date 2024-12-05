@@ -37,7 +37,7 @@ import GeoJsonControlBarContent from "@map/components/GeoJson/GeoJsonControlBar/
 
 export const GEOJSON_CONTROL_BAR_VIEW_STATE = {
   INITIAL: 0,
-  DEFAULT: 1,
+  SHOW_FEATURE_COUNT: 1,
   NO_TITLE: 2,
   NO_FEATURES: 3,
   UNSAVED_FEATURE_CHANGES: 4,
@@ -64,7 +64,7 @@ const GeoJsonControlBar = () => {
       if (initialGeoJson.features.length === 0) {
         setViewState(GEOJSON_CONTROL_BAR_VIEW_STATE.NO_FEATURES);
       } else {
-        setViewState(GEOJSON_CONTROL_BAR_VIEW_STATE.DEFAULT);
+        setViewState(GEOJSON_CONTROL_BAR_VIEW_STATE.SHOW_FEATURE_COUNT);
       }
     }
   } else if (viewState === GEOJSON_CONTROL_BAR_VIEW_STATE.NO_TITLE) {
@@ -72,12 +72,12 @@ const GeoJsonControlBar = () => {
       if (initialGeoJson.features.length === 0) {
         setViewState(GEOJSON_CONTROL_BAR_VIEW_STATE.NO_FEATURES);
       } else {
-        setViewState(GEOJSON_CONTROL_BAR_VIEW_STATE.DEFAULT);
+        setViewState(GEOJSON_CONTROL_BAR_VIEW_STATE.SHOW_FEATURE_COUNT);
       }
     }
   }
 
-  const layerTitle = useMemo(() => {
+  const formattedLayerTitle = useMemo(() => {
     const title = metadataDraw[METADATA.title] ?? "";
 
     if (title === "") {
@@ -85,6 +85,13 @@ const GeoJsonControlBar = () => {
     }
 
     return title;
+  }, [metadataDraw[METADATA.title]]);
+
+  const isValidLayerTitle = useMemo(() => {
+    return (
+      isDefined(metadataDraw[METADATA.title]) &&
+      metadataDraw[METADATA.title] !== ""
+    );
   }, [metadataDraw[METADATA.title]]);
 
   const formattedFeatureCount = useMemo(() => {
@@ -95,7 +102,11 @@ const GeoJsonControlBar = () => {
       )}`;
     }
 
-    return `1 ${translate("geojson-control-bar-feature")}`;
+    if (featureCount === 1) {
+      return `1 ${translate("geojson-control-bar-feature")}`;
+    }
+
+    return `${translate("geojson-control-bar-no-features")}`;
   }, [initialGeoJson]);
 
   const handleMetadataPanelClick = useCallback(() => {
@@ -117,7 +128,6 @@ const GeoJsonControlBar = () => {
     });
   }, [removeDraw]);
 
-  // TODO disable save button if title is not set or geojsonDraw === initialGeoJson?
   return (
     <div className="vkf-geojson-control-bar-root">
       <div className="control-bar-header">
@@ -125,7 +135,9 @@ const GeoJsonControlBar = () => {
           <span className="control-bar-title--static">
             {translate("geojson-control-bar-edit")}:{" "}
           </span>
-          <span className="control-bar-title--dynamic">{layerTitle}</span>
+          <span className="control-bar-title--dynamic">
+            {formattedLayerTitle}
+          </span>
         </div>
         <div className="control-bar-layer-buttons">
           <CustomButton
@@ -164,7 +176,7 @@ const GeoJsonControlBar = () => {
           {translate("geojson-cancel-btn")}
         </CustomButton>
         <CustomButton
-          disabled={viewState === GEOJSON_CONTROL_BAR_VIEW_STATE.NO_TITLE}
+          disabled={!isValidLayerTitle}
           className="save-button"
           onClick={handleSave}
           type="save"

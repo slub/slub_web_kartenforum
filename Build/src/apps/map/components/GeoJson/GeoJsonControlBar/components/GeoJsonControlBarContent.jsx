@@ -34,7 +34,7 @@ export const GeoJsonControlBarContent = ({
     if (hasChanges) {
       onUpdateViewMode(GEOJSON_CONTROL_BAR_VIEW_STATE.UNSAVED_FEATURE_CHANGES);
     } else {
-      onUpdateViewMode(GEOJSON_CONTROL_BAR_VIEW_STATE.DEFAULT);
+      onUpdateViewMode(GEOJSON_CONTROL_BAR_VIEW_STATE.INITIAL);
     }
   }, [changeTrackingState]);
 
@@ -70,7 +70,7 @@ export const GeoJsonControlBarContent = ({
             />
           </>
         )}
-        {viewState === GEOJSON_CONTROL_BAR_VIEW_STATE.DEFAULT && (
+        {viewState === GEOJSON_CONTROL_BAR_VIEW_STATE.SHOW_FEATURE_COUNT && (
           <>
             <span className="bold">{formattedFeatureCount}</span>{" "}
             {translate("geojson-control-bar-hint-features-present")}
@@ -94,8 +94,9 @@ export const GeoJsonControlBarContent = ({
 };
 
 GeoJsonControlBarContent.propTypes = {
+  viewState: PropTypes.number.isRequired,
+  onUpdateViewMode: PropTypes.func.isRequired,
   formattedFeatureCount: PropTypes.string,
-  viewState: PropTypes.string.isRequired,
 };
 
 export default memo(GeoJsonControlBarContent);

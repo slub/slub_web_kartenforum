@@ -1374,13 +1374,17 @@
 				<target><![CDATA[Zeige Zugriffsberechtigungen der Vektor-Karte]]></target>
             </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.add-feature" approved="yes">
-				<source><![CDATA[Create a new geometry element now.]]></source>
-                <target><![CDATA[Jetzt ein neues Geometrie-Element erstellen.]]></target>
+				<source><![CDATA[No features present. Create a new one now.]]></source>
+                <target><![CDATA[Keine Features vorhanden. Jetzt ein Neues erstellen.]]></target>
             </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.add-title" approved="yes">
 				<source><![CDATA[Please add a title first.]]></source>
                 <target><![CDATA[Bitte füge zunächst einen Titel hinzu.]]></target>
                 <source></source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.no-features" approved="yes">
+				<source><![CDATA[No features]]></source>
+                <target><![CDATA[Keine Features]]></target>
             </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.features-present" approved="yes">
 				<source><![CDATA[present in this vector map.]]></source>
@@ -1412,11 +1416,11 @@
             </trans-unit>
             <trans-unit id="plugin.map.geojsoncontrolbar.feature" approved="yes">
 				<source><![CDATA[feature]]></source>
-                <target><![CDATA[Detail]]></target>
+                <target><![CDATA[Feature]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojsoncontrolbar.feature.plural" approved="yes">
 				<source><![CDATA[features]]></source>
-                <target><![CDATA[Details]]></target>
+                <target><![CDATA[Features]]></target>
             </trans-unit>
 		</body>
 	</file>
