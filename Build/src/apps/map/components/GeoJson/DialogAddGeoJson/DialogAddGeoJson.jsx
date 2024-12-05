@@ -136,7 +136,7 @@ export const DialogAddGeoJson = () => {
         setAddedFile(null);
       });
     },
-    [addGeoJson]
+    [addGeoJson, addedFile]
   );
 
   return addedFile ? (
