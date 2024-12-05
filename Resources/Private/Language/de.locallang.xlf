@@ -255,6 +255,10 @@
                 <source><![CDATA[save]]></source>
                 <target><![CDATA[speichern]]></target>
             </trans-unit>
+           <trans-unit id="plugin.map.geojson.error-messages.version-conflict" approved="yes">
+                <source><![CDATA[A newer version of the vector map already exists on the server. Please reload the map and apply your changes to the new version of the map.]]></source>
+                <source><![CDATA[Auf dem Server existiert bereits eine neuere Version der Vektor-Karte. Bitte Laden sie die Karte erneut und wenden Sie Ihre Änderungen auf der neuen Version der Karte an.]]></source>
+            </trans-unit>
 
             <!-- GeoJson Metadata Panel -->
 			<trans-unit id="plugin.map.geojson.metadatapanel.header.create">

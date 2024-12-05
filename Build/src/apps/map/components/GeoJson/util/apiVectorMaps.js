@@ -16,12 +16,16 @@ export const createNewVectorMap = async (geojson, metadata) => {
     return result.data.id;
 };
 
-export const updateVectorMap = async (id, geojson, metadata) => {
+export const updateVectorMap = async (id, geojson, metadata, version) => {
     const georeferenceApi = settingsProvider.getGeoreferenceApiClient();
 
     const url = `/vector_maps/${id}`;
 
-    const result = await georeferenceApi.patch(url, { geojson, metadata });
+    const result = await georeferenceApi.patch(url, {
+        geojson,
+        metadata,
+        current_version: version,
+    });
 
     return result.data.version;
 };

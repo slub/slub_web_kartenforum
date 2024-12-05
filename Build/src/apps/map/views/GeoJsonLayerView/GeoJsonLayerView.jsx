@@ -96,9 +96,12 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
     });
 
     const vectorMapId = selectedLayer.getMetadata(METADATA.vectorMapId);
+    const version = selectedLayer.getMetadata(METADATA.version);
+
     setVectorMapDraw({
       type: vectorMapId ? "remote" : "local",
       id: vectorMapId ?? null,
+      version: version ?? null,
     });
   }, [selectedLayer]);
 

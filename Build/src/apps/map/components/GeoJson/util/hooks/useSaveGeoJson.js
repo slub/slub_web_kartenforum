@@ -15,13 +15,14 @@ import {
     metadataDrawState,
 } from "@map/atoms";
 import { VECTOR_MAP_TYPES } from "@map/components/GeoJson/constants";
-import { isDefined } from "@util/util";
+import { isDefined, translate } from "@util/util";
 import {
     createNewVectorMap,
     updateVectorMap,
 } from "@map/components/GeoJson/util/apiVectorMaps";
 import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
 import { exitDrawMode } from "@map/components/GeoJson/util/util";
+import { notificationState } from "@atoms";
 
 export const useSaveGeoJson = () => {
     const createRemoteVectorMap = useRecoilCallback(
@@ -75,34 +76,59 @@ export const useSaveGeoJson = () => {
                     const metadata = await snapshot.getPromise(
                         metadataDrawState
                     );
+                    const vectorMapDraw = await snapshot.getPromise(
+                        vectorMapDrawState
+                    );
 
                     // @TODO: Only push geojson if there are changes
                     // @TODO: Only push changed metadata properties
                     // @TODO: Update metadata has to be None for non owner/admin user
+                    // @TODO: Improve error handling
                     const geoJson = draw.getAll();
 
-                    const newVersion = updateVectorMap(
-                        selectedLayer.getMetadata(METADATA.vectorMapId),
-                        geoJson,
-                        metadata
-                    );
-
-                    if (isDefined(map) && isDefined(selectedLayer)) {
-                        // update application layer geojson
-                        selectedLayer.setDataOnMap(map, geoJson);
-                        // update application layer version
-                        selectedLayer.updateMetadata(
-                            METADATA.version,
-                            newVersion
+                    try {
+                        const newVersion = await updateVectorMap(
+                            vectorMapDraw.id,
+                            geoJson,
+                            metadata,
+                            vectorMapDraw.version
                         );
 
-                        // update application layer metadata
-                        Object.keys(metadata).forEach((key) => {
-                            selectedLayer.updateMetadata(key, metadata[key]);
-                        });
+                        // update the application layer
+                        if (isDefined(map) && isDefined(selectedLayer)) {
+                            // update application layer geojson
+                            selectedLayer.setDataOnMap(map, geoJson);
+                            // update application layer version
+                            selectedLayer.updateMetadata(
+                                METADATA.version,
+                                newVersion
+                            );
 
-                        // reset draw state
-                        exitDrawMode(set);
+                            // update application layer metadata
+                            Object.keys(metadata).forEach((key) => {
+                                selectedLayer.updateMetadata(
+                                    key,
+                                    metadata[key]
+                                );
+                            });
+
+                            // reset draw state
+                            exitDrawMode(set);
+                        }
+                    } catch (e) {
+                        if (e.response) {
+                            if (e.response.status === 409) {
+                                set(notificationState, {
+                                    id: "mapWrapper",
+                                    type: "danger",
+                                    text: translate(
+                                        "geojson-draw-version-conflict"
+                                    ),
+                                });
+                            }
+                        } else {
+                            console.error(e);
+                        }
                     }
                 }
             }

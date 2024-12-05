@@ -347,6 +347,9 @@
             <trans-unit id="plugin.map.geojson.save-btn">
                 <source>save</source>
             </trans-unit>
+            <trans-unit id="plugin.map.geojson.error-messages.version-conflict">
+                <source>A newer version of the vector map already exists on the server. Please reload the map and apply your changes to the new version of the map.</source>
+            </trans-unit>
 
             <!--  Map GeoJson Feature Edit Image Fallback   -->
             <trans-unit id="plugin.map.geojson.img-fallback-p">
