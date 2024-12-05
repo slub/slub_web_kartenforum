@@ -17,6 +17,23 @@ const secondary = "rgb(0, 177, 158)";
 const highlightColor = secondary;
 
 export const styles = [
+    {
+        id: "polygon-fill",
+        type: "fill",
+        paint: {
+            "fill-color": [
+                "coalesce",
+                ["get", `${PREFIX}fill`],
+                DEFAULT_STYLE_VALUES[GEOJSON_LAYER_TYPES.FILL].COLOR,
+            ],
+            "fill-opacity": [
+                "coalesce",
+                ["get", `${PREFIX}fill-opacity`],
+                DEFAULT_STYLE_VALUES[GEOJSON_LAYER_TYPES.FILL].OPACITY,
+            ],
+        },
+        filter: ["all", ["==", ["geometry-type"], "Polygon"]],
+    },
     // polygon outlines need two layers. a hot one with dashed line array and a cold one w/o dashed
     // can't be combined into one layer with expression syntax; see https://github.com/maplibre/maplibre-gl-js/issues/1235
     {
@@ -83,23 +100,6 @@ export const styles = [
             ["==", ["get", "active"], "false"],
             ["==", ["geometry-type"], "Polygon"],
         ],
-    },
-    {
-        id: "polygon-fill",
-        type: "fill",
-        paint: {
-            "fill-color": [
-                "coalesce",
-                ["get", `${PREFIX}fill`],
-                DEFAULT_STYLE_VALUES[GEOJSON_LAYER_TYPES.FILL].COLOR,
-            ],
-            "fill-opacity": [
-                "coalesce",
-                ["get", `${PREFIX}fill-opacity`],
-                DEFAULT_STYLE_VALUES[GEOJSON_LAYER_TYPES.FILL].OPACITY,
-            ],
-        },
-        filter: ["all", ["==", ["geometry-type"], "Polygon"]],
     },
     {
         id: "line-hot",

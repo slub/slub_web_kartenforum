@@ -13,17 +13,21 @@ import GeoJsonFeatureEditPanel from "@map/components/GeoJson/GeoJsonFeatureEditP
 export const GeoJsonFeatureEditPanelWrapper = ({
   geoJsonFeature,
   saveFeature,
+  saveFeaturePreview,
   deleteFeature,
   resetFeature,
 }) => {
-  const handleClose = useCallback(() => {
-    resetFeature();
-  }, [resetFeature]);
+  const handleClose = useCallback(
+    (resetOptions) => {
+      resetFeature(resetOptions);
+    },
+    [resetFeature]
+  );
 
   const handleFeatureSave = useCallback(
     (geoJsonDiff) => {
       const onSuccess = () => {
-        handleClose();
+        handleClose({ skipResetPreview: true });
       };
 
       const onError = () => {
@@ -33,17 +37,20 @@ export const GeoJsonFeatureEditPanelWrapper = ({
 
       saveFeature(geoJsonDiff, onSuccess, onError);
     },
-    [saveFeature]
+    [saveFeature, handleClose]
+  );
+
+  const handleFeatureSavePreview = useCallback(
+    ([key, value]) => {
+      saveFeaturePreview(key, value);
+    },
+    [saveFeaturePreview]
   );
 
   const handleFeatureDelete = useCallback(() => {
-    const onDone = () => handleOverlayClose();
+    const onDone = () => handleClose();
     deleteFeature(onDone);
-  }, [deleteFeature]);
-
-  const handleOverlayClose = useCallback(() => {
-    resetFeature();
-  }, [resetFeature]);
+  }, [deleteFeature, handleClose]);
 
   return (
     <>
@@ -52,9 +59,14 @@ export const GeoJsonFeatureEditPanelWrapper = ({
         onDelete={handleFeatureDelete}
         onClose={handleClose}
         onSave={handleFeatureSave}
+        onSavePreview={handleFeatureSavePreview}
       />
     </>
   );
+};
+
+GeoJsonFeatureEditPanelWrapper.defaultPropTypes = {
+  saveFeaturePreview: () => {},
 };
 
 GeoJsonFeatureEditPanelWrapper.propTypes = {
@@ -62,6 +74,7 @@ GeoJsonFeatureEditPanelWrapper.propTypes = {
   resetFeature: PropTypes.func.isRequired,
   saveFeature: PropTypes.func.isRequired,
   deleteFeature: PropTypes.func.isRequired,
+  saveFeaturePreview: PropTypes.func,
 };
 
 export default GeoJsonFeatureEditPanelWrapper;

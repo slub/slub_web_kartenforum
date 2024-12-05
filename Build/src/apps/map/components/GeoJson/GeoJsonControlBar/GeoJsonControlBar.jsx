@@ -34,6 +34,7 @@ import { METADATA } from "@map/components/CustomLayers";
 
 import "./GeoJsonControlBar.scss";
 import GeoJsonControlBarContent from "@map/components/GeoJson/GeoJsonControlBar/components/GeoJsonControlBarContent";
+import { useGeoJsonFeatureDraw } from "../GeoJsonFeatureDrawLoader";
 
 export const GEOJSON_CONTROL_BAR_VIEW_STATE = {
   INITIAL: 0,
@@ -48,6 +49,7 @@ const GeoJsonControlBar = () => {
   const setDrawModePanel = useSetRecoilState(drawModePanelState);
   const { removeDraw } = useMapboxDrawInitializers();
   const saveGeoJson = useSaveGeoJson();
+  const { resetFeaturePreview } = useGeoJsonFeatureDraw();
   const vectorMapDraw = useRecoilValue(vectorMapDrawState);
   const metadataDraw = useRecoilValue(metadataDrawState);
   const initialGeoJson = useRecoilValue(initialGeoJsonDrawState);
@@ -56,7 +58,6 @@ const GeoJsonControlBar = () => {
     GEOJSON_CONTROL_BAR_VIEW_STATE.INITIAL
   );
 
-  // TODO improve and finalize, just a draft state machine
   if (viewState === GEOJSON_CONTROL_BAR_VIEW_STATE.INITIAL) {
     if (!isDefined(metadataDraw[METADATA.title])) {
       setViewState(GEOJSON_CONTROL_BAR_VIEW_STATE.NO_TITLE);
@@ -119,8 +120,9 @@ const GeoJsonControlBar = () => {
 
   const handleSave = useCallback(() => {
     console.log("handle save");
+    resetFeaturePreview();
     saveGeoJson();
-  }, [saveGeoJson]);
+  }, [resetFeaturePreview, saveGeoJson]);
 
   const handleClose = useCallback(() => {
     removeDraw().then(() => {

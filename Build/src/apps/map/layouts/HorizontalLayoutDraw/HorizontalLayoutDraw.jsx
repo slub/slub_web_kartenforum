@@ -5,24 +5,37 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import React from "react";
+import React, { useMemo } from "react";
+import { useRecoilValue } from "recoil";
 
 import MapboxDrawLoader from "@map/components/GeoJson/MapboxDrawLoader";
 import GeoJsonControlBar from "@map/components/GeoJson/GeoJsonControlBar";
 import ExitTransition from "@components/ExitTransition";
 import GeoJsonMetadataPanel from "@map/components/GeoJson/GeoJsonMetadataPanel";
 import { GeoJsonFeatureEditPanelWrapper } from "@map/components/GeoJson/GeoJsonFeatureEditPanel";
-import useGeoJsonFeatureDraw from "@map/hooks/useGeoJsonFeatureDraw";
+import GeoJsonFeatureDrawLoader, {
+  useGeoJsonFeatureDraw,
+} from "@map/components/GeoJson/GeoJsonFeatureDrawLoader";
 
-import "./HorizontalLayoutDraw.scss";
-import { useRecoilValue } from "recoil";
 import { drawModePanelState } from "@map/atoms";
 import { DRAW_MODE_PANEL_STATE } from "../util";
 import GeoJsonHistoryPanel from "@map/components/GeoJson/GeoJsonHistoryPanel/GeoJsonHistoryPanel";
+import { isDefined } from "@util/util";
+
+import "./HorizontalLayoutDraw.scss";
 
 export const HorizontalLayoutDraw = () => {
-  const geoJsonProps = useGeoJsonFeatureDraw();
   const drawModePanel = useRecoilValue(drawModePanelState);
+
+  const geoJsonProps = useGeoJsonFeatureDraw();
+
+  const validatedGeoJsonProps = useMemo(() => {
+    if (!isDefined(geoJsonProps.geoJsonFeature)) {
+      return null;
+    }
+
+    return geoJsonProps;
+  }, [geoJsonProps.geoJsonFeature]);
 
   return (
     <>
@@ -49,12 +62,13 @@ export const HorizontalLayoutDraw = () => {
           Component={GeoJsonFeatureEditPanelWrapper}
           props={
             drawModePanel === DRAW_MODE_PANEL_STATE.FEATURE
-              ? geoJsonProps
+              ? validatedGeoJsonProps
               : null
           }
         />
       </div>
       <MapboxDrawLoader />
+      <GeoJsonFeatureDrawLoader />
     </>
   );
 };

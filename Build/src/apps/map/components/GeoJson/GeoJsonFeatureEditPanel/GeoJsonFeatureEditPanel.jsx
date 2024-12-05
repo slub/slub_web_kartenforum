@@ -30,7 +30,7 @@ import EditNonStyleField from "./EditNonStyleField/EditNonStyleField";
 import "./GeoJsonFeatureEditPanel.scss";
 
 const GeoJsonEditPopUp = (props) => {
-  const { feature, onDelete, onClose, onSave } = props;
+  const { feature, onDelete, onClose, onSave, onSavePreview } = props;
   const [propertyFields, setPropertyFields] = useState(
     extractAndSortNonStyleProperties(feature)
   );
@@ -57,6 +57,7 @@ const GeoJsonEditPopUp = (props) => {
         newFields[index] = newField;
         return newFields;
       });
+      onSavePreview(newField);
     },
     [onSave]
   );
@@ -256,16 +257,20 @@ const GeoJsonEditPopUp = (props) => {
   );
 };
 
+GeoJsonEditPopUp.defaultPropTypes = {
+  onSavePreview: () => {},
+};
+
 GeoJsonEditPopUp.propTypes = {
   feature: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     geometry: PropTypes.object.isRequired,
     properties: PropTypes.object.isRequired,
   }).isRequired,
-  onFeatureStateChange: PropTypes.func,
-  onClose: PropTypes.func,
-  onDelete: PropTypes.func,
-  onSave: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onSavePreview: PropTypes.func,
 };
 
 export default GeoJsonEditPopUp;
