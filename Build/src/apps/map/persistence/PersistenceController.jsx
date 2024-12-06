@@ -238,7 +238,7 @@ export const PersistenceController = () => {
                   const layerLoadPromise = new Promise((resolve) => {
                     const visibility = isVisible ? "visible" : "none";
                     const layerSettings = { visibility, opacity };
-                    const type = feature.getMetadata(METADATA.type);
+                    const type = feature.getType();
 
                     if (type === LAYER_TYPES.HISTORIC_MAP) {
                       return fetchWmsTmsSettings(feature).then(
@@ -252,28 +252,34 @@ export const PersistenceController = () => {
                           });
                         }
                       );
-                    } else if (type === LAYER_TYPES.VECTOR_MAP) {
-                      // In case the map is a remote vector map, we do not store the geojson in the persistence object
-                      // instead we fetch it from the server on restore
-                      return getVectorMap(
-                        feature.getMetadata(METADATA.vectorMapId)
-                      ).then((vectorMap) => {
-                        feature.updateMetadata(
-                          METADATA.userRole,
-                          vectorMap[METADATA.userRole]
-                        );
-                        feature.updateMetadata(
-                          METADATA.version,
-                          vectorMap[METADATA.version]
-                        );
-
-                        feature.setGeoJson(vectorMap.geojson);
-                        return resolve({
-                          layer: feature,
-                          settings: { layerSettings },
-                        });
-                      });
                     } else if (type === LAYER_TYPES.GEOJSON) {
+                      const geojsonLayerType = feature.getMetadata(
+                        METADATA.type
+                      );
+
+                      if (geojsonLayerType === LAYER_TYPES.VECTOR_MAP) {
+                        // In case the map is a remote vector map, we do not store the geojson in the persistence object
+                        // instead we fetch it from the server on restore
+                        return getVectorMap(
+                          feature.getMetadata(METADATA.vectorMapId)
+                        ).then((vectorMap) => {
+                          feature.updateMetadata(
+                            METADATA.userRole,
+                            vectorMap[METADATA.userRole]
+                          );
+                          feature.updateMetadata(
+                            METADATA.version,
+                            vectorMap[METADATA.version]
+                          );
+
+                          feature.setGeoJson(vectorMap.geojson);
+                          return resolve({
+                            layer: feature,
+                            settings: { layerSettings },
+                          });
+                        });
+                      }
+
                       return resolve({
                         layer: feature,
                         settings: { layerSettings },

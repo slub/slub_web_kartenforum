@@ -164,7 +164,7 @@ export const serializeOperationalLayer = (layer, map) => {
     const isVisible = layer.isVisible(map);
     const opacity = layer.getOpacity(map);
 
-    const type = layer.getMetadata(METADATA.type);
+    const type = layer.getType();
     const base = {
         id: layer.getId(),
         isVisible,
@@ -173,15 +173,19 @@ export const serializeOperationalLayer = (layer, map) => {
     };
 
     if (type === LAYER_TYPES.GEOJSON) {
+        const geojsonLayerType = layer.getMetadata(METADATA.type);
+
+        if (geojsonLayerType === LAYER_TYPES.VECTOR_MAP) {
+            return Object.assign(base, {
+                type: LAYER_TYPES.VECTOR_MAP,
+                geometry: layer.getGeometry(),
+            });
+        }
+
         // add in geojson specific parts
         return Object.assign(base, {
             geojson: layer.getGeoJsonForPersistence(),
             type: LAYER_TYPES.GEOJSON,
-        });
-    } else if (type === LAYER_TYPES.VECTOR_MAP) {
-        return Object.assign(base, {
-            type: LAYER_TYPES.VECTOR_MAP,
-            geometry: layer.getGeometry(),
         });
     } else {
         // add in map specific parts
