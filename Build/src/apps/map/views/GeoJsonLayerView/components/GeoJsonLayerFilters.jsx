@@ -18,7 +18,6 @@ import {
 } from "@map/views/GeoJsonLayerView/atoms";
 import VkfIcon from "@components/VkfIcon";
 import { GeoJsonLayerFilterSynchronizer } from "@map/views/GeoJsonLayerView/components/GeoJsonLayerFilterSynchronizer";
-import GeoJsonLayerFullTextSearch from "@map/views/GeoJsonLayerView/components/GeoJsonLayerFulltextSearch/GeoJsonLayerFullTextSearch";
 
 export const GeoJsonLayerFilters = () => {
   const isValidTimeRange = useRecoilValue(
@@ -60,7 +59,6 @@ export const GeoJsonLayerFilters = () => {
             "in"
         )}
       >
-        <GeoJsonLayerFullTextSearch />
         {viewMode !== GEOJSON_LAYER_VIEW_MODE.EDIT && isValidTimeRange && (
           <TimeSlider
             title={`${translate("geojsonlayerpanel-timefilter-title")}: `}

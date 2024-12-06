@@ -17,7 +17,6 @@ import {
     boundsToPolygon,
     convertFeatureForApplicationState,
     convertFeatureForPersistenceState,
-    getFullTextFilter,
     getLayerConfig,
     getTimeFilter,
 } from "./util";
@@ -461,9 +460,6 @@ class GeoJsonLayer extends ApplicationLayer {
         const timeExtent = filterValues?.timeExtent;
         const timeFilter = getTimeFilter(timeExtent);
 
-        const fullText = filterValues?.fullText;
-        const fullTextFilterExpression = getFullTextFilter(fullText);
-
         for (const mapLayer of mapLayers) {
             const { id } = mapLayer;
             const defaultFilter = this.#defaultLayerFilters[id];
@@ -471,13 +467,6 @@ class GeoJsonLayer extends ApplicationLayer {
 
             if (isDefined(timeFilter) && timeFilter.length > 0) {
                 newFilters.push(timeFilter);
-            }
-
-            if (
-                isDefined(fullTextFilterExpression) &&
-                fullTextFilterExpression.length > 0
-            ) {
-                newFilters.push(fullTextFilterExpression);
             }
 
             if (newFilters.length === 1) {

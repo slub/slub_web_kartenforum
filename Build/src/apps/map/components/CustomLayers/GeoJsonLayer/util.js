@@ -126,31 +126,6 @@ export const getTimeFilter = (timeExtent) => {
     ];
 };
 
-export const getFullTextFilter = (fullTextFilter) => {
-    if (!isDefined(fullTextFilter) || fullTextFilter.length === 0) {
-        return [];
-    }
-
-    return [
-        "let",
-        "fullTextFilter",
-        fullTextFilter,
-        [
-            "any",
-            [
-                "in",
-                ["var", "fullTextFilter"],
-                ["get", FEATURE_PROPERTIES.title],
-            ],
-            [
-                "in",
-                ["var", "fullTextFilter"],
-                ["get", FEATURE_PROPERTIES.description],
-            ],
-        ],
-    ];
-};
-
 export const naiveUniqueFeatureId = (id, source) => `${id}-${source}`;
 
 export const calculateBoundingBox = (point, offset) => {

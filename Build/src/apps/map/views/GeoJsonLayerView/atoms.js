@@ -6,8 +6,6 @@
  */
 import { atom, selector } from "recoil";
 import { getUnixSeconds, isValidDate, normalizeDate } from "@util/date";
-import Fuse from "fuse.js";
-import { INDEX_OPTIONS } from "@map/views/GeoJsonLayerView/constants";
 
 export const GEOJSON_LAYER_VIEW_MODE = {
     INITIAL: 1,
@@ -74,20 +72,6 @@ export const geoJsonLayerViewIsValidTimeRangeState = selector({
     },
 });
 
-export const geoJsonLayerViewFullTextFilterState = atom({
-    key: "geoJsonLayerViewFullTextFilterState",
-    default: "",
-});
-
-export const geoJsonLayerViewFullTextIndex = selector({
-    key: "geoJsonLayerViewFullTextIndex",
-    get: ({ get }) => {
-        const geoJsonFeatures = get(geoJsonLayerViewFeaturesState);
-
-        return new Fuse(geoJsonFeatures, INDEX_OPTIONS);
-    },
-});
-
 export const geoJsonLayerViewFilteredFeaturesState = selector({
     key: "geoJsonLayerViewFilteredFeaturesState",
     get: ({ get }) => {
@@ -99,16 +83,7 @@ export const geoJsonLayerViewFilteredFeaturesState = selector({
             return geoJsonFeatures;
         }
 
-        const fullTextFilter = get(geoJsonLayerViewFullTextFilterState);
-
         let filteredFeatures = geoJsonFeatures;
-
-        if (fullTextFilter.length > 0) {
-            const fullTextIndex = get(geoJsonLayerViewFullTextIndex);
-            filteredFeatures = fullTextIndex
-                .search(fullTextFilter)
-                .map((r) => r.item);
-        }
 
         const timeExtentFilter = get(geoJsonLayerViewTimeExtentFilterState);
 
@@ -145,26 +120,15 @@ export const geoJsonLayerViewMapFilters = selector({
     get: ({ get }) => {
         const viewMode = get(geoJsonLayerViewViewModeState);
         const timeExtentFilter = get(geoJsonLayerViewTimeExtentFilterState);
-        const fullTextFilter = get(geoJsonLayerViewFullTextFilterState);
 
         if (viewMode !== GEOJSON_LAYER_VIEW_MODE.FILTER) {
             return null;
         }
 
-        if (timeExtentFilter === null && fullTextFilter.length === 0) {
+        if (timeExtentFilter === null) {
             return null;
         }
 
-        const filter = {};
-
-        if (timeExtentFilter !== null) {
-            filter.timeExtent = timeExtentFilter;
-        }
-
-        if (fullTextFilter.length > 0) {
-            filter.fullText = fullTextFilter;
-        }
-
-        return filter;
+        return { timeExtent: timeExtentFilter };
     },
 });
