@@ -161,15 +161,19 @@ const useGeoJsonFeatureDraw = () => {
     const resetFeature = useRecoilCallback(
         ({ snapshot, set }) =>
             async (
-                { skipPanelState, skipResetPreview } = {
+                { skipPanelState, skipResetPreview, skipDeselect } = {
                     skipResetPreview: false,
                     skipPanelState: false,
+                    skipDeselect: false,
                 }
             ) => {
                 const draw = await snapshot.getPromise(drawState);
 
-                // deselect feature (unfortunately by deselecting all features, specific ids don't work)
-                draw.changeMode("simple_select", { featureIds: [] });
+                // skip e.g., when switching directly from selected feature to draw mode
+                if (!skipDeselect) {
+                    // deselect feature (unfortunately by deselecting all features, specific ids don't work)
+                    draw.changeMode("simple_select", { featureIds: [] });
+                }
 
                 // skip e.g., on save
                 if (!skipResetPreview) {

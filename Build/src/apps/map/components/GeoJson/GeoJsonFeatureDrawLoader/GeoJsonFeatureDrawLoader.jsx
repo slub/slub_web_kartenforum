@@ -5,12 +5,12 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useRecoilValue, useRecoilCallback } from "recoil";
 
 import { isDefined } from "@util/util";
 
-import { mapState, drawModePanelState } from "@map/atoms";
+import { mapState, drawModePanelState, drawState } from "@map/atoms";
 import useGeoJsonFeatureDraw, {
   geoJsonFeatureDrawState,
 } from "./useGeoJsonFeatureDraw";
@@ -25,6 +25,8 @@ const DRAW_LAYER = {
 const MODE = {
   DIRECT_SELECT: "direct_select",
   SIMPLE_SELECT: "simple_select",
+  DRAW_POLYGON: "draw_polygon",
+  DRAW_LINE_STRING: "draw_line_string",
 };
 
 const isDrawingFeature = (feature) => {
@@ -79,6 +81,10 @@ const GeoJsonFeatureDrawLoader = () => {
     useGeoJsonFeatureDraw();
   const drawModePanel = useRecoilValue(drawModePanelState);
 
+  // mabox draw.create event does not provide the original event
+  // we need the flag to skip reset in handleMapClick
+  const blockFeatureReset = useRef(false);
+
   const handleMapClick = useRecoilCallback(
     ({ snapshot, set }) =>
       /**
@@ -86,6 +92,8 @@ const GeoJsonFeatureDrawLoader = () => {
        */
       async (event) => {
         const map = await snapshot.getPromise(mapState);
+        const draw = await snapshot.getPromise(drawState);
+
         const geoJsonFeature = await snapshot.getPromise(
           geoJsonFeatureDrawState
         );
@@ -111,9 +119,19 @@ const GeoJsonFeatureDrawLoader = () => {
           setFeature(getApplicationFeature(drawFeature));
           set(drawModePanelState, DRAW_MODE_PANEL_STATE.FEATURE);
         } else {
-          if (isDefined(geoJsonFeature)) {
-            resetFeature();
+          if (isDefined(geoJsonFeature) && !blockFeatureReset.current) {
+            if (
+              [MODE.DRAW_LINE_STRING, MODE.DRAW_POLYGON].includes(
+                draw.getMode()
+              )
+            ) {
+              resetFeature({ skipDeselect: true });
+            } else {
+              resetFeature();
+            }
           }
+
+          blockFeatureReset.current = false;
         }
       },
     [setFeature, resetFeature, resetFeaturePreview]
@@ -123,6 +141,17 @@ const GeoJsonFeatureDrawLoader = () => {
     resetFeature();
   }, [resetFeature]);
 
+  const handleDrawCreate = useRecoilCallback(
+    ({ set }) =>
+      (event) => {
+        blockFeatureReset.current = true;
+        const drawFeature = event.features[0];
+        setFeature(drawFeature);
+        set(drawModePanelState, DRAW_MODE_PANEL_STATE.FEATURE);
+      },
+    [setFeature]
+  );
+
   const registerMapHandler = useRecoilCallback(
     ({ snapshot }) =>
       async () => {
@@ -131,6 +160,7 @@ const GeoJsonFeatureDrawLoader = () => {
         if (isDefined(map)) {
           map.on("click", handleMapClick);
           map.on("draw.delete", handleDrawDelete);
+          map.on("draw.create", handleDrawCreate);
         }
       },
     []
@@ -144,6 +174,7 @@ const GeoJsonFeatureDrawLoader = () => {
         if (isDefined(map)) {
           map.on("click", handleMapClick);
           map.on("draw.delete", handleDrawDelete);
+          map.on("draw.create", handleDrawCreate);
         }
       },
     []
