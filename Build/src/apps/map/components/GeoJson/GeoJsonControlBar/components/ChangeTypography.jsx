@@ -4,23 +4,17 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import SettingsProvider, { LANGUAGE_CODE } from "@settings-provider";
 import React, { useMemo } from "react";
 import { translate } from "@util/util";
+import {
+  cardinalRules,
+  signedNumberFormat,
+} from "@map/components/GeoJson/util/formatters";
 
-const locale =
-  SettingsProvider.getSettings().LANGUAGE_CODE === LANGUAGE_CODE.DE
-    ? "de-DE"
-    : "en-US";
-
-const cardinalRules = new Intl.PluralRules(locale);
-
-const numberFormat = new Intl.NumberFormat(locale, {
-  signDisplay: "exceptZero",
-});
 export const ChangeTypography = ({ count, id, formatFunction }) => {
   const formattedNumber = useMemo(
-    () => (formatFunction ? formatFunction(count) : numberFormat.format(count)),
+    () =>
+      formatFunction ? formatFunction(count) : signedNumberFormat.format(count),
     [count]
   );
 

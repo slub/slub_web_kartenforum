@@ -193,6 +193,11 @@ export const vectorMapDrawState = atom({
     default: null,
 });
 
+export const vectorMapActiveVersionDrawState = atom({
+    key: "vectorMapActiveVersionDrawState",
+    default: null,
+});
+
 // Add geojson states
 export const showDropZoneState = atom({
     key: "showDropZoneState",

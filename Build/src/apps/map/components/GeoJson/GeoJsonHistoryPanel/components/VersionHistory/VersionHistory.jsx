@@ -5,17 +5,20 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import { selector, useRecoilValue } from "recoil";
-import { vectorMapDrawState } from "@map/atoms";
+import {
+  vectorMapActiveVersionDrawState,
+  vectorMapDrawState,
+} from "@map/atoms";
 import { isDefined } from "@util/util";
 import { getVectorMapVersions } from "@map/components/GeoJson/util/apiVectorMaps";
 import React from "react";
+import VersionHistoryEntry from "@map/components/GeoJson/GeoJsonHistoryPanel/components/VersionHistory/VersionHistoryEntry";
 
 const vectorMapVersionsState = selector({
   key: "vectorMapVersionsState",
   get: async ({ get }) => {
     const vectorMap = get(vectorMapDrawState);
 
-    console.log(vectorMap);
     if (
       !isDefined(vectorMap) ||
       vectorMap.type === "local" ||
@@ -29,6 +32,7 @@ const vectorMapVersionsState = selector({
 });
 
 export const VersionHistory = () => {
+  const activeVersion = useRecoilValue(vectorMapActiveVersionDrawState);
   const vectorMapVersions = useRecoilValue(vectorMapVersionsState);
 
   if (!vectorMapVersions) {
@@ -36,16 +40,18 @@ export const VersionHistory = () => {
   }
 
   return (
-    <ul>
-      {vectorMapVersions.map((version) => (
-        <li
+    <ul className="version-history">
+      {vectorMapVersions.map((version, index) => (
+        <VersionHistoryEntry
+          isMostRecent={index === 0}
+          isSelected={
+            activeVersion === null
+              ? index === 0
+              : activeVersion === version.version
+          }
           key={version.version}
-          style={{ display: "flex", flexDirection: "column" }}
-        >
-          <span>{version.version}</span>
-          <span>{version.submitted}</span>
-          <span>{version.created_by}</span>
-        </li>
+          version={version}
+        />
       ))}
     </ul>
   );

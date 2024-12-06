@@ -17,6 +17,7 @@ import {
     horizontalLayoutModeState,
     initialGeoJsonDrawState,
     metadataDrawState,
+    vectorMapActiveVersionDrawState,
     vectorMapDrawState,
 } from "@map/atoms";
 import {
@@ -267,6 +268,7 @@ export const exitDrawMode = (set) => {
     set(drawModePanelState, DRAW_MODE_PANEL_STATE.NONE);
     set(horizontalLayoutModeState, HORIZONTAL_LAYOUT_MODE.STANDARD);
     set(vectorMapDrawState, null);
+    set(vectorMapActiveVersionDrawState, null);
     set(initialGeoJsonDrawState, null);
     set(metadataDrawState, null);
 };

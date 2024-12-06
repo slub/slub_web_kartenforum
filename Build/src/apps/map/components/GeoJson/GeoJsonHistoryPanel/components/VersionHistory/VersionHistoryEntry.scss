@@ -1,0 +1,134 @@
+@use "sass:color";
+@import "../../../../../../../../../Resources/Private/Scss/Variables.scss";
+
+.geojson-history-panel-root {
+    .geojson-history-panel-content {
+        .version-history-entry {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            padding: 0;
+
+            &:before {
+                top: 22px;
+                left: 20px;
+                height: 7px;
+                width: 7px;
+                border-radius: 50%;
+                position: absolute;
+                z-index: 2;
+            }
+
+            &:after {
+                position: absolute;
+                left: 23px;
+                bottom: -29px;
+                height: 47px;
+                width: 1px;
+                background-color: #ccc;
+                content: "";
+                z-index: 1;
+                pointer-events: none;
+            }
+
+            &:last-child {
+                &:after {
+                    display: none;
+                }
+            }
+
+            &.selected {
+                gap: 12px;
+
+                &:before {
+                    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNyIgdmlld0JveD0iMCAwIDE2IDE3IiBmaWxsPSJub25lIj4KICA8cGF0aCBkPSJNMTAuNzM0NiAxMC4zNDg3QzEwLjcxMjQgMTAuMzQ1NyAxMC42ODk4IDEwLjM0NzIgMTAuNjY4MSAxMC4zNTNDMTAuNjQ2NSAxMC4zNTg4IDEwLjYyNjIgMTAuMzY4OSAxMC42MDg1IDEwLjM4MjdDMTAuNTkwMSAxMC4zOTYxIDEwLjU3NDYgMTAuNDEzMSAxMC41NjMxIDEwLjQzMjdDMTAuNTUxNiAxMC40NTI0IDEwLjU0NDQgMTAuNDc0MiAxMC41NDE4IDEwLjQ5NjhMMTAuMzg3NiAxMS45ODM1QzEwLjM4MzEgMTIuMDI1NyAxMC4zOTQ5IDEyLjA2OCAxMC40MjA2IDEyLjEwMTdDMTAuNDQ2MyAxMi4xMzU1IDEwLjQ4MzkgMTIuMTU4MSAxMC41MjU3IDEyLjE2NUMxMi4wNjY1IDEyLjQyMDYgMTMuMTA2MiAxMi45MDI0IDEzLjEwNjIgMTMuNDU0OUMxMy4xMDYyIDE0LjI3NSAxMC44MTk0IDE0LjkzOTYgNy45OTg3MSAxNC45Mzk2QzUuMTc4MDcgMTQuOTM5NiAyLjg5MTI2IDE0LjI3MjQgMi44OTEyNiAxMy40NTQ5QzIuODkxMjYgMTIuOTAyNCAzLjkzMDkgMTIuNDIwNiA1LjQ3MTY4IDEyLjE2NUM1LjUxMzUyIDEyLjE1ODEgNS41NTExMyAxMi4xMzU1IDUuNTc2ODEgMTIuMTAxN0M1LjYwMjQ5IDEyLjA2OCA1LjYxNDI5IDEyLjAyNTcgNS42MDk4MSAxMS45ODM1TDUuNDU1NjYgMTAuNDk4MUM1LjQ1MzA2IDEwLjQ3NTUgNS40NDU3OCAxMC40NTM3IDUuNDM0MjkgMTAuNDM0MUM1LjQyMjgxIDEwLjQxNDQgNS40MDczNiAxMC4zOTc0IDUuMzg4OTQgMTAuMzg0QzUuMzcxMjMgMTAuMzcwMyA1LjM1MDk2IDEwLjM2MDIgNS4zMjkzIDEwLjM1NDNDNS4zMDc2NSAxMC4zNDg1IDUuMjg1MDUgMTAuMzQ3IDUuMjYyODIgMTAuMzVDMi4zOTg4IDEwLjc2MDQgLTAuMDA4Nzg5MDYgMTEuODE4MSAtMC4wMDg3ODkwNiAxMy40NTQ5Qy0wLjAwODc4OTA2IDE1LjU5NzYgNC4xMTM3NCAxNi43NTQgNy45OTI3MSAxNi43NTRDMTEuODcxNyAxNi43NTQgMTYuMDAwMiAxNS41OTYzIDE2LjAwMDIgMTMuNDUxNkMxNi4wMDAyIDExLjgxNjcgMTMuNTk1MyAxMC43NTkxIDEwLjczNDYgMTAuMzQ4N1oiIGZpbGw9IiMwMEIxOUUiLz4KICA8cGF0aCBkPSJNNy45OTgxNCA0LjYxMkM5LjAxMTYxIDQuNjEyIDkuODMzMTkgMy43OTA0MiA5LjgzMzE5IDIuNzc2OTVDOS44MzMxOSAxLjc2MzQ4IDkuMDExNjEgMC45NDE4OTUgNy45OTgxNCAwLjk0MTg5NUM2Ljk4NDY3IDAuOTQxODk1IDYuMTYzMDkgMS43NjM0OCA2LjE2MzA5IDIuNzc2OTVDNi4xNjMwOSAzLjc5MDQyIDYuOTg0NjcgNC42MTIgNy45OTgxNCA0LjYxMloiIGZpbGw9IiMwMEIxOUUiLz4KICA8cGF0aCBkPSJNNS45OTY3MyA5LjYxNjY5SDYuNTEwNTVDNi41NTI0IDkuNjE2NTYgNi41OTI3NiA5LjYzMjIyIDYuNjIzNTYgOS42NjA1NUM2LjY1NDM2IDkuNjg4ODggNi42NzMzNCA5LjcyNzc5IDYuNjc2NyA5Ljc2OTVMNi45NzIzMSAxMy4zMTQyQzYuOTc5MiAxMy4zOTc4IDcuMDE3MzYgMTMuNDc1OCA3LjA3OTIgMTMuNTMyNkM3LjE0MTA1IDEzLjU4OTQgNy4yMjIwMSAxMy42MjA3IDcuMzA1OTYgMTMuNjIwNEg4LjY5MzkzQzguNzc3ODcgMTMuNjIwNyA4Ljg1ODg0IDEzLjU4OTQgOC45MjA2OCAxMy41MzI2QzguOTgyNTIgMTMuNDc1OCA5LjAyMDY5IDEzLjM5NzggOS4wMjc1NyAxMy4zMTQyTDkuMzIzMTggOS43Njk1QzkuMzI2NTQgOS43Mjc3OSA5LjM0NTUyIDkuNjg4ODggOS4zNzYzMyA5LjY2MDU1QzkuNDA3MTMgOS42MzIyMiA5LjQ0NzQ5IDkuNjE2NTYgOS40ODkzNCA5LjYxNjY5SDEwLjAwMDVDMTAuMDg5IDkuNjE2NjkgMTAuMTczOCA5LjU4MTU0IDEwLjIzNjQgOS41MTg5N0MxMC4yOTkgOS40NTY0IDEwLjMzNDEgOS4zNzE1NCAxMC4zMzQxIDkuMjgzMDVWNy42MTQ4MkMxMC4zMzQxIDYuOTk1NCAxMC4wODgxIDYuNDAxMzUgOS42NTAwNyA1Ljk2MzM2QzkuMjEyMDggNS41MjUzNiA4LjYxODAzIDUuMjc5MyA3Ljk5ODYxIDUuMjc5M0M3LjM3OTE5IDUuMjc5MyA2Ljc4NTE0IDUuNTI1MzYgNi4zNDcxNCA1Ljk2MzM2QzUuOTA5MTUgNi40MDEzNSA1LjY2MzA5IDYuOTk1NCA1LjY2MzA5IDcuNjE0ODJWOS4yODMwNUM1LjY2MzA5IDkuMzcxNTQgNS42OTgyNCA5LjQ1NjQgNS43NjA4MSA5LjUxODk3QzUuODIzMzggOS41ODE1NCA1LjkwODI0IDkuNjE2NjkgNS45OTY3MyA5LjYxNjY5WiIgZmlsbD0iIzAwQjE5RSIvPgo8L3N2Zz4K");
+                    height: 23px;
+                    width: 27px;
+                    left: 10px;
+                    background-color: white;
+                    top: 13px;
+                    background-repeat: no-repeat;
+                    background-position: 6px 2px;
+                }
+
+                .version-history-entry-content {
+                    color: $secondary-color-dark;
+                }
+            }
+
+            .version-history-reset-button {
+                position: absolute;
+                transition: all 300ms ease-out;
+                opacity: 0;
+                right: 0;
+                top: 14px;
+                transform: translateX(0);
+
+                &:focus-visible {
+                    outline: 1px solid black;
+                }
+
+                svg {
+                    height: 19px;
+                    width: 22px;
+                    fill: none;
+                    stroke: $secondary-color-dark;
+                }
+            }
+
+            .version-history-entry-content {
+                z-index: 3;
+                transition: background-color 300ms ease-out;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                padding: 9px 0 9px 48px;
+                user-select: none;
+                color: #666;
+                font-family: "Titillium Web";
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 16px;
+
+                .time {
+                    font-weight: 700;
+                }
+            }
+
+            &.current-version {
+                .version-history-reset-button {
+                    opacity: 1;
+                    transform: translateX(-20px);
+
+                    &:hover,
+                    &:focus-visible {
+                        transform: translateX(-20px) scale(1.2);
+                    }
+                }
+            }
+
+            &.older-version {
+                &:hover,
+                &:has(.version-history-reset-button:focus-visible) {
+                    .version-history-entry-content {
+                        background-color: color.change(
+                            $secondary-color,
+                            $alpha: 0.1
+                        );
+                    }
+                    .version-history-reset-button {
+                        opacity: 1;
+                        transform: translateX(-20px);
+
+                        &:hover,
+                        &:focus-visible {
+                            transform: translateX(-20px) scale(1.2);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

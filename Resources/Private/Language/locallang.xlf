@@ -391,11 +391,17 @@
             <trans-unit id="plugin.map.geojson.metadatapanel.header.edit">
 				<source>Edit vector map</source>
 			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.header.history">
+				<source>History of the vector map</source>
+			</trans-unit>
             <trans-unit id="plugin.map.geojson.metadatapanel.intro.create">
 				<source>Add a title, description and a preview image for your new vector map here</source>
 			</trans-unit>
             <trans-unit id="plugin.map.geojson.metadatapanel.intro.edit">
 				<source>Edit the settings for the entire vector map here. You can define the title, description and preview image here.</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro.history">
+				<source>Select an earlier version of the vector map here by first browsing the older versions and then resetting.</source>
 			</trans-unit>
             <trans-unit id="plugin.map.geojson.metadatapanel.delete">
 				<source>Delete this vector map.</source>

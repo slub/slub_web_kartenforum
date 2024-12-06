@@ -6,6 +6,7 @@
  */
 
 @import "../../../Variables.scss";
+@import "../../../../../../../Resources/Private/Scss/Variables.scss";
 
 .vkf-geojson-control-bar-root {
     display: flex;
@@ -42,7 +43,24 @@
             flex-direction: row;
             gap: 6px;
 
+            &--badge {
+                position: absolute;
+                top: 0px;
+                right: -4px;
+                background-color: $primary-color;
+                height: 8px;
+                width: 8px;
+                border-radius: 50%;
+                opacity: 0;
+                transition: opacity 0.3s ease-out;
+
+                &.in {
+                    opacity: 1;
+                }
+            }
+
             &--button {
+                position: relative;
                 line-height: 0;
 
                 &.layer-metadata-button {

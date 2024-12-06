@@ -9,32 +9,30 @@ import React, { useCallback, useMemo, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import {
-  horizontalLayoutModeState,
   drawModePanelState,
-  vectorMapDrawState,
-  metadataDrawState,
+  horizontalLayoutModeState,
   initialGeoJsonDrawState,
+  metadataDrawState,
+  vectorMapDrawState,
 } from "@map/atoms";
-import { translate, isDefined } from "@util/util";
+import { isDefined, translate } from "@util/util";
 
 import CustomButton from "@map/components/GeoJson/components/CustomButton";
 import VkfIcon from "@components/VkfIcon";
 import useSaveGeoJson from "@map/components/GeoJson/util/hooks/useSaveGeoJson";
-import {
-  isVectorMapHistoryViewAllowed,
-  isVectorMapMetadataEditAllowed,
-} from "@map/components/GeoJson/util/authorization";
+import { isVectorMapMetadataEditAllowed } from "@map/components/GeoJson/util/authorization";
 
 import {
-  HORIZONTAL_LAYOUT_MODE,
   DRAW_MODE_PANEL_STATE,
+  HORIZONTAL_LAYOUT_MODE,
 } from "@map/layouts/util";
 import { useMapboxDrawInitializers } from "@map/components/GeoJson/MapboxDrawLoader/MapboxDrawLoader";
 import { METADATA } from "@map/components/CustomLayers";
-
-import "./GeoJsonControlBar.scss";
 import GeoJsonControlBarContent from "@map/components/GeoJson/GeoJsonControlBar/components/GeoJsonControlBarContent";
 import { useGeoJsonFeatureDraw } from "../GeoJsonFeatureDrawLoader";
+import GeoJsonControlBarHistoryButton from "@map/components/GeoJson/GeoJsonControlBar/components/GeoJsonControlBarHistoryButton";
+
+import "./GeoJsonControlBar.scss";
 
 export const GEOJSON_CONTROL_BAR_VIEW_STATE = {
   INITIAL: 0,
@@ -150,18 +148,10 @@ const GeoJsonControlBar = () => {
           >
             <VkfIcon name="metadata-panel" />
           </CustomButton>
-          {vectorMapDraw?.type === "remote" && (
-            <CustomButton
-              disabled={!isVectorMapHistoryViewAllowed(vectorMapDraw)}
-              className="control-bar-layer-buttons--button layer-history-button"
-              onClick={handleHistoryClick}
-              title={translate("geojson-control-bar-history-btn-title")}
-            >
-              <VkfIcon name="clock" />
-            </CustomButton>
-          )}
+          <GeoJsonControlBarHistoryButton onClick={handleHistoryClick} />
         </div>
       </div>
+
       <GeoJsonControlBarContent
         onUpdateViewMode={setViewState}
         viewState={viewState}

@@ -269,9 +269,17 @@
 				<source><![CDATA[Edit vector map]]></source>
 				<target><![CDATA[Vektor-Karte bearbeiten]]></target>
 			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.header.history">
+				<source><![CDATA[History of the vector map]]></source>
+				<target><![CDATA[Historie der Vektor-Karte]]></target>
+			</trans-unit>
             <trans-unit id="plugin.map.geojson.metadatapanel.intro.edit">
 				<source><![CDATA[Edit the settings for the entire vector map here. You can define the title, description and preview image here.]]></source>
 				<target><![CDATA[Bearbeiten Sie hier die Einstellungen für die gesamte Vektor-Karte. Sie können hier Titel, Beschreibung und Vorschaubild bestimmen.]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro.history">
+				<source><![CDATA[Select an earlier version of the vector map here by first browsing the older versions and then resetting.]]></source>
+				<target><![CDATA[Wählen Sie hier eine frühere Variante der Vektor-Karte aus indem Sie zunächst die älteren Varianten durchsuchen und dann zurücksetzen.]]></target>
 			</trans-unit>
             <trans-unit id="plugin.map.geojson.metadatapanel.intro.create">
 				<source><![CDATA[Add a title, description and a preview image for your new vector map here.]]></source>
