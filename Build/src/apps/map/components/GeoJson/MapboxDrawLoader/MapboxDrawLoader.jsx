@@ -23,7 +23,7 @@ import { exitDrawMode } from "../util/util";
 import { useTrackGeoJsonChanges } from "@map/components/GeoJson/util/hooks/useTrackGeoJsonChanges";
 import { styles } from "./constants";
 
-import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
+import "./mapbox-draw-cursors.scss";
 
 const options = {
   styles,

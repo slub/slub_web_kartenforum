@@ -1,0 +1,41 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 06.12.24.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+.maplibregl-map.mouse-pointer
+    .maplibregl-canvas-container.maplibregl-interactive {
+    cursor: pointer;
+}
+.maplibregl-map.mouse-move .maplibregl-canvas-container.maplibregl-interactive {
+    cursor: move;
+}
+.maplibregl-map.mouse-add .maplibregl-canvas-container.maplibregl-interactive {
+    cursor: crosshair;
+}
+.maplibregl-map.mouse-move.mode-direct_select
+    .maplibregl-canvas-container.maplibregl-interactive {
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+.maplibregl-map.mode-direct_select.feature-vertex.mouse-move
+    .maplibregl-canvas-container.maplibregl-interactive {
+    cursor: move;
+}
+.maplibregl-map.mode-direct_select.feature-midpoint.mouse-pointer
+    .maplibregl-canvas-container.maplibregl-interactive {
+    cursor: cell;
+}
+.maplibregl-map.mode-direct_select.feature-feature.mouse-move
+    .maplibregl-canvas-container.maplibregl-interactive {
+    cursor: move;
+}
+.maplibregl-map.mode-static.mouse-pointer
+    .maplibregl-canvas-container.maplibregl-interactive {
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
