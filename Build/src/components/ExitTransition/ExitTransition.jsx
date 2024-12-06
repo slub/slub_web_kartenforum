@@ -27,7 +27,7 @@ import { isDefined } from "@util/util";
  * @returns
  */
 const ExitTransition = ({ className, Component, props, onExit }) => {
-  const prevProps = useRef(props);
+  const prevProps = useRef(null);
   const [component, setComponent] = useState(null);
 
   const arePropsDefined = isDefined(props);
