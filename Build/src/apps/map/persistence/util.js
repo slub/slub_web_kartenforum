@@ -176,9 +176,18 @@ export const serializeOperationalLayer = (layer, map) => {
         const geojsonLayerType = layer.getMetadata(METADATA.type);
 
         if (geojsonLayerType === LAYER_TYPES.VECTOR_MAP) {
+            // Do not persist userRole or version for vector maps
+            const filteredProperties = {};
+            Object.entries(base.properties).forEach(([key, value]) => {
+                if (key !== METADATA.userRole && key !== METADATA.version) {
+                    filteredProperties[key] = value;
+                }
+            });
+
             return Object.assign(base, {
                 type: LAYER_TYPES.VECTOR_MAP,
                 geometry: layer.getGeometry(),
+                properties: filteredProperties,
             });
         }
 

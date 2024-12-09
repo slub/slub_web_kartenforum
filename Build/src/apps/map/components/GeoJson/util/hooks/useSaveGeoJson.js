@@ -48,6 +48,7 @@ export const useSaveGeoJson = () => {
                             [METADATA.id]: id,
                             [METADATA.vectorMapId]: id,
                             [METADATA.version]: 0,
+                            [METADATA.userRole]: "owner",
                         },
                         geoJSON: geojson,
                     });

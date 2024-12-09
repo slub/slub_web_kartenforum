@@ -102,6 +102,7 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
       type: vectorMapId ? "remote" : "local",
       id: vectorMapId ?? null,
       version: version ?? null,
+      layerRole: selectedLayer.getMetadata(METADATA.userRole) ?? null,
     });
   }, [selectedLayer]);
 

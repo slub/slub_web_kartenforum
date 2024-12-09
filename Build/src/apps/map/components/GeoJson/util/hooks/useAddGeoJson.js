@@ -81,6 +81,7 @@ export const useAddGeoJson = () => {
                 set(vectorMapDrawState, {
                     type: VECTOR_MAP_TYPES.REMOTE,
                     id: null,
+                    layerRole: "owner",
                 });
                 set(horizontalLayoutModeState, HORIZONTAL_LAYOUT_MODE.DRAW);
             },

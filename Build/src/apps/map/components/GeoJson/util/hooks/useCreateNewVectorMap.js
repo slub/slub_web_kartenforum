@@ -29,6 +29,7 @@ export const useCreateNewVectorMap = () => {
         set(vectorMapDrawState, {
             type: VECTOR_MAP_TYPES.REMOTE,
             id: null,
+            layerRole: "owner",
         });
 
         // switch to draw mode

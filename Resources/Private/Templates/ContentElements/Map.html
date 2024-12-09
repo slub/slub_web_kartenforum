@@ -400,21 +400,22 @@
 </f:section>
 
 
+<f:security.ifHasRole role="vk2-editor">
+    <f:then>
+        <script>
+            vk2.SettingsProvider.appendSettings({
+                USER_ROLE: "vk2-editor"
+            })
+        </script>
+    </f:then>
+</f:security.ifHasRole>
+
+
 <f:security.ifHasRole role="vk2-admin">
     <f:then>
       <script>
           vk2.SettingsProvider.appendSettings({
               USER_ROLE: "vk2-admin"
-          })
-      </script>
-    </f:then>
-</f:security.ifHasRole>
-
-<f:security.ifHasRole role="vk2-editor">
-    <f:then>
-         <script>
-          vk2.SettingsProvider.appendSettings({
-              USER_ROLE: "vk2-editor"
           })
       </script>
     </f:then>
