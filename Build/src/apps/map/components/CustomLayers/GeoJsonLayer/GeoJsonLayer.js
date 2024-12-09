@@ -43,27 +43,12 @@ class GeoJsonLayer extends ApplicationLayer {
 
     constructor({ metadata, geometry, geoJSON }) {
         super({ metadata, geometry });
-        this.geoJSON = geoJSON;
-
-        this.#initialize();
+        this.#initialize(geoJSON);
     }
 
-    #initialize() {
-        // feature.id MUST be integer or string that is castable to integer
-        // see: https://github.com/maplibre/maplibre-gl-js/discussions/3134
-        // see: https://maplibre.org/maplibre-style-spec/expressions/#feature-state
-        const features = this.geoJSON.features.map((feature, idx) => {
-            if (!Object.hasOwn(feature, "properties")) {
-                feature.properties = {};
-            }
-
-            feature = convertFeatureForApplicationState(feature);
-
-            //@TODO: Generate stable feature ids (Somewhere)
-            return { ...feature, id: idx + 1 };
-        });
-
-        this.geoJSON = { ...this.geoJSON, features };
+    #initialize(geoJSON) {
+        // set and convert geoJson to represent application state
+        this.setGeoJson(geoJSON);
 
         const bounds = this.geometry ? bbox(this.geometry) : bbox(this.geoJSON);
         this.metadata[METADATA.bounds] = bounds;
@@ -117,6 +102,13 @@ class GeoJsonLayer extends ApplicationLayer {
         this.#registerEventHandlers(map);
     }
 
+    /**
+     * Updates geojson on map using maplibre source diffs. The sourceDiff **must** represent the application state.
+     *
+     * @param {maplibregl.Map} map The maplibregl map instance
+     * @param {object} sourceDiff The maplibregl source diff (expected to represent application state)
+     * @returns {Promise}
+     */
     updateDataOnMap(map, sourceDiff) {
         if (!isDefined(map) || !isDefined(sourceDiff)) {
             return Promise.reject();
@@ -133,6 +125,14 @@ class GeoJsonLayer extends ApplicationLayer {
             });
     }
 
+    /**
+     * Sets new data to the maplibregl's source layer calling sourceLayer.setData.
+     * The geoJson is converted to represent the application state before adding the data to the map.
+     *
+     * @param {maplibregl.Map} map
+     * @param {object} geoJson
+     * @returns
+     */
     setDataOnMap(map, geoJson) {
         if (!isDefined(map) || !isDefined(geoJson)) {
             return;
@@ -140,24 +140,9 @@ class GeoJsonLayer extends ApplicationLayer {
 
         const sourceLayer = map.getSource(this.getId());
 
-        // feature.id MUST be integer or string that is castable to integer
-        // see: https://github.com/maplibre/maplibre-gl-js/discussions/3134
-        // see: https://maplibre.org/maplibre-style-spec/expressions/#feature-state
-        const features = geoJson.features.map((feature, idx) => {
-            if (!Object.hasOwn(feature, "properties")) {
-                feature.properties = {};
-            }
-
-            feature = convertFeatureForApplicationState(feature);
-
-            //@TODO: Generate stable feature ids (Somewhere)
-            return { ...feature, id: idx + 1 };
-        });
-
-        const preparedGeoJson = { ...geoJson, features };
-
-        sourceLayer.setData(preparedGeoJson);
-        this.setGeoJson(preparedGeoJson);
+        // update and convert geojson to application state
+        this.setGeoJson(geoJson);
+        sourceLayer.setData(this.geoJSON);
     }
 
     removeFeatureFromMap(map, id) {
@@ -212,12 +197,28 @@ class GeoJsonLayer extends ApplicationLayer {
     }
 
     /**
-     * Sets the geoJson object representing the application state.
+     * Sets the geoJson. Features are converted to represent the application state.
      *
      * @param {object} geoJson
      */
     setGeoJson(geoJson) {
-        this.geoJSON = geoJson;
+        // feature.id MUST be integer or string that is castable to integer
+        // see: https://github.com/maplibre/maplibre-gl-js/discussions/3134
+        // see: https://maplibre.org/maplibre-style-spec/expressions/#feature-state
+        const features = geoJson.features.map((feature, idx) => {
+            if (!Object.hasOwn(feature, "properties")) {
+                feature.properties = {};
+            }
+
+            feature = convertFeatureForApplicationState(feature);
+
+            //@TODO: Generate stable feature ids (Somewhere)
+            return { ...feature, id: idx + 1 };
+        });
+
+        const preparedGeoJson = { ...geoJson, features };
+
+        this.geoJSON = preparedGeoJson;
     }
 
     getFeature(id) {
