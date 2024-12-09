@@ -8,6 +8,7 @@ import { useRecoilCallback } from "recoil";
 import {
     drawState,
     mapState,
+    selectedGeoJsonLayerLastUpdatedState,
     selectedGeoJsonLayerIdState,
     selectedGeoJsonLayerState,
     selectedLayersState,
@@ -113,6 +114,10 @@ export const useSaveGeoJson = () => {
                                     metadata[key]
                                 );
                             });
+                            set(
+                                selectedGeoJsonLayerLastUpdatedState,
+                                Date.now()
+                            );
 
                             // reset draw state
                             exitDrawMode(set);
@@ -157,6 +162,7 @@ export const useSaveGeoJson = () => {
                         Object.keys(metadata).forEach((key) => {
                             selectedLayer.updateMetadata(key, metadata[key]);
                         });
+                        set(selectedGeoJsonLayerLastUpdatedState, Date.now());
 
                         // reset state
                         exitDrawMode(set);

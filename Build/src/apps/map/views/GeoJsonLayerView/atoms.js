@@ -6,6 +6,7 @@
  */
 import { atom, selector } from "recoil";
 import { getUnixSeconds, isValidDate, normalizeDate } from "@util/date";
+import { selectedGeoJsonLayerLastUpdatedState } from "@map/atoms";
 
 export const GEOJSON_LAYER_VIEW_MODE = {
     INITIAL: 1,
@@ -28,6 +29,8 @@ export const geoJsonLayerViewFeaturesState = selector({
     key: "geoJsonLayerViewFeaturesState",
     get: ({ get }) => {
         const selectedLayer = get(geoJsonLayerViewLayerState);
+        get(selectedGeoJsonLayerLastUpdatedState);
+
         return selectedLayer?.getGeoJson()?.features ?? [];
     },
     dangerouslyAllowMutability: true,
