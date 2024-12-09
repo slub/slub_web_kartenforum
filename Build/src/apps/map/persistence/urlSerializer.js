@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 import { URL_VIEW_MODES } from "./urlParser";
-import { LAYER_TYPES } from "@map/components/CustomLayers";
+import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
 import SettingsProvider from "@settings-provider";
 
 /**
@@ -49,7 +49,11 @@ export const serializeBasemapId = (basemapId) => {
 export const serializeSelectedLayers = (selectedLayers) => {
     return {
         map_id: selectedLayers
-            .filter((layer) => layer.getType() === LAYER_TYPES.HISTORIC_MAP)
+            .filter(
+                (layer) =>
+                    layer.getType() === LAYER_TYPES.HISTORIC_MAP ||
+                    layer.getMetadata(METADATA.vectorMapId)
+            )
             .map((layer) => layer.getId()),
     };
 };

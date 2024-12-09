@@ -322,14 +322,31 @@ export const PersistenceController = () => {
             Promise.all(fetchProcesses)
               .then((layers) => {
                 Promise.all(
-                  layers.map(
-                    (layer) =>
-                      new Promise((resolve) =>
-                        fetchWmsTmsSettings(layer).then((sourceSettings) =>
-                          resolve({ layer, sourceSettings })
-                        )
+                  layers.map((layer) => {
+                    if (layer.getType() === LAYER_TYPES.GEOJSON) {
+                      return getVectorMap(
+                        layer.getMetadata(METADATA.vectorMapId)
+                      ).then((vectorMap) => {
+                        layer.updateMetadata(
+                          METADATA.userRole,
+                          vectorMap[METADATA.userRole]
+                        );
+                        layer.updateMetadata(
+                          METADATA.version,
+                          vectorMap[METADATA.version]
+                        );
+
+                        layer.setGeoJson(vectorMap.geojson);
+                        return { layer };
+                      });
+                    }
+
+                    return new Promise((resolve) =>
+                      fetchWmsTmsSettings(layer).then((sourceSettings) =>
+                        resolve({ layer, sourceSettings })
                       )
-                  )
+                    );
+                  })
                 ).then((results) => {
                   for (const { layer, sourceSettings } of results) {
                     layer.addLayerToMap(map, { sourceSettings });
