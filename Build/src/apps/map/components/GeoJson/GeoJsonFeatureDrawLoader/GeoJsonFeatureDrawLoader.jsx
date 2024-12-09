@@ -172,9 +172,9 @@ const GeoJsonFeatureDrawLoader = () => {
         const map = await snapshot.getPromise(mapState);
 
         if (isDefined(map)) {
-          map.on("click", handleMapClick);
-          map.on("draw.delete", handleDrawDelete);
-          map.on("draw.create", handleDrawCreate);
+          map.off("click", handleMapClick);
+          map.off("draw.delete", handleDrawDelete);
+          map.off("draw.create", handleDrawCreate);
         }
       },
     []

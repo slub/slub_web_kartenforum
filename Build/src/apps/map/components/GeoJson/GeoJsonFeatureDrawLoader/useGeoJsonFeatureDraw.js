@@ -167,12 +167,13 @@ const useGeoJsonFeatureDraw = () => {
                     skipDeselect: false,
                 }
             ) => {
-                const draw = await snapshot.getPromise(drawState);
-
                 // skip e.g., when switching directly from selected feature to draw mode
                 if (!skipDeselect) {
-                    // deselect feature (unfortunately by deselecting all features, specific ids don't work)
-                    draw.changeMode("simple_select", { featureIds: [] });
+                    const draw = await snapshot.getPromise(drawState);
+                    if (isDefined(draw)) {
+                        // deselect feature (unfortunately by deselecting all features, specific ids don't work)
+                        draw.changeMode("simple_select", { featureIds: [] });
+                    }
                 }
 
                 // skip e.g., on save
