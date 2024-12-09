@@ -74,51 +74,59 @@ const wrapDrawButtons = (map) => {
 };
 
 export const useMapboxDrawInitializers = () => {
-  const initializeDraw = useRecoilCallback(({ snapshot, set }) => async () => {
-    const map = await snapshot.getPromise(mapState);
-    const geoJson = await snapshot.getPromise(initialGeoJsonDrawState);
+  const initializeDraw = useRecoilCallback(
+    ({ snapshot, set }) =>
+      async () => {
+        const map = await snapshot.getPromise(mapState);
+        const geoJson = await snapshot.getPromise(initialGeoJsonDrawState);
 
-    if (isDefined(map) && isDefined(geoJson)) {
-      const draw = new MapboxDraw(options);
-      set(drawState, draw);
-      map.addControl(draw, "top-right");
-      draw.add(geoJson);
+        if (isDefined(map) && isDefined(geoJson)) {
+          const draw = new MapboxDraw(options);
+          set(drawState, draw);
+          map.addControl(draw, "top-right");
+          draw.add(geoJson);
 
-      // add css class to control container for position handling
-      map._controlContainer.classList.add(CSS_CLASS_DRAW);
+          // add css class to control container for position handling
+          map._controlContainer.classList.add(CSS_CLASS_DRAW);
 
-      // wrap buttons for styling
-      wrapDrawButtons(map);
-    }
-  });
+          // wrap buttons for styling
+          wrapDrawButtons(map);
+        }
+      },
+    []
+  );
 
-  const removeDraw = useRecoilCallback(({ snapshot, set }) => async () => {
-    const map = await snapshot.getPromise(mapState);
-    const draw = await snapshot.getPromise(drawState);
-    const { selectedLayer } = await snapshot.getPromise(
-      selectedGeoJsonLayerState
-    );
+  const removeDraw = useRecoilCallback(
+    ({ snapshot, set }) =>
+      async () => {
+        const map = await snapshot.getPromise(mapState);
+        const draw = await snapshot.getPromise(drawState);
+        const { selectedLayer } = await snapshot.getPromise(
+          selectedGeoJsonLayerState
+        );
 
-    // reset visibility state of selected layer
-    if (
-      isDefined(map) &&
-      isDefined(selectedLayer) &&
-      !selectedLayer.isVisible(map)
-    ) {
-      selectedLayer.setVisibility(map, "visible");
-    }
+        // reset visibility state of selected layer
+        if (
+          isDefined(map) &&
+          isDefined(selectedLayer) &&
+          !selectedLayer.isVisible(map)
+        ) {
+          selectedLayer.setVisibility(map, "visible");
+        }
 
-    // remove draw control
-    if (isDefined(map) && isDefined(draw)) {
-      map.removeControl(draw);
-      set(drawState, undefined);
+        // remove draw control
+        if (isDefined(map) && isDefined(draw)) {
+          map.removeControl(draw);
+          set(drawState, undefined);
 
-      map._controlContainer.classList.remove(CSS_CLASS_DRAW);
+          map._controlContainer.classList.remove(CSS_CLASS_DRAW);
 
-      // reset draw related state variables
-      exitDrawMode(set);
-    }
-  });
+          // reset draw related state variables
+          exitDrawMode(set);
+        }
+      },
+    []
+  );
 
   return { initializeDraw, removeDraw };
 };
@@ -149,23 +157,26 @@ const useMaplibreControlPositions = () => {
             attributionElement.classList.remove(CSS_CLASS_POSITION_MODIFIER);
           }
         }
-      }
+      },
+    []
   );
 
-  const removeControlShifts = useRecoilCallback(({ snapshot }) => async () => {
-    const map = await snapshot.getPromise(mapState);
-    if (isDefined(map)) {
-      for (const selector of Object.values(SELECTORS)) {
-        const element = map._controlContainer.querySelector(selector);
-        element.classList.remove(CSS_CLASS_POSITION_MODIFIER);
-      }
-    }
-  });
+  const removeControlShifts = useRecoilCallback(
+    ({ snapshot }) =>
+      async () => {
+        const map = await snapshot.getPromise(mapState);
+        if (isDefined(map)) {
+          for (const selector of Object.values(SELECTORS)) {
+            const element = map._controlContainer.querySelector(selector);
+            element.classList.remove(CSS_CLASS_POSITION_MODIFIER);
+          }
+        }
+      },
+    []
+  );
 
   return { shiftControls, removeControlShifts };
 };
-
-// TODO DRAWING: define event handlers when hovering over features (when layer styles are defined)
 
 const MapboxDrawLoader = () => {
   const drawModePanel = useRecoilValue(drawModePanelState);
