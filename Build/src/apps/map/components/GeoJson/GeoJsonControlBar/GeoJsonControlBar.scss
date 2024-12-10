@@ -98,3 +98,44 @@
         padding: 8px;
     }
 }
+
+.vkf-discard-dialog {
+    position: absolute;
+    float: left;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) !important;
+    width: 557px;
+
+    p {
+        margin: 0;
+        color: #000;
+        font-family: $font;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .discard-modal-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 30px;
+
+        .vkf-button-save,
+        .vkf-button-discard {
+            padding: 10px 20px;
+        }
+
+        .vkf-button-discard {
+            background-color: $color-midgrey;
+            color: $color-darkgrey;
+            font-weight: 700;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+
+            &:hover {
+                background-color: darken($color-midgrey, 15%);
+            }
+        }
+    }
+}

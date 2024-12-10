@@ -257,13 +257,22 @@
                 <source>Cancel</source>
             </trans-unit>
             <trans-unit id="plugin.map.adddialog.title">
-                <source>Add geojson layer</source>
+                <source>Add new vector map</source>
             </trans-unit>
             <trans-unit id="plugin.map.adddialog.layerTitleLabel">
-                <source>Geojson Layer Title</source>
+                <source>Title</source>
             </trans-unit>
             <trans-unit id="plugin.map.adddialog.projectionLabel">
                 <source>Projection</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.persistent-button-label">
+                <source>Persistent vector map</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.persistent-description">
+                <source>Choose whether the uploaded data should be permanently available as a searchable map or only temporarily for you personally in your browser.</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.description">
+                <source>Please give your vector map a name and select whether the map should be saved permanently.</source>
             </trans-unit>
 
             <!-- map Geojson Feature View -->
@@ -331,11 +340,29 @@
             </trans-unit>
             <!--  Map GeoJson Feature Edit Delete Modal  -->
             <trans-unit id="plugin.map.geojson.deletemodal-delete-btn">
-                <source>delete</source>
+                <source>Yes, delete now</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.deletemodal-body">
                 <source>Do you really want to delete the data?</source>
             </trans-unit>
+            <trans-unit id="plugin.map.geojson.deletemodal-title">
+                <source>Permanently remove data</source>
+            </trans-unit>
+
+            <!--  Map GeoJson ControlBar CloseDrawingModeModal  -->
+            <trans-unit id="plugin.map.geojson.discardmodal-title">
+                <source>Cancel processing?</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.discardmodal-description">
+                <source>You currently have unsaved changes to this vector map.Are you sure you want to discard these changes?</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.discardmodal-discard-button">
+                <source>Yes, discard changes</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.discardmodal-save-button">
+                <source>Save and close</source>
+            </trans-unit>
+
 
             <!-- GeoJson -->
             <trans-unit id="plugin.map.geojson.cancel-btn">
@@ -420,7 +447,9 @@
             <trans-unit id="plugin.map.geojson.metadata.thumbnail_url">
                 <source>Preview image</source>
             </trans-unit>
-
+            <trans-unit id="plugin.map.geojson.metadata.delete.vector">
+                <source>Do you really want to delete this vector map?</source>
+            </trans-unit>
 
 			<!-- GeoJson Metadata Placeholders -->
             <trans-unit id="plugin.map.geojson.placeholders.title">

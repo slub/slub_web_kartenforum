@@ -2,35 +2,28 @@
 
 .vkf-modal {
     .modal-header {
-        position: relative;
+        align-items: center;
         background: $secondary-color;
-        color: white;
-        letter-spacing: 0.1ex;
-        font-weight: 700;
-        text-transform: uppercase;
+        display: flex;
+        position: relative;
+        padding: 15px 15px 15px 30px;
+        border: none;
 
-        p {
-            margin: 5px 0;
+        .modal-title {
+            color: white;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 100%;
+            letter-spacing: 0.64px;
+            text-transform: uppercase;
+            flex-grow: 1;
         }
 
-        button {
-            position: absolute;
-            top: 50%;
-            right: 15px;
-            width: 30px;
+        .close-button {
+            color: $secondary-color-dark;
             height: 30px;
-            margin-top: -15px;
-            opacity: 1;
-            background: $secondary-color-dark;
-            border: 0;
-            span {
-                position: absolute;
-                inset: 0;
-                transform: rotate(-45deg);
-                display: block;
-                font-size: 24px;
-                line-height: 1;
-            }
+            width: 30px;
         }
     }
 
@@ -41,6 +34,6 @@
     }
 
     .modal-body {
-        padding: 0;
+        padding: 30px;
     }
 }

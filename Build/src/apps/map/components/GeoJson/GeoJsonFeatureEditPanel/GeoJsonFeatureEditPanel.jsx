@@ -251,6 +251,7 @@ const GeoJsonEditPopUp = (props) => {
           show={showDeleteDialog}
           onClose={handleCloseDeleteDialog}
           onDelete={handleConfirmDelete}
+          description={translate("geojson-deletemodal-body")}
         />
       )}
     </div>

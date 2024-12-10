@@ -31,7 +31,7 @@ import { METADATA } from "@map/components/CustomLayers";
 import GeoJsonControlBarContent from "@map/components/GeoJson/GeoJsonControlBar/components/GeoJsonControlBarContent";
 import { useGeoJsonFeatureDraw } from "../GeoJsonFeatureDrawLoader";
 import GeoJsonControlBarHistoryButton from "@map/components/GeoJson/GeoJsonControlBar/components/GeoJsonControlBarHistoryButton";
-
+import CloseDrawingModeModal from "@map/components/GeoJson/GeoJsonControlBar/components/CloseDrawingModeModal.jsx";
 import "./GeoJsonControlBar.scss";
 
 export const GEOJSON_CONTROL_BAR_VIEW_STATE = {
@@ -55,6 +55,7 @@ const GeoJsonControlBar = () => {
   const [viewState, setViewState] = useState(
     GEOJSON_CONTROL_BAR_VIEW_STATE.INITIAL
   );
+  const [showDiscardModal, setShowDiscardModal] = useState(false);
 
   if (viewState === GEOJSON_CONTROL_BAR_VIEW_STATE.INITIAL) {
     if (!isDefined(metadataDraw[METADATA.title])) {
@@ -117,7 +118,6 @@ const GeoJsonControlBar = () => {
   }, []);
 
   const handleSave = useCallback(() => {
-    console.log("handle save");
     resetFeaturePreview();
     saveGeoJson();
   }, [resetFeaturePreview, saveGeoJson]);
@@ -126,7 +126,12 @@ const GeoJsonControlBar = () => {
     removeDraw().then(() => {
       setHorizontalLayoutMode(HORIZONTAL_LAYOUT_MODE.STANDARD);
     });
+    setShowDiscardModal(false);
   }, [removeDraw]);
+
+  const toggleDiscardDialog = useCallback(() => {
+    setShowDiscardModal((prev) => !prev);
+  }, []);
 
   return (
     <div className="vkf-geojson-control-bar-root">
@@ -161,7 +166,7 @@ const GeoJsonControlBar = () => {
       <div className="control-bar-footer">
         <CustomButton
           className="discard-button"
-          onClick={handleClose}
+          onClick={toggleDiscardDialog}
           type="discard"
         >
           <VkfIcon name="discard" />
@@ -177,6 +182,13 @@ const GeoJsonControlBar = () => {
           {translate("geojson-save-btn")}
         </CustomButton>
       </div>
+      {showDiscardModal && (
+        <CloseDrawingModeModal
+          show={showDiscardModal}
+          onSave={handleSave}
+          onClose={handleClose}
+        />
+      )}
     </div>
   );
 };

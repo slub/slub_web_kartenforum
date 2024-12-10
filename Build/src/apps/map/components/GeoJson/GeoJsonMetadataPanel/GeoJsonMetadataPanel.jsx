@@ -148,6 +148,7 @@ const MetadataPanel = () => {
         show={viewState === VIEW_STATE.DELETE_DIALOG}
         onClose={handleCloseDeleteDialog}
         onDelete={handleConfirmDelete}
+        description={translate("geojson-metadata-delete-vector")}
       />
     </div>
   );

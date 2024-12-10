@@ -15,14 +15,6 @@
         }
     }
 
-    .modal-header {
-        padding: 10px 30px;
-
-        button {
-            right: 30px;
-        }
-    }
-
     .modal-content {
         display: flex;
         flex-direction: column;
@@ -41,7 +33,6 @@
 
 .vkf-view-original-map {
     height: 100%;
-    padding: 30px;
     display: flex;
     flex-direction: column;
 

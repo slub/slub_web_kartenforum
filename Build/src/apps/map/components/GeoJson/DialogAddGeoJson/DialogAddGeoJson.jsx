@@ -1,116 +1,97 @@
-/**
- * Created by nicolas.looschen@pikobytes.de on 04.01.22
- *
- * This file is subject to the terms and conditions defined in
- * file 'LICENSE.txt', which is part of this source code package.
- */
-import React, { useCallback, useEffect } from "react";
-import {
-  Button,
-  ControlLabel,
-  FormControl,
-  FormGroup,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  ModalTitle,
-} from "react-bootstrap";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { useRecoilState } from "recoil";
 import { addedFileState } from "@map/atoms";
+import { ControlLabel, FormControl, FormGroup } from "react-bootstrap";
 
 import { useAddGeoJson } from "@map/components/GeoJson/util/hooks/useAddGeoJson";
 import ToggleSwitch from "@map/components/ToggleSwitch/ToggleSwitch";
 import { translate } from "@util/util";
 import { isVectorMapCreateAllowed } from "@map/components/GeoJson/util/authorization";
+import CustomButton from "@map/components/GeoJson/components/CustomButton";
+import Modal from "@components/Modal";
 
 import "./DialogAddGeoJson.scss";
 
 const TOGGLE_SWITCH_ID = "persistGeoJson";
 
-const DialogAddGeoJsonBase = ({ initialName, onClose, onSubmit }) => {
-  const handleOnSubmit = useCallback((event) => {
-    const formData = new FormData(event.currentTarget);
-    event.preventDefault();
-
-    const title = formData.get("title");
-    const persistGeoJson = formData.get("persistGeoJson") === "on";
-
-    onSubmit(title, persistGeoJson);
-  }, []);
-
-  const handleKeyDown = useCallback((e) => {
-    if (e.key === "Enter") {
-      const submitButton = document.getElementById("submit-add-geojson-form");
-      submitButton.click();
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
+const AddGeoJsonForm = ({ onSubmit, initialName, onClose }) => {
   return (
-    <div>
-      <Modal className="vkf-dialog-add-geojson" onHide={onClose} show={true}>
-        <ModalHeader>
-          <ModalTitle>{translate("geojson-adddialog-title")}</ModalTitle>
-        </ModalHeader>
-
-        <ModalBody>
-          <div className="dialog-content">
-            <form id="add-geojson-form" onSubmit={handleOnSubmit}>
-              <FormGroup>
-                <ControlLabel>
-                  {translate("geojson-adddialog-layer-title-label")}
-                </ControlLabel>
-                <FormControl
-                  autoFocus
-                  defaultValue={initialName ?? "Unknown"}
-                  name="title"
-                  type="text"
-                />
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel
-                  className="switch-label"
-                  htmlFor={TOGGLE_SWITCH_ID}
-                >
-                  <ToggleSwitch
-                    disabled={!isVectorMapCreateAllowed()}
-                    id={TOGGLE_SWITCH_ID}
-                  />
-                  Persistente Vektor-Karte
-                </ControlLabel>
-                <div>
-                  Wählen ob die hinaufgeladenen Daten dauerhaft als
-                  recherchierbare Karte verfügbar sein soll oder lediglich
-                  temporär für Sie persönlich in Ihrem Browser.
-                </div>
-              </FormGroup>
-            </form>
+    <>
+      <form id="add-geojson-form" onSubmit={onSubmit}>
+        <FormGroup>
+          <p className="adddialog-description">
+            {translate("geojson-adddialog-description")}
+          </p>
+          <ControlLabel className="geojson-label" htmlFor="title">
+            {translate("geojson-adddialog-layer-title-label")}
+          </ControlLabel>
+          <FormControl
+            autoFocus
+            defaultValue={initialName ?? "Unknown"}
+            name="title"
+            type="text"
+            className="geojson-input"
+          />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel className="switch-label" htmlFor={TOGGLE_SWITCH_ID}>
+            <ToggleSwitch
+              disabled={!isVectorMapCreateAllowed()}
+              id={TOGGLE_SWITCH_ID}
+            />
+            <p className="geojson-label persistent-button-label">
+              {translate("geojson-adddialog-persistent-button-label")}
+            </p>
+          </ControlLabel>
+          <div>
+            <p className="persistent-button-description">
+              {translate("geojson-adddialog-persistent-description")}
+            </p>
           </div>
-        </ModalBody>
+        </FormGroup>
+      </form>
 
-        <ModalFooter>
-          <Button onClick={onClose}>
-            {translate("geojson-adddialog-cancel")}
-          </Button>
-          <Button
-            id="submit-add-geojson-form"
-            type="submit"
-            form="add-geojson-form"
-            bsStyle="primary"
-          >
-            {translate("geojson-adddialog-confirm")}
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </div>
+      <div className="add-geojson-buttons">
+        <CustomButton
+          type="save"
+          form="add-geojson-form"
+          className="btn btn-primary confirm-button"
+        >
+          {translate("geojson-adddialog-confirm")}
+        </CustomButton>
+        <CustomButton
+          className="cancel-button"
+          type="discard"
+          onClick={onClose}
+        >
+          {translate("geojson-adddialog-cancel")}
+        </CustomButton>
+      </div>
+    </>
+  );
+};
+AddGeoJsonForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  initialName: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+};
+
+const DialogAddGeoJsonBase = ({ initialName, onClose, onSubmit }) => {
+  return (
+    <Modal
+      isOpen={true}
+      onClose={onClose}
+      title={translate("geojson-adddialog-title")}
+      renderContent={() => (
+        <AddGeoJsonForm
+          initialName={initialName}
+          onSubmit={onSubmit}
+          onClose={onClose}
+        />
+      )}
+      modalClassName="vkf-dialog-add-geojson"
+    />
   );
 };
 
@@ -122,7 +103,6 @@ DialogAddGeoJsonBase.propTypes = {
 
 export const DialogAddGeoJson = () => {
   const [addedFile, setAddedFile] = useRecoilState(addedFileState);
-
   const addGeoJson = useAddGeoJson();
 
   const handleClose = useCallback(() => {
@@ -130,20 +110,24 @@ export const DialogAddGeoJson = () => {
   }, []);
 
   const handleSubmit = useCallback(
-    (title, shouldPersist) => {
-      // add geojson according to passed parameters, afterward cleanup file state (either layer or to draw view)
-      addGeoJson(title, addedFile.content, shouldPersist).then(() => {
+    (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.currentTarget);
+      const title = formData.get("title");
+      const persistGeoJson = formData.get("persistGeoJson") === "on";
+
+      addGeoJson(title, addedFile.content, persistGeoJson).then(() => {
         setAddedFile(null);
       });
     },
-    [addGeoJson, addedFile]
+    [addGeoJson, addedFile, setAddedFile]
   );
 
   return addedFile ? (
     <DialogAddGeoJsonBase
+      initialName={addedFile.name}
       onClose={handleClose}
       onSubmit={handleSubmit}
-      initialName={addedFile.name}
     />
   ) : null;
 };
