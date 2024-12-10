@@ -1146,7 +1146,7 @@
 			<trans-unit id="plugin.map.geojsoncontrolbar.button.history.title" approved="yes">
                 <source>Show vector map history</source>
             </trans-unit>
-            <trans-unit id="plugin.map.geojsoncontrolbar.button.permissions.title" approved="yes">
+            <trans-unit id="plugin.map.geojsoncontrolbar.button.roles.title" approved="yes">
                 <source>Show vector map permission settings</source>
             </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.add-feature" approved="yes">
@@ -1184,6 +1184,29 @@
             </trans-unit>
             <trans-unit id="plugin.map.geojsoncontrolbar.feature.plural" approved="yes">
 				<source>features</source>
+            </trans-unit>
+
+            <!-- GeoJson roles -->
+            <trans-unit id="plugin.map.geojson.roles.modal.title" approved="yes">
+				<source>Adapt authorizations</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.intro" approved="yes">
+				<source>Select the users here who can edit your vector maps just like you. Please make sure you spell the user name correctly.</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.owner" approved="yes">
+				<source>Creator/Owner</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.authors" approved="yes">
+				<source>Authors</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.addauthor" approved="yes">
+				<source>Add another author</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.removeauthor" approved="yes">
+				<source>Remove this author</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojson.roles.btn.save" approved="yes">
+				<source>Save user roles</source>
             </trans-unit>
         </body>
     </file>

@@ -265,7 +265,7 @@
             </trans-unit>
             <trans-unit id="plugin.map.geojson.discardmodal-description" approved="yes">
                 <source><![CDATA[You currently have unsaved changes to this vector map. Are you sure you want to discard these changes?]]></source>
-                <target><![CDATA[Sie haben derzeit ungespeicherter Änderungen an dieser Vektor-Karte. Sind Sie sicher das Sie diese Änderungen verwerfen möchten?]]></target>
+                <target><![CDATA[Sie haben derzeit ungespeicherte Änderungen an dieser Vektor-Karte. Sind Sie sicher das Sie diese Änderungen verwerfen möchten?]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.discardmodal-discard-button" approved="yes">
                 <source><![CDATA[Yes, discard changes]]></source>
@@ -1419,7 +1419,7 @@
 				<source><![CDATA[Show vector map history]]></source>
                 <target><![CDATA[Zeige Versionen der Vektor-Karte]]></target>
             </trans-unit>
-            <trans-unit id="plugin.map.geojsoncontrolbar.button.permissions.title" approved="yes">
+            <trans-unit id="plugin.map.geojsoncontrolbar.button.roles.title" approved="yes">
                 <source><![CDATA[Show vector map permission settings]]></source>
 				<target><![CDATA[Zeige Zugriffsberechtigungen der Vektor-Karte]]></target>
             </trans-unit>
@@ -1471,6 +1471,36 @@
             <trans-unit id="plugin.map.geojsoncontrolbar.feature.plural" approved="yes">
 				<source><![CDATA[features]]></source>
                 <target><![CDATA[Features]]></target>
+            </trans-unit>
+
+			<!-- GeoJson Roles -->
+            <trans-unit id="plugin.map.geojson.roles.modal.title" approved="yes">
+				<source><![CDATA[Adapt authorizations]]></source>
+				<target><![CDATA[Berechtigungen anpassen]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.intro" approved="yes">
+				<source><![CDATA[Select the users here who can edit your vector maps just like you. Please make sure you spell the user name correctly.]]></source>
+                <target><![CDATA[Wählen Sie hier die Benutzer aus, die Ihre Vektor-Karten ebenso wie Sie bearbeiten können. Bitte achten Sie auf die korrekte Schreibweise des jeweiligen Benutzernamens.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.owner" approved="yes">
+				<source><![CDATA[Creator/Owner]]></source>
+				<target><![CDATA[Ersteller/Besitzer]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.authors" approved="yes">
+				<source><![CDATA[Authors]]></source>
+				<target><![CDATA[Autoren]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.addauthor" approved="yes">
+				<source><![CDATA[Add another author]]></source>
+				<target><![CDATA[Füge einen weiteren Autor hinzu]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.removeauthor" approved="yes">
+				<source><![CDATA[Remove this author]]></source>
+				<target><![CDATA[Diesen Autor entfernen]]></target>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojson.roles.btn.save" approved="yes">
+				<source><![CDATA[Save user roles]]></source>
+				<target><![CDATA[Benutzerrollen speichern]]></target>
             </trans-unit>
 		</body>
 	</file>

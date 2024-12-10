@@ -148,6 +148,43 @@ const icons = {
       />
     </svg>
   ),
+  "user-roles": (
+    <svg viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clipPath="url(#clip0_1491_11619)">
+        <path
+          d="M5.66626 2.74115C6.15948 3.25291 6.75085 3.65994 7.40499 3.9379C8.05913 4.21586 8.76261 4.35905 9.47336 4.35889C10.1932 4.3591 10.9056 4.2125 11.5668 3.92806"
+          stroke="white"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M8.41156 7.54465C10.171 7.54465 11.5973 6.11835 11.5973 4.35892C11.5973 2.59949 10.171 1.17319 8.41156 1.17319C6.65213 1.17319 5.22583 2.59949 5.22583 4.35892C5.22583 6.11835 6.65213 7.54465 8.41156 7.54465Z"
+          stroke="white"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M2.49536 14.8263C2.49536 13.2572 3.11869 11.7524 4.22822 10.6428C5.33776 9.5333 6.8426 8.90997 8.41172 8.90997C9.98084 8.90997 11.4857 9.5333 12.5952 10.6428C13.7048 11.7524 14.3281 13.2572 14.3281 14.8263"
+          stroke="white"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1491_11619">
+          <rect
+            width="16"
+            height="16"
+            fill="white"
+            transform="translate(0.411621 -0.000244141)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  ),
   filter: (
     <svg viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

@@ -16,12 +16,13 @@ import {
 } from "@map/atoms";
 import PropTypes from "prop-types";
 import clsx from "clsx";
+import { VECTOR_MAP_TYPES } from "../../constants";
 
 export const GeoJsonControlBarHistoryButton = ({ onClick }) => {
   const activeVersion = useRecoilValue(vectorMapActiveVersionDrawState);
   const vectorMapDraw = useRecoilValue(vectorMapDrawState);
 
-  return vectorMapDraw?.type === "remote" ? (
+  return vectorMapDraw?.type === VECTOR_MAP_TYPES.REMOTE ? (
     <CustomButton
       disabled={!isVectorMapHistoryViewAllowed(vectorMapDraw)}
       className="control-bar-layer-buttons--button layer-history-button"

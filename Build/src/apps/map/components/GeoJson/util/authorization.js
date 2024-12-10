@@ -7,6 +7,7 @@
 import { METADATA } from "@map/components/CustomLayers";
 import { SettingsProvider } from "../../../../apps";
 import { isDefined } from "@util/util";
+import { VECTOR_MAP_TYPES } from "../constants";
 
 const ADMIN_ROLE = "vk2-admin";
 const EDITOR_ROLE = "vk2-editor";
@@ -56,7 +57,7 @@ export const isVectorMapMetadataEditAllowed = (repr) => {
     if (repr === null) return true;
 
     const { type, layerRole, id } = repr;
-    const isLocalLayer = type === "local";
+    const isLocalLayer = type === VECTOR_MAP_TYPES.LOCAL;
 
     // local layers can always be edited
     if (isLocalLayer) {

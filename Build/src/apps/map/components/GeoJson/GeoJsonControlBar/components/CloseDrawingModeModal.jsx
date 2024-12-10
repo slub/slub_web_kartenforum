@@ -10,9 +10,9 @@ import Modal from "@components/Modal";
 import { translate } from "@util/util";
 import CustomButton from "@map/components/GeoJson/components/CustomButton";
 
-import "../GeoJsonControlBar.scss";
+import "./CloseDrawingModeModal.scss";
 
-const CloseDrawingModeModal = ({ onClose, onSave, show }) => {
+const CloseDrawingModeModal = ({ onClose, onSave, onDiscard, show }) => {
   return (
     <Modal
       isOpen={show}
@@ -24,7 +24,7 @@ const CloseDrawingModeModal = ({ onClose, onSave, show }) => {
           <p>{translate("geojson-discard-modal-description")}</p>
 
           <div className="discard-modal-buttons">
-            <CustomButton type="discard" onClick={onClose}>
+            <CustomButton type="discard" onClick={onDiscard}>
               {translate("geojson-discard-modal-discard-button")}
             </CustomButton>
             <CustomButton type="save" onClick={onSave}>
@@ -39,6 +39,7 @@ const CloseDrawingModeModal = ({ onClose, onSave, show }) => {
 
 CloseDrawingModeModal.propTypes = {
   onClose: PropTypes.func.isRequired,
+  onDiscard: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
 };

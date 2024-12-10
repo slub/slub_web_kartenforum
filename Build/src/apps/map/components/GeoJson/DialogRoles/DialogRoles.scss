@@ -1,0 +1,15 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 10.12.24.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@import "../../../Variables";
+
+.vkf-dialog-geojson-roles {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) !important;
+}

@@ -10,6 +10,7 @@ import {
   cardinalRules,
   signedNumberFormat,
 } from "@map/components/GeoJson/util/formatters";
+import PropTypes from "prop-types";
 
 export const ChangeTypography = ({ count, id, formatFunction }) => {
   const formattedNumber = useMemo(
@@ -30,6 +31,12 @@ export const ChangeTypography = ({ count, id, formatFunction }) => {
       <span className="bold">{formattedNumber}</span> <span>{label}</span>
     </span>
   );
+};
+
+ChangeTypography.propTypes = {
+  count: PropTypes.number,
+  id: PropTypes.string,
+  formatFunction: PropTypes.func,
 };
 
 export default ChangeTypography;

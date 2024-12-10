@@ -28,10 +28,13 @@ import {
 } from "@map/layouts/util";
 import { useMapboxDrawInitializers } from "@map/components/GeoJson/MapboxDrawLoader/MapboxDrawLoader";
 import { METADATA } from "@map/components/CustomLayers";
-import GeoJsonControlBarContent from "@map/components/GeoJson/GeoJsonControlBar/components/GeoJsonControlBarContent";
+import GeoJsonControlBarContent from "./components/GeoJsonControlBarContent";
+import GeoJsonControlBarHistoryButton from "./components/GeoJsonControlBarHistoryButton";
+import GeoJsonControlBarRolesButton from "./components/GeoJsonControlBarRolesButton";
 import { useGeoJsonFeatureDraw } from "../GeoJsonFeatureDrawLoader";
-import GeoJsonControlBarHistoryButton from "@map/components/GeoJson/GeoJsonControlBar/components/GeoJsonControlBarHistoryButton";
 import CloseDrawingModeModal from "@map/components/GeoJson/GeoJsonControlBar/components/CloseDrawingModeModal.jsx";
+import DialogRoles from "../DialogRoles/DialogRoles";
+
 import "./GeoJsonControlBar.scss";
 
 export const GEOJSON_CONTROL_BAR_VIEW_STATE = {
@@ -40,6 +43,12 @@ export const GEOJSON_CONTROL_BAR_VIEW_STATE = {
   NO_TITLE: 2,
   NO_FEATURES: 3,
   UNSAVED_FEATURE_CHANGES: 4,
+};
+
+const MODAL_STATE = {
+  NONE: 0,
+  ROLES: 1,
+  DISCARD: 2,
 };
 
 const GeoJsonControlBar = () => {
@@ -55,7 +64,7 @@ const GeoJsonControlBar = () => {
   const [viewState, setViewState] = useState(
     GEOJSON_CONTROL_BAR_VIEW_STATE.INITIAL
   );
-  const [showDiscardModal, setShowDiscardModal] = useState(false);
+  const [modalState, setModalState] = useState(MODAL_STATE.NONE);
 
   if (viewState === GEOJSON_CONTROL_BAR_VIEW_STATE.INITIAL) {
     if (!isDefined(metadataDraw[METADATA.title])) {
@@ -117,20 +126,28 @@ const GeoJsonControlBar = () => {
     setDrawModePanel(DRAW_MODE_PANEL_STATE.HISTORY);
   }, []);
 
+  const handleRolesClick = useCallback(() => {
+    setModalState(MODAL_STATE.ROLES);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setModalState(MODAL_STATE.NONE);
+  }, []);
+
   const handleSave = useCallback(() => {
     resetFeaturePreview();
     saveGeoJson();
   }, [resetFeaturePreview, saveGeoJson]);
 
-  const handleClose = useCallback(() => {
+  const handleDiscard = useCallback(() => {
     removeDraw().then(() => {
       setHorizontalLayoutMode(HORIZONTAL_LAYOUT_MODE.STANDARD);
     });
-    setShowDiscardModal(false);
+    handleModalClose();
   }, [removeDraw]);
 
-  const toggleDiscardDialog = useCallback(() => {
-    setShowDiscardModal((prev) => !prev);
+  const handleDiscardClick = useCallback(() => {
+    setModalState(MODAL_STATE.DISCARD);
   }, []);
 
   return (
@@ -154,6 +171,7 @@ const GeoJsonControlBar = () => {
             <VkfIcon name="metadata-panel" />
           </CustomButton>
           <GeoJsonControlBarHistoryButton onClick={handleHistoryClick} />
+          <GeoJsonControlBarRolesButton onClick={handleRolesClick} />
         </div>
       </div>
 
@@ -166,7 +184,7 @@ const GeoJsonControlBar = () => {
       <div className="control-bar-footer">
         <CustomButton
           className="discard-button"
-          onClick={toggleDiscardDialog}
+          onClick={handleDiscardClick}
           type="discard"
         >
           <VkfIcon name="discard" />
@@ -182,13 +200,16 @@ const GeoJsonControlBar = () => {
           {translate("geojson-save-btn")}
         </CustomButton>
       </div>
-      {showDiscardModal && (
-        <CloseDrawingModeModal
-          show={showDiscardModal}
-          onSave={handleSave}
-          onClose={handleClose}
-        />
-      )}
+      <CloseDrawingModeModal
+        show={modalState === MODAL_STATE.DISCARD}
+        onSave={handleSave}
+        onDiscard={handleDiscard}
+        onClose={handleModalClose}
+      />
+      <DialogRoles
+        show={modalState === MODAL_STATE.ROLES}
+        onClose={handleModalClose}
+      />
     </div>
   );
 };
