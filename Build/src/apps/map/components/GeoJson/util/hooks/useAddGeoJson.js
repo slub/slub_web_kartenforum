@@ -25,8 +25,11 @@ import { notificationState } from "@atoms";
 import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
 import { useCallback } from "react";
 import { VECTOR_MAP_TYPES } from "@map/components/GeoJson/constants";
+import useZoomLayerToExtent from "@map/components/LayerManagement/LayerManagementEntry/components/ZoomToExtentButton/useZoomLayerToExtent";
 
 export const useAddGeoJson = () => {
+    const { zoomToExtent } = useZoomLayerToExtent();
+
     // Mount new local geojson layer => Create application layer, add to map and select the layer,
     // but dont open the draw view
     const mountLocalGeoJsonLayer = useRecoilCallback(
@@ -50,6 +53,9 @@ export const useAddGeoJson = () => {
                         // add layer to map
                         geoJsonLayer.addLayerToMap(map);
 
+                        // zoom to extent
+                        zoomToExtent(geoJsonLayer);
+
                         // select newly created layer (open panel on right hand side)
                         set(selectedLayersState, (oldSelectedLayers) => [
                             ...oldSelectedLayers,
@@ -69,7 +75,7 @@ export const useAddGeoJson = () => {
                     set(addGeoJsonDialogState, false);
                 }
             },
-        []
+        [zoomToExtent]
     );
 
     // Mount geojson to draw view, without creating an application layer

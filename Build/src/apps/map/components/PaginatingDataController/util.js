@@ -8,8 +8,8 @@ import { LAYOUT_TYPES } from "@map/layouts/util.js";
 
 const PADDING = { height: 15, width: 15 };
 const OFFSET = { height: 15, width: 0 };
-const SPATIALTEMPORALSEARCH = { width: 340 };
-const LAYERMANAGEMENT = { width: 340 };
+export const SPATIALTEMPORALSEARCH = { width: 340 };
+export const LAYERMANAGEMENT = { width: 340 };
 
 /**
  * Calculate relevant search area of the screen in pixel sizes
