@@ -251,7 +251,7 @@
             </trans-unit>
             <trans-unit id="plugin.map.geojson.deletemodal-body" approved="yes">
                 <source><![CDATA[Do you really want to delete this feature?]]></source>
-                <target><![CDATA[Wollen Sie dieese Feature wirklich löschen?]]></target>
+                <target><![CDATA[Wollen Sie dieses Feature wirklich löschen?]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.deletemodal-title" approved="yes">
                 <source><![CDATA[Permanently remove data]]></source>
@@ -265,7 +265,7 @@
             </trans-unit>
             <trans-unit id="plugin.map.geojson.discardmodal-description" approved="yes">
                 <source><![CDATA[You currently have unsaved changes to this vector map. Are you sure you want to discard these changes?]]></source>
-                <target><![CDATA[Sie haben derzeit ungespeicherte Änderungen an dieser Vektor-Karte. Sind Sie sicher das Sie diese Änderungen verwerfen möchten?]]></target>
+                <target><![CDATA[Sie haben derzeit ungespeicherte Änderungen an dieser Vektor-Karte. Sind Sie sicher, dass Sie diese Änderungen verwerfen möchten?]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.discardmodal-discard-button" approved="yes">
                 <source><![CDATA[Yes, discard changes]]></source>
