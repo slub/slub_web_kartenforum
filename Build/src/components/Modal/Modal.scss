@@ -19,6 +19,7 @@ $heightFooter: 40px;
             pointer-events: all;
 
             .modal-header {
+                height: fit-content;
                 align-items: center;
                 background: $secondary-color;
                 display: flex;
