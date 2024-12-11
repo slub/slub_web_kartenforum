@@ -246,14 +246,13 @@ const GeoJsonEditPopUp = (props) => {
           {translate("geojson-cancel-btn")}
         </CustomButton>
       </div>
-      {showDeleteDialog && (
-        <DeleteDialog
-          show={showDeleteDialog}
-          onClose={handleCloseDeleteDialog}
-          onDelete={handleConfirmDelete}
-          description={translate("geojson-deletemodal-body")}
-        />
-      )}
+
+      <DeleteDialog
+        show={showDeleteDialog}
+        onClose={handleCloseDeleteDialog}
+        onDelete={handleConfirmDelete}
+        description={translate("geojson-deletemodal-body")}
+      />
     </div>
   );
 };

@@ -12,8 +12,6 @@ import { translate } from "@util/util";
 
 import GeoJsonRolesForm from "./GeoJsonRolesForm";
 
-import "./DialogRoles.scss";
-
 const DialogRoles = ({ show, onClose }) => {
   // TODO ROLES disable save click if user is not allowed
   const handleSaveClick = useCallback(() => {
