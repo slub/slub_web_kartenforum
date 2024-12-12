@@ -56,6 +56,10 @@ export const convertFeatureForPersistenceState = (feature) => {
 };
 
 export const convertFeatureForApplicationState = (feature) => {
+    if (!Object.hasOwn(feature, "properties")) {
+        feature.properties = {};
+    }
+
     const { properties } = feature;
 
     const newProperties = convertForApplicationState(properties);

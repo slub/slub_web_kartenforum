@@ -45,9 +45,9 @@ export const useAddGeoJson = () => {
                         };
 
                         // Create geojson layer
-                        const geoJsonLayer = new GeoJsonLayer({
+                        const geoJsonLayer = GeoJsonLayer.fromPersistence({
                             metadata,
-                            geoJSON: geoJson,
+                            geoJson,
                         });
 
                         // add layer to map

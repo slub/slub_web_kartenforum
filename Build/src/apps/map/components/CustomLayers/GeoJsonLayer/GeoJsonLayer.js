@@ -36,19 +36,72 @@ const eventHandlers = [
     },
 ];
 
+/**
+ * The GeoJsonLayer params
+ * @typedef {Object} GeoJsonLayerParams
+ * @property {object} metadata - The GeoJsonLayer metadata object
+ * @property {object} geometry - The geometry object
+ * @property {object} geoJson - The geojson object representing either the persistence state (VKF specs) or the application state
+ */
+
 class GeoJsonLayer extends ApplicationLayer {
+    static #isInternalConstructing = false;
     geoJSON = {};
     #mapLibreLayerIds = [];
     #defaultLayerFilters = {};
 
-    constructor({ metadata, geometry, geoJSON }) {
+    /**
+     * Private constructor. Use GeoJsonLayer.fromPersistence() or GeoJsonLayer.fromApplication() to create an instance.
+     * @param {GeoJsonLayerParams} parameters
+     * @private
+     */
+    constructor({ metadata, geometry, geoJson }) {
+        if (!GeoJsonLayer.#isInternalConstructing) {
+            throw new TypeError(
+                "Constructor is private. Use GeoJsonLayer.fromApplication() or GeoJsonLayer.fromPersistence() instead."
+            );
+        }
+        GeoJsonLayer.#isInternalConstructing = false;
         super({ metadata, geometry });
-        this.#initialize(geoJSON);
+        this.#initialize(geoJson);
     }
 
-    #initialize(geoJSON) {
-        // set and convert geoJson to represent application state
-        this.setGeoJson(geoJSON);
+    /**
+     * Initializes a new GeoJsonLayer. The geoJson is expected to be in application state and passed on as is.
+     * Use this method when operating with data from whithin the application boundaries.
+     * To initialize a new GeoJsonLayer instance from persistence state use GeoJsonLayer.fromPersistence().
+     *
+     * @param {GeoJsonLayerParams} params
+     */
+    static fromApplication(params) {
+        GeoJsonLayer.#isInternalConstructing = true;
+        return new GeoJsonLayer(params);
+    }
+
+    /**
+     * Initializes a new GeoJsonLayer. The geoJson is converted from persistence to application state.
+     * Use this method when the data is crossing the application boundary.
+     * To initialize a new GeoJsonLayer instance from application state use GeoJsonLayer.fromApplication().
+     *
+     * @param {GeoJsonLayerParams} params
+     */
+    static fromPersistence({ metadata, geometry, geoJson }) {
+        GeoJsonLayer.#isInternalConstructing = true;
+        const features = geoJson.features.map(
+            convertFeatureForApplicationState
+        );
+
+        const preparedGeoJson = { ...geoJson, features };
+
+        return new GeoJsonLayer({
+            metadata,
+            geometry,
+            geoJson: preparedGeoJson,
+        });
+    }
+
+    #initialize(geoJson) {
+        this.setGeoJson(geoJson);
 
         const bounds = this.geometry ? bbox(this.geometry) : bbox(this.geoJSON);
         this.metadata[METADATA.bounds] = bounds;
@@ -127,10 +180,10 @@ class GeoJsonLayer extends ApplicationLayer {
 
     /**
      * Sets new data to the maplibregl's source layer calling sourceLayer.setData.
-     * The geoJson is converted to represent the application state before adding the data to the map.
+     * Resets feature ids.
      *
      * @param {maplibregl.Map} map
-     * @param {object} geoJson
+     * @param {object} geoJson Feature properties are expected to represent application state
      * @returns
      */
     setDataOnMap(map, geoJson) {
@@ -140,7 +193,6 @@ class GeoJsonLayer extends ApplicationLayer {
 
         const sourceLayer = map.getSource(this.getId());
 
-        // update and convert geojson to application state
         this.setGeoJson(geoJson);
         sourceLayer.setData(this.geoJSON);
     }
@@ -197,7 +249,8 @@ class GeoJsonLayer extends ApplicationLayer {
     }
 
     /**
-     * Sets the geoJson. Features are converted to represent the application state.
+     * Sets the geoJson.
+     * Note: Features ids are reset.
      *
      * @param {object} geoJson
      */
@@ -209,8 +262,6 @@ class GeoJsonLayer extends ApplicationLayer {
             if (!Object.hasOwn(feature, "properties")) {
                 feature.properties = {};
             }
-
-            feature = convertFeatureForApplicationState(feature);
 
             //@TODO: Generate stable feature ids (Somewhere)
             return { ...feature, id: idx + 1 };

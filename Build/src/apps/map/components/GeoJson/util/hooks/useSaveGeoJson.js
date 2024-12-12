@@ -31,7 +31,7 @@ export const useSaveGeoJson = () => {
             async () => {
                 const draw = await snapshot.getPromise(drawState);
                 if (draw) {
-                    const geojson = draw.getAll();
+                    const geoJson = draw.getAll();
                     const map = await snapshot.getPromise(mapState);
 
                     const metadata = await snapshot.getPromise(
@@ -39,11 +39,10 @@ export const useSaveGeoJson = () => {
                     );
 
                     // persist vector map to remote
-                    const id = await createNewVectorMap(geojson, metadata);
+                    const id = await createNewVectorMap(geoJson, metadata);
 
                     // create geojson application layer
-
-                    const geojsonLayer = new GeoJsonLayer({
+                    const geojsonLayer = GeoJsonLayer.fromApplication({
                         metadata: {
                             ...metadata,
                             [METADATA.id]: id,
@@ -51,7 +50,7 @@ export const useSaveGeoJson = () => {
                             [METADATA.version]: 0,
                             [METADATA.userRole]: "owner",
                         },
-                        geoJSON: geojson,
+                        geoJson,
                     });
 
                     geojsonLayer.addLayerToMap(map);

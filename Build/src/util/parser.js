@@ -46,10 +46,10 @@ export const readLayer = function (id, record) {
 
     if (type === LAYER_TYPES.VECTOR_MAP) {
         properties[METADATA.vectorMapId] = id;
-        return new GeoJsonLayer({
+        return GeoJsonLayer.fromPersistence({
             geometry,
             metadata: properties,
-            geoJSON: structuredClone(emptyFeatureCollection),
+            geoJson: structuredClone(emptyFeatureCollection),
         });
     }
 

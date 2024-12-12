@@ -92,9 +92,9 @@ export const deSerializeOperationalLayer = ({
 };
 
 export const deserializeGeojsonLayer = ({ geometry, geojson, properties }) => {
-    return new GeoJsonLayer({
+    return GeoJsonLayer.fromPersistence({
         metadata: properties,
-        geoJSON: geojson ?? structuredClone(emptyFeatureCollection),
+        geoJson: geojson ?? structuredClone(emptyFeatureCollection),
         geometry,
     });
 };
