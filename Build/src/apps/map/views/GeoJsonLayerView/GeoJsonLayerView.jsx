@@ -36,9 +36,6 @@ import { GeoJsonLayerFilters } from "@map/views/GeoJsonLayerView/components/GeoJ
 import PropTypes from "prop-types";
 import GeoJsonLayerActions from "@map/views/GeoJsonLayerView/components/GeoJsonLayerActions";
 
-// TODO DRAWING wrap in ExitTransition component
-// TODO DRAWING refactor selectedGeoJsonLayerState (not needed anymore)
-
 const GeoJsonLayerView = ({ selectedLayer }) => {
   const [viewMode, setViewMode] = useRecoilState(geoJsonLayerViewViewModeState);
 
