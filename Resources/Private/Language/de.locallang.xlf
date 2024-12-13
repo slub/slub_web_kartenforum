@@ -1482,6 +1482,10 @@
 				<source><![CDATA[Select the users here who can edit your vector maps just like you. Please make sure you spell the user name correctly.]]></source>
                 <target><![CDATA[Wählen Sie hier die Benutzer aus, die Ihre Vektor-Karten ebenso wie Sie bearbeiten können. Bitte achten Sie auf die korrekte Schreibweise des jeweiligen Benutzernamens.]]></target>
             </trans-unit>
+			<trans-unit id="plugin.map.geojson.roles.form.intro.unsaved" approved="yes">
+				<source><![CDATA[You are creating a new vector map. In order to adapt authorizations for your new vector map, you need to save it first.]]></source>
+				<target><![CDATA[Sie erstellen eine neue Vektorkarte. Um die Berechtigungen für Ihre neue Vektorkarte anpassen zu können, müssen Sie sie zunächst speichern.]]></target>
+            </trans-unit>
             <trans-unit id="plugin.map.geojson.roles.form.owner" approved="yes">
 				<source><![CDATA[Creator/Owner]]></source>
 				<target><![CDATA[Ersteller/Besitzer]]></target>

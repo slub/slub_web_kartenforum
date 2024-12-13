@@ -6,9 +6,9 @@
  */
 
 import { useRecoilValue } from "recoil";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { translate } from "@util/util";
+import { isDefined, translate } from "@util/util";
 import PropTypes from "prop-types";
 import CustomButton from "../../components/CustomButton";
 import VkfIcon from "@components/VkfIcon";
@@ -40,6 +40,10 @@ const GeoJsonRolesForm = (props) => {
   const saveRoles = useSaveVectorMapRoles();
   const vectorMapDraw = useRecoilValue(vectorMapDrawState);
 
+  const isUnsavedMap = useMemo(() => {
+    return !isDefined(vectorMapDraw.id);
+  }, [vectorMapDraw.id]);
+
   const handleValidatedSubmit = useCallback(
     (data) => {
       console.log(data);
@@ -69,7 +73,11 @@ const GeoJsonRolesForm = (props) => {
 
   return (
     <div className="vkf-geojson-roles-form-root">
-      <div className="intro-text">{translate("geojson-roles-form-intro")}</div>
+      <div className="intro-text">
+        {isUnsavedMap
+          ? translate("geojson-roles-form-intro-unsaved")
+          : translate("geojson-roles-form-intro")}
+      </div>
       <form
         id={GEOJSON_ROLES_FORM_ID}
         onSubmit={handleSubmit(handleValidatedSubmit)}
