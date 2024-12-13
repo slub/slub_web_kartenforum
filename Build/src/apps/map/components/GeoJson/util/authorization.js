@@ -107,3 +107,46 @@ export const isVectorMapHistoryViewAllowed = (repr) => {
 
     return false;
 };
+
+/**
+ * @returns {boolean}
+ */
+export const isVectorMapRolesOwnerEditAllowed = () => {
+    const userRole = SettingsProvider.getUserRole();
+
+    // Admins can edit
+    if (userRole === ADMIN_ROLE) {
+        return true;
+    }
+
+    // Everyone else cannot
+    return false;
+};
+
+/**
+ *
+ * @param {{type: "local" | "remote", layerRole: string, id: string | null}} repr
+ * @returns {boolean}
+ */
+export const isVectorMapRolesEditorEditAllowed = (repr) => {
+    if (repr === null) return true;
+
+    const { layerRole, id } = repr;
+    const userRole = SettingsProvider.getUserRole();
+
+    // Admins can edit
+    if (userRole === ADMIN_ROLE) {
+        return true;
+    }
+
+    // Editors can edit if they are owners or editors
+    // but the map needs to be already known to the server
+    if (userRole === EDITOR_ROLE) {
+        return (
+            (layerRole === EDITOR_ROLE_MAP || layerRole === OWNER_ROLE) &&
+            isDefined(id)
+        );
+    }
+
+    return false;
+};

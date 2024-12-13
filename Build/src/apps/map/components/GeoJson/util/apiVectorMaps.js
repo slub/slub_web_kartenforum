@@ -66,3 +66,28 @@ export const getVectorMapVersion = async (id, version) => {
 
     return result.data;
 };
+
+export const getVectorMapRoles = async (id) => {
+    const georeferenceApi = settingsProvider.getGeoreferenceApiClient();
+    const url = `/vector_maps/${id}/roles`;
+
+    const result = await georeferenceApi.get(url);
+
+    return result.data;
+};
+
+export const addVectorMapRoles = async (id, roles) => {
+    const georeferenceApi = settingsProvider.getGeoreferenceApiClient();
+    const url = `/vector_maps/${id}/roles/add`;
+
+    const result = await georeferenceApi.post(url, { roles });
+    return result.data;
+};
+
+export const removeVectorMapRoles = async (id, roles) => {
+    const georeferenceApi = settingsProvider.getGeoreferenceApiClient();
+    const url = `/vector_maps/${id}/roles/remove`;
+
+    const result = await georeferenceApi.post(url, { roles });
+    return result.data;
+};

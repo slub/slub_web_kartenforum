@@ -1,0 +1,16 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 12.12.24.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@import "../../../../../Variables.scss";
+
+.multi-value-input-root {
+    .input-field {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+}

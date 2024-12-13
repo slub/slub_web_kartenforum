@@ -5,30 +5,34 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import React, { useCallback } from "react";
+import React, { Suspense, useCallback } from "react";
 import Modal from "@components/Modal";
 import PropTypes from "prop-types";
 import { translate } from "@util/util";
 
-import GeoJsonRolesForm from "./GeoJsonRolesForm";
+import GeoJsonRolesForm from "../GeoJsonRolesForm";
+
+import "./DialogRoles.scss";
 
 const DialogRoles = ({ show, onClose }) => {
-  // TODO ROLES disable save click if user is not allowed
-  const handleSaveClick = useCallback(() => {
-    console.log("save");
-    onClose();
-  }, [onClose]);
-
-  const handleCloseClick = useCallback(() => {
-    onClose();
+  const handleSubmitted = useCallback(() => {
+    console.log("closing");
+    //onClose();
   }, [onClose]);
 
   return (
     <Modal
       isOpen={show}
-      onClose={handleCloseClick}
+      onClose={onClose}
       title={translate("geojson-roles-modal-title")}
-      renderContent={() => <GeoJsonRolesForm onSubmit={handleSaveClick} />}
+      renderContent={() => (
+        <Suspense fallback={<div>...Loading</div>}>
+          <GeoJsonRolesForm
+            onCancelClick={onClose}
+            onSubmitted={handleSubmitted}
+          />
+        </Suspense>
+      )}
       modalClassName="vkf-dialog-geojson-roles"
     />
   );

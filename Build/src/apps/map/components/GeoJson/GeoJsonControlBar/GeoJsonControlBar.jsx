@@ -20,6 +20,7 @@ import { isDefined, translate } from "@util/util";
 import CustomButton from "@map/components/GeoJson/components/CustomButton";
 import VkfIcon from "@components/VkfIcon";
 import useSaveGeoJson from "@map/components/GeoJson/util/hooks/useSaveGeoJson";
+
 import { isVectorMapMetadataEditAllowed } from "@map/components/GeoJson/util/authorization";
 
 import {
@@ -32,8 +33,8 @@ import GeoJsonControlBarContent from "./components/GeoJsonControlBarContent";
 import GeoJsonControlBarHistoryButton from "./components/GeoJsonControlBarHistoryButton";
 import GeoJsonControlBarRolesButton from "./components/GeoJsonControlBarRolesButton";
 import { useGeoJsonFeatureDraw } from "../GeoJsonFeatureDrawLoader";
-import CloseDrawingModeModal from "@map/components/GeoJson/GeoJsonControlBar/components/CloseDrawingModeModal.jsx";
-import DialogRoles from "../DialogRoles/DialogRoles";
+import CloseDrawingModeModal from "@map/components/GeoJson/GeoJsonControlBar/components/CloseDrawingModeModal";
+import DialogRoles from "@map/components/GeoJson/GeoJsonRoles";
 
 import "./GeoJsonControlBar.scss";
 
