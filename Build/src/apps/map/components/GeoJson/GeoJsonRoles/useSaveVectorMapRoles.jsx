@@ -12,21 +12,18 @@ import { VECTOR_MAP_TYPES } from "../constants";
 import { isDefined } from "@util/util";
 
 const useSaveVectorMapRoles = () => {
-  const saveRoles = useRecoilCallback(
-    ({ snapshot }) =>
-      async ({ add, remove }) => {
-        const { id, type } = await snapshot.getPromise(vectorMapDrawState);
-        if (type === VECTOR_MAP_TYPES.LOCAL) {
-          return Promise.resolve();
-        }
+  const saveRoles = useRecoilCallback(({ snapshot }) => async (roles) => {
+    const { id, type } = await snapshot.getPromise(vectorMapDrawState);
+    if (type === VECTOR_MAP_TYPES.LOCAL) {
+      return Promise.resolve();
+    }
 
-        if (!isDefined(id)) {
-          return Promise.resolve();
-        }
+    if (!isDefined(id)) {
+      return Promise.resolve();
+    }
 
-        return updateVectorMapRoles(id, { add, remove });
-      }
-  );
+    return updateVectorMapRoles(id, roles);
+  });
 
   return saveRoles;
 };

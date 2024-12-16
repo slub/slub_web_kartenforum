@@ -1502,6 +1502,14 @@
 				<source><![CDATA[Save user roles]]></source>
 				<target><![CDATA[Benutzerrollen speichern]]></target>
             </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.error.required" approved="yes">
+				<source><![CDATA[This field is required.]]></source>
+				<target><![CDATA[Dieses Feld ist erforderlich.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.error.duplicate-roles" approved="yes">
+				<source><![CDATA[The user 'PLACEHOLDER' cannot be an owner and author at the same time.]]></source>
+				<target><![CDATA[Der Benutzer 'PLACEHOLDER' kann nicht gleichzeitig Ersteller und Autor sein.]]></target>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

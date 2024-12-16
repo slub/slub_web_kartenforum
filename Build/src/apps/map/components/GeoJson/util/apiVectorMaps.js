@@ -78,7 +78,7 @@ export const getVectorMapRoles = async (id) => {
 
 /**
  * @param {string} id
- * @param {{add: {user_name: string, role: "editor|owner"}[], remove:{user_name: string, role: "editor|owner"}}} roles
+ * @param {{createOrUpdate: {user_name: string, role: "editor|owner"}[], remove:{user_name: string, role: "editor|owner"}}} roles
  * @returns
  */
 export const updateVectorMapRoles = async (id, roles) => {

@@ -47,6 +47,14 @@
 
         .vkf-form-control {
             &.error {
+                .multi-value-input-root .input-field {
+                    border: 1px solid $primary-color;
+                }
+
+                .vkf-form-label {
+                    color: $primary-color;
+                }
+
                 .vkf-form-input,
                 .vkf-form-textarea {
                     color: $primary-color !important;
@@ -79,6 +87,11 @@
                 &:focus {
                     outline: none;
                 }
+            }
+
+            .vkf-form-error {
+                @include vkf-form-input-text;
+                color: $primary-color;
             }
         }
     }

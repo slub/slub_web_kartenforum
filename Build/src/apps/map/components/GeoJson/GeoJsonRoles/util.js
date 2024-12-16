@@ -11,7 +11,7 @@ import { API_ROLES, FORM_FIELDS } from "./constants";
 const FIELD_ROLES_MAP = { owners: API_ROLES.OWNER, editors: API_ROLES.EDITOR };
 
 export const assembleDataForApi = (submittedData, initialData) => {
-    const roles = { remove: [], add: [] };
+    const roles = { remove: [], createOrUpdate: [] };
 
     for (const fieldName of Object.values(FORM_FIELDS)) {
         const role = FIELD_ROLES_MAP[fieldName];
@@ -37,9 +37,23 @@ export const assembleDataForApi = (submittedData, initialData) => {
             role,
         }));
 
-        roles.add.push(...addedUsers);
+        roles.createOrUpdate.push(...addedUsers);
         roles.remove.push(...removedUsers);
     }
+
+    // happens e.g., when removing an editor and then adding the same user_id as an owner
+    const removeWithoutIdsAlreadyPresentInCreateOrUpdate = roles.remove.filter(
+        ({ user_id: userIdFromRemove }) => {
+            const idx =
+                roles.createOrUpdate.findIndex(
+                    ({ user_id }) => user_id === userIdFromRemove
+                ) === -1;
+            const userIsNotAppearingTwice = idx === -1;
+            return userIsNotAppearingTwice;
+        }
+    );
+
+    roles.remove = removeWithoutIdsAlreadyPresentInCreateOrUpdate;
 
     return roles;
 };

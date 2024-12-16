@@ -27,12 +27,29 @@ import clsx from "clsx";
 import "./GeoJsonRolesForm.scss";
 
 const GEOJSON_ROLES_FORM_ID = "vkf-geojson-roles-form";
+const LOCALIZATION_PLACEHOLDER = "PLACEHOLDER";
+
+const userIsEitherEditorOrOwner = (_, formValues) => {
+  const editors = formValues[FORM_FIELDS.EDITORS];
+  const owners = formValues[FORM_FIELDS.OWNERS];
+
+  for (const user of editors) {
+    const idx = owners.findIndex((userId) => userId === user);
+    if (idx !== -1) {
+      let message = translate("geojson-roles-form.error.duplicateRoles");
+      return message.replace(LOCALIZATION_PLACEHOLDER, user);
+    }
+  }
+
+  return true;
+};
 
 const GeoJsonRolesForm = (props) => {
   const { onCancelClick = () => {}, onSubmitted = () => {} } = props;
 
   const {
     handleSubmit,
+    trigger,
     control,
     formState: { errors },
   } = useForm();
@@ -47,8 +64,6 @@ const GeoJsonRolesForm = (props) => {
 
   const handleValidatedSubmit = useCallback(
     (data) => {
-      console.log(data);
-
       const roles = assembleDataForApi(data, defaultValues);
 
       saveRoles(roles).then(() => {
@@ -92,16 +107,25 @@ const GeoJsonRolesForm = (props) => {
             name={FORM_FIELDS.OWNERS}
             control={control}
             defaultValue={defaultValues.owners}
-            rules={{ required: true }}
+            rules={{ required: translate("geojson-roles-form.error.required") }}
             disabled={!isVectorMapRolesOwnerEditAllowed(vectorMapDraw)}
             render={({ field }) => (
               <MultiValueInput
                 {...field}
+                onChange={(value) => {
+                  field.onChange(value);
+                  trigger(FORM_FIELDS.EDITORS);
+                }}
                 readOnly={field.disabled}
                 placeholder={translate("geojson-roles-insert-username")}
               />
             )}
           />
+          {errors[FORM_FIELDS.OWNERS] && (
+            <div className="vkf-form-error">
+              {errors[FORM_FIELDS.OWNERS].message}
+            </div>
+          )}
         </div>
 
         <div
@@ -118,14 +142,26 @@ const GeoJsonRolesForm = (props) => {
             control={control}
             defaultValue={defaultValues.editors}
             disabled={!isVectorMapRolesEditorEditAllowed(vectorMapDraw)}
+            rules={{
+              validate: userIsEitherEditorOrOwner,
+            }}
             render={({ field }) => (
               <MultiValueInput
                 {...field}
+                onChange={(value) => {
+                  field.onChange(value);
+                  trigger(FORM_FIELDS.EDITORS);
+                }}
                 readOnly={field.disabled}
                 placeholder={translate("geojson-roles-insert-username")}
               />
             )}
           />
+          {errors[FORM_FIELDS.EDITORS] && (
+            <div className="vkf-form-error">
+              {errors[FORM_FIELDS.EDITORS].message}
+            </div>
+          )}
         </div>
       </form>
 

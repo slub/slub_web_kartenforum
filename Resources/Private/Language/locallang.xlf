@@ -1208,6 +1208,12 @@
 			<trans-unit id="plugin.map.geojson.roles.btn.save" approved="yes">
 				<source>Save user roles</source>
             </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.error.required" approved="yes">
+				<source>This field is required.</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.error.duplicate-roles" approved="yes">
+				<source>The user 'PLACEHOLDER' cannot be an owner and author at the same time.</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>
