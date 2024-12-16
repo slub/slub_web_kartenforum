@@ -1494,13 +1494,9 @@
 				<source><![CDATA[Authors]]></source>
 				<target><![CDATA[Autoren]]></target>
             </trans-unit>
-            <trans-unit id="plugin.map.geojson.roles.form.addauthor" approved="yes">
-				<source><![CDATA[Add another author]]></source>
-				<target><![CDATA[Füge einen weiteren Autor hinzu]]></target>
-            </trans-unit>
-            <trans-unit id="plugin.map.geojson.roles.form.removeauthor" approved="yes">
-				<source><![CDATA[Remove this author]]></source>
-				<target><![CDATA[Diesen Autor entfernen]]></target>
+			<trans-unit id="plugin.map.geojson.roles.form.insertusername" approved="yes">
+				<source><![CDATA[Insert user name…]]></source>
+				<target><![CDATA[Nutzername eingeben…]]></target>
             </trans-unit>
 			<trans-unit id="plugin.map.geojson.roles.btn.save" approved="yes">
 				<source><![CDATA[Save user roles]]></source>

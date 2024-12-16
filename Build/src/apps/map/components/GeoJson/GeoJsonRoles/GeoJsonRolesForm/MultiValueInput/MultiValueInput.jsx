@@ -19,6 +19,7 @@ const MultiValueInput = forwardRef(function MultiValueInput(props, ref) {
     onBlur = () => {},
     value = [],
     readOnly = false,
+    placeholder = "",
   } = props;
 
   const [internalValues, setInternalValues] = useState(value ?? []);
@@ -70,19 +71,24 @@ const MultiValueInput = forwardRef(function MultiValueInput(props, ref) {
       <div className="input-field">
         {internalValues.map((value, idx) => (
           <VkfPill
+            className="pill"
             key={value}
             value={value}
             onDeleteClick={() => handleRemove(idx)}
             disabled={readOnly}
           />
         ))}
-        <input
-          ref={ref}
-          name={name}
-          onKeyDown={handleKeyDown}
-          onBlur={onBlur}
-          readOnly={readOnly}
-        />
+        {!readOnly && (
+          <input
+            className="vkf-form-input"
+            ref={ref}
+            name={name}
+            onKeyDown={handleKeyDown}
+            onBlur={onBlur}
+            readOnly={readOnly}
+            placeholder={placeholder}
+          />
+        )}
       </div>
     </div>
   );
@@ -94,6 +100,7 @@ MultiValueInput.propTypes = {
   readOnly: PropTypes.bool,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  placeholder: PropTypes.string,
 };
 
 export default MultiValueInput;

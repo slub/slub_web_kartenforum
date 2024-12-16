@@ -1202,11 +1202,8 @@
             <trans-unit id="plugin.map.geojson.roles.form.authors" approved="yes">
 				<source>Authors</source>
             </trans-unit>
-            <trans-unit id="plugin.map.geojson.roles.form.addauthor" approved="yes">
-				<source>Add another author</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.geojson.roles.form.removeauthor" approved="yes">
-				<source>Remove this author</source>
+            <trans-unit id="plugin.map.geojson.roles.form.insertusername" approved="yes">
+				<source>Insert user name…</source>
             </trans-unit>
 			<trans-unit id="plugin.map.geojson.roles.btn.save" approved="yes">
 				<source>Save user roles</source>

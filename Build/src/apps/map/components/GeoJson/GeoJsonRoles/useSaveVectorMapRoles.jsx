@@ -6,7 +6,7 @@
  */
 
 import { useRecoilCallback } from "recoil";
-import { addVectorMapRoles, removeVectorMapRoles } from "../util/apiVectorMaps";
+import { updateVectorMapRoles } from "../util/apiVectorMaps";
 import { vectorMapDrawState } from "@map/atoms";
 import { VECTOR_MAP_TYPES } from "../constants";
 import { isDefined } from "@util/util";
@@ -14,7 +14,7 @@ import { isDefined } from "@util/util";
 const useSaveVectorMapRoles = () => {
   const saveRoles = useRecoilCallback(
     ({ snapshot }) =>
-      async ({ added, removed }) => {
+      async ({ add, remove }) => {
         const { id, type } = await snapshot.getPromise(vectorMapDrawState);
         if (type === VECTOR_MAP_TYPES.LOCAL) {
           return Promise.resolve();
@@ -24,20 +24,7 @@ const useSaveVectorMapRoles = () => {
           return Promise.resolve();
         }
 
-        const promises = [];
-        if (added.length > 0) {
-          promises.push(addVectorMapRoles(id, added));
-        }
-
-        if (removed.length > 0) {
-          promises.push(removeVectorMapRoles(id, removed));
-        }
-
-        if (promises.length > 0) {
-          return Promise.all(promises);
-        }
-
-        return Promise.resolve();
+        return updateVectorMapRoles(id, { add, remove });
       }
   );
 

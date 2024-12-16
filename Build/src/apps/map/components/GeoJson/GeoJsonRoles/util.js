@@ -11,7 +11,7 @@ import { API_ROLES, FORM_FIELDS } from "./constants";
 const FIELD_ROLES_MAP = { owners: API_ROLES.OWNER, editors: API_ROLES.EDITOR };
 
 export const assembleDataForApi = (submittedData, initialData) => {
-    const roles = { removed: [], added: [] };
+    const roles = { remove: [], add: [] };
 
     for (const fieldName of Object.values(FORM_FIELDS)) {
         const role = FIELD_ROLES_MAP[fieldName];
@@ -37,8 +37,8 @@ export const assembleDataForApi = (submittedData, initialData) => {
             role,
         }));
 
-        roles.added.push(...addedUsers);
-        roles.removed.push(...removedUsers);
+        roles.add.push(...addedUsers);
+        roles.remove.push(...removedUsers);
     }
 
     return roles;

@@ -76,18 +76,15 @@ export const getVectorMapRoles = async (id) => {
     return result.data;
 };
 
-export const addVectorMapRoles = async (id, roles) => {
+/**
+ * @param {string} id
+ * @param {{add: {user_name: string, role: "editor|owner"}[], remove:{user_name: string, role: "editor|owner"}}} roles
+ * @returns
+ */
+export const updateVectorMapRoles = async (id, roles) => {
     const georeferenceApi = settingsProvider.getGeoreferenceApiClient();
-    const url = `/vector_maps/${id}/roles/add`;
+    const url = `/vector_maps/${id}/roles`;
 
-    const result = await georeferenceApi.post(url, { roles });
-    return result.data;
-};
-
-export const removeVectorMapRoles = async (id, roles) => {
-    const georeferenceApi = settingsProvider.getGeoreferenceApiClient();
-    const url = `/vector_maps/${id}/roles/remove`;
-
-    const result = await georeferenceApi.post(url, { roles });
+    const result = await georeferenceApi.patch(url, { roles });
     return result.data;
 };

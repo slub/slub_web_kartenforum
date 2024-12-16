@@ -18,12 +18,13 @@ import useSaveVectorMapRoles from "../useSaveVectorMapRoles";
 import { FORM_FIELDS } from "../constants";
 import { assembleDataForApi } from "../util";
 import { vectorMapDrawState } from "@map/atoms";
-
-import "./GeoJsonRolesForm.scss";
 import {
   isVectorMapRolesEditorEditAllowed,
   isVectorMapRolesOwnerEditAllowed,
 } from "../../util/authorization";
+import clsx from "clsx";
+
+import "./GeoJsonRolesForm.scss";
 
 const GEOJSON_ROLES_FORM_ID = "vkf-geojson-roles-form";
 
@@ -50,14 +51,9 @@ const GeoJsonRolesForm = (props) => {
 
       const roles = assembleDataForApi(data, defaultValues);
 
-      saveRoles(roles)
-        .then(() => {
-          onSubmitted();
-        })
-        .catch((error) => {
-          // TODO error handling
-          console.log(error);
-        });
+      saveRoles(roles).then(() => {
+        onSubmitted();
+      });
     },
     [onSubmitted]
   );
@@ -83,26 +79,54 @@ const GeoJsonRolesForm = (props) => {
         onSubmit={handleSubmit(handleValidatedSubmit)}
         onKeyDown={handleKeyDown}
       >
-        <Controller
-          name={FORM_FIELDS.OWNERS}
-          control={control}
-          defaultValue={defaultValues.owners}
-          rules={{ required: true }}
-          disabled={!isVectorMapRolesOwnerEditAllowed(vectorMapDraw)}
-          render={({ field }) => (
-            <MultiValueInput {...field} readOnly={field.disabled} />
+        <div
+          className={clsx(
+            "vkf-form-control",
+            errors[FORM_FIELDS.OWNERS] && "error"
           )}
-        />
+        >
+          <label className="vkf-form-label">
+            {translate("geojson-roles-owner")}
+          </label>
+          <Controller
+            name={FORM_FIELDS.OWNERS}
+            control={control}
+            defaultValue={defaultValues.owners}
+            rules={{ required: true }}
+            disabled={!isVectorMapRolesOwnerEditAllowed(vectorMapDraw)}
+            render={({ field }) => (
+              <MultiValueInput
+                {...field}
+                readOnly={field.disabled}
+                placeholder={translate("geojson-roles-insert-username")}
+              />
+            )}
+          />
+        </div>
 
-        <Controller
-          name={FORM_FIELDS.EDITORS}
-          control={control}
-          defaultValue={defaultValues.editors}
-          disabled={!isVectorMapRolesEditorEditAllowed(vectorMapDraw)}
-          render={({ field }) => (
-            <MultiValueInput {...field} readOnly={field.disabled} />
+        <div
+          className={clsx(
+            "vkf-form-control",
+            errors[FORM_FIELDS.EDITORS] && "error"
           )}
-        />
+        >
+          <label className="vkf-form-label">
+            {translate("geojson-roles-authors")}
+          </label>
+          <Controller
+            name={FORM_FIELDS.EDITORS}
+            control={control}
+            defaultValue={defaultValues.editors}
+            disabled={!isVectorMapRolesEditorEditAllowed(vectorMapDraw)}
+            render={({ field }) => (
+              <MultiValueInput
+                {...field}
+                readOnly={field.disabled}
+                placeholder={translate("geojson-roles-insert-username")}
+              />
+            )}
+          />
+        </div>
       </form>
 
       <div className="buttons">

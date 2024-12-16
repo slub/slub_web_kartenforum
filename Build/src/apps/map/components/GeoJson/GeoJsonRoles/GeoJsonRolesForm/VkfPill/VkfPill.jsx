@@ -13,17 +13,19 @@ import VkfIcon from "@components/VkfIcon";
 
 import "./VkfPill.scss";
 
-const VkfPill = ({ value, onDeleteClick, disabled }) => {
+const VkfPill = ({ className, value, onDeleteClick, disabled }) => {
   return (
-    <div className="vkf-pill-root">
+    <div className={`vkf-pill-root ${className}`}>
       <span className="value">{value} </span>
-      <CustomButton
-        className="delete-button"
-        onClick={() => onDeleteClick(value)}
-        disabled={disabled}
-      >
-        <VkfIcon name="delete" />
-      </CustomButton>
+      {!disabled && (
+        <CustomButton
+          className="delete-button"
+          onClick={() => onDeleteClick(value)}
+          disabled={disabled}
+        >
+          <VkfIcon name="delete" />
+        </CustomButton>
+      )}
     </div>
   );
 };
@@ -31,6 +33,7 @@ const VkfPill = ({ value, onDeleteClick, disabled }) => {
 VkfPill.propTypes = {
   value: PropTypes.string.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
   disabled: PropTypes.bool,
 };
 

@@ -12,5 +12,12 @@
         display: flex;
         flex-wrap: wrap;
         gap: 5px;
+
+        border: 1px solid $gray-500;
+        padding: 8px;
+
+        .pill {
+            align-self: center;
+        }
     }
 }

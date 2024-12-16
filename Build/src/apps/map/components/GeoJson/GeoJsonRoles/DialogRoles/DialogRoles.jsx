@@ -16,8 +16,7 @@ import "./DialogRoles.scss";
 
 const DialogRoles = ({ show, onClose }) => {
   const handleSubmitted = useCallback(() => {
-    console.log("closing");
-    //onClose();
+    onClose();
   }, [onClose]);
 
   return (
