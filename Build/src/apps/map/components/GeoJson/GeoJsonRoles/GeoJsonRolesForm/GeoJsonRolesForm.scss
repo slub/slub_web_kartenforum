@@ -96,6 +96,15 @@
         }
     }
 
+    .error-message {
+        color: $primary-color;
+        font-family: $font;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
     .buttons {
         display: flex;
         flex-direction: row;

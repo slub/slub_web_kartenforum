@@ -78,13 +78,13 @@ export const getVectorMapRoles = async (id) => {
 
 /**
  * @param {string} id
- * @param {{createOrUpdate: {user_name: string, role: "editor|owner"}[], remove:{user_name: string, role: "editor|owner"}}} roles
+ * @param {{create_or_update: {user_name: string, role: "editor|owner"}[], remove:{user_name: string, role: "editor|owner"}}} roles
  * @returns
  */
 export const updateVectorMapRoles = async (id, roles) => {
     const georeferenceApi = settingsProvider.getGeoreferenceApiClient();
     const url = `/vector_maps/${id}/roles`;
 
-    const result = await georeferenceApi.patch(url, { roles });
+    const result = await georeferenceApi.patch(url, { ...roles });
     return result.data;
 };

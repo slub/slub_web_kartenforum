@@ -6,9 +6,9 @@
  */
 
 import React, { Suspense, useCallback, useMemo } from "react";
-import { useSetRecoilState } from "recoil";
-import { translate } from "@util/util";
-import { drawModePanelState } from "@map/atoms";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { isDefined, translate } from "@util/util";
+import { drawModePanelState, vectorMapDrawState } from "@map/atoms";
 import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
 import GeoJsonPanelHeader from "../GeoJsonPanelHeader";
 import VersionHistory from "@map/components/GeoJson/GeoJsonHistoryPanel/components/VersionHistory/VersionHistory";
@@ -17,10 +17,18 @@ import "./GeoJsonHistoryPanel.scss";
 
 const HistoryPanel = () => {
   const setDrawModePanel = useSetRecoilState(drawModePanelState);
+  const vectorMapDraw = useRecoilValue(vectorMapDrawState);
+
+  const isUnsavedMap = useMemo(() => {
+    return !isDefined(vectorMapDraw.id);
+  }, [vectorMapDraw.id]);
 
   const introText = useMemo(() => {
+    if (isUnsavedMap) {
+      return translate("geojson-metadata-panel-intro-history-unsaved");
+    }
     return translate("geojson-metadata-panel-intro-history");
-  }, []);
+  }, [isUnsavedMap]);
 
   const title = useMemo(() => {
     return translate("geojson-metadata-panel-header-history");

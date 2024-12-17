@@ -430,6 +430,9 @@
             <trans-unit id="plugin.map.geojson.metadatapanel.intro.history">
 				<source>Select an earlier version of the vector map here by first browsing the older versions and then resetting.</source>
 			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro.history.unsavedmap">
+				<source>You are currently creating a new vector map. There are no previous versions that can be displayed yet.</source>
+			</trans-unit>
             <trans-unit id="plugin.map.geojson.metadatapanel.delete">
 				<source>Delete this vector map.</source>
 			</trans-unit>
@@ -1031,15 +1034,6 @@
     		</trans-unit>
 
     		<!-- Plugin Upload -> Common error messages -->
-            <trans-unit id="plugin.upload.common.errors.http.401" approved="yes">
-                <source>You must be logged in to carry out this action.</source>
-            </trans-unit>
-            <trans-unit id="plugin.upload.common.errors.http.403" approved="yes">
-                <source>You are not allowed to carry out this action.</source>
-            </trans-unit>
-            <trans-unit id="plugin.upload.common.errors.unexpected" approved="yes">
-                <source>An unexpected error occured. Please contact an administrator.</source>
-            </trans-unit>
             <trans-unit id="plugin.upload.common.errors.upload.file" approved="yes">
                 <source>Please upload a file before submitting.</source>
             </trans-unit>
@@ -1213,6 +1207,17 @@
             </trans-unit>
             <trans-unit id="plugin.map.geojson.roles.form.error.duplicate-roles" approved="yes">
 				<source>The user 'PLACEHOLDER' cannot be an owner and author at the same time.</source>
+            </trans-unit>
+
+            <!-- Global -> Common error messages -->
+            <trans-unit id="global.errors.http.401" approved="yes">
+                <source>You must be logged in to carry out this action.</source>
+            </trans-unit>
+            <trans-unit id="global.errors.http.403" approved="yes">
+                <source>You are not allowed to carry out this action.</source>
+            </trans-unit>
+            <trans-unit id="global.errors.unexpected" approved="yes">
+                <source>An unexpected error occured. Please contact an administrator.</source>
             </trans-unit>
         </body>
     </file>

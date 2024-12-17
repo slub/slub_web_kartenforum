@@ -11,7 +11,7 @@ import { API_ROLES, FORM_FIELDS } from "./constants";
 const FIELD_ROLES_MAP = { owners: API_ROLES.OWNER, editors: API_ROLES.EDITOR };
 
 export const assembleDataForApi = (submittedData, initialData) => {
-    const roles = { remove: [], createOrUpdate: [] };
+    const roles = { remove: [], create_or_update: [] };
 
     for (const fieldName of Object.values(FORM_FIELDS)) {
         const role = FIELD_ROLES_MAP[fieldName];
@@ -37,7 +37,7 @@ export const assembleDataForApi = (submittedData, initialData) => {
             role,
         }));
 
-        roles.createOrUpdate.push(...addedUsers);
+        roles.create_or_update.push(...addedUsers);
         roles.remove.push(...removedUsers);
     }
 
@@ -45,7 +45,7 @@ export const assembleDataForApi = (submittedData, initialData) => {
     const removeWithoutIdsAlreadyPresentInCreateOrUpdate = roles.remove.filter(
         ({ user_id: userIdFromRemove }) => {
             const idx =
-                roles.createOrUpdate.findIndex(
+                roles.create_or_update.findIndex(
                     ({ user_id }) => user_id === userIdFromRemove
                 ) === -1;
             const userIsNotAppearingTwice = idx === -1;

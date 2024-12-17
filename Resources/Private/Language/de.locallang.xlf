@@ -315,6 +315,10 @@
 				<source><![CDATA[Select an earlier version of the vector map here by first browsing the older versions and then resetting.]]></source>
 				<target><![CDATA[Wählen Sie hier eine frühere Variante der Vektor-Karte aus indem Sie zunächst die älteren Varianten durchsuchen und dann zurücksetzen.]]></target>
 			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro.history.unsavedmap">
+				<source><![CDATA[You are currently creating a new vector map. There are no previous versions that can be displayed yet.]]></source>
+				<target><![CDATA[Sie erstellen gerade eine neue Vektorkarte. Es gibt noch keine früheren Versionen, die angezeigt werden können.]]></target>
+			</trans-unit>
             <trans-unit id="plugin.map.geojson.metadatapanel.intro.create">
 				<source><![CDATA[Add a title, description and a preview image for your new vector map here.]]></source>
 				<target><![CDATA[Fügen Sie hier einen Titel, eine Beschreibung und ein Vorschaubild für Ihre neue Vektor-Karte hinzu.]]></target>
@@ -1277,18 +1281,6 @@
     		</trans-unit>
 
     		<!-- Plugin Upload -> Common error messages -->
-            <trans-unit id="plugin.upload.common.errors.http.401" approved="yes">
-                <source><![CDATA[You must be logged in to carry out this action.]]></source>
-                <target><![CDATA[Sie müssen eingeloggt sein, um diese Aktion auszuführen.]]></target>
-            </trans-unit>
-            <trans-unit id="plugin.upload.common.errors.http.403" approved="yes">
-                <source><![CDATA[You are not allowed to carry out this action.]]></source>
-                <target><![CDATA[Sie sind nicht berechtigt, diese Aktion auszuführen.]]></target>
-            </trans-unit>
-            <trans-unit id="plugin.upload.common.errors.unexpected" approved="yes">
-                <source><![CDATA[An unexpected error occured. Please contact an administrator.]]></source>
-                <target><![CDATA[Ein unerwarteter Fehler ist aufgetreten. Kontaktieren sie bitte ggf. den Administrator.]]></target>
-            </trans-unit>
             <trans-unit id="plugin.upload.common.errors.upload.file" approved="yes">
                 <source><![CDATA[Please upload a file before submitting.]]></source>
                 <target><![CDATA[Bitte laden Sie vor dem Absenden eine Datei hoch.]]></target>
@@ -1509,6 +1501,20 @@
             <trans-unit id="plugin.map.geojson.roles.form.error.duplicate-roles" approved="yes">
 				<source><![CDATA[The user 'PLACEHOLDER' cannot be an owner and author at the same time.]]></source>
 				<target><![CDATA[Der Benutzer 'PLACEHOLDER' kann nicht gleichzeitig Ersteller und Autor sein.]]></target>
+            </trans-unit>
+
+            <!-- Global -> Common error messages -->
+            <trans-unit id="global.errors.http.401" approved="yes">
+                <source><![CDATA[You must be logged in to carry out this action.]]></source>
+				<target><![CDATA[Sie müssen eingeloggt sein, um diese Aktion auszuführen.]]></target>
+            </trans-unit>
+            <trans-unit id="global.errors.http.403" approved="yes">
+                <source><![CDATA[You are not allowed to carry out this action.]]></source>
+                <target><![CDATA[Sie sind nicht berechtigt, diese Aktion auszuführen.]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.upload.common.errors.unexpected" approved="yes">
+                <source><![CDATA[An unexpected error occured. Please contact an administrator.]]></source>
+                <target><![CDATA[Ein unerwarteter Fehler ist aufgetreten. Kontaktieren sie bitte ggf. den Administrator.]]></target>
             </trans-unit>
 		</body>
 	</file>

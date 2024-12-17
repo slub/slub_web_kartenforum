@@ -111,11 +111,14 @@ export const isVectorMapHistoryViewAllowed = (repr) => {
 /**
  * @returns {boolean}
  */
-export const isVectorMapRolesOwnerEditAllowed = () => {
+export const isVectorMapRolesOwnerEditAllowed = (repr) => {
+    if (repr === null) return true;
+
+    const { id } = repr;
     const userRole = SettingsProvider.getUserRole();
 
-    // Admins can edit
-    if (userRole === ADMIN_ROLE) {
+    // Admins can edit if the map is known to the server
+    if (userRole === ADMIN_ROLE && isDefined(id)) {
         return true;
     }
 
@@ -134,8 +137,8 @@ export const isVectorMapRolesEditorEditAllowed = (repr) => {
     const { layerRole, id } = repr;
     const userRole = SettingsProvider.getUserRole();
 
-    // Admins can edit
-    if (userRole === ADMIN_ROLE) {
+    // Admins can edit if the map is known to the server
+    if (userRole === ADMIN_ROLE && isDefined(id)) {
         return true;
     }
 

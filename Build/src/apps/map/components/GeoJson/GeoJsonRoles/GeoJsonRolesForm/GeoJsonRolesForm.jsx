@@ -6,7 +6,7 @@
  */
 
 import { useRecoilValue } from "recoil";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { isDefined, translate } from "@util/util";
 import PropTypes from "prop-types";
@@ -47,6 +47,8 @@ const userIsEitherEditorOrOwner = (_, formValues) => {
 const GeoJsonRolesForm = (props) => {
   const { onCancelClick = () => {}, onSubmitted = () => {} } = props;
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const {
     handleSubmit,
     trigger,
@@ -66,9 +68,26 @@ const GeoJsonRolesForm = (props) => {
     (data) => {
       const roles = assembleDataForApi(data, defaultValues);
 
-      saveRoles(roles).then(() => {
-        onSubmitted();
-      });
+      saveRoles(roles)
+        .then(() => {
+          onSubmitted();
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response) {
+            if (error.response.status === 401) {
+              setErrorMessage(translate("common-errors-http-401"));
+              return;
+            }
+
+            if (error.response.status === 403) {
+              setErrorMessage(translate("common-errors-http-403"));
+              return;
+            }
+          }
+
+          setErrorMessage(translate("common-errors-unexpected"));
+        });
     },
     [onSubmitted]
   );
@@ -115,6 +134,7 @@ const GeoJsonRolesForm = (props) => {
                 onChange={(value) => {
                   field.onChange(value);
                   trigger(FORM_FIELDS.EDITORS);
+                  setErrorMessage("");
                 }}
                 readOnly={field.disabled}
                 placeholder={translate("geojson-roles-insert-username")}
@@ -151,6 +171,7 @@ const GeoJsonRolesForm = (props) => {
                 onChange={(value) => {
                   field.onChange(value);
                   trigger(FORM_FIELDS.EDITORS);
+                  setErrorMessage("");
                 }}
                 readOnly={field.disabled}
                 placeholder={translate("geojson-roles-insert-username")}
@@ -164,7 +185,9 @@ const GeoJsonRolesForm = (props) => {
           )}
         </div>
       </form>
-
+      {errorMessage.length !== "" && (
+        <div className="error-message">{errorMessage}</div>
+      )}
       <div className="buttons">
         <CustomButton
           form={GEOJSON_ROLES_FORM_ID}

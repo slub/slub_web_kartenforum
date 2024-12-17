@@ -18,7 +18,7 @@ const MultiValueInput = forwardRef(function MultiValueInput(props, ref) {
     onChange = () => {},
     onBlur = () => {},
     value = [],
-    readOnly = false,
+    disabled = false,
     placeholder = "",
   } = props;
 
@@ -75,20 +75,19 @@ const MultiValueInput = forwardRef(function MultiValueInput(props, ref) {
             key={value}
             value={value}
             onDeleteClick={() => handleRemove(idx)}
-            disabled={readOnly}
+            disabled={disabled}
           />
         ))}
-        {!readOnly && (
-          <input
-            className="vkf-form-input"
-            ref={ref}
-            name={name}
-            onKeyDown={handleKeyDown}
-            onBlur={onBlur}
-            readOnly={readOnly}
-            placeholder={placeholder}
-          />
-        )}
+
+        <input
+          className="vkf-form-input"
+          ref={ref}
+          name={name}
+          onKeyDown={handleKeyDown}
+          onBlur={onBlur}
+          disabled={disabled}
+          placeholder={disabled ? undefined : placeholder}
+        />
       </div>
     </div>
   );
@@ -97,7 +96,7 @@ const MultiValueInput = forwardRef(function MultiValueInput(props, ref) {
 MultiValueInput.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.array,
-  readOnly: PropTypes.bool,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   placeholder: PropTypes.string,
