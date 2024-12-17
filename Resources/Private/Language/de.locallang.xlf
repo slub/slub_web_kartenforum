@@ -1508,9 +1508,9 @@
                 <source><![CDATA[You are not allowed to carry out this action.]]></source>
                 <target><![CDATA[Sie sind nicht berechtigt, diese Aktion auszuführen.]]></target>
             </trans-unit>
-            <trans-unit id="plugin.upload.common.errors.unexpected" approved="yes">
+            <trans-unit id="global.errors.unexpected" approved="yes">
                 <source><![CDATA[An unexpected error occured. Please contact an administrator.]]></source>
-                <target><![CDATA[Ein unerwarteter Fehler ist aufgetreten. Kontaktieren sie bitte ggf. den Administrator.]]></target>
+                <target><![CDATA[Ein unerwarteter Fehler ist aufgetreten. Kontaktieren Sie bitte ggf. den Administrator.]]></target>
             </trans-unit>
 		</body>
 	</file>

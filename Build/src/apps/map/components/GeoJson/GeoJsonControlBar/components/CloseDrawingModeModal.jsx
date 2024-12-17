@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import Modal from "@components/Modal";
 import { translate } from "@util/util";
@@ -13,6 +13,11 @@ import CustomButton from "@map/components/GeoJson/components/CustomButton";
 import "./CloseDrawingModeModal.scss";
 
 const CloseDrawingModeModal = ({ onClose, onSave, onDiscard, show }) => {
+  const handleSaveClick = useCallback(() => {
+    onSave().finally(() => {
+      onClose();
+    });
+  }, [onSave, onClose]);
   return (
     <Modal
       isOpen={show}
@@ -27,7 +32,7 @@ const CloseDrawingModeModal = ({ onClose, onSave, onDiscard, show }) => {
             <CustomButton type="discard" onClick={onDiscard}>
               {translate("geojson-discard-modal-discard-button")}
             </CustomButton>
-            <CustomButton type="save" onClick={onSave}>
+            <CustomButton type="save" onClick={handleSaveClick}>
               {translate("geojson-discard-modal-save-button")}
             </CustomButton>
           </div>

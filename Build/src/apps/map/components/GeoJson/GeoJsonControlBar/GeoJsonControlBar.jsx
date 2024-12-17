@@ -137,7 +137,7 @@ const GeoJsonControlBar = () => {
 
   const handleSave = useCallback(() => {
     resetFeaturePreview();
-    saveGeoJson();
+    return saveGeoJson();
   }, [resetFeaturePreview, saveGeoJson]);
 
   const handleDiscard = useCallback(() => {

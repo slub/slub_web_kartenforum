@@ -52,7 +52,7 @@ const vectorMapRolesQuery = selector({
   },
 });
 
-const useVectorMapRolesQuery = () => {
+export const useRefreshRolesQuery = () => {
   const refreshQuery = useRecoilCallback(
     ({ set }) =>
       () => {
@@ -60,6 +60,12 @@ const useVectorMapRolesQuery = () => {
       },
     []
   );
+
+  return refreshQuery;
+};
+
+const useVectorMapRolesQuery = () => {
+  const refreshQuery = useRefreshRolesQuery();
 
   const roles = useRecoilValue(vectorMapRolesQuery);
 

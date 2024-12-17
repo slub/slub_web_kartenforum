@@ -25,6 +25,12 @@ import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
 import { exitDrawMode } from "@map/components/GeoJson/util/util";
 import { notificationState } from "@atoms";
 
+const httpErrorNotification = (translationKey) => ({
+    id: "mapWrapper",
+    type: "danger",
+    text: translate(translationKey),
+});
+
 export const useSaveGeoJson = () => {
     const createRemoteVectorMap = useRecoilCallback(
         ({ snapshot, set }) =>
@@ -38,27 +44,61 @@ export const useSaveGeoJson = () => {
                         metadataDrawState
                     );
 
-                    // persist vector map to remote
-                    const id = await createNewVectorMap(geoJson, metadata);
+                    let id = null;
 
-                    // create geojson application layer
-                    const geojsonLayer = GeoJsonLayer.fromApplication({
-                        metadata: {
-                            ...metadata,
-                            [METADATA.id]: id,
-                            [METADATA.vectorMapId]: id,
-                            [METADATA.version]: 0,
-                            [METADATA.userRole]: "owner",
-                        },
-                        geoJson,
-                    });
+                    try {
+                        // persist vector map to remote
+                        id = await createNewVectorMap(geoJson, metadata);
+                    } catch (error) {
+                        if (error.response) {
+                            if (error.response.status === 401) {
+                                set(
+                                    notificationState,
+                                    httpErrorNotification(
+                                        "common-errors-http-401"
+                                    )
+                                );
+                                return;
+                            }
 
-                    geojsonLayer.addLayerToMap(map);
+                            if (error.response.status === 403) {
+                                set(
+                                    notificationState,
+                                    httpErrorNotification(
+                                        "common-errors-http-403"
+                                    )
+                                );
+                                return;
+                            }
+                        }
+                        set(
+                            notificationState,
+                            httpErrorNotification("common-errors-unexpected")
+                        );
+                        console.error(error);
+                        return;
+                    }
 
-                    set(selectedLayersState, (oldSelectedLayers) =>
-                        oldSelectedLayers.concat(geojsonLayer)
-                    );
-                    set(selectedGeoJsonLayerIdState, geojsonLayer.getId());
+                    if (isDefined(id)) {
+                        // create geojson application layer
+                        const geojsonLayer = GeoJsonLayer.fromApplication({
+                            metadata: {
+                                ...metadata,
+                                [METADATA.id]: id,
+                                [METADATA.vectorMapId]: id,
+                                [METADATA.version]: 0,
+                                [METADATA.userRole]: "owner",
+                            },
+                            geoJson,
+                        });
+
+                        geojsonLayer.addLayerToMap(map);
+
+                        set(selectedLayersState, (oldSelectedLayers) =>
+                            oldSelectedLayers.concat(geojsonLayer)
+                        );
+                        set(selectedGeoJsonLayerIdState, geojsonLayer.getId());
+                    }
 
                     exitDrawMode(set);
                 }
@@ -85,56 +125,79 @@ export const useSaveGeoJson = () => {
                     // @TODO: Only push geojson if there are changes
                     // @TODO: Only push changed metadata properties
                     // @TODO: Update metadata has to be None for non owner/admin user
-                    // @TODO: Improve error handling
                     const geoJson = draw.getAll();
 
+                    let newVersion = null;
                     try {
-                        const newVersion = await updateVectorMap(
+                        newVersion = await updateVectorMap(
                             vectorMapDraw.id,
                             geoJson,
                             metadata,
                             vectorMapDraw.version
                         );
-
-                        // update the application layer
-                        if (isDefined(map) && isDefined(selectedLayer)) {
-                            // update application layer geojson
-                            selectedLayer.setDataOnMap(map, geoJson);
-                            // update application layer version
-                            selectedLayer.updateMetadata(
-                                METADATA.version,
-                                newVersion
-                            );
-
-                            // update application layer metadata
-                            Object.keys(metadata).forEach((key) => {
-                                selectedLayer.updateMetadata(
-                                    key,
-                                    metadata[key]
-                                );
-                            });
-                            set(
-                                selectedGeoJsonLayerLastUpdatedState,
-                                Date.now()
-                            );
-
-                            // reset draw state
-                            exitDrawMode(set);
-                        }
                     } catch (e) {
                         if (e.response) {
-                            if (e.response.status === 409) {
-                                set(notificationState, {
-                                    id: "mapWrapper",
-                                    type: "danger",
-                                    text: translate(
-                                        "geojson-draw-version-conflict"
-                                    ),
-                                });
+                            if (e.response.status === 401) {
+                                set(
+                                    notificationState,
+                                    httpErrorNotification(
+                                        "common-errors-http-401"
+                                    )
+                                );
+                                return;
                             }
-                        } else {
-                            console.error(e);
+
+                            if (e.response.status === 403) {
+                                set(
+                                    notificationState,
+                                    httpErrorNotification(
+                                        "common-errors-http-403"
+                                    )
+                                );
+                                return;
+                            }
+
+                            if (e.response.status === 409) {
+                                set(
+                                    notificationState,
+                                    httpErrorNotification(
+                                        "geojson-draw-version-conflict"
+                                    )
+                                );
+                                return;
+                            }
                         }
+
+                        set(
+                            notificationState,
+                            httpErrorNotification("common-errors-unexpected")
+                        );
+                        console.error(e);
+                        return;
+                    }
+
+                    // update the application layer
+                    if (
+                        isDefined(newVersion) &&
+                        isDefined(map) &&
+                        isDefined(selectedLayer)
+                    ) {
+                        // update application layer geojson
+                        selectedLayer.setDataOnMap(map, geoJson);
+                        // update application layer version
+                        selectedLayer.updateMetadata(
+                            METADATA.version,
+                            newVersion
+                        );
+
+                        // update application layer metadata
+                        Object.keys(metadata).forEach((key) => {
+                            selectedLayer.updateMetadata(key, metadata[key]);
+                        });
+                        set(selectedGeoJsonLayerLastUpdatedState, Date.now());
+
+                        // reset draw state
+                        exitDrawMode(set);
                     }
                 }
             }

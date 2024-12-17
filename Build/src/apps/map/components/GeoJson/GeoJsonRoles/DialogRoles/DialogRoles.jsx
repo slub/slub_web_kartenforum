@@ -6,15 +6,19 @@
  */
 
 import React, { Suspense, useCallback } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import Modal from "@components/Modal";
 import PropTypes from "prop-types";
 import { translate } from "@util/util";
-
+import { useRefreshRolesQuery } from "../useVectorMapRolesQuery";
 import GeoJsonRolesForm from "../GeoJsonRolesForm";
+
+import ErrorFallback from "../ErrorFallback/ErrorFallback";
 
 import "./DialogRoles.scss";
 
 const DialogRoles = ({ show, onClose }) => {
+  const refreshRolesQuery = useRefreshRolesQuery();
   const handleSubmitted = useCallback(() => {
     onClose();
   }, [onClose]);
@@ -25,12 +29,17 @@ const DialogRoles = ({ show, onClose }) => {
       onClose={onClose}
       title={translate("geojson-roles-modal-title")}
       renderContent={() => (
-        <Suspense fallback={<div>...Loading</div>}>
-          <GeoJsonRolesForm
-            onCancelClick={onClose}
-            onSubmitted={handleSubmitted}
-          />
-        </Suspense>
+        <ErrorBoundary
+          FallbackComponent={ErrorFallback}
+          onReset={refreshRolesQuery}
+        >
+          <Suspense fallback={<div>Loading ...</div>}>
+            <GeoJsonRolesForm
+              onCancelClick={onClose}
+              onSubmitted={handleSubmitted}
+            />
+          </Suspense>
+        </ErrorBoundary>
       )}
       modalClassName="vkf-dialog-geojson-roles"
     />
