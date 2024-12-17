@@ -10,6 +10,7 @@
     bottom: 26px;
     left: calc((100% - 884px) / 2);
     width: 884px;
+    z-index: 10;
 }
 
 .geojson-feature-edit-panel-container {
