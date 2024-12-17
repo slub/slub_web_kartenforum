@@ -12,7 +12,8 @@
 // Mixins --------------------------------------------------------------------------------------------------------------
 
 @mixin clearfix() {
-    &:before, &:after {
+    &:before,
+    &:after {
         content: " ";
         display: table;
     }
@@ -25,6 +26,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+@mixin text-overflow-with-line-break($nrLines: 3, $wordBreak: break-all) {
+    word-break: $wordBreak;
+    overflow: hidden;
+    display: -webkit-box;
+    line-clamp: $nrLines;
+    -webkit-line-clamp: $nrLines;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
 
 @mixin text-hide() {

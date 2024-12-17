@@ -44,7 +44,7 @@ const GeoJsonLayerFeatureList = ({ className, onFeatureClick }) => {
               itemData={itemData}
               itemCount={features.length}
               width={340}
-              itemSize={98}
+              itemSize={110}
             >
               {GeoJsonLayerFeatureItem}
             </FixedSizeList>

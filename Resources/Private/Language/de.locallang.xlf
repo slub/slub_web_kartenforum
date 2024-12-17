@@ -1399,10 +1399,6 @@
             </trans-unit>
 
             <!-- Map > GeoJsonControlBar -->
-            <trans-unit id="plugin.map.geojsoncontrolbar.header.edit" approved="yes">
-			    <source><![CDATA[Edit]]></source>
-                <target><![CDATA[Bearbeiten]]></target>
-            </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.button.metadata.title" approved="yes">
 				<source><![CDATA[Show vector map settings]]></source>
                 <target><![CDATA[Zeige Einstellungen der Vektor-Karte]]></target>

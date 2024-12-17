@@ -61,13 +61,7 @@
                 line-height: 36.5px;
                 letter-spacing: 0.04em;
 
-                word-break: break-all;
-                overflow: hidden;
-                display: -webkit-box;
-                line-clamp: 3;
-                -webkit-line-clamp: 3;
-                -webkit-box-orient: vertical;
-                text-overflow: ellipsis;
+                @include text-overflow-with-line-break;
             }
 
             &--date {

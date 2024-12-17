@@ -154,14 +154,7 @@ const GeoJsonControlBar = () => {
   return (
     <div className="vkf-geojson-control-bar-root">
       <div className="control-bar-header">
-        <div className="control-bar-title">
-          <span className="control-bar-title--static">
-            {translate("geojson-control-bar-edit")}:{" "}
-          </span>
-          <span className="control-bar-title--dynamic">
-            {formattedLayerTitle}
-          </span>
-        </div>
+        <div className="control-bar-title">{formattedLayerTitle}</div>
         <div className="control-bar-layer-buttons">
           <CustomButton
             disabled={!isVectorMapMetadataEditAllowed(vectorMapDraw)}

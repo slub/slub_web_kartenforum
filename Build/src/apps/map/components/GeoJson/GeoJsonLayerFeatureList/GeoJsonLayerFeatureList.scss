@@ -26,12 +26,6 @@
         }
     }
 
-    .feature-list {
-        display: flex;
-        flex-direction: column;
-        cursor: pointer;
-    }
-
     .no-feature-container {
         color: $secondary-color-dark;
         text-transform: uppercase;

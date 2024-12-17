@@ -21,20 +21,19 @@
         gap: 12px;
         padding: 8px 12px;
         background-color: $secondary-color;
+        max-width: 275px;
 
         .control-bar-title {
             color: #fff;
             font-family: $font;
             font-size: 14px;
             font-style: normal;
-            font-weight: 400;
+            font-weight: 700;
             line-height: 16px;
             letter-spacing: 0.56px;
             text-transform: uppercase;
 
-            &--dynamic {
-                font-weight: 700;
-            }
+            @include text-overflow-with-line-break;
         }
 
         .control-bar-layer-buttons {

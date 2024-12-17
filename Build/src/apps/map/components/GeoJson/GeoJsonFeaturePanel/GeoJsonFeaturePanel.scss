@@ -61,6 +61,8 @@
                 letter-spacing: 0.96px;
                 text-transform: uppercase;
                 color: $secondary-color-dark;
+
+                @include text-overflow-with-line-break;
             }
         }
 

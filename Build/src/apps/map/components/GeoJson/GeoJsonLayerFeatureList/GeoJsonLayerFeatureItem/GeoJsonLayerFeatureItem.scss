@@ -10,7 +10,9 @@
 .geojson-feature-item-root {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 5px;
+    cursor: pointer;
 
     &:hover {
         background-color: rgba($secondary-color, 0.15);
@@ -64,6 +66,8 @@
             padding-top: 5px;
             padding-bottom: 5px;
             text-transform: uppercase;
+
+            @include text-overflow-with-line-break;
         }
 
         .details {
