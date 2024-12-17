@@ -9,7 +9,8 @@ import React, { useState } from "react";
 import SettingsProvider from "@settings-provider";
 import { FALLBACK_SRC } from "@map/components/MapSearch/components/MapSearchListElement/MapSearchListElementBase";
 import PropTypes from "prop-types";
-import { translate } from "@util/util";
+import { translate, isDefined } from "@util/util";
+import clsx from "clsx";
 
 export const LayerManagementThumbnail = (props) => {
   const { layer } = props;
@@ -19,6 +20,7 @@ export const LayerManagementThumbnail = (props) => {
   const layerType = layer.getType();
   const layerTitle = layer.getMetadata(METADATA.title);
   const isMosaic = layer.getMetadata(METADATA.type) === LAYER_TYPES.MOSAIC_MAP;
+  const isRemoteVectorMap = isDefined(layer.getMetadata(METADATA.vectorMapId));
 
   // load fallback image in case the image from the supplied url cannot be loaded
   const handleError = () => {
@@ -35,7 +37,14 @@ export const LayerManagementThumbnail = (props) => {
             src={settings.FALLBACK_THUMBNAIL}
             alt={`GeoJSON Image for ${layerTitle}`}
           />
-          <span className="geojson-badge">GeoJSON</span>
+          <span
+            className={clsx(
+              "vector-badge",
+              !isRemoteVectorMap && "local-vector-badge"
+            )}
+          >
+            {translate("vector-badge-title")}
+          </span>
         </>
       ) : isMosaic ? (
         <>

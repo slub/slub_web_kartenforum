@@ -108,7 +108,8 @@ class GeoJsonLayer extends ApplicationLayer {
 
         this.metadata[METADATA.id] =
             this.metadata[METADATA.id] ?? crypto.randomUUID();
-        this.metadata[METADATA.timePublished] = Date.now();
+        this.metadata[METADATA.timePublished] =
+            this.metadata[METADATA.timePublished] ?? new Date().getFullYear();
         this.metadata[METADATA.hasGeoReference] = true;
     }
 

@@ -14,9 +14,10 @@ import { selectedLayersState } from "@map/atoms";
 import { translate } from "@util/util";
 import { checkIfArrayContainsLayer } from "../../util";
 import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase";
-import "./MapSearchListElement.scss";
 import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
 import settingsProvider from "@settings-provider";
+
+import "./MapSearchListElement.scss";
 
 export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";
@@ -160,9 +161,9 @@ export const MapSearchListElementBase = ({
               )}
               {isVectorMap && (
                 <span
-                  className={clsx("mosaic-badge", isSelected && "selected")}
+                  className={clsx("vector-badge", isSelected && "selected")}
                 >
-                  VECTOR
+                  {translate("vector-badge-title")}
                 </span>
               )}
             </>
@@ -191,19 +192,12 @@ export const MapSearchListElementBase = ({
                 )} ${operationalLayer.getMetadata(METADATA.timePublished)}`
               )}
             </div>
-            <div className="scale">
-              {isLoading ? (
-                <Skeleton.default />
-              ) : (
-                `${translate("mapsearch-listelement-scale")} ${scale}`
-              )}
-            </div>
-            {isMosaicMap && (
-              <div className="type">
+            {!isVectorMap && (
+              <div className="scale">
                 {isLoading ? (
                   <Skeleton.default />
                 ) : (
-                  `${translate("originalview-title-mosaic")}`
+                  `${translate("mapsearch-listelement-scale")} ${scale}`
                 )}
               </div>
             )}

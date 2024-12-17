@@ -12,7 +12,6 @@ import clsx from "clsx";
 import { useDoubleTap } from "use-double-tap";
 
 import { translate } from "@util/util";
-import { formatDateLocalized } from "@util/date";
 
 import { OpacitySlider } from "@components/OpacitySlider/OpacitySlider";
 import SettingsProvider from "@settings-provider";
@@ -184,20 +183,9 @@ export const LayerManagementEntry = (props) => {
         <h3>{layerTitle}</h3>
         <div className="timestamps">
           <span className="timestamps-label">{`${translate(
-            "layermanagement-timestamp"
-          )} ${
-            layerType === LAYER_TYPES.GEOJSON
-              ? formatDateLocalized(layerPublished)
-              : layerPublished
-          }`}</span>
+            "mapsearch-listelement-time"
+          )} ${layerPublished}`}</span>
         </div>
-        {isMosaicMap && (
-          <div className="type">
-            <span className="timestamps-label">{`${translate(
-              "originalview-title-mosaic"
-            )}`}</span>
-          </div>
-        )}
       </div>
       <div className="control-container">
         <MoveToTopButton layer={layer} />

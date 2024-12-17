@@ -89,7 +89,7 @@ const GeoJsonFeatureItem = ({ data, index, style }) => {
         </div>
         <div className="title">{title}</div>
         <div className="details">
-          {translate("geojson-featureview-time")}: {time}
+          {translate("geojson-featureview-time")} {time}
         </div>
       </div>
     </li>

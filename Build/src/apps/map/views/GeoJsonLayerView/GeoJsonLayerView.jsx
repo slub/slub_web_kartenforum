@@ -18,7 +18,6 @@ import {
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import clsx from "clsx";
 import { translate } from "@util/util";
-import { formatDateLocalized } from "@util/date";
 import GeoJsonLayerFeatureList from "@map/components/GeoJson/GeoJsonLayerFeatureList";
 import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
 import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
@@ -69,10 +68,9 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
     selectedLayer?.getMetadata(METADATA.timePublished),
   ]);
 
-  const formattedTimePublished = useMemo(
-    () => formatDateLocalized(timePublished),
-    [timePublished]
-  );
+  const formattedTimePublished = useMemo(() => {
+    return timePublished ?? translate("geojson-featureview-no-time");
+  }, [timePublished]);
 
   const handleCloseClick = useCallback(() => {
     setSelectedGeoJsonLayerId(null);

@@ -1216,6 +1216,10 @@
             <trans-unit id="global.errors.unexpected" approved="yes">
                 <source>An unexpected error occured. Please contact an administrator.</source>
             </trans-unit>
+
+            <trans-unit id="plugin.map.vector-badge-title" approved="yes">
+                <source>Vector</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

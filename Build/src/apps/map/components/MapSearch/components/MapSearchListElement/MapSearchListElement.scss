@@ -76,7 +76,8 @@
                 width: 100%;
             }
 
-            .mosaic-badge {
+            .mosaic-badge,
+            .vector-badge {
                 position: absolute;
                 top: -5px;
                 right: -5px;
@@ -91,6 +92,7 @@
                 width: 58px;
                 align-content: center;
                 text-align: center;
+                text-transform: uppercase;
 
                 &.selected {
                     background-color: $secondary-color;
