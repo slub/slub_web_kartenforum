@@ -22,6 +22,7 @@ export const FACETED_SEARCH_TYPES = {
   TK: "map_type-tk",
   TKX: "map_type-tkx",
   MM: "type-mosaic",
+  VM: "type-vector",
 };
 
 const initialCheckedState = {};
@@ -32,12 +33,14 @@ Object.keys(FACETED_SEARCH_TYPES).forEach((key) => {
 export const FacetedSearch = ({ georeferenceMode, mosaicMode }) => {
   const [facets, setFacets] = useRecoilState(facetState);
 
-  // Conditionally remove the Mosaic map filter from the filter facet if mosaic mode is enabled
+  // Conditionally remove the Mosaic maps and vector maps filter from the filter
+  // facet if mosaic mode is enabled
   const facetedSearchTypes = useMemo(() => {
     const filteredFacetedSearchTypes = { ...FACETED_SEARCH_TYPES };
 
     if (mosaicMode) {
       delete filteredFacetedSearchTypes.MM;
+      delete filteredFacetedSearchTypes.VM;
     }
 
     return filteredFacetedSearchTypes;

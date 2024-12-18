@@ -656,6 +656,9 @@
 			<trans-unit id="plugin.map.facetedsearch.titleTKX">
 				<source>Topological maps (&lt; 1:50.000)</source>
 			</trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleVM">
+				<source>Vector maps</source>
+			</trans-unit>
 
 			<!-- Global -> Map -> PersistenceController -->
 			<trans-unit id="plugin.map.persistencecontroller.errorOperationalLayers">

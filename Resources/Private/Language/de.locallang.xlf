@@ -99,6 +99,10 @@
 				<source><![CDATA[Topological maps (< 1:50.000)]]></source>
 				<target><![CDATA[Topographische Karten (< 1:50.000)]]></target>
 			</trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleVM" approved="yes">
+				<source><![CDATA[Vector maps]]></source>
+				<target><![CDATA[Vektorkarten]]></target>
+			</trans-unit>
 			<trans-unit id="plugin.map.layermanagement.moveToTop" approved="yes">
 				<source><![CDATA[Move map to top]]></source>
 				<target><![CDATA[Karte in den Vordergrund ]]></target>
