@@ -4,36 +4,16 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { selector, useRecoilValue } from "recoil";
-import {
-  vectorMapActiveVersionDrawState,
-  vectorMapDrawState,
-} from "@map/atoms";
-import { isDefined } from "@util/util";
-import { getVectorMapVersions } from "@map/components/GeoJson/util/apiVectorMaps";
+import { useRecoilValue } from "recoil";
+import { vectorMapActiveVersionDrawState } from "@map/atoms";
+
 import React from "react";
 import VersionHistoryEntry from "@map/components/GeoJson/GeoJsonHistoryPanel/components/VersionHistory/VersionHistoryEntry";
-
-const vectorMapVersionsState = selector({
-  key: "vectorMapVersionsState",
-  get: async ({ get }) => {
-    const vectorMap = get(vectorMapDrawState);
-
-    if (
-      !isDefined(vectorMap) ||
-      vectorMap.type === "local" ||
-      vectorMap.id === null
-    ) {
-      return null;
-    }
-
-    return await getVectorMapVersions(vectorMap.id);
-  },
-});
+import useVectorMapVersionsQuery from "../../useVectorMapVersionsQuery";
 
 export const VersionHistory = () => {
   const activeVersion = useRecoilValue(vectorMapActiveVersionDrawState);
-  const vectorMapVersions = useRecoilValue(vectorMapVersionsState);
+  const vectorMapVersions = useVectorMapVersionsQuery();
 
   if (!vectorMapVersions) {
     return null;

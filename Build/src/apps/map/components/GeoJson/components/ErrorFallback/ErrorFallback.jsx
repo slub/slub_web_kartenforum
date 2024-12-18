@@ -9,17 +9,20 @@ import { translate } from "@util/util";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 
-const ErrorFallback = ({ resetErrorBoundary }) => {
+const ErrorFallback = ({ className, resetErrorBoundary }) => {
   useEffect(() => {
     return () => {
       resetErrorBoundary();
     };
   }, [resetErrorBoundary]);
 
-  return <>{translate("common-errors-unexpected")}</>;
+  return (
+    <div className={className}>{translate("common-errors-unexpected")}</div>
+  );
 };
 
 ErrorFallback.propTypes = {
+  className: PropTypes.string,
   resetErrorBoundary: PropTypes.func.isRequired,
 };
 

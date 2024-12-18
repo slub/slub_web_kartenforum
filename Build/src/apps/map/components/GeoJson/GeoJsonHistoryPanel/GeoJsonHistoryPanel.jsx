@@ -6,18 +6,22 @@
  */
 
 import React, { Suspense, useCallback, useMemo } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { isDefined, translate } from "@util/util";
 import { drawModePanelState, vectorMapDrawState } from "@map/atoms";
 import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
 import GeoJsonPanelHeader from "../GeoJsonPanelHeader";
 import VersionHistory from "@map/components/GeoJson/GeoJsonHistoryPanel/components/VersionHistory/VersionHistory";
+import ErrorFallback from "../components/ErrorFallback";
+import { useRefreshVersionsQuery } from "./useVectorMapVersionsQuery";
 
 import "./GeoJsonHistoryPanel.scss";
 
 const HistoryPanel = () => {
   const setDrawModePanel = useSetRecoilState(drawModePanelState);
   const vectorMapDraw = useRecoilValue(vectorMapDrawState);
+  const refreshVersionsQuery = useRefreshVersionsQuery();
 
   const isUnsavedMap = useMemo(() => {
     return !isDefined(vectorMapDraw.id);
@@ -42,11 +46,23 @@ const HistoryPanel = () => {
     <div className="geojson-history-panel-root">
       <GeoJsonPanelHeader title={title} onCloseClick={handleCloseClick} />
       <div className="geojson-history-panel-content">
-        <div className="introduction-text content-padding">{introText}</div>
-        <div className="history-list-container content-padding">
-          <Suspense fallback={<div>Loading...</div>}>
-            <VersionHistory />
-          </Suspense>
+        <div className="introduction-text">{introText}</div>
+        <div className="history-list-container">
+          <ErrorBoundary
+            fallbackRender={({ resetErrorBoundary }) => (
+              <ErrorFallback
+                className="error-fallback"
+                resetErrorBoundary={resetErrorBoundary}
+              />
+            )}
+            onReset={refreshVersionsQuery}
+          >
+            <Suspense
+              fallback={<div className="suspense-fallback">Loading...</div>}
+            >
+              <VersionHistory />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </div>
     </div>

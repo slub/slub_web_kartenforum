@@ -12,8 +12,7 @@ import PropTypes from "prop-types";
 import { translate } from "@util/util";
 import { useRefreshRolesQuery } from "../useVectorMapRolesQuery";
 import GeoJsonRolesForm from "../GeoJsonRolesForm";
-
-import ErrorFallback from "../ErrorFallback/ErrorFallback";
+import ErrorFallback from "../../components/ErrorFallback";
 
 import "./DialogRoles.scss";
 
