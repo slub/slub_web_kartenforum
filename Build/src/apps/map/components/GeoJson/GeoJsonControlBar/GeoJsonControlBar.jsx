@@ -156,14 +156,15 @@ const GeoJsonControlBar = () => {
       <div className="control-bar-header">
         <div className="control-bar-title">{formattedLayerTitle}</div>
         <div className="control-bar-layer-buttons">
-          <CustomButton
-            disabled={!isVectorMapMetadataEditAllowed(vectorMapDraw)}
-            className="control-bar-layer-buttons--button layer-metadata-button"
-            onClick={handleMetadataPanelClick}
-            title={translate("geojson-control-bar-metadata-btn-title")}
-          >
-            <VkfIcon name="metadata-panel" />
-          </CustomButton>
+          {isVectorMapMetadataEditAllowed(vectorMapDraw) && (
+            <CustomButton
+              className="control-bar-layer-buttons--button layer-metadata-button"
+              onClick={handleMetadataPanelClick}
+              title={translate("geojson-control-bar-metadata-btn-title")}
+            >
+              <VkfIcon name="metadata-panel" />
+            </CustomButton>
+          )}
           <GeoJsonControlBarHistoryButton onClick={handleHistoryClick} />
           <GeoJsonControlBarRolesButton onClick={handleRolesClick} />
         </div>

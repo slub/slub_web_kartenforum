@@ -13,7 +13,7 @@ import VkfIcon from "@components/VkfIcon";
 import "./GeoJsonPanelHeader.scss";
 
 const GeoJsonPanelHeader = ({
-  isEditAllowed,
+  isEditAllowed = true,
   title,
   onCloseClick,
   onEditClick,

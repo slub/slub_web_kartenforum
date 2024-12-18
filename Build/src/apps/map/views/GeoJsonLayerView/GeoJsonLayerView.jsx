@@ -129,10 +129,10 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
   return (
     <>
       <GeoJsonPanelHeader
-        isEditAllowed={isVectorMapEditAllowed(selectedLayer)}
         title={translate("geojsonlayerpanel-header-title")}
         onEditClick={
-          viewMode !== GEOJSON_LAYER_VIEW_MODE.EDIT
+          viewMode !== GEOJSON_LAYER_VIEW_MODE.EDIT &&
+          isVectorMapEditAllowed(selectedLayer)
             ? handleEditOpenClick
             : undefined
         }

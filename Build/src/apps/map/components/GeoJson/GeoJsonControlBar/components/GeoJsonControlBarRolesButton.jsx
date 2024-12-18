@@ -5,7 +5,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import CustomButton from "../../components/CustomButton";
 import VkfIcon from "@components/VkfIcon";
@@ -13,12 +13,23 @@ import { vectorMapDrawState } from "@map/atoms";
 import { useRecoilValue } from "recoil";
 import { translate } from "@util/util";
 import { VECTOR_MAP_TYPES } from "../../constants";
+import {
+  isVectorMapRolesEditorEditAllowed,
+  isVectorMapRolesOwnerEditAllowed,
+} from "../../util/authorization";
 
 const GeoJsonControlBarRolesButton = ({ onClick }) => {
   const vectorMapDraw = useRecoilValue(vectorMapDrawState);
   const { type } = vectorMapDraw;
 
-  return type === VECTOR_MAP_TYPES.REMOTE ? (
+  const userIsAllowed = useMemo(() => {
+    return (
+      isVectorMapRolesEditorEditAllowed(vectorMapDraw) ||
+      isVectorMapRolesOwnerEditAllowed(vectorMapDraw)
+    );
+  }, [vectorMapDraw]);
+
+  return type === VECTOR_MAP_TYPES.REMOTE && userIsAllowed ? (
     <CustomButton
       className="control-bar-layer-buttons--button layer-roles-button"
       onClick={onClick}

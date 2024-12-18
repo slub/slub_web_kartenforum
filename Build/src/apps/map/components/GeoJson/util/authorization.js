@@ -142,13 +142,10 @@ export const isVectorMapRolesEditorEditAllowed = (repr) => {
         return true;
     }
 
-    // Editors can edit if they are owners or editors
+    // Editors can edit if they are owners
     // but the map needs to be already known to the server
     if (userRole === EDITOR_ROLE) {
-        return (
-            (layerRole === EDITOR_ROLE_MAP || layerRole === OWNER_ROLE) &&
-            isDefined(id)
-        );
+        return layerRole === OWNER_ROLE && isDefined(id);
     }
 
     return false;
