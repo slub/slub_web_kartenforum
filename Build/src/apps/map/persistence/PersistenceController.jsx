@@ -21,7 +21,6 @@ import {
 import SettingsProvider from "@settings-provider";
 import {
   areAllUndefined,
-  deSerializeOperationalLayer,
   fitMapToFeatures,
   joinArrayPathParameters,
   useLocalStorage,
@@ -40,6 +39,7 @@ import {
 import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
 import { fetchWmsTmsSettings } from "@map/components/CustomLayers/HistoricMapLayer/fetchWmsTmsSettings";
 import { getVectorMap } from "@map/components/GeoJson/util/apiVectorMaps";
+import { loadLayer } from "@map/persistence/loadLayer";
 
 export const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
 
@@ -223,74 +223,11 @@ export const PersistenceController = () => {
             oid === undefined
           ) {
             try {
-              const newOperationalLayers = operationalLayers.map(
-                deSerializeOperationalLayer
-              );
-
               const layerLoaders = [];
 
-              for (const {
-                feature,
-                isVisible,
-                opacity,
-              } of newOperationalLayers) {
-                if (feature !== undefined) {
-                  const layerLoadPromise = new Promise((resolve) => {
-                    const visibility = isVisible ? "visible" : "none";
-                    const layerSettings = { visibility, opacity };
-                    const type = feature.getType();
-
-                    if (type === LAYER_TYPES.HISTORIC_MAP) {
-                      return fetchWmsTmsSettings(feature).then(
-                        (sourceSettings) => {
-                          resolve({
-                            layer: feature,
-                            settings: {
-                              sourceSettings,
-                              layerSettings,
-                            },
-                          });
-                        }
-                      );
-                    } else if (type === LAYER_TYPES.GEOJSON) {
-                      const geojsonLayerType = feature.getMetadata(
-                        METADATA.type
-                      );
-
-                      if (geojsonLayerType === LAYER_TYPES.VECTOR_MAP) {
-                        // In case the map is a remote vector map, we do not store the geojson in the persistence object
-                        // instead we fetch it from the server on restore
-                        return getVectorMap(
-                          feature.getMetadata(METADATA.vectorMapId)
-                        ).then((vectorMap) => {
-                          feature.updateMetadata(
-                            METADATA.userRole,
-                            vectorMap[METADATA.userRole]
-                          );
-                          feature.updateMetadata(
-                            METADATA.version,
-                            vectorMap[METADATA.version]
-                          );
-
-                          feature.setGeoJson(vectorMap.geojson);
-                          return resolve({
-                            layer: feature,
-                            settings: { layerSettings },
-                          });
-                        });
-                      }
-
-                      return resolve({
-                        layer: feature,
-                        settings: { layerSettings },
-                      });
-                    } else {
-                      console.error(
-                        `Unknown layer type '${feature.getType()}'`
-                      );
-                    }
-                  });
-
+              for (const ol of operationalLayers) {
+                if (ol.id !== undefined) {
+                  const layerLoadPromise = loadLayer(ol);
                   layerLoaders.push(layerLoadPromise);
                 }
               }

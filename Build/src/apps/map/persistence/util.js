@@ -7,7 +7,6 @@
 import { useEffect, useState } from "react";
 
 import {
-    HistoricMapLayer,
     GeoJsonLayer,
     LAYER_TYPES,
     METADATA,
@@ -67,40 +66,11 @@ const countDecimals = (value) => {
     }
 };
 
-/**
- * Deserializes an operationalLayer from a supplied persistence object
- * @param coordinates
- * @param isVisible
- * @param opacity
- * @return {{displayedInMap: boolean, feature: HistoricMapLayer|GeoJsonLayer, isVisible: boolean, opacity}}
- */
-export const deSerializeOperationalLayer = ({
-    isVisible,
-    opacity,
-    type,
-    ...featureSpecific
-}) => {
-    return {
-        feature:
-            type === LAYER_TYPES.VECTOR_MAP || type === LAYER_TYPES.GEOJSON
-                ? deserializeGeojsonLayer(featureSpecific)
-                : deserializeMapLayer(featureSpecific),
-        isVisible,
-        opacity,
-        type,
-    };
-};
-
-export const deserializeGeojsonLayer = ({ geometry, geojson, properties }) => {
+export const deserializeGeojsonLayer = ({ geojson, properties }) => {
     return GeoJsonLayer.fromPersistence({
         metadata: properties,
         geoJson: geojson ?? structuredClone(emptyFeatureCollection),
-        geometry,
     });
-};
-
-export const deserializeMapLayer = ({ geometry, properties }) => {
-    return new HistoricMapLayer({ metadata: properties, geometry });
 };
 
 /**
@@ -163,46 +133,32 @@ export const joinArrayPathParameters = (a, b) => {
 export const serializeOperationalLayer = (layer, map) => {
     const isVisible = layer.isVisible(map);
     const opacity = layer.getOpacity(map);
-
     const type = layer.getType();
+
     const base = {
         id: layer.getId(),
         isVisible,
         opacity,
-        properties: layer.getMetadata(),
     };
 
     if (type === LAYER_TYPES.GEOJSON) {
         const geojsonLayerType = layer.getMetadata(METADATA.type);
 
-        if (geojsonLayerType === LAYER_TYPES.VECTOR_MAP) {
-            // Do not persist userRole or version for vector maps
-            const filteredProperties = {};
-            Object.entries(base.properties).forEach(([key, value]) => {
-                if (key !== METADATA.userRole && key !== METADATA.version) {
-                    filteredProperties[key] = value;
-                }
-            });
-
+        if (geojsonLayerType === LAYER_TYPES.GEOJSON) {
             return Object.assign(base, {
-                type: LAYER_TYPES.VECTOR_MAP,
-                geometry: layer.getGeometry(),
-                properties: filteredProperties,
+                geojson: layer.getGeoJsonForPersistence(),
+                type: LAYER_TYPES.GEOJSON,
+                properties: layer.getMetadata(),
             });
         }
-
-        // add in geojson specific parts
-        return Object.assign(base, {
-            geojson: layer.getGeoJsonForPersistence(),
-            type: LAYER_TYPES.GEOJSON,
-        });
-    } else {
-        // add in map specific parts
-        return Object.assign(base, {
-            type: LAYER_TYPES.HISTORIC_MAP,
-            geometry: layer.getGeometry(),
-        });
     }
+
+    return Object.assign(base, {
+        type:
+            type === LAYER_TYPES.HISTORIC_MAP
+                ? LAYER_TYPES.HISTORIC_MAP
+                : LAYER_TYPES.VECTOR_MAP,
+    });
 };
 
 export const serializeCameraOptions = (map, beautify = false) => {
