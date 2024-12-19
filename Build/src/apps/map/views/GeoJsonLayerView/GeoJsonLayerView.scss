@@ -72,6 +72,15 @@
                 letter-spacing: 0.04em;
             }
 
+            &--description {
+                color: #666;
+                font-family: $font;
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+
             &--button {
                 line-height: 0;
                 opacity: 1;

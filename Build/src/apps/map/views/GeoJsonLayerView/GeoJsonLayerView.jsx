@@ -57,9 +57,10 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
 
   const map = useRecoilValue(mapState);
 
-  const { title, timePublished, layerId } = useMemo(() => {
+  const { title, description, timePublished, layerId } = useMemo(() => {
     return {
       title: selectedLayer?.getMetadata(METADATA.title),
+      description: selectedLayer?.getMetadata(METADATA.description),
       timePublished: selectedLayer?.getMetadata(METADATA.timePublished),
       layerId: selectedLayer?.getMetadata(METADATA.id),
     };
@@ -147,6 +148,9 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
         <div className="title-row">
           <div className="geojson-headline--title">{title}</div>
           <GeoJsonLayerActions />
+        </div>
+        <div className="description-row">
+          <div className="geojson-headline--description">{description}</div>
         </div>
       </div>
 
