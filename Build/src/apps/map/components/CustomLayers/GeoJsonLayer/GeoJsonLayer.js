@@ -37,6 +37,13 @@ const eventHandlers = [
 ];
 
 /**
+ * Layer settings for initializing a layer e.g. from local storage or map views.
+ * @typedef {object} LayerLoadSettings
+ * @property {string} visibility
+ * @property {number} opacity
+ */
+
+/**
  * The GeoJsonLayer params
  * @typedef {Object} GeoJsonLayerParams
  * @property {object} metadata - The GeoJsonLayer metadata object
@@ -127,7 +134,13 @@ class GeoJsonLayer extends ApplicationLayer {
         }
     }
 
-    addLayerToMap(map) {
+    /**
+     *
+     * @param {maplibregl.Map} map
+     * @param {{layerSettings: LayerLoadSettings}} settings
+     * @returns
+     */
+    addLayerToMap(map, settings) {
         if (!isDefined(map)) {
             return;
         }
@@ -150,6 +163,16 @@ class GeoJsonLayer extends ApplicationLayer {
             map.addLayer(config, beforeLayer);
             this.#mapLibreLayerIds.push(layerId);
             this.#defaultLayerFilters[layerId] = config.filter;
+        }
+
+        if (isDefined(settings)) {
+            const { layerSettings } = settings;
+
+            const opacity = layerSettings?.opacity ?? 1;
+            const visibility = layerSettings?.visibility ?? "visible";
+
+            this.setOpacity(map, opacity);
+            this.setVisibility(map, visibility);
         }
 
         this.#registerEventHandlers(map);
