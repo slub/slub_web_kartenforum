@@ -134,11 +134,10 @@ class GeoJsonLayer extends ApplicationLayer {
 
         const sourceId = this.getId();
         const data = this.getGeoJson();
-        const sourceType = this.getType();
         const layerConfig = getLayerConfig(sourceId);
 
         map.addSource(sourceId, {
-            type: sourceType,
+            type: "geojson",
             data,
         });
 
@@ -331,10 +330,18 @@ class GeoJsonLayer extends ApplicationLayer {
 
     /**
      *
-     * @returns {LAYER_TYPES.GEOJSON}
+     * @returns {LAYER_TYPES.VECTOR_MAP}
      */
     getType() {
-        return LAYER_TYPES.GEOJSON;
+        return LAYER_TYPES.VECTOR_MAP;
+    }
+
+    isRemote() {
+        return isDefined(this.metadata[METADATA.vectorMapId]);
+    }
+
+    isLocal() {
+        return !this.isRemote();
     }
 
     /**

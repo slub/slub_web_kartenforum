@@ -10,6 +10,7 @@ import { queryDocument } from "@util/apiEs";
 import { readLayer } from "@util/parser";
 import { deserializeGeojsonLayer } from "@map/persistence/util";
 import { getVectorMap } from "@map/components/GeoJson/util/apiVectorMaps";
+import { isDefined } from "@util/util";
 
 const layerTypes = Object.values(LAYER_TYPES);
 
@@ -24,8 +25,22 @@ export async function loadLayer(operationalLayer) {
         throw new Error(`Layer type "${type}" not supported`);
     }
 
-    // 'Local' geojson layer -> content persistence
-    if (type === LAYER_TYPES.GEOJSON) {
+    // Backwards compatibility for restoring legacy geojson map views
+    if (type === LAYER_TYPES.LEGACY_GEOJSON) {
+        return {
+            layer: deserializeGeojsonLayer(rest),
+            settings: { layerSettings },
+        };
+    }
+
+    // 'Local' vector map layer -> content persistence
+    if (type === LAYER_TYPES.VECTOR_MAP && !isDefined(id)) {
+        if (!isDefined(rest.properties) || !isDefined(rest.geojson)) {
+            throw new Error(
+                "Cannot restore local vector map layer without geojson or properties"
+            );
+        }
+
         return {
             layer: deserializeGeojsonLayer(rest),
             settings: { layerSettings },
@@ -33,6 +48,10 @@ export async function loadLayer(operationalLayer) {
     }
 
     // Remote layers -> vector map or historic map
+
+    if (!isDefined(id)) {
+        throw new Error("Cannot restore remote layers with missing id");
+    }
 
     const document = await queryDocument(id);
     const layer = readLayer(id, document);

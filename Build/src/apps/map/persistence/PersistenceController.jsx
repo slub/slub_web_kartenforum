@@ -226,10 +226,8 @@ export const PersistenceController = () => {
               const layerLoaders = [];
 
               for (const ol of operationalLayers) {
-                if (ol.id !== undefined) {
-                  const layerLoadPromise = loadLayer(ol);
-                  layerLoaders.push(layerLoadPromise);
-                }
+                const layerLoadPromise = loadLayer(ol);
+                layerLoaders.push(layerLoadPromise);
               }
 
               Promise.all(layerLoaders)
@@ -260,7 +258,7 @@ export const PersistenceController = () => {
               .then((layers) => {
                 Promise.all(
                   layers.map((layer) => {
-                    if (layer.getType() === LAYER_TYPES.GEOJSON) {
+                    if (layer.getType() === LAYER_TYPES.VECTOR_MAP) {
                       return getVectorMap(
                         layer.getMetadata(METADATA.vectorMapId)
                       ).then((vectorMap) => {

@@ -136,24 +136,20 @@ export const serializeOperationalLayer = (layer, map) => {
     const type = layer.getType();
 
     const base = {
-        id: layer.getId(),
         isVisible,
         opacity,
     };
 
-    if (type === LAYER_TYPES.GEOJSON) {
-        const geojsonLayerType = layer.getMetadata(METADATA.type);
-
-        if (geojsonLayerType === LAYER_TYPES.GEOJSON) {
-            return Object.assign(base, {
-                geojson: layer.getGeoJsonForPersistence(),
-                type: LAYER_TYPES.GEOJSON,
-                properties: layer.getMetadata(),
-            });
-        }
+    if (type === LAYER_TYPES.VECTOR_MAP && layer.isLocal()) {
+        return Object.assign(base, {
+            geojson: layer.getGeoJsonForPersistence(),
+            type: LAYER_TYPES.VECTOR_MAP,
+            properties: layer.getMetadata(),
+        });
     }
 
     return Object.assign(base, {
+        id: layer.getId(),
         type:
             type === LAYER_TYPES.HISTORIC_MAP
                 ? LAYER_TYPES.HISTORIC_MAP

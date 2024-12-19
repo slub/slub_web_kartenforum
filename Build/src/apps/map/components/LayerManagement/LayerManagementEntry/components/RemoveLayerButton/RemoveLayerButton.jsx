@@ -38,7 +38,7 @@ export const RemoveLayerButton = (props) => {
       );
 
       if (
-        layer.getType() === LAYER_TYPES.GEOJSON &&
+        layer.getType() === LAYER_TYPES.VECTOR_MAP &&
         selectedGeoJsonFeatureIdentifier?.sourceId === layer.getId()
       ) {
         // close geojson feature panel

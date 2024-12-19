@@ -31,7 +31,7 @@ export const LayerManagementThumbnail = (props) => {
 
   return (
     <div className="thumbnail-container">
-      {layerType === LAYER_TYPES.GEOJSON ? (
+      {layerType === LAYER_TYPES.VECTOR_MAP ? (
         <>
           <img
             src={settings.FALLBACK_THUMBNAIL}

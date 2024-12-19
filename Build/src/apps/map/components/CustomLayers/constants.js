@@ -34,8 +34,10 @@ export const MAP_LIBRE_METADATA = {
 };
 
 export const LAYER_TYPES = {
-    GEOJSON: "geojson",
     HISTORIC_MAP: "historic_map",
     MOSAIC_MAP: "mosaic",
     VECTOR_MAP: "vector",
+
+    // Deprecated
+    LEGACY_GEOJSON: "geojson",
 };

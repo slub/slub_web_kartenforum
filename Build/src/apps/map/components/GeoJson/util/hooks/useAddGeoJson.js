@@ -16,11 +16,7 @@ import {
     vectorMapDrawState,
 } from "@map/atoms";
 import { isDefined, translate } from "@util/util";
-import {
-    GeoJsonLayer,
-    LAYER_TYPES,
-    METADATA,
-} from "@map/components/CustomLayers";
+import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
 import { notificationState } from "@atoms";
 import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
 import { useCallback } from "react";
@@ -40,7 +36,6 @@ export const useAddGeoJson = () => {
                     try {
                         const metadata = {
                             [METADATA.title]: title,
-                            [METADATA.type]: LAYER_TYPES.GEOJSON,
                             // [METADATA.timeChanged]: refGeoJSON.current.modified,
                         };
 
