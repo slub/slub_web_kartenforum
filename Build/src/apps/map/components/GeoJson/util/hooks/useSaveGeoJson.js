@@ -31,6 +31,22 @@ const httpErrorNotification = (translationKey) => ({
     text: translate(translationKey),
 });
 
+const metadataAppToMetadataApi = (metadata) => {
+    const mappedMetadata = structuredClone(metadata);
+
+    const keyMap = {
+        [METADATA.thumbnailUrl]: "link_thumb",
+    };
+
+    for (const [appKey, apiKey] of Object.entries(keyMap)) {
+        const value = mappedMetadata[appKey];
+        mappedMetadata[apiKey] = value;
+        delete mappedMetadata[appKey];
+    }
+
+    return mappedMetadata;
+};
+
 export const useSaveGeoJson = () => {
     const createRemoteVectorMap = useRecoilCallback(
         ({ snapshot, set }) =>
@@ -48,7 +64,10 @@ export const useSaveGeoJson = () => {
 
                     try {
                         // persist vector map to remote
-                        id = await createNewVectorMap(geoJson, metadata);
+                        id = await createNewVectorMap(
+                            geoJson,
+                            metadataAppToMetadataApi(metadata)
+                        );
                     } catch (error) {
                         if (error.response) {
                             if (error.response.status === 401) {
@@ -132,7 +151,7 @@ export const useSaveGeoJson = () => {
                         newVersion = await updateVectorMap(
                             vectorMapDraw.id,
                             geoJson,
-                            metadata,
+                            metadataAppToMetadataApi(metadata),
                             vectorMapDraw.version
                         );
                     } catch (e) {

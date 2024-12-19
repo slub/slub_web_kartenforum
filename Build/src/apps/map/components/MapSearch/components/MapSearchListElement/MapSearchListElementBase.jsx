@@ -12,35 +12,15 @@ import { default as Skeleton } from "react-loading-skeleton/lib/skeleton";
 
 import { selectedLayersState } from "@map/atoms";
 import { translate } from "@util/util";
-import { checkIfArrayContainsLayer } from "../../util";
+import {
+  checkIfArrayContainsLayer,
+  getFallbackSrc,
+  getImageSrcFromLayer,
+} from "../../util";
 import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase";
 import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
-import settingsProvider from "@settings-provider";
 
 import "./MapSearchListElement.scss";
-
-export const FALLBACK_SRC =
-  "http://www.deutschefotothek.de/images/noimage/image120.jpg";
-
-const getImageSrcFromLayer = (layer) => {
-  const type = layer.getMetadata(METADATA.type);
-  const thumbnailUrl = layer.getMetadata(METADATA.thumbnailUrl);
-  const isThumbnailUrlDefined =
-    thumbnailUrl !== undefined && thumbnailUrl !== "";
-
-  if (type === LAYER_TYPES.VECTOR_MAP) {
-    if (!isThumbnailUrlDefined) {
-      const settings = settingsProvider.getSettings();
-      return settings.FALLBACK_THUMBNAIL;
-    }
-  } else {
-    if (!isThumbnailUrlDefined) {
-      return FALLBACK_SRC;
-    }
-  }
-
-  return thumbnailUrl.replace("http:", "");
-};
 
 export const MapSearchListElementBase = ({
   children,
@@ -62,6 +42,11 @@ export const MapSearchListElementBase = ({
     [operationalLayer]
   );
 
+  const fallbackSrc = useMemo(
+    () => getFallbackSrc(operationalLayer),
+    [operationalLayer]
+  );
+
   ////
   // Handler section
   ////
@@ -77,10 +62,10 @@ export const MapSearchListElementBase = ({
   };
 
   const handleError = useCallback(() => {
-    if (src !== "" && src !== FALLBACK_SRC) {
+    if (src !== "" && src !== fallbackSrc) {
       setErrored(true);
     }
-  }, [src]);
+  }, [src, fallbackSrc]);
 
   ///
   // Effect section
@@ -113,7 +98,6 @@ export const MapSearchListElementBase = ({
   const isVectorMap =
     operationalLayer.getMetadata(METADATA.type) === LAYER_TYPES.VECTOR_MAP;
 
-  //@TODO: Add correct label for VECTOR maps
   return (
     <li
       tabIndex={0}
@@ -150,7 +134,7 @@ export const MapSearchListElementBase = ({
                   METADATA.title
                 )} ${operationalLayer.getMetadata(METADATA.timePublished)}`}
                 onError={handleError}
-                src={errored ? FALLBACK_SRC : src}
+                src={errored ? fallbackSrc : src}
               />
               {isMosaicMap && (
                 <span
