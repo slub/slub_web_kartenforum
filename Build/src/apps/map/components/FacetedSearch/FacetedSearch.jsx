@@ -10,6 +10,8 @@ import { useRecoilState } from "recoil";
 
 import { facetState } from "@map/atoms";
 import FacetedSearchEntry from "./FacetedSearchEntry";
+import { translate } from "@util/util";
+
 import "./FacetedSearch.scss";
 
 export const FACETED_SEARCH_TYPES = {
@@ -23,6 +25,28 @@ export const FACETED_SEARCH_TYPES = {
   TKX: "map_type-tkx",
   MM: "type-mosaic",
   VM: "type-vector",
+};
+
+const sortFacets = (a, b) => {
+  if (a.title > b.title) {
+    return 1;
+  }
+
+  if (a.title < b.title) {
+    return -1;
+  }
+
+  return 0;
+};
+
+const getFacets = () => {
+  const facets = Object.keys(FACETED_SEARCH_TYPES).map((key) => ({
+    key,
+    title: translate(`facet-${key.toLowerCase()}`),
+  }));
+
+  facets.sort(sortFacets);
+  return facets;
 };
 
 const initialCheckedState = {};
@@ -50,6 +74,8 @@ export const FacetedSearch = ({ georeferenceMode, mosaicMode }) => {
   // Handler section
   ////
 
+  const facetConfig = useMemo(() => getFacets(), []);
+
   const handleToggleFacet = (key) => {
     setFacets((oldFacets) => {
       const { facets, georeference } = oldFacets;
@@ -75,13 +101,14 @@ export const FacetedSearch = ({ georeferenceMode, mosaicMode }) => {
 
   return (
     <ul className="search-facet">
-      {Object.keys(facetedSearchTypes).map((key) => (
+      {facetConfig.map(({ key, title }) => (
         <FacetedSearchEntry
           checked={facets.facets.findIndex((f) => f.id === key) !== -1}
           key={key}
           georeferenceMode={georeferenceMode}
           onClick={handleToggleFacet}
           id={key}
+          title={title}
         />
       ))}
     </ul>

@@ -8,16 +8,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { translate } from "@util/util";
-
 export const FacetedSearchEntry = ({
   checked,
   georeferenceMode,
   id,
   onClick,
+  title,
 }) => {
-  const title = translate(`facet-${id.toLowerCase()}`);
-
   const handleClick = () => {
     onClick(id);
   };
@@ -46,6 +43,7 @@ FacetedSearchEntry.propTypes = {
   georeferenceMode: PropTypes.bool,
   id: PropTypes.string,
   onClick: PropTypes.func,
+  title: PropTypes.string,
 };
 
 export default FacetedSearchEntry;
