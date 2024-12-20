@@ -171,7 +171,8 @@ ul.layermanagement-body {
                 box-shadow: $shadow;
                 transition: $transition;
 
-                &.show-original {
+                &.show-original,
+                &.show-geojson-layer {
                     display: none;
                 }
 
@@ -238,7 +239,8 @@ ul.layermanagement-body {
                 justify-content: space-between;
 
                 button {
-                    &.show-original {
+                    &.show-original,
+                    &.show-geojson-layer {
                         display: block;
                     }
                 }
