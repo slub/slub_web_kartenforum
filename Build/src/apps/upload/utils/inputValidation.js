@@ -6,7 +6,7 @@ export const formValidations = {
         id: "description",
         validation: {
             required: {
-                value: true,
+                value: false,
                 message: "required",
             },
         },
