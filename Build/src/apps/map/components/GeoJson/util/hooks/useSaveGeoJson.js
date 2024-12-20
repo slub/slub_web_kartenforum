@@ -14,6 +14,7 @@ import {
     selectedLayersState,
     vectorMapDrawState,
     metadataDrawState,
+    initialGeoJsonDrawState,
 } from "@map/atoms";
 import { VECTOR_MAP_TYPES } from "@map/components/GeoJson/constants";
 import { isDefined, translate } from "@util/util";
@@ -24,12 +25,23 @@ import {
 import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
 import { exitDrawMode } from "@map/components/GeoJson/util/util";
 import { notificationState } from "@atoms";
+import equal from "fast-deep-equal";
+import { isVectorMapMetadataEditAllowed } from "../authorization";
 
 const httpErrorNotification = (translationKey) => ({
     id: "mapWrapper",
     type: "danger",
     text: translate(translationKey),
 });
+
+const metadataLayerToMetadataDraw = (metadata) => {
+    const keys = [METADATA.title, METADATA.description, METADATA.thumbnailUrl];
+    const metadataDrawShape = Object.fromEntries(
+        Object.entries(metadata).filter(([key]) => keys.includes(key))
+    );
+
+    return metadataDrawShape;
+};
 
 const metadataAppToMetadataApi = (metadata) => {
     const mappedMetadata = structuredClone(metadata);
@@ -44,7 +56,11 @@ const metadataAppToMetadataApi = (metadata) => {
         delete mappedMetadata[appKey];
     }
 
-    return mappedMetadata;
+    return Object.fromEntries(
+        Object.entries(mappedMetadata).map(([key, value]) =>
+            !isDefined(value) || value === "" ? [key, null] : [key, value]
+        )
+    );
 };
 
 export const useSaveGeoJson = () => {
@@ -141,17 +157,39 @@ export const useSaveGeoJson = () => {
                         vectorMapDrawState
                     );
 
-                    // @TODO: Only push geojson if there are changes
-                    // @TODO: Only push changed metadata properties
-                    // @TODO: Update metadata has to be None for non owner/admin user
+                    const initialGeoJson = await snapshot.getPromise(
+                        initialGeoJsonDrawState
+                    );
+
+                    const initialMetadata = metadataLayerToMetadataDraw(
+                        selectedLayer.getMetadata()
+                    );
+
+                    // Only push geojson if there are changes
                     const geoJson = draw.getAll();
+                    const geoJsonToSend = !equal(initialGeoJson, geoJson)
+                        ? geoJson
+                        : null;
+
+                    const hasMetadataChanged = !equal(
+                        initialMetadata,
+                        metadata
+                    );
+
+                    let metadataToSend = null;
+                    if (
+                        isVectorMapMetadataEditAllowed(vectorMapDraw) &&
+                        hasMetadataChanged
+                    ) {
+                        metadataToSend = metadataAppToMetadataApi(metadata);
+                    }
 
                     let newVersion = null;
                     try {
                         newVersion = await updateVectorMap(
                             vectorMapDraw.id,
-                            geoJson,
-                            metadataAppToMetadataApi(metadata),
+                            geoJsonToSend,
+                            metadataToSend,
                             vectorMapDraw.version
                         );
                     } catch (e) {
@@ -181,6 +219,16 @@ export const useSaveGeoJson = () => {
                                     notificationState,
                                     httpErrorNotification(
                                         "geojson-draw-version-conflict"
+                                    )
+                                );
+                                return;
+                            }
+
+                            if (e.response.status === 422) {
+                                set(
+                                    notificationState,
+                                    httpErrorNotification(
+                                        "geojson-draw-error-invalid-input"
                                     )
                                 );
                                 return;

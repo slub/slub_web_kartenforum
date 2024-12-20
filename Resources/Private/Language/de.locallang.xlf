@@ -1517,6 +1517,11 @@
                 <target><![CDATA[Ein unerwarteter Fehler ist aufgetreten. Kontaktieren Sie bitte ggf. den Administrator.]]></target>
             </trans-unit>
 
+			<trans-unit id="plugin.map.errors.vector-map.metadata.http.422" approved="yes">
+                <source><![CDATA[The metadata you entered is not valid and cannot be saved. Please checking if the thumbnail URL is a valid URL and try again.]]></source>
+				<target><![CDATA[Die von Ihnen eingegebenen Metadaten sind nicht gültig und können nicht gespeichert werden. Bitte überprüfen Sie, ob die URL des Vorschaubildes gültig ist und versuchen Sie es erneut.]]></target>
+            </trans-unit>
+
             <trans-unit id="plugin.map.vector-badge-title" approved="yes">
                 <source><![CDATA[Vector]]></source>
 				<target><![CDATA[Vektor]]></target>
