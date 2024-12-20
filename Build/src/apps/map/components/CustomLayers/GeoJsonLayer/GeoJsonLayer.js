@@ -518,8 +518,19 @@ class GeoJsonLayer extends ApplicationLayer {
     move(map, beforeLayer) {
         const layers = this.#getMapLibreLayers(map);
 
+        let layoutAdjustedBeforeLayer = beforeLayer;
+
+        // there is no overlay layer in vertical layout
+        if (!isDefined(beforeLayer)) {
+            if (isDefined(map.getLayer(MAP_OVERLAY_FILL_ID))) {
+                layoutAdjustedBeforeLayer = MAP_OVERLAY_FILL_ID;
+            } else {
+                layoutAdjustedBeforeLayer = null;
+            }
+        }
+
         layers.forEach(({ id }) => {
-            map.moveLayer(id, beforeLayer ?? MAP_OVERLAY_FILL_ID);
+            map.moveLayer(id, layoutAdjustedBeforeLayer);
         });
     }
 
