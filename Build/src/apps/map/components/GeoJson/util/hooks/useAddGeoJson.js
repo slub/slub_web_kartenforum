@@ -77,7 +77,9 @@ export const useAddGeoJson = () => {
     const mountNewRemoteGeojsonLayer = useRecoilCallback(
         ({ set }) =>
             async (title, geoJson) => {
-                set(initialGeoJsonDrawState, geoJson);
+                const convertedGeoJson =
+                    GeoJsonLayer.toApplicationState(geoJson);
+                set(initialGeoJsonDrawState, convertedGeoJson);
                 set(metadataDrawState, { [METADATA.title]: title });
                 set(vectorMapDrawState, {
                     type: VECTOR_MAP_TYPES.REMOTE,
