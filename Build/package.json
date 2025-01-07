@@ -29,7 +29,7 @@
     "watch": "npm-watch"
   },
   "type": "module",
-  "author": "Alexander Bigga, Jacob Mendt <jacob.mendt@pikobytes.de>, Nicolas Looschen <nicolas.looschen@pikobytes.de>",
+  "author": "Alexander Bigga, Jacob Mendt <jacob.mendt@pikobytes.de>, Nicolas Looschen <nicolas.looschen@pikobytes.de>, Tom Schulze <tom.schulze@pikobytes.de>, Pouria Rezaei <pouria.rezaei@pikobytes.de>",
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.16.8",
