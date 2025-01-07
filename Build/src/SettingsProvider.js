@@ -8,6 +8,23 @@
 import axios from "axios";
 import { isDefined, isString } from "@util/util";
 
+export const LANGUAGE_CODE = {
+    EN: "en",
+    DE: "de",
+};
+
+const hasDebugCredentials =
+    typeof process !== "undefined" &&
+    isDefined(process.env.DEV_MODE_SECRET) &&
+    process.env.DEV_MODE_SECRET !== "" &&
+    isDefined(process.env.DEV_MODE_NAME) &&
+    process.env.DEV_MODE_NAME !== "";
+
+const debugCredentials = () => ({
+    "Dev-Mode-Secret": process.env.DEV_MODE_SECRET,
+    "Dev-Mode-Name": process.env.DEV_MODE_NAME,
+});
+
 let settingsObject = {
     BASEMAPS: [
         {
@@ -29,10 +46,11 @@ let settingsObject = {
         },
     ],
     ENABLE_TILE_PRELOADING: false,
-    LANGUAGE_CODE: "en",
+    LANGUAGE_CODE: LANGUAGE_CODE.EN,
     MARKER_IMAGE_ID: "marker",
     USERNAME: "anonymous",
     USER_ISAUTHENTICATED: false,
+    USER_ROLE: null,
 };
 
 export default {
@@ -170,22 +188,19 @@ export default {
 
         // Debug credentials have the form of { "Dev-Mode-Secret": "some_secret", "Dev-Mode-Name": "some_name" }. They
         // can only be used if the server is started with the proper credentials.
-        const debugCredentials = {
-            "Dev-Mode-Secret": process.env.DEV_MODE_SECRET,
-            "Dev-Mode-Name": process.env.DEV_MODE_NAME,
-        };
+
         const config = Object.assign(
             {
                 baseURL,
                 withCredentials: true,
             },
-            debugCredentials
+            hasDebugCredentials
                 ? {
                       headers: {
-                          get: debugCredentials,
-                          post: debugCredentials,
-                          put: debugCredentials,
-                          delete: debugCredentials,
+                          get: debugCredentials(),
+                          post: debugCredentials(),
+                          put: debugCredentials(),
+                          delete: debugCredentials(),
                       },
                   }
                 : {}
@@ -213,5 +228,9 @@ export default {
         const id = settingsObject["MARKER_IMAGE_ID"];
 
         return { id, url };
+    },
+
+    getUserRole() {
+        return settingsObject["USER_ROLE"];
     },
 };

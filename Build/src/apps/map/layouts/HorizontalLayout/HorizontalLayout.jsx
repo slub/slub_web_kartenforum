@@ -5,59 +5,55 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useRef } from "react";
-import { useRecoilState } from "recoil";
-import PropTypes from "prop-types";
+import React from "react";
 
-import { selectedOriginalMapIdState } from "@map/atoms";
+import GeoJsonLayerView from "@map/views/GeoJsonLayerView";
 import LayerManagement from "@map/components/LayerManagement/LayerManagement";
 import SpatialTemporalSearch from "@map/components/SpatialTemporalSearch/SpatialTemporalSearch";
 import OriginalMapView from "@map/views/OriginalMapView/OriginalMapView";
-import { useSetElementScreenSize } from "@util/hooks";
+import { GeoJsonFeaturePanelWrapper } from "@map/components/GeoJson/GeoJsonFeaturePanel";
+import ExitTransition from "@components/ExitTransition";
+import useGeoJsonFeature from "@map/hooks/useGeoJsonFeature";
+
+import DialogAddGeoJson from "@map/components/GeoJson/DialogAddGeoJson/DialogAddGeoJson";
+
 import "./HorizontalLayout.scss";
-import GeoJsonFeatureView from "@map/views/GeoJsonView/GeoJsonFeatureView.jsx";
+import Dropzone from "@map/components/Dropzone/Dropzone";
+import { useRecoilValue } from "recoil";
+import { selectedGeoJsonLayerState } from "@map/atoms";
 
-export const HorizontalLayout = ({ onAddGeoJson }) => {
-  const [selectedOriginalMapId, setOriginalMapId] = useRecoilState(
-    selectedOriginalMapIdState
-  );
-
-  //refs
-  const spatialSearchRef = useRef(null);
-
-  useSetElementScreenSize(spatialSearchRef, "spatialtemporalsearch");
-
-  const handleClose = () => setOriginalMapId(undefined);
+export const HorizontalLayout = () => {
+  const geoJsonProps = useGeoJsonFeature();
+  const { selectedLayer } = useRecoilValue(selectedGeoJsonLayerState);
 
   return (
-    <React.Fragment>
+    <>
       <div className="vkf-horizontal-layout">
-        <div
-          className="spatialsearch-container"
-          id="spatialsearch-container"
-          ref={spatialSearchRef}
-        >
+        <div className="spatialsearch-container" id="spatialsearch-container">
           <SpatialTemporalSearch />
         </div>
-        <GeoJsonFeatureView />
+        <ExitTransition
+          className="geojson-feature-panel-container"
+          Component={GeoJsonFeaturePanelWrapper}
+          props={geoJsonProps}
+        />
         <div
           className="layermanagement-container"
           id="layermanagement-container"
         >
-          <LayerManagement onAddGeoJson={onAddGeoJson} />
+          <LayerManagement />
         </div>
+        <ExitTransition
+          className="vkf-geojson-layer-view-root"
+          Component={GeoJsonLayerView}
+          props={selectedLayer ? { selectedLayer } : null}
+        />
       </div>
-      <OriginalMapView
-        onClose={handleClose}
-        isOpen={selectedOriginalMapId !== undefined}
-        map_id={selectedOriginalMapId}
-      />
-    </React.Fragment>
+      <OriginalMapView />
+      <DialogAddGeoJson />
+      <Dropzone />
+    </>
   );
-};
-
-HorizontalLayout.propTypes = {
-  onAddGeoJson: PropTypes.func,
 };
 
 export default HorizontalLayout;

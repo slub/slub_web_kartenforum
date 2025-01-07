@@ -1,9 +1,31 @@
 .ol-map-large {
     &:fullscreen {
         .vkf-horizontal-layout {
-            .spatialsearch-container {
+            .vkf-spatialsearch-root {
                 display: none;
             }
         }
+    }
+}
+
+.geojson-feature-panel-container {
+    position: absolute;
+    top: 26px;
+    left: -340px;
+    bottom: 26px;
+    width: 340px;
+    z-index: 310;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+
+    transition-property: opacity, left;
+    transition-timing-function: ease-out, ease-out;
+    transition-duration: 0.3s, 0.3s;
+
+    &.in {
+        left: 24px;
+        opacity: 1;
+        pointer-events: all;
     }
 }

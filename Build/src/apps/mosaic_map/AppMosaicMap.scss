@@ -55,11 +55,11 @@
         .ol-map-large {
             .ol-control {
                 &.ol-mouse-position-box {
-                    left: 710px;
+                    left: 715px;
                 }
             }
             .maplibregl-ctrl-top-left {
-                left: 710px;
+                left: 715px;
                 > div:nth-child(5),
                 > div:nth-child(8) {
                     display: none;
@@ -67,11 +67,11 @@
             }
             .maplibregl-ctrl-bottom-right {
                 right: 15px;
-                left: 710px;
+                left: 715px;
             }
             &:fullscreen {
                 .vkf-horizontal-layout {
-                    .spatialsearch-container {
+                    .vkf-spatialsearch-root {
                         display: block;
                     }
                 }

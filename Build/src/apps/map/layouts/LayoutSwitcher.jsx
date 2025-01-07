@@ -8,17 +8,29 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import SettingsProvider from "@settings-provider";
-import { LAYOUT_TYPES } from "./util";
+import { HORIZONTAL_LAYOUT_MODE, LAYOUT_TYPES } from "./util";
 import { HorizontalLayout } from "./HorizontalLayout/HorizontalLayout";
+import { HorizontalLayoutDraw } from "./HorizontalLayoutDraw/HorizontalLayoutDraw";
 import VerticalLayout from "./VerticalLayout/VerticalLayout";
-import { MapWrapperWithGeojsonSupport } from "@map/components/MapWrapper/MapWrapperWithGeojsonSupport";
-import { useSetRecoilState } from "recoil";
-import { layoutState } from "@map/atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { horizontalLayoutModeState, layoutState } from "@map/atoms";
+import MapWrapper from "@map/components/MapWrapper/MapWrapper";
 
-const getLayoutComponent = (layout) => {
+const getHorizontalLayoutComponent = (layoutMode) => {
+  switch (layoutMode) {
+    case HORIZONTAL_LAYOUT_MODE.STANDARD:
+      return HorizontalLayout;
+    case HORIZONTAL_LAYOUT_MODE.DRAW:
+      return HorizontalLayoutDraw;
+    default:
+      HorizontalLayout;
+  }
+};
+
+const getLayoutComponent = (layout, layoutMode) => {
   switch (layout) {
     case LAYOUT_TYPES.HORIZONTAL:
-      return HorizontalLayout;
+      return getHorizontalLayoutComponent(layoutMode);
     case LAYOUT_TYPES.VERTICAL:
       return VerticalLayout;
     default:
@@ -29,8 +41,9 @@ const getLayoutComponent = (layout) => {
 export const LayoutSwitcher = (props) => {
   const { layout } = props;
   const setLayout = useSetRecoilState(layoutState);
+  const horizontalLayoutMode = useRecoilValue(horizontalLayoutModeState);
 
-  let LayoutComponent = getLayoutComponent(layout);
+  let LayoutComponent = getLayoutComponent(layout, horizontalLayoutMode);
 
   // publish layout to global state
   useEffect(() => {
@@ -38,15 +51,13 @@ export const LayoutSwitcher = (props) => {
   }, [layout]);
 
   return (
-    <MapWrapperWithGeojsonSupport
-      mapWrapperProps={{
-        baseMapUrl: SettingsProvider.getDefaultBaseMapUrls(),
-        enable3d: true,
-        enableTerrain: true,
-        layout,
-        mapViewSettings: SettingsProvider.getDefaultMapView(),
-        ChildComponent: LayoutComponent,
-      }}
+    <MapWrapper
+      baseMapUrl={SettingsProvider.getDefaultBaseMapUrls()}
+      enable3d={true}
+      enableTerrain={true}
+      layout={layout}
+      mapViewSettings={SettingsProvider.getDefaultMapView()}
+      ChildComponent={LayoutComponent}
     />
   );
 };

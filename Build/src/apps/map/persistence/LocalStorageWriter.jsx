@@ -25,6 +25,7 @@ import {
 import { PERSISTENCE_OBJECT_KEY } from "./PersistenceController.jsx";
 
 export const LocalStorageWriter = function () {
+  //@TODO: Refactor this to be a recoil callback
   const activeBasemapId = useRecoilValue(activeBasemapIdState);
   const facets = useRecoilValue(facetState);
   const map = useRecoilValue(mapState);

@@ -257,56 +257,125 @@
                 <source>Cancel</source>
             </trans-unit>
             <trans-unit id="plugin.map.adddialog.title">
-                <source>Add geojson layer</source>
+                <source>Add new vector map</source>
             </trans-unit>
             <trans-unit id="plugin.map.adddialog.layerTitleLabel">
-                <source>Geojson Layer Title</source>
+                <source>Title</source>
             </trans-unit>
             <trans-unit id="plugin.map.adddialog.projectionLabel">
                 <source>Projection</source>
             </trans-unit>
-			<trans-unit id="plugin.map.adddialog.body">
-				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
-			</trans-unit>
+            <trans-unit id="plugin.map.adddialog.persistent-button-label">
+                <source>Persistent vector map</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.persistent-description">
+                <source>Choose whether the uploaded data should be permanently available as a searchable map or only temporarily for you personally in your browser.</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.adddialog.description">
+                <source>Please give your vector map a name and select whether the map should be saved permanently.</source>
+            </trans-unit>
 
             <!-- map Geojson Feature View -->
-            <trans-unit id="plugin.map.geojson.featureview">
+            <trans-unit id="plugin.map.geojson.featureview-header-text">
+                <source>Details</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-description">
                 <source>Description</source>
             </trans-unit>
-            <trans-unit id="plugin.map.geojson.featureview-header">
-                <source>Editing</source>
+            <trans-unit id="plugin.map.geojson.featureview-time">
+                <source>Time</source>
             </trans-unit>
-            <trans-unit id="plugin.map.geojson.featureview-cancel-btn">
-                <source>cancel</source>
-            </trans-unit>
-            <trans-unit id="plugin.map.geojson.featureview-save-btn">
-                <source>save</source>
-            </trans-unit>
-
             <trans-unit id="plugin.map.geojson.featureview-no-title">
                 <source>no title</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.featureview-no-description">
                 <source>no description</source>
             </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-no-time">
+                <source>unknown</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.featureview-invalid-time" approved="yes">
+                <source>invalid time</source>
+            </trans-unit>
             <trans-unit id="plugin.map.geojson.featureview-metadata">
                 <source>other metadata</source>
             </trans-unit>
 
             <!-- map Geojson Feature Edit -->
+            <trans-unit id="plugin.map.geojson.editview-intro-text">
+                <source>Edit the graphic settings for the vector element here and assign a title, an image and a description. You can create your own fields below.</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editview-header-text">
+                <source>edit details</source>
+            </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-delete-btn">
-                <source>delete element</source>
+                <source>Delete GeoJson feature</source>
+            </trans-unit>
+             <trans-unit id="plugin.map.geojson.editfeature-delete-field-btn">
+                <source>Delete this field</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-add-new-field-btn">
+                <source>add new field</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-danger-zone-header">
+                <source>Delete this GeoJson feature.</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-image-title">
                 <source>Image</source>
             </trans-unit>
-
+            <trans-unit id="plugin.map.geojson.editfeature-label-placeholder">
+                <source>Enter field values here...</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-input-placeholder">
+                <source>enter field title here...</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-input-placeholder-date">
+                <source>mm/dd/yyyy</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.editfeature-style-header">
+                <source>Style</source>
+            </trans-unit>
             <!--  Map GeoJson Feature Edit Delete Modal  -->
             <trans-unit id="plugin.map.geojson.deletemodal-delete-btn">
-                <source>delete</source>
+                <source>Yes, delete now</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.deletemodal-body">
                 <source>Do you really want to delete the data?</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.deletemodal-title">
+                <source>Permanently remove data</source>
+            </trans-unit>
+
+            <!--  Map GeoJson ControlBar CloseDrawingModeModal  -->
+            <trans-unit id="plugin.map.geojson.discardmodal-title">
+                <source>Cancel processing?</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.discardmodal-description">
+                <source>You currently have unsaved changes to this vector map.Are you sure you want to discard these changes?</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.discardmodal-discard-button">
+                <source>Yes, discard changes</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.discardmodal-save-button">
+                <source>Save and close</source>
+            </trans-unit>
+
+
+            <!-- GeoJson -->
+            <trans-unit id="plugin.map.geojson.cancel-btn">
+                <source>discard</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.apply-btn">
+                <source>apply</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.save-btn">
+                <source>save</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.error-messages.version-conflict">
+                <source>A newer version of the vector map already exists on the server. Please reload the map and apply your changes to the new version of the map.</source>
             </trans-unit>
 
             <!--  Map GeoJson Feature Edit Image Fallback   -->
@@ -335,6 +404,66 @@
 			<trans-unit id="plugin.map.layermanagement.showOriginal">
                 <source>Show Original</source>
             </trans-unit>
+			<trans-unit id="plugin.map.layermanagement.showGeoJson">
+                <source>Show GeoJson information</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.layermanagement.filterGeoJsonFeatures">
+				<source>Filter GeoJSON features</source>
+			</trans-unit>
+
+            <!-- GeoJson Metadata Panel -->
+            <trans-unit id="plugin.map.geojson.metadatapanel.header.create">
+				<source>Create vector map</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.header.edit">
+				<source>Edit vector map</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.header.history">
+				<source>History of the vector map</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro.create">
+				<source>Add a title, description and a preview image for your new vector map here</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro.edit">
+				<source>Edit the settings for the entire vector map here. You can define the title, description and preview image here.</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro.history">
+				<source>Select an earlier version of the vector map here by first browsing the older versions and then resetting.</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.intro.history.unsavedmap">
+				<source>You are currently creating a new vector map. There are no previous versions that can be displayed yet.</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.delete">
+				<source>Delete this vector map.</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.delete-btn">
+				<source>Delete vector map</source>
+			</trans-unit>
+
+            <!-- GeoJson Metadata Fields -->
+            <trans-unit id="plugin.map.geojson.metadata.title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.description">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.thumbnail_url">
+                <source>Preview image</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.delete.vector">
+                <source>Do you really want to delete this vector map?</source>
+            </trans-unit>
+
+			<!-- GeoJson Metadata Placeholders -->
+            <trans-unit id="plugin.map.geojson.placeholders.title">
+				<source>Insert title here…</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.placeholders.description">
+				<source>Enter description here…</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.placeholders.thumbnail_url">
+				<source>Enter preview image url here…</source>
+            </trans-unit>
 
             <!-- Global > Map > MapWrapper -->
             <trans-unit id="plugin.map.mapwrapper.parseError">
@@ -354,6 +483,13 @@
 			</trans-unit>
 			<trans-unit id="plugin.map.layermanagement.headerLbl">
 				<source>My maps</source>
+			</trans-unit>
+
+			<trans-unit id="plugin.map.layermanagement.vectorMapActions.add">
+				<source>Add GeoJSON</source>
+			</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.vectorMapActions.create">
+				<source>Create vector map</source>
 			</trans-unit>
 
 			<!-- vk2.module.MapSearchModule -->
@@ -520,6 +656,9 @@
 			<trans-unit id="plugin.map.facetedsearch.titleTKX">
 				<source>Topological maps (&lt; 1:50.000)</source>
 			</trans-unit>
+            <trans-unit id="plugin.map.facetedsearch.titleVM">
+				<source>Vector maps</source>
+			</trans-unit>
 
 			<!-- Global -> Map -> PersistenceController -->
 			<trans-unit id="plugin.map.persistencecontroller.errorOperationalLayers">
@@ -565,7 +704,7 @@
 
 			<!-- vk2.tool.TimeSliderTool -->
 			<trans-unit id="plugin.map.timeslider.adjustTimePeriod">
-				<source>Adjust time periode</source>
+				<source>Adjust time period</source>
 			</trans-unit>
 
 			<!-- Global > Map > DialogEditFeature -->
@@ -611,9 +750,6 @@
             <trans-unit id="plugin.map.adddialog.projectionLabel">
                 <source>Projection</source>
             </trans-unit>
-			<trans-unit id="plugin.map.adddialog.body">
-				<source>In order to add a new GeoJSON layer drag and drop your GeoJSON file over this window or press this button to choose a file from your system.</source>
-			</trans-unit>
 
             <!-- Global > Map > Dropzone -->
             <trans-unit id="plugin.map.dropzone.wrongFiletype">
@@ -621,7 +757,7 @@
             </trans-unit>
 
             <trans-unit id="plugin.map.dropzone.drop">
-                <source>Drop geojson file</source>
+                <source>Drop geojson file (or click)</source>
             </trans-unit>
 
 
@@ -766,6 +902,9 @@
 			<trans-unit id="plugin.map.originalview.title">
                 <source>Original map</source>
             </trans-unit>
+            <trans-unit id="plugin.map.originalview.mosaic-badge-title">
+                <source>Mosaic</source>
+            </trans-unit>
             <trans-unit id="plugin.map.originalview.title-mosaic">
                 <source>Mosaic map</source>
             </trans-unit>
@@ -898,15 +1037,6 @@
     		</trans-unit>
 
     		<!-- Plugin Upload -> Common error messages -->
-            <trans-unit id="plugin.upload.common.errors.http.401" approved="yes">
-                <source>You must be logged in to carry out this action.</source>
-            </trans-unit>
-            <trans-unit id="plugin.upload.common.errors.http.403" approved="yes">
-                <source>You are not allowed to carry out this action.</source>
-            </trans-unit>
-            <trans-unit id="plugin.upload.common.errors.unexpected" approved="yes">
-                <source>An unexpected error occured. Please contact an administrator.</source>
-            </trans-unit>
             <trans-unit id="plugin.upload.common.errors.upload.file" approved="yes">
                 <source>Please upload a file before submitting.</source>
             </trans-unit>
@@ -988,6 +1118,115 @@
                 <source>Map selected but not yet saved.</source>
             </trans-unit>
 
+            <!-- Map > GeoJsonLayerPanel -->
+			<trans-unit id="plugin.map.geojsonlayerpanel.header.title" approved="yes">
+                <source>Vector map</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsonlayerpanel.nofeatures" approved="yes">
+                <source>No features available</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsonlayerpanel.timefilter.title" approved="yes">
+                <source>Define filter period</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsonlayerpanel.fullText.placeholder" approved="yes">
+                <source>Search</source>
+            </trans-unit>
+
+
+            <!-- Map > GeoJsonControlBar -->
+			<trans-unit id="plugin.map.geojsoncontrolbar.button.metadata.title" approved="yes">
+                <source>Show vector map settings</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.button.history.title" approved="yes">
+                <source>Show vector map history</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.button.roles.title" approved="yes">
+                <source>Show vector map permission settings</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.add-feature" approved="yes">
+                <source>No features present. Create a new one now.</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.add-title" approved="yes">
+                <source>Please add a title first.</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.no-features" approved="yes">
+				<source>No features</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.features-present" approved="yes">
+                <source>present in this vector map.</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.new" approved="yes">
+                <source>new</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.deleted" approved="yes">
+                <source>deleted</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.changed" approved="yes">
+                <source>changed</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.new.plural" approved="yes">
+				<source>new</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.deleted.plural" approved="yes">
+				<source>deleted</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.changed.plural" approved="yes">
+				<source>changed</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.feature" approved="yes">
+				<source>feature</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.feature.plural" approved="yes">
+				<source>features</source>
+            </trans-unit>
+
+            <!-- GeoJson roles -->
+            <trans-unit id="plugin.map.geojson.roles.modal.title" approved="yes">
+				<source>Adapt authorizations</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.intro" approved="yes">
+				<source>Select the users here who can edit your vector maps just like you. Please make sure you spell the user name correctly.</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.intro.unsaved" approved="yes">
+				<source>You are creating a new vector map. In order to adapt authorizations for your new vector map, you need to save it first.</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.owner" approved="yes">
+				<source>Creator/Owner</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.authors" approved="yes">
+				<source>Authors</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.insertusername" approved="yes">
+				<source>Insert user name…</source>
+            </trans-unit>
+			<trans-unit id="plugin.map.geojson.roles.btn.save" approved="yes">
+				<source>Save user roles</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.error.required" approved="yes">
+				<source>This field is required.</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.roles.form.error.duplicate-roles" approved="yes">
+				<source>The user 'PLACEHOLDER' cannot be an owner and author at the same time.</source>
+            </trans-unit>
+
+            <!-- Global -> Common error messages -->
+            <trans-unit id="global.errors.http.401" approved="yes">
+                <source>You must be logged in to carry out this action.</source>
+            </trans-unit>
+            <trans-unit id="global.errors.http.403" approved="yes">
+                <source>You are not allowed to carry out this action.</source>
+            </trans-unit>
+            <trans-unit id="global.errors.unexpected" approved="yes">
+                <source>An unexpected error occured. Please contact an administrator.</source>
+            </trans-unit>
+
+            <trans-unit id="plugin.map.errors.vector-map.metadata.http.422" approved="yes">
+                <source>The metadata you entered is not valid and cannot be saved. Please checking if the thumbnail URL is a valid URL and try again.</source>
+            </trans-unit>
+
+            <trans-unit id="plugin.map.vector-badge-title" approved="yes">
+                <source>Vector</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

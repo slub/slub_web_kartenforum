@@ -129,10 +129,20 @@ class AuthController extends ActionController
         $this->feUserRepository->add($user);
         $this->persistenceManager->persistAll();
 
-        // forward user to login page
         $uriBuilder = $this->uriBuilder;
-        $targetUid = empty($this->settings['flexform']['loginPage']) ? $this->settings['loginPage'] : $this->settings['flexform']['loginPage'];
-        $uri = $uriBuilder->setTargetPageUid($targetUid)->build();
+        $redirectTargetUid = empty($this->settings['flexform']['loginPage']) ? $this->settings['loginPage'] : $this->settings['flexform']['loginPage'];
+        
+        $userId = $user->getUid();
+        if (!empty($userId)) {
+            $tsfe = $this->request->getAttribute('frontend.controller');
+            $tsfe->fe_user->createUserSession(["uid" => $userId ]);
+            $tsfe->fe_user->enforceNewSessionId();
+
+            $rootPageId = $tsfe->rootLine[0]["uid"];
+            $redirectTargetUid = $rootPageId;
+        }
+
+        $uri = $uriBuilder->setTargetPageUid($redirectTargetUid)->build();
         $this->redirectToURI($uri, $delay = 0, $statusCode = 303);
     }
 }

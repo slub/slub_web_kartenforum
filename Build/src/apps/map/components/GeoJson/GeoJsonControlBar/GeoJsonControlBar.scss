@@ -1,0 +1,108 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 22.11.24.
+ *
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@import "../../../Variables.scss";
+
+.vkf-geojson-control-bar-root {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #fff;
+    box-shadow: $shadow;
+
+    .control-bar-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px;
+        background-color: $secondary-color;
+        max-width: 275px;
+
+        .control-bar-title {
+            color: #fff;
+            font-family: $font;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 16px;
+            letter-spacing: 0.56px;
+            text-transform: uppercase;
+
+            @include text-overflow-with-line-break;
+        }
+
+        .control-bar-layer-buttons {
+            display: flex;
+            flex-direction: row;
+            gap: 6px;
+
+            &--badge {
+                position: absolute;
+                top: 0px;
+                right: -4px;
+                background-color: $primary-color;
+                height: 8px;
+                width: 8px;
+                border-radius: 50%;
+                opacity: 0;
+                transition: opacity 0.3s ease-out;
+
+                &.in {
+                    opacity: 1;
+                }
+            }
+
+            &--button {
+                position: relative;
+                line-height: 0;
+
+                color: #fff;
+
+                &:focus {
+                    color: $secondary-color-dark;
+                }
+
+                svg {
+                    fill: none;
+                }
+
+                svg:hover {
+                    color: darken(#fff, 15%);
+                }
+
+                &.layer-metadata-button {
+                    svg {
+                        width: 16px;
+                        height: 18px;
+                    }
+                }
+
+                &.layer-history-button {
+                    svg {
+                        width: 16px;
+                        height: 14px;
+                    }
+                }
+
+                &.layer-roles-button {
+                    svg {
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+            }
+        }
+    }
+
+    .control-bar-footer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 8px;
+    }
+}

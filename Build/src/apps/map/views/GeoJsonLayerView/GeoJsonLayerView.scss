@@ -1,0 +1,182 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 16.10.24.
+ *
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+@import "../../Variables";
+
+.vkf-geojson-layer-view-root {
+    position: absolute;
+    top: 26px;
+    bottom: 26px;
+    right: -340px;
+    height: auto;
+    border: 0 none;
+    width: 340px;
+    z-index: 310;
+    background: white;
+    box-shadow: $shadow;
+    opacity: 0;
+    pointer-events: none;
+    transition-property: opacity, right, grid-template-rows;
+    transition-timing-function: ease-out, ease-out;
+    transition-duration: 0.3s, 0.3s;
+    display: grid;
+    grid-template-rows: 61px auto auto 0 1fr;
+
+    > :not(.scrollable) {
+        flex-shrink: 0;
+    }
+
+    > .scrollable {
+        flex-grow: 1;
+    }
+
+    .scrollable {
+        overflow: auto;
+    }
+
+    &.in {
+        right: 24px;
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .headline-container {
+        padding: 15px;
+
+        .title-row {
+            display: grid;
+            grid-template-columns: 218px 24px 22px;
+            gap: 20px;
+        }
+
+        .geojson-headline {
+            &--title {
+                text-transform: uppercase;
+                color: $secondary-color-dark;
+                font-size: 24px;
+                font-weight: 300;
+                line-height: 36.5px;
+                letter-spacing: 0.04em;
+
+                @include text-overflow-with-line-break;
+            }
+
+            &--date {
+                color: rgba(102, 102, 102, 1);
+                font-size: 12px;
+                font-weight: 700;
+                line-height: 18.25px;
+                letter-spacing: 0.04em;
+            }
+
+            &--description {
+                color: #666;
+                font-family: $font;
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+
+            &--button {
+                line-height: 0;
+                opacity: 1;
+                transition: 300ms ease-out opacity;
+
+                align-self: flex-start;
+                position: relative;
+                top: 6px;
+
+                &:disabled {
+                    opacity: 0.3;
+                }
+
+                &.filter-button {
+                    svg {
+                        fill: none;
+                        stroke: #666;
+                        height: 24px;
+                        width: 22px;
+
+                        &:hover {
+                            stroke: darken(#666, 15%);
+                        }
+                    }
+                }
+
+                &.export-button {
+                    svg {
+                        fill: none;
+                        height: 25px;
+                        width: 21px;
+
+                        & path:hover {
+                            stroke: darken(#666, 15%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .plain-divider {
+        width: 100%;
+        background-color: rgba(239, 239, 239, 1);
+        border: none;
+        height: 1px;
+        line-height: 0;
+        transition-property: background-color;
+        transition-timing-function: ease-out;
+        transition-duration: 300ms;
+        transition-delay: 0ms;
+
+        &.filtered {
+            background-color: $secondary-color-dark;
+        }
+
+        .caret-container {
+            position: relative;
+            left: 280px;
+            top: -20px;
+
+            svg {
+                opacity: 0;
+                transition-duration: 300ms, 300ms;
+                transition-timing-function: ease-out, ease-out;
+                transition-property: transform, opacity;
+                width: 28px;
+                height: 14px;
+            }
+
+            &.filtered {
+                svg {
+                    transform: translate3d(0, 15px, 0);
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    &:has(.filter-container.in) {
+        grid-template-rows: 61px auto auto 87px 1fr;
+    }
+
+    .filter-container {
+        padding-top: 15px;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transition-duration: 300ms, 300ms;
+        transition-timing-function: ease-out, ease-out;
+        transition-property: opacity;
+
+        &.in {
+            opacity: 1;
+            pointer-events: all;
+            border-bottom: 1px $secondary-color-dark solid;
+        }
+    }
+}

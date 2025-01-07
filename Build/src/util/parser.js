@@ -5,7 +5,13 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import { HistoricMapLayer } from "@map/components/CustomLayers";
+import {
+    GeoJsonLayer,
+    HistoricMapLayer,
+    LAYER_TYPES,
+    METADATA,
+} from "@map/components/CustomLayers";
+import { emptyFeatureCollection } from "@map/components/GeoJson/constants";
 
 /**
  * Function parses a search record from an elasticsearch query into
@@ -35,6 +41,17 @@ export const readLayer = function (id, record) {
     }
 
     properties["id"] = id;
+
+    const type = properties["type"];
+
+    if (type === LAYER_TYPES.VECTOR_MAP) {
+        properties[METADATA.vectorMapId] = id;
+        return GeoJsonLayer.fromPersistence({
+            geometry,
+            metadata: properties,
+            geoJson: structuredClone(emptyFeatureCollection),
+        });
+    }
 
     return new HistoricMapLayer({ metadata: properties, geometry });
 };

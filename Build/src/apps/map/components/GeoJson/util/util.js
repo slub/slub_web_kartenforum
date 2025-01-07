@@ -12,6 +12,18 @@ import {
 } from "../constants.js";
 
 import { isDefined } from "@util/util.js";
+import {
+    drawModePanelState,
+    horizontalLayoutModeState,
+    initialGeoJsonDrawState,
+    metadataDrawState,
+    vectorMapActiveVersionDrawState,
+    vectorMapDrawState,
+} from "@map/atoms";
+import {
+    DRAW_MODE_PANEL_STATE,
+    HORIZONTAL_LAYOUT_MODE,
+} from "@map/layouts/util";
 
 /**
  * A utility function to merge an array of entries with values from an existing Object.
@@ -234,4 +246,29 @@ export const buildGeoJSONSourceDiff = ({
     };
 
     return geoJSONSourceDiff;
+};
+
+export const validatePropertyField = (key, value, existingFields) => {
+    const errors = { key: false, value: false };
+    const isKeyExists = existingFields.some(
+        ([existingKey]) => existingKey.toLowerCase() === key.toLowerCase()
+    );
+    if (!key.trim() || isKeyExists) {
+        errors.key = true;
+    }
+    if (!value.trim()) errors.value = true;
+
+    return {
+        isValid: !errors.key && !errors.value,
+        errors,
+    };
+};
+
+export const exitDrawMode = (set) => {
+    set(drawModePanelState, DRAW_MODE_PANEL_STATE.NONE);
+    set(horizontalLayoutModeState, HORIZONTAL_LAYOUT_MODE.STANDARD);
+    set(vectorMapDrawState, null);
+    set(vectorMapActiveVersionDrawState, null);
+    set(initialGeoJsonDrawState, null);
+    set(metadataDrawState, null);
 };

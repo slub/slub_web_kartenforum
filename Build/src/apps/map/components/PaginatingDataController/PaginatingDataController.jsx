@@ -74,7 +74,7 @@ export const PaginatingDataController = ({
 
       return getSpatialQuery(
         "time_published",
-        timeExtent.map((el) => `${el}-01-01`),
+        [`${timeExtent[0]}-01-01`, `${timeExtent[1]}-12-31`],
         "geometry",
         envelope,
         sortAttribute,

@@ -5,18 +5,24 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import { ApplicationLayer } from "../ApplicationLayer.js";
+import { ApplicationLayer } from "../ApplicationLayer";
 import {
-    MAPLIBRE_OPACITY_KEYS,
+    DEFAULT_STYLE_VALUES,
     GEOJSON_OPACITY_KEYS,
     layerHasOpacityProperty,
-    DEFAULT_STYLE_VALUES,
+    MAPLIBRE_OPACITY_KEYS,
 } from "./constants";
 import { isDefined } from "@util/util";
-import { addGeoJsonLayers } from "./util.js";
-import { METADATA, LAYER_TYPES } from "../constants";
+import {
+    boundsToPolygon,
+    convertFeatureForApplicationState,
+    convertFeatureForPersistenceState,
+    getLayerConfig,
+    getTimeFilter,
+} from "./util";
+import { LAYER_TYPES, METADATA } from "../constants";
 import { bbox } from "@turf/bbox";
-import { MAP_OVERLAY_FILL_ID } from "@map/components/MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
+import { MAP_OVERLAY_FILL_ID } from "@map/components/MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer";
 
 // NOTE mousemove event handler could be replaced with mouseenter if the polygon outline should not trigger an event
 const eventHandlers = [
@@ -30,33 +36,87 @@ const eventHandlers = [
     },
 ];
 
+/**
+ * Layer settings for initializing a layer e.g. from local storage or map views.
+ * @typedef {object} LayerLoadSettings
+ * @property {string} visibility
+ * @property {number} opacity
+ */
+
+/**
+ * The GeoJsonLayer params
+ * @typedef {Object} GeoJsonLayerParams
+ * @property {object} metadata - The GeoJsonLayer metadata object
+ * @property {object} geometry - The geometry object
+ * @property {object} geoJson - The geojson object representing either the persistence state (VKF specs) or the application state
+ */
+
 class GeoJsonLayer extends ApplicationLayer {
-    #geoJSON = {};
+    static #isInternalConstructing = false;
+    geoJSON = {};
     #mapLibreLayerIds = [];
+    #defaultLayerFilters = {};
 
-    constructor({ metadata, geometry, geoJSON }) {
+    /**
+     * Private constructor. Use GeoJsonLayer.fromPersistence() or GeoJsonLayer.fromApplication() to create an instance.
+     * @param {GeoJsonLayerParams} parameters
+     * @private
+     */
+    constructor({ metadata, geometry, geoJson }) {
+        if (!GeoJsonLayer.#isInternalConstructing) {
+            throw new TypeError(
+                "Constructor is private. Use GeoJsonLayer.fromApplication() or GeoJsonLayer.fromPersistence() instead."
+            );
+        }
+        GeoJsonLayer.#isInternalConstructing = false;
         super({ metadata, geometry });
-        this.#geoJSON = geoJSON;
-
-        this.#initialize();
+        this.#initialize(geoJson);
     }
 
-    #initialize() {
-        // feature.id MUST be integer or string that is castable to integer
-        // see: https://github.com/maplibre/maplibre-gl-js/discussions/3134
-        // see: https://maplibre.org/maplibre-style-spec/expressions/#feature-state
-        this.#geoJSON.features = this.#geoJSON.features.map((feature, idx) => ({
-            ...feature,
-            id: idx + 1,
-        }));
+    /**
+     * Initializes a new GeoJsonLayer. The geoJson is expected to be in application state and passed on as is.
+     * Use this method when operating with data from whithin the application boundaries.
+     * To initialize a new GeoJsonLayer instance from persistence state use GeoJsonLayer.fromPersistence().
+     *
+     * @param {GeoJsonLayerParams} params
+     */
+    static fromApplication(params) {
+        GeoJsonLayer.#isInternalConstructing = true;
+        return new GeoJsonLayer(params);
+    }
 
-        const bounds = this.geometry
-            ? bbox(this.geometry)
-            : bbox(this.#geoJSON);
+    /**
+     * Initializes a new GeoJsonLayer. The geoJson is converted from persistence to application state.
+     * Use this method when the data is crossing the application boundary.
+     * To initialize a new GeoJsonLayer instance from application state use GeoJsonLayer.fromApplication().
+     *
+     * @param {GeoJsonLayerParams} params
+     */
+    static fromPersistence({ metadata, geometry, geoJson }) {
+        GeoJsonLayer.#isInternalConstructing = true;
+        const features = geoJson.features.map(
+            convertFeatureForApplicationState
+        );
+
+        const preparedGeoJson = { ...geoJson, features };
+
+        return new GeoJsonLayer({
+            metadata,
+            geometry,
+            geoJson: preparedGeoJson,
+        });
+    }
+
+    #initialize(geoJson) {
+        this.setGeoJson(geoJson);
+
+        const bounds = this.geometry ? bbox(this.geometry) : bbox(this.geoJSON);
         this.metadata[METADATA.bounds] = bounds;
 
-        this.metadata[METADATA.id] = crypto.randomUUID();
-        this.metadata[METADATA.timePublished] = Date.now();
+        this.metadata[METADATA.id] =
+            this.metadata[METADATA.id] ?? crypto.randomUUID();
+        this.metadata[METADATA.timePublished] =
+            this.metadata[METADATA.timePublished] ?? new Date().getFullYear();
         this.metadata[METADATA.hasGeoReference] = true;
     }
 
@@ -74,26 +134,183 @@ class GeoJsonLayer extends ApplicationLayer {
         }
     }
 
-    addLayerToMap(map) {
+    /**
+     *
+     * @param {maplibregl.Map} map
+     * @param {{layerSettings: LayerLoadSettings}} settings
+     * @returns
+     */
+    addLayerToMap(map, settings) {
         if (!isDefined(map)) {
             return;
         }
 
-        addGeoJsonLayers(this, map);
+        const sourceId = this.getId();
+        const data = this.getGeoJson();
+        const layerConfig = getLayerConfig(sourceId);
+
+        map.addSource(sourceId, {
+            type: "geojson",
+            data,
+        });
+
+        const beforeLayer =
+            map.getLayer(MAP_OVERLAY_FILL_ID) !== undefined
+                ? MAP_OVERLAY_FILL_ID
+                : undefined;
+
+        for (const [layerId, config] of Object.entries(layerConfig)) {
+            map.addLayer(config, beforeLayer);
+            this.#mapLibreLayerIds.push(layerId);
+            this.#defaultLayerFilters[layerId] = config.filter;
+        }
+
+        if (isDefined(settings)) {
+            const { layerSettings } = settings;
+
+            const opacity = layerSettings?.opacity ?? 1;
+            const visibility = layerSettings?.visibility ?? "visible";
+
+            this.setOpacity(map, opacity);
+            this.setVisibility(map, visibility);
+        }
+
         this.#registerEventHandlers(map);
     }
 
-    getGeoJSON() {
-        return this.#geoJSON;
+    /**
+     * Updates geojson on map using maplibre source diffs. The sourceDiff **must** represent the application state.
+     *
+     * @param {maplibregl.Map} map The maplibregl map instance
+     * @param {object} sourceDiff The maplibregl source diff (expected to represent application state)
+     * @returns {Promise}
+     */
+    updateDataOnMap(map, sourceDiff) {
+        if (!isDefined(map) || !isDefined(sourceDiff)) {
+            return Promise.reject();
+        }
+
+        const sourceLayer = map.getSource(this.getId());
+
+        return sourceLayer
+            .updateData(sourceDiff)
+            .getData()
+            .then((geoJSON) => {
+                this.setGeoJson(geoJSON);
+                return geoJSON;
+            });
     }
 
-    setGeoJSON(geoJson) {
-        this.#geoJSON = geoJson;
+    /**
+     * Sets new data to the maplibregl's source layer calling sourceLayer.setData.
+     * Resets feature ids.
+     *
+     * @param {maplibregl.Map} map
+     * @param {object} geoJson Feature properties are expected to represent application state
+     * @returns
+     */
+    setDataOnMap(map, geoJson) {
+        if (!isDefined(map) || !isDefined(geoJson)) {
+            return;
+        }
+
+        const sourceLayer = map.getSource(this.getId());
+
+        this.setGeoJson(geoJson);
+        sourceLayer.setData(this.geoJSON);
+    }
+
+    removeFeatureFromMap(map, id) {
+        const sourceLayer = map.getSource(this.getId());
+
+        sourceLayer.updateData({ remove: [id] });
+        this.removeFeature(id);
+    }
+
+    /**
+     * Gets the geoJson object representing the "VKF geoJson specification". Use this for all non-application cases.
+     * E.g. for exporting as a file, persisting in local storage, persisting in database, etc.
+     *
+     * @returns {object} geoJson
+     */
+    getGeoJsonForPersistence() {
+        const convertedGeoJson = structuredClone(this.getGeoJson());
+        let features = convertedGeoJson.features ?? [];
+
+        features = features.map(convertFeatureForPersistenceState);
+        convertedGeoJson.features = features;
+
+        return convertedGeoJson;
+    }
+
+    /**
+     * A helper to parse geoJson from persistence to application state.
+     *
+     * @param {object} geoJson geoJson representing the "VKF geoJson specification" (persistence state)
+     * @returns {object} geoJson
+     */
+    static toApplicationState(geoJson) {
+        if (!isDefined(geoJson)) {
+            return geoJson;
+        }
+
+        const convertedGeoJson = structuredClone(geoJson);
+        let features = convertedGeoJson.features ?? [];
+
+        features = features.map(convertFeatureForApplicationState);
+        convertedGeoJson.features = features;
+
+        return convertedGeoJson;
+    }
+
+    /**
+     * Gets the geoJson object representing the application state.
+     * @returns {object} geoJson
+     */
+    getGeoJson() {
+        return this.geoJSON;
+    }
+
+    /**
+     * Sets the geoJson.
+     * Note: Features ids are reset.
+     *
+     * @param {object} geoJson
+     */
+    setGeoJson(geoJson) {
+        // feature.id MUST be integer or string that is castable to integer
+        // see: https://github.com/maplibre/maplibre-gl-js/discussions/3134
+        // see: https://maplibre.org/maplibre-style-spec/expressions/#feature-state
+        const features = geoJson.features.map((feature, idx) => {
+            if (!Object.hasOwn(feature, "properties")) {
+                feature.properties = {};
+            }
+
+            //@TODO: Generate stable feature ids (Somewhere)
+            return { ...feature, id: idx + 1 };
+        });
+
+        const preparedGeoJson = { ...geoJson, features };
+
+        this.geoJSON = preparedGeoJson;
+    }
+
+    getFeature(id) {
+        const feature = this.geoJSON.features.find(
+            (feature) => feature.id === id
+        );
+
+        if (!isDefined(feature)) {
+            console.warn(`No feature found for id '${id}'`);
+            return null;
+        }
+
+        return feature;
     }
 
     removeFeature(id) {
-        const idx = this.#geoJSON.features.findIndex(
-            (feature) => feature.id == id
+        const idx = this.geoJSON.features.findIndex(
+            (feature) => feature.id === id
         );
 
         if (idx < 0) {
@@ -103,7 +320,27 @@ class GeoJsonLayer extends ApplicationLayer {
             return;
         }
 
-        this.#geoJSON.features.splice(idx, 1);
+        this.geoJSON.features.splice(idx, 1);
+    }
+
+    setFeatureState(map, id, featureState) {
+        if (!isDefined(map) || !isDefined(id) || !isDefined(featureState)) {
+            return;
+        }
+
+        const source = this.getId();
+
+        map.setFeatureState({ source, id }, featureState);
+    }
+
+    getPreviewFeature() {
+        const bounds = this.getMetadata(METADATA.bounds);
+
+        return {
+            type: "Feature",
+            properties: {},
+            geometry: boundsToPolygon(bounds),
+        };
     }
 
     /**
@@ -116,20 +353,18 @@ class GeoJsonLayer extends ApplicationLayer {
 
     /**
      *
-     * @returns {LAYER_TYPES.GEOJSON}
+     * @returns {LAYER_TYPES.VECTOR_MAP}
      */
     getType() {
-        return LAYER_TYPES.GEOJSON;
+        return LAYER_TYPES.VECTOR_MAP;
     }
 
-    /**
-     *
-     * @param {string} mapLayerId
-     */
-    addMapLayer(mapLayerId) {
-        if (isDefined(mapLayerId)) {
-            this.#mapLibreLayerIds.push(mapLayerId);
-        }
+    isRemote() {
+        return isDefined(this.metadata[METADATA.vectorMapId]);
+    }
+
+    isLocal() {
+        return !this.isRemote();
     }
 
     /**
@@ -166,6 +401,9 @@ class GeoJsonLayer extends ApplicationLayer {
             this.#unregisterEventHandlers(map, id);
             map.removeLayer(id);
         }
+
+        map.removeSource(this.getId());
+        this.#mapLibreLayerIds = [];
     }
 
     /**
@@ -280,13 +518,57 @@ class GeoJsonLayer extends ApplicationLayer {
     move(map, beforeLayer) {
         const layers = this.#getMapLibreLayers(map);
 
+        let layoutAdjustedBeforeLayer = beforeLayer;
+
+        // there is no overlay layer in vertical layout
+        if (!isDefined(beforeLayer)) {
+            if (isDefined(map.getLayer(MAP_OVERLAY_FILL_ID))) {
+                layoutAdjustedBeforeLayer = MAP_OVERLAY_FILL_ID;
+            } else {
+                layoutAdjustedBeforeLayer = null;
+            }
+        }
+
         layers.forEach(({ id }) => {
-            map.moveLayer(id, beforeLayer ?? MAP_OVERLAY_FILL_ID);
+            map.moveLayer(id, layoutAdjustedBeforeLayer);
         });
     }
 
     moveToTop(map) {
         this.move(map, null);
+    }
+
+    /**
+     * Sets the maplibregl map filter for each geojson layer.
+     * @param {maplibregl.map} map
+     * @param {object} filterValues filter values to build the filter expressions. Resets filter to default if undefined.
+     * @returns
+     */
+    setFilters(map, filterValues) {
+        const mapLayers = this.#getMapLibreLayers(map);
+
+        if (mapLayers.length === 0) {
+            return;
+        }
+
+        const timeExtent = filterValues?.timeExtent;
+        const timeFilter = getTimeFilter(timeExtent);
+
+        for (const mapLayer of mapLayers) {
+            const { id } = mapLayer;
+            const defaultFilter = this.#defaultLayerFilters[id];
+            const newFilters = ["all", defaultFilter];
+
+            if (isDefined(timeFilter) && timeFilter.length > 0) {
+                newFilters.push(timeFilter);
+            }
+
+            if (newFilters.length === 1) {
+                map.setFilter(id, defaultFilter);
+            } else {
+                map.setFilter(id, newFilters);
+            }
+        }
     }
 }
 

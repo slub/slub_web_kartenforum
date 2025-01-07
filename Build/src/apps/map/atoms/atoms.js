@@ -5,10 +5,15 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 import SettingsProvider from "@settings-provider";
 import { ActiveDialog } from "@map/components/VkfMap/constants.js";
-import { LAYOUT_TYPES } from "@map/layouts/util.js";
+import {
+    HORIZONTAL_LAYOUT_MODE,
+    LAYOUT_TYPES,
+    DRAW_MODE_PANEL_STATE,
+} from "@map/layouts/util.js";
+import { isDefined } from "@util/util";
 
 // stores the currently active basemap ID
 export const activeBasemapIdState = atom({
@@ -27,10 +32,6 @@ export const elementsScreenSizeState = atom({
     key: "elementScreenSize",
     default: {
         map: { height: 0, width: 0 },
-        layermanagement: { height: 0, width: 0 },
-        padding: { height: 15, width: 15 },
-        offset: { height: 15, width: 0 },
-        spatialtemporalsearch: { height: 0, width: 0 },
     },
 });
 
@@ -45,6 +46,12 @@ export const facetState = atom({
 export const layoutState = atom({
     key: "layoutState",
     default: LAYOUT_TYPES.VERTICAL,
+});
+
+// indicates the mode of the horizontal layout
+export const horizontalLayoutModeState = atom({
+    key: "horizontalLayoutModeState",
+    default: HORIZONTAL_LAYOUT_MODE.STANDARD,
 });
 
 // allows accessing the map
@@ -87,6 +94,58 @@ export const selectedOriginalMapIdState = atom({
     default: undefined,
 });
 
+// The id of the GeoJson layer to be displayed in GeoJsonLayerPanel
+export const selectedGeoJsonLayerIdState = atom({
+    key: "selectedGeoJsonLayerIdState",
+    default: undefined,
+});
+
+// TODO remove, not needed anymore (update GeoJsonLayerView, too)
+// Should trigger state updates when a GeoJson feature is created, updated or deleted from a layer
+export const selectedGeoJsonLayerLastUpdatedState = atom({
+    key: "selectedGeoJsonLayerLastUpdatedState",
+    default: 0,
+});
+
+// Triggers a state update in the geojson layer panel
+export const selectedGeoJsonLayerState = selector({
+    key: "selectedGeoJsonLayerState",
+    get: ({ get }) => {
+        const selectedId = get(selectedGeoJsonLayerIdState);
+        const layers = get(selectedLayersState);
+        const lastUpdated = get(selectedGeoJsonLayerLastUpdatedState);
+        const selectedLayer = layers.find(
+            (layer) => layer.getId() === selectedId
+        );
+        return { selectedLayer, lastUpdated };
+    },
+    dangerouslyAllowMutability: true,
+});
+
+// The geojson feature id and the source id of the feature's layer that should be displayed in GeoJsonFeaturePanel
+export const selectedGeoJsonFeatureIdentifierState = atom({
+    key: "selectedGeoJsonFeatureIdentifierState",
+    default: null,
+});
+
+// Tracks whether or not a geojson feature is displayed in GeoJsonFeaturePanel (to toggle animations)
+export const isGeoJsonFeatureSelectedState = selector({
+    key: "isGeoJsonFeatureSelectedState",
+    get: ({ get }) => {
+        const selectedGeoJsonFeatureIdentifier = get(
+            selectedGeoJsonFeatureIdentifierState
+        );
+
+        if (!isDefined(selectedGeoJsonFeatureIdentifier)) {
+            return false;
+        }
+
+        const { featureId, sourceId } = selectedGeoJsonFeatureIdentifier;
+
+        return isDefined(featureId) && isDefined(sourceId);
+    },
+});
+
 // time extent selected by the time slider
 export const timeExtentState = atom({
     key: "timeExtentState",
@@ -109,4 +168,54 @@ export const baseMapStyleLayersState = atom({
 export const activeDialogState = atom({
     key: "activeDialogState",
     default: ActiveDialog.None,
+});
+
+export const drawState = atom({
+    key: "drawState",
+    default: undefined,
+});
+
+// Geojson edit states
+export const initialGeoJsonDrawState = atom({
+    key: "editedGeojsonState",
+    default: null,
+});
+
+// { [METADATA_KEY]: string | number | null }
+export const metadataDrawState = atom({
+    key: "metadataDrawState",
+    default: null,
+});
+
+// { type:  "remote" | "local", id: string | null }
+export const vectorMapDrawState = atom({
+    key: "vectorMapState",
+    default: null,
+});
+
+export const vectorMapActiveVersionDrawState = atom({
+    key: "vectorMapActiveVersionDrawState",
+    default: null,
+});
+
+// Add geojson states
+export const showDropZoneState = atom({
+    key: "showDropZoneState",
+    default: false,
+});
+
+export const addedFileState = atom({
+    key: "addedFileState",
+    default: null,
+});
+
+export const addGeoJsonDialogState = atom({
+    key: "addGeoJsonDialogState",
+    default: false,
+});
+
+// HorizontalLayoutDraw panel state
+export const drawModePanelState = atom({
+    key: "drawModePanelState",
+    default: DRAW_MODE_PANEL_STATE.NONE,
 });

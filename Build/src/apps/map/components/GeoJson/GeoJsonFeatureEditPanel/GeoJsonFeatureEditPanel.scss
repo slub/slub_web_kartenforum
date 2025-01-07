@@ -1,0 +1,219 @@
+@import "../../../Variables";
+
+.geojson-feature-edit-panel-root {
+    display: flex;
+    flex-direction: column;
+
+    background-color: #fff;
+    height: 100%;
+    box-shadow: $shadow;
+
+    .geojson-feature-edit-panel-content {
+        overflow-y: auto;
+        flex-grow: 1;
+
+        .introduction-text {
+            padding: 20px 15px 10px 15px;
+
+            color: #666;
+            font-family: "Titillium Web";
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 20px;
+        }
+
+        .properties-container {
+            .style-property-header {
+                .header-text {
+                    padding: 20px 0 0 15px;
+                    margin: unset;
+                }
+            }
+
+            .style-properties-container {
+                background-color: $secondary-color-light;
+                padding: 20px 19px 20px 15px;
+            }
+
+            .none-style-properties-container {
+                padding-top: 30px;
+            }
+
+            .delete-button {
+                background-color: transparent;
+                align-self: end;
+                width: max-content;
+                font-size: 12px;
+                line-height: 12px;
+                letter-spacing: 0.48px;
+                padding-top: 8px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+
+                p {
+                    margin: unset;
+                    padding-top: 2px;
+                }
+
+                svg {
+                    width: 13px;
+                    height: 14px;
+                    fill: $gray-500;
+                    stroke-width: 0.3;
+                }
+            }
+
+            &::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: #888;
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background-color: #555;
+            }
+
+            .none-style-properties-container {
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+                padding-bottom: 30px;
+            }
+        }
+
+        .new-field-container {
+            height: 99px;
+
+            .new-fields {
+                opacity: 0;
+                height: 0;
+                padding: 0;
+                pointer-events: none;
+                transition: 300ms ease-out opacity;
+
+                &.in {
+                    opacity: 1;
+                    height: auto;
+                    pointer-events: all;
+                }
+            }
+
+            .new-field-button-container {
+                display: flex;
+                justify-content: center;
+                height: 0;
+                padding: 0;
+                opacity: 0;
+                pointer-events: none;
+
+                &.in {
+                    opacity: 1;
+                    pointer-events: all;
+                    transition: 300ms ease-out opacity;
+                    height: auto;
+                }
+
+                .new-field-button {
+                    display: flex;
+                    gap: 5px;
+                    align-items: center;
+                    background-color: transparent;
+
+                    .geojson-feature-property-label {
+                        color: $secondary-color-dark;
+                    }
+
+                    svg {
+                        fill: $secondary-color-dark;
+                        width: 18px;
+                        height: 18px;
+                    }
+
+                    &:hover,
+                    &:focus,
+                    &:active,
+                    &:active:focus {
+                        outline: none;
+                        box-shadow: none;
+                        background-color: transparent;
+                        color: darken($secondary-color-dark, 15%);
+
+                        .geojson-feature-property-label {
+                            color: darken($secondary-color-dark, 15%);
+                        }
+
+                        svg {
+                            fill: darken($secondary-color-dark, 15%);
+                        }
+                    }
+
+                    &:disabled {
+                        cursor: not-allowed;
+
+                        .geojson-feature-property-label {
+                            color: darken($color-disabled, 15%);
+                        }
+
+                        svg {
+                            fill: darken($color-disabled, 15%);
+                        }
+                    }
+                }
+            }
+        }
+
+        .danger-zone-container {
+            padding-top: 30px;
+        }
+    }
+    .footer-container {
+        display: flex;
+        justify-content: space-around;
+        height: 100px;
+        padding: 36px 26px 30px 15px;
+
+        button {
+            width: 100%;
+        }
+    }
+
+    // TODO DRAWING create a mixin/similar for the following three blocks; same blocks are used for GeoJsonFeatureEditPanel
+    input,
+    textarea {
+        border: 1px solid $gray-500;
+        &:hover,
+        &:focus,
+        &:hover,
+        &:focus-visible {
+            border-color: darken($gray-500, 15%);
+            outline: unset;
+        }
+    }
+
+    .geojson-feature-property-label {
+        color: $color-grey;
+        font-family: $font;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 26px;
+        letter-spacing: 0.48px;
+        text-transform: uppercase;
+        margin: unset;
+    }
+
+    .geojson-feature-property-input {
+        color: $secondary-color-dark;
+        font-family: $font;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        margin: unset;
+        padding: 10px 19px 10px 11px;
+    }
+}

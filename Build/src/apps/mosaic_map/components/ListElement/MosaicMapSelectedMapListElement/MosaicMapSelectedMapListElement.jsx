@@ -27,6 +27,7 @@ import "./MosaicMapSelectedMapListElement.scss";
 import { METADATA } from "@map/components/CustomLayers";
 import { checkIfArrayContainsLayer } from "@map/components/MapSearch/util.js";
 import { MOSAIC_MAP_OVERLAY_SOURCE_ID } from "@mosaic-map/components/MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
+import { fetchWmsTmsSettings } from "@map/components/CustomLayers/HistoricMapLayer/fetchWmsTmsSettings";
 
 export const FALLBACK_SRC =
   "http://www.deutschefotothek.de/images/noimage/image120.jpg";
@@ -97,7 +98,8 @@ export const MosaicMapSelectedMapListElement = ({
       selectedLayer.removeMapLibreLayers(map);
     } else {
       //@TODO: Add loading feedback, while layer is added to map
-      selectedLayer.addLayerToMap(map).then(() => {
+      fetchWmsTmsSettings(selectedLayer).then((sourceSettings) => {
+        selectedLayer.addLayerToMap(map, { sourceSettings });
         setSelectedLayers((selectedLayers) => [
           ...selectedLayers,
           selectedLayer,

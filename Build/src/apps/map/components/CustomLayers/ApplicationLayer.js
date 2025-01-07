@@ -52,12 +52,16 @@ export class ApplicationLayer {
             return;
         }
 
-        if (!isDefined(METADATA[key])) {
+        if (!Object.values(METADATA).includes(key)) {
             console.warn(`Trying to update metadata with invalid key '${key}'`);
             return;
         }
 
         this.metadata[key] = value;
+    }
+
+    addLayerToMap() {
+        throw new Error("Method 'addLayerToMap' must be implemented.");
     }
 
     isDisplayedInMap() {

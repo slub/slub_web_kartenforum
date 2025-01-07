@@ -9,6 +9,11 @@ import {
     GEOJSON_LAYER_TYPES,
 } from "../CustomLayers/GeoJsonLayer/constants.js";
 
+export const emptyFeatureCollection = {
+    type: "FeatureCollection",
+    features: [],
+};
+
 const isLine = (geometry) =>
     ["MultiLineString", "LineString"].includes(geometry);
 const isPolygon = (geometry) => ["MultiPolygon", "Polygon"].includes(geometry);
@@ -45,7 +50,8 @@ const DEFAULT_STYLE_FIELD_VALUES = {
 };
 
 /**
- * Configure styling fields of the geojson edit dialog
+ * Configure styling fields of the geojson edit dialog.
+ * Keep in sync with FEATURE_PROPERTIES.
  */
 export const styleFieldSettings = {
     marker: {
@@ -98,10 +104,12 @@ export const styleFieldSettings = {
     },
 };
 
+// keep in sync with FEATURE_PROPERTIES
 export const predefinedFieldSettings = {
     img_link: { inputProps: { type: "text" } },
     title: { inputProps: { type: "text" } },
     description: { inputProps: { type: "text" } },
+    time: { inputProps: { type: "text" } },
 };
 
 /*
@@ -116,3 +124,32 @@ export const ignoredProperties = ["geometry"];
 export const stylingProperties = Object.keys(styleFieldSettings);
 
 export const predefinedProperties = Object.keys(predefinedFieldSettings);
+
+export const GEOMETRY_TYPE = {
+    POINT: "Point",
+    MULTI_POINT: "MultiPoint",
+    POLYGON: "Polygon",
+    MULTI_POLYGON: "MultiPolygon",
+    LINE_STRING: "LineString",
+    MULTI_LINE_STRING: "MultiLineString",
+    GEOMETRY_COLLECTION: "GeometryCollection",
+};
+
+// keep in sync with predefinedFieldSettings and styleFieldSettings
+export const FEATURE_PROPERTIES = {
+    imgLink: "img_link",
+    title: "title",
+    description: "description",
+    time: "time",
+    marker: "marker",
+    fill: "fill",
+    fillOpacity: "fill-opacity",
+    stroke: "stroke",
+    strokeWidth: "stroke-width",
+    strokeOpacity: "stroke-opacity",
+};
+
+export const VECTOR_MAP_TYPES = {
+    LOCAL: "local",
+    REMOTE: "remote",
+};

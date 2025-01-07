@@ -60,7 +60,7 @@ const FilterSlider = (props) => {
 FilterSlider.propTypes = {
   max: PropTypes.number,
   min: PropTypes.number,
-  onChange: PropTypes.number,
+  onChange: PropTypes.func,
   step: PropTypes.number,
   tooltip: PropTypes.string,
   type: PropTypes.string,

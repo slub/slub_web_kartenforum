@@ -6,7 +6,15 @@
  */
 import React from "react";
 import PropTypes from "prop-types";
-import { Modal as BootstrapModal } from "react-bootstrap";
+import {
+  Modal as BootstrapModal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalTitle,
+} from "react-bootstrap";
+import CustomButton from "@map/components/GeoJson/components/CustomButton";
+import VkfIcon from "@components/VkfIcon";
 import "./Modal.scss";
 
 export const Modal = ({
@@ -24,15 +32,15 @@ export const Modal = ({
       show={isOpen}
       dialogClassName={modalClassName}
     >
-      <BootstrapModal.Header>
-        <p>{title}</p>
-        <button onClick={onClose}>
-          <span>+</span>
-        </button>
-      </BootstrapModal.Header>
-      <BootstrapModal.Body>{renderContent()}</BootstrapModal.Body>
+      <ModalHeader>
+        <ModalTitle>{title}</ModalTitle>
+        <CustomButton className="close-button" onClick={onClose}>
+          <VkfIcon name="close" />
+        </CustomButton>
+      </ModalHeader>
+      <ModalBody>{renderContent()}</ModalBody>
       {renderFooter !== undefined && (
-        <BootstrapModal.Footer>{renderFooter()}</BootstrapModal.Footer>
+        <ModalFooter>{renderFooter()}</ModalFooter>
       )}
     </BootstrapModal>
   );

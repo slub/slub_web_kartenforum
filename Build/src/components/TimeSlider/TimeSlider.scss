@@ -1,0 +1,104 @@
+@import "../../../../Resources/Private/Scss/Variables";
+
+.timeslider-container {
+    position: relative;
+    margin-bottom: 20px;
+
+    .timeslider-control-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        label {
+            text-align: left;
+            font-size: 12px;
+            color: $color-grey;
+            pointer-events: none;
+        }
+    }
+
+    .slider-container {
+        position: relative;
+        padding: 0 0 25px 0;
+
+        .rc-slider {
+            margin: 0 5px;
+            width: calc(100% - 10px);
+        }
+
+        .rc-slider {
+            .rc-slider-handle {
+                width: 12px;
+                height: 12px;
+                background: rgb(0, 177, 158);
+                border: 0 none;
+                border-radius: 0;
+                box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2);
+                cursor: col-resize;
+
+                &:focus,
+                &:active {
+                    z-index: 1071;
+                    background: $primary-color;
+
+                    &:after {
+                        border-top-color: $primary-color;
+                    }
+                }
+
+                &:focus-visible {
+                    outline: 2px solid black;
+                    outline-offset: 2px;
+                }
+
+                &:after {
+                    position: absolute;
+                    bottom: -3px;
+                    left: 3px;
+                    width: 0;
+                    height: 0;
+                    content: "";
+                    border: 3px solid transparent;
+                    border-bottom-width: 0;
+                    border-top-color: rgb(0, 177, 158);
+                }
+            }
+
+            .rc-slider-track {
+                background: rgba(0, 177, 158, 0.5);
+            }
+        }
+
+        .tooltip {
+            opacity: 1;
+            font-size: 11px;
+            color: $color-grey;
+            font-family: "Titillium Web", Helvetica, Arial, sans-serif;
+            background: white;
+            padding-top: 2px;
+            font-weight: 700;
+            pointer-events: none;
+            user-select: none;
+
+            &.min-max-value {
+                visibility: hidden;
+                &.labels-too-close {
+                    visibility: visible;
+                }
+            }
+
+            &.min-value,
+            &.max-value {
+                visibility: visible;
+                &.labels-too-close {
+                    visibility: hidden;
+                }
+            }
+        }
+    }
+
+    @media screen and (min-width: $tabletLandscapeViewportWidth) {
+        padding: 0 15px;
+        margin: 0;
+    }
+}

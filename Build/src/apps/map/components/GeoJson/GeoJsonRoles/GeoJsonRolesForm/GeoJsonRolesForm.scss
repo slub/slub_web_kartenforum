@@ -1,0 +1,113 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 12.12.24.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+@import "../../../../Variables.scss";
+
+@mixin vkf-form-label-text {
+    color: $color-grey;
+    font-family: $font;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 26px;
+    letter-spacing: 0.48px;
+    text-transform: uppercase;
+}
+
+@mixin vkf-form-input-text {
+    color: $secondary-color-dark;
+    font-family: $font;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.vkf-geojson-roles-form-root {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .intro-text {
+        color: #666;
+        font-family: $font;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        .vkf-form-control {
+            &.error {
+                .multi-value-input-root .input-field {
+                    border: 1px solid $primary-color;
+                }
+
+                .vkf-form-label {
+                    color: $primary-color;
+                }
+
+                .vkf-form-input,
+                .vkf-form-textarea {
+                    color: $primary-color !important;
+
+                    &::placeholder {
+                        color: $primary-color;
+                    }
+
+                    &:hover,
+                    &:focus {
+                        color: $primary-color !important;
+                    }
+                }
+            }
+
+            .vkf-form-label {
+                @include vkf-form-label-text;
+                margin: unset;
+            }
+
+            .vkf-form-input {
+                @include vkf-form-input-text;
+                margin: unset;
+                border: none;
+
+                &::placeholder {
+                    color: $gray-500;
+                }
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            .vkf-form-error {
+                @include vkf-form-input-text;
+                color: $primary-color;
+            }
+        }
+    }
+
+    .error-message {
+        color: $primary-color;
+        font-family: $font;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}

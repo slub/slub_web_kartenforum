@@ -4,10 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import SettingsProvider from "@settings-provider";
-import BasemapSelectorControl from "@map/components/Controls/BasemapSelectorControl";
-import { MousePositionOnOff } from "@map/components/MapWrapper/components/MousePositionOnOff";
-import PermalinkControl from "@map/components/Controls/PermalinkControl.jsx";
+
 import {
     FullscreenControl,
     GeolocateControl,
@@ -15,7 +12,12 @@ import {
     ScaleControl,
     AttributionControl,
 } from "maplibre-gl";
-import { TerrainControl } from "@map/components/Controls/TerrainControl.jsx";
+
+import SettingsProvider from "@settings-provider";
+import BasemapSelectorControl from "@map/components/Controls/BasemapSelectorControl";
+import { MousePositionOnOff } from "@map/components/MapWrapper/components/MousePositionOnOff";
+import PermalinkControl from "@map/components/Controls/PermalinkControl";
+import { TerrainControl } from "@map/components/Controls/TerrainControl";
 
 /*
  * ol does not export an inherits function in the current version

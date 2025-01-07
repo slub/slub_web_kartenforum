@@ -6,6 +6,11 @@
  */
 import { LAYOUT_TYPES } from "@map/layouts/util.js";
 
+const PADDING = { height: 15, width: 15 };
+const OFFSET = { height: 15, width: 0 };
+export const SPATIALTEMPORALSEARCH = { width: 340 };
+export const LAYERMANAGEMENT = { width: 340 };
+
 /**
  * Calculate relevant search area of the screen in pixel sizes
  * @param sceenElementSizes
@@ -13,13 +18,7 @@ import { LAYOUT_TYPES } from "@map/layouts/util.js";
  * @return {[[number,number],[number,number]]}
  */
 export const getSearchExtent = (sceenElementSizes, layout) => {
-    const {
-        padding,
-        offset,
-        layermanagement,
-        map: mapSize,
-        spatialtemporalsearch,
-    } = sceenElementSizes;
+    const { map: mapSize } = sceenElementSizes;
 
     let lowX, lowY, highX, highY;
 
@@ -32,10 +31,10 @@ export const getSearchExtent = (sceenElementSizes, layout) => {
         highY = 0;
     } else {
         // only use the relevant search area inbetween spatialtemporalsearch and layermanagement
-        lowX = 0 + spatialtemporalsearch.width + padding.width;
-        lowY = mapSize.height - offset.height - padding.height;
-        highX = mapSize.width - layermanagement.width - padding.width;
-        highY = offset.height + padding.height;
+        lowX = 0 + SPATIALTEMPORALSEARCH.width + PADDING.width;
+        lowY = mapSize.height - OFFSET.height - PADDING.height;
+        highX = mapSize.width - LAYERMANAGEMENT.width - PADDING.width;
+        highY = OFFSET.height + PADDING.height;
     }
 
     return [

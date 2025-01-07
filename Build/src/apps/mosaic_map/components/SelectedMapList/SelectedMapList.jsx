@@ -23,6 +23,7 @@ import {
 } from "@mosaic-map/components/MosaicMapOverlayLayer/MosaicMapOverlayLayer";
 
 import "./SelectedMapList.scss";
+import { fetchWmsTmsSettings } from "@map/components/CustomLayers/HistoricMapLayer/fetchWmsTmsSettings";
 
 export const SelectedMapList = () => {
   const map = useRecoilValue(mapState);
@@ -86,7 +87,8 @@ export const SelectedMapList = () => {
     selectedMosaicLayers
       .filter((layer) => !layer.isDisplayedInMap(map))
       .forEach((layer) =>
-        layer.addLayerToMap(map).then(() => {
+        fetchWmsTmsSettings(layer).then((sourceSettings) => {
+          layer.addLayerToMap(map, { sourceSettings });
           setSelectedLayers((selectedLayers) => [...selectedLayers, layer]);
         })
       );

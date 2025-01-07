@@ -7,11 +7,13 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
-import { timeRangeState } from "@map/atoms";
+import clsx from "clsx";
 import MapSearch from "@map/components/MapSearch/MapSearch";
-import TimeSlider from "@map/components/TimeSlider/TimeSlider";
+import TimeSliderSearch from "@map/components/TimeSliderSearch";
 import SettingsProvider from "@settings-provider";
 import PlacenameSearchMap from "@components/PlacenameSearch/PlacenameSearchMap.jsx";
+import { isGeoJsonFeatureSelectedState } from "@map/atoms";
+
 import "./SpatialTemporalSearch.scss";
 
 export const SpatialTemporalSearch = ({
@@ -19,19 +21,30 @@ export const SpatialTemporalSearch = ({
   MapSearchListItemComponent,
   mosaicMode,
 }) => {
-  const timeRange = useRecoilValue(timeRangeState);
+  const isGeoJsonFeatureSelected = useRecoilValue(
+    isGeoJsonFeatureSelectedState
+  );
 
   return (
-    <div className="spatialsearch-inner-container">
-      <div className="spatialsearch-content-panel">
-        <div className="body-container">
-          <PlacenameSearchMap searchUrl={SettingsProvider.getNominatimUrl()} />
-          <TimeSlider timeRange={timeRange} />
-          <MapSearch
-            customQuery={customQuery}
-            MapSearchListItemComponent={MapSearchListItemComponent}
-            mosaicMode={mosaicMode}
-          />
+    <div
+      className={clsx(
+        "vkf-spatialsearch-root",
+        !isGeoJsonFeatureSelected && "in"
+      )}
+    >
+      <div className="spatialsearch-inner-container">
+        <div className="spatialsearch-content-panel">
+          <div className="body-container">
+            <PlacenameSearchMap
+              searchUrl={SettingsProvider.getNominatimUrl()}
+            />
+            <TimeSliderSearch />
+            <MapSearch
+              customQuery={customQuery}
+              MapSearchListItemComponent={MapSearchListItemComponent}
+              mosaicMode={mosaicMode}
+            />
+          </div>
         </div>
       </div>
     </div>

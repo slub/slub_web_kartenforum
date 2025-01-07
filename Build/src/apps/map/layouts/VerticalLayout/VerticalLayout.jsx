@@ -5,21 +5,18 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import clsx from "clsx";
-import { useSetRecoilState } from "recoil";
 
 import SearchHeader from "./components/SearchHeader/SearchHeader";
 import LayerManagementButton from "./components/LayerManagementButton/LayerManagementButton";
 import LayerManagement from "@map/components/LayerManagement";
 import FacetedSearch from "@map/components/FacetedSearch";
 import Modal from "@components/Modal";
-import { elementsScreenSizeState } from "@map//atoms";
 import LayerManagementCloser from "./components/LayerManagementCloser/LayerManagementCloser.jsx";
 import "./VerticalLayout.scss";
 
 export const VerticalLayout = () => {
-  const setElementsScreenSize = useSetRecoilState(elementsScreenSizeState);
   const [showFacets, setShowFacets] = useState(false);
   const [showLayerManagement, setShowLayerManagement] = useState(false);
 
@@ -34,15 +31,6 @@ export const VerticalLayout = () => {
   const handleToggleFacets = () => {
     setShowFacets((oldState) => !oldState);
   };
-
-  useEffect(() => {
-    setElementsScreenSize((elementsScreenSizeState) =>
-      Object.assign({}, elementsScreenSizeState, {
-        spatialtemporalsearch: { height: 0, width: 0 },
-        layermanagement: { height: 0, width: 0 },
-      })
-    );
-  }, []);
 
   return (
     <React.Fragment>

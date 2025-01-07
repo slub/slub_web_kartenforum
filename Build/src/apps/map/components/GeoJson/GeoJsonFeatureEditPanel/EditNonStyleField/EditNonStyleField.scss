@@ -1,0 +1,42 @@
+@import "../../../../Variables";
+
+.none-style-property-item {
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    input,
+    textarea {
+        width: 100%;
+        border: 1px solid $gray-500;
+    }
+
+    .editable,
+    .not-editable {
+        font-weight: 400;
+        padding: 2px 0 2px 11px;
+    }
+
+    .not-editable {
+        opacity: 0.3;
+    }
+}
+
+.geojson-feature-property-label.error,
+.geojson-feature-property-input.error {
+    border: 1px solid $primary-color;
+    box-shadow: 0 0 0 1px $primary-color;
+    color: $primary-color !important;
+
+    &::placeholder {
+        color: $primary-color;
+    }
+
+    &:hover,
+    &:focus {
+        border-color: $primary-color;
+        color: $primary-color !important;
+        box-shadow: 0 0 0 1px $primary-color;
+    }
+}

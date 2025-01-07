@@ -12,6 +12,7 @@ import clsx from "clsx";
 import { useDoubleTap } from "use-double-tap";
 
 import { translate } from "@util/util";
+
 import { OpacitySlider } from "@components/OpacitySlider/OpacitySlider";
 import SettingsProvider from "@settings-provider";
 import SvgIcons from "@components/SvgIcons/SvgIcons.jsx";
@@ -28,7 +29,7 @@ import ZoomToExtentButton from "./components/ZoomToExtentButton/ZoomToExtentButt
 import MoveToTopButton from "./components/MoveToTopButton/MoveToTopButton.jsx";
 import LayerManagementThumbnail from "./components/LayerManagementThumbnail/LayerManagementThumbnail.jsx";
 import ShowOriginalButton from "./components/ShowOriginalButton/ShowOriginalButton.jsx";
-import ExportGeojsonButton from "./components/ExportGeojsonButton/ExportGeojsonButton.jsx";
+import ShowGeoJsonLayerButton from "./components/ShowGeoJsonLayerButton/ShowGeoJsonLayerButton";
 import "./LayerManagementEntry.scss";
 
 export const ItemTypes = {
@@ -158,7 +159,7 @@ export const LayerManagementEntry = (props) => {
         "vkf-layermanagement-record",
         isDragging && "drag-and-drop-placeholder",
         isShowActions && "show-actions",
-        layerType === LAYER_TYPES.GEOJSON && "geojson-data",
+        layerType === LAYER_TYPES.VECTOR_MAP && "geojson-data",
         isHovered &&
           (draggedItem === null || draggedItem.id === layerId) &&
           "force-hover"
@@ -182,29 +183,22 @@ export const LayerManagementEntry = (props) => {
         <h3>{layerTitle}</h3>
         <div className="timestamps">
           <span className="timestamps-label">{`${translate(
-            "layermanagement-timestamp"
+            "mapsearch-listelement-time"
           )} ${layerPublished}`}</span>
         </div>
-        {isMosaicMap && (
-          <div className="type">
-            <span className="timestamps-label">{`${translate(
-              "originalview-title-mosaic"
-            )}`}</span>
-          </div>
-        )}
       </div>
       <div className="control-container">
         <MoveToTopButton layer={layer} />
         <RemoveLayerButton layer={layer} />
         <ZoomToExtentButton layer={layer} />
-        {layerType !== LAYER_TYPES.GEOJSON ? (
+        {layerType !== LAYER_TYPES.VECTOR_MAP ? (
           <ShowOriginalButton layer={layer} />
         ) : (
-          <ExportGeojsonButton layer={layer} />
+          <ShowGeoJsonLayerButton layer={layer} />
         )}
         {!isMosaicMap &&
           settings["LINK_TO_GEOREFERENCE"] !== undefined &&
-          layerType !== LAYER_TYPES.GEOJSON && (
+          layerType !== LAYER_TYPES.VECTOR_MAP && (
             <button
               className="georeference-update"
               title={`${translate("layermangement-georef-update")} ...`}

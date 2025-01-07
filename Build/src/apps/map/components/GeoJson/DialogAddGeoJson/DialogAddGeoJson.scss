@@ -1,0 +1,116 @@
+@import "../../../Variables.scss";
+
+.vkf-dialog-add-geojson {
+    width: 575px;
+
+    .modal-body {
+        .form-group {
+            margin: 0;
+            padding-bottom: 30px;
+        }
+
+        .adddialog-description {
+            font-family: $font;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 20px;
+            margin: 0;
+            padding-bottom: 30px;
+        }
+
+        .switch-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            width: fit-content;
+
+            &:has(input[disabled]) {
+                cursor: not-allowed;
+                color: $color-lightgrey;
+            }
+        }
+
+        .persistent-button-label {
+            color: $secondary-color-dark;
+        }
+
+        .persistent-button-description {
+            color: $color-grey;
+            font-family: $font;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 18px;
+        }
+
+        // TODO refactor scss, use mixins or common input/label class same style using in GeoJsonMetadataForm, GeoJsonFeatureEditPanel, ...
+        .geojson-label {
+            color: $color-grey;
+            font-family: $font;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 26px;
+            letter-spacing: 0.48px;
+            text-transform: uppercase;
+            margin: unset;
+        }
+
+        .geojson-input {
+            color: $secondary-color-dark;
+            font-family: $font;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 20px;
+            margin: unset;
+            border-radius: unset;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            border: 1px solid $gray-500;
+            font-weight: 400;
+            padding: 2px 0 2px 11px;
+            height: 40px;
+
+            &:focus,
+            &:hover {
+                outline: none;
+                border-color: darken($gray-500, 15%);
+                box-shadow: none;
+            }
+        }
+
+        .add-geojson-buttons {
+            display: flex;
+            justify-content: space-between;
+
+            .cancel-button,
+            .confirm-button {
+                font-size: 14px;
+                font-family: $font;
+                text-align: center;
+                font-style: normal;
+                line-height: 16px;
+                letter-spacing: 0.56px;
+                text-transform: uppercase;
+                font-weight: 700;
+                padding: 10px 20px;
+            }
+
+            .cancel-button {
+                background-color: $color-midgrey;
+                color: $color-darkgrey;
+                border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+
+                &:hover {
+                    background-color: darken($color-midgrey, 15%);
+                }
+            }
+        }
+    }
+}

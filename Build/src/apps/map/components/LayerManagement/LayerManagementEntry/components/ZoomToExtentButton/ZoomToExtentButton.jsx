@@ -4,31 +4,21 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { isDefined, translate } from "@util/util.js";
+import { translate } from "@util/util.js";
 import SvgIcons from "@components/SvgIcons";
-import React from "react";
-import { useRecoilValue } from "recoil";
-import { mapState } from "@map/atoms";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
-import { METADATA } from "@map/components/CustomLayers";
+import useZoomLayerToExtent from "./useZoomLayerToExtent";
 
 export const ZoomToExtentButton = (props) => {
   const { layer } = props;
 
-  const map = useRecoilValue(mapState);
+  const { zoomToExtent } = useZoomLayerToExtent();
 
   // zoom to the layer
-  const handleZoomToExtent = () => {
-    if (isDefined(map)) {
-      const extent = layer.getMetadata(METADATA.bounds);
-      // add percentage based padding
-      //@TODO: Adjust for mobile layout
-      map.fitBounds(extent, {
-        padding: { left: 350, right: 350, top: 50, bottom: 50 },
-        animate: false,
-      });
-    }
-  };
+  const handleZoomToExtent = useCallback(() => {
+    zoomToExtent(layer);
+  }, [zoomToExtent, layer]);
 
   return (
     <button

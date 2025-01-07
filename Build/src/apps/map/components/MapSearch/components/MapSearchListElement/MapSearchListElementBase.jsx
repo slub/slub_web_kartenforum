@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
 import clsx from "clsx";
@@ -12,13 +12,15 @@ import { default as Skeleton } from "react-loading-skeleton/lib/skeleton";
 
 import { selectedLayersState } from "@map/atoms";
 import { translate } from "@util/util";
-import { checkIfArrayContainsLayer } from "../../util";
-import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase.jsx";
-import "./MapSearchListElement.scss";
-import { METADATA } from "@map/components/CustomLayers";
+import {
+  checkIfArrayContainsLayer,
+  getFallbackSrc,
+  getImageSrcFromLayer,
+} from "../../util";
+import { LOADING_LAYER } from "../MapSearchResultList/MapSearchResultListBase";
+import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
 
-export const FALLBACK_SRC =
-  "http://www.deutschefotothek.de/images/noimage/image120.jpg";
+import "./MapSearchListElement.scss";
 
 export const MapSearchListElementBase = ({
   children,
@@ -33,10 +35,16 @@ export const MapSearchListElementBase = ({
   const operationalLayer = maps[index] ?? LOADING_LAYER;
 
   const selectedLayers = useRecoilValue(selectedLayersState);
-  const [src, setSrc] = useState(
-    operationalLayer.getMetadata(METADATA.thumbnailUrl) === undefined
-      ? ""
-      : operationalLayer.getMetadata(METADATA.thumbnailUrl).replace("http:", "")
+  const [errored, setErrored] = useState(false);
+
+  const src = useMemo(
+    () => getImageSrcFromLayer(operationalLayer),
+    [operationalLayer]
+  );
+
+  const fallbackSrc = useMemo(
+    () => getFallbackSrc(operationalLayer),
+    [operationalLayer]
   );
 
   ////
@@ -53,20 +61,21 @@ export const MapSearchListElementBase = ({
     }
   };
 
-  const handleError = () => {
-    if (src !== "" && src !== FALLBACK_SRC) {
-      setSrc(FALLBACK_SRC);
+  const handleError = useCallback(() => {
+    if (src !== "" && src !== fallbackSrc) {
+      setErrored(true);
     }
-  };
+  }, [src, fallbackSrc]);
 
   ///
   // Effect section
   ///
 
-  // update thumb url if layer changes
   useEffect(() => {
-    setSrc(operationalLayer.getMetadata(METADATA.thumbnailUrl));
-  }, [operationalLayer]);
+    setErrored(false);
+  }, [operationalLayer.getId()]);
+
+  // update thumb url if layer changes
 
   const isLoading = operationalLayer === LOADING_LAYER;
 
@@ -84,7 +93,10 @@ export const MapSearchListElementBase = ({
     0
   );
 
-  const isMosaicMap = operationalLayer.getMetadata(METADATA.type) === "mosaic";
+  const isMosaicMap =
+    operationalLayer.getMetadata(METADATA.type) === LAYER_TYPES.MOSAIC_MAP;
+  const isVectorMap =
+    operationalLayer.getMetadata(METADATA.type) === LAYER_TYPES.VECTOR_MAP;
 
   return (
     <li
@@ -113,16 +125,32 @@ export const MapSearchListElementBase = ({
       <span className="data-col time">1</span>
       <div className="view-item">
         <span className="thumbnail" href="#">
-          {src === "" ? (
+          {isLoading ? (
             <Skeleton.default height="calc(100% - 6px)" />
           ) : (
-            <img
-              alt={`Thumbnail Image of Map ${operationalLayer.getMetadata(
-                METADATA.title
-              )} ${operationalLayer.getMetadata(METADATA.timePublished)}`}
-              onError={handleError}
-              src={src}
-            />
+            <>
+              <img
+                alt={`Thumbnail Image of Map ${operationalLayer.getMetadata(
+                  METADATA.title
+                )} ${operationalLayer.getMetadata(METADATA.timePublished)}`}
+                onError={handleError}
+                src={errored ? fallbackSrc : src}
+              />
+              {isMosaicMap && (
+                <span
+                  className={clsx("mosaic-badge", isSelected && "selected")}
+                >
+                  {translate("mosaic-badge-title")}
+                </span>
+              )}
+              {isVectorMap && (
+                <span
+                  className={clsx("vector-badge", isSelected && "selected")}
+                >
+                  {translate("vector-badge-title")}
+                </span>
+              )}
+            </>
           )}
           {isSelected && (
             <span className="badge selected-badge">
@@ -148,19 +176,12 @@ export const MapSearchListElementBase = ({
                 )} ${operationalLayer.getMetadata(METADATA.timePublished)}`
               )}
             </div>
-            <div className="scale">
-              {isLoading ? (
-                <Skeleton.default />
-              ) : (
-                `${translate("mapsearch-listelement-scale")} ${scale}`
-              )}
-            </div>
-            {isMosaicMap && (
-              <div className="type">
+            {!isVectorMap && (
+              <div className="scale">
                 {isLoading ? (
                   <Skeleton.default />
                 ) : (
-                  `${translate("originalview-title-mosaic")}`
+                  `${translate("mapsearch-listelement-scale")} ${scale}`
                 )}
               </div>
             )}

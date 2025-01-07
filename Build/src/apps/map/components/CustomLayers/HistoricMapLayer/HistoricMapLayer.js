@@ -9,6 +9,7 @@ import { METADATA, LAYER_TYPES } from "../constants.js";
 import { addHistoricMapLayer } from "./addHistoricMapLayer.js";
 import { bbox } from "@turf/bbox";
 import { MAP_OVERLAY_FILL_ID } from "@map/components/MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
+import { isDefined } from "@util/util";
 
 // TODO discuss whether it makes sense to use a MoscaicMapLayer
 // the need may arise when single sheet mosaic maps need to be moved and the different overlay layers need to be considered
@@ -26,23 +27,21 @@ class HistoricMapLayer extends ApplicationLayer {
         this.metadata[METADATA.bounds] = bounds;
     }
 
-    addLayerToMap(
-        map,
-        opt_initial_settings = { visibility: "visible", opacity: 1 }
-    ) {
+    addLayerToMap(map, { sourceSettings, layerSettings }) {
         if (map.getSource(this.getId())) {
-            return Promise.reject(
+            console.error(
                 `Source with id '${this.getId()}' exists already in map.`
             );
+            return;
         }
 
-        return addHistoricMapLayer(this, map, opt_initial_settings);
+        return addHistoricMapLayer(this, map, sourceSettings, layerSettings);
     }
 
     addToOverlay(map, overlayId) {
         const source = map.getSource(overlayId);
         if (source) {
-            const feature = this.toGeoJSON();
+            const feature = this.getPreviewFeature();
             feature.id = this.getId();
             const add = [feature];
             source.updateData({ add });
@@ -57,7 +56,7 @@ class HistoricMapLayer extends ApplicationLayer {
         }
     }
 
-    toGeoJSON() {
+    getPreviewFeature() {
         return {
             type: "Feature",
             properties: {},
@@ -95,8 +94,18 @@ class HistoricMapLayer extends ApplicationLayer {
     }
 
     move(map, beforeLayer) {
+        let layoutAdjustedBeforeLayer = beforeLayer;
+
+        // there is no overlay layer in vertical layout
+        if (!isDefined(beforeLayer)) {
+            if (isDefined(map.getLayer(MAP_OVERLAY_FILL_ID))) {
+                layoutAdjustedBeforeLayer = MAP_OVERLAY_FILL_ID;
+            } else {
+                layoutAdjustedBeforeLayer = null;
+            }
+        }
         // We manage the layer order in the application state, no need to send out an event
-        map.moveLayer(this.getId(), beforeLayer ?? MAP_OVERLAY_FILL_ID);
+        map.moveLayer(this.getId(), layoutAdjustedBeforeLayer);
     }
 
     getMapLibreLayerId() {

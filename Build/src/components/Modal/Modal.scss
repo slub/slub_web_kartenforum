@@ -1,46 +1,53 @@
 @import "../../../../Resources/Private/Scss/Variables";
 
+$heightNavBar: 85px;
+$heightFooter: 40px;
+
 .vkf-modal {
-    .modal-header {
-        position: relative;
-        background: $secondary-color;
-        color: white;
-        letter-spacing: 0.1ex;
-        font-weight: 700;
-        text-transform: uppercase;
+    .modal-dialog {
+        margin: $heightNavBar auto $heightFooter auto;
+        height: calc(100% - $heightNavBar - $heightFooter);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        pointer-events: none;
 
-        p {
-            margin: 5px 0;
-        }
-
-        button {
-            position: absolute;
-            top: 50%;
-            right: 15px;
-            width: 30px;
-            height: 30px;
-            margin-top: -15px;
-            opacity: 1;
-            background: $secondary-color-dark;
+        .modal-content {
+            margin: 0;
             border: 0;
-            span {
-                position: absolute;
-                inset: 0;
-                transform: rotate(-45deg);
-                display: block;
-                font-size: 24px;
-                line-height: 1;
+            border-radius: 0;
+            pointer-events: all;
+
+            .modal-header {
+                height: fit-content;
+                align-items: center;
+                background: $secondary-color;
+                display: flex;
+                position: relative;
+                padding: 15px 15px 15px 30px;
+                border: none;
+
+                .modal-title {
+                    color: white;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: 100%;
+                    letter-spacing: 0.64px;
+                    text-transform: uppercase;
+                    flex-grow: 1;
+                }
+
+                .close-button {
+                    color: $secondary-color-dark;
+                    height: 30px;
+                    width: 30px;
+                }
+            }
+
+            .modal-body {
+                padding: 30px;
             }
         }
-    }
-
-    .modal-content {
-        margin: 0;
-        border: 0;
-        border-radius: 0;
-    }
-
-    .modal-body {
-        padding: 0;
     }
 }

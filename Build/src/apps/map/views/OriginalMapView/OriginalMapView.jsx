@@ -13,8 +13,10 @@ import { queryDocument } from "@util/apiEs";
 import { translate } from "@util/util";
 import ZoomifyMap from "@components/ZoomifyMap";
 import "./OriginalMapView.scss";
+import { useRecoilState } from "recoil";
+import { selectedOriginalMapIdState } from "@map/atoms";
 
-export const OriginalMapView = (props) => {
+const OriginalMapViewBase = (props) => {
   const { isOpen, onClose, map_id } = props;
   const [mapDocument, setMapDocument] = useState(null);
 
@@ -150,10 +152,26 @@ export const OriginalMapView = (props) => {
   );
 };
 
-OriginalMapView.propTypes = {
+OriginalMapViewBase.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   map_id: PropTypes.string,
+};
+
+export const OriginalMapView = () => {
+  const [selectedOriginalMapId, setOriginalMapId] = useRecoilState(
+    selectedOriginalMapIdState
+  );
+
+  const handleClose = () => setOriginalMapId(undefined);
+
+  return (
+    <OriginalMapViewBase
+      isOpen={selectedOriginalMapId !== undefined}
+      onClose={handleClose}
+      map_id={selectedOriginalMapId}
+    />
+  );
 };
 
 export default OriginalMapView;

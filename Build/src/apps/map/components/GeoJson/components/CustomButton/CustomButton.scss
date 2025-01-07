@@ -1,0 +1,168 @@
+@import "../../../../Variables";
+
+// TODO CustomButton scss: before adding new button styles, this needs to be refactored to be usable more generally
+
+// ideas:
+// * call it VkfButton, then move it to @components
+// * add .vkf-button "base" selector for applying css resets and build on that
+// * figure out use cases (button with text, button with icon only) and structure selectors accordingly
+//   * e.g, add a vkf-button-icon class to facilitate styling buttons wrapping svgs only
+// * vkf-button-edit seems to be an icon only class? why does it need font-size, etc.
+
+.vkf-button-default,
+.vkf-button-primary,
+.vkf-button-delete,
+.vkf-button-discard,
+.vkf-button-edit,
+.vkf-button-save {
+    font-family: $button-font;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0.56px;
+    text-transform: uppercase;
+    padding: unset;
+    border: unset;
+    border-radius: unset;
+    background-color: transparent;
+
+    &:focus,
+    &:focus-visible,
+    &:active {
+        outline: unset;
+    }
+
+    &:focus:active,
+    &:active:focus {
+        outline: unset;
+        box-shadow: unset;
+    }
+}
+
+.vkf-button-default {
+    svg {
+        fill: $secondary-color-dark;
+
+        &:hover,
+        &:active {
+            fill: darken($secondary-color-dark, 5%);
+        }
+    }
+}
+
+.vkf-button-primary {
+    background-color: $secondary-color;
+
+    &:hover {
+        background-color: $secondary-color-dark;
+        color: #fff;
+    }
+}
+
+.vkf-button-delete {
+    background-color: $primary-color;
+    color: $background-color;
+
+    &:focus {
+        background-color: $primary-color;
+    }
+
+    &:hover,
+    &:active,
+    &:active:focus {
+        background-color: darken($primary-color-dark, 15%);
+        color: $background-color;
+    }
+
+    svg {
+        fill: $background-color;
+    }
+}
+
+.vkf-button-discard {
+    color: $gray-500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: max-content;
+    padding: 8px 8px;
+    font-weight: 400;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:focus {
+        background-color: transparent;
+        color: darken($gray-500, 15%);
+
+        svg {
+            fill: darken($gray-500, 15%);
+            stroke: darken($gray-500, 15%);
+        }
+    }
+
+    svg {
+        fill: $gray-500;
+        stroke: $gray-500;
+        height: 16px;
+        width: 16px;
+    }
+}
+
+.vkf-button-edit {
+    color: $background-color;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:focus {
+        color: darken($background-color, 15%);
+        background-color: transparent;
+
+        svg {
+            fill: darken($background-color, 15%);
+        }
+    }
+
+    svg {
+        fill: $background-color;
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.vkf-button-save {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: max-content;
+    padding: 8px 8px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+
+    background-color: $backgroundSecondary;
+    color: $background-color;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active:focus {
+        color: $background-color;
+        background-color: darken($backgroundSecondary, 15%);
+    }
+
+    svg {
+        fill: $background-color;
+        width: 16px;
+        height: 16px;
+    }
+
+    &:disabled,
+    &:disabled:hover {
+        color: $background-color;
+        background-color: $color-disabled;
+        cursor: not-allowed;
+    }
+}

@@ -11,12 +11,12 @@ import { useRecoilValue } from "recoil";
 import clsx from "clsx";
 
 import MapSearchResultList from "@map/components/MapSearch/components/MapSearchResultList/MapSearchResultList";
-import { mapCountState, timeRangeState } from "@map/atoms";
+import { mapCountState } from "@map/atoms";
 import ToggleFacetsButton from "@map/components/MapSearch/components/ToggleFacetsButton/ToggleFacetsButton";
 import ToggleSearchButton from "../ToggleSearchButton/ToggleSearchButton";
 import { ToggleResultListButton } from "../ToggleResultListButton/ToggleResultListButton";
 import PaginatingDataController from "@map/components/PaginatingDataController/PaginatingDataController";
-import TimeSlider from "@map/components/TimeSlider/TimeSlider";
+import TimeSliderSearch from "@map/components/TimeSliderSearch";
 import SettingsProvider from "@settings-provider";
 import { translate } from "@util/util";
 import PlacenameSearchMap from "@components/PlacenameSearch/PlacenameSearchMap";
@@ -30,7 +30,6 @@ export const SearchHeader = ({
   const mapCount = useRecoilValue(mapCountState);
   const [showSearchResultList, setShowSearchResultList] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  const timeRange = useRecoilValue(timeRangeState);
   const [wasResultListOpen, setWasResultListOpen] = useState(false);
 
   const handleToggleSearchResultListButton = () => {
@@ -78,7 +77,7 @@ export const SearchHeader = ({
             <PlacenameSearchMap
               searchUrl={SettingsProvider.getNominatimUrl()}
             />
-            <TimeSlider timeRange={timeRange} />
+            <TimeSliderSearch />
           </div>
         )}
       </div>
