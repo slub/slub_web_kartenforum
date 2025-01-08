@@ -1,7 +1,6 @@
 {
   "name": "vkf",
-  "version": "1.0.0",
-  "main": "src/apps/map/index.jsx",
+  "version": "3.1.0",
   "license": "GPL-2.0-or-later",
   "homepage": "https://www.slub-dresden.de",
   "repository": {
@@ -29,7 +28,7 @@
     "watch": "npm-watch"
   },
   "type": "module",
-  "author": "Alexander Bigga, Jacob Mendt <jacob.mendt@pikobytes.de>, Nicolas Looschen <nicolas.looschen@pikobytes.de>, Tom Schulze <tom.schulze@pikobytes.de>, Pouria Rezaei <pouria.rezaei@pikobytes.de>",
+  "author": "Alexander Bigga, Jacob Mendt, Nicolas Looschen, Tom Schulze, Pouria Rezaei",
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.16.8",
@@ -127,10 +126,8 @@
       "runOnChangeOnly": true
     }
   },
-  "browserslist": [
-    "defaults",
-    "Last 2 versions",
-    "Firefox ESR",
-    "IE 11"
-  ]
+  "engines": {
+    "node": ">=22.13.0",
+    "npm": ">=10.9.0"
+  }
 }
