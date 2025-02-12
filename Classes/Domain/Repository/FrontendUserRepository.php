@@ -1,9 +1,7 @@
 <?php
-namespace Slub\SlubWebKartenforum\Domain\Repository;
 
-/***************************************************************
- *
- *  Copyright notice
+/*
+ * Copyright notice
  *
  *  (c) 2015 Jacob Mendt <Jacob.Mendt@slub-dresden.de>, SLUB
  *
@@ -24,18 +22,25 @@ namespace Slub\SlubWebKartenforum\Domain\Repository;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 
-class UserRepository extends \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository {
+namespace Slub\SlubWebKartenforum\Domain\Repository;
 
+use TYPO3\CMS\Extbase\Persistence\Repository;
+
+/**
+ * A Frontend User repository
+ */
+class FrontendUserRepository extends Repository
+{
 	/**
 	 * @param string $username
-	 * @return \Slub\SlubWebKartenforum\Domain\Model\User $user
+	 * @return \Slub\SlubWebKartenforum\Domain\Model\FrontendUser $user
 	 */
-	public function findByUsername($username) {
+	public function findByUsername($username)
+	{
 		$query = $this->createQuery();
 		$query->matching($query->equals('username', $username));
 		return $query->execute();
-
 	}
 }

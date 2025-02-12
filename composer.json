@@ -3,17 +3,19 @@
     "type": "typo3-cms-extension",
     "description": "",
     "homepage": "https://www.slub-dresden.de",
-    "keywords": ["TYPO3 CMS"],
+    "keywords": [
+        "TYPO3 CMS"
+    ],
     "authors": [
         {
-          "name": "Alexander Bigga",
-          "email": "alexander.bigga@slub-dresden.de",
-          "role": "Developer"
+            "name": "Alexander Bigga",
+            "email": "alexander.bigga@slub-dresden.de",
+            "role": "Developer"
         }
     ],
     "license": "GPL-3.0-or-later",
     "require": {
-        "typo3/cms-core": "^11.5"
+        "typo3/cms-core": "^12.4"
     },
     "autoload": {
         "psr-4": {
@@ -21,8 +23,8 @@
         }
     },
     "extra": {
-      "typo3/cms": {
-         "extension-key": "slub_web_kartenforum"
-      }
-   }
+        "typo3/cms": {
+            "extension-key": "slub_web_kartenforum"
+        }
+    }
 }

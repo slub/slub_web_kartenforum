@@ -1,38 +1,33 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true" lang="en">
 
 <div class="vkf-login">
-
-    <f:if condition="{cookieWarning}">
-        <f:render partial="CookieWarning"/>
-    </f:if>
-
     <div class="login-message">
         <h3>
-            <f:render partial="RenderLabelOrMessage" arguments="{key: 'status_header'}"/>
+            <f:render partial="RenderLabelOrMessage" arguments="{key: 'status_header'}" />
         </h3>
         <p>
-            <f:render partial="RenderLabelOrMessage" arguments="{key: 'status_message'}"/>
+            <f:render partial="RenderLabelOrMessage" arguments="{key: 'status_message'}" />
         </p>
     </div>
 
     <f:form action="login" actionUri="{actionUri}" target="_top" fieldNamePrefix="">
         <fieldset>
             <legend class="visually-hidden">
-                <f:translate key="logout"/>
+                <f:translate key="logout" />
             </legend>
             <div>
                 <label>
-                    <f:translate key="username_logout"/>
+                    <f:translate key="username_logout" />
                 </label>
                 <span class="logged-in-user">{user.username}</span>
             </div>
             <div class="submit-row">
-                <f:form.button value="{f:translate(key: 'logout')}" name="submit">{f:translate(key: 'logout')}</f:form.button>
+                <f:form.button value="{f:translate(key: 'logout')}" name="submit">{f:translate(key: 'logout')}
+                </f:form.button>
             </div>
 
             <div class="felogin-hidden">
-                <f:form.hidden name="logintype" value="logout"/>
-                <f:form.hidden name="pid" value="{storagePid}"/>
+                <f:form.hidden name="logintype" value="logout" />
             </div>
         </fieldset>
     </f:form>

@@ -184,6 +184,7 @@ lib.contentElement {
 
 # THE JSON API FOR THE GEOREFERENCE SERVICE
 jsonApi = PAGE
+jsonApi.10 = USER_INT
 jsonApi {
     typeNum = 9991
     config {
@@ -199,5 +200,7 @@ jsonApi {
         xhtml_cleaning = 0
         debug = 0
     }
-    10 < tt_content.slubwebkartenforum_georeference.20
+    10 {
+        userFunc = Slub\SlubWebKartenforum\UserFunction\FastApiAuthService->getSession
+    }
 }
