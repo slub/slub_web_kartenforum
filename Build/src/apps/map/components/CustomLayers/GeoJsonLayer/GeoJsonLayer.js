@@ -264,6 +264,26 @@ class GeoJsonLayer extends ApplicationLayer {
     }
 
     /**
+     * A helper to parse geoJson from application state to persistence state ("VKF geojson specification")
+     *
+     * @param {object} geoJson geoJson representing the application state
+     * @returns {object} geoJson
+     */
+    static toPersistenceState(geoJson) {
+        if (!isDefined(geoJson)) {
+            return geoJson;
+        }
+
+        const convertedGeoJson = structuredClone(geoJson);
+        let features = convertedGeoJson.features ?? [];
+
+        features = features.map(convertFeatureForPersistenceState);
+        convertedGeoJson.features = features;
+
+        return convertedGeoJson;
+    }
+
+    /**
      * Gets the geoJson object representing the application state.
      * @returns {object} geoJson
      */
