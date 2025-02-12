@@ -57,6 +57,7 @@ export const LAYER_DEFINITIONS = {
             "icon-image": SettingsProvider.getSettings()["MARKER_IMAGE_ID"],
             "icon-size": 0.5,
             "icon-anchor": "bottom",
+            "icon-allow-overlap": true,
         },
         paint: {
             "icon-color": [

@@ -12,6 +12,14 @@
             background-color: #fff;
         }
 
+        &.vertical {
+            .view-item {
+                align-items: center;
+                display: grid;
+                grid-template-columns: 0.3fr 1fr 0.2fr;
+            }
+        }
+
         .actions {
             z-index: 310;
             height: 100%;
