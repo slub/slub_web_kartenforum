@@ -15,6 +15,7 @@ import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
 import { FEATURE_PROPERTIES } from "../constants";
 
 import "./GeoJsonFeaturePanel.scss";
+import FeaturePermalinkButton from "../components/FeaturePermalinkButton";
 
 const HEADER_PROPERTIES = [...predefinedProperties];
 
@@ -65,10 +66,10 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
   return (
     <div className="geojson-feature-panel-root vkf-geojson-feature-view-content">
       <GeoJsonPanelHeader
+        extraButton={<FeaturePermalinkButton />}
         title={translate("geojson-featureview-header-text")}
         onCloseClick={onClose}
       />
-
       <div className="property-container scrollable">
         {isValidImage && <ImageWithFallback imageUrl={imageLink} />}
         <div className="predefined-properties-container">

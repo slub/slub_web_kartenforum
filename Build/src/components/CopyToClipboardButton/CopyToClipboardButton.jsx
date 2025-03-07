@@ -10,7 +10,7 @@ import { Glyphicon, Overlay, Tooltip } from "react-bootstrap";
 
 import { translate } from "@util/util.js";
 
-export const CopyToClipboardButton = ({ onClick, value }) => {
+export const CopyToClipboardButton = ({ title, onClick, value }) => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
   const refButton = useRef();
@@ -48,7 +48,7 @@ export const CopyToClipboardButton = ({ onClick, value }) => {
         className="copy-button"
         onClick={handleCopyToClipboard}
         ref={refButton}
-        title={translate("control-permalink-exporter-copy-title")}
+        title={title ?? translate("control-permalink-exporter-copy-title")}
       >
         <Glyphicon glyph="copy" />
       </button>
@@ -66,6 +66,7 @@ export const CopyToClipboardButton = ({ onClick, value }) => {
 };
 
 CopyToClipboardButton.propTypes = {
+  title: PropTypes.string,
   onClick: PropTypes.func,
   value: PropTypes.string,
 };

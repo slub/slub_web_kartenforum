@@ -17,51 +17,24 @@ import {
     initialGeoJsonDrawState,
 } from "@map/atoms";
 import { VECTOR_MAP_TYPES } from "@map/components/GeoJson/constants";
-import { isDefined, translate } from "@util/util";
+import { isDefined } from "@util/util";
 import {
     createNewVectorMap,
     updateVectorMap,
 } from "@map/components/GeoJson/util/apiVectorMaps";
 import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
-import { exitDrawMode } from "@map/components/GeoJson/util/util";
-import { notificationState } from "@atoms";
+import {
+    exitDrawMode,
+    processNewGeoJsonForPersistence,
+    processUpdatedGeoJsonForPersistence,
+    handleErrorResponse,
+    metadataAppToMetadataApi,
+    metadataLayerToMetadataDraw,
+    removeAllFeatureIds,
+} from "@map/components/GeoJson/util/util";
+
 import equal from "fast-deep-equal";
 import { isVectorMapMetadataEditAllowed } from "../authorization";
-
-const httpErrorNotification = (translationKey) => ({
-    id: "mapWrapper",
-    type: "danger",
-    text: translate(translationKey),
-});
-
-const metadataLayerToMetadataDraw = (metadata) => {
-    const keys = [METADATA.title, METADATA.description, METADATA.thumbnailUrl];
-    const metadataDrawShape = Object.fromEntries(
-        Object.entries(metadata).filter(([key]) => keys.includes(key))
-    );
-
-    return metadataDrawShape;
-};
-
-const metadataAppToMetadataApi = (metadata) => {
-    const mappedMetadata = structuredClone(metadata);
-
-    const keyMap = {
-        [METADATA.thumbnailUrl]: "link_thumb",
-    };
-
-    for (const [appKey, apiKey] of Object.entries(keyMap)) {
-        const value = mappedMetadata[appKey];
-        mappedMetadata[apiKey] = value;
-        delete mappedMetadata[appKey];
-    }
-
-    return Object.fromEntries(
-        Object.entries(mappedMetadata).map(([key, value]) =>
-            !isDefined(value) || value === "" ? [key, null] : [key, value]
-        )
-    );
-};
 
 export const useSaveGeoJson = () => {
     const createRemoteVectorMap = useRecoilCallback(
@@ -69,7 +42,9 @@ export const useSaveGeoJson = () => {
             async () => {
                 const draw = await snapshot.getPromise(drawState);
                 if (draw) {
-                    const geoJson = draw.getAll();
+                    const geoJson = processNewGeoJsonForPersistence(
+                        draw.getAll()
+                    );
                     const map = await snapshot.getPromise(mapState);
 
                     const metadata = await snapshot.getPromise(
@@ -77,7 +52,6 @@ export const useSaveGeoJson = () => {
                     );
 
                     let id = null;
-
                     try {
                         // persist vector map to remote
                         id = await createNewVectorMap(
@@ -85,33 +59,7 @@ export const useSaveGeoJson = () => {
                             metadataAppToMetadataApi(metadata)
                         );
                     } catch (error) {
-                        if (error.response) {
-                            if (error.response.status === 401) {
-                                set(
-                                    notificationState,
-                                    httpErrorNotification(
-                                        "common-errors-http-401"
-                                    )
-                                );
-                                return;
-                            }
-
-                            if (error.response.status === 403) {
-                                set(
-                                    notificationState,
-                                    httpErrorNotification(
-                                        "common-errors-http-403"
-                                    )
-                                );
-                                return;
-                            }
-                        }
-                        set(
-                            notificationState,
-                            httpErrorNotification("common-errors-unexpected")
-                        );
-                        console.error(error);
-                        return;
+                        handleErrorResponse(error, set);
                     }
 
                     if (isDefined(id)) {
@@ -165,102 +113,74 @@ export const useSaveGeoJson = () => {
                         selectedLayer.getMetadata()
                     );
 
-                    // Only push geojson if there are changes
-                    const geoJson = draw.getAll();
-                    const geoJsonToSend = !equal(initialGeoJson, geoJson)
-                        ? geoJson
-                        : null;
+                    const geoJsonFromDraw = draw.getAll();
 
+                    const hasGeoJsonChanged = !equal(
+                        initialGeoJson,
+                        geoJsonFromDraw
+                    );
                     const hasMetadataChanged = !equal(
                         initialMetadata,
                         metadata
                     );
+                    const canMetadataChange =
+                        hasMetadataChanged &&
+                        isVectorMapMetadataEditAllowed(vectorMapDraw);
 
-                    let metadataToSend = null;
-                    if (
-                        isVectorMapMetadataEditAllowed(vectorMapDraw) &&
-                        hasMetadataChanged
-                    ) {
-                        metadataToSend = metadataAppToMetadataApi(metadata);
+                    // do nothing & clean up draw mode
+                    if (!hasGeoJsonChanged && !canMetadataChange) {
+                        exitDrawMode(set);
+                        return;
                     }
+
+                    const nextVersion = vectorMapDraw.version++;
+                    const processedGeoJson =
+                        processUpdatedGeoJsonForPersistence(
+                            initialGeoJson,
+                            geoJsonFromDraw,
+                            nextVersion
+                        );
+                    const metadataToSend = metadataAppToMetadataApi(metadata);
 
                     let newVersion = null;
                     try {
+                        // Only push geojson and metdata, if there are changes
                         newVersion = await updateVectorMap(
                             vectorMapDraw.id,
-                            geoJsonToSend,
-                            metadataToSend,
+                            hasGeoJsonChanged ? processedGeoJson : null,
+                            canMetadataChange ? metadataToSend : null,
                             vectorMapDraw.version
                         );
-                    } catch (e) {
-                        if (e.response) {
-                            if (e.response.status === 401) {
-                                set(
-                                    notificationState,
-                                    httpErrorNotification(
-                                        "common-errors-http-401"
-                                    )
-                                );
-                                return;
-                            }
-
-                            if (e.response.status === 403) {
-                                set(
-                                    notificationState,
-                                    httpErrorNotification(
-                                        "common-errors-http-403"
-                                    )
-                                );
-                                return;
-                            }
-
-                            if (e.response.status === 409) {
-                                set(
-                                    notificationState,
-                                    httpErrorNotification(
-                                        "geojson-draw-version-conflict"
-                                    )
-                                );
-                                return;
-                            }
-
-                            if (e.response.status === 422) {
-                                set(
-                                    notificationState,
-                                    httpErrorNotification(
-                                        "geojson-draw-error-invalid-input"
-                                    )
-                                );
-                                return;
-                            }
-                        }
-
-                        set(
-                            notificationState,
-                            httpErrorNotification("common-errors-unexpected")
-                        );
-                        console.error(e);
-                        return;
+                    } catch (error) {
+                        handleErrorResponse(error, set);
                     }
 
                     // update the application layer
                     if (
-                        isDefined(newVersion) &&
                         isDefined(map) &&
-                        isDefined(selectedLayer)
+                        isDefined(selectedLayer) &&
+                        isDefined(newVersion)
                     ) {
                         // update application layer geojson
-                        selectedLayer.setDataOnMap(map, geoJson);
                         // update application layer version
-                        selectedLayer.updateMetadata(
-                            METADATA.version,
-                            newVersion
-                        );
+                        if (hasGeoJsonChanged) {
+                            selectedLayer.setDataOnMap(map, processedGeoJson);
+                            selectedLayer.updateMetadata(
+                                METADATA.version,
+                                newVersion
+                            );
+                        }
 
                         // update application layer metadata
-                        Object.keys(metadata).forEach((key) => {
-                            selectedLayer.updateMetadata(key, metadata[key]);
-                        });
+                        if (canMetadataChange) {
+                            Object.keys(metadata).forEach((key) => {
+                                selectedLayer.updateMetadata(
+                                    key,
+                                    metadata[key]
+                                );
+                            });
+                        }
+
                         set(selectedGeoJsonLayerLastUpdatedState, Date.now());
 
                         // reset draw state
@@ -284,13 +204,19 @@ export const useSaveGeoJson = () => {
                         metadataDrawState
                     );
 
+                    // update application layer
                     if (isDefined(map) && isDefined(selectedLayer)) {
-                        // update application layer
-                        const geojson = draw.getAll();
+                        // reset all feature ids (draw uses non-integers)
+                        // ids dont need to be stable for local vector maps
+                        const geojson = removeAllFeatureIds(draw.getAll());
+
+                        // implicitly generate new ids
                         selectedLayer.setDataOnMap(map, geojson);
+
                         Object.keys(metadata).forEach((key) => {
                             selectedLayer.updateMetadata(key, metadata[key]);
                         });
+
                         set(selectedGeoJsonLayerLastUpdatedState, Date.now());
 
                         // reset state

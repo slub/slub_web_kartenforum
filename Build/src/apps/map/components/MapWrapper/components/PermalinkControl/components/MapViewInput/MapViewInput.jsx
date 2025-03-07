@@ -8,12 +8,11 @@ import React, { useCallback, useState } from "react";
 import { Glyphicon } from "react-bootstrap";
 import clsx from "clsx";
 
-import CopyToClipboardButton from "../CopyToClipboardButton/CopyToClipboardButton.jsx";
-import { getUrlWithQuery } from "../../PermalinkExporterTabs.jsx";
+import CopyToClipboardButton from "@components/CopyToClipboardButton";
 import SettingsProvider from "@settings-provider";
 import { translate } from "@util/util.js";
 import LoadingSpinner from "@components/LoadingSpinner/LoadingSpinner.jsx";
-import { useLocalStorage } from "@map/persistence/util.js";
+import { useLocalStorage, getUrlWithQuery } from "@map/persistence/util.js";
 import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "@map/components/BasemapSelectorControl/BasemapSelectorDialog.jsx";
 import { useRecoilValue } from "recoil";
 import { currentApplicationStateState } from "@map/atoms";

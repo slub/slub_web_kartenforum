@@ -66,3 +66,13 @@ export const serializeSelectedLayers = (selectedLayers) => {
 export const serializeViewMode = (is3dActive) => {
     return { v: is3dActive ? URL_VIEW_MODES["3D"] : URL_VIEW_MODES["2D"] };
 };
+
+/**
+ * Serialze the feature identifier for the feature permalink
+ * @param {{featureId: number, sourceId: string}} featureIdentifier
+ * @returns {{fid: number, foid: string}}
+ */
+export const serializeFeatureIdentifier = ({ featureId, sourceId }) => ({
+    fid: featureId,
+    foid: sourceId,
+});

@@ -13,6 +13,7 @@ import {
   activeBasemapIdState,
   facetState,
   mapState,
+  selectedGeoJsonFeatureIdentifierState,
   selectedLayersState,
   timeExtentState,
   timeRangeState,
@@ -26,8 +27,12 @@ import {
   useLocalStorage,
 } from "./util";
 import { notificationState } from "@atoms";
-import { parseCameraOptions, parseViewMode } from "./urlParser";
-import { translate } from "@util/util";
+import {
+  parseCameraOptions,
+  parseFeatureIdentifier,
+  parseViewMode,
+} from "./urlParser";
+import { isDefined, translate } from "@util/util";
 import LocalStorageWriter from "./LocalStorageWriter.jsx";
 import { fetchLayerForMapId } from "./api.js";
 import { PERSISTENCE_CUSTOM_BASEMAP_KEYS } from "@map/components/BasemapSelectorControl/BasemapSelectorDialog.jsx";
@@ -63,6 +68,9 @@ export const PersistenceController = () => {
   const setSelectedLayers = useSetRecoilState(selectedLayersState);
   const setTimeRange = useSetRecoilState(timeRangeState);
   const setTimeExtent = useSetRecoilState(timeExtentState);
+  const setSelectedGeoJsonFeatureIdentifier = useSetRecoilState(
+    selectedGeoJsonFeatureIdentifierState
+  );
 
   const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
@@ -147,6 +155,7 @@ export const PersistenceController = () => {
         is3dEnabled: urlViewMode,
         cameraOptions: parseCameraOptions(rest),
         oid: joinArrayPathParameters(oid, map_id),
+        featureIdentifier: parseFeatureIdentifier(rest),
       };
 
       // restore from url if at least one property is set via url
@@ -169,6 +178,7 @@ export const PersistenceController = () => {
         oid,
         operationalLayers,
         cameraOptions = {},
+        featureIdentifier,
       } = restoreSource;
 
       // do not restore from the source if it is determined to be invalid
@@ -287,6 +297,10 @@ export const PersistenceController = () => {
                     layer.addLayerToMap(map, { sourceSettings });
                   }
                   setSelectedLayers(layers);
+
+                  if (isDefined(featureIdentifier)) {
+                    setSelectedGeoJsonFeatureIdentifier(featureIdentifier);
+                  }
                 });
 
                 // fit view to features if the mapView param is undefined

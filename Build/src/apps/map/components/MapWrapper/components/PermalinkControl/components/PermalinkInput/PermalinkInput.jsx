@@ -12,10 +12,12 @@ import {
   serializeSelectedLayers,
   serializeViewMode,
 } from "@map/persistence/urlSerializer.js";
-import { serializeCameraOptions } from "@map/persistence/util.js";
+import {
+  serializeCameraOptions,
+  getUrlWithQuery,
+} from "@map/persistence/util.js";
 import { stringify } from "query-string";
-import { getUrlWithQuery } from "../../PermalinkExporterTabs.jsx";
-import CopyToClipboardButton from "../CopyToClipboardButton/CopyToClipboardButton.jsx";
+import CopyToClipboardButton from "@components/CopyToClipboardButton";
 import { isDefined, translate } from "@util/util.js";
 import { useRecoilValue } from "recoil";
 import {
