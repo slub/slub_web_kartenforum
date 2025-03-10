@@ -65,9 +65,13 @@ export const parseFeatureIdentifier = (urlParams) => {
         return undefined;
     }
 
-    const parsedFid = Number.parseInt(fid);
+    const hasOnlyDigits = /^[0-9]+$/.test(fid);
+    const parsedFid = Number.parseInt(fid, 10);
 
-    if (Number.isNaN(parsedFid)) {
+    if (!hasOnlyDigits || !Number.isFinite(parsedFid)) {
+        console.error(
+            `The feature id cannot be parsed from url params. The id '${fid}' cannot be coerced to type number.`
+        );
         return undefined;
     }
 

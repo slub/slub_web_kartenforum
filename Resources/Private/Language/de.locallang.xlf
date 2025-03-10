@@ -1522,6 +1522,11 @@
 				<target><![CDATA[Die von Ihnen eingegebenen Metadaten sind nicht gültig und können nicht gespeichert werden. Bitte überprüfen Sie, ob die URL des Vorschaubildes gültig ist und versuchen Sie es erneut.]]></target>
             </trans-unit>
 
+			<trans-unit id="plugin.map.errors.vector-map.no-feature-id" approved="yes">
+                <source><![CDATA[This feature has an invalid ID. Its metadata cannot be displayed.]]></source>
+				<target><![CDATA[Dieses Feature hat eine ungültige ID. Dessen Metadaten können nicht angezeigt werden.]]></target>
+            </trans-unit>
+
             <trans-unit id="plugin.map.vector-badge-title" approved="yes">
                 <source><![CDATA[Vector]]></source>
 				<target><![CDATA[Vektor]]></target>

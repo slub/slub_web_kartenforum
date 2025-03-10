@@ -133,7 +133,7 @@ export const useSaveGeoJson = () => {
                         return;
                     }
 
-                    const nextVersion = vectorMapDraw.version++;
+                    const nextVersion = vectorMapDraw.version + 1;
                     const processedGeoJson =
                         processUpdatedGeoJsonForPersistence(
                             initialGeoJson,

@@ -7,13 +7,15 @@
 
 import { useEffect, useCallback, useState, useRef } from "react";
 import { MAP_LIBRE_METADATA } from "@map/components/CustomLayers";
-import { isDefined } from "@util/util";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { isDefined, translate } from "@util/util";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import {
     mapState,
     selectedGeoJsonFeatureIdentifierState,
     selectedLayersState,
 } from "@map/atoms";
+
+import { notificationState } from "@atoms";
 
 const isApplicationFeature = (feature) =>
     isDefined(feature.layer.metadata?.[MAP_LIBRE_METADATA.id]);
@@ -58,6 +60,7 @@ const CLICK_BUFFER = 2;
  * @returns {...useGeoJsonFeatureAPI | null} {@link useGeoJsonFeatureAPI} or `null`
  */
 function useGeoJsonFeature() {
+    const setNotification = useSetRecoilState(notificationState);
     const map = useRecoilValue(mapState);
     const selectedLayers = useRecoilValue(selectedLayersState);
     const [
@@ -91,6 +94,15 @@ function useGeoJsonFeature() {
 
             if (isDefined(mapFeature)) {
                 const { id, source } = mapFeature;
+
+                if (!isDefined(id)) {
+                    setNotification({
+                        id: "no-feature-id",
+                        type: "warning",
+                        text: translate("error-no-feature-id"),
+                    });
+                    return;
+                }
 
                 // only run if the feature is not already selected
                 if (
