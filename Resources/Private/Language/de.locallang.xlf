@@ -1499,8 +1499,8 @@
 				<target><![CDATA[Dieses Feld ist erforderlich.]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.roles.form.error.duplicate-roles" approved="yes">
-				<source><![CDATA[The user 'PLACEHOLDER' cannot be an owner and author at the same time.]]></source>
-				<target><![CDATA[Der Benutzer 'PLACEHOLDER' kann nicht gleichzeitig Ersteller und Autor sein.]]></target>
+				<source><![CDATA[The user PLACEHOLDER cannot be an owner and author at the same time.]]></source>
+				<target><![CDATA[Der Benutzer PLACEHOLDER kann nicht gleichzeitig Ersteller und Autor sein.]]></target>
             </trans-unit>
 
             <!-- Global -> Common error messages -->

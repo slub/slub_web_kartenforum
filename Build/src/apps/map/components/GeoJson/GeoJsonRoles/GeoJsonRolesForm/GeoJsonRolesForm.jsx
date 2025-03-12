@@ -37,7 +37,7 @@ const userIsEitherEditorOrOwner = (_, formValues) => {
     const idx = owners.findIndex((userId) => userId === user);
     if (idx !== -1) {
       let message = translate("geojson-roles-form.error.duplicateRoles");
-      return message.replace(LOCALIZATION_PLACEHOLDER, user);
+      return message.replace(LOCALIZATION_PLACEHOLDER, `"${user}"`);
     }
   }
 
