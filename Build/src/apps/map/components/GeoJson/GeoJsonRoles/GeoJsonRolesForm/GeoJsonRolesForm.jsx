@@ -68,6 +68,12 @@ const GeoJsonRolesForm = (props) => {
     (data) => {
       const roles = assembleDataForApi(data, defaultValues);
 
+      // nothing has changed, don't send a request
+      if (!isDefined(roles)) {
+        onSubmitted();
+        return;
+      }
+
       saveRoles(roles)
         .then(() => {
           onSubmitted();
@@ -127,7 +133,6 @@ const GeoJsonRolesForm = (props) => {
             control={control}
             defaultValue={defaultValues.owners}
             rules={{ required: translate("geojson-roles-form.error.required") }}
-            disabled={!isVectorMapRolesOwnerEditAllowed(vectorMapDraw)}
             render={({ field }) => (
               <MultiValueInput
                 {...field}
@@ -136,7 +141,7 @@ const GeoJsonRolesForm = (props) => {
                   trigger(FORM_FIELDS.EDITORS);
                   setErrorMessage("");
                 }}
-                readOnly={field.disabled}
+                disabled={!isVectorMapRolesOwnerEditAllowed(vectorMapDraw)}
                 placeholder={translate("geojson-roles-insert-username")}
               />
             )}
@@ -161,7 +166,6 @@ const GeoJsonRolesForm = (props) => {
             name={FORM_FIELDS.EDITORS}
             control={control}
             defaultValue={defaultValues.editors}
-            disabled={!isVectorMapRolesEditorEditAllowed(vectorMapDraw)}
             rules={{
               validate: userIsEitherEditorOrOwner,
             }}
@@ -173,7 +177,7 @@ const GeoJsonRolesForm = (props) => {
                   trigger(FORM_FIELDS.EDITORS);
                   setErrorMessage("");
                 }}
-                readOnly={field.disabled}
+                disabled={!isVectorMapRolesEditorEditAllowed(vectorMapDraw)}
                 placeholder={translate("geojson-roles-insert-username")}
               />
             )}

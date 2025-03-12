@@ -54,5 +54,9 @@ export const assembleDataForApi = (submittedData, initialData) => {
 
     roles.remove = removeWithoutIdsAlreadyPresentInCreateOrUpdate;
 
+    if (roles.remove.length === 0 && roles.create_or_update.length === 0) {
+        return null;
+    }
+
     return roles;
 };
