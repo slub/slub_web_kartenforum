@@ -197,6 +197,11 @@ export const vectorMapActiveVersionDrawState = atom({
     default: null,
 });
 
+export const isActiveVectorMapVersionDifferentState = selector({
+    key: "isActiveVectorMapVersionDifferentState",
+    get: ({ get }) => get(vectorMapActiveVersionDrawState) !== null,
+});
+
 // Add geojson states
 export const showDropZoneState = atom({
     key: "showDropZoneState",

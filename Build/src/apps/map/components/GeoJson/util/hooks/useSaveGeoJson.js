@@ -15,6 +15,7 @@ import {
     vectorMapDrawState,
     metadataDrawState,
     initialGeoJsonDrawState,
+    isActiveVectorMapVersionDifferentState,
 } from "@map/atoms";
 import { VECTOR_MAP_TYPES } from "@map/components/GeoJson/constants";
 import { isDefined } from "@util/util";
@@ -104,6 +105,10 @@ export const useSaveGeoJson = () => {
                     const vectorMapDraw = await snapshot.getPromise(
                         vectorMapDrawState
                     );
+                    const hasVectorMapVersionChanged =
+                        await snapshot.getPromise(
+                            isActiveVectorMapVersionDifferentState
+                        );
 
                     const initialGeoJson = await snapshot.getPromise(
                         initialGeoJsonDrawState
@@ -115,10 +120,10 @@ export const useSaveGeoJson = () => {
 
                     const geoJsonFromDraw = draw.getAll();
 
-                    const hasGeoJsonChanged = !equal(
-                        initialGeoJson,
-                        geoJsonFromDraw
-                    );
+                    const hasGeoJsonChanged =
+                        !equal(initialGeoJson, geoJsonFromDraw) ||
+                        hasVectorMapVersionChanged;
+                    // metadata is not versioned
                     const hasMetadataChanged = !equal(
                         initialMetadata,
                         metadata
