@@ -53,7 +53,7 @@ export const GeoJsonLayerActions = () => {
           features: filteredFeatures,
         };
 
-        const convertedGeoJson = GeoJsonLayer.toPersistence(geoJson);
+        const convertedGeoJson = GeoJsonLayer.toPersistenceState(geoJson);
 
         const jsonString = JSON.stringify(convertedGeoJson);
         const title = selectedLayer.getMetadata("title");

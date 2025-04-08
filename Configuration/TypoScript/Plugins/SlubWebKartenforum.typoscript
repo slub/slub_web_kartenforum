@@ -102,12 +102,6 @@ tt_content.slubwebkartenforum_georeference {
     }
 }
 
-// The georeference plugin itself
-plugin.tx_slubwebkartenforum_georeference {
-    view.templateRootPaths.10 = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/
-    features.requireCHashArgumentForActionArguments = 0
-}
-
 // The signup content element
 plugin.tx_slubwebkartenforum_signup {
     view.templateRootPaths.10 = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/

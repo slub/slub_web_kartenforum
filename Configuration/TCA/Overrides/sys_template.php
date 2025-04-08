@@ -1,16 +1,11 @@
 <?php
-defined('TYPO3_MODE') || die();
+defined('TYPO3') || die();
 
-call_user_func(function()
-{
-    /**
-     * Temporary variables
-     */
+call_user_func(function () {
+    /** Temporary variables */
     $extensionKey = 'slub_web_kartenforum';
 
-    /**
-     * Default TypoScript for SlubKartenforum
-     */
+    /** Default TypoScript for SlubKartenforum */
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
         $extensionKey,
         'Configuration/TypoScript',

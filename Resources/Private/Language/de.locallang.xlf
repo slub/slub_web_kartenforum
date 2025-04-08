@@ -1499,8 +1499,8 @@
 				<target><![CDATA[Dieses Feld ist erforderlich.]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.roles.form.error.duplicate-roles" approved="yes">
-				<source><![CDATA[The user 'PLACEHOLDER' cannot be an owner and author at the same time.]]></source>
-				<target><![CDATA[Der Benutzer 'PLACEHOLDER' kann nicht gleichzeitig Ersteller und Autor sein.]]></target>
+				<source><![CDATA[The user PLACEHOLDER cannot be an owner and author at the same time.]]></source>
+				<target><![CDATA[Der Benutzer PLACEHOLDER kann nicht gleichzeitig Ersteller und Autor sein.]]></target>
             </trans-unit>
 
             <!-- Global -> Common error messages -->
@@ -1518,13 +1518,23 @@
             </trans-unit>
 
 			<trans-unit id="plugin.map.errors.vector-map.metadata.http.422" approved="yes">
-                <source><![CDATA[The metadata you entered is not valid and cannot be saved. Please checking if the thumbnail URL is a valid URL and try again.]]></source>
+                <source><![CDATA[The metadata you entered is not valid and cannot be saved. Please check if the thumbnail URL is a valid URL and try again.]]></source>
 				<target><![CDATA[Die von Ihnen eingegebenen Metadaten sind nicht gültig und können nicht gespeichert werden. Bitte überprüfen Sie, ob die URL des Vorschaubildes gültig ist und versuchen Sie es erneut.]]></target>
+            </trans-unit>
+
+			<trans-unit id="plugin.map.errors.vector-map.no-feature-id" approved="yes">
+                <source><![CDATA[This feature has an invalid ID. Its metadata cannot be displayed.]]></source>
+				<target><![CDATA[Dieses Feature hat eine ungültige ID. Dessen Metadaten können nicht angezeigt werden.]]></target>
             </trans-unit>
 
             <trans-unit id="plugin.map.vector-badge-title" approved="yes">
                 <source><![CDATA[Vector]]></source>
 				<target><![CDATA[Vektor]]></target>
+            </trans-unit>
+
+            <trans-unit id="plugin.map.feature-permalink-button.title" approved="yes">
+                <source><![CDATA[Copy the permalink for this feature to the clipboard]]></source>
+				<target><![CDATA[Den Permalink für dieses Feature in die Zwischenablage kopieren]]></target>
             </trans-unit>
 		</body>
 	</file>

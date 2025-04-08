@@ -1,0 +1,15 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Slub\SlubWebKartenforum\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Domain/Model/*'
+
+  Slub\SlubWebKartenforum\UserFunction\FastApiAuthService:
+    public: true
+
+  Slub\SlubWebKartenforum\Domain\Model\Validator\UsernameValidator:
+    public: true

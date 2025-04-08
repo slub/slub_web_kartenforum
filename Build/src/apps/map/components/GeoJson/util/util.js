@@ -11,7 +11,7 @@ import {
     styleFieldSettings,
 } from "../constants.js";
 
-import { isDefined } from "@util/util.js";
+import { isDefined, translate } from "@util/util.js";
 import {
     drawModePanelState,
     horizontalLayoutModeState,
@@ -24,6 +24,10 @@ import {
     DRAW_MODE_PANEL_STATE,
     HORIZONTAL_LAYOUT_MODE,
 } from "@map/layouts/util";
+
+import { notificationState } from "@atoms";
+
+import { METADATA } from "@map/components/CustomLayers";
 
 /**
  * A utility function to merge an array of entries with values from an existing Object.
@@ -271,4 +275,204 @@ export const exitDrawMode = (set) => {
     set(vectorMapActiveVersionDrawState, null);
     set(initialGeoJsonDrawState, null);
     set(metadataDrawState, null);
+};
+
+export const removeAllFeatureIds = (geoJson) => {
+    if (!isDefined(geoJson)) {
+        return;
+    }
+
+    const clonedGeoJson = structuredClone(geoJson);
+
+    for (const feature of clonedGeoJson.features) {
+        delete feature.id;
+    }
+    return clonedGeoJson;
+};
+
+// determines the max feature id
+const MAX_VALUE_UINT_16 = 65535;
+
+/**
+ * Generates an integer storing feature index in the first 2 bytes and version in the following 2 bytes
+ *
+ * Background: feature.id must be integer or string that is castable to integer
+ * see: https://github.com/maplibre/maplibre-gl-js/discussions/3134
+ * see: https://maplibre.org/maplibre-style-spec/expressions/#feature-state
+ *
+ * @param {number} idx
+ * @param {number} version
+ */
+const generateFeatureID = (idx, version) => {
+    if (!isDefined(MAX_VALUE_UINT_16)) {
+        throw new Error(
+            "Cannot generate feature id. MAX_VALUE_UINT_16 is not specified"
+        );
+    }
+
+    if (!isDefined(idx) || !isDefined(version)) {
+        throw new Error(
+            "Cannot generate feature id. Version or index is missing."
+        );
+    }
+
+    if (!Number.isInteger(idx) || !Number.isInteger(version)) {
+        throw new Error(
+            "Cannot generate feature id. Version or index is not of type number"
+        );
+    }
+
+    if (idx > MAX_VALUE_UINT_16 || version > MAX_VALUE_UINT_16) {
+        throw new Error(
+            `Cannot generate feature id. Version or index is > ${MAX_VALUE_UINT_16}`
+        );
+    }
+
+    const buffer = new ArrayBuffer(4);
+    const dataView = new DataView(buffer);
+    dataView.setUint16(0, idx);
+    dataView.setUint16(2, version);
+
+    const id = dataView.getUint32(0);
+    return id;
+};
+
+/**
+ * Generates stable ids for persisting vector maps in the database.
+ *
+ * @param {*} geoJson
+ * @returns {*} geoJson with stable ids
+ */
+export const processNewGeoJsonForPersistence = (geoJson) => {
+    const clonedGeoJson = structuredClone(geoJson);
+
+    for (const [idx, feature] of clonedGeoJson.features.entries()) {
+        feature.id = generateFeatureID(idx + 1, 0);
+    }
+
+    return clonedGeoJson;
+};
+
+/**
+ * Generates stable ids for persisting vector maps in the database.
+ *
+ * @param {[]} newFeatureIds
+ * @param {*} geoJson
+ * @param {number} newVersion
+ * @returns {*} geoJson with stable ids
+ */
+export const processUpdatedGeoJsonForPersistence = (
+    initialGeoJson,
+    newGeoJson,
+    newVersion
+) => {
+    const clonedGeoJson = structuredClone(newGeoJson);
+
+    // geoJsonChangeTrackingState could be used here as well
+    // but w/o unit tests it might be too risky if bugs are introduced there...
+    const newFeatureIds = new Set();
+    for (const newFeature of newGeoJson.features) {
+        const featureExists = initialGeoJson.features.find(
+            (initialFeature) => initialFeature.id === newFeature.id
+        );
+
+        if (!featureExists) {
+            newFeatureIds.add(newFeature.id);
+        }
+    }
+
+    if (newFeatureIds.size === 0) {
+        return clonedGeoJson;
+    }
+
+    const features = clonedGeoJson.features.map((feature, idx) => {
+        const isNewFeature = newFeatureIds.has(feature.id);
+        if (!isNewFeature) {
+            return feature;
+        }
+
+        return {
+            ...feature,
+            id: generateFeatureID(idx + 1, newVersion),
+        };
+    });
+
+    return {
+        ...clonedGeoJson,
+        features,
+    };
+};
+
+export const handleErrorResponse = (error, set) => {
+    const httpErrorNotification = (translationKey) => ({
+        id: "mapWrapper",
+        type: "danger",
+        text: translate(translationKey),
+    });
+    if (error.response) {
+        if (error.response.status === 401) {
+            set(
+                notificationState,
+                httpErrorNotification("common-errors-http-401")
+            );
+            return;
+        }
+
+        if (error.response.status === 403) {
+            set(
+                notificationState,
+                httpErrorNotification("common-errors-http-403")
+            );
+            return;
+        }
+
+        if (error.response.status === 409) {
+            set(
+                notificationState,
+                httpErrorNotification("geojson-draw-version-conflict")
+            );
+            return;
+        }
+
+        if (error.response.status === 422) {
+            set(
+                notificationState,
+                httpErrorNotification("geojson-draw-error-invalid-input")
+            );
+            return;
+        }
+    }
+
+    set(notificationState, httpErrorNotification("common-errors-unexpected"));
+    console.error(error);
+    return;
+};
+
+export const metadataLayerToMetadataDraw = (metadata) => {
+    const keys = [METADATA.title, METADATA.description, METADATA.thumbnailUrl];
+    const metadataDrawShape = Object.fromEntries(
+        Object.entries(metadata).filter(([key]) => keys.includes(key))
+    );
+
+    return metadataDrawShape;
+};
+
+export const metadataAppToMetadataApi = (metadata) => {
+    const mappedMetadata = structuredClone(metadata);
+
+    const keyMap = {
+        [METADATA.thumbnailUrl]: "link_thumb",
+    };
+
+    for (const [appKey, apiKey] of Object.entries(keyMap)) {
+        const value = mappedMetadata[appKey];
+        mappedMetadata[apiKey] = value;
+        delete mappedMetadata[appKey];
+    }
+
+    return Object.fromEntries(
+        Object.entries(mappedMetadata).map(([key, value]) =>
+            !isDefined(value) || value === "" ? [key, null] : [key, value]
+        )
+    );
 };

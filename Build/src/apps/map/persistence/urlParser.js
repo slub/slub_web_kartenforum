@@ -4,6 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
+import { isDefined } from "@util/util.js";
 import {
     convertLegacyMapViewToCameraOptions,
     areLegacyMapViewParams,
@@ -50,4 +51,32 @@ export const parseCameraOptions = (cameraParams) => {
         p === undefined ? null : { pitch: p },
         z === undefined ? null : { zoom: z }
     );
+};
+
+/**
+ * Parse the url params for the feature identifier
+ * @param urlParams
+ * @returns {{ featureId: number, sourceId: string } | undefined}
+ */
+export const parseFeatureIdentifier = (urlParams) => {
+    const { fid, foid } = urlParams;
+
+    if (!isDefined(fid) || !isDefined(foid)) {
+        return undefined;
+    }
+
+    const hasOnlyDigits = /^[0-9]+$/.test(fid);
+    const parsedFid = Number.parseInt(fid, 10);
+
+    if (!hasOnlyDigits || !Number.isFinite(parsedFid)) {
+        console.error(
+            `The feature id cannot be parsed from url params. The id '${fid}' cannot be coerced to type number.`
+        );
+        return undefined;
+    }
+
+    return {
+        featureId: parsedFid,
+        sourceId: foid,
+    };
 };

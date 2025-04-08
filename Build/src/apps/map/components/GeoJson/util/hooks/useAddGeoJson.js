@@ -22,6 +22,7 @@ import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
 import { useCallback } from "react";
 import { VECTOR_MAP_TYPES } from "@map/components/GeoJson/constants";
 import useZoomLayerToExtent from "@map/components/LayerManagement/LayerManagementEntry/components/ZoomToExtentButton/useZoomLayerToExtent";
+import { removeAllFeatureIds } from "../util";
 
 export const useAddGeoJson = () => {
     const { zoomToExtent } = useZoomLayerToExtent();
@@ -39,10 +40,13 @@ export const useAddGeoJson = () => {
                             // [METADATA.timeChanged]: refGeoJSON.current.modified,
                         };
 
-                        // Create geojson layer
+                        // delete feature ids, to avoid potential invalid ids e.g., strings
+                        const processedGeoJson = removeAllFeatureIds(geoJson);
+
+                        // Create geojson layer and generate new ids on the fly
                         const geoJsonLayer = GeoJsonLayer.fromPersistence({
                             metadata,
-                            geoJson,
+                            geoJson: processedGeoJson,
                         });
 
                         // add layer to map
@@ -77,8 +81,10 @@ export const useAddGeoJson = () => {
     const mountNewRemoteGeojsonLayer = useRecoilCallback(
         ({ set }) =>
             async (title, geoJson) => {
-                const convertedGeoJson =
-                    GeoJsonLayer.toApplicationState(geoJson);
+                // delete feature ids, to avoid potential invalid ids and let mapbox-draw handle ids
+                let convertedGeoJson = removeAllFeatureIds(geoJson);
+                convertedGeoJson =
+                    GeoJsonLayer.toApplicationState(convertedGeoJson);
                 set(initialGeoJsonDrawState, convertedGeoJson);
                 set(metadataDrawState, { [METADATA.title]: title });
                 set(vectorMapDrawState, {

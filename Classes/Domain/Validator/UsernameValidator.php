@@ -1,8 +1,7 @@
 <?php
-namespace Slub\SlubWebKartenforum\Domain\Validator;
-/***************************************************************
- *
- *  Copyright notice
+
+/*
+ * Copyright notice
  *
  *  (c) 2020 Alexander Bigga <Alexander.Bigga@slub-dresden.de>, SLUB
  *
@@ -23,12 +22,12 @@ namespace Slub\SlubWebKartenforum\Domain\Validator;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 
-use TYPO3\CMS\Extbase\Annotation as Extbase;
+namespace Slub\SlubWebKartenforum\Domain\Validator;
+
+use Slub\SlubWebKartenforum\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
-use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * User
@@ -42,23 +41,20 @@ class UsernameValidator extends AbstractValidator
      */
     protected $feUserRepository;
 
-    public function __construct(array $options = [])
+    public function __construct(FrontendUserRepository $feUserRepository)
     {
-        // TODO when upgrading to TYPO3 12 this can be replaced by DI
-        // see https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ExtensionArchitecture/Extbase/Reference/Domain/Validator.html#dependency-injection-in-validators
-        $this->feUserRepository = GeneralUtility::makeInstance(FrontendUserRepository::class);
-        parent::__construct($options);
+        $this->feUserRepository = $feUserRepository;
     }
 
     /**
      * Username is only valid if it is not in use yet.
      */
-    protected function isValid($value)
-   {
-       $countUser = $this->feUserRepository->findByUsername($value)->count();
-       if ($countUser === 0) {
-           return;
-       }
-       $this->addError('Username already in use.', 1596722363);
-   }
+    protected function isValid(mixed $value): void
+    {
+        $countUser = $this->feUserRepository->findByUsername($value)->count();
+        if ($countUser === 0) {
+            return;
+        }
+        $this->addError('Username already in use.', 1596722363);
+    }
 }

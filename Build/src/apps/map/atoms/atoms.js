@@ -100,7 +100,6 @@ export const selectedGeoJsonLayerIdState = atom({
     default: undefined,
 });
 
-// TODO remove, not needed anymore (update GeoJsonLayerView, too)
 // Should trigger state updates when a GeoJson feature is created, updated or deleted from a layer
 export const selectedGeoJsonLayerLastUpdatedState = atom({
     key: "selectedGeoJsonLayerLastUpdatedState",
@@ -122,7 +121,7 @@ export const selectedGeoJsonLayerState = selector({
     dangerouslyAllowMutability: true,
 });
 
-// The geojson feature id and the source id of the feature's layer that should be displayed in GeoJsonFeaturePanel
+// type: {featureId: string|number, sourceId: string} | null
 export const selectedGeoJsonFeatureIdentifierState = atom({
     key: "selectedGeoJsonFeatureIdentifierState",
     default: null,
@@ -196,6 +195,11 @@ export const vectorMapDrawState = atom({
 export const vectorMapActiveVersionDrawState = atom({
     key: "vectorMapActiveVersionDrawState",
     default: null,
+});
+
+export const isActiveVectorMapVersionDifferentState = selector({
+    key: "isActiveVectorMapVersionDifferentState",
+    get: ({ get }) => get(vectorMapActiveVersionDrawState) !== null,
 });
 
 // Add geojson states

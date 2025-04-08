@@ -2,9 +2,9 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-defined('TYPO3_MODE') || die();
+defined('TYPO3') || die();
 
-/***************
+/*
  * Configure backend tabs and palettes for the new content elements
  */
 $contentElementConfig = [
@@ -17,7 +17,7 @@ $contentElementConfig = [
     '
 ];
 
-/***************
+/*
  * Enhance available content elements
  */
 $orgTca = $GLOBALS['TCA']['tt_content'];
@@ -92,10 +92,8 @@ $overrideTca = [
 ];
 $GLOBALS['TCA']['tt_content'] = array_merge_recursive($orgTca, $overrideTca);
 
-
-/***************
+/*
  * Add dedicated flexform setups for the new content elements
  */
 ExtensionManagementUtility::addPiFlexFormValue('*', 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_apps.xml', 'slubwebkartenforum_apps');
-ExtensionManagementUtility::addPiFlexFormValue('*', 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_georeference.xml', 'slubwebkartenforum_georeference');
 ExtensionManagementUtility::addPiFlexFormValue('*', 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_signup.xml', 'slubwebkartenforum_signup');

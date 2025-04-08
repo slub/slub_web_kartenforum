@@ -101,6 +101,14 @@ export const TimeSlider = (props) => {
     [updateLabelPositions]
   );
 
+  const handleChangeInput = useCallback(
+    (newValues) => {
+      handleChange(newValues);
+      onChange(newValues);
+    },
+    [handleChange, onChange]
+  );
+
   // initialize label positions based on label and slider width
   useEffect(() => {
     if (refSlider.current && refMinLabel.current && refCollisionLabel.current) {
@@ -135,7 +143,7 @@ export const TimeSlider = (props) => {
             min={timeRange[0]}
             max={timeRange[1]}
             values={internalValues}
-            onChange={handleChange}
+            onChange={handleChangeInput}
           />
         )}
       </div>

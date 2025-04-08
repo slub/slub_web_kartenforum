@@ -44,16 +44,19 @@ export const assembleDataForApi = (submittedData, initialData) => {
     // happens e.g., when removing an editor and then adding the same user_id as an owner
     const removeWithoutIdsAlreadyPresentInCreateOrUpdate = roles.remove.filter(
         ({ user_id: userIdFromRemove }) => {
-            const idx =
-                roles.create_or_update.findIndex(
-                    ({ user_id }) => user_id === userIdFromRemove
-                ) === -1;
+            const idx = roles.create_or_update.findIndex(
+                ({ user_id }) => user_id === userIdFromRemove
+            );
             const userIsNotAppearingTwice = idx === -1;
             return userIsNotAppearingTwice;
         }
     );
 
     roles.remove = removeWithoutIdsAlreadyPresentInCreateOrUpdate;
+
+    if (roles.remove.length === 0 && roles.create_or_update.length === 0) {
+        return null;
+    }
 
     return roles;
 };

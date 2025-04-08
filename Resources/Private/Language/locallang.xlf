@@ -1224,9 +1224,17 @@
                 <source>The metadata you entered is not valid and cannot be saved. Please checking if the thumbnail URL is a valid URL and try again.</source>
             </trans-unit>
 
+			<trans-unit id="plugin.map.errors.vector-map.no-feature-id" approved="yes">
+                <source>This feature has an invalid ID. Its metadata cannot be displayed.</source>
+            </trans-unit>
+
             <trans-unit id="plugin.map.vector-badge-title" approved="yes">
                 <source>Vector</source>
             </trans-unit>
+
+            <trans-unit id="plugin.map.feature-permalink-button.title" approved="yes">
+                <source>Copy the permalink for this feature to the clipboard</source>
+            </trans-unit>            
         </body>
     </file>
 </xliff>

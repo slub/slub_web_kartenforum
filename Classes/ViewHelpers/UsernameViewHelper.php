@@ -1,8 +1,7 @@
 <?php
-namespace Slub\SlubWebKartenforum\ViewHelpers;
 
-/***************************************************************
- *  Copyright notice
+/*
+ * Copyright notice
  *
  *  (c) 2020 Alexander Bigga <alexander.bigga@slub-dresden.de>
  *  All rights reserved
@@ -22,11 +21,12 @@ namespace Slub\SlubWebKartenforum\ViewHelpers;
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
+namespace Slub\SlubWebKartenforum\ViewHelpers;
+
+use Slub\SlubWebKartenforum\Domain\Repository\FrontendUserRepository;
+use \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * ViewHelper to get page info
@@ -34,7 +34,7 @@ use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
  * # Example: Basic example
  * <code>
  * <vk:frontendUser field="name">
- *	<span>name</span>
+ * 	<span>name</span>
  * </code>
  * <output>
  * Will output the fe_user name field
@@ -42,48 +42,49 @@ use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
  *
  * @package TYPO3
  */
-
-class UsernameViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+class UsernameViewHelper extends AbstractViewHelper
 {
-
 	/**
 	 * feUserRepository
 	 *
-	 * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
+	 * @var FrontendUserRepository
 	 */
 	protected $feUserRepository;
 
 	/**
-     * @param \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository $controller
-     */
-    public function injectfeUserRepository(FrontendUserRepository $feUserRepository)
-    {
-        $this->feUserRepository = $feUserRepository;
-    }
+	 * @param FrontendUserRepository $feUserRepository
+	 */
+	public function injectfeUserRepository(FrontendUserRepository $feUserRepository)
+	{
+		$this->feUserRepository = $feUserRepository;
+	}
 
 	/**
-     * Initialize arguments.
-     */
-    public function initializeArguments()
-    {
-        parent::initializeArguments();
-        $this->registerArgument('field', 'string', 'field to fetch from fe_user record', false, 'name');
-    }
+	 * Initialize arguments.
+	 */
+	public function initializeArguments()
+	{
+		parent::initializeArguments();
+		$this->registerArgument('field', 'string', 'field to fetch from fe_user record', false, 'name');
+	}
 
-    /**
-     * @throws \UnexpectedValueException
-     */
-    public function render() {
-        $field = $this->arguments['field'];
+	/**
+	 * @throws \UnexpectedValueException
+	 */
+	public function render()
+	{
+		$field = $this->arguments['field'];
 
 		$feUserObj = $this->getActualUser();
 
 		if ($feUserObj != NULL) {
 			switch ($field) {
-				case 'name': 	$output = $feUserObj->getName();
-								break;
+				case 'name':
+					$output = $feUserObj->getName();
+					break;
 				case 'username':
-				default: 		$output = $feUserObj->getUsername();
+				default:
+					$output = $feUserObj->getUsername();
 			}
 			return $output;
 		} else {
@@ -94,10 +95,16 @@ class UsernameViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewH
 	/**
 	 * gets current logged in frontend user
 	 *
-	 * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
+	 * @return FrontendUser
 	 */
-	public function getActualUser() {
+	public function getActualUser()
+	{
 		$user = $GLOBALS['TSFE']->fe_user->user;
+
+		if (is_null($user)) {
+			return null;
+		}
+
 		$feUserObj = $this->feUserRepository->findByUid($user['uid']);
 		return $feUserObj;
 	}

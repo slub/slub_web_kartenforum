@@ -13,10 +13,6 @@ import { MapViewInput } from "./components/MapViewInput/MapViewInput";
 import SettingsProvider from "@settings-provider";
 import "./PermalinkExporterTabs.scss";
 
-export const getUrlWithQuery = (query) => {
-  return `${window.location.origin}${window.location.pathname}?${query}`;
-};
-
 export const PermalinkExporterTabs = () => {
   const isMapViewExportForbidden = !SettingsProvider.isUserAuthenticated();
 

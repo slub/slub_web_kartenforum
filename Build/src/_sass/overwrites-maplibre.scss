@@ -150,6 +150,10 @@
                 background-size: 16px auto;
             }
 
+            &.maplibregl-ctrl-geolocate-waiting {
+                background-color: $primary-color;
+            }
+
             &.maplibregl-ctrl-geolocate-background,
             &.maplibregl-ctrl-geolocate-active .maplibregl-ctrl-icon {
                 @include button-styles($primary-color, $primary-color-dark);

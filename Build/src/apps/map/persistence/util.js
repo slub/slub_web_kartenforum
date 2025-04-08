@@ -293,3 +293,7 @@ export const useOnPageLeave = (handler) => {
         };
     }, [handler]);
 };
+
+export const getUrlWithQuery = (query) => {
+    return `${window.location.origin}${window.location.pathname}?${query}`;
+};

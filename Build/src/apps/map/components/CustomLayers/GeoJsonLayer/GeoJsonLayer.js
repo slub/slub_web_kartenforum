@@ -78,6 +78,8 @@ class GeoJsonLayer extends ApplicationLayer {
      * Use this method when operating with data from whithin the application boundaries.
      * To initialize a new GeoJsonLayer instance from persistence state use GeoJsonLayer.fromPersistence().
      *
+     * Note: Feature ids set in this class are not stable. Stable feature ids are expected to be set in the geojson.
+     *
      * @param {GeoJsonLayerParams} params
      */
     static fromApplication(params) {
@@ -89,6 +91,8 @@ class GeoJsonLayer extends ApplicationLayer {
      * Initializes a new GeoJsonLayer. The geoJson is converted from persistence to application state.
      * Use this method when the data is crossing the application boundary.
      * To initialize a new GeoJsonLayer instance from application state use GeoJsonLayer.fromApplication().
+     *
+     * Note: Feature ids set in this class are not stable. Stable feature ids are expected to be set in the geojson.
      *
      * @param {GeoJsonLayerParams} params
      */
@@ -179,7 +183,7 @@ class GeoJsonLayer extends ApplicationLayer {
     }
 
     /**
-     * Updates geojson on map using maplibre source diffs. The sourceDiff **must** represent the application state.
+     * Updates geojson on map using maplibre source diffs. The sourceDiff must represent the application state.
      *
      * @param {maplibregl.Map} map The maplibregl map instance
      * @param {object} sourceDiff The maplibregl source diff (expected to represent application state)
@@ -203,7 +207,6 @@ class GeoJsonLayer extends ApplicationLayer {
 
     /**
      * Sets new data to the maplibregl's source layer calling sourceLayer.setData.
-     * Resets feature ids.
      *
      * @param {maplibregl.Map} map
      * @param {object} geoJson Feature properties are expected to represent application state
@@ -264,6 +267,26 @@ class GeoJsonLayer extends ApplicationLayer {
     }
 
     /**
+     * A helper to parse geoJson from application state to persistence state ("VKF geojson specification")
+     *
+     * @param {object} geoJson geoJson representing the application state
+     * @returns {object} geoJson
+     */
+    static toPersistenceState(geoJson) {
+        if (!isDefined(geoJson)) {
+            return geoJson;
+        }
+
+        const convertedGeoJson = structuredClone(geoJson);
+        let features = convertedGeoJson.features ?? [];
+
+        features = features.map(convertFeatureForPersistenceState);
+        convertedGeoJson.features = features;
+
+        return convertedGeoJson;
+    }
+
+    /**
      * Gets the geoJson object representing the application state.
      * @returns {object} geoJson
      */
@@ -273,21 +296,24 @@ class GeoJsonLayer extends ApplicationLayer {
 
     /**
      * Sets the geoJson.
-     * Note: Features ids are reset.
+     * Note: Feature ids set in this method are not stable. Stable ids are expected to be set in the geojson.
      *
      * @param {object} geoJson
      */
     setGeoJson(geoJson) {
-        // feature.id MUST be integer or string that is castable to integer
-        // see: https://github.com/maplibre/maplibre-gl-js/discussions/3134
-        // see: https://maplibre.org/maplibre-style-spec/expressions/#feature-state
         const features = geoJson.features.map((feature, idx) => {
             if (!Object.hasOwn(feature, "properties")) {
                 feature.properties = {};
             }
 
-            //@TODO: Generate stable feature ids (Somewhere)
-            return { ...feature, id: idx + 1 };
+            if (!isDefined(feature.id)) {
+                return {
+                    ...feature,
+                    id: idx + 1,
+                };
+            }
+
+            return { ...feature };
         });
 
         const preparedGeoJson = { ...geoJson, features };
