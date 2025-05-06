@@ -1,4 +1,4 @@
-@import "../../../../../../../Resources/Private/Scss/_Variables.scss";
+@use "../../../../../../../Resources/Private/Scss/_Variables.scss" as *;
 
 .ol-control {
     &.ol-mouse-position-box {

@@ -1,4 +1,4 @@
-@import "../../../../Resources/Private/Scss/Variables";
+@use "../../../../Resources/Private/Scss/Variables" as *;
 
 .gazetteersearch-container {
     position: relative;

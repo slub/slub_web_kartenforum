@@ -1,4 +1,4 @@
-@import "../../../../Variables";
+@use "../../../../Variables" as *;
 
 .style-property-item {
     display: flex;

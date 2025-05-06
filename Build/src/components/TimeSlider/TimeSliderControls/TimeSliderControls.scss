@@ -1,10 +1,11 @@
+@use "sass:color";
 /*
  * Created by tom.schulze@pikobytes.de on 29.10.24.
  * 
  * This file is subject to the terms and conditions defined in
  * file "LICENSE.txt", which is part of this source code package.
  */
-@import "../../../../../Resources/Private/Scss/Variables";
+@use "../../../../../Resources/Private/Scss/Variables" as *;
 
 .timeslider-controls-root {
     display: flex;
@@ -53,7 +54,7 @@
 
         &:hover {
             svg {
-                fill: darken($secondary-color, 15%);
+                fill: color.adjust($secondary-color, $lightness: -15%);
             }
         }
 
@@ -64,7 +65,7 @@
 
             &:hover {
                 svg {
-                    fill: darken($primary-color, 15%);
+                    fill: color.adjust($primary-color, $lightness: -15%);
                 }
             }
         }

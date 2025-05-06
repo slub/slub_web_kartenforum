@@ -1,4 +1,5 @@
-@import "../../Variables";
+@use "sass:color";
+@use "../../Variables" as *;
 
 .vkf-delete-dialog {
     .modal-dialog {
@@ -25,8 +26,12 @@
             text-transform: uppercase;
 
             &:hover {
-                background: darken($secondary-color-dark, 10%);
-                border: 1px solid darken($secondary-color-dark, 10%);
+                background: color.adjust(
+                    $secondary-color-dark,
+                    $lightness: -10%
+                );
+                border: 1px solid
+                    color.adjust($secondary-color-dark, $lightness: -10%);
             }
         }
 

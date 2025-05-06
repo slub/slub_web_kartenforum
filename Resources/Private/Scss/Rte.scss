@@ -9,8 +9,8 @@
  */
 
 // Variables & Setup ---------------------------------------------------------------------------------------------------
-@import "Variables";
-@import "Helpers";
-@import "Components/Typography";
+@use "Variables" as *;
+@use "Helpers" as *;
+@use "Components/Typography" as *;
 
 // TBD

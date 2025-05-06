@@ -1,4 +1,4 @@
-@import "../../../Resources/Private/Scss/Variables";
+@use "../../../Resources/Private/Scss/Variables" as *;
 
 @mixin button-styles($bg-color, $bg-color-dark) {
     background-color: $bg-color;

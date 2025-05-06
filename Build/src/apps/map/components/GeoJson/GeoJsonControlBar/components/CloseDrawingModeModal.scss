@@ -1,3 +1,4 @@
+@use "sass:color";
 /*
  * Created by tom.schulze@pikobytes.de on 10.12.24.
  * 
@@ -5,7 +6,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-@import "../../../../Variables.scss";
+@use "../../../../Variables.scss" as *;
 
 .vkf-discard-dialog {
     width: 557px;
@@ -37,7 +38,10 @@
             border-bottom: 2px solid rgba(0, 0, 0, 0.3);
 
             &:hover {
-                background-color: darken($color-midgrey, 15%);
+                background-color: color.adjust(
+                    $color-midgrey,
+                    $lightness: -15%
+                );
             }
         }
     }

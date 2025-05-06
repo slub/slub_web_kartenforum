@@ -9,7 +9,7 @@
  * Author: Thomas Jung <thomas@jung.digital>
  *
  */
-
+@use "../Variables" as *;
 .site-header {
     position: fixed;
     top: 0;

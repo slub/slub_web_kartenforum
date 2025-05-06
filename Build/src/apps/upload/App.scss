@@ -1,5 +1,6 @@
-@import "../../../../Resources/Private/Scss/Variables";
-@import "Variables";
+@use "sass:color";
+@use "../../../../Resources/Private/Scss/Variables" as *;
+@use "Variables" as *;
 
 .map-plugin-container {
     position: absolute;
@@ -80,8 +81,9 @@
         text-transform: uppercase;
 
         &:hover {
-            background: darken($secondary-color-dark, 10%);
-            border: 1px solid darken($secondary-color-dark, 10%);
+            background: color.adjust($secondary-color-dark, $lightness: -10%);
+            border: 1px solid
+                color.adjust($secondary-color-dark, $lightness: -10%);
         }
     }
 
@@ -90,8 +92,8 @@
         border: 1px solid $customGrey;
 
         &:hover {
-            background: darken($customGrey, 10%);
-            border: 1px solid darken($customGrey, 10%);
+            background: color.adjust($customGrey, $lightness: -10%);
+            border: 1px solid color.adjust($customGrey, $lightness: -10%);
         }
     }
 

@@ -1,5 +1,5 @@
-@import "../../../../Resources/Private/Scss/Variables";
-@import "../../../../Resources/Private/Scss/Helpers";
+@forward "../../../../Resources/Private/Scss/Variables";
+@forward "../../../../Resources/Private/Scss/Helpers";
 
 // Colors
 $backgroundSecondary: rgb(0, 146, 126);

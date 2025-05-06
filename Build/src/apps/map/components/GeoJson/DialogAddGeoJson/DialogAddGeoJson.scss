@@ -1,4 +1,5 @@
-@import "../../../Variables.scss";
+@use "sass:color";
+@use "../../../Variables.scss" as *;
 
 .vkf-dialog-add-geojson {
     width: 575px;
@@ -80,7 +81,7 @@
             &:focus,
             &:hover {
                 outline: none;
-                border-color: darken($gray-500, 15%);
+                border-color: color.adjust($gray-500, $lightness: -15%);
                 box-shadow: none;
             }
         }
@@ -108,7 +109,10 @@
                 border-bottom: 2px solid rgba(0, 0, 0, 0.3);
 
                 &:hover {
-                    background-color: darken($color-midgrey, 15%);
+                    background-color: color.adjust(
+                        $color-midgrey,
+                        $lightness: -15%
+                    );
                 }
             }
         }

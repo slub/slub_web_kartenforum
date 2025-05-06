@@ -1,4 +1,4 @@
-@import "../../../../../../../Resources/Private/Scss/Variables";
+@use "../../../../../../../Resources/Private/Scss/Variables" as *;
 
 button.deactivate-map-col-control {
     position: relative;

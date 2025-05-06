@@ -1,3 +1,4 @@
+@use "sass:color";
 /*
  * Created by tom.schulze@pikobytes.de on 29.11.24.
  * 
@@ -5,7 +6,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-@import "../../../../Variables.scss";
+@use "../../../../Variables.scss" as *;
 
 // TODO make these reusable across GeoJsoinFeatureEditPanel/EditStyleField and GeoJsonFeaturePanel
 // TODO Refactor GeoJsonFeatureEditPanel form scss
@@ -84,7 +85,7 @@
             &:focus,
             &:hover,
             &:focus-visible {
-                border-color: darken($gray-500, 15%);
+                border-color: color.adjust($gray-500, $lightness: -15%);
                 outline: unset;
             }
         }
@@ -103,7 +104,7 @@
             &:focus,
             &:hover,
             &:focus-visible {
-                border-color: darken($gray-500, 15%);
+                border-color: color.adjust($gray-500, $lightness: -15%);
                 outline: unset;
             }
         }

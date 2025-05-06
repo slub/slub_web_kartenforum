@@ -1,4 +1,5 @@
-@import "../../../../Variables";
+@use "sass:color";
+@use "../../../../Variables" as *;
 
 // TODO CustomButton scss: before adding new button styles, this needs to be refactored to be usable more generally
 
@@ -46,7 +47,7 @@
 
         &:hover,
         &:active {
-            fill: darken($secondary-color-dark, 5%);
+            fill: color.adjust($secondary-color-dark, $lightness: -5%);
         }
     }
 }
@@ -71,7 +72,7 @@
     &:hover,
     &:active,
     &:active:focus {
-        background-color: darken($primary-color-dark, 15%);
+        background-color: color.adjust($primary-color-dark, $lightness: -15%);
         color: $background-color;
     }
 
@@ -95,11 +96,11 @@
     &:focus,
     &:active:focus {
         background-color: transparent;
-        color: darken($gray-500, 15%);
+        color: color.adjust($gray-500, $lightness: -15%);
 
         svg {
-            fill: darken($gray-500, 15%);
-            stroke: darken($gray-500, 15%);
+            fill: color.adjust($gray-500, $lightness: -15%);
+            stroke: color.adjust($gray-500, $lightness: -15%);
         }
     }
 
@@ -118,11 +119,11 @@
     &:active,
     &:focus,
     &:active:focus {
-        color: darken($background-color, 15%);
+        color: color.adjust($background-color, $lightness: -15%);
         background-color: transparent;
 
         svg {
-            fill: darken($background-color, 15%);
+            fill: color.adjust($background-color, $lightness: -15%);
         }
     }
 
@@ -150,7 +151,7 @@
     &:focus,
     &:active:focus {
         color: $background-color;
-        background-color: darken($backgroundSecondary, 15%);
+        background-color: color.adjust($backgroundSecondary, $lightness: -15%);
     }
 
     svg {

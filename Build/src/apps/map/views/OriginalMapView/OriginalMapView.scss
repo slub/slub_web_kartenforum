@@ -1,5 +1,5 @@
-@import "../../../../../../Resources/Private/Scss/Variables";
-@import "../../../../_sass/overwrites-openlayers";
+@use "../../../../../../Resources/Private/Scss/Variables" as *;
+@use "../../../../_sass/overwrites-openlayers";
 
 .vkf-modal-original-map {
     &.modal-dialog {

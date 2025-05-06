@@ -1,4 +1,4 @@
-@import "../../../../Variables";
+@use "../../../../Variables" as *;
 
 .new-field-root {
     display: flex;

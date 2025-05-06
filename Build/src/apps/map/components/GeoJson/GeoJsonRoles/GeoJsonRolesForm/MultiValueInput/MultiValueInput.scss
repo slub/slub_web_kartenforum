@@ -5,7 +5,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-@import "../../../../../Variables.scss";
+@use "../../../../../Variables.scss" as *;
 
 .multi-value-input-root {
     .input-field {

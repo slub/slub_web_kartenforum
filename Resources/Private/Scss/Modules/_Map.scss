@@ -9,6 +9,8 @@
  *
  */
 
+@use "../Variables" as *;
+
 #vkf-app-map {
     position: absolute;
     inset: 70px 0 40px 0;

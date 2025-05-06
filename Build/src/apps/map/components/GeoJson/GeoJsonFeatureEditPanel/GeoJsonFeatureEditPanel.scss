@@ -1,4 +1,5 @@
-@import "../../../Variables";
+@use "sass:color";
+@use "../../../Variables" as *;
 
 .geojson-feature-edit-panel-root {
     display: flex;
@@ -140,14 +141,23 @@
                         outline: none;
                         box-shadow: none;
                         background-color: transparent;
-                        color: darken($secondary-color-dark, 15%);
+                        color: color.adjust(
+                            $secondary-color-dark,
+                            $lightness: -15%
+                        );
 
                         .geojson-feature-property-label {
-                            color: darken($secondary-color-dark, 15%);
+                            color: color.adjust(
+                                $secondary-color-dark,
+                                $lightness: -15%
+                            );
                         }
 
                         svg {
-                            fill: darken($secondary-color-dark, 15%);
+                            fill: color.adjust(
+                                $secondary-color-dark,
+                                $lightness: -15%
+                            );
                         }
                     }
 
@@ -155,11 +165,17 @@
                         cursor: not-allowed;
 
                         .geojson-feature-property-label {
-                            color: darken($color-disabled, 15%);
+                            color: color.adjust(
+                                $color-disabled,
+                                $lightness: -15%
+                            );
                         }
 
                         svg {
-                            fill: darken($color-disabled, 15%);
+                            fill: color.adjust(
+                                $color-disabled,
+                                $lightness: -15%
+                            );
                         }
                     }
                 }
@@ -189,7 +205,7 @@
         &:focus,
         &:hover,
         &:focus-visible {
-            border-color: darken($gray-500, 15%);
+            border-color: color.adjust($gray-500, $lightness: -15%);
             outline: unset;
         }
     }
