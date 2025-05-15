@@ -5,6 +5,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import GeoJsonMetadataPanel from "./GeoJsonMetadataPanel";
+import MetadataPanelDraw from "./draw/MetadataPanelDraw";
+import MetadataPanelExternalVectorMap from "./external/";
 
-export default GeoJsonMetadataPanel;
+export { MetadataPanelDraw, MetadataPanelExternalVectorMap };

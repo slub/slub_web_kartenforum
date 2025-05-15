@@ -19,12 +19,16 @@ export const METADATA = {
     rawMapIds: "raw_map_ids",
     name: "name",
     description: "description",
+    timePeriod: "time_period",
+    externalContentUrl: "external_content_url",
 
     // Internally used
     type: "type",
 
     // Vector map specific metadata
     vectorMapId: "vector_map_id",
+
+    // Persistent vector map specific metadata
     version: "version",
     userRole: "user_role",
 };

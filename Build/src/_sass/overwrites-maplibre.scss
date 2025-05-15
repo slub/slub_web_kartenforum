@@ -373,9 +373,9 @@
     }
 }
 
-// dynamic control positioning in draw mode
+// dynamic control positioning in draw mode and external vector map mode
 .ol-map-large {
-    .maplibregl-control-container.draw {
+    .maplibregl-control-container.position-control {
         // draw controls
         .maplibregl-ctrl-top-right {
             top: 41px;

@@ -327,6 +327,14 @@
 				<source><![CDATA[Add a title, description and a preview image for your new vector map here.]]></source>
 				<target><![CDATA[Fügen Sie hier einen Titel, eine Beschreibung und ein Vorschaubild für Ihre neue Vektor-Karte hinzu.]]></target>
 			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.external.intro.create">
+				<source><![CDATA[Add a title, the GeoJson URL and the time range for your external vector map here.]]></source>
+				<target><![CDATA[Fügen Sie hier einen Titel, die GeoJson-URL und eine Zeitspanne für Ihre neue externe Vektor-Karte hinzu.]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.external.intro.edit">
+				<source><![CDATA[Edit the settings for the external vector map here.]]></source>
+				<target><![CDATA[Bearbeiten Sie hier die Einstellungen für die externe Vektor-Karte.]]></target>
+			</trans-unit>
             <trans-unit id="plugin.map.geojson.metadatapanel.delete">
 				<source><![CDATA[Delete this vector map.]]></source>
 				<target><![CDATA[Diese Vektor-Karte löschen.]]></target>
@@ -334,6 +342,18 @@
             <trans-unit id="plugin.map.geojson.metadatapanel.delete-btn">
 				<source><![CDATA[Delete vector map]]></source>
 				<target><![CDATA[Vektor-Karte löschen]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.refresh-btn">
+				<source><![CDATA[Refresh bounding box]]></source>
+				<target><![CDATA[Bounding Box erneuern]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.refresh">
+				<source><![CDATA[Refresh the bounding box of the vector map in the search index.]]></source>
+				<target><![CDATA[Die Bounding Box der Vektor-Karte im Suchindex erneuern.]]></target>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.notify.refresh">
+				<source><![CDATA[The bounding box has successfully been refreshed.]]></source>
+				<target><![CDATA[Die Bounding Box wurde erfolgreich erneuert.]]></target>
 			</trans-unit>
 
 			<!-- GeoJson Metadata Fields -->
@@ -348,6 +368,22 @@
             <trans-unit id="plugin.map.geojson.metadata.thumbnail_url">
 				<source><![CDATA[Preview image]]></source>
 				<target><![CDATA[Vorschau-Bild]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.time_period">
+				<source><![CDATA[Time period]]></source>
+				<target><![CDATA[Zeitraum]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.label.time_period.start">
+				<source><![CDATA[Start date]]></source>
+				<target><![CDATA[Startdatum]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.label.time_period.end">
+				<source><![CDATA[End date]]></source>
+				<target><![CDATA[Enddatum]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.external_content_url">
+				<source><![CDATA[GeoJson URL]]></source>
+				<target><![CDATA[GeoJson URL]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.metadata.delete.vector">
 				<source><![CDATA[Do you really want to delete this vector map?]]></source>
@@ -366,6 +402,10 @@
             <trans-unit id="plugin.map.geojson.placeholders.thumbnail_url">
 				<source><![CDATA[Enter preview image url here…]]></source>
 				<target><![CDATA[Link zum Vorschau-Bild hier eingeben…]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.placeholders.external_content_url">
+				<source><![CDATA[Enter GeoJson url here…]]></source>
+				<target><![CDATA[Link zum GeoJson hier eingeben…]]></target>
             </trans-unit>
 
             <!--  Map GeoJson Feature Edit Image Fallback   -->
@@ -484,6 +524,10 @@
 			<trans-unit id="plugin.map.layermanagement.vectorMapActions.create">
 				<source><![CDATA[Create vector map]]></source>
                 <target><![CDATA[Vektor-Karte erstellen]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.vectorMapActions.createExternal">
+				<source><![CDATA[Create external vector map]]></source>
+                <target><![CDATA[Externe Vektor-Karte erstellen]]></target>
 			</trans-unit>
 			<trans-unit id="plugin.map.layermanagement.startMessageBody" approved="yes">
 				<source><![CDATA[Please choose your map collection in the search menu on the left side]]></source>
@@ -1419,6 +1463,10 @@
 				<source><![CDATA[No features present. Create a new one now.]]></source>
                 <target><![CDATA[Keine Features vorhanden. Jetzt ein Neues erstellen.]]></target>
             </trans-unit>
+			<trans-unit id="plugin.map.geojsoncontrolbar.add-content-url" approved="yes">
+				<source><![CDATA[No features present. Please add a GeoJson URL.]]></source>
+                <target><![CDATA[Keine Features vorhanden. Bitte eine GeoJson URL hinzufügen.]]></target>
+            </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.add-title" approved="yes">
 				<source><![CDATA[Please add a title first.]]></source>
                 <target><![CDATA[Bitte füge zunächst einen Titel hinzu.]]></target>
@@ -1522,6 +1570,11 @@
 				<target><![CDATA[Die von Ihnen eingegebenen Metadaten sind nicht gültig und können nicht gespeichert werden. Bitte überprüfen Sie, ob die URL des Vorschaubildes gültig ist und versuchen Sie es erneut.]]></target>
             </trans-unit>
 
+            <trans-unit id="plugin.map.errors.external-vector-map.metadata.http.422" approved="yes">
+                <source><![CDATA[The metadata you entered is not valid and cannot be saved. Please check if the provided GeoJson URL is returning a valid FeatureCollection.]]></source>
+				<target><![CDATA[Die von Ihnen eingegebenen Metadaten sind nicht gültig und können nicht gespeichert werden. Bitte prüfen Sie, ob die angegebene GeoJson URL eine gültige FeatureCollection zurückgibt.]]></target>
+            </trans-unit>
+
 			<trans-unit id="plugin.map.errors.vector-map.no-feature-id" approved="yes">
                 <source><![CDATA[This feature has an invalid ID. Its metadata cannot be displayed.]]></source>
 				<target><![CDATA[Dieses Feature hat eine ungültige ID. Dessen Metadaten können nicht angezeigt werden.]]></target>
@@ -1535,6 +1588,12 @@
             <trans-unit id="plugin.map.feature-permalink-button.title" approved="yes">
                 <source><![CDATA[Copy the permalink for this feature to the clipboard]]></source>
 				<target><![CDATA[Den Permalink für dieses Feature in die Zwischenablage kopieren]]></target>
+            </trans-unit>
+
+            <!--- Global -> Button label -->
+            <trans-unit id="global.button.loading-label" approved="yes">
+                <source><![CDATA[Loading…]]></source>
+				<target><![CDATA[Lade…]]></target>
             </trans-unit>
 		</body>
 	</file>

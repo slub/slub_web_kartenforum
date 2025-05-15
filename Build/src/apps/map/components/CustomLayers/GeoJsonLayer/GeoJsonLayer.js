@@ -12,7 +12,7 @@ import {
     layerHasOpacityProperty,
     MAPLIBRE_OPACITY_KEYS,
 } from "./constants";
-import { isDefined } from "@util/util";
+import { isDefined, isValidUrl } from "@util/util";
 import {
     boundsToPolygon,
     convertFeatureForApplicationState,
@@ -391,6 +391,16 @@ class GeoJsonLayer extends ApplicationLayer {
 
     isLocal() {
         return !this.isRemote();
+    }
+
+    /**
+     * Returns true if GeoJsonLayer represents an external vector map with a valid content url
+     * @returns {boolean}
+     */
+    isExternalVectorMap() {
+        const contentUrl = this.metadata[METADATA.externalContentUrl];
+
+        return isDefined(contentUrl) && isValidUrl(contentUrl);
     }
 
     /**

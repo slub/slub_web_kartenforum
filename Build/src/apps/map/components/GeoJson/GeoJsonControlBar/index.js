@@ -4,6 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file "LICENSE.txt", which is part of this source code package.
  */
-import GeoJsonControlBar from "./GeoJsonControlBar";
+import GeoJsonControlBarDraw from "./GeoJsonControlBarDraw";
+import GeoJsonControlBarExternalVectorMap from "./GeoJsonControlBarExternalVectorMap";
 
-export default GeoJsonControlBar;
+export { GeoJsonControlBarDraw, GeoJsonControlBarExternalVectorMap };

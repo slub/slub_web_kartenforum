@@ -12,8 +12,10 @@ import {
     HORIZONTAL_LAYOUT_MODE,
     LAYOUT_TYPES,
     DRAW_MODE_PANEL_STATE,
+    VECTOR_MAP_EXTERNAL_MODE_PANEL_STATE,
 } from "@map/layouts/util.js";
 import { isDefined } from "@util/util";
+import { METADATA } from "@map/components/CustomLayers";
 
 // stores the currently active basemap ID
 export const activeBasemapIdState = atom({
@@ -222,4 +224,79 @@ export const addGeoJsonDialogState = atom({
 export const drawModePanelState = atom({
     key: "drawModePanelState",
     default: DRAW_MODE_PANEL_STATE.NONE,
+});
+
+// HorizontalLayoutVectorMapExternal panel state
+export const vectorMapExternalModePanelState = atom({
+    key: "vectorMapExternalModePanelState",
+    default: VECTOR_MAP_EXTERNAL_MODE_PANEL_STATE.NONE,
+});
+
+export const layerExternalVectorMapState = atom({
+    key: "layerExternalVectorMapState",
+    default: null,
+    dangerouslyAllowMutability: true,
+});
+
+export const forceUpdateLayerExternalVectorMapState = atom({
+    key: "forceUpdateLayerExternalVectorMapState",
+    default: 0,
+});
+
+export const vectorMapExternalInitialBoundsState = atom({
+    key: "vectorMapExternalInitialBoundsState",
+    default: null,
+});
+
+export const metadataExternalVectorMapState = selector({
+    key: "metadataExternalVectorMapState",
+    get: ({ get }) => {
+        get(forceUpdateLayerExternalVectorMapState);
+        const layer = get(layerExternalVectorMapState);
+
+        if (!isDefined(layer)) {
+            return null;
+        }
+
+        return {
+            [METADATA.title]: layer.getMetadata(METADATA.title),
+            [METADATA.description]: layer.getMetadata(METADATA.description),
+            [METADATA.thumbnailUrl]: layer.getMetadata(METADATA.thumbnailUrl),
+            [METADATA.externalContentUrl]: layer.getMetadata(
+                METADATA.externalContentUrl
+            ),
+            [METADATA.timePeriod]: layer.getMetadata(METADATA.timePeriod),
+        };
+    },
+    dangerouslyAllowMutability: true,
+});
+
+export const geojsonExternalVectorMapState = selector({
+    key: "geojsonExternalVectorMapState",
+    get: ({ get }) => {
+        get(forceUpdateLayerExternalVectorMapState);
+        const layer = get(layerExternalVectorMapState);
+
+        if (!isDefined(layer)) {
+            return null;
+        }
+
+        return layer.getGeoJson();
+    },
+    dangerouslyAllowMutability: true,
+});
+
+// does not change throughout edit/create flow
+export const layerIdExternalVectorMapState = selector({
+    key: "layerIdExternalVectorMapState",
+    get: ({ get }) => {
+        const layer = get(layerExternalVectorMapState);
+
+        if (!isDefined(layer)) {
+            return null;
+        }
+
+        return layer.getId();
+    },
+    dangerouslyAllowMutability: true,
 });

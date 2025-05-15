@@ -1,0 +1,36 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 06.05.25.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+.geojson-control-bar-container {
+    position: absolute;
+    bottom: 26px;
+    left: calc((100% - 884px) / 2);
+    width: 884px;
+    z-index: 10;
+}
+
+.geojson-metadata-panel-container {
+    position: absolute;
+    top: 26px;
+    right: -340px;
+    bottom: 26px;
+    width: 340px;
+    z-index: 310;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+
+    transition-property: opacity, right;
+    transition-timing-function: ease-out, ease-out;
+    transition-duration: 0.3s, 0.3s;
+
+    &.in {
+        right: 24px;
+        opacity: 1;
+        pointer-events: all;
+    }
+}

@@ -1,0 +1,24 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 13.05.25.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+.danger-zone-root {
+    .metadata-external-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .refresh-button {
+        display: flex;
+        justify-content: center;
+        gap: 7px;
+        padding: 9px 45px 9px 45px;
+        margin-top: 14px;
+        width: 100%;
+        color: white;
+    }
+}

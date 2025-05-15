@@ -36,6 +36,23 @@ export function isString(el) {
     return typeof el === "string" || el instanceof String;
 }
 
+/**
+ * Function checks if it is a valid url
+ * @param {string} string
+ * @returns {boolean}
+ */
+export function isValidUrl(string) {
+    let url;
+
+    try {
+        url = new URL(string);
+    } catch (_) {
+        return false;
+    }
+
+    return url.protocol === "http:" || url.protocol === "https:";
+}
+
 export function translate(key) {
     const dictionary = SettingsProvider.getLanguageDict();
 

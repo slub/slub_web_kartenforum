@@ -11,7 +11,8 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import { notificationState } from "@atoms";
 import { translate } from "@util/util";
-import { isValidUrl, fetchAndParseWmsCapabilities } from "./util";
+import { fetchAndParseWmsCapabilities } from "./util";
+import { isValidUrl } from "@util/util";
 import "./DialogAddWms.scss";
 
 export const DialogAddWms = (props) => {

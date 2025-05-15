@@ -7,19 +7,19 @@
 
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useCallback, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { METADATA } from "@map/components/CustomLayers";
-import { translate } from "@util/util";
+import { translate, isValidUrl } from "@util/util";
 
-import ImageWithFallback from "../../components/ImageWithFallback";
+import ImageWithFallback from "../../../components/ImageWithFallback";
 
-import "./GeoJsonMetadataForm.scss";
+import "./FormVectorMap.scss";
 
 // refactor before extending the form to reduce boilerplate
 
-const validateThumbnailUrl = (val) => val === "" || URL.canParse(val);
+const validateThumbnailUrl = (val) => val === "" || isValidUrl(val);
 
 const GeoJsonMetadataForm = ({ formId, data, onValidatedFormSubmit }) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(
@@ -118,4 +118,4 @@ GeoJsonMetadataForm.propTypes = {
   }),
 };
 
-export default GeoJsonMetadataForm;
+export default memo(GeoJsonMetadataForm);

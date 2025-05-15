@@ -10,15 +10,24 @@ import React, { useCallback } from "react";
 import { useSetRecoilState } from "recoil";
 import { showDropZoneState } from "@map/atoms";
 import { translate } from "@util/util";
-import { useCreateNewVectorMap } from "@map/components/GeoJson/util/hooks/useCreateNewVectorMap";
-import { isVectorMapCreateAllowed } from "@map/components/GeoJson/util/authorization";
+import {
+  isVectorMapCreateAllowed,
+  isExternalVectorMapCreateAllowed,
+} from "@map/components/GeoJson/util/authorization";
+import { useHorizontalDrawMode } from "@map/components/GeoJson/util/hooks/useHorizontalDrawMode";
+import { useHorizontalExternalVectorMapMode } from "@map/components/GeoJson/util/hooks/useHorizontalExternalVectorMapMode";
 
 export default function GeoJsonActionContainer() {
-  const createNewVectorMap = useCreateNewVectorMap();
+  const { createNewVectorMap } = useHorizontalDrawMode();
+  const { createNewExternalVectorMap } = useHorizontalExternalVectorMapMode();
   const setShowDropZone = useSetRecoilState(showDropZoneState);
 
   const handleCreateVectorMap = useCallback(() => {
     createNewVectorMap();
+  }, []);
+
+  const handleCreateExternalVectorMap = useCallback(() => {
+    createNewExternalVectorMap();
   }, []);
 
   const handleAddVectorMap = useCallback(() => {
@@ -36,6 +45,17 @@ export default function GeoJsonActionContainer() {
           <span>{translate("layermanagement-create-vector-map")}</span>
         </button>
       </div>
+
+      {isExternalVectorMapCreateAllowed() && (
+        <div className="geojson-action">
+          <button onClick={handleCreateExternalVectorMap}>
+            <VkfIcon name="addVectorMap" />
+            <span>
+              {translate("layermanagement-create-external-vector-map")}
+            </span>
+          </button>
+        </div>
+      )}
 
       <div className="geojson-action">
         <button onClick={handleAddVectorMap}>

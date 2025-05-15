@@ -13,6 +13,12 @@ export const DRAW_MODE_PANEL_STATE = {
     HISTORY: 3,
 };
 
+// determines which panel is shown in HORIZONTAL_LAYOUT_MODE.VECTOR_MAP_EXTERNAL
+export const VECTOR_MAP_EXTERNAL_MODE_PANEL_STATE = {
+    NONE: 0,
+    METADATA: 1,
+};
+
 export const LAYOUT_TYPES = {
     HORIZONTAL: "HORIZONTAL",
     VERTICAL: "VERTICAL",
@@ -23,6 +29,7 @@ export const LAYOUT_TYPES = {
 export const HORIZONTAL_LAYOUT_MODE = {
     STANDARD: "STANDARD",
     DRAW: "DRAW",
+    VECTOR_MAP_EXTERNAL: "VECTOR_MAP_EXTERNAL",
 };
 
 // Specify layout breakpoints

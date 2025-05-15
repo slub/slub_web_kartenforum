@@ -4,6 +4,9 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
+
+import bbox from "@turf/bbox";
+
 import {
     ignoredProperties,
     predefinedProperties,
@@ -11,7 +14,7 @@ import {
     styleFieldSettings,
 } from "../constants.js";
 
-import { isDefined, translate } from "@util/util.js";
+import { isDefined } from "@util/util.js";
 import {
     drawModePanelState,
     horizontalLayoutModeState,
@@ -24,8 +27,6 @@ import {
     DRAW_MODE_PANEL_STATE,
     HORIZONTAL_LAYOUT_MODE,
 } from "@map/layouts/util";
-
-import { notificationState } from "@atoms";
 
 import { METADATA } from "@map/components/CustomLayers";
 
@@ -403,47 +404,56 @@ export const processUpdatedGeoJsonForPersistence = (
     };
 };
 
-export const handleErrorResponse = (error, set) => {
-    const httpErrorNotification = (translationKey) => ({
-        id: "mapWrapper",
-        type: "danger",
-        text: translate(translationKey),
-    });
+export const handleErrorResponse = (error, notifyError) => {
     if (error.response) {
         if (error.response.status === 401) {
-            set(
-                notificationState,
-                httpErrorNotification("common-errors-http-401")
-            );
+            notifyError("common-errors-http-401");
             return;
         }
 
         if (error.response.status === 403) {
-            set(
-                notificationState,
-                httpErrorNotification("common-errors-http-403")
-            );
+            notifyError("common-errors-http-403");
+
             return;
         }
 
         if (error.response.status === 409) {
-            set(
-                notificationState,
-                httpErrorNotification("geojson-draw-version-conflict")
-            );
+            notifyError("common-errors-http-409");
             return;
         }
 
         if (error.response.status === 422) {
-            set(
-                notificationState,
-                httpErrorNotification("geojson-draw-error-invalid-input")
-            );
+            notifyError("geojson-draw-error-invalid-input");
+        }
+    }
+
+    notifyError("common-errors-unexpected");
+    console.error(error);
+    return;
+};
+
+export const handleErrorResponseExternalVectorMap = (error, notifyError) => {
+    if (error.response) {
+        if (error.response.status === 401) {
+            notifyError("common-errors-http-401");
+            return;
+        }
+
+        if (error.response.status === 403) {
+            notifyError("common-errors-http-403");
+
+            return;
+        }
+
+        // e.g., if the geojson url is not reachable
+        if (error.response.status === 422) {
+            notifyError("geojson-external-vector-map-error-invalid-input");
+
             return;
         }
     }
 
-    set(notificationState, httpErrorNotification("common-errors-unexpected"));
+    notifyError("common-errors-unexpected");
     console.error(error);
     return;
 };
@@ -474,5 +484,30 @@ export const metadataAppToMetadataApi = (metadata) => {
         Object.entries(mappedMetadata).map(([key, value]) =>
             !isDefined(value) || value === "" ? [key, null] : [key, value]
         )
+    );
+};
+
+export const updateExternalVectorMapLayerMetadata = (layer, metadata) => {
+    if (!isDefined(layer) || !isDefined(metadata)) {
+        console.error(
+            "Cannot update layer's metadata. Either of the two are not defined."
+        );
+        return;
+    }
+
+    // useZoomToExtent hook relies on metadata bounds
+    const geoJson = layer.getGeoJson();
+    layer.updateMetadata(METADATA.bounds, bbox(geoJson));
+
+    layer.updateMetadata(METADATA.title, metadata[METADATA.title]);
+    layer.updateMetadata(METADATA.description, metadata[METADATA.description]);
+    layer.updateMetadata(
+        METADATA.thumbnailUrl,
+        metadata[METADATA.thumbnailUrl]
+    );
+    layer.updateMetadata(METADATA.timePeriod, metadata[METADATA.timePeriod]);
+    layer.updateMetadata(
+        METADATA.externalContentUrl,
+        metadata[METADATA.externalContentUrl]
     );
 };

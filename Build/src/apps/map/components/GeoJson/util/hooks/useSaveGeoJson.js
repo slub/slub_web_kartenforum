@@ -36,8 +36,11 @@ import {
 
 import equal from "fast-deep-equal";
 import { isVectorMapMetadataEditAllowed } from "../authorization";
+import useNotification from "./useNotification";
 
 export const useSaveGeoJson = () => {
+    const { notifyError } = useNotification();
+
     const createRemoteVectorMap = useRecoilCallback(
         ({ snapshot, set }) =>
             async () => {
@@ -60,7 +63,7 @@ export const useSaveGeoJson = () => {
                             metadataAppToMetadataApi(metadata)
                         );
                     } catch (error) {
-                        handleErrorResponse(error, set);
+                        handleErrorResponse(error, notifyError);
                     }
 
                     if (isDefined(id)) {
@@ -157,7 +160,7 @@ export const useSaveGeoJson = () => {
                             vectorMapDraw.version
                         );
                     } catch (error) {
-                        handleErrorResponse(error, set);
+                        handleErrorResponse(error, notifyError);
                     }
 
                     // update the application layer

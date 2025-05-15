@@ -14,7 +14,7 @@ import {
 import MapSearchListElementWithGeometryPreview from "./MapSearchListElementWithGeometryPreview.jsx";
 import { fetchWmsTmsSettings } from "@map/components/CustomLayers/HistoricMapLayer/fetchWmsTmsSettings";
 import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
-import { getVectorMap } from "@map/components/GeoJson/util/apiVectorMaps";
+import { initializeVectorMap } from "@map/components/GeoJson/util/initializeVectorMap.js";
 
 const useMapSearchListElementFunctionality = () => {
   return useRecoilCallback(({ snapshot, set }) => async (layer) => {
@@ -43,16 +43,9 @@ const useMapSearchListElementFunctionality = () => {
     // select layer
     const type = layer.getMetadata(METADATA.type);
 
-    //@TODO: Add loading feedback, while layer is added to map
+    // TODO IMPLEMENT loading feedback, while layer is added to map
     if (type === LAYER_TYPES.VECTOR_MAP) {
-      const vectorMap = await getVectorMap(
-        layer.getMetadata(METADATA.vectorMapId)
-      );
-
-      layer.updateMetadata(METADATA.userRole, vectorMap[METADATA.userRole]);
-      layer.updateMetadata(METADATA.version, vectorMap[METADATA.version]);
-
-      layer.setGeoJson(vectorMap.geojson);
+      await initializeVectorMap(layer);
       layer.addLayerToMap(map);
       set(selectedLayersState, (oldSelectedLayers) =>
         oldSelectedLayers.concat(layer)

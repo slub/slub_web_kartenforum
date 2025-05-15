@@ -11,6 +11,7 @@ import SettingsProvider from "@settings-provider";
 import { HORIZONTAL_LAYOUT_MODE, LAYOUT_TYPES } from "./util";
 import { HorizontalLayout } from "./HorizontalLayout/HorizontalLayout";
 import { HorizontalLayoutDraw } from "./HorizontalLayoutDraw/HorizontalLayoutDraw";
+import HorizontalLayoutExternalVectorMap from "./HorizontalLayoutExternalVectorMap";
 import VerticalLayout from "./VerticalLayout/VerticalLayout";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { horizontalLayoutModeState, layoutState } from "@map/atoms";
@@ -22,6 +23,8 @@ const getHorizontalLayoutComponent = (layoutMode) => {
       return HorizontalLayout;
     case HORIZONTAL_LAYOUT_MODE.DRAW:
       return HorizontalLayoutDraw;
+    case HORIZONTAL_LAYOUT_MODE.VECTOR_MAP_EXTERNAL:
+      return HorizontalLayoutExternalVectorMap;
     default:
       HorizontalLayout;
   }

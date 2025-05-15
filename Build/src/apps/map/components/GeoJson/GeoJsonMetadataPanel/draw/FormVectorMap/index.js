@@ -5,6 +5,6 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import GeoJsonMetadataForm from "./GeoJsonMetadataForm";
+import FormVectorMap from "./FormVectorMap";
 
-export default GeoJsonMetadataForm;
+export default FormVectorMap;

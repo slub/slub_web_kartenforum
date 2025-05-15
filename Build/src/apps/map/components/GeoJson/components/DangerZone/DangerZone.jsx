@@ -10,27 +10,22 @@ import PropTypes from "prop-types";
 
 import VkfIcon from "@components/VkfIcon";
 import CustomButton from "../CustomButton";
-
-import "./DangerZone.scss";
+import DangerZoneBase from "./DangerZoneBase";
 
 const DangerZone = ({ description, onDeleteClick, buttonLabel }) => {
   return (
-    <div className="danger-zone-root">
-      <p className="text text-header">danger zone</p>
+    <DangerZoneBase>
+      <p className="text text-description">{description}</p>
 
-      <div className="danger-zone-content">
-        <p className="text text-description">{description}</p>
-
-        <CustomButton
-          className="delete-button"
-          onClick={onDeleteClick}
-          type="delete"
-        >
-          <VkfIcon name="delete" />
-          <p className="text text-button">{buttonLabel}</p>
-        </CustomButton>
-      </div>
-    </div>
+      <CustomButton
+        className="delete-button"
+        onClick={onDeleteClick}
+        type="delete"
+      >
+        <VkfIcon name="delete" />
+        <p className="text text-button">{buttonLabel}</p>
+      </CustomButton>
+    </DangerZoneBase>
   );
 };
 

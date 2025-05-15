@@ -26,6 +26,11 @@ const dateFormats = {
     de: "dd.MM.yyyy",
 };
 
+const dateRegex = {
+    en: /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/,
+    de: /^[0-9]{2}\.[0-9]{2}\.[0-9]{4}$/,
+};
+
 /**
  * Formats a date according to the currently active TYPO3 language settings in UTC.
  * @param {Date|number|string} date A date that can be parsed by new Date(date)
@@ -76,11 +81,11 @@ export function parseDateLocalized(date) {
  * @param {unknown} date The date as a value convertible to a Date object or a date object itself.
  * @returns {string} The ISO string or empty string if date represents an invalid date.
  */
-export function formatDateIso(date) {
+export function formatDateIso(date, options = {}) {
     let formattedDate = "";
 
     try {
-        formattedDate = formatISO(date, { in: utc });
+        formattedDate = formatISO(date, { ...options, in: utc });
     } catch (error) {
         formattedDate = "";
     }
@@ -109,6 +114,28 @@ export function parseDateIso(dateString) {
  */
 export function isValidDate(date) {
     return isValid(date);
+}
+
+/**
+ * Checks if a localized date string is representing a valid date.
+ 
+ * @param {string} date A string representing a localized date, i.e. 12.03.2001 or 03/12/2001
+ * @returns {boolean}
+ */
+export function isValidLocalizedDate(date) {
+    const currentLanguageCode = SettingsProvider.getSettings().LANGUAGE_CODE;
+
+    // fallback in case no regex is provided
+    // 12.12.22 will be parsed as 12.22.0022
+    if (!Object.hasOwn(dateRegex, currentLanguageCode)) {
+        return !Number.isNaN(parseDateLocalized(date).valueOf());
+    }
+
+    const regex = dateRegex[currentLanguageCode];
+
+    return (
+        regex.test(date) && !Number.isNaN(parseDateLocalized(date).valueOf())
+    );
 }
 
 /**

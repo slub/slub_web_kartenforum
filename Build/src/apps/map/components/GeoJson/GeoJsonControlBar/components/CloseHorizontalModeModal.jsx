@@ -10,9 +10,9 @@ import Modal from "@components/Modal";
 import { translate } from "@util/util";
 import CustomButton from "@map/components/GeoJson/components/CustomButton";
 
-import "./CloseDrawingModeModal.scss";
+import "./CloseHorizontalModeModal.scss";
 
-const CloseDrawingModeModal = ({ onClose, onSave, onDiscard, show }) => {
+const CloseHorizontalModeModal = ({ onClose, onSave, onDiscard, show }) => {
   const handleSaveClick = useCallback(() => {
     onSave().finally(() => {
       onClose();
@@ -42,10 +42,10 @@ const CloseDrawingModeModal = ({ onClose, onSave, onDiscard, show }) => {
   );
 };
 
-CloseDrawingModeModal.propTypes = {
+CloseHorizontalModeModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onDiscard: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
 };
-export default CloseDrawingModeModal;
+export default CloseHorizontalModeModal;

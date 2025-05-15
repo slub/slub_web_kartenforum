@@ -4,13 +4,13 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
+import { LAYER_TYPES } from "@map/components/CustomLayers";
 import { fetchWmsTmsSettings } from "@map/components/CustomLayers/HistoricMapLayer/fetchWmsTmsSettings";
 import { queryDocument } from "@util/apiEs";
 import { readLayer } from "@util/parser";
 import { deserializeGeojsonLayer } from "@map/persistence/util";
-import { getVectorMap } from "@map/components/GeoJson/util/apiVectorMaps";
 import { isDefined } from "@util/util";
+import { initializeVectorMap } from "@map/components/GeoJson/util/initializeVectorMap";
 
 const layerTypes = Object.values(LAYER_TYPES);
 
@@ -63,13 +63,7 @@ export async function loadLayer(operationalLayer) {
     }
 
     if (type === LAYER_TYPES.VECTOR_MAP) {
-        const vectorMap = await getVectorMap(id);
-
-        layer.updateMetadata(METADATA.userRole, vectorMap[METADATA.userRole]);
-        layer.updateMetadata(METADATA.version, vectorMap[METADATA.version]);
-        layer.updateMetadata(METADATA.vectorMapId, id);
-
-        layer.setGeoJson(vectorMap.geojson);
+        await initializeVectorMap(layer);
     }
 
     return resultBase;

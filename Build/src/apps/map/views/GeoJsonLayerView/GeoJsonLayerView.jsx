@@ -7,24 +7,21 @@
 
 import React, { useCallback, useEffect, useMemo } from "react";
 import {
-  horizontalLayoutModeState,
-  initialGeoJsonDrawState,
   mapState,
-  metadataDrawState,
   selectedGeoJsonFeatureIdentifierState,
   selectedGeoJsonLayerIdState,
-  vectorMapDrawState,
 } from "@map/atoms";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import clsx from "clsx";
-import { translate } from "@util/util";
+import { isDefined, translate } from "@util/util";
 import GeoJsonLayerFeatureList from "@map/components/GeoJson/GeoJsonLayerFeatureList";
 import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
 import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
 
-import "./GeoJsonLayerView.scss";
-import { HORIZONTAL_LAYOUT_MODE } from "@map/layouts/util";
-import { isVectorMapEditAllowed } from "@map/components/GeoJson/util/authorization";
+import {
+  isExternalVectorMapEditAllowed,
+  isVectorMapEditAllowed,
+} from "@map/components/GeoJson/util/authorization";
 import {
   GEOJSON_LAYER_VIEW_MODE,
   geoJsonLayerViewLayerState,
@@ -34,6 +31,26 @@ import {
 import { GeoJsonLayerFilters } from "@map/views/GeoJsonLayerView/components/GeoJsonLayerFilters";
 import PropTypes from "prop-types";
 import GeoJsonLayerActions from "@map/views/GeoJsonLayerView/components/GeoJsonLayerActions";
+import { useHorizontalDrawMode } from "@map/components/GeoJson/util/hooks/useHorizontalDrawMode";
+import { useHorizontalExternalVectorMapMode } from "@map/components/GeoJson/util/hooks/useHorizontalExternalVectorMapMode";
+
+import "./GeoJsonLayerView.scss";
+
+const canUserEdit = (selectedLayer) => {
+  if (!isDefined(selectedLayer)) {
+    return false;
+  }
+
+  if (selectedLayer.isExternalVectorMap()) {
+    return isExternalVectorMapEditAllowed();
+  }
+
+  return isVectorMapEditAllowed(selectedLayer);
+};
+
+// TODO cleanup GEOJSON_LAYER_VIEW_MODE, i think edit mode is not needed
+// it was used before the horizontal modes were introduced and
+// another view was opened within the panel itself
 
 const GeoJsonLayerView = ({ selectedLayer }) => {
   const [viewMode, setViewMode] = useRecoilState(geoJsonLayerViewViewModeState);
@@ -49,11 +66,9 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
   const setSelectedGeoJsonFeatureIdentifier = useSetRecoilState(
     selectedGeoJsonFeatureIdentifierState
   );
-  const setInitialGeoJsonDraw = useSetRecoilState(initialGeoJsonDrawState);
-  const setMetadataDraw = useSetRecoilState(metadataDrawState);
-  const setVectorMapDraw = useSetRecoilState(vectorMapDrawState);
 
-  const setHorizontalLayoutMode = useSetRecoilState(horizontalLayoutModeState);
+  const { editVectorMap } = useHorizontalDrawMode();
+  const { editExternalVectorMap } = useHorizontalExternalVectorMapMode();
 
   const map = useRecoilValue(mapState);
 
@@ -79,33 +94,22 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
     setTimeExtentFilter(null);
   }, []);
 
-  const handleEditOpenClick = useCallback(() => {
-    setViewMode(GEOJSON_LAYER_VIEW_MODE.EDIT);
-    setHorizontalLayoutMode(HORIZONTAL_LAYOUT_MODE.DRAW);
-    selectedLayer.setVisibility(map, "none");
-    setInitialGeoJsonDraw(selectedLayer.getGeoJson());
-
-    setMetadataDraw({
-      [METADATA.title]: selectedLayer.getMetadata(METADATA.title),
-      [METADATA.description]: selectedLayer.getMetadata(METADATA.description),
-      [METADATA.thumbnailUrl]: selectedLayer.getMetadata(METADATA.thumbnailUrl),
-    });
-
-    const vectorMapId = selectedLayer.getMetadata(METADATA.vectorMapId);
-    const version = selectedLayer.getMetadata(METADATA.version);
-
-    setVectorMapDraw({
-      type: vectorMapId ? "remote" : "local",
-      id: vectorMapId ?? null,
-      version: version ?? null,
-      layerRole: selectedLayer.getMetadata(METADATA.userRole) ?? null,
-    });
+  const handleEditOpenClick = useCallback(async () => {
+    try {
+      if (selectedLayer.isExternalVectorMap()) {
+        await editExternalVectorMap(selectedLayer);
+      } else {
+        await editVectorMap(selectedLayer);
+      }
+    } catch (error) {
+      console.error(error);
+      return;
+    }
   }, [selectedLayer]);
 
   const handleEditCloseClick = useCallback(() => {
     selectedLayer.setVisibility(map, "visible");
     setViewMode(GEOJSON_LAYER_VIEW_MODE.INITIAL);
-    setHorizontalLayoutMode(HORIZONTAL_LAYOUT_MODE.STANDARD);
   }, [selectedLayer]);
 
   const handleFeatureClick = useCallback(
@@ -133,7 +137,7 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
         title={translate("geojsonlayerpanel-header-title")}
         onEditClick={
           viewMode !== GEOJSON_LAYER_VIEW_MODE.EDIT &&
-          isVectorMapEditAllowed(selectedLayer)
+          canUserEdit(selectedLayer)
             ? handleEditOpenClick
             : undefined
         }
