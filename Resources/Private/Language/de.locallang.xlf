@@ -561,6 +561,10 @@
 				<source><![CDATA[Time]]></source>
 				<target><![CDATA[Zeit]]></target>
 			</trans-unit>
+			<trans-unit id="plugin.map.mapsearch.time">
+				<source><![CDATA[Time]]></source>
+				<target><![CDATA[Zeit]]></target>
+			</trans-unit>
 			<trans-unit id="plugin.map.mapsearch.title" approved="yes">
 				<source><![CDATA[Title]]></source>
 				<target><![CDATA[Titel]]></target>

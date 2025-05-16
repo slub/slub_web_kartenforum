@@ -23,6 +23,7 @@ import {
 import { LAYER_TYPES, METADATA } from "../constants";
 import { bbox } from "@turf/bbox";
 import { MAP_OVERLAY_FILL_ID } from "@map/components/MapSearch/components/MapSearchOverlayLayer/MapSearchOverlayLayer";
+import { getDefaultMetadataTimePeriod } from "@util/date";
 
 // NOTE mousemove event handler could be replaced with mouseenter if the polygon outline should not trigger an event
 const eventHandlers = [
@@ -119,8 +120,9 @@ class GeoJsonLayer extends ApplicationLayer {
 
         this.metadata[METADATA.id] =
             this.metadata[METADATA.id] ?? crypto.randomUUID();
-        this.metadata[METADATA.timePublished] =
-            this.metadata[METADATA.timePublished] ?? new Date().getFullYear();
+        this.metadata[METADATA.timePeriod] =
+            this.metadata[METADATA.timePeriod] ??
+            getDefaultMetadataTimePeriod();
         this.metadata[METADATA.hasGeoReference] = true;
     }
 

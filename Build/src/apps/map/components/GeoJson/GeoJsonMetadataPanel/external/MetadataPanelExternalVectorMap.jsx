@@ -10,7 +10,6 @@ import React, { useCallback, useMemo } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   layerIdExternalVectorMapState,
-  metadataExternalVectorMapState,
   vectorMapExternalModePanelState,
 } from "@map/atoms";
 import { VECTOR_MAP_EXTERNAL_MODE_PANEL_STATE } from "@map/layouts/util";
@@ -34,7 +33,7 @@ const GeoJsonMetadataPanelExternalVectorMap = () => {
     useVectorMapExternalModeInitializers();
 
   const externalVectorMapId = useRecoilValue(layerIdExternalVectorMapState);
-  const metadata = useRecoilValue(metadataExternalVectorMapState);
+
   const setExternalModePanel = useSetRecoilState(
     vectorMapExternalModePanelState
   );
@@ -96,7 +95,6 @@ const GeoJsonMetadataPanelExternalVectorMap = () => {
       }
       formComponent={
         <FormExternalVectorMap
-          data={metadata}
           onValidatedFormSubmit={handleValidatedFormSubmit}
         />
       }

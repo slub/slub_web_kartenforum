@@ -538,6 +538,9 @@
 			<trans-unit id="plugin.map.mapsearch.time_published">
 				<source>Time</source>
 			</trans-unit>
+			<trans-unit id="plugin.map.mapsearch.time">
+				<source>Time</source>
+			</trans-unit>
 			<trans-unit id="plugin.map.mapsearch.title">
 				<source>Title</source>
 			</trans-unit>

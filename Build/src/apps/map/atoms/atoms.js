@@ -243,11 +243,6 @@ export const forceUpdateLayerExternalVectorMapState = atom({
     default: 0,
 });
 
-export const vectorMapExternalInitialBoundsState = atom({
-    key: "vectorMapExternalInitialBoundsState",
-    default: null,
-});
-
 export const metadataExternalVectorMapState = selector({
     key: "metadataExternalVectorMapState",
     get: ({ get }) => {

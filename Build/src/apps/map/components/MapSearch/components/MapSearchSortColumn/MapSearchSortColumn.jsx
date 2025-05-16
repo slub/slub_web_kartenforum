@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useMemo } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
 import { translate } from "@util/util";
+
+const type_to_translation_key = {
+  time_period_start: "mapsearch-time",
+  title: "mapsearch-title",
+  map_scale: "mapsearch-map_scale",
+  georeference: "mapsearch-georeference",
+};
 
 export const MapSearchSortColumn = ({ onClick, sortOrder, type }) => {
   const handleClick = () => {
@@ -15,10 +22,10 @@ export const MapSearchSortColumn = ({ onClick, sortOrder, type }) => {
     }
   };
 
-  const title =
-    translate(`mapsearch-${type}`) === ""
-      ? translate(type)
-      : translate(`mapsearch-${type}`);
+  const title = useMemo(() => {
+    const translationKey = type_to_translation_key[type];
+    return translate(translationKey);
+  }, [type]);
 
   return (
     <div className={clsx("inner-col", type)}>

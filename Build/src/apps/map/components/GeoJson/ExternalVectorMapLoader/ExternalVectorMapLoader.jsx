@@ -13,7 +13,6 @@ import {
   horizontalLayoutModeState,
   layerExternalVectorMapState,
   selectedGeoJsonLayerState,
-  vectorMapExternalInitialBoundsState,
 } from "@map/atoms";
 import {
   useMaplibreControlPositions,
@@ -29,17 +28,13 @@ export const useVectorMapExternalModeInitializers = () => {
   // reset external vector map mode state
   const exitExternalVectorLayerMode = useRecoilCallback(
     ({ set, snapshot }) =>
-      async ({ isDiscard = false } = {}) => {
+      async () => {
         const map = await snapshot.getPromise(mapState);
         const temporaryLayer = await snapshot.getPromise(
           layerExternalVectorMapState
         );
         const { selectedLayer } = await snapshot.getPromise(
           selectedGeoJsonLayerState
-        );
-
-        const initialBounds = await snapshot.getPromise(
-          vectorMapExternalInitialBoundsState
         );
 
         if (!isDefined(map) || !isDefined(temporaryLayer)) {
@@ -53,15 +48,9 @@ export const useVectorMapExternalModeInitializers = () => {
         // remove layer from map
         temporaryLayer.removeMapLibreLayers(map);
 
-        // if user exits by discarding data, reset map to initial bounds
-        if (isDiscard === true) {
-          map.fitBounds(initialBounds, { animate: false });
-        }
-
         // unmount components before resetting state
         set(horizontalLayoutModeState, HORIZONTAL_LAYOUT_MODE.STANDARD);
 
-        set(vectorMapExternalInitialBoundsState, null);
         set(layerExternalVectorMapState, null);
         set(
           vectorMapExternalModePanelState,
@@ -72,14 +61,13 @@ export const useVectorMapExternalModeInitializers = () => {
   );
 
   const initializeVectorMapExternalMode = useRecoilCallback(
-    ({ set, snapshot }) =>
+    ({ snapshot }) =>
       async () => {
         const map = await snapshot.getPromise(mapState);
 
         if (isDefined(map)) {
           // add css class to control container for position handling
           map._controlContainer.classList.add(CSS_CLASS_POSITION_CONTROL);
-          set(vectorMapExternalInitialBoundsState, map.getBounds());
         }
       },
     []

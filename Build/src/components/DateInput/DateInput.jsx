@@ -30,6 +30,7 @@ const DateInput = forwardRef(function DateInput(
     readOnly,
     tabIndex,
     placeholder,
+    name,
   },
   forwardedRef
 ) {
@@ -86,6 +87,7 @@ const DateInput = forwardRef(function DateInput(
         readOnly={readOnly ?? undefined}
         tabIndex={tabIndex ?? undefined}
         placeholder={placeholder ?? undefined}
+        name={name ?? undefined}
       />
     </div>
   );
@@ -101,6 +103,7 @@ DateInput.propTypes = {
   tabIndex: PropTypes.number,
   placeholder: PropTypes.string,
   defaultValue: PropTypes.string,
+  name: PropTypes.string,
 };
 
 export default DateInput;

@@ -1,52 +1,46 @@
 /*
- * Created by tom.schulze@pikobytes.de on 09.05.25.
+ * Created by tom.schulze@pikobytes.de on 15.05.25.
  *
  * This file is subject to the terms and conditions defined in
  * file "LICENSE.txt", which is part of this source code package.
  */
 
 import { METADATA } from "@map/components/CustomLayers";
-import { default as doValidateFeatureCollection } from "@util/schemas/validateFeatureCollection";
 import {
     coerceEmptyOrUndefinedToNull,
-    formTimePeriodToMetadata,
     metadataToFormTimePeriod,
+    formTimePeriodToMetadata,
     TIME_PERIOD_START_FIELD_NAME,
     TIME_PERIOD_END_FIELD_NAME,
     coerceUndefinedOrNullToEmptyString,
 } from "../core/util";
 
-export const FORM_ID = "vkf-geojson-metadata-form-external-vector-map";
-
-export const metadataLayerToExternal = (metadata) => {
+const metadataLayerToDraw = (metadata) => {
     return {
         [METADATA.title]: metadata[METADATA.title],
-        [METADATA.timePeriod]: metadata[METADATA.timePeriod],
         [METADATA.description]: metadata[METADATA.description],
-        [METADATA.externalContentUrl]: metadata[METADATA.externalContentUrl],
         [METADATA.thumbnailUrl]: metadata[METADATA.thumbnailUrl],
+        [METADATA.timePeriod]: metadata[METADATA.timePeriod],
     };
 };
 
-export const metadataExternalToApi = (metadata) => {
+const metadataDrawToApi = (metadata) => {
     const apiMetadata = {
-        title: metadata[METADATA.title],
-        link_content: metadata[METADATA.externalContentUrl],
-        time_period: metadata[METADATA.timePeriod],
-        description: metadata[METADATA.description],
         link_thumb: metadata[METADATA.thumbnailUrl],
+        title: metadata[METADATA.title],
+        description: metadata[METADATA.description],
+        time_period: metadata[METADATA.timePeriod],
     };
 
     return coerceEmptyOrUndefinedToNull(apiMetadata);
 };
 
-export const metadataExternalToForm = (metadata) => {
+export const metadataDrawToForm = (metadata) => {
     const { timePeriodStart, timePeriodEnd } =
         metadataToFormTimePeriod(metadata);
 
     const data = {
         [METADATA.title]: metadata[METADATA.title],
-        [METADATA.externalContentUrl]: metadata[METADATA.externalContentUrl],
         [TIME_PERIOD_START_FIELD_NAME]: timePeriodStart,
         [TIME_PERIOD_END_FIELD_NAME]: timePeriodEnd,
         [METADATA.description]: metadata[METADATA.description],
@@ -56,7 +50,7 @@ export const metadataExternalToForm = (metadata) => {
     return coerceUndefinedOrNullToEmptyString(data);
 };
 
-export const formExternalToMetadata = (validatedFormValues) => {
+export const formDrawToMetadata = (validatedFormValues) => {
     const data = validatedFormValues;
     const start = data[TIME_PERIOD_START_FIELD_NAME];
     const end = data[TIME_PERIOD_END_FIELD_NAME];
@@ -65,7 +59,6 @@ export const formExternalToMetadata = (validatedFormValues) => {
 
     const metadata = {
         [METADATA.title]: data[METADATA.title],
-        [METADATA.externalContentUrl]: data[METADATA.externalContentUrl],
         [METADATA.timePeriod]: timePeriod,
         [METADATA.description]: data[METADATA.description],
         [METADATA.thumbnailUrl]: data[METADATA.thumbnailUrl],
@@ -74,16 +67,4 @@ export const formExternalToMetadata = (validatedFormValues) => {
     return metadata;
 };
 
-export const validateFeatureCollection = (geoJson) => {
-    const result = doValidateFeatureCollection(geoJson);
-
-    if (!result) {
-        throw new Error("The GeoJson is not a valid FeatureCollection");
-    }
-
-    if (geoJson.features.length === 0) {
-        throw new Error("The GeoJson is an empty FeatureCollection");
-    }
-
-    return result;
-};
+export { metadataLayerToDraw, metadataDrawToApi };

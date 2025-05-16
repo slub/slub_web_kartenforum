@@ -14,8 +14,8 @@ import {
 } from "@map/atoms";
 import { useRecoilCallback } from "recoil";
 import {
-    extractExternalVectorMapMetadata,
-    getMetadataForApi,
+    metadataLayerToExternal,
+    metadataExternalToApi,
 } from "../../GeoJsonMetadataPanel/external/util";
 import {
     createExternalVectorMap,
@@ -52,7 +52,7 @@ const useSaveExternalVectorMap = () => {
                     return;
                 }
 
-                const metadata = getMetadataForApi(tempLayer.getMetadata());
+                const metadata = metadataExternalToApi(tempLayer.getMetadata());
                 const geoJson = tempLayer.getGeoJson();
 
                 try {
@@ -107,10 +107,10 @@ const useSaveExternalVectorMap = () => {
                 const geoJson = tempLayer.getGeoJson();
                 const id = tempLayer.getMetadata()[METADATA.vectorMapId];
 
-                const intialMetadata = extractExternalVectorMapMetadata(
+                const intialMetadata = metadataLayerToExternal(
                     selectedLayer.getMetadata()
                 );
-                const metadata = extractExternalVectorMapMetadata(
+                const metadata = metadataLayerToExternal(
                     tempLayer.getMetadata()
                 );
                 const hasMetadataChanged = !equal(intialMetadata, metadata);
@@ -119,7 +119,7 @@ const useSaveExternalVectorMap = () => {
                     if (hasMetadataChanged) {
                         await updateExternalVectorMap(
                             id,
-                            getMetadataForApi(metadata)
+                            metadataExternalToApi(metadata)
                         );
 
                         updateExternalVectorMapLayerMetadata(

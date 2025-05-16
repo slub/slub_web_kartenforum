@@ -15,6 +15,7 @@ import GeoJsonPanelHeader from "../../GeoJsonPanelHeader";
 import CustomButton from "../../components/CustomButton";
 
 import "./MetadataPanel.scss";
+import "./MetadataPanelForm.scss";
 
 const MetadataPanel = ({
   title,

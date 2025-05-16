@@ -29,14 +29,16 @@ import {
     processNewGeoJsonForPersistence,
     processUpdatedGeoJsonForPersistence,
     handleErrorResponse,
-    metadataAppToMetadataApi,
-    metadataLayerToMetadataDraw,
     removeAllFeatureIds,
 } from "@map/components/GeoJson/util/util";
 
 import equal from "fast-deep-equal";
 import { isVectorMapMetadataEditAllowed } from "../authorization";
 import useNotification from "./useNotification";
+import {
+    metadataDrawToApi,
+    metadataLayerToDraw,
+} from "../../GeoJsonMetadataPanel/draw/util";
 
 export const useSaveGeoJson = () => {
     const { notifyError } = useNotification();
@@ -60,7 +62,7 @@ export const useSaveGeoJson = () => {
                         // persist vector map to remote
                         id = await createNewVectorMap(
                             geoJson,
-                            metadataAppToMetadataApi(metadata)
+                            metadataDrawToApi(metadata)
                         );
                     } catch (error) {
                         handleErrorResponse(error, notifyError);
@@ -117,7 +119,7 @@ export const useSaveGeoJson = () => {
                         initialGeoJsonDrawState
                     );
 
-                    const initialMetadata = metadataLayerToMetadataDraw(
+                    const initialMetadata = metadataLayerToDraw(
                         selectedLayer.getMetadata()
                     );
 
@@ -148,7 +150,7 @@ export const useSaveGeoJson = () => {
                             geoJsonFromDraw,
                             nextVersion
                         );
-                    const metadataToSend = metadataAppToMetadataApi(metadata);
+                    const metadataToSend = metadataDrawToApi(metadata);
 
                     let newVersion = null;
                     try {

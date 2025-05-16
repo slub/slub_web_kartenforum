@@ -10,6 +10,18 @@ import { translate } from "@util/util";
 import SettingsProvider from "@settings-provider";
 
 import "./UnreferencedMaps.scss";
+import { endOfYear, isSameDay, startOfYear } from "date-fns";
+
+const formatTimePeriod = (start, end) => {
+  const firstDayOfYear = startOfYear(start);
+  const lastDayOfYear = endOfYear(start);
+
+  if (isSameDay(start, firstDayOfYear) && isSameDay(end, lastDayOfYear)) {
+    return start;
+  }
+
+  return `${start} – ${end}`;
+};
 
 export const UnreferencedMaps = () => {
   const [maps, setMaps] = useState([]);
@@ -89,7 +101,9 @@ export const UnreferencedMaps = () => {
                 <span className="map-meta-label">
                   {translate("unreferencedmaps-label-time")}:{" "}
                 </span>
-                <span className="map-meta-value">{map.time_published}</span>
+                <span className="map-meta-value">
+                  {formatTimePeriod(map.time_period_start, map.time_period_end)}
+                </span>
               </p>
               <p>
                 <span className="map-meta-label">

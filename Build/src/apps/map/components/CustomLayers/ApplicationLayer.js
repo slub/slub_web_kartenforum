@@ -14,6 +14,7 @@
 
 import { isDefined } from "@util/util";
 import { METADATA } from "./constants";
+import { getYear, isSameYear } from "date-fns";
 
 export class ApplicationLayer {
     metadata = {};
@@ -48,16 +49,33 @@ export class ApplicationLayer {
 
     updateMetadata(key, value) {
         if (!isDefined(key) || !isDefined(value)) {
-            console.warn(`Trying to update metadata without key or value`);
+            console.error(`Trying to update metadata without key or value`);
             return;
         }
 
         if (!Object.values(METADATA).includes(key)) {
-            console.warn(`Trying to update metadata with invalid key '${key}'`);
+            console.error(
+                `Trying to update metadata with invalid key '${key}'`
+            );
             return;
         }
 
         this.metadata[key] = value;
+    }
+
+    getSortTime() {
+        const start = this.metadata[METADATA.timePeriod][0];
+        return getYear(start);
+    }
+
+    getDisplayTime() {
+        const [start, end] = this.metadata[METADATA.timePeriod];
+
+        if (isSameYear(start, end)) {
+            return getYear(start);
+        }
+
+        return `${getYear(start)} – ${getYear(end)}`;
     }
 
     addLayerToMap() {

@@ -458,35 +458,6 @@ export const handleErrorResponseExternalVectorMap = (error, notifyError) => {
     return;
 };
 
-export const metadataLayerToMetadataDraw = (metadata) => {
-    const keys = [METADATA.title, METADATA.description, METADATA.thumbnailUrl];
-    const metadataDrawShape = Object.fromEntries(
-        Object.entries(metadata).filter(([key]) => keys.includes(key))
-    );
-
-    return metadataDrawShape;
-};
-
-export const metadataAppToMetadataApi = (metadata) => {
-    const mappedMetadata = structuredClone(metadata);
-
-    const keyMap = {
-        [METADATA.thumbnailUrl]: "link_thumb",
-    };
-
-    for (const [appKey, apiKey] of Object.entries(keyMap)) {
-        const value = mappedMetadata[appKey];
-        mappedMetadata[apiKey] = value;
-        delete mappedMetadata[appKey];
-    }
-
-    return Object.fromEntries(
-        Object.entries(mappedMetadata).map(([key, value]) =>
-            !isDefined(value) || value === "" ? [key, null] : [key, value]
-        )
-    );
-};
-
 export const updateExternalVectorMapLayerMetadata = (layer, metadata) => {
     if (!isDefined(layer) || !isDefined(metadata)) {
         console.error(

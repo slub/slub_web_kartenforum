@@ -7,7 +7,6 @@
 
 export const METADATA = {
     id: "id",
-    timePublished: "time_published",
     timeChanged: "time_changed",
     title: "title",
     thumbnailUrl: "thumb_url",

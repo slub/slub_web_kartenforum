@@ -4,7 +4,6 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-
 import {
     GeoJsonLayer,
     HistoricMapLayer,
@@ -24,23 +23,19 @@ import { emptyFeatureCollection } from "@map/components/GeoJson/constants";
  */
 export const readLayer = function (id, record) {
     const geometry = "geometry" in record ? record["geometry"] : undefined;
-    const properties = {};
+    const time_period = [
+        record["time_period_start"],
+        record["time_period_end"],
+    ];
 
     delete record["geometry"];
+    delete record["time_period_start"];
+    delete record["time_period_end"];
 
-    for (let key in record) {
-        if (Object.hasOwn(record, key)) {
-            if (key === "time_published") {
-                // parse time value in old format
-                const timeValue = record[key].split("-")[0];
-                properties[key] = timeValue;
-            } else {
-                properties[key] = record[key];
-            }
-        }
-    }
+    const properties = { ...record };
 
     properties["id"] = id;
+    properties[METADATA.timePeriod] = time_period;
 
     const type = properties["type"];
 

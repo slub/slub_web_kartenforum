@@ -7,103 +7,121 @@
 
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { memo, useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { memo, useCallback, useMemo, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 
 import { METADATA } from "@map/components/CustomLayers";
 import { translate, isValidUrl } from "@util/util";
 
 import ImageWithFallback from "../../../components/ImageWithFallback";
-
-import "./FormVectorMap.scss";
-
-// refactor before extending the form to reduce boilerplate
+import TimePeriodField from "../../core/TimePeriodField";
+import { formDrawToMetadata, metadataDrawToForm } from "../util";
+import { useRecoilValue } from "recoil";
+import { metadataDrawState } from "@map/atoms";
 
 const validateThumbnailUrl = (val) => val === "" || isValidUrl(val);
 
-const GeoJsonMetadataForm = ({ formId, data, onValidatedFormSubmit }) => {
+// CSS comes from GeoJsonMetadataPanel/core/MetadataPanelForm.scss
+// easiest way to centrally define form css for now, but not ideal. do not copy this pattern!
+// better refactor to reusable css components and import scss in components
+
+const GeoJsonMetadataForm = ({ formId, onValidatedFormSubmit }) => {
+  const data = useRecoilValue(metadataDrawState);
+
   const [imagePreviewUrl, setImagePreviewUrl] = useState(
     data[METADATA.thumbnailUrl] ?? ""
   );
+
+  const defaultValues = useMemo(() => metadataDrawToForm(data), []);
+
+  const methods = useForm({ defaultValues });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = methods;
 
   const handleBlurThumbnailUrl = useCallback(
     (e) => setImagePreviewUrl(e.target.value),
     []
   );
 
+  const handleFormSubmit = useCallback(
+    (data) => {
+      const metadata = formDrawToMetadata(data);
+      onValidatedFormSubmit(metadata);
+    },
+    [onValidatedFormSubmit]
+  );
+
   return (
-    <form
-      className="geojson-metadata-form-root"
-      id={formId}
-      onSubmit={handleSubmit(onValidatedFormSubmit)}
-    >
-      <div className="geojson-metadata-form-fields">
-        <div
-          className={clsx(
-            "vkf-form-control",
-            errors[METADATA.title] && "error"
-          )}
-        >
-          <label className="vkf-form-label" htmlFor={METADATA.title}>
-            {translate("geojson-metadata-title")}
-          </label>
-          <input
-            className="vkf-form-input"
-            placeholder={translate("geojson-placeholder-title")}
-            defaultValue={data[METADATA.title] ?? ""}
-            {...register(METADATA.title, { required: true })}
-          />
-        </div>
-        <div
-          className={clsx(
-            "vkf-form-control",
-            errors[METADATA.description] && "error"
-          )}
-        >
-          <label className="vkf-form-label" htmlFor={METADATA.description}>
-            {translate("geojson-metadata-description")}
-          </label>
-          <textarea
-            className="vkf-form-textarea"
-            placeholder={translate("geojson-placeholder-description")}
-            defaultValue={data[METADATA.description] ?? ""}
-            {...register(METADATA.description)}
-          />
-        </div>
-        <div
-          className={clsx(
-            "vkf-form-control",
-            errors[METADATA.thumbnailUrl] && "error"
-          )}
-        >
-          <label className="vkf-form-label" htmlFor={METADATA.thumbnailUrl}>
-            {translate("geojson-metadata-thumbnailUrl")}
-          </label>
-          <div className="image-with-fallback-container">
-            <ImageWithFallback
-              imageUrl={imagePreviewUrl}
-              showPlaceholder
-              imageAsPreview
+    <FormProvider {...methods}>
+      <form
+        className="geojson-metadata-form-root"
+        id={formId}
+        onSubmit={handleSubmit(handleFormSubmit)}
+      >
+        <div className="geojson-metadata-form-fields">
+          <div
+            className={clsx(
+              "vkf-form-control",
+              errors[METADATA.title] && "error"
+            )}
+          >
+            <label className="vkf-form-label" htmlFor={METADATA.title}>
+              {translate("geojson-metadata-title")}
+            </label>
+            <input
+              className="vkf-form-input"
+              placeholder={translate("geojson-placeholder-title")}
+              {...register(METADATA.title, { required: true })}
             />
           </div>
-          <input
-            className="vkf-form-input"
-            placeholder={translate("geojson-placeholder-thumbnailUrl")}
-            defaultValue={data[METADATA.thumbnailUrl] ?? ""}
-            {...register(METADATA.thumbnailUrl, {
-              onBlur: handleBlurThumbnailUrl,
-              validate: validateThumbnailUrl,
-            })}
-          />
+          <TimePeriodField />
+          <div
+            className={clsx(
+              "vkf-form-control",
+              errors[METADATA.description] && "error"
+            )}
+          >
+            <label className="vkf-form-label" htmlFor={METADATA.description}>
+              {translate("geojson-metadata-description")}
+            </label>
+            <textarea
+              className="vkf-form-textarea"
+              placeholder={translate("geojson-placeholder-description")}
+              {...register(METADATA.description)}
+            />
+          </div>
+          <div
+            className={clsx(
+              "vkf-form-control",
+              errors[METADATA.thumbnailUrl] && "error"
+            )}
+          >
+            <label className="vkf-form-label" htmlFor={METADATA.thumbnailUrl}>
+              {translate("geojson-metadata-thumbnailUrl")}
+            </label>
+            <div className="image-with-fallback-container">
+              <ImageWithFallback
+                imageUrl={imagePreviewUrl}
+                showPlaceholder
+                imageAsPreview
+              />
+            </div>
+            <input
+              className="vkf-form-input"
+              placeholder={translate("geojson-placeholder-thumbnailUrl")}
+              {...register(METADATA.thumbnailUrl, {
+                onBlur: handleBlurThumbnailUrl,
+                validate: validateThumbnailUrl,
+              })}
+            />
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </FormProvider>
   );
 };
 
@@ -111,11 +129,6 @@ GeoJsonMetadataForm.defaultPropTypes = {};
 GeoJsonMetadataForm.propTypes = {
   onValidatedFormSubmit: PropTypes.func.isRequired,
   formId: PropTypes.string.isRequired,
-  data: PropTypes.shape({
-    [METADATA.title]: PropTypes.string,
-    [METADATA.description]: PropTypes.string,
-    [METADATA.thumbnailUrl]: PropTypes.string,
-  }),
 };
 
 export default memo(GeoJsonMetadataForm);

@@ -145,10 +145,9 @@ export const LayerManagementEntry = (props) => {
   }, [entered, isHovered, isSliding, draggedItem]);
 
   drag(drop(ref));
-
   const layerId = layer.getId();
   const layerType = layer.getType();
-  const layerPublished = layer.getMetadata(METADATA.timePublished);
+  const layerPublished = layer.getDisplayTime();
   const layerTitle = layer.getMetadata(METADATA.title);
   const layerMetadataType = layer.getMetadata(METADATA.type);
   const isMosaicMap = layerMetadataType === "mosaic";

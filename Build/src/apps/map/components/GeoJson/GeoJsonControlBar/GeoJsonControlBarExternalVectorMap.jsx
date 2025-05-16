@@ -79,7 +79,7 @@ const GeoJsonControlBarExternalVectorMap = () => {
     useVectorMapExternalModeInitializers();
 
   const handleDiscard = useCallback(() => {
-    exitExternalVectorLayerMode({ isDiscard: true });
+    exitExternalVectorLayerMode();
   }, []);
 
   const handleSave = useCallback(() => {

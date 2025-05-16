@@ -154,3 +154,10 @@ export function getUnixSeconds(date) {
 
     return getUnixTime(date);
 }
+
+export function getDefaultMetadataTimePeriod() {
+    return [
+        formatDateIso(Date.now(), { representation: "date" }),
+        formatDateIso(Date.now(), { representation: "date" }),
+    ];
+}

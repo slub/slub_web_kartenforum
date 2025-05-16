@@ -72,21 +72,18 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
 
   const map = useRecoilValue(mapState);
 
-  const { title, description, timePublished, layerId } = useMemo(() => {
+  const { title, description, displayTime, layerId } = useMemo(() => {
     return {
       title: selectedLayer?.getMetadata(METADATA.title),
       description: selectedLayer?.getMetadata(METADATA.description),
-      timePublished: selectedLayer?.getMetadata(METADATA.timePublished),
+      displayTime: selectedLayer?.getDisplayTime(),
       layerId: selectedLayer?.getMetadata(METADATA.id),
     };
-  }, [
-    selectedLayer?.getMetadata(METADATA.title),
-    selectedLayer?.getMetadata(METADATA.timePublished),
-  ]);
+  }, [selectedLayer]);
 
-  const formattedTimePublished = useMemo(() => {
-    return timePublished ?? translate("geojson-featureview-no-time");
-  }, [timePublished]);
+  const formattedDisplayTime = useMemo(() => {
+    return displayTime ?? translate("geojson-featureview-no-time");
+  }, [displayTime]);
 
   const handleCloseClick = useCallback(() => {
     setSelectedGeoJsonLayerId(null);
@@ -148,7 +145,7 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
         }
       />
       <div className="headline-container">
-        <div className="geojson-headline--date">{formattedTimePublished}</div>
+        <div className="geojson-headline--date">{formattedDisplayTime}</div>
         <div className="title-row">
           <div className="geojson-headline--title">{title}</div>
           <GeoJsonLayerActions />

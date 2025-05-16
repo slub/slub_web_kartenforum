@@ -80,6 +80,9 @@ export const useHorizontalDrawMode = () => {
                     [METADATA.thumbnailUrl]: selectedLayer.getMetadata(
                         METADATA.thumbnailUrl
                     ),
+                    [METADATA.timePeriod]: selectedLayer.getMetadata(
+                        METADATA.timePeriod
+                    ),
                 });
 
                 const vectorMapId = selectedLayer.getMetadata(

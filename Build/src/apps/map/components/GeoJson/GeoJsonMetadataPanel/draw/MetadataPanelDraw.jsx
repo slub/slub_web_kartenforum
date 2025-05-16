@@ -6,7 +6,7 @@
  */
 
 import React, { useCallback, useMemo } from "react";
-import { useSetRecoilState, useRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 
 import { translate, isDefined } from "@util/util";
 import {
@@ -28,8 +28,8 @@ import DangerZoneMetadataDraw from "../../components/DangerZone/DangerZoneMetada
 const FORM_ID = "vkf-geojson-metadata-form";
 
 const MetadataPanelDraw = () => {
+  const setMetadataDraw = useSetRecoilState(metadataDrawState);
   const setDrawModePanel = useSetRecoilState(drawModePanelState);
-  const [metadataDraw, setMetadataDraw] = useRecoilState(metadataDrawState);
   const vectorMapDraw = useRecoilValue(vectorMapDrawState);
   const deleteGeoJson = useDeleteGeojson();
 
@@ -93,7 +93,6 @@ const MetadataPanelDraw = () => {
       dangerZoneComponent={<DangerZoneMetadataDraw onDelete={handleDelete} />}
       formComponent={
         <FormVectorMap
-          data={metadataDraw}
           onValidatedFormSubmit={handleValidatedFormSubmit}
           formId={FORM_ID}
         />
