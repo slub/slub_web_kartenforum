@@ -19,6 +19,7 @@ import {
   metadataExternalToForm,
   formExternalToMetadata,
   validateFeatureCollection,
+  CONTENT_TYPE_OPTIONS,
 } from "../util";
 
 import {
@@ -33,6 +34,7 @@ import {
 } from "@map/atoms";
 
 import TimePeriodField from "../../core/TimePeriodField";
+import SelectField from "@components/SelectField";
 
 export const isExternalVectorMapFormLoadingState = atom({
   key: "isExternalVectorMapFormLoadingState",
@@ -133,6 +135,26 @@ const FormExternalVectorMap = ({ onValidatedFormSubmit }) => {
               className="vkf-form-input"
               placeholder={translate("geojson-placeholder-title")}
               {...register(METADATA.title, { required: true })}
+            />
+          </div>
+          <div
+            className={clsx(
+              "vkf-form-control",
+              errors[METADATA.externalContentType] && "error"
+            )}
+          >
+            <label
+              className="vkf-form-label"
+              htmlFor={METADATA.externalContentType}
+            >
+              {translate("geojson-metadata-externalContentType")}
+            </label>
+            <SelectField
+              className="vkf-form-input"
+              {...register(METADATA.externalContentType, {
+                required: true,
+              })}
+              options={CONTENT_TYPE_OPTIONS}
             />
           </div>
           <div

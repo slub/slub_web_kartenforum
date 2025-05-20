@@ -466,19 +466,11 @@ export const updateExternalVectorMapLayerMetadata = (layer, metadata) => {
         return;
     }
 
+    for (const [metadataKey, value] of Object.entries(metadata)) {
+        layer.updateMetadata(metadataKey, value);
+    }
+
     // useZoomToExtent hook relies on metadata bounds
     const geoJson = layer.getGeoJson();
     layer.updateMetadata(METADATA.bounds, bbox(geoJson));
-
-    layer.updateMetadata(METADATA.title, metadata[METADATA.title]);
-    layer.updateMetadata(METADATA.description, metadata[METADATA.description]);
-    layer.updateMetadata(
-        METADATA.thumbnailUrl,
-        metadata[METADATA.thumbnailUrl]
-    );
-    layer.updateMetadata(METADATA.timePeriod, metadata[METADATA.timePeriod]);
-    layer.updateMetadata(
-        METADATA.externalContentUrl,
-        metadata[METADATA.externalContentUrl]
-    );
 };

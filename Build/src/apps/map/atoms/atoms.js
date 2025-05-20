@@ -15,7 +15,7 @@ import {
     VECTOR_MAP_EXTERNAL_MODE_PANEL_STATE,
 } from "@map/layouts/util.js";
 import { isDefined } from "@util/util";
-import { METADATA } from "@map/components/CustomLayers";
+import { metadataLayerToExternal } from "@map/components/GeoJson/GeoJsonMetadataPanel/external/util";
 
 // stores the currently active basemap ID
 export const activeBasemapIdState = atom({
@@ -253,15 +253,7 @@ export const metadataExternalVectorMapState = selector({
             return null;
         }
 
-        return {
-            [METADATA.title]: layer.getMetadata(METADATA.title),
-            [METADATA.description]: layer.getMetadata(METADATA.description),
-            [METADATA.thumbnailUrl]: layer.getMetadata(METADATA.thumbnailUrl),
-            [METADATA.externalContentUrl]: layer.getMetadata(
-                METADATA.externalContentUrl
-            ),
-            [METADATA.timePeriod]: layer.getMetadata(METADATA.timePeriod),
-        };
+        return metadataLayerToExternal(layer.getMetadata());
     },
     dangerouslyAllowMutability: true,
 });

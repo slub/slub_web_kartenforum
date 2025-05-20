@@ -474,6 +474,9 @@
             <trans-unit id="plugin.map.geojson.label.time_period.end">
 				<source>End date</source>
             </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.content_type">
+				<source>Layer type</source>
+            </trans-unit>
             <trans-unit id="plugin.map.geojson.metadata.external_content_url">
                 <source>GeoJson URL</source>
             </trans-unit>

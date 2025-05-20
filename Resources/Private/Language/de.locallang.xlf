@@ -385,6 +385,10 @@
 				<source><![CDATA[GeoJson URL]]></source>
 				<target><![CDATA[GeoJson URL]]></target>
             </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.content_type">
+				<source><![CDATA[Layer type]]></source>
+				<target><![CDATA[Layertyp]]></target>
+            </trans-unit>
             <trans-unit id="plugin.map.geojson.metadata.delete.vector">
 				<source><![CDATA[Do you really want to delete this vector map?]]></source>
 				<target><![CDATA[Wollen Sie diese Vektor-Karte wirklich löschen?]]></target>

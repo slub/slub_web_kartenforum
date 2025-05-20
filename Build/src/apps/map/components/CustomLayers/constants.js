@@ -20,6 +20,7 @@ export const METADATA = {
     description: "description",
     timePeriod: "time_period",
     externalContentUrl: "external_content_url",
+    externalContentType: "external_content_type",
 
     // Internally used
     type: "type",
@@ -34,6 +35,11 @@ export const METADATA = {
 
 export const MAP_LIBRE_METADATA = {
     id: "vkf:layer_id",
+};
+
+export const EXTERNAL_CONTENT_TYPES = {
+    VKF: "vkf",
+    IDOHIST: "idohist",
 };
 
 export const LAYER_TYPES = {
