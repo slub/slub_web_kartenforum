@@ -38,8 +38,8 @@ export const MAP_LIBRE_METADATA = {
 };
 
 export const EXTERNAL_CONTENT_TYPES = {
-    VKF: "vkf",
-    IDOHIST: "idohist",
+    VKF: "vkf:geojson-spec-v1",
+    IDOHIST: "idohist:idohist-v1",
 };
 
 export const LAYER_TYPES = {
