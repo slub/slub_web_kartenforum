@@ -9,7 +9,7 @@ import SettingsProvider from "@settings-provider";
 import {
     DEFAULT_STYLE_VALUES,
     GEOJSON_LAYER_TYPES,
-} from "@map/components/CustomLayers/GeoJsonLayer/constants";
+} from "@map/components/CustomLayers/GeoJsonLayer/VkfMapInteractionStrategy/constants";
 
 const PREFIX = "user_";
 

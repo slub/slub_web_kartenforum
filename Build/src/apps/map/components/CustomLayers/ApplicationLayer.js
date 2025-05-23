@@ -48,15 +48,13 @@ export class ApplicationLayer {
     }
 
     updateMetadata(key, value) {
-        if (!isDefined(key) || !isDefined(value)) {
-            console.error(`Trying to update metadata without key or value`);
+        if (!isDefined(key)) {
+            console.error(`Cannot update metadata without key`);
             return;
         }
 
         if (!Object.values(METADATA).includes(key)) {
-            console.error(
-                `Trying to update metadata with invalid key '${key}'`
-            );
+            console.error(`Cannot update metadata with invalid key '${key}'`);
             return;
         }
 

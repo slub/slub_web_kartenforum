@@ -11,7 +11,7 @@ import { parseColorStringToHexWithLegacy } from "@map/components/GeoJson/util/co
 import {
   DEFAULT_STYLE_VALUES,
   GEOJSON_LAYER_TYPES,
-} from "@map/components/CustomLayers/GeoJsonLayer/constants";
+} from "@map/components/CustomLayers/GeoJsonLayer/VkfMapInteractionStrategy/constants";
 
 import "./EditStyleField.scss";
 

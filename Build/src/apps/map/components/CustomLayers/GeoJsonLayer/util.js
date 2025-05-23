@@ -7,8 +7,6 @@
 
 import { isDefined } from "@util/util";
 import { parseDateIso, formatDateIso, normalizeDate } from "@util/date";
-import { GEOJSON_LAYER_TYPES, LAYER_DEFINITIONS } from "./constants";
-import { MAP_LIBRE_METADATA } from "../constants";
 import { FEATURE_PROPERTIES } from "@map/components/GeoJson/constants";
 
 export const boundsToPolygon = (bounds) => ({
@@ -23,29 +21,6 @@ export const boundsToPolygon = (bounds) => ({
         ],
     ],
 });
-
-export const getLayerConfig = (sourceId) => {
-    const config = {};
-
-    for (const key of Object.keys(GEOJSON_LAYER_TYPES)) {
-        const layerType = GEOJSON_LAYER_TYPES[key];
-        const layerId = `${sourceId}-${layerType}`;
-        config[layerId] = {
-            id: layerId,
-            source: sourceId,
-            metadata: {
-                [MAP_LIBRE_METADATA.id]: sourceId,
-            },
-            ...LAYER_DEFINITIONS[layerType],
-            layout: {
-                ...LAYER_DEFINITIONS[layerType].layout,
-                visibility: "visible",
-            },
-        };
-    }
-
-    return config;
-};
 
 export const convertFeatureForPersistenceState = (feature) => {
     const { properties } = feature;

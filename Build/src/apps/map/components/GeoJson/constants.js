@@ -7,7 +7,7 @@
 import {
     DEFAULT_STYLE_VALUES,
     GEOJSON_LAYER_TYPES,
-} from "../CustomLayers/GeoJsonLayer/constants.js";
+} from "../CustomLayers/GeoJsonLayer/VkfMapInteractionStrategy/constants.js";
 
 export const emptyFeatureCollection = {
     type: "FeatureCollection",
