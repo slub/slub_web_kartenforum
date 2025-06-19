@@ -31,8 +31,8 @@
   "type": "module",
   "author": "Alexander Bigga, Jacob Mendt <jacob.mendt@pikobytes.de>, Nicolas Looschen <nicolas.looschen@pikobytes.de>, Tom Schulze <tom.schulze@pikobytes.de>, Pouria Rezaei <pouria.rezaei@pikobytes.de>",
   "devDependencies": {
-    "@babel/core": "^7.27.1",
     "@babel/cli": "^7.27.2",
+    "@babel/core": "^7.27.1",
     "@babel/preset-env": "^7.27.2",
     "ajv": "^8.17.1",
     "autoprefixer": "^10.4.0",
@@ -63,6 +63,8 @@
     "bootstrap": "^3.4.1",
     "clsx": "^1.1.1",
     "core-js": "^3.20.3",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.2.0",
     "date-fns": "^4.1.0",
     "debounce": "^1.2.1",
     "downshift": "^6.1.7",

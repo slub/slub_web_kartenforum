@@ -13,10 +13,11 @@ import {
     convertFeatureForApplicationState,
     convertFeatureForPersistenceState,
 } from "./util";
-import { LAYER_TYPES, METADATA } from "../constants";
+import { EXTERNAL_CONTENT_TYPES, LAYER_TYPES, METADATA } from "../constants";
 import { bbox } from "@turf/bbox";
 import { getDefaultMetadataTimePeriod } from "@util/date";
 import VkfMapInteractionStrategy from "./VkfMapInteractionStrategy/VkfMapInteractionStrategy";
+import IdohistMapInteractionStrategy from "./IdohistMapInteractionStrategy/IdohistMapInteractionStrategy";
 
 /**
  * The GeoJsonLayer params
@@ -46,10 +47,16 @@ class GeoJsonLayer extends ApplicationLayer {
         super({ metadata, geometry });
         this.#initialize(geoJson);
 
-        // TODO add IdohistLayerService
-        this.#mapInteractionStrategy = new VkfMapInteractionStrategy(
-            this.getId()
-        );
+        const contentType = this.metadata[METADATA.externalContentType];
+        if (contentType === EXTERNAL_CONTENT_TYPES.IDOHIST) {
+            this.#mapInteractionStrategy = new IdohistMapInteractionStrategy(
+                this.getId()
+            );
+        } else {
+            this.#mapInteractionStrategy = new VkfMapInteractionStrategy(
+                this.getId()
+            );
+        }
     }
 
     /**
@@ -209,9 +216,10 @@ class GeoJsonLayer extends ApplicationLayer {
     /**
      *
      * @param {maplibregl.Map} map
-     * @param {object} settings the initial style layer settings. Used when restoring a map from localstorage or map views.
-     * @param {"visible" | "none"} settings.visibility
-     * @param {number} settings.opacity A number from 0 – 1
+     * @param {object} settings
+     * @param {object} settings.layerSettings the initial style layer settings. Used when restoring a map from localstorage or map views.
+     * @param {"visible" | "none"} settings.layerSettings.visibility
+     * @param {number} settings.layerSettings.opacity A number from 0 – 1
      * @returns
      */
     addLayerToMap(map, settings) {

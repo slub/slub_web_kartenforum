@@ -13,6 +13,7 @@ import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { DndProvider } from "react-dnd-multi-backend";
 
 import Notifications from "@components/Notifications";
+import RecoilExternal from "@components/RecoilExternal";
 
 import { PersistenceController } from "./persistence/PersistenceController";
 import { getLayoutForWidth } from "./layouts/util";
@@ -50,6 +51,7 @@ export const App = () => {
   return (
     <DndProvider options={dndOptions}>
       <RecoilRoot>
+        <RecoilExternal />
         <div className="vkf-plugin-map">
           <Notifications />
           <LayoutSwitcher layout={layoutType} />

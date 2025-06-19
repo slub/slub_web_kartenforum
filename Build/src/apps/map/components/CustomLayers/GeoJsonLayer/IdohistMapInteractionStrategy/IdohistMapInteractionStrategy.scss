@@ -1,0 +1,59 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 19.06.25.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+// idohist marker
+$idohist-color: #ac40ff;
+
+.map-container {
+    .maplibregl-map {
+        .maplibregl-marker.marker-idohist {
+            position: absolute;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+
+            height: 75px;
+            width: 75px;
+
+            &:hover {
+                z-index: 1000;
+            }
+
+            svg {
+                pointer-events: all;
+                scale: var(--vkf-idohist-scale-factor);
+
+                &:hover {
+                    cursor: pointer;
+                    scale: calc(var(--vkf-idohist-scale-factor) + 0.2);
+                }
+
+                .circle {
+                    fill: $idohist-color;
+
+                    &.certain {
+                        scale: 0.25;
+                    }
+                    &.uncertain {
+                        filter: blur(12px);
+                        scale: 0.75;
+                    }
+                }
+
+                .arcs {
+                    .certainty {
+                        fill: $idohist-color;
+                    }
+
+                    .uncertainty {
+                        fill: #fff;
+                    }
+                }
+            }
+        }
+    }
+}

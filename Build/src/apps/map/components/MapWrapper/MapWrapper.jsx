@@ -17,6 +17,7 @@ import { useSetElementScreenSize } from "@util/hooks";
 import SettingsProvider from "@settings-provider";
 import BasemapSelectorControl from "@map/components/BasemapSelectorControl";
 import VkfMap from "@map/components/VkfMap";
+import { calculateIdohistMarkerScaleFactor } from "@map/components/CustomLayers/GeoJsonLayer/IdohistMapInteractionStrategy/util.js";
 
 import PermalinkExporter from "./components/PermalinkControl/PermalinkExporter.jsx";
 import BasemapLayerApplier from "./components/BasemapLayerApplier.jsx";
@@ -27,6 +28,18 @@ import "./MapWrapper.scss";
 
 const style =
   "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json";
+
+const handleZoom = (event) => {
+  const { target } = event;
+  const mapContainer = document.getElementsByClassName("map-container")[0];
+
+  if (!isDefined(mapContainer)) {
+    return;
+  }
+
+  const scaleFactor = calculateIdohistMarkerScaleFactor(target.getZoom());
+  mapContainer.style.setProperty("--vkf-idohist-scale-factor", scaleFactor);
+};
 
 export function MapWrapper(props) {
   const {
@@ -80,10 +93,12 @@ export function MapWrapper(props) {
 
     // Add event listener for style load
     initialMap.on("style.load", handleStyleLoad);
+    initialMap.on("zoom", handleZoom);
 
     return () => {
       // Clean up event listener and remove map on unmount
       initialMap.off("style.load", handleStyleLoad);
+      initialMap.off("zoom", handleZoom);
       setMap(undefined);
       initialMap.remove();
     };

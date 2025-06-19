@@ -50,3 +50,8 @@ export const LAYER_TYPES = {
     // Deprecated
     LEGACY_GEOJSON: "geojson",
 };
+
+export const VISIBILITY = {
+    VISIBLE: "visible",
+    NONE: "none",
+};
