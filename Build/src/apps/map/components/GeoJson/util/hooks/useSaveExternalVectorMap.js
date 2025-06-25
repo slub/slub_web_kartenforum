@@ -126,10 +126,35 @@ const useSaveExternalVectorMap = () => {
                             selectedLayer,
                             metadata
                         );
-                        selectedLayer.setDataOnMap(map, geoJson);
-                        set(selectedGeoJsonLayerLastUpdatedState, Date.now());
-                    }
 
+                        if (
+                            intialMetadata[METADATA.externalContentType] !==
+                            metadata[METADATA.externalContentType]
+                        ) {
+                            // reinitialize layer
+                            selectedLayer.removeMapLibreLayers(map);
+                            const newLayer = GeoJsonLayer.fromApplication({
+                                geoJson,
+                                metadata: selectedLayer.getMetadata(),
+                            });
+                            newLayer.addLayerToMap(map);
+
+                            set(selectedLayersState, (oldLayers) => {
+                                const idx = oldLayers.findIndex(
+                                    (layer) =>
+                                        layer.getId() === selectedLayer.getId()
+                                );
+                                oldLayers[idx] = newLayer;
+                                return [...oldLayers];
+                            });
+                        } else {
+                            selectedLayer.setDataOnMap(map, geoJson);
+                            set(
+                                selectedGeoJsonLayerLastUpdatedState,
+                                Date.now()
+                            );
+                        }
+                    }
                     exitExternalVectorLayerMode();
                 } catch (error) {
                     handleErrorResponseExternalVectorMap(error, notifyError);

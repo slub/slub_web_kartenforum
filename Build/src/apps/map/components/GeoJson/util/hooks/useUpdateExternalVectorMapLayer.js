@@ -10,7 +10,7 @@ import {
     forceUpdateLayerExternalVectorMapState,
     mapState,
 } from "@map/atoms";
-import { GeoJsonLayer } from "@map/components/CustomLayers";
+import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
 import { isDefined } from "@util/util";
 import { useRecoilCallback } from "recoil";
 import { updateExternalVectorMapLayerMetadata } from "../util";
@@ -32,6 +32,10 @@ const useUpdateExternalVectorMapLayer = () => {
                     return;
                 }
 
+                const oldContentType = layer.getMetadata(
+                    METADATA.externalContentType
+                );
+
                 // only update geojson on layer if externalContentUrl has changed
                 if (isDefined(geoJson)) {
                     const applicationGeoJson =
@@ -43,7 +47,21 @@ const useUpdateExternalVectorMapLayer = () => {
 
                 updateExternalVectorMapLayerMetadata(layer, metadata);
 
-                set(forceUpdateLayerExternalVectorMapState, (old) => old + 1);
+                if (metadata[METADATA.externalContentType] !== oldContentType) {
+                    //re-initialize layer
+                    layer.removeMapLibreLayers(map);
+                    const newLayer = GeoJsonLayer.fromApplication({
+                        geoJson: layer.getGeoJson(),
+                        metadata: layer.getMetadata(),
+                    });
+                    newLayer.addLayerToMap(map);
+                    set(layerExternalVectorMapState, newLayer);
+                } else {
+                    set(
+                        forceUpdateLayerExternalVectorMapState,
+                        (old) => old + 1
+                    );
+                }
             },
         []
     );
