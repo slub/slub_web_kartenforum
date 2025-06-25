@@ -9,11 +9,11 @@ import React, { memo, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 
 import VkfIcon from "@components/VkfIcon";
-import { isDefined, translate } from "@util/util";
-import { formatDateLocalized, isValidDate } from "@util/date";
+import { translate } from "@util/util";
 import { GEOMETRY_TYPE } from "../../constants";
 
 import { FEATURE_PROPERTIES } from "../../constants";
+import { formatFeatureTime } from "../../util/formatters";
 
 import "./GeoJsonLayerFeatureItem.scss";
 
@@ -25,10 +25,9 @@ const GeoJsonFeatureItem = ({ data, index, style }) => {
     data.onFeatureClick(feature.id);
   }, [data.onFeatureClick, feature.id]);
 
-  const { defaultTitle, defaultTime } = useMemo(() => {
+  const { defaultTitle } = useMemo(() => {
     return {
       defaultTitle: translate("geojson-featureview-no-title"),
-      defaultTime: translate("geojson-featureview-no-time"),
     };
   }, []);
 
@@ -58,18 +57,10 @@ const GeoJsonFeatureItem = ({ data, index, style }) => {
     return GEOMETRY_TYPE.POLYGON;
   }, [geometry]);
 
-  const time = useMemo(() => {
-    const timestamp = properties[FEATURE_PROPERTIES.time];
+  const formattedTime = useMemo(() => {
+    const time = properties[FEATURE_PROPERTIES.time];
 
-    if (!isDefined(timestamp)) {
-      return defaultTime;
-    }
-
-    if (!isValidDate(timestamp)) {
-      return translate("geojson-featureview-invalid-time");
-    }
-
-    return formatDateLocalized(timestamp);
+    return formatFeatureTime(time);
   }, [properties[FEATURE_PROPERTIES.time]]);
 
   const title = useMemo(
@@ -89,7 +80,7 @@ const GeoJsonFeatureItem = ({ data, index, style }) => {
         </div>
         <div className="title">{title}</div>
         <div className="details">
-          {translate("geojson-featureview-time")} {time}
+          {translate("geojson-featureview-time")} {formattedTime}
         </div>
       </div>
     </li>

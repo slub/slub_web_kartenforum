@@ -1,16 +1,7 @@
-/*
- * Created by tom.schulze@pikobytes.de on 16.05.25.
- *
- * This file is subject to the terms and conditions defined in
- * file "LICENSE.txt", which is part of this source code package.
- */
-
 import React, { useCallback } from "react";
 import clsx from "clsx";
-import {
-  TIME_PERIOD_START_FIELD_NAME,
-  TIME_PERIOD_END_FIELD_NAME,
-} from "./util";
+import PropTypes from "prop-types";
+
 import { translate } from "@util/util";
 import { Controller, useFormContext } from "react-hook-form";
 import { parseDateLocalized, isValidLocalizedDate } from "@util/date";
@@ -25,7 +16,12 @@ const isStartDateLessOrEqualThanEndDate = (start, end) => {
   return startDate <= endDate;
 };
 
-const TimePeriodField = () => {
+const TimePeriodField = ({
+  startFieldName,
+  endFieldName,
+  showLabels = true,
+  required = true,
+}) => {
   const {
     trigger,
     control,
@@ -34,15 +30,15 @@ const TimePeriodField = () => {
 
   const handleStartDateChange = useCallback((val, { field, formState }) => {
     field.onChange(val);
-    if (formState.errors[TIME_PERIOD_END_FIELD_NAME]) {
-      trigger(TIME_PERIOD_END_FIELD_NAME);
+    if (formState.errors[endFieldName]) {
+      trigger(endFieldName);
     }
   }, []);
 
   const handleEndDateChange = useCallback((val, { field, formState }) => {
     field.onChange(val);
-    if (formState.errors[TIME_PERIOD_START_FIELD_NAME]) {
-      trigger(TIME_PERIOD_START_FIELD_NAME);
+    if (formState.errors[startFieldName]) {
+      trigger(startFieldName);
     }
   }, []);
 
@@ -52,19 +48,18 @@ const TimePeriodField = () => {
         <div
           className={clsx(
             "vkf-form-control",
-            errors[TIME_PERIOD_START_FIELD_NAME] && "error"
+            errors[startFieldName] && "error"
           )}
         >
-          <label
-            className="vkf-form-label"
-            htmlFor={TIME_PERIOD_START_FIELD_NAME}
-          >
-            {translate("geojson-label-timePeriod-start")}
-          </label>
+          {showLabels && (
+            <label className="vkf-form-label" htmlFor={startFieldName}>
+              {translate("geojson-label-timePeriod-start")}
+            </label>
+          )}
 
           <Controller
             control={control}
-            name={TIME_PERIOD_START_FIELD_NAME}
+            name={startFieldName}
             render={({ field, formState }) => (
               <DateInput
                 {...field}
@@ -78,32 +73,32 @@ const TimePeriodField = () => {
               />
             )}
             rules={{
-              required: true,
-              validate: (
-                startDate,
-                { [TIME_PERIOD_END_FIELD_NAME]: endDate }
-              ) =>
-                isValidLocalizedDate(startDate) &&
-                isStartDateLessOrEqualThanEndDate(startDate, endDate),
+              required,
+              validate: (startDate, { [endFieldName]: endDate }) => {
+                const isValid =
+                  isValidLocalizedDate(startDate) &&
+                  isStartDateLessOrEqualThanEndDate(startDate, endDate);
+                if (required) {
+                  return isValid;
+                }
+
+                return startDate === "" || isValid;
+              },
             }}
           />
         </div>
         <div
-          className={clsx(
-            "vkf-form-control",
-            errors[TIME_PERIOD_END_FIELD_NAME] && "error"
-          )}
+          className={clsx("vkf-form-control", errors[endFieldName] && "error")}
         >
-          <label
-            className="vkf-form-label"
-            htmlFor={TIME_PERIOD_END_FIELD_NAME}
-          >
-            {translate("geojson-label-timePeriod-end")}
-          </label>
+          {showLabels && (
+            <label className="vkf-form-label" htmlFor={endFieldName}>
+              {translate("geojson-label-timePeriod-end")}
+            </label>
+          )}
 
           <Controller
             control={control}
-            name={TIME_PERIOD_END_FIELD_NAME}
+            name={endFieldName}
             render={({ field, formState }) => (
               <DateInput
                 {...field}
@@ -117,19 +112,30 @@ const TimePeriodField = () => {
               />
             )}
             rules={{
-              required: true,
-              validate: (
-                endDate,
-                { [TIME_PERIOD_START_FIELD_NAME]: startDate }
-              ) =>
-                isValidLocalizedDate(endDate) &&
-                isStartDateLessOrEqualThanEndDate(startDate, endDate),
+              required,
+              validate: (endDate, { [startFieldName]: startDate }) => {
+                const isValid =
+                  isValidLocalizedDate(endDate) &&
+                  isStartDateLessOrEqualThanEndDate(startDate, endDate);
+                if (required) {
+                  return isValid;
+                }
+
+                return endDate === "" || isValid;
+              },
             }}
           />
         </div>
       </div>
     </div>
   );
+};
+
+TimePeriodField.propTypes = {
+  startFieldName: PropTypes.string.isRequired,
+  endFieldName: PropTypes.string.isRequired,
+  showLabels: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 export default TimePeriodField;

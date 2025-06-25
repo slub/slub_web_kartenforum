@@ -41,7 +41,7 @@ export const GeoJsonFeatureEditPanelWrapper = ({
   );
 
   const handleFeatureSavePreview = useCallback(
-    ([key, value]) => {
+    (key, value) => {
       saveFeaturePreview(key, value);
     },
     [saveFeaturePreview]
@@ -55,6 +55,7 @@ export const GeoJsonFeatureEditPanelWrapper = ({
   return (
     <>
       <GeoJsonFeatureEditPanel
+        key={geoJsonFeature.id}
         feature={geoJsonFeature}
         onDelete={handleFeatureDelete}
         onClose={handleClose}

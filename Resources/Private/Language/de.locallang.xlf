@@ -232,12 +232,13 @@
                 <target><![CDATA[Bild]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-label-placeholder" approved="yes">
-                <source><![CDATA[Enter field values here...]]></source>
-                <target><![CDATA[Feldwerte hier eingeben...]]></target>
+			    <source><![CDATA[Enter field title here...]]></source>
+                <target><![CDATA[Feldtitel hier eingeben...]]></target>
+
             </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-input-placeholder" approved="yes">
-                <source><![CDATA[enter field title here...]]></source>
-                <target><![CDATA[Feldtitel hier eingeben...]]></target>
+                <source><![CDATA[Enter field values here...]]></source>
+                <target><![CDATA[Feldwerte hier eingeben...]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-input-placeholder-date" approved="yes">
                 <source><![CDATA[mm/dd/yyyy]]></source>

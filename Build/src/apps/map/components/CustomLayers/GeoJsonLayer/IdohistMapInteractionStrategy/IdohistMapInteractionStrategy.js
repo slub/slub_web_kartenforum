@@ -188,15 +188,16 @@ class IdohistMapInteractionStrategy extends AbstractMapInteractionStrategy {
 
     setFilters(map, filterValues) {
         for (const marker of this.#markers) {
-            const time = marker[FEATURE_PROPS_SYMBOL][FEATURE_PROPERTIES.time];
+            const [start, end] =
+                marker[FEATURE_PROPS_SYMBOL][FEATURE_PROPERTIES.time];
             const { timeExtent } = filterValues;
 
-            if (timeExtent[0] * 1000 > time || timeExtent[1] * 1000 < time) {
+            // if time ranges overlap re-add the marker to the map
+            if (start <= timeExtent[1] * 1000 && end >= timeExtent[0] * 1000) {
+                marker.addTo(map);
+            } else {
                 marker.remove();
-                continue;
             }
-
-            marker.addTo(map);
         }
     }
 

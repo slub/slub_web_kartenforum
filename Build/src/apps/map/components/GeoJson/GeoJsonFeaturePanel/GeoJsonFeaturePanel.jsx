@@ -7,40 +7,32 @@
 import React, { useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { translate, isDefined } from "@util/util";
-import { formatDateLocalized, isValidDate } from "@util/date";
 import { predefinedProperties } from "../constants";
 import { propExtractor } from "../util/util";
 import ImageWithFallback from "../components/ImageWithFallback";
 import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
 import { FEATURE_PROPERTIES } from "../constants";
+import FeaturePermalinkButton from "../components/FeaturePermalinkButton";
+import { formatFeatureTime } from "../util/formatters";
 
 import "./GeoJsonFeaturePanel.scss";
-import FeaturePermalinkButton from "../components/FeaturePermalinkButton";
 
 const HEADER_PROPERTIES = [...predefinedProperties];
 
 const GeoJsonFeaturePanel = ({ feature, onClose }) => {
   const properties = useMemo(() => propExtractor(feature), [feature]);
 
-  const { defaultTitle, defaultTime, defaultDescription } = useMemo(() => {
+  const { defaultTitle, defaultDescription } = useMemo(() => {
     return {
       defaultTitle: translate("geojson-featureview-no-title"),
-      defaultTime: translate("geojson-featureview-no-time"),
       defaultDescription: translate("geojson-featureview-no-description"),
     };
   }, []);
 
-  const parseTimeForDisplay = useCallback((timestamp) => {
-    if (!isDefined(timestamp)) {
-      return defaultTime;
-    }
-
-    if (!isValidDate(timestamp)) {
-      return translate("geojson-featureview-invalid-time");
-    }
-
-    return formatDateLocalized(timestamp);
-  }, []);
+  const parseTimeForDisplay = useCallback(
+    (time) => formatFeatureTime(time),
+    []
+  );
 
   const { imageLink, title, description, time } = useMemo(() => {
     return {

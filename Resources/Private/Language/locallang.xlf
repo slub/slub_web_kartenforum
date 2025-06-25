@@ -327,10 +327,10 @@
                 <source>Image</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-label-placeholder">
-                <source>Enter field values here...</source>
+                <source>Enter field title here...</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-input-placeholder">
-                <source>enter field title here...</source>
+                <source>Enter field values here...</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-input-placeholder-date">
                 <source>mm/dd/yyyy</source>

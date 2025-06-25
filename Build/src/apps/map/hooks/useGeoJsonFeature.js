@@ -16,6 +16,7 @@ import {
 } from "@map/atoms";
 
 import { notificationState } from "@atoms";
+import { FEATURE_PROPERTIES } from "@map/components/GeoJson/constants";
 
 const isApplicationFeature = (feature) =>
     isDefined(feature.layer.metadata?.[MAP_LIBRE_METADATA.id]);
@@ -31,7 +32,16 @@ const calculateBoundingBox = (point, offset) => {
 };
 
 const getFeatureProperties = (maplibreFeature) => {
-    const { properties, type, id, geometry } = maplibreFeature;
+    const { type, id, geometry } = maplibreFeature;
+
+    const time = JSON.parse(
+        maplibreFeature.properties?.[FEATURE_PROPERTIES.time] ?? null
+    );
+
+    const properties = {
+        ...maplibreFeature.properties,
+        ...(time !== null && { time }),
+    };
 
     return {
         id,

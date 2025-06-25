@@ -1,0 +1,74 @@
+@use "../../../../Variables" as *;
+
+// TODO make mixin reusable across GeoJsoinFeatureEditPanel/EditStyleField and GeoJsonFeaturePanel
+// TODO Refactor GeoJsonFeatureEditPanel form scss
+@mixin vkf-form-input-text {
+    color: $secondary-color-dark;
+    font-family: $font;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    margin: unset;
+    padding: 10px 19px 10px 11px;
+}
+
+.style-field-root {
+    .vkf-form-control {
+        display: flex;
+        justify-content: space-between;
+
+        &:not(:last-child) {
+            padding-bottom: 20px;
+        }
+
+        input[type="color"],
+        input[type="number"] {
+            width: 62px;
+            height: 30px;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: 1px solid $gray-500;
+            padding: 0;
+        }
+
+        input[type="number"] {
+            text-align: center;
+            font-weight: 700;
+            padding: 5px 5px 5px 8px;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+        }
+        input[type="color"]::-moz-color-swatch {
+            border-style: none;
+        }
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 0.6;
+        }
+        input[type="number"]::-webkit-inner-spin-button {
+            opacity: 0.6;
+        }
+
+        .vkf-form-input {
+            @include vkf-form-input-text;
+            color: $color-darkgrey;
+            line-height: 18px;
+            text-transform: capitalize;
+        }
+
+        .vkf-form-label {
+            @include vkf-form-input-text;
+            color: $color-darkgrey;
+            line-height: 18px;
+            text-transform: capitalize;
+            align-content: center;
+            padding: unset;
+        }
+    }
+}

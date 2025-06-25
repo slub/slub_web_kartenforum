@@ -14,10 +14,14 @@ import { METADATA } from "@map/components/CustomLayers";
 import { translate, isValidUrl } from "@util/util";
 
 import ImageWithFallback from "../../../components/ImageWithFallback";
-import TimePeriodField from "../../core/TimePeriodField";
+import TimePeriodField from "@components/TimePeriodField";
 import { formDrawToMetadata, metadataDrawToForm } from "../util";
 import { useRecoilValue } from "recoil";
 import { metadataDrawState } from "@map/atoms";
+import {
+  TIME_PERIOD_END_FIELD_NAME,
+  TIME_PERIOD_START_FIELD_NAME,
+} from "../../core/util";
 
 const validateThumbnailUrl = (val) => val === "" || isValidUrl(val);
 
@@ -78,7 +82,10 @@ const GeoJsonMetadataForm = ({ formId, onValidatedFormSubmit }) => {
               {...register(METADATA.title, { required: true })}
             />
           </div>
-          <TimePeriodField />
+          <TimePeriodField
+            startFieldName={TIME_PERIOD_START_FIELD_NAME}
+            endFieldName={TIME_PERIOD_END_FIELD_NAME}
+          />
           <div
             className={clsx(
               "vkf-form-control",

@@ -8,6 +8,7 @@ import { atom, useRecoilCallback, useSetRecoilState } from "recoil";
 import { initialGeoJsonDrawState, mapState } from "@map/atoms";
 import { isDefined } from "@util/util";
 import { useCallback } from "react";
+import { FEATURE_PROPERTIES } from "../../constants";
 
 const trackingHandlerState = atom({
     key: "trackingHandlerState",
@@ -64,11 +65,18 @@ export const useTrackGeoJsonChanges = () => {
                 if (
                     Object.keys(oldFeature.properties).length !==
                         Object.keys(updatedFeature.properties).length ||
-                    Object.keys(oldFeature.properties).some(
-                        (key) =>
-                            oldFeature.properties[key] !==
-                            updatedFeature.properties[key]
-                    )
+                    Object.keys(oldFeature.properties).some((key) => {
+                        const oldValue = oldFeature.properties[key];
+                        const updValue = updatedFeature.properties[key];
+
+                        if (key === FEATURE_PROPERTIES.time) {
+                            return (
+                                oldValue[0] !== updValue[0] ||
+                                oldValue[1] !== updValue[1]
+                            );
+                        }
+                        return oldValue !== updValue;
+                    })
                 ) {
                     set(geoJsonChangeTrackingState, (old) => {
                         const newDirtyMap = new Map(old.dirtyMap);

@@ -33,8 +33,12 @@ import {
   metadataExternalVectorMapState,
 } from "@map/atoms";
 
-import TimePeriodField from "../../core/TimePeriodField";
+import TimePeriodField from "@components/TimePeriodField";
 import SelectField from "@components/SelectField";
+import {
+  TIME_PERIOD_END_FIELD_NAME,
+  TIME_PERIOD_START_FIELD_NAME,
+} from "../../core/util";
 
 export const isExternalVectorMapFormLoadingState = atom({
   key: "isExternalVectorMapFormLoadingState",
@@ -178,7 +182,10 @@ const FormExternalVectorMap = ({ onValidatedFormSubmit }) => {
               })}
             />
           </div>
-          <TimePeriodField />
+          <TimePeriodField
+            startFieldName={TIME_PERIOD_START_FIELD_NAME}
+            endFieldName={TIME_PERIOD_END_FIELD_NAME}
+          />
           <div
             className={clsx(
               "vkf-form-control",

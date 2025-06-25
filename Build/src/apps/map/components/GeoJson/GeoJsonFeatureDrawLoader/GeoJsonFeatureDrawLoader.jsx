@@ -16,6 +16,7 @@ import useGeoJsonFeatureDraw, {
 } from "./useGeoJsonFeatureDraw";
 
 import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
+import { FEATURE_PROPERTIES } from "../constants";
 
 const USER_PROPERTY_PREFIX = "user_";
 const DRAW_LAYER = {
@@ -54,6 +55,12 @@ const getApplicationFeature = (drawFeature) => {
     .filter(([key]) => key.startsWith(USER_PROPERTY_PREFIX))
     .map(([key, value]) => {
       const userKey = key.slice(USER_PROPERTY_PREFIX.length);
+
+      // time is a stringified array
+      if (userKey === FEATURE_PROPERTIES.time) {
+        value = JSON.parse(value);
+      }
+
       return [userKey, value];
     });
 
