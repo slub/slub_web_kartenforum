@@ -14,16 +14,17 @@ import {
     getRecoilStateExternallyAsync,
 } from "@components/RecoilExternal";
 import {
-    defaultFilters,
+    defaultHoverFilters,
     IDOHIST_FEATURE_PROPS,
-    IDOHIST_LAYER_DEFINITIONS,
+    IDOHIST_HOVER_LAYER_DEFINITIONS,
 } from "./constants";
 import { isDefined } from "@util/util";
-import { VISIBILITY } from "../../constants";
+import { MAP_LIBRE_METADATA, VISIBILITY } from "../../constants";
 
 const MARKER_CLASS = "marker-idohist";
 const DATA_ATTR_FEATURE_ID = "data-vkf-feature-id";
 const DATA_ATTR_SOURCE_ID = "data-vkf-source-id";
+const DATA_ATTR_SOURCE_ID_HOVER = "data-vkf-source-id-hover";
 export const DATA_ATTR_VISIBILITY = "data-vkf-visibility";
 export const FEATURE_PROPS_SYMBOL = Symbol("vkf:feature-properties");
 const EMPTY_HOVER_GEOMETRY = {
@@ -56,27 +57,32 @@ const getAttributesFromTarget = (target) => {
         10
     );
     const sourceId = markerDiv.getAttribute(DATA_ATTR_SOURCE_ID);
+    const sourceIdHover = markerDiv.getAttribute(DATA_ATTR_SOURCE_ID_HOVER);
     const visibility = markerDiv.getAttribute(DATA_ATTR_VISIBILITY);
 
-    return { featureId, sourceId, visibility };
+    return { featureId, sourceId, sourceIdHover, visibility };
 };
 
-const toggleHoverPolygon = (map, sourceId, featureId) => {
+const toggleHoverPolygon = (map, sourceIdHover, featureId) => {
     if (!isDefined(map)) {
         return;
     }
 
-    const styleLayers = Object.keys(IDOHIST_LAYER_DEFINITIONS).map(
-        (layerType) => `${sourceId}-${layerType}`
+    const styleLayers = Object.keys(IDOHIST_HOVER_LAYER_DEFINITIONS).map(
+        (layerType) => `${sourceIdHover}-${layerType}`
     );
 
     for (const layerId of styleLayers) {
         if (!isDefined(featureId)) {
-            map.setFilter(layerId, defaultFilters);
+            map.setFilter(layerId, defaultHoverFilters);
             continue;
         }
 
-        const filters = ["all", defaultFilters[1], ["==", ["id"], featureId]];
+        const filters = [
+            "all",
+            defaultHoverFilters[1],
+            ["==", ["id"], featureId],
+        ];
         map.setFilter(layerId, filters);
     }
 };
@@ -99,28 +105,29 @@ const clickHandler = (event) => {
 const mouseEnterHandler = (event) => {
     event.stopPropagation();
     const { target } = event;
-    const { featureId, sourceId, visibility } = getAttributesFromTarget(target);
+    const { featureId, sourceIdHover, visibility } =
+        getAttributesFromTarget(target);
 
     if (visibility === VISIBILITY.NONE) {
         return;
     }
 
     getRecoilStateExternallyAsync(mapState).then((map) => {
-        toggleHoverPolygon(map, sourceId, featureId);
+        toggleHoverPolygon(map, sourceIdHover, featureId);
     });
 };
 
 const mouseLeaveHandler = (event) => {
     event.stopPropagation();
     const { target } = event;
-    const { sourceId, visibility } = getAttributesFromTarget(target);
+    const { sourceIdHover, visibility } = getAttributesFromTarget(target);
 
     if (visibility === VISIBILITY.NONE) {
         return;
     }
 
     getRecoilStateExternallyAsync(mapState).then((map) => {
-        toggleHoverPolygon(map, sourceId, null);
+        toggleHoverPolygon(map, sourceIdHover, null);
     });
 };
 
@@ -197,7 +204,7 @@ const createIdohistSvg = ({
     return svgNode;
 };
 
-export const createIdohistMarker = (feature, sourceId) => {
+export const createIdohistMarker = (feature, { sourceId, sourceIdHover }) => {
     const position = feature.geometry.coordinates;
     const featureId = feature.id;
     const { properties } = feature;
@@ -210,6 +217,7 @@ export const createIdohistMarker = (feature, sourceId) => {
     el.classList.add(MARKER_CLASS);
     el.setAttribute(DATA_ATTR_FEATURE_ID, featureId);
     el.setAttribute(DATA_ATTR_SOURCE_ID, sourceId);
+    el.setAttribute(DATA_ATTR_SOURCE_ID_HOVER, sourceIdHover);
 
     const svgEl = createIdohistSvg({
         spatialCertainty,
@@ -249,19 +257,28 @@ export const createFeatureFromHoverPolygon = (feature) => {
     };
 };
 
-export const createIdohistHoverLayerConfig = (sourceId) => {
+export const createIdohistLayerConfig = (
+    sourceId,
+    styleLayerDefinitions,
+    hasPopup
+) => {
     const config = {};
 
-    for (const layerType of Object.keys(IDOHIST_LAYER_DEFINITIONS)) {
+    for (const layerType of Object.keys(styleLayerDefinitions)) {
         const layerId = `${sourceId}-${layerType}`;
         config[layerId] = {
             id: layerId,
             source: sourceId,
-            ...IDOHIST_LAYER_DEFINITIONS[layerType],
+            ...styleLayerDefinitions[layerType],
             layout: {
-                ...IDOHIST_LAYER_DEFINITIONS[layerType].layout,
+                ...styleLayerDefinitions[layerType].layout,
                 visibility: "visible",
             },
+            ...(hasPopup && {
+                metadata: {
+                    [MAP_LIBRE_METADATA.id]: sourceId,
+                },
+            }),
         };
     }
 

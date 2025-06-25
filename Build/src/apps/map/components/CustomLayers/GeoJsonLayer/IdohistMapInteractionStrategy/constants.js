@@ -12,12 +12,6 @@ export const IDOHIST_FEATURE_PROPS = {
     spatialValue: "spatial_value",
 };
 
-export const defaultFilters = [
-    "all",
-    ["==", ["geometry-type"], "Polygon"],
-    ["==", ["id"], "NON_EXISTING_ID"],
-];
-
 const IDOHIST_COLOR = "#AC40FF";
 
 export const DEFAULT_OPACITY_VALUES = {
@@ -25,16 +19,34 @@ export const DEFAULT_OPACITY_VALUES = {
     line: 1,
 };
 
+export const defaultHoverFilters = [
+    "all",
+    ["==", ["geometry-type"], "Polygon"],
+    ["==", ["id"], "NON_EXISTING_ID"],
+];
+
 // maplibre style specifications to display hover polygons
-export const IDOHIST_LAYER_DEFINITIONS = {
+export const IDOHIST_HOVER_LAYER_DEFINITIONS = {
     fill: {
         type: "fill",
         paint: {
             "fill-color": IDOHIST_COLOR,
             "fill-opacity": DEFAULT_OPACITY_VALUES.fill,
         },
-        filter: defaultFilters,
+        filter: defaultHoverFilters,
     },
+    outline: {
+        type: "line",
+        paint: {
+            "line-color": IDOHIST_COLOR,
+            "line-width": 2,
+            "line-opacity": DEFAULT_OPACITY_VALUES.line,
+        },
+        filter: defaultHoverFilters,
+    },
+};
+
+export const IDOHIST_LAYER_DEFINITIONS = {
     line: {
         type: "line",
         paint: {
@@ -42,6 +54,23 @@ export const IDOHIST_LAYER_DEFINITIONS = {
             "line-width": 2,
             "line-opacity": DEFAULT_OPACITY_VALUES.line,
         },
-        filter: defaultFilters,
+        filter: ["==", ["geometry-type"], "LineString"],
+    },
+    fill: {
+        type: "fill",
+        paint: {
+            "fill-color": IDOHIST_COLOR,
+            "fill-opacity": DEFAULT_OPACITY_VALUES.fill,
+        },
+        filter: ["==", ["geometry-type"], "Polygon"],
+    },
+    outline: {
+        type: "line",
+        paint: {
+            "line-color": IDOHIST_COLOR,
+            "line-width": 2,
+            "line-opacity": DEFAULT_OPACITY_VALUES.line,
+        },
+        filter: ["==", ["geometry-type"], "Polygon"],
     },
 };
