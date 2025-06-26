@@ -16,7 +16,6 @@ import useGeoJsonFeatureDraw, {
 } from "./useGeoJsonFeatureDraw";
 
 import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
-import { FEATURE_PROPERTIES } from "../constants";
 
 const USER_PROPERTY_PREFIX = "user_";
 const DRAW_LAYER = {
@@ -51,23 +50,29 @@ const getApplicationFeature = (drawFeature) => {
   const { id } = properties;
 
   // retain user properties only and remove prefix
-  const userProperties = Object.entries(properties)
-    .filter(([key]) => key.startsWith(USER_PROPERTY_PREFIX))
-    .map(([key, value]) => {
-      const userKey = key.slice(USER_PROPERTY_PREFIX.length);
+  const userProperties = {};
+  for (const key in properties) {
+    if (!key.startsWith(USER_PROPERTY_PREFIX)) {
+      continue;
+    }
 
-      // time is a stringified array
-      if (userKey === FEATURE_PROPERTIES.time) {
-        value = JSON.parse(value);
-      }
+    const userKey = key.slice(USER_PROPERTY_PREFIX.length);
 
-      return [userKey, value];
-    });
+    // maplibre does not support object/array properties
+    let parsedValue = "";
+    try {
+      parsedValue = JSON.parse(properties[key]);
+    } catch (error) {
+      parsedValue = properties[key];
+    }
+
+    userProperties[userKey] = parsedValue;
+  }
 
   return {
     id,
     geometry,
-    properties: Object.fromEntries(userProperties),
+    properties: userProperties,
     type,
   };
 };

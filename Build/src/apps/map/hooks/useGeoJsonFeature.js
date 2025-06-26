@@ -16,7 +16,6 @@ import {
 } from "@map/atoms";
 
 import { notificationState } from "@atoms";
-import { FEATURE_PROPERTIES } from "@map/components/GeoJson/constants";
 
 const isApplicationFeature = (feature) =>
     isDefined(feature.layer.metadata?.[MAP_LIBRE_METADATA.id]);
@@ -34,14 +33,19 @@ const calculateBoundingBox = (point, offset) => {
 const getFeatureProperties = (maplibreFeature) => {
     const { type, id, geometry } = maplibreFeature;
 
-    const time = JSON.parse(
-        maplibreFeature.properties?.[FEATURE_PROPERTIES.time] ?? null
-    );
+    const properties = {};
 
-    const properties = {
-        ...maplibreFeature.properties,
-        ...(time !== null && { time }),
-    };
+    for (const key in maplibreFeature.properties) {
+        const value = maplibreFeature.properties[key];
+
+        try {
+            // maplibre does not support object or array values
+            const parsedValue = JSON.parse(value);
+            properties[key] = parsedValue;
+        } catch (error) {
+            properties[key] = value;
+        }
+    }
 
     return {
         id,
@@ -133,7 +137,6 @@ function useGeoJsonFeature() {
                     source
                 );
 
-                // we can use the maplibre feature directly, but we only need a subset of its properties.
                 setGeoJsonFeature(getFeatureProperties(mapFeature));
             } else {
                 resetFeature();

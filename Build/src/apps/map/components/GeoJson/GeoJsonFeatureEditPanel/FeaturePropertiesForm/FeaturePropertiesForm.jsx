@@ -98,7 +98,7 @@ const FeaturePropertiesForm = ({ feature, onSavePreview, onFormSubmit }) => {
             {styleFields.map((field, index) => {
               const propKey = field.name;
 
-              const { inputProps } = styleFieldSettings[propKey];
+              const inputProps = styleFieldSettings[propKey];
               const { onChange, ...registerProps } = register(
                 `styleProps.${index}.value`
               );
@@ -107,8 +107,8 @@ const FeaturePropertiesForm = ({ feature, onSavePreview, onFormSubmit }) => {
                   {...registerProps}
                   onChange={(event) => {
                     const newValue = validateStyleValue(
-                      event.target.value,
-                      inputProps
+                      propKey,
+                      event.target.value
                     );
                     onSavePreview(propKey, newValue);
                     onChange(event);

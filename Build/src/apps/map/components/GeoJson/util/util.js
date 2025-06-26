@@ -7,7 +7,7 @@
 
 import bbox from "@turf/bbox";
 
-import { ignoredProperties, stylingProperties } from "../constants.js";
+import { stylingProperties } from "../constants.js";
 
 import { isDefined } from "@util/util.js";
 import {
@@ -25,42 +25,27 @@ import {
 
 import { METADATA } from "@map/components/CustomLayers";
 
-/*
- * filter and extract the properties of the feature
- */
-export const propExtractor = (feature) => {
-    const filterList = [
-        "marker",
-        "stroke",
-        "stroke-opacity",
-        "stroke-width",
-        "fill",
-        "fill-opacity",
-        "geometry",
-    ];
+export const getNonStylingProperties = (feature) => {
+    const properties = {};
 
-    const properties = Object.keys(feature.properties)
-        .filter((property) => !filterList.includes(property))
-        .reduce((object, property) => {
-            return {
-                ...object,
-                [property]: feature.properties[property],
-            };
-        }, {});
+    for (const key in feature.properties) {
+        if (stylingProperties.includes(key)) {
+            continue;
+        }
+
+        properties[key] = feature.properties[key];
+    }
 
     return properties;
 };
 
 const getPropertyKeysToBeRemoved = (oldProperties, newProperties) => {
     const removedPropertyKeys = Object.keys(oldProperties).filter((oldKey) => {
-        const isIgnoredProperty = ignoredProperties.includes(oldKey);
         const isStylingProperty = stylingProperties.includes(oldKey);
         const isAPropertyToBeRemoved =
             !isDefined(newProperties[oldKey]) || newProperties[oldKey] === "";
 
-        return (
-            !isIgnoredProperty && !isStylingProperty && isAPropertyToBeRemoved
-        );
+        return !isStylingProperty && isAPropertyToBeRemoved;
     });
 
     return removedPropertyKeys;

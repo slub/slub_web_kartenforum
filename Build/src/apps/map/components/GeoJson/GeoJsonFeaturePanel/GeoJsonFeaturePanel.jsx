@@ -8,7 +8,7 @@ import React, { useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { translate, isDefined } from "@util/util";
 import { predefinedProperties } from "../constants";
-import { propExtractor } from "../util/util";
+import { getNonStylingProperties } from "../util/util";
 import ImageWithFallback from "../components/ImageWithFallback";
 import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
 import { FEATURE_PROPERTIES } from "../constants";
@@ -18,9 +18,11 @@ import { formatFeatureTime } from "../util/formatters";
 import "./GeoJsonFeaturePanel.scss";
 
 const HEADER_PROPERTIES = [...predefinedProperties];
+const canBeDisplayed = (value) =>
+  isDefined(value) && value !== "" && typeof value !== "object";
 
 const GeoJsonFeaturePanel = ({ feature, onClose }) => {
-  const properties = useMemo(() => propExtractor(feature), [feature]);
+  const properties = useMemo(() => getNonStylingProperties(feature), [feature]);
 
   const { defaultTitle, defaultDescription } = useMemo(() => {
     return {
@@ -51,7 +53,8 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
 
   const customEntries = useMemo(() => {
     return Object.entries(properties).filter(
-      ([key]) => !HEADER_PROPERTIES.includes(key)
+      ([key, value]) =>
+        !HEADER_PROPERTIES.includes(key) && canBeDisplayed(value)
     );
   }, [properties]);
 
@@ -88,11 +91,6 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
         </div>
 
         <div className="properties-container">
-          {customEntries.length > 0 && (
-            <p className="geojson-feature-property-label">
-              {translate("geojson-featureview-metadata")}
-            </p>
-          )}
           {customEntries.map(([key, value]) => (
             <div key={key}>
               <label htmlFor={key} className="geojson-feature-property-label">

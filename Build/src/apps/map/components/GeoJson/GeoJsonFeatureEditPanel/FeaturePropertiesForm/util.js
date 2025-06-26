@@ -12,132 +12,22 @@ import {
     GEOJSON_LAYER_TYPES,
 } from "@map/components/CustomLayers/GeoJsonLayer/VkfMapInteractionStrategy/constants";
 import {
-    ignoredProperties,
+    defaultStylesForGeometry,
     predefinedProperties,
     styleFieldSettings,
-    stylingProperties,
 } from "../../constants";
 import { formatDateLocalized, parseDateLocalized } from "@util/date.js";
-
-/**
- * A utility function to merge an array of entries with values from an existing Object.
- * To be used as a callback for Object.entries(myObj).map().
- * @param {object} obj
- * @returns {[string, unknown][]}
- */
-const mergeWith =
-    (obj) =>
-    ([key, originalValue]) => {
-        const mergedValue = obj[key];
-        if (
-            Object.hasOwn(obj, key) &&
-            isDefined(mergedValue) &&
-            mergedValue !== ""
-        ) {
-            return [key, mergedValue];
-        }
-
-        return [key, originalValue];
-    };
-
-const getGeometryType = (feature) => {
-    return feature?.geometry?.type;
-};
-
-const getDeclaredGeometryTypes = () => {
-    const geometryTypesFromStylingProperties = Object.values(
-        styleFieldSettings
-    ).map(({ geometryTypes }) => geometryTypes);
-
-    const types = new Set(geometryTypesFromStylingProperties.flat(2));
-
-    return types;
-};
-
-const checkForStylingEntries = (() => {
-    const geometryTypes = getDeclaredGeometryTypes();
-
-    const checkForStylingEntriesPerGeometryType = {};
-    for (const geometryType of geometryTypes) {
-        checkForStylingEntriesPerGeometryType[geometryType] = ([
-            propertyKey,
-        ]) => {
-            return (
-                stylingProperties.includes(propertyKey) &&
-                styleFieldSettings[propertyKey].geometryTypes.includes(
-                    geometryType
-                )
-            );
-        };
-    }
-
-    return checkForStylingEntriesPerGeometryType;
-})();
-
-const filterPredefinedEntries = ([propertyKey]) =>
-    !predefinedProperties.includes(propertyKey);
-
-const filterIgnoredEntries = ([propertyKey]) =>
-    !ignoredProperties.includes(propertyKey);
-
-/**
- * Filter out styling properties
- * @param feature
- * @return {object}
- */
-const filterStylingProperties = (feature) => {
-    const geometryType = getGeometryType(feature);
-    const entries = Object.entries(feature.properties);
-
-    const filteredEntries = entries.filter(
-        (entry) => !checkForStylingEntries[geometryType](entry)
-    );
-
-    return Object.fromEntries(filteredEntries);
-};
-
-/**
- * Retain styling properties
- * @param feature
- * @return {object}
- */
-const retainStylingProperties = (feature) => {
-    const geometryType = getGeometryType(feature);
-    const entries = Object.entries(feature.properties);
-
-    const filteredEntries = entries.filter((entry) =>
-        checkForStylingEntries[geometryType](entry)
-    );
-
-    return Object.fromEntries(filteredEntries);
-};
-
-/**
- * Create an array of records from the GeoJSON feature properties used for map styles.
- * Only styling properties are included.
- * Default styling properties are merged with feature properties.
- *
- * @param feature
- * @return {[string,*][]}
- */
-export const extractStyleProperties = (feature) => {
-    const geometryType = getGeometryType(feature);
-    const styleProperties = retainStylingProperties(feature);
-
-    const defaultStyleEntries = Object.entries(styleFieldSettings)
-        .filter(checkForStylingEntries[geometryType])
-        .map(([key, { default: defaultValue }]) => [
-            key,
-            defaultValue(geometryType),
-        ]);
-
-    const styleEntries = defaultStyleEntries.map(mergeWith(styleProperties));
-
-    return styleEntries.map(([key, value]) => ({ name: key, value }));
-};
+import { getNonStylingProperties } from "../../util/util";
 
 // maps [number,number] to localized date format for display in form fields
 const propertiesTimePeriodToForm = (timePeriod) => {
+    if (!Array.isArray(timePeriod)) {
+        return {
+            timeStart: "",
+            timeEnd: "",
+        };
+    }
+
     const timeStart = formatDateLocalized(timePeriod[0]) ?? "";
     const timeEnd = formatDateLocalized(timePeriod[1]) ?? "";
 
@@ -160,61 +50,75 @@ const formTimePeriodToProperties = (start, end) => {
     return [parsedStartDate, parsedEndDate];
 };
 
-/**
- * Maps feature properties to form properties
- *
- * @param feature
- * @return {Object.<string, any>}
- */
-export const featurePropertiesToFormProperties = (feature) => {
-    const nonStylingProperties = filterStylingProperties(feature);
-    const defaultPredefinedEntries = predefinedProperties.map((key) => [
-        key,
-        "",
-    ]);
-    const mergedPredefinedEntries = defaultPredefinedEntries.map(
-        mergeWith(nonStylingProperties)
-    );
+const extractValidStyleProperties = (feature) => {
+    const geometryType = feature?.geometry?.type;
 
-    const { time, ...predefinedProps } = Object.fromEntries(
-        mergedPredefinedEntries
-    );
+    const defaultStyles = defaultStylesForGeometry[geometryType];
+
+    const validStyleProperties = [];
+
+    for (const key in defaultStyles) {
+        const value = feature.properties[key] ?? defaultStyles[key];
+        const coercedValue = validateStyleValue(key, value);
+        validStyleProperties.push({
+            name: key,
+            value: coercedValue,
+        });
+    }
+
+    return validStyleProperties;
+};
+
+const extractValidPredefinedProperties = (feature) => {
+    const predefinedProps = {};
+
+    for (const key of predefinedProperties) {
+        const value = feature.properties[key] ?? "";
+
+        predefinedProps[key] = value;
+    }
+
+    return predefinedProps;
+};
+
+const extractValidCustomProperties = (feature) => {
+    const nonStylingProperties = getNonStylingProperties(feature);
+
+    const customProps = [];
+    for (const key in nonStylingProperties) {
+        const value = nonStylingProperties[key];
+        if (predefinedProperties.includes(key)) {
+            continue;
+        }
+
+        if (typeof value === "object") {
+            continue;
+        }
+
+        customProps.push({ name: key, value: `${value}` });
+    }
+
+    return customProps;
+};
+
+export const featurePropertiesToFormProperties = (feature) => {
+    const predefinedProps = extractValidPredefinedProperties(feature);
+
+    const { time, ...otherPredefinedProps } = predefinedProps;
     const { timeStart, timeEnd } = propertiesTimePeriodToForm(time);
 
-    const customEntries = Object.entries(nonStylingProperties)
-        .filter(filterPredefinedEntries)
-        .filter(filterIgnoredEntries);
-    const customProps = customEntries.map(([key, value]) => ({
-        name: key,
-        value,
-    }));
-
-    const styleProps = extractStyleProperties(feature).map(
-        ({ name, value }) => {
-            const { inputProps } = styleFieldSettings[name];
-            const coercedValue = validateStyleValue(value, inputProps);
-            return {
-                name,
-                value: coercedValue,
-            };
-        }
-    );
+    const customProps = extractValidCustomProperties(feature);
+    const styleProps = extractValidStyleProperties(feature);
 
     return {
         timeStart,
         timeEnd,
-        ...predefinedProps,
+        ...otherPredefinedProps,
         customProps,
         styleProps,
     };
 };
 
-/**
- * Maps form properties to feature properties
- *
- * @param formData
- * @return {Object.<string, any>}
- */
 export const formPropertiesToFeatureProperties = (formData) => {
     const {
         img_link,
@@ -235,8 +139,7 @@ export const formPropertiesToFeatureProperties = (formData) => {
     );
     const featureStyleProps = Object.fromEntries(
         styleProps.map((el) => {
-            const { inputProps } = styleFieldSettings[el.name];
-            const coercedValue = validateStyleValue(el.value, inputProps);
+            const coercedValue = validateStyleValue(el.name, el.value);
             return [el.name, coercedValue];
         })
     );
@@ -251,9 +154,9 @@ export const formPropertiesToFeatureProperties = (formData) => {
     };
 };
 
-export const validateStyleValue = (inputValue, inputProps) => {
-    const { type, min, max } = inputProps;
-    let newValue = inputValue;
+export const validateStyleValue = (key, value) => {
+    const { type, min, max } = styleFieldSettings[key];
+    let newValue = value;
 
     if (type === "number") {
         newValue = Number.isNaN(Number.parseFloat(newValue))
