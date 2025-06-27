@@ -1,0 +1,59 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 26.06.25.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@use "../../../../Variables.scss" as *;
+@use "../GeoJsonFeaturePanel.scss" as *;
+
+.geojson-feature-panel-root.vkf-feature-panel {
+    .predefined-properties-container {
+        .geojson-feature-property-text {
+            @include geojson-feature-property-text;
+        }
+
+        .geojson-feature-property-label {
+            @include geojson-feature-property-label;
+        }
+
+        .title-section {
+            display: flex;
+            flex-direction: column;
+
+            .title {
+                @include geojson-feature-title;
+                @include text-overflow-with-line-break;
+            }
+        }
+    }
+
+    .custom-properties-container {
+        display: flex;
+        flex-direction: column;
+        padding: 25px 15px 0px 15px;
+
+        p {
+            word-wrap: break-word;
+        }
+
+        > div {
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 25px;
+
+            &:last-child {
+                padding-bottom: 0px;
+            }
+
+            .geojson-feature-property-text {
+                @include geojson-feature-property-text;
+            }
+
+            .geojson-feature-property-label {
+                @include geojson-feature-property-label;
+            }
+        }
+    }
+}

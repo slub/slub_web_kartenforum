@@ -7,9 +7,11 @@
 
 export const IDOHIST_FEATURE_PROPS = {
     hoverPolygon: "hover_polygon",
-    contentValue: "content_value",
-    temporalValue: "temporal_value",
-    spatialValue: "spatial_value",
+    contentCertainty: "content_certainty",
+    temporalCertainty: "temporal_certainty",
+    spatialCertainty: "spatial_certainty",
+    permalink: "permanent_link",
+    tags: "tag",
 };
 
 const IDOHIST_COLOR = "#AC40FF";

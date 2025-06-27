@@ -35,6 +35,7 @@ export const METADATA = {
 
 export const MAP_LIBRE_METADATA = {
     id: "vkf:layer_id",
+    contentType: "vkf:content_type",
 };
 
 export const EXTERNAL_CONTENT_TYPES = {

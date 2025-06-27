@@ -1286,6 +1286,29 @@
             <trans-unit id="global.button.loading-label" approved="yes">
                 <source>Loading…</source>
             </trans-unit>
+
+            <!-- Idohist -->
+            <trans-unit id="plugin.map.geojson.idohist.date-label" approved="yes">
+                <source>Date</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.permalink-label" approved="yes">
+                <source>Permalink</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.tags-label" approved="yes">
+                <source>Tags</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.certainty-label" approved="yes">
+                <source>Calculated values</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.certainty-label-spatial" approved="yes">
+                <source>Spatial certainty</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.certainty-label-temporal" approved="yes">
+                <source>Temporal certainty</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.certainty-label-content" approved="yes">
+                <source>Content certainty</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -8,9 +8,12 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 
-import GeoJsonFeaturePanel from "@map/components/GeoJson/GeoJsonFeaturePanel";
+import VkfFeaturePanel from "@map/components/GeoJson/GeoJsonFeaturePanel/VkfFeaturePanel/VkfFeaturePanel";
+import IdohistFeaturePanel from "@map/components/GeoJson/GeoJsonFeaturePanel/IdohistFeaturePanel/IdohistFeaturePanel";
+import { EXTERNAL_CONTENT_TYPES } from "@map/components/CustomLayers";
 
 export const GeoJsonFeaturePanelWrapper = ({
+  contentType,
   geoJsonFeature,
   resetFeature,
 }) => {
@@ -18,12 +21,18 @@ export const GeoJsonFeaturePanelWrapper = ({
     resetFeature();
   }, [resetFeature]);
 
-  return (
-    <>
-      <GeoJsonFeaturePanel
+  if (contentType === EXTERNAL_CONTENT_TYPES.IDOHIST) {
+    return (
+      <IdohistFeaturePanel
         feature={geoJsonFeature}
         onClose={handleOverlayClose}
       />
+    );
+  }
+
+  return (
+    <>
+      <VkfFeaturePanel feature={geoJsonFeature} onClose={handleOverlayClose} />
     </>
   );
 };
@@ -31,6 +40,7 @@ export const GeoJsonFeaturePanelWrapper = ({
 GeoJsonFeaturePanelWrapper.propTypes = {
   geoJsonFeature: PropTypes.object.isRequired,
   resetFeature: PropTypes.func.isRequired,
+  contentType: PropTypes.string.isRequired,
 };
 
 export default GeoJsonFeaturePanelWrapper;

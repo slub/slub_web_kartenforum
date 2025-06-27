@@ -6,7 +6,11 @@
  */
 
 import { useEffect, useCallback, useState, useRef } from "react";
-import { MAP_LIBRE_METADATA } from "@map/components/CustomLayers";
+import {
+    EXTERNAL_CONTENT_TYPES,
+    MAP_LIBRE_METADATA,
+    METADATA,
+} from "@map/components/CustomLayers";
 import { isDefined, translate } from "@util/util";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import {
@@ -63,6 +67,7 @@ const CLICK_BUFFER = 2;
  * @typedef {Object} useGeoJsonFeatureAPI
  * @property {object} geoJsonFeature - The currently selected geoJson feature from the GeoJsonFeatureCollection.
  * @property {function} resetFeature - Resets geoJsonFeature to null and clears the hook's internal state (e.g., to handle close logic)
+ * @property {string} contentType - The contentType of the geoJson feature representing a vkf geojson specification dialect
  */
 
 /**
@@ -71,7 +76,7 @@ const CLICK_BUFFER = 2;
  * A feature can be selected via mouse click or externally by modifying
  * the selectedGeoJsonFeatureIdentifierState.
  *
- * @returns {...useGeoJsonFeatureAPI | null} {@link useGeoJsonFeatureAPI} or `null`
+ * @returns {useGeoJsonFeatureAPI | null} {@link useGeoJsonFeatureAPI} or `null`
  */
 function useGeoJsonFeature() {
     const setNotification = useSetRecoilState(notificationState);
@@ -83,6 +88,7 @@ function useGeoJsonFeature() {
     ] = useRecoilState(selectedGeoJsonFeatureIdentifierState);
 
     const [geoJsonFeature, setGeoJsonFeature] = useState(null);
+    const [contentType, setContentType] = useState(null);
 
     // don't trigger a state update when same feature is clicked again
     const uniqueCachedFeatureId = useRef(null);
@@ -90,6 +96,7 @@ function useGeoJsonFeature() {
     const resetFeature = useCallback(() => {
         uniqueCachedFeatureId.current = null;
         setGeoJsonFeature(null);
+        setContentType(null);
         setSelectedGeoJsonFeatureIdentifier(null);
     }, []);
 
@@ -108,6 +115,9 @@ function useGeoJsonFeature() {
 
             if (isDefined(mapFeature)) {
                 const { id, source } = mapFeature;
+                const {
+                    layer: { metadata },
+                } = mapFeature;
 
                 if (!isDefined(id)) {
                     setNotification({
@@ -136,6 +146,12 @@ function useGeoJsonFeature() {
                     id,
                     source
                 );
+
+                const contentType =
+                    metadata[MAP_LIBRE_METADATA.contentType] ??
+                    EXTERNAL_CONTENT_TYPES.VKF;
+
+                setContentType(contentType);
 
                 setGeoJsonFeature(getFeatureProperties(mapFeature));
             } else {
@@ -190,6 +206,10 @@ function useGeoJsonFeature() {
             }
 
             const applicationFeature = selectedGeoJsonLayer.getFeature(id);
+            const contentType =
+                selectedGeoJsonLayer.getMetadata(
+                    METADATA.externalContentType
+                ) ?? EXTERNAL_CONTENT_TYPES.VKF;
 
             if (!isDefined(applicationFeature)) {
                 console.error(`No feature found with id '${id}'.`);
@@ -199,6 +219,7 @@ function useGeoJsonFeature() {
             }
 
             uniqueCachedFeatureId.current = naiveUniqueFeatureId(id, source);
+            setContentType(contentType);
             setGeoJsonFeature(applicationFeature);
         }
     }, [selectedLayers, selectedGeoJsonFeatureIdentifier]);
@@ -208,6 +229,7 @@ function useGeoJsonFeature() {
     }
 
     return {
+        contentType,
         geoJsonFeature,
         resetFeature,
     };

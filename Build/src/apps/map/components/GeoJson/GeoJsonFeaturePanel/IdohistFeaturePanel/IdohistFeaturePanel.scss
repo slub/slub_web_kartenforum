@@ -1,0 +1,100 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 26.06.25.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@use "../../../../Variables.scss" as *;
+@use "../GeoJsonFeaturePanel.scss" as *;
+
+@mixin certainty-text {
+    color: #666;
+    font-family: "Titillium Web";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 216.667% */
+    letter-spacing: 0.48px;
+    text-transform: uppercase;
+}
+
+.geojson-feature-panel-root.idohist-feature-panel {
+    .predefined-properties-container {
+        .geojson-feature-property-text {
+            @include geojson-feature-property-text;
+        }
+
+        .geojson-feature-property-label {
+            @include geojson-feature-property-label;
+        }
+
+        .title-section {
+            display: flex;
+            flex-direction: column;
+
+            .title {
+                @include geojson-feature-title;
+                @include text-overflow-with-line-break;
+            }
+        }
+
+        .permalink-section {
+            .geojson-feature-property-text {
+                @include text-overflow;
+            }
+        }
+
+        .tag-section {
+            .tags {
+                display: flex;
+                align-items: flex-start;
+                align-content: flex-start;
+                gap: 8px;
+                align-self: stretch;
+                flex-wrap: wrap;
+            }
+        }
+
+        .certainties-section {
+            display: flex;
+            flex-direction: column;
+
+            .certainty-items {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .certainty-item {
+                .certainty-label {
+                    @include certainty-text;
+                }
+
+                .value {
+                    @include certainty-text;
+                    font-weight: 700;
+                }
+
+                .bar {
+                    position: relative;
+                    height: 11px;
+                    .track {
+                        position: absolute;
+                        top: calc((11px / 2) - (3px / 2));
+                        background-color: rgb(204, 204, 204);
+                        height: 3px;
+                        width: 100%;
+                    }
+                    .value {
+                        position: relative;
+                        top: 0px;
+                        height: 100%;
+                        background-color: rgb(0, 146, 126);
+                        opacity: 0.6;
+                        outline: 3px solid white;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1604,6 +1604,36 @@
                 <source><![CDATA[Loading…]]></source>
 				<target><![CDATA[Lade…]]></target>
             </trans-unit>
+
+			<!-- Idohist -->
+            <trans-unit id="plugin.map.geojson.idohist.date-label" approved="yes">
+				<source><![CDATA[Date]]></source>
+				<target><![CDATA[Datum]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.permalink-label" approved="yes">
+				<source><![CDATA[Permalink]]></source>
+				<target><![CDATA[Permalink]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.tags-label" approved="yes">
+				<source><![CDATA[Tags]]></source>
+				<target><![CDATA[Tags]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.certainty-label" approved="yes">
+				<source><![CDATA[Calculated values]]></source>
+				<target><![CDATA[Berechnungswerte]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.certainty-label-spatial" approved="yes">
+				<source><![CDATA[Spatial certainty]]></source>
+				<target><![CDATA[Spatiale Sicherheit]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.certainty-label-temporal" approved="yes">
+				<source><![CDATA[Temporal certainty]]></source>
+				<target><![CDATA[Zeitliche Sicherheit]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.certainty-label-content" approved="yes">
+				<source><![CDATA[Content certainty]]></source>
+				<target><![CDATA[Inhaltliche Sicherheit]]></target>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

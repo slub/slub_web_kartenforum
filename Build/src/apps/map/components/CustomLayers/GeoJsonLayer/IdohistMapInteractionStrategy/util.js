@@ -19,7 +19,11 @@ import {
     IDOHIST_HOVER_LAYER_DEFINITIONS,
 } from "./constants";
 import { isDefined } from "@util/util";
-import { MAP_LIBRE_METADATA, VISIBILITY } from "../../constants";
+import {
+    EXTERNAL_CONTENT_TYPES,
+    MAP_LIBRE_METADATA,
+    VISIBILITY,
+} from "../../constants";
 
 const MARKER_CLASS = "marker-idohist";
 const DATA_ATTR_FEATURE_ID = "data-vkf-feature-id";
@@ -209,9 +213,10 @@ export const createIdohistMarker = (feature, { sourceId, sourceIdHover }) => {
     const featureId = feature.id;
     const { properties } = feature;
 
-    const contentCertainty = properties[IDOHIST_FEATURE_PROPS.contentValue];
-    const temporalCertainty = properties[IDOHIST_FEATURE_PROPS.temporalValue];
-    const spatialCertainty = properties[IDOHIST_FEATURE_PROPS.spatialValue];
+    const contentCertainty = properties[IDOHIST_FEATURE_PROPS.contentCertainty];
+    const temporalCertainty =
+        properties[IDOHIST_FEATURE_PROPS.temporalCertainty];
+    const spatialCertainty = properties[IDOHIST_FEATURE_PROPS.spatialCertainty];
 
     const el = baseDivElement.cloneNode();
     el.classList.add(MARKER_CLASS);
@@ -277,6 +282,8 @@ export const createIdohistLayerConfig = (
             ...(hasPopup && {
                 metadata: {
                     [MAP_LIBRE_METADATA.id]: sourceId,
+                    [MAP_LIBRE_METADATA.contentType]:
+                        EXTERNAL_CONTENT_TYPES.IDOHIST,
                 },
             }),
         };
@@ -308,4 +315,20 @@ export const calculateIdohistMarkerScaleFactor = (zoomLevel) => {
         scaleFactorParams.gradual.slope * zoomLevel +
         scaleFactorParams.gradual.intercept
     );
+};
+
+export const coerceCertainty = (value) => {
+    if (Number.isNaN(Number.parseFloat(value))) {
+        return 0;
+    }
+
+    if (value < 0) {
+        return 0;
+    }
+
+    if (value > 1) {
+        return 1;
+    }
+
+    return value;
 };
