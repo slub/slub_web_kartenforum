@@ -45,6 +45,8 @@
 
     box-shadow: $shadow;
 
+    pointer-events: all;
+
     > :not(.scrollable) {
         flex-shrink: 0;
     }

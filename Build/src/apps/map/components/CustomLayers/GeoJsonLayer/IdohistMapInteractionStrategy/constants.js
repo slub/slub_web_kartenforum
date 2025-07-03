@@ -11,10 +11,12 @@ export const IDOHIST_FEATURE_PROPS = {
     temporalCertainty: "temporal_certainty",
     spatialCertainty: "spatial_certainty",
     permalink: "permanent_link",
+    parentLabel: "parent_label",
     tags: "tag",
 };
 
-const IDOHIST_COLOR = "#AC40FF";
+const IDOHIST_FILL_COLOR = "#00b19e";
+const IDOHIST_LINE_COLOR = "#00927E";
 
 export const DEFAULT_OPACITY_VALUES = {
     fill: 0.4,
@@ -32,7 +34,7 @@ export const IDOHIST_HOVER_LAYER_DEFINITIONS = {
     fill: {
         type: "fill",
         paint: {
-            "fill-color": IDOHIST_COLOR,
+            "fill-color": IDOHIST_FILL_COLOR,
             "fill-opacity": DEFAULT_OPACITY_VALUES.fill,
         },
         filter: defaultHoverFilters,
@@ -40,7 +42,7 @@ export const IDOHIST_HOVER_LAYER_DEFINITIONS = {
     outline: {
         type: "line",
         paint: {
-            "line-color": IDOHIST_COLOR,
+            "line-color": IDOHIST_LINE_COLOR,
             "line-width": 2,
             "line-opacity": DEFAULT_OPACITY_VALUES.line,
         },
@@ -52,7 +54,7 @@ export const IDOHIST_LAYER_DEFINITIONS = {
     line: {
         type: "line",
         paint: {
-            "line-color": IDOHIST_COLOR,
+            "line-color": IDOHIST_LINE_COLOR,
             "line-width": 2,
             "line-opacity": DEFAULT_OPACITY_VALUES.line,
         },
@@ -61,7 +63,7 @@ export const IDOHIST_LAYER_DEFINITIONS = {
     fill: {
         type: "fill",
         paint: {
-            "fill-color": IDOHIST_COLOR,
+            "fill-color": IDOHIST_FILL_COLOR,
             "fill-opacity": DEFAULT_OPACITY_VALUES.fill,
         },
         filter: ["==", ["geometry-type"], "Polygon"],
@@ -69,7 +71,7 @@ export const IDOHIST_LAYER_DEFINITIONS = {
     outline: {
         type: "line",
         paint: {
-            "line-color": IDOHIST_COLOR,
+            "line-color": IDOHIST_LINE_COLOR,
             "line-width": 2,
             "line-opacity": DEFAULT_OPACITY_VALUES.line,
         },

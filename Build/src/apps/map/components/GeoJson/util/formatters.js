@@ -68,5 +68,5 @@ export function formatFeatureTime(time) {
         return formatDateLocalized(start);
     }
 
-    return `${formatDateLocalized(start)} – ${formatDateLocalized(end)}`;
+    return `${formatDateLocalized(start)}–${formatDateLocalized(end)}`;
 }

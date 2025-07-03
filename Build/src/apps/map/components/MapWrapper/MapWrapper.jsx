@@ -36,7 +36,6 @@ const handleZoom = (event) => {
   if (!isDefined(mapContainer)) {
     return;
   }
-
   const scaleFactor = calculateIdohistMarkerScaleFactor(target.getZoom());
   mapContainer.style.setProperty("--vkf-idohist-scale-factor", scaleFactor);
 };

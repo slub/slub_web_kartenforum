@@ -1607,32 +1607,36 @@
 
 			<!-- Idohist -->
             <trans-unit id="plugin.map.geojson.idohist.date-label" approved="yes">
-				<source><![CDATA[Date]]></source>
-				<target><![CDATA[Datum]]></target>
+				<source><![CDATA[Dating]]></source>
+				<target><![CDATA[Datierung]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.idohist.permalink-label" approved="yes">
-				<source><![CDATA[Permalink]]></source>
-				<target><![CDATA[Permalink]]></target>
+				<source><![CDATA[IDOHIST Documentation]]></source>
+				<target><![CDATA[IDOHIST Dokumentation]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.idohist.tags-label" approved="yes">
 				<source><![CDATA[Tags]]></source>
 				<target><![CDATA[Tags]]></target>
             </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.affiliation-label" approved="yes">
+				<source><![CDATA[Affiliation]]></source>
+				<target><![CDATA[Zugehörigkeit]]></target>
+            </trans-unit>
             <trans-unit id="plugin.map.geojson.idohist.certainty-label" approved="yes">
-				<source><![CDATA[Calculated values]]></source>
-				<target><![CDATA[Berechnungswerte]]></target>
+				<source><![CDATA[Confidences]]></source>
+				<target><![CDATA[Konfidenzen]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.idohist.certainty-label-spatial" approved="yes">
-				<source><![CDATA[Spatial certainty]]></source>
-				<target><![CDATA[Spatiale Sicherheit]]></target>
+				<source><![CDATA[Spatial confidence]]></source>
+				<target><![CDATA[Spatiale Konfidenz]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.idohist.certainty-label-temporal" approved="yes">
-				<source><![CDATA[Temporal certainty]]></source>
-				<target><![CDATA[Zeitliche Sicherheit]]></target>
+				<source><![CDATA[Temporal confidence]]></source>
+				<target><![CDATA[Zeitliche Konfidenz]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.idohist.certainty-label-content" approved="yes">
-				<source><![CDATA[Content certainty]]></source>
-				<target><![CDATA[Inhaltliche Sicherheit]]></target>
+				<source><![CDATA[Thematic confidence]]></source>
+				<target><![CDATA[Thematische Konfidenz]]></target>
             </trans-unit>
 		</body>
 	</file>

@@ -5,6 +5,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import GeoJsonlayerFeatureItem from "./GeoJsonLayerFeatureItem";
+import VkfFeatureItem from "./VkfFeatureItem";
+import IdohistFeatureItem from "./IdohistFeatureItem";
 
-export default GeoJsonlayerFeatureItem;
+export { VkfFeatureItem, IdohistFeatureItem };

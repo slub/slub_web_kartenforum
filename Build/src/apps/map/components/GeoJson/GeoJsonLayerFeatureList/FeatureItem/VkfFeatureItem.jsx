@@ -15,7 +15,7 @@ import { GEOMETRY_TYPE } from "../../constants";
 import { FEATURE_PROPERTIES } from "../../constants";
 import { formatFeatureTime } from "../../util/formatters";
 
-import "./GeoJsonLayerFeatureItem.scss";
+import "./FeatureItem.scss";
 
 const GeoJsonFeatureItem = ({ data, index, style }) => {
   const feature = data.features[index];

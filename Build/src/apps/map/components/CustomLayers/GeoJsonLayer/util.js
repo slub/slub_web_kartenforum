@@ -43,7 +43,7 @@ export const convertFeatureForApplicationState = (feature) => {
 };
 
 const convertForApplicationState = (properties) => {
-    const time = properties[FEATURE_PROPERTIES.time] ?? "";
+    const time = properties[FEATURE_PROPERTIES.time];
 
     const parsedTime = convertTimeToApplicationState(time);
 
@@ -61,7 +61,7 @@ const convertForApplicationState = (properties) => {
 };
 
 const convertForPersistenceState = (properties) => {
-    const time = properties[FEATURE_PROPERTIES.time] ?? "";
+    const time = properties[FEATURE_PROPERTIES.time];
 
     const parsedTime = convertTimeToPersistenceState(time);
 

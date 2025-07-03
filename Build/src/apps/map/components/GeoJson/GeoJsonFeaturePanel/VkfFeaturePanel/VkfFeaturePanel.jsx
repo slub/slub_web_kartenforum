@@ -4,7 +4,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { translate, isDefined } from "@util/util";
 import { predefinedProperties } from "../../constants";
@@ -31,18 +31,16 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
     };
   }, []);
 
-  const parseTimeForDisplay = useCallback(
-    (time) => formatFeatureTime(time),
-    []
-  );
-
   const { imageLink, title, description, time } = useMemo(() => {
+    const time = properties[FEATURE_PROPERTIES.time];
+    const parsedTime = isDefined(time) ? formatFeatureTime(time) : null;
+
     return {
       imageLink: properties[FEATURE_PROPERTIES.imgLink],
       title: properties[FEATURE_PROPERTIES.title] ?? defaultTitle,
       description:
         properties[FEATURE_PROPERTIES.description] ?? defaultDescription,
-      time: parseTimeForDisplay(properties[FEATURE_PROPERTIES.time]),
+      time: parsedTime,
     };
   }, [properties]);
 
@@ -80,12 +78,14 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
             </p>
             <p className="geojson-feature-property-text">{description}</p>
           </div>
-          <div className="time-section">
-            <p className="geojson-feature-property-label">
-              {translate("geojson-featureview-time")}
-            </p>
-            <p className="geojson-feature-property-text">{time}</p>
-          </div>
+          {time !== null && (
+            <div className="time-section">
+              <p className="geojson-feature-property-label">
+                {translate("geojson-featureview-time")}
+              </p>
+              <p className="geojson-feature-property-text">{time}</p>
+            </div>
+          )}
         </div>
 
         {customEntries.length > 0 && (

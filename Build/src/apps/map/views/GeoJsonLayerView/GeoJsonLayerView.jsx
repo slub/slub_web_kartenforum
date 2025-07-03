@@ -16,7 +16,11 @@ import clsx from "clsx";
 import { isDefined, translate } from "@util/util";
 import GeoJsonLayerFeatureList from "@map/components/GeoJson/GeoJsonLayerFeatureList";
 import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
-import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
+import {
+  EXTERNAL_CONTENT_TYPES,
+  GeoJsonLayer,
+  METADATA,
+} from "@map/components/CustomLayers";
 
 import {
   isExternalVectorMapEditAllowed,
@@ -35,6 +39,10 @@ import { useHorizontalDrawMode } from "@map/components/GeoJson/util/hooks/useHor
 import { useHorizontalExternalVectorMapMode } from "@map/components/GeoJson/util/hooks/useHorizontalExternalVectorMapMode";
 
 import "./GeoJsonLayerView.scss";
+import {
+  VkfFeatureItem,
+  IdohistFeatureItem,
+} from "@map/components/GeoJson/GeoJsonLayerFeatureList/FeatureItem";
 
 const canUserEdit = (selectedLayer) => {
   if (!isDefined(selectedLayer)) {
@@ -84,6 +92,16 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
   const formattedDisplayTime = useMemo(() => {
     return displayTime ?? translate("geojson-featureview-no-time");
   }, [displayTime]);
+
+  const FeatureItem = useMemo(() => {
+    const contentType = selectedLayer.getMetadata(METADATA.externalContentType);
+
+    if (contentType === EXTERNAL_CONTENT_TYPES.IDOHIST) {
+      return IdohistFeatureItem;
+    }
+
+    return VkfFeatureItem;
+  }, [selectedLayer]);
 
   const handleCloseClick = useCallback(() => {
     setSelectedGeoJsonLayerId(null);
@@ -163,6 +181,7 @@ const GeoJsonLayerView = ({ selectedLayer }) => {
           viewMode !== GEOJSON_LAYER_VIEW_MODE.EDIT && ["in", "scrollable"]
         )}
         onFeatureClick={handleFeatureClick}
+        FeatureItem={FeatureItem}
       />
     </>
   );

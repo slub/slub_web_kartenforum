@@ -16,11 +16,11 @@ import { FEATURE_PROPERTIES } from "../../constants";
 import FeaturePermalinkButton from "../../components/FeaturePermalinkButton";
 import { formatFeatureTime } from "../../util/formatters";
 
-import "./IdohistFeaturePanel.scss";
 import { IDOHIST_FEATURE_PROPS } from "@map/components/CustomLayers/GeoJsonLayer/IdohistMapInteractionStrategy/constants";
-import IdohistTagPill from "./IdohistTagPill";
 import IdohistCertaintyItem from "./IdohistCertaintyItem";
 import { coerceCertainty } from "@map/components/CustomLayers/GeoJsonLayer/IdohistMapInteractionStrategy/util";
+
+import "./IdohistFeaturePanel.scss";
 
 const GeoJsonFeaturePanel = ({ feature, onClose }) => {
   const properties = useMemo(() => getNonStylingProperties(feature), [feature]);
@@ -37,32 +37,40 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
     []
   );
 
-  const { imageLink, title, description, time, tags, permalink, certainties } =
-    useMemo(() => {
-      const url = properties[IDOHIST_FEATURE_PROPS.permalink];
-      const permalink = isValidUrl(url) ? url : "";
+  const {
+    imageLink,
+    title,
+    description,
+    time,
+    permalink,
+    certainties,
+    affiliation,
+  } = useMemo(() => {
+    const url = properties[IDOHIST_FEATURE_PROPS.permalink];
+    const permalink = isValidUrl(url) ? url : "";
 
-      return {
-        imageLink: properties[FEATURE_PROPERTIES.imgLink],
-        title: properties[FEATURE_PROPERTIES.title] ?? defaultTitle,
-        description:
-          properties[FEATURE_PROPERTIES.description] ?? defaultDescription,
-        time: parseTimeForDisplay(properties[FEATURE_PROPERTIES.time]),
-        tags: properties[IDOHIST_FEATURE_PROPS.tags] ?? [],
-        permalink,
-        certainties: {
-          spatial: coerceCertainty(
-            properties[IDOHIST_FEATURE_PROPS.spatialCertainty]
-          ),
-          content: coerceCertainty(
-            properties[IDOHIST_FEATURE_PROPS.contentCertainty]
-          ),
-          temporal: coerceCertainty(
-            properties[IDOHIST_FEATURE_PROPS.temporalCertainty]
-          ),
-        },
-      };
-    }, [properties]);
+    return {
+      imageLink: properties[FEATURE_PROPERTIES.imgLink],
+      title: properties[FEATURE_PROPERTIES.title] ?? defaultTitle,
+      description:
+        properties[FEATURE_PROPERTIES.description] ?? defaultDescription,
+      time: parseTimeForDisplay(properties[FEATURE_PROPERTIES.time]),
+      tags: properties[IDOHIST_FEATURE_PROPS.tags] ?? [],
+      permalink,
+      affiliation: properties[IDOHIST_FEATURE_PROPS.parentLabel] ?? "",
+      certainties: {
+        spatial: coerceCertainty(
+          properties[IDOHIST_FEATURE_PROPS.spatialCertainty]
+        ),
+        content: coerceCertainty(
+          properties[IDOHIST_FEATURE_PROPS.contentCertainty]
+        ),
+        temporal: coerceCertainty(
+          properties[IDOHIST_FEATURE_PROPS.temporalCertainty]
+        ),
+      },
+    };
+  }, [properties]);
 
   const isValidImage = useMemo(
     () => isDefined(imageLink) && imageLink.length > 0,
@@ -85,6 +93,16 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
             </span>
             <span className="title">{title}</span>
           </div>
+          {affiliation !== "" && (
+            <div className="affiliation-section">
+              <p className="geojson-feature-property-label">
+                {translate("idohist-affiliation-label")}
+              </p>
+              <p className="affiliation geojson-feature-property-text">
+                {affiliation}
+              </p>
+            </div>
+          )}
           <div className="time-section">
             <p className="geojson-feature-property-label">
               {translate("idohist-date-label")}
@@ -109,21 +127,9 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
               </a>
             </div>
           )}
-          {tags.length > 0 && (
-            <div className="tag-section">
-              <p className="geojson-feature-property-label">
-                {translate("idohist-tags-label")}
-              </p>
-              <div className="tags">
-                {tags.map((tag) => (
-                  <IdohistTagPill key={tag} value={tag} />
-                ))}
-              </div>
-            </div>
-          )}
           <div className="certainties-section">
             <p className="geojson-feature-property-label">
-              {translate("idohist-certainty-header")}
+              {translate("idohist-certainty-label")}
             </p>
             <div className="certainty-items">
               <IdohistCertaintyItem
