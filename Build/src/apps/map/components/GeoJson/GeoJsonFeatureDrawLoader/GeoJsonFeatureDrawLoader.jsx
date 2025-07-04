@@ -59,9 +59,14 @@ const getApplicationFeature = (drawFeature) => {
     const userKey = key.slice(USER_PROPERTY_PREFIX.length);
 
     // maplibre does not support object/array properties
+    // dont parse primitives
     let parsedValue = "";
     try {
       parsedValue = JSON.parse(properties[key]);
+
+      if (typeof parsedValue !== "object") {
+        throw new Error();
+      }
     } catch (error) {
       parsedValue = properties[key];
     }

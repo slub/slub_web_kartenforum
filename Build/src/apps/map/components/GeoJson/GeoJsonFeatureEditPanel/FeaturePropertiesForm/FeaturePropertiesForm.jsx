@@ -80,12 +80,23 @@ const FeaturePropertiesForm = ({ feature, onSavePreview, onFormSubmit }) => {
     append([{ name: "", value: "" }]);
   }, [append]);
 
+  const handleKeyDown = useCallback((event) => {
+    const { key, target } = event;
+
+    if (key !== "Enter" || target instanceof HTMLTextAreaElement) {
+      return;
+    }
+
+    event.preventDefault();
+  }, []);
+
   return (
     <FormProvider {...methods}>
       <form
         id={FEATURE_PROPERTIES_FORM_ID}
         onSubmit={handleSubmit(handleValidatedFormSubmit)}
         noValidate
+        onKeyDown={handleKeyDown}
       >
         <div className="feature-properties-form-root">
           <div className="style-property-header">
@@ -167,15 +178,22 @@ const FeaturePropertiesForm = ({ feature, onSavePreview, onFormSubmit }) => {
             </div>
 
             {customFields.map((field, index) => {
+              const isNumber = typeof field.value === "number";
               const fieldNameProps = register(`customProps.${index}.name`, {
                 validate: (value, fields) =>
                   isValidCustomPropertyFieldName(value, fields, index),
               });
-
               const fieldValueProps = register(`customProps.${index}.value`, {
                 validate: (value, fields) =>
-                  isValidCustomPropertyFieldValue(value, fields, index),
+                  isValidCustomPropertyFieldValue(
+                    value,
+                    fields,
+                    index,
+                    isNumber
+                  ),
+                valueAsNumber: isNumber,
               });
+
               return (
                 <div key={field.id} className="custom-field-wrapper">
                   <div
@@ -200,6 +218,7 @@ const FeaturePropertiesForm = ({ feature, onSavePreview, onFormSubmit }) => {
                   >
                     <input
                       {...fieldValueProps}
+                      type={isNumber ? "number" : undefined}
                       className="vkf-form-input"
                       placeholder={translate(
                         "geojson-editfeature-input-placeholder"

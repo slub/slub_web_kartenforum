@@ -42,13 +42,19 @@ const getFeatureProperties = (maplibreFeature) => {
     for (const key in maplibreFeature.properties) {
         const value = maplibreFeature.properties[key];
 
+        // maplibre does not support object or array values
+        // dont parse primitives
+        let parsedValue = "";
         try {
-            // maplibre does not support object or array values
-            const parsedValue = JSON.parse(value);
-            properties[key] = parsedValue;
+            parsedValue = JSON.parse(value);
+
+            if (typeof parsedValue !== "object") {
+                throw new Error();
+            }
         } catch (error) {
-            properties[key] = value;
+            parsedValue = value;
         }
+        properties[key] = parsedValue;
     }
 
     return {

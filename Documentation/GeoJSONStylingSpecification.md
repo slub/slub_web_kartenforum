@@ -33,7 +33,7 @@ In order to change the way your features are displayed on the map, the following
 
 The `stroke` properties define the styling of the outline of a polygon feature.
 
-All color properties (`stroke`, `fill`, `marker`) support hex alpha values such as `#00000055`.
+All color properties (`stroke`, `fill`, `marker`) support hex alpha values such as `#00000055`. Hex alpha values are not yet supported when editing features.
 
 ### Predefined Properties
 

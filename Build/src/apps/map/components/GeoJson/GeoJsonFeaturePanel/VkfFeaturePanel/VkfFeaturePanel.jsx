@@ -92,11 +92,9 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
           <div className="custom-properties-container">
             {customEntries.map(([key, value]) => (
               <div key={key}>
-                <label htmlFor={key} className="geojson-feature-property-label">
-                  {key}
-                </label>
+                <p className="geojson-feature-property-label">{key}</p>
                 <p className="geojson-feature-property-text" key={key}>
-                  {value}
+                  {`${value}`}
                 </p>
               </div>
             ))}

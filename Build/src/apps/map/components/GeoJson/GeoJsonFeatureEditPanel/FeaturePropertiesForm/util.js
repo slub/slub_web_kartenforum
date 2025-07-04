@@ -95,7 +95,12 @@ const extractValidCustomProperties = (feature) => {
             continue;
         }
 
-        customProps.push({ name: key, value: `${value}` });
+        if (typeof value === "boolean") {
+            customProps.push({ name: key, value: `${value}` });
+            continue;
+        }
+
+        customProps.push({ name: key, value: value });
     }
 
     return customProps;
@@ -174,6 +179,22 @@ export const validateStyleValue = (key, value) => {
     return newValue;
 };
 
+const isValidString = (fieldValue) => {
+    if (`${fieldValue}`.trim().length === 0) {
+        return false;
+    }
+
+    return true;
+};
+
+const isValidNumber = (fieldValue) => {
+    if (Number.isNaN(Number.parseFloat(fieldValue))) {
+        return false;
+    }
+
+    return true;
+};
+
 export const isValidCustomPropertyFieldName = (value, fields, index) => {
     const fieldValue = fields.customProps[index].value;
     const fieldName = value;
@@ -187,22 +208,33 @@ export const isValidCustomPropertyFieldName = (value, fields, index) => {
         ...otherCustomFieldNames,
     ];
 
-    if (fieldValue.trim().length > 0 && fieldName.trim() === "") {
+    // a custom field cannot have a value w/o a name
+    if (fieldName.trim().length === 0 && `${fieldValue}`.trim().length > 0) {
         return false;
     }
 
-    if (invalidFieldNames.includes(fieldName.toLowerCase())) {
+    if (invalidFieldNames.includes(fieldName.toLowerCase().trim())) {
         return false;
     }
 
     return true;
 };
 
-export const isValidCustomPropertyFieldValue = (value, fields, index) => {
+export const isValidCustomPropertyFieldValue = (
+    value,
+    fields,
+    index,
+    isNumber
+) => {
     const fieldName = fields.customProps[index].name;
+    if (fieldName.trim().length > 0) {
+        if (isNumber && !isValidNumber(value)) {
+            return false;
+        }
 
-    if (fieldName.trim().length > 0 && value.trim() === "") {
-        return false;
+        if (!isNumber && !isValidString(value)) {
+            return false;
+        }
     }
 
     return true;

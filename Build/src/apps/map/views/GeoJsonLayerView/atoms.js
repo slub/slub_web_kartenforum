@@ -115,7 +115,7 @@ export const geoJsonLayerViewFilteredFeaturesState = selector({
         if (timeExtentFilter !== null) {
             const [min, max] = timeExtentFilter;
             filteredFeatures = filteredFeatures.filter(({ properties }) => {
-                const [start, end] = properties.time;
+                const [start, end] = properties?.time ?? [];
 
                 const unixTimestampStart = getUnixSeconds(normalizeDate(start));
                 const unixTimestampEnd = getUnixSeconds(normalizeDate(end));
