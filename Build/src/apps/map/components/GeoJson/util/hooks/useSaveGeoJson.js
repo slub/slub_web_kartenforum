@@ -26,8 +26,8 @@ import {
 import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
 import {
     exitDrawMode,
-    processNewGeoJsonForPersistence,
-    processUpdatedGeoJsonForPersistence,
+    generateStableIdsForNewGeojson,
+    generateStableIdsForUpdatedGeojson,
     handleErrorResponse,
     removeAllFeatureIds,
 } from "@map/components/GeoJson/util/util";
@@ -48,7 +48,7 @@ export const useSaveGeoJson = () => {
             async () => {
                 const draw = await snapshot.getPromise(drawState);
                 if (draw) {
-                    const geoJson = processNewGeoJsonForPersistence(
+                    const geoJson = generateStableIdsForNewGeojson(
                         draw.getAll()
                     );
                     const map = await snapshot.getPromise(mapState);
@@ -60,8 +60,10 @@ export const useSaveGeoJson = () => {
                     let id = null;
                     try {
                         // persist vector map to remote
+                        const processedGeojson =
+                            GeoJsonLayer.toPersistenceState(geoJson);
                         id = await createNewVectorMap(
-                            geoJson,
+                            processedGeojson,
                             metadataDrawToApi(metadata)
                         );
                     } catch (error) {
@@ -144,17 +146,18 @@ export const useSaveGeoJson = () => {
                     }
 
                     const nextVersion = vectorMapDraw.version + 1;
-                    const processedGeoJson =
-                        processUpdatedGeoJsonForPersistence(
-                            initialGeoJson,
-                            geoJsonFromDraw,
-                            nextVersion
-                        );
+                    const geoJson = generateStableIdsForUpdatedGeojson(
+                        initialGeoJson,
+                        geoJsonFromDraw,
+                        nextVersion
+                    );
                     const metadataToSend = metadataDrawToApi(metadata);
 
                     let newVersion = null;
                     try {
                         // Only push geojson and metdata, if there are changes
+                        const processedGeoJson =
+                            GeoJsonLayer.toPersistenceState(geoJson);
                         newVersion = await updateVectorMap(
                             vectorMapDraw.id,
                             hasGeoJsonChanged ? processedGeoJson : null,
@@ -174,7 +177,7 @@ export const useSaveGeoJson = () => {
                         // update application layer geojson
                         // update application layer version
                         if (hasGeoJsonChanged) {
-                            selectedLayer.setDataOnMap(map, processedGeoJson);
+                            selectedLayer.setDataOnMap(map, geoJson);
                             selectedLayer.updateMetadata(
                                 METADATA.version,
                                 newVersion

@@ -156,7 +156,7 @@ const generateFeatureID = (idx, version) => {
  * @param {*} geoJson
  * @returns {*} geoJson with stable ids
  */
-export const processNewGeoJsonForPersistence = (geoJson) => {
+export const generateStableIdsForNewGeojson = (geoJson) => {
     const clonedGeoJson = structuredClone(geoJson);
 
     for (const [idx, feature] of clonedGeoJson.features.entries()) {
@@ -174,7 +174,7 @@ export const processNewGeoJsonForPersistence = (geoJson) => {
  * @param {number} newVersion
  * @returns {*} geoJson with stable ids
  */
-export const processUpdatedGeoJsonForPersistence = (
+export const generateStableIdsForUpdatedGeojson = (
     initialGeoJson,
     newGeoJson,
     newVersion

@@ -26,7 +26,9 @@ const initializePersistentVectorMap = async (layer) => {
     layer.updateMetadata(METADATA.userRole, vectorMap[METADATA.userRole]);
     layer.updateMetadata(METADATA.version, vectorMap[METADATA.version]);
 
-    layer.setGeoJson(vectorMap.geojson);
+    const geojson = GeoJsonLayer.toApplicationState(vectorMap.geojson);
+
+    layer.setGeoJson(geojson);
 };
 
 const initializeVectorMap = async (layer) => {
