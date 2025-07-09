@@ -1575,8 +1575,8 @@
             </trans-unit>
 
 			<trans-unit id="plugin.map.errors.vector-map.metadata.http.422" approved="yes">
-                <source><![CDATA[The metadata you entered is not valid and cannot be saved. Please check if the thumbnail URL is a valid URL and try again.]]></source>
-				<target><![CDATA[Die von Ihnen eingegebenen Metadaten sind nicht gültig und können nicht gespeichert werden. Bitte überprüfen Sie, ob die URL des Vorschaubildes gültig ist und versuchen Sie es erneut.]]></target>
+                <source><![CDATA[The metadata you entered is not valid and cannot be saved. Please open the metadata form and check if the information is correct.]]></source>
+				<target><![CDATA[Die von Ihnen eingegebenen Metadaten sind nicht gültig und können nicht gespeichert werden. Bitte öffnen Sie das Metadaten-Formular und überprüfen Sie die Eingaben.]]></target>
             </trans-unit>
 
             <trans-unit id="plugin.map.errors.external-vector-map.metadata.http.422" approved="yes">

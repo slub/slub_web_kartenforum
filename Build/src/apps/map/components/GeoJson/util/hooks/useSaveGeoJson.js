@@ -68,6 +68,7 @@ export const useSaveGeoJson = () => {
                         );
                     } catch (error) {
                         handleErrorResponse(error, notifyError);
+                        return;
                     }
 
                     if (isDefined(id)) {
@@ -166,6 +167,7 @@ export const useSaveGeoJson = () => {
                         );
                     } catch (error) {
                         handleErrorResponse(error, notifyError);
+                        return;
                     }
 
                     // update the application layer

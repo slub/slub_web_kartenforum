@@ -236,6 +236,7 @@ export const handleErrorResponse = (error, notifyError) => {
 
         if (error.response.status === 422) {
             notifyError("geojson-draw-error-invalid-input");
+            return;
         }
     }
 

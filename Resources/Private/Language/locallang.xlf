@@ -1263,7 +1263,7 @@
             </trans-unit>
 
             <trans-unit id="plugin.map.errors.vector-map.metadata.http.422" approved="yes">
-                <source>The metadata you entered is not valid and cannot be saved. Please checking if the thumbnail URL is a valid URL and try again.</source>
+                <source>The metadata you entered is not valid and cannot be saved. Please open the metadata form and check if the information is correct.</source>
             </trans-unit>
 
             <trans-unit id="plugin.map.errors.external-vector-map.metadata.http.422" approved="yes">

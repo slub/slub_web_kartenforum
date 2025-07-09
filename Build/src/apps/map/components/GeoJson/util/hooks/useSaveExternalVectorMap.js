@@ -72,11 +72,12 @@ const useSaveExternalVectorMap = () => {
                         ...oldLayers,
                         newLayer,
                     ]);
-
-                    exitExternalVectorLayerMode();
                 } catch (error) {
                     handleErrorResponseExternalVectorMap(error, notifyError);
+                    return;
                 }
+
+                exitExternalVectorLayerMode();
             },
         []
     );
@@ -155,10 +156,11 @@ const useSaveExternalVectorMap = () => {
                             );
                         }
                     }
-                    exitExternalVectorLayerMode();
                 } catch (error) {
                     handleErrorResponseExternalVectorMap(error, notifyError);
+                    return;
                 }
+                exitExternalVectorLayerMode();
             },
         []
     );
