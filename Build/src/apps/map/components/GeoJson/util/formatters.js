@@ -6,6 +6,8 @@
  */
 
 import SettingsProvider, { LANGUAGE_CODE } from "@settings-provider";
+import { formatDateLocalized, isValidDate } from "@util/date";
+import { isDefined, translate } from "@util/util";
 
 const locale =
     SettingsProvider.getSettings().LANGUAGE_CODE === LANGUAGE_CODE.DE
@@ -49,4 +51,22 @@ export function formatShortDateTime(date, language = "de") {
     } else {
         return `${timeParts.hour}:${timeParts.minute} o'clock ${timeParts.day}.${timeParts.month}.${timeParts.year}`;
     }
+}
+
+export function formatFeatureTime(time) {
+    if (!isDefined(time)) {
+        return translate("geojson-featureview-no-time");
+    }
+
+    const [start, end] = time;
+
+    if (!isValidDate(start) || !isValidDate(end)) {
+        return translate("geojson-featureview-invalid-time");
+    }
+
+    if (start === end) {
+        return formatDateLocalized(start);
+    }
+
+    return `${formatDateLocalized(start)}–${formatDateLocalized(end)}`;
 }

@@ -5,10 +5,8 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import { isDefined } from "@util/util";
+import { isDefined, isString } from "@util/util";
 import { parseDateIso, formatDateIso, normalizeDate } from "@util/date";
-import { GEOJSON_LAYER_TYPES, LAYER_DEFINITIONS } from "./constants";
-import { MAP_LIBRE_METADATA } from "../constants";
 import { FEATURE_PROPERTIES } from "@map/components/GeoJson/constants";
 
 export const boundsToPolygon = (bounds) => ({
@@ -23,29 +21,6 @@ export const boundsToPolygon = (bounds) => ({
         ],
     ],
 });
-
-export const getLayerConfig = (sourceId) => {
-    const config = {};
-
-    for (const key of Object.keys(GEOJSON_LAYER_TYPES)) {
-        const layerType = GEOJSON_LAYER_TYPES[key];
-        const layerId = `${sourceId}-${layerType}`;
-        config[layerId] = {
-            id: layerId,
-            source: sourceId,
-            metadata: {
-                [MAP_LIBRE_METADATA.id]: sourceId,
-            },
-            ...LAYER_DEFINITIONS[layerType],
-            layout: {
-                ...LAYER_DEFINITIONS[layerType].layout,
-                visibility: "visible",
-            },
-        };
-    }
-
-    return config;
-};
 
 export const convertFeatureForPersistenceState = (feature) => {
     const { properties } = feature;
@@ -68,11 +43,11 @@ export const convertFeatureForApplicationState = (feature) => {
 };
 
 const convertForApplicationState = (properties) => {
-    const time = properties[FEATURE_PROPERTIES.time] ?? "";
+    const time = properties[FEATURE_PROPERTIES.time];
 
-    const parsedTime = normalizeDate(parseDateIso(time)).valueOf();
+    const parsedTime = convertTimeToApplicationState(time);
 
-    if (Number.isNaN(parsedTime)) {
+    if (parsedTime.length === 0) {
         delete properties[FEATURE_PROPERTIES.time];
         return properties;
     }
@@ -86,11 +61,11 @@ const convertForApplicationState = (properties) => {
 };
 
 const convertForPersistenceState = (properties) => {
-    const time = properties[FEATURE_PROPERTIES.time] ?? "";
+    const time = properties[FEATURE_PROPERTIES.time];
 
-    const parsedTime = formatDateIso(time);
+    const parsedTime = convertTimeToPersistenceState(time);
 
-    if (parsedTime === "") {
+    if (parsedTime.length === 0) {
         delete properties[FEATURE_PROPERTIES.time];
         return properties;
     }
@@ -101,6 +76,58 @@ const convertForPersistenceState = (properties) => {
     };
 
     return newProperties;
+};
+
+const convertTimeToApplicationState = (time) => {
+    if (Array.isArray(time)) {
+        if (time.length !== 2) {
+            return [];
+        }
+
+        const parsedStart = normalizeDate(parseDateIso(time[0])).valueOf();
+        const parsedEnd = normalizeDate(parseDateIso(time[1])).valueOf();
+
+        if (Number.isNaN(parsedStart) || Number.isNaN(parsedEnd)) {
+            return [];
+        }
+
+        if (parsedStart > parsedEnd) {
+            return [parsedEnd, parsedStart];
+        }
+
+        return [parsedStart, parsedEnd];
+    }
+
+    if (isString(time)) {
+        const parsedTime = normalizeDate(parseDateIso(time)).valueOf();
+
+        if (Number.isNaN(time)) {
+            return [];
+        }
+
+        return [parsedTime, parsedTime];
+    }
+
+    return [];
+};
+
+const convertTimeToPersistenceState = (time) => {
+    if (!Array.isArray(time)) {
+        return [];
+    }
+
+    if (time.length !== 2) {
+        return [];
+    }
+
+    const parsedStart = formatDateIso(time[0]);
+    const parsedEnd = formatDateIso(time[1]);
+
+    if (parsedStart === "" || parsedEnd === "") {
+        return [];
+    }
+
+    return [parsedStart, parsedEnd];
 };
 
 /**.
@@ -124,8 +151,8 @@ export const getTimeFilter = (timeExtent) => {
         ["!", ["has", FEATURE_PROPERTIES.time]],
         [
             "all",
-            [">=", ["get", FEATURE_PROPERTIES.time], min * 1000],
-            ["<=", ["get", FEATURE_PROPERTIES.time], max * 1000],
+            ["<=", ["at", 0, ["get", FEATURE_PROPERTIES.time]], max * 1000],
+            [">=", ["at", 1, ["get", FEATURE_PROPERTIES.time]], min * 1000],
         ],
     ];
 };

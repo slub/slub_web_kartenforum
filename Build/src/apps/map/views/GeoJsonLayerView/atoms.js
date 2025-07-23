@@ -45,23 +45,45 @@ export const geoJsonLayerViewTimeRangeState = selector({
     key: "geoJsonLayerViewTimeRangeState",
     get: ({ get }) => {
         const geoJsonFeatures = get(geoJsonLayerViewFeaturesState);
-        const timestamps = geoJsonFeatures
-            .map(({ properties }) => new Date(properties.time))
-            .filter((date) => isValidDate(date))
-            .sort((a, b) => a.valueOf() - b.valueOf());
 
-        if (timestamps.length < 2) {
-            return [];
+        let minDate = Number.NaN;
+        let maxDate = Number.NaN;
+
+        for (const feature of geoJsonFeatures) {
+            const time = feature.properties.time ?? [];
+            const [start, end] = time;
+
+            if (!isValidDate(start) || !isValidDate(end)) {
+                continue;
+            }
+
+            if (Number.isNaN(minDate)) {
+                minDate = start;
+            }
+
+            if (Number.isNaN(maxDate)) {
+                maxDate = end;
+            }
+
+            if (start < minDate) {
+                minDate = start;
+            }
+
+            if (end > maxDate) {
+                maxDate = end;
+            }
         }
-
-        const minDate = getUnixSeconds(normalizeDate(timestamps[0]));
-        const maxDate = getUnixSeconds(
-            normalizeDate(timestamps[timestamps.length - 1])
-        );
 
         if (minDate === maxDate) {
             return [];
         }
+
+        if (Number.isNaN(minDate) || Number.isNaN(maxDate)) {
+            return [];
+        }
+
+        minDate = getUnixSeconds(normalizeDate(minDate));
+        maxDate = getUnixSeconds(normalizeDate(maxDate));
 
         return [minDate, maxDate];
     },
@@ -93,16 +115,19 @@ export const geoJsonLayerViewFilteredFeaturesState = selector({
         if (timeExtentFilter !== null) {
             const [min, max] = timeExtentFilter;
             filteredFeatures = filteredFeatures.filter(({ properties }) => {
-                const timestamp = properties.time;
-                const unixTimestamp = getUnixSeconds(
-                    normalizeDate(new Date(timestamp))
-                );
+                const [start, end] = properties?.time ?? [];
 
-                if (Number.isNaN(unixTimestamp)) {
+                const unixTimestampStart = getUnixSeconds(normalizeDate(start));
+                const unixTimestampEnd = getUnixSeconds(normalizeDate(end));
+
+                if (
+                    Number.isNaN(unixTimestampStart) ||
+                    Number.isNaN(unixTimestampEnd)
+                ) {
                     return true;
                 }
 
-                return unixTimestamp >= min && unixTimestamp <= max;
+                return unixTimestampStart <= max && unixTimestampEnd >= min;
             });
         }
 

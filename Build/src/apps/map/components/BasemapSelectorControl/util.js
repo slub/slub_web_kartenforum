@@ -12,23 +12,6 @@ export const XYZ_LAYER_ID = "xyz-base-map-layer";
 export const XYZ_SOURCE_ID = "xyz-base-map-source";
 
 /**
- * Function checks if it is a valid url
- * @param {string} string
- * @returns {boolean}
- */
-export function isValidUrl(string) {
-    let url;
-
-    try {
-        url = new URL(string);
-    } catch (_) {
-        return false;
-    }
-
-    return url.protocol === "http:" || url.protocol === "https:";
-}
-
-/**
  * Parsing function for the wms capabilities
  *
  * @param {string} url
@@ -53,7 +36,9 @@ function parseLayerFromCapabilities(url, capabilities) {
             label: l.Title,
             // This request does not work with a WMS in version 1.1.0. The VKF WMS services also support version 1.1.0. Nevertheless
             // it could become a problem, if we need to support other WMS services in the future.
-            urls: [`${url}?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.0&request=GetMap&srs=EPSG:3857&transparent=true&width=${tileSize}&height=${tileSize}&layers=${layerName}`],
+            urls: [
+                `${url}?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.0&request=GetMap&srs=EPSG:3857&transparent=true&width=${tileSize}&height=${tileSize}&layers=${layerName}`,
+            ],
             type: "wms",
             layers: layerName,
             tileSize: tileSize,

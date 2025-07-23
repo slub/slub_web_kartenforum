@@ -50,17 +50,34 @@ const getApplicationFeature = (drawFeature) => {
   const { id } = properties;
 
   // retain user properties only and remove prefix
-  const userProperties = Object.entries(properties)
-    .filter(([key]) => key.startsWith(USER_PROPERTY_PREFIX))
-    .map(([key, value]) => {
-      const userKey = key.slice(USER_PROPERTY_PREFIX.length);
-      return [userKey, value];
-    });
+  const userProperties = {};
+  for (const key in properties) {
+    if (!key.startsWith(USER_PROPERTY_PREFIX)) {
+      continue;
+    }
+
+    const userKey = key.slice(USER_PROPERTY_PREFIX.length);
+
+    // maplibre does not support object/array properties
+    // dont parse primitives
+    let parsedValue = "";
+    try {
+      parsedValue = JSON.parse(properties[key]);
+
+      if (typeof parsedValue !== "object") {
+        throw new Error();
+      }
+    } catch (error) {
+      parsedValue = properties[key];
+    }
+
+    userProperties[userKey] = parsedValue;
+  }
 
   return {
     id,
     geometry,
-    properties: Object.fromEntries(userProperties),
+    properties: userProperties,
     type,
   };
 };

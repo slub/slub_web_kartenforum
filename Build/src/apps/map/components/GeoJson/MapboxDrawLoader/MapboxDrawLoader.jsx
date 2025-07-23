@@ -21,6 +21,12 @@ import {
 import { DRAW_MODE_PANEL_STATE } from "@map/layouts/util";
 import { exitDrawMode } from "../util/util";
 import { useTrackGeoJsonChanges } from "@map/components/GeoJson/util/hooks/useTrackGeoJsonChanges";
+import {
+  useMaplibreControlPositions,
+  SELECTORS,
+  CSS_CLASS_POSITION_CONTROL,
+} from "@map/components/GeoJson/util/hooks/useMaplibreControlPositions";
+
 import { styles } from "./constants";
 
 import "./mapbox-draw-cursors.scss";
@@ -32,29 +38,6 @@ const options = {
     combine_features: false,
     uncombine_features: false,
   },
-};
-
-const CSS_CLASS_DRAW = "draw";
-const CSS_CLASS_POSITION_MODIFIER = "shifted";
-const POSITION = {
-  LEFT: "left",
-  RIGHT: "right",
-};
-
-const SELECTORS = {
-  topLeft: ".maplibregl-ctrl-top-left",
-  topRight: ".maplibregl-ctrl-top-right",
-  bottomRight: ".maplibregl-ctrl-bottom-right",
-};
-
-const getDynamicSelectors = (isLeft) => {
-  const add = isLeft ? SELECTORS.topLeft : SELECTORS.topRight;
-  const remove = isLeft ? SELECTORS.topRight : SELECTORS.topLeft;
-
-  return {
-    add,
-    remove,
-  };
 };
 
 const wrapDrawButtons = (map) => {
@@ -87,7 +70,7 @@ export const useMapboxDrawInitializers = () => {
           draw.add(geoJson);
 
           // add css class to control container for position handling
-          map._controlContainer.classList.add(CSS_CLASS_DRAW);
+          map._controlContainer.classList.add(CSS_CLASS_POSITION_CONTROL);
 
           // wrap buttons for styling
           wrapDrawButtons(map);
@@ -119,7 +102,7 @@ export const useMapboxDrawInitializers = () => {
           map.removeControl(draw);
           set(drawState, undefined);
 
-          map._controlContainer.classList.remove(CSS_CLASS_DRAW);
+          map._controlContainer.classList.remove(CSS_CLASS_POSITION_CONTROL);
 
           // reset draw related state variables
           exitDrawMode(set);
@@ -131,58 +114,17 @@ export const useMapboxDrawInitializers = () => {
   return { initializeDraw, removeDraw };
 };
 
-const useMaplibreControlPositions = () => {
-  const shiftControls = useRecoilCallback(
-    ({ snapshot }) =>
-      async (leftOrRight) => {
-        const map = await snapshot.getPromise(mapState);
-
-        if (isDefined(map)) {
-          const isLeft = leftOrRight === POSITION.LEFT;
-          const { add, remove } = getDynamicSelectors(isLeft);
-
-          const element = map._controlContainer.querySelector(add);
-          element.classList.add(CSS_CLASS_POSITION_MODIFIER);
-
-          const elementRemove = map._controlContainer.querySelector(remove);
-          elementRemove.classList.remove(CSS_CLASS_POSITION_MODIFIER);
-
-          const attributionElement = map._controlContainer.querySelector(
-            SELECTORS.bottomRight
-          );
-
-          if (!isLeft) {
-            attributionElement.classList.add(CSS_CLASS_POSITION_MODIFIER);
-          } else {
-            attributionElement.classList.remove(CSS_CLASS_POSITION_MODIFIER);
-          }
-        }
-      },
-    []
-  );
-
-  const removeControlShifts = useRecoilCallback(
-    ({ snapshot }) =>
-      async () => {
-        const map = await snapshot.getPromise(mapState);
-        if (isDefined(map)) {
-          for (const selector of Object.values(SELECTORS)) {
-            const element = map._controlContainer.querySelector(selector);
-            element.classList.remove(CSS_CLASS_POSITION_MODIFIER);
-          }
-        }
-      },
-    []
-  );
-
-  return { shiftControls, removeControlShifts };
-};
-
 const MapboxDrawLoader = () => {
   const drawModePanel = useRecoilValue(drawModePanelState);
 
   const { initializeDraw, removeDraw } = useMapboxDrawInitializers();
-  const { shiftControls, removeControlShifts } = useMaplibreControlPositions();
+  const {
+    shiftLeft,
+    shiftRight,
+    unShiftLeft,
+    unShiftRight,
+    removeControlShifts,
+  } = useMaplibreControlPositions();
 
   const { registerMapEventHandler, unregisterMapEventHandler } =
     useTrackGeoJsonChanges();
@@ -204,9 +146,11 @@ const MapboxDrawLoader = () => {
       drawModePanel === DRAW_MODE_PANEL_STATE.HISTORY;
 
     if (leftPanelOpen) {
-      shiftControls(POSITION.LEFT);
+      shiftLeft();
+      unShiftRight();
     } else if (rightPanelOpen) {
-      shiftControls(POSITION.RIGHT);
+      shiftRight();
+      unShiftLeft();
     } else {
       removeControlShifts();
     }

@@ -9,9 +9,9 @@ import React, { useMemo } from "react";
 import { useRecoilValue } from "recoil";
 
 import MapboxDrawLoader from "@map/components/GeoJson/MapboxDrawLoader";
-import GeoJsonControlBar from "@map/components/GeoJson/GeoJsonControlBar";
+import { GeoJsonControlBarDraw } from "@map/components/GeoJson/GeoJsonControlBar";
 import ExitTransition from "@components/ExitTransition";
-import GeoJsonMetadataPanel from "@map/components/GeoJson/GeoJsonMetadataPanel";
+import { MetadataPanelDraw } from "@map/components/GeoJson/GeoJsonMetadataPanel";
 import { GeoJsonFeatureEditPanelWrapper } from "@map/components/GeoJson/GeoJsonFeatureEditPanel";
 import GeoJsonFeatureDrawLoader, {
   useGeoJsonFeatureDraw,
@@ -41,14 +41,14 @@ export const HorizontalLayoutDraw = () => {
     <>
       <div className="vkf-horizontal-layout-draw">
         <div className="geojson-control-bar-container">
-          <GeoJsonControlBar />
+          <GeoJsonControlBarDraw />
         </div>
         <ExitTransition
           className="geojson-metadata-panel-container"
           Component={
             drawModePanel === DRAW_MODE_PANEL_STATE.HISTORY
               ? GeoJsonHistoryPanel
-              : GeoJsonMetadataPanel
+              : MetadataPanelDraw
           }
           props={
             drawModePanel === DRAW_MODE_PANEL_STATE.METADATA ||

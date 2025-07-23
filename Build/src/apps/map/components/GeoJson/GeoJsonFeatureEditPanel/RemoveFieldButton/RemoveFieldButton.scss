@@ -1,0 +1,33 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 24.06.25.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@use "../../../../Variables" as *;
+
+.remove-field-button {
+    background-color: transparent;
+    align-self: end;
+    width: max-content;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 0.48px;
+    padding-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    p {
+        margin: unset;
+        padding-top: 2px;
+    }
+
+    svg {
+        width: 13px;
+        height: 14px;
+        fill: $gray-500;
+        stroke-width: 0.3;
+    }
+}

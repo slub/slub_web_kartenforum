@@ -1,4 +1,4 @@
-@import "../../../../../../Resources/Private/Scss/_Variables";
+@use "../../../../../../Resources/Private/Scss/_Variables" as *;
 
 .toggle-switch {
     --width: 30px;

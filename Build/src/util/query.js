@@ -23,16 +23,17 @@ export const createFacetQuery_ = function (facets) {
     return facets_;
 };
 
-/**
- * Creates a query for fetching basic statics from the search index like min, max, count, etc.
- * @param {string} stats_field
- * @return {Object}
- */
-export const createStatisticQuery = function (stats_field) {
+export const createMinMaxYearQuery = function (
+    timePeriodFieldStartName,
+    timePeriodFieldEndName
+) {
     return {
         aggs: {
-            summary: {
-                stats: { field: stats_field },
+            minYear: {
+                min: { field: timePeriodFieldStartName },
+            },
+            maxYear: {
+                max: { field: timePeriodFieldEndName },
             },
         },
     };
@@ -44,37 +45,43 @@ export const createStatisticQuery = function (stats_field) {
  * in WGS84 meaning EPSG:4326.
  *
  * @static
- * @param {string} timeFieldName
- * @param {Array.<string>} timeValues | Must be [start (1900-01-01), end (1905-01-01)]
- * @param {string} bboxFieldName
- * @param {Array.<number>} bboxPolygon
- * @param {string} sortFieldName
- * @param {string} sortValue | Must be {asc|desc}
- * @param {Array.<Object>} facets
- * @param {Array.<Object>} customQueryExtension
+ * @param {object} options
+ * @param {string} options.timePeriodStartFieldName
+ * @param {string} options.timePeriodEndFieldName
+ * @param {Array.<string>} options.timeValues | Must be [start (1900-01-01), end (1905-01-01)]
+ * @param {string} options.bboxFieldName
+ * @param {Array.<number>} options.bboxPolygon
+ * @param {string} options.sortFieldName
+ * @param {string} options.sortValue | Must be {asc|desc}
+ * @param {Array.<Object>} options.facets
+ * @param {Array.<Object>} options.customQueryExtension
  * @return {Object}
  */
-export const getSpatialQuery = function (
-    timeFieldName,
+export const getSpatialQuery = function ({
+    timePeriodStartFieldName,
+    timePeriodEndFieldName,
     timeValues,
     bboxFieldName,
     bboxPolygon,
     sortFieldName,
     sortValue,
     facets,
-    customQueryExtension
-) {
+    customQueryExtension,
+}) {
     // now append the sorting expression
+    const [start, end] = timeValues;
     return {
         query: {
             bool: {
                 filter: [
                     {
                         range: {
-                            [timeFieldName]: {
-                                gte: timeValues[0],
-                                lte: timeValues[1],
-                            },
+                            [timePeriodStartFieldName]: { lte: end },
+                        },
+                    },
+                    {
+                        range: {
+                            [timePeriodEndFieldName]: { gte: start },
                         },
                     },
                     {

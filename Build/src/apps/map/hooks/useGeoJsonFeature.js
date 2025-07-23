@@ -6,7 +6,11 @@
  */
 
 import { useEffect, useCallback, useState, useRef } from "react";
-import { MAP_LIBRE_METADATA } from "@map/components/CustomLayers";
+import {
+    EXTERNAL_CONTENT_TYPES,
+    MAP_LIBRE_METADATA,
+    METADATA,
+} from "@map/components/CustomLayers";
 import { isDefined, translate } from "@util/util";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import {
@@ -31,7 +35,27 @@ const calculateBoundingBox = (point, offset) => {
 };
 
 const getFeatureProperties = (maplibreFeature) => {
-    const { properties, type, id, geometry } = maplibreFeature;
+    const { type, id, geometry } = maplibreFeature;
+
+    const properties = {};
+
+    for (const key in maplibreFeature.properties) {
+        const value = maplibreFeature.properties[key];
+
+        // maplibre does not support object or array values
+        // dont parse primitives
+        let parsedValue = "";
+        try {
+            parsedValue = JSON.parse(value);
+
+            if (typeof parsedValue !== "object") {
+                throw new Error();
+            }
+        } catch (error) {
+            parsedValue = value;
+        }
+        properties[key] = parsedValue;
+    }
 
     return {
         id,
@@ -49,6 +73,7 @@ const CLICK_BUFFER = 2;
  * @typedef {Object} useGeoJsonFeatureAPI
  * @property {object} geoJsonFeature - The currently selected geoJson feature from the GeoJsonFeatureCollection.
  * @property {function} resetFeature - Resets geoJsonFeature to null and clears the hook's internal state (e.g., to handle close logic)
+ * @property {string} contentType - The contentType of the geoJson feature representing a vkf geojson specification dialect
  */
 
 /**
@@ -57,7 +82,7 @@ const CLICK_BUFFER = 2;
  * A feature can be selected via mouse click or externally by modifying
  * the selectedGeoJsonFeatureIdentifierState.
  *
- * @returns {...useGeoJsonFeatureAPI | null} {@link useGeoJsonFeatureAPI} or `null`
+ * @returns {useGeoJsonFeatureAPI | null} {@link useGeoJsonFeatureAPI} or `null`
  */
 function useGeoJsonFeature() {
     const setNotification = useSetRecoilState(notificationState);
@@ -69,6 +94,7 @@ function useGeoJsonFeature() {
     ] = useRecoilState(selectedGeoJsonFeatureIdentifierState);
 
     const [geoJsonFeature, setGeoJsonFeature] = useState(null);
+    const [contentType, setContentType] = useState(null);
 
     // don't trigger a state update when same feature is clicked again
     const uniqueCachedFeatureId = useRef(null);
@@ -76,6 +102,7 @@ function useGeoJsonFeature() {
     const resetFeature = useCallback(() => {
         uniqueCachedFeatureId.current = null;
         setGeoJsonFeature(null);
+        setContentType(null);
         setSelectedGeoJsonFeatureIdentifier(null);
     }, []);
 
@@ -94,6 +121,9 @@ function useGeoJsonFeature() {
 
             if (isDefined(mapFeature)) {
                 const { id, source } = mapFeature;
+                const {
+                    layer: { metadata },
+                } = mapFeature;
 
                 if (!isDefined(id)) {
                     setNotification({
@@ -123,7 +153,12 @@ function useGeoJsonFeature() {
                     source
                 );
 
-                // we can use the maplibre feature directly, but we only need a subset of its properties.
+                const contentType =
+                    metadata[MAP_LIBRE_METADATA.contentType] ??
+                    EXTERNAL_CONTENT_TYPES.VKF;
+
+                setContentType(contentType);
+
                 setGeoJsonFeature(getFeatureProperties(mapFeature));
             } else {
                 resetFeature();
@@ -177,6 +212,10 @@ function useGeoJsonFeature() {
             }
 
             const applicationFeature = selectedGeoJsonLayer.getFeature(id);
+            const contentType =
+                selectedGeoJsonLayer.getMetadata(
+                    METADATA.externalContentType
+                ) ?? EXTERNAL_CONTENT_TYPES.VKF;
 
             if (!isDefined(applicationFeature)) {
                 console.error(`No feature found with id '${id}'.`);
@@ -186,6 +225,7 @@ function useGeoJsonFeature() {
             }
 
             uniqueCachedFeatureId.current = naiveUniqueFeatureId(id, source);
+            setContentType(contentType);
             setGeoJsonFeature(applicationFeature);
         }
     }, [selectedLayers, selectedGeoJsonFeatureIdentifier]);
@@ -195,6 +235,7 @@ function useGeoJsonFeature() {
     }
 
     return {
+        contentType,
         geoJsonFeature,
         resetFeature,
     };

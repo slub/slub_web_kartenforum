@@ -14,6 +14,24 @@ const EDITOR_ROLE = "vk2-editor";
 const OWNER_ROLE = "owner";
 const EDITOR_ROLE_MAP = "editor";
 
+export const isExternalVectorMapCreateAllowed = () => {
+    const userRole = SettingsProvider.getUserRole();
+
+    return userRole === ADMIN_ROLE;
+};
+
+export const isExternalVectorMapMetadataEditAllowed = () => {
+    const userRole = SettingsProvider.getUserRole();
+
+    return userRole === ADMIN_ROLE;
+};
+
+export const isExternalVectorMapEditAllowed = () => {
+    const userRole = SettingsProvider.getUserRole();
+
+    return userRole === ADMIN_ROLE;
+};
+
 // Called before anything is known about the maps
 export const isVectorMapCreateAllowed = () => {
     const userRole = SettingsProvider.getUserRole();

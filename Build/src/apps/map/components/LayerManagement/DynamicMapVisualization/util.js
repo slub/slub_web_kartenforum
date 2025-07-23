@@ -5,8 +5,6 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import { METADATA } from "@map/components/CustomLayers";
-
 /**
  * Resets visibility of layers to a clean state
  * @param sortedLayers
@@ -31,13 +29,13 @@ export const setLayersToInitialState = (sortedLayers, map) => {
  */
 export const sortLayers = (layers) => {
     return layers.slice().sort((a, b) => {
-        const timePublishedA = a.getMetadata(METADATA.timePublished);
-        const timePublishedB = b.getMetadata(METADATA.timePublished);
+        const sortTimeA = a.getSortTime();
+        const sortTimeB = b.getSortTime();
 
-        if (timePublishedA > timePublishedB) {
+        if (sortTimeA > sortTimeB) {
             return 1;
         }
-        if (timePublishedA < timePublishedB) {
+        if (sortTimeA < sortTimeB) {
             return -1;
         }
         return 0;
@@ -50,7 +48,7 @@ export const groupLayers = (sortedLayers, map) => {
         layer.move(map, null);
 
         // build responseObj
-        const layerTime = layer.getMetadata(METADATA.timePublished);
+        const layerTime = layer.getSortTime();
         if (layerTime in responseObj) {
             responseObj[layerTime].push(layer);
         } else {

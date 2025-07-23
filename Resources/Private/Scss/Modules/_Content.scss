@@ -1,3 +1,4 @@
+@use "sass:color";
 /*
  *
  * SLUB Kartenforum - Contents
@@ -10,12 +11,13 @@
  * Author: Thomas Jung <thomas@jung.digital>
  *
  */
+@use "../Variables" as *;
 
 
 // Basic Content elements ----------------------------------------------------------------------------------------------
 .content-main {
     a {
-        color: darken($secondary-color-dark, 0);
+        color: $secondary-color-dark;
         font-weight: 600;
 
         .no-touchevents & {
@@ -35,7 +37,7 @@
             }
 
             &:hover {
-                color: darken($secondary-color, 20%);
+                color: color.adjust($secondary-color, $lightness: -20%);
                 text-decoration: none;
 
                 &::before {
@@ -253,8 +255,8 @@
             font-weight: 700;
             text-transform: uppercase;
             color: $secondary-color-dark;
-            background: desaturate(lighten($secondary-color, 50%), 70%);
-            border-color: desaturate(lighten($secondary-color, 30%), 70%);
+            background: color.adjust(color.adjust($secondary-color, $lightness: 50%), $saturation: -70%);
+            border-color: color.adjust(color.adjust($secondary-color, $lightness: 30%), $saturation: -70%);
         }
     }
 
@@ -263,7 +265,7 @@
             transition: $transition;
 
             &:hover {
-                background: lighten($color-lightgrey, 7%);
+                background: color.adjust($color-lightgrey, $lightness: 7%);
             }
         }
     }

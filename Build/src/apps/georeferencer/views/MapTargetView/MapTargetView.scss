@@ -1,5 +1,5 @@
-@import "../../../../_sass/overwrites-openlayers";
-@import "../../../../../../Resources/Private/Scss/Variables";
+@use "../../../../_sass/overwrites-openlayers";
+@use "../../../../../../Resources/Private/Scss/Variables" as *;
 
 .vkf-mapview-target {
     .placenamesearch-container {

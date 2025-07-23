@@ -28,7 +28,7 @@
     white-space: nowrap;
 }
 
-@mixin text-overflow-with-line-break($nrLines: 3, $wordBreak: break-all) {
+@mixin text-overflow-with-line-break($nrLines: 3, $wordBreak: break-word) {
     word-break: $wordBreak;
     overflow: hidden;
     display: -webkit-box;

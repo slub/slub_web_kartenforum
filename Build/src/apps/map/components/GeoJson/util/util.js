@@ -4,14 +4,12 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import {
-    ignoredProperties,
-    predefinedProperties,
-    stylingProperties,
-    styleFieldSettings,
-} from "../constants.js";
 
-import { isDefined, translate } from "@util/util.js";
+import bbox from "@turf/bbox";
+
+import { stylingProperties } from "../constants.js";
+
+import { isDefined } from "@util/util.js";
 import {
     drawModePanelState,
     horizontalLayoutModeState,
@@ -25,216 +23,47 @@ import {
     HORIZONTAL_LAYOUT_MODE,
 } from "@map/layouts/util";
 
-import { notificationState } from "@atoms";
-
 import { METADATA } from "@map/components/CustomLayers";
 
-/**
- * A utility function to merge an array of entries with values from an existing Object.
- * To be used as a callback for Object.entries(myObj).map().
- * @param {object} obj
- * @returns {[string, unknown][]}
- */
-const mergeWith =
-    (obj) =>
-    ([key, originalValue]) => {
-        const mergedValue = obj[key];
-        if (
-            Object.hasOwn(obj, key) &&
-            isDefined(mergedValue) &&
-            mergedValue !== ""
-        ) {
-            return [key, mergedValue];
+export const getNonStylingProperties = (feature) => {
+    const properties = {};
+
+    for (const key in feature.properties) {
+        if (stylingProperties.includes(key)) {
+            continue;
         }
 
-        return [key, originalValue];
-    };
-
-const getGeometryType = (feature) => {
-    return feature?.geometry?.type;
-};
-
-const getDeclaredGeometryTypes = () => {
-    const geometryTypesFromStylingProperties = Object.values(
-        styleFieldSettings
-    ).map(({ geometryTypes }) => geometryTypes);
-
-    const types = new Set(geometryTypesFromStylingProperties.flat(2));
-
-    return types;
-};
-
-const checkForStylingEntries = (() => {
-    const geometryTypes = getDeclaredGeometryTypes();
-
-    const checkForStylingEntriesPerGeometryType = {};
-    for (const geometryType of geometryTypes) {
-        checkForStylingEntriesPerGeometryType[geometryType] = ([
-            propertyKey,
-        ]) => {
-            return (
-                stylingProperties.includes(propertyKey) &&
-                styleFieldSettings[propertyKey].geometryTypes.includes(
-                    geometryType
-                )
-            );
-        };
+        properties[key] = feature.properties[key];
     }
-
-    return checkForStylingEntriesPerGeometryType;
-})();
-
-const filterPredefinedEntries = ([propertyKey]) =>
-    !predefinedProperties.includes(propertyKey);
-
-const filterIgnoredEntries = ([propertyKey]) =>
-    !ignoredProperties.includes(propertyKey);
-
-export const convertIntToHex = (int) => {
-    return Number(int.toFixed(0)).toString(16).padStart(2, "0");
-};
-
-/**
- * Filter out styling properties
- * @param feature
- * @return {object}
- */
-const filterStylingProperties = (feature) => {
-    const geometryType = getGeometryType(feature);
-    const entries = Object.entries(feature.properties);
-
-    const filteredEntries = entries.filter(
-        (entry) => !checkForStylingEntries[geometryType](entry)
-    );
-
-    return Object.fromEntries(filteredEntries);
-};
-
-/**
- * Retain styling properties
- * @param feature
- * @return {object}
- */
-const retainStylingProperties = (feature) => {
-    const geometryType = getGeometryType(feature);
-    const entries = Object.entries(feature.properties);
-
-    const filteredEntries = entries.filter((entry) =>
-        checkForStylingEntries[geometryType](entry)
-    );
-
-    return Object.fromEntries(filteredEntries);
-};
-
-/**
- * Create an array of entries from the GeoJSON feature properties.
- * Only styling properties are included.
- * Default styling properties are merged with feature properties.
- *
- * @param feature
- * @return {[string,*][]}
- */
-export const extractStyleProperties = (feature) => {
-    const geometryType = getGeometryType(feature);
-    const styleProperties = retainStylingProperties(feature);
-
-    const defaultStyleEntries = Object.entries(styleFieldSettings)
-        .filter(checkForStylingEntries[geometryType])
-        .map(([key, { default: defaultValue }]) => [
-            key,
-            defaultValue(geometryType),
-        ]);
-
-    return defaultStyleEntries.map(mergeWith(styleProperties));
-};
-
-/**
- * Create an array of entries from the GeoJSON feature properties.
- * Styling properties are filtered out.
- * Default/Predefined entries are merged with feature properties.
- * Predefined entries come first and are sorted.
- *
- * @param feature
- * @return {[string,*][]}
- */
-export const extractAndSortNonStyleProperties = (feature) => {
-    const nonStylingProperties = filterStylingProperties(feature);
-
-    const defaultSortedPredefinedEntries = predefinedProperties.map((key) => [
-        key,
-        "",
-    ]);
-
-    const mergedSortedPredefinedEntries = defaultSortedPredefinedEntries.map(
-        mergeWith(nonStylingProperties)
-    );
-
-    const customEntries = Object.entries(nonStylingProperties)
-        .filter(filterPredefinedEntries)
-        .filter(filterIgnoredEntries);
-
-    return [...mergedSortedPredefinedEntries, ...customEntries];
-};
-
-/*
- * filter and extract the properties of the feature
- */
-export const propExtractor = (feature) => {
-    const filterList = [
-        "marker",
-        "stroke",
-        "stroke-opacity",
-        "stroke-width",
-        "fill",
-        "fill-opacity",
-        "geometry",
-    ];
-
-    const properties = Object.keys(feature.properties)
-        .filter((property) => !filterList.includes(property))
-        .reduce((object, property) => {
-            return {
-                ...object,
-                [property]: feature.properties[property],
-            };
-        }, {});
 
     return properties;
 };
 
 const getPropertyKeysToBeRemoved = (oldProperties, newProperties) => {
     const removedPropertyKeys = Object.keys(oldProperties).filter((oldKey) => {
-        const isIgnoredProperty = ignoredProperties.includes(oldKey);
         const isStylingProperty = stylingProperties.includes(oldKey);
         const isAPropertyToBeRemoved =
             !isDefined(newProperties[oldKey]) || newProperties[oldKey] === "";
 
-        return (
-            !isIgnoredProperty && !isStylingProperty && isAPropertyToBeRemoved
-        );
+        return !isStylingProperty && isAPropertyToBeRemoved;
     });
 
     return removedPropertyKeys;
 };
 
-export const buildGeoJSONSourceDiff = ({
-    oldProperties,
-    propertyFields,
-    styleFields,
-}) => {
+export const buildGeoJSONSourceDiff = ({ oldProperties, newProperties }) => {
     const updatedProperties = {};
-    propertyFields.forEach(([key, value]) => {
+
+    for (const [key, value] of Object.entries(newProperties)) {
         const isEmptyValue = value === "";
         const isEmptyKey = key === "";
-        if (isDefined(key) && !isEmptyKey && !isEmptyValue) {
-            updatedProperties[key] = value;
+        if (!isDefined(key) || isEmptyKey || isEmptyValue) {
+            continue;
         }
-    });
-    styleFields.forEach(([key, value]) => {
-        updatedProperties[key] = value;
-    });
 
-    const newProperties = Object.fromEntries(propertyFields);
+        updatedProperties[key] = value;
+    }
+
     const removedPropertyKeys = getPropertyKeysToBeRemoved(
         oldProperties,
         newProperties
@@ -250,22 +79,6 @@ export const buildGeoJSONSourceDiff = ({
     };
 
     return geoJSONSourceDiff;
-};
-
-export const validatePropertyField = (key, value, existingFields) => {
-    const errors = { key: false, value: false };
-    const isKeyExists = existingFields.some(
-        ([existingKey]) => existingKey.toLowerCase() === key.toLowerCase()
-    );
-    if (!key.trim() || isKeyExists) {
-        errors.key = true;
-    }
-    if (!value.trim()) errors.value = true;
-
-    return {
-        isValid: !errors.key && !errors.value,
-        errors,
-    };
 };
 
 export const exitDrawMode = (set) => {
@@ -343,7 +156,7 @@ const generateFeatureID = (idx, version) => {
  * @param {*} geoJson
  * @returns {*} geoJson with stable ids
  */
-export const processNewGeoJsonForPersistence = (geoJson) => {
+export const generateStableIdsForNewGeojson = (geoJson) => {
     const clonedGeoJson = structuredClone(geoJson);
 
     for (const [idx, feature] of clonedGeoJson.features.entries()) {
@@ -361,7 +174,7 @@ export const processNewGeoJsonForPersistence = (geoJson) => {
  * @param {number} newVersion
  * @returns {*} geoJson with stable ids
  */
-export const processUpdatedGeoJsonForPersistence = (
+export const generateStableIdsForUpdatedGeojson = (
     initialGeoJson,
     newGeoJson,
     newVersion
@@ -403,76 +216,74 @@ export const processUpdatedGeoJsonForPersistence = (
     };
 };
 
-export const handleErrorResponse = (error, set) => {
-    const httpErrorNotification = (translationKey) => ({
-        id: "mapWrapper",
-        type: "danger",
-        text: translate(translationKey),
-    });
+export const handleErrorResponse = (error, notifyError) => {
     if (error.response) {
         if (error.response.status === 401) {
-            set(
-                notificationState,
-                httpErrorNotification("common-errors-http-401")
-            );
+            notifyError("common-errors-http-401");
             return;
         }
 
         if (error.response.status === 403) {
-            set(
-                notificationState,
-                httpErrorNotification("common-errors-http-403")
-            );
+            notifyError("common-errors-http-403");
+
             return;
         }
 
         if (error.response.status === 409) {
-            set(
-                notificationState,
-                httpErrorNotification("geojson-draw-version-conflict")
-            );
+            notifyError("common-errors-http-409");
             return;
         }
 
         if (error.response.status === 422) {
-            set(
-                notificationState,
-                httpErrorNotification("geojson-draw-error-invalid-input")
-            );
+            notifyError("geojson-draw-error-invalid-input");
             return;
         }
     }
 
-    set(notificationState, httpErrorNotification("common-errors-unexpected"));
+    notifyError("common-errors-unexpected");
     console.error(error);
     return;
 };
 
-export const metadataLayerToMetadataDraw = (metadata) => {
-    const keys = [METADATA.title, METADATA.description, METADATA.thumbnailUrl];
-    const metadataDrawShape = Object.fromEntries(
-        Object.entries(metadata).filter(([key]) => keys.includes(key))
-    );
+export const handleErrorResponseExternalVectorMap = (error, notifyError) => {
+    if (error.response) {
+        if (error.response.status === 401) {
+            notifyError("common-errors-http-401");
+            return;
+        }
 
-    return metadataDrawShape;
-};
+        if (error.response.status === 403) {
+            notifyError("common-errors-http-403");
 
-export const metadataAppToMetadataApi = (metadata) => {
-    const mappedMetadata = structuredClone(metadata);
+            return;
+        }
 
-    const keyMap = {
-        [METADATA.thumbnailUrl]: "link_thumb",
-    };
+        // e.g., if the geojson url is not reachable
+        if (error.response.status === 422) {
+            notifyError("geojson-external-vector-map-error-invalid-input");
 
-    for (const [appKey, apiKey] of Object.entries(keyMap)) {
-        const value = mappedMetadata[appKey];
-        mappedMetadata[apiKey] = value;
-        delete mappedMetadata[appKey];
+            return;
+        }
     }
 
-    return Object.fromEntries(
-        Object.entries(mappedMetadata).map(([key, value]) =>
-            !isDefined(value) || value === "" ? [key, null] : [key, value]
-        )
-    );
+    notifyError("common-errors-unexpected");
+    console.error(error);
+    return;
+};
+
+export const updateExternalVectorMapLayerMetadata = (layer, metadata) => {
+    if (!isDefined(layer) || !isDefined(metadata)) {
+        console.error(
+            "Cannot update layer's metadata. Either of the two are not defined."
+        );
+        return;
+    }
+
+    for (const [metadataKey, value] of Object.entries(metadata)) {
+        layer.updateMetadata(metadataKey, value);
+    }
+
+    // useZoomToExtent hook relies on metadata bounds
+    const geoJson = layer.getGeoJson();
+    layer.updateMetadata(METADATA.bounds, bbox(geoJson));
 };

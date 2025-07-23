@@ -1,5 +1,5 @@
-@import "../../../../../../../Resources/Private/Scss/Variables";
-@import "../../../../../../../Resources/Private/Scss/Helpers";
+@use "../../../../../../../Resources/Private/Scss/Variables" as *;
+@use "../../../../../../../Resources/Private/Scss/Helpers" as *;
 
 ul.layermanagement-body {
     .vkf-layermanagement-record {

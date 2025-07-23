@@ -63,6 +63,14 @@ export class VkfMap extends MapWithTerrainBehavior {
 
     return result;
   }
+
+  fireVisibilityChanged(layerId, value) {
+    this.fire(CustomEvents.visibilityChanged, {
+      layerId,
+      property: "visibility",
+      value,
+    });
+  }
 }
 
 export default VkfMap;

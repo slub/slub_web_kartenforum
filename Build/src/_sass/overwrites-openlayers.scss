@@ -1,4 +1,4 @@
-@import "../../../Resources/Private/Scss/Variables";
+@use "../../../Resources/Private/Scss/Variables" as *;
 
 .ol-viewport {
     background-color: white;
@@ -122,7 +122,8 @@
         width: 22px;
         height: 22px;
         color: transparent;
-        background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxwYXRoIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBkPSJNMTAuOCAxOC4zbC0zLjMtNyAzLjMtNyAzLjMgN3oiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTQgMTJsLTMuMy03LTMuMyA3eiIvPjwvc3ZnPg==") no-repeat center center;
+        background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMiAyMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjIgMjIiPjxwYXRoIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBkPSJNMTAuOCAxOC4zbC0zLjMtNyAzLjMtNyAzLjMgN3oiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTQgMTJsLTMuMy03LTMuMyA3eiIvPjwvc3ZnPg==")
+            no-repeat center center;
         background-size: 22px auto;
         display: block;
     }
@@ -165,7 +166,8 @@
     }
 
     &.image-manipulation button {
-        background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMiIgdmlld0JveD0iMCAwIDIyIDIyIj48Zz48cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBkPSJNNSA0djE0TTE3IDR2MTRNMTEgNHYxNCIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0zIDZoNHYyaC00ek05IDE0aDR2MmgtNHpNMTUgMTBoNHYyaC00eiIvPjwvZz48L3N2Zz4=) no-repeat #00b19e;
+        background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMiIgaGVpZ2h0PSIyMiIgdmlld0JveD0iMCAwIDIyIDIyIj48Zz48cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBmaWxsPSJub25lIiBkPSJNNSA0djE0TTE3IDR2MTRNMTEgNHYxNCIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0zIDZoNHYyaC00ek05IDE0aDR2MmgtNHpNMTUgMTBoNHYyaC00eiIvPjwvZz48L3N2Zz4=)
+            no-repeat #00b19e;
     }
 
     &.active {

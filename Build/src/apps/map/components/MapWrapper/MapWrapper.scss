@@ -1,5 +1,5 @@
-@import "../../../../_sass/overwrites-openlayers";
-@import "../../../../_sass/overwrites-maplibre";
+@use "../../../../_sass/overwrites-openlayers";
+@use "../../../../_sass/overwrites-maplibre" as *;
 
 .map-container {
     position: absolute;

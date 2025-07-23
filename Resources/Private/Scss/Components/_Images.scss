@@ -1,3 +1,4 @@
+@use "sass:color";
 /*
  *
  * SLUB Kartenforum - Images
@@ -9,6 +10,7 @@
  *
  */
 
+@use "../Variables" as *;
 // Basic image & video settings ----------------------------------------------------------------------------------------
 img {
     max-width: 100%;
@@ -301,5 +303,5 @@ figure {
 }
 
 .fancybox-button[disabled], .fancybox-button[disabled]:hover {
-    color: darken($secondary-color, 10%);
+    color: color.adjust($secondary-color, $lightness: -10%);
 }

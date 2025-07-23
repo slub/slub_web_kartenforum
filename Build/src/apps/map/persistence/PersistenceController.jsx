@@ -41,10 +41,10 @@ import {
   convertLegacyMapViewToCameraOptions,
   isLegacyMapView,
 } from "./backwardsCompatibility.js";
-import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
+import { LAYER_TYPES } from "@map/components/CustomLayers";
 import { fetchWmsTmsSettings } from "@map/components/CustomLayers/HistoricMapLayer/fetchWmsTmsSettings";
-import { getVectorMap } from "@map/components/GeoJson/util/apiVectorMaps";
 import { loadLayer } from "@map/persistence/loadLayer";
+import { initializeVectorMap } from "@map/components/GeoJson/util/initializeVectorMap";
 
 export const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
 
@@ -267,23 +267,10 @@ export const PersistenceController = () => {
             Promise.all(fetchProcesses)
               .then((layers) => {
                 Promise.all(
+                  // TODO IMPLEMENT loading feedback, while layer is added to map
                   layers.map((layer) => {
                     if (layer.getType() === LAYER_TYPES.VECTOR_MAP) {
-                      return getVectorMap(
-                        layer.getMetadata(METADATA.vectorMapId)
-                      ).then((vectorMap) => {
-                        layer.updateMetadata(
-                          METADATA.userRole,
-                          vectorMap[METADATA.userRole]
-                        );
-                        layer.updateMetadata(
-                          METADATA.version,
-                          vectorMap[METADATA.version]
-                        );
-
-                        layer.setGeoJson(vectorMap.geojson);
-                        return { layer };
-                      });
+                      return initializeVectorMap(layer).then(() => ({ layer }));
                     }
 
                     return new Promise((resolve) =>

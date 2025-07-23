@@ -71,10 +71,8 @@ export const MosaicMapSelectedMapListElement = ({
       ? translate("mapsearch-listelement-unknown")
       : `1:${operationalLayer.getMetadata(METADATA.mapScale)}`;
 
-  const timePublished = parseInt(
-    operationalLayer.getMetadata(METADATA.timePublished),
-    0
-  );
+  const displayTime = operationalLayer.getDisplayTime();
+  const sortTime = operationalLayer.getSortTime();
 
   ////
   // Handler section
@@ -151,9 +149,7 @@ export const MosaicMapSelectedMapListElement = ({
       onMouseLeave={onMouseLeave}
     >
       {children}
-      <span className="data-col time">
-        {isNaN(timePublished) ? "" : timePublished}
-      </span>
+      <span className="data-col time">{isNaN(sortTime) ? "" : sortTime}</span>
       <span className="data-col title">
         {operationalLayer.getMetadata(METADATA.title)}
       </span>
@@ -167,7 +163,7 @@ export const MosaicMapSelectedMapListElement = ({
               <img
                 alt={`Thumbnail Image of Map ${operationalLayer.getMetadata(
                   METADATA.title
-                )} ${operationalLayer.getMetadata(METADATA.timePublished)}`}
+                )} ${displayTime}`}
                 onError={handleError}
                 src={src}
               />
@@ -193,9 +189,7 @@ export const MosaicMapSelectedMapListElement = ({
                   {isLoading ? (
                     <Skeleton.default />
                   ) : (
-                    `${translate(
-                      "mapsearch-listelement-time"
-                    )} ${operationalLayer.getMetadata(METADATA.timePublished)}`
+                    `${translate("mapsearch-listelement-time")} ${displayTime}`
                   )}
                 </div>
                 <div className="scale">

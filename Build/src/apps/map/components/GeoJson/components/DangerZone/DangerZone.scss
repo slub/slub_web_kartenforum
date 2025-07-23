@@ -5,7 +5,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-@import "../../../../Variables.scss";
+@use "../../../../Variables.scss" as *;
 
 .danger-zone-root {
     .text {
@@ -28,10 +28,6 @@
             font-weight: 400;
             line-height: 18px;
             color: $color-darkgrey;
-        }
-
-        &-button {
-            color: white;
         }
     }
 

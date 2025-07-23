@@ -22,7 +22,7 @@ import {
   layoutState,
 } from "@map/atoms";
 import { isDefined } from "@util/util";
-import { createStatisticQuery, getSpatialQuery } from "@util/query";
+import { createMinMaxYearQuery, getSpatialQuery } from "@util/query";
 import { readLayers } from "@util/parser";
 import SettingsProvider from "@settings-provider";
 import { getSearchExtent, limitExtent } from "./util";
@@ -72,16 +72,17 @@ export const PaginatingDataController = ({
         [extent[2], extent[1]],
       ]);
 
-      return getSpatialQuery(
-        "time_published",
-        [`${timeExtent[0]}-01-01`, `${timeExtent[1]}-12-31`],
-        "geometry",
-        envelope,
-        sortAttribute,
-        sortOrd_,
+      return getSpatialQuery({
+        timePeriodStartFieldName: "time_period_start",
+        timePeriodEndFieldName: "time_period_end",
+        timeValues: [`${timeExtent[0]}-01-01`, `${timeExtent[1]}-12-31`],
+        bboxFieldName: "geometry",
+        bboxPolygon: envelope,
+        sortFieldName: sortAttribute,
+        sortValue: sortOrd_,
         facets,
-        customQuery
-      );
+        customQueryExtension: customQuery,
+      });
     },
     [facets, sortAttribute, sortOrder, timeExtent]
   );
@@ -183,12 +184,15 @@ export const PaginatingDataController = ({
   // determine initial time filter
   useEffect(() => {
     const requestUrl = `${elasticsearch_node}/_search?`;
-    const payload = createStatisticQuery("time_published");
+    const payload = createMinMaxYearQuery(
+      "time_period_start",
+      "time_period_end"
+    );
     axios.post(requestUrl, payload, {}).then((resp) => {
       if (resp.status === 200) {
         const data = resp.data;
-        const max = new Date(data["aggregations"]["summary"]["max"]),
-          min = new Date(data["aggregations"]["summary"]["min"]);
+        const max = new Date(data["aggregations"]["maxYear"]["value"]),
+          min = new Date(data["aggregations"]["minYear"]["value"]);
 
         const newRange = [min.getUTCFullYear(), max.getUTCFullYear()];
 

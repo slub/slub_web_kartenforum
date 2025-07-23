@@ -1,0 +1,14 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 16.05.25.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+.time-period-field-root {
+    .time-period-field-container {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+    }
+}

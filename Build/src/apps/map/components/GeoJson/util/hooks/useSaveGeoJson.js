@@ -26,24 +26,29 @@ import {
 import { GeoJsonLayer, METADATA } from "@map/components/CustomLayers";
 import {
     exitDrawMode,
-    processNewGeoJsonForPersistence,
-    processUpdatedGeoJsonForPersistence,
+    generateStableIdsForNewGeojson,
+    generateStableIdsForUpdatedGeojson,
     handleErrorResponse,
-    metadataAppToMetadataApi,
-    metadataLayerToMetadataDraw,
     removeAllFeatureIds,
 } from "@map/components/GeoJson/util/util";
 
 import equal from "fast-deep-equal";
 import { isVectorMapMetadataEditAllowed } from "../authorization";
+import useNotification from "./useNotification";
+import {
+    metadataDrawToApi,
+    metadataLayerToDraw,
+} from "../../GeoJsonMetadataPanel/draw/util";
 
 export const useSaveGeoJson = () => {
+    const { notifyError } = useNotification();
+
     const createRemoteVectorMap = useRecoilCallback(
         ({ snapshot, set }) =>
             async () => {
                 const draw = await snapshot.getPromise(drawState);
                 if (draw) {
-                    const geoJson = processNewGeoJsonForPersistence(
+                    const geoJson = generateStableIdsForNewGeojson(
                         draw.getAll()
                     );
                     const map = await snapshot.getPromise(mapState);
@@ -55,12 +60,15 @@ export const useSaveGeoJson = () => {
                     let id = null;
                     try {
                         // persist vector map to remote
+                        const processedGeojson =
+                            GeoJsonLayer.toPersistenceState(geoJson);
                         id = await createNewVectorMap(
-                            geoJson,
-                            metadataAppToMetadataApi(metadata)
+                            processedGeojson,
+                            metadataDrawToApi(metadata)
                         );
                     } catch (error) {
-                        handleErrorResponse(error, set);
+                        handleErrorResponse(error, notifyError);
+                        return;
                     }
 
                     if (isDefined(id)) {
@@ -114,7 +122,7 @@ export const useSaveGeoJson = () => {
                         initialGeoJsonDrawState
                     );
 
-                    const initialMetadata = metadataLayerToMetadataDraw(
+                    const initialMetadata = metadataLayerToDraw(
                         selectedLayer.getMetadata()
                     );
 
@@ -139,17 +147,18 @@ export const useSaveGeoJson = () => {
                     }
 
                     const nextVersion = vectorMapDraw.version + 1;
-                    const processedGeoJson =
-                        processUpdatedGeoJsonForPersistence(
-                            initialGeoJson,
-                            geoJsonFromDraw,
-                            nextVersion
-                        );
-                    const metadataToSend = metadataAppToMetadataApi(metadata);
+                    const geoJson = generateStableIdsForUpdatedGeojson(
+                        initialGeoJson,
+                        geoJsonFromDraw,
+                        nextVersion
+                    );
+                    const metadataToSend = metadataDrawToApi(metadata);
 
                     let newVersion = null;
                     try {
                         // Only push geojson and metdata, if there are changes
+                        const processedGeoJson =
+                            GeoJsonLayer.toPersistenceState(geoJson);
                         newVersion = await updateVectorMap(
                             vectorMapDraw.id,
                             hasGeoJsonChanged ? processedGeoJson : null,
@@ -157,7 +166,8 @@ export const useSaveGeoJson = () => {
                             vectorMapDraw.version
                         );
                     } catch (error) {
-                        handleErrorResponse(error, set);
+                        handleErrorResponse(error, notifyError);
+                        return;
                     }
 
                     // update the application layer
@@ -169,7 +179,7 @@ export const useSaveGeoJson = () => {
                         // update application layer geojson
                         // update application layer version
                         if (hasGeoJsonChanged) {
-                            selectedLayer.setDataOnMap(map, processedGeoJson);
+                            selectedLayer.setDataOnMap(map, geoJson);
                             selectedLayer.updateMetadata(
                                 METADATA.version,
                                 newVersion

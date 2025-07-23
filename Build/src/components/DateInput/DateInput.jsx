@@ -7,13 +7,7 @@
 
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { forwardRef, useCallback, useMemo, useState } from "react";
 import SettingsProvider, { LANGUAGE_CODE } from "@settings-provider";
 
 import "./DateInput.scss";
@@ -36,10 +30,17 @@ const DateInput = forwardRef(function DateInput(
     readOnly,
     tabIndex,
     placeholder,
+    name,
   },
   forwardedRef
 ) {
   const [internalValue, setInternalValue] = useState(value);
+  const [previousValue, setPreviousValue] = useState(value);
+
+  if (previousValue !== value) {
+    setPreviousValue(value);
+    setInternalValue(value);
+  }
 
   const dateSeparator = useMemo(() => {
     const langCode = SettingsProvider.getSettings().LANGUAGE_CODE;
@@ -74,10 +75,6 @@ const DateInput = forwardRef(function DateInput(
     [internalValue, onBlur]
   );
 
-  useEffect(() => {
-    setInternalValue(value);
-  }, [value]);
-
   return (
     <div className="date-input-root">
       <input
@@ -90,6 +87,7 @@ const DateInput = forwardRef(function DateInput(
         readOnly={readOnly ?? undefined}
         tabIndex={tabIndex ?? undefined}
         placeholder={placeholder ?? undefined}
+        name={name ?? undefined}
       />
     </div>
   );
@@ -104,6 +102,8 @@ DateInput.propTypes = {
   readOnly: PropTypes.bool,
   tabIndex: PropTypes.number,
   placeholder: PropTypes.string,
+  defaultValue: PropTypes.string,
+  name: PropTypes.string,
 };
 
 export default DateInput;

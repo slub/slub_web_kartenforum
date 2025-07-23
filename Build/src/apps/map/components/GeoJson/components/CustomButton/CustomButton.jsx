@@ -7,8 +7,10 @@
 import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import "./CustomButton.scss";
+import clsx from "clsx";
 
 //@TODO: Handle disabled state correctly (e.g. set cursor to not-allowed, different style)
+// TODO IMPLEMENT loading button animation
 const CustomButton = forwardRef(function CustomButton(props, ref) {
   const {
     children,
@@ -16,6 +18,7 @@ const CustomButton = forwardRef(function CustomButton(props, ref) {
     onClick,
     type = "default",
     disabled = false,
+    loading = false,
     title,
     buttonType,
     form,
@@ -23,7 +26,9 @@ const CustomButton = forwardRef(function CustomButton(props, ref) {
 
   return (
     <button
-      className={`vkf-button-${type} ${className}`}
+      className={`vkf-button-${type} ${className} ${clsx(
+        loading && "loading"
+      )}`}
       disabled={disabled}
       onClick={onClick}
       ref={ref}
@@ -31,7 +36,13 @@ const CustomButton = forwardRef(function CustomButton(props, ref) {
       type={buttonType}
       form={form}
     >
-      {children}
+      {loading === true && (
+        <>
+          <div className="loading-animation"></div>
+          {children}
+        </>
+      )}
+      {loading === false && children}
     </button>
   );
 });
@@ -41,6 +52,7 @@ CustomButton.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
+  loading: PropTypes.bool,
   title: PropTypes.string,
   type: PropTypes.oneOf([
     "primary",

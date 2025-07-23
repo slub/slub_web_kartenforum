@@ -1,5 +1,5 @@
 @use "sass:color";
-@import "../../../../../../../../../Resources/Private/Scss/Variables.scss";
+@use "../../../../../../../../../Resources/Private/Scss/Variables.scss" as *;
 
 .geojson-history-panel-root {
     .geojson-history-panel-content {

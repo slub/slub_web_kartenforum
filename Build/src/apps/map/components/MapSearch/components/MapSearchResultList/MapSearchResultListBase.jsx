@@ -17,16 +17,16 @@ import { useSize } from "@util/hooks";
 import { translate } from "@util/util";
 import "./MapSearchResultList.scss";
 import MapSearchListElement from "../MapSearchListElement/MapSearchListElement.jsx";
-import { HistoricMapLayer } from "@map/components/CustomLayers";
+import { HistoricMapLayer, METADATA } from "@map/components/CustomLayers";
 
-const SEARCH_COLS = ["map_scale", "time_published", "title", "georeference"];
+const SEARCH_COLS = ["map_scale", "time_period_start", "title", "georeference"];
 
 export const LOADING_LAYER = new HistoricMapLayer({
   metadata: {
     has_georeference: true,
     map_scale: "0",
     thumb_url: "",
-    time_published: "",
+    [METADATA.timePeriod]: [],
     title: "Loading",
   },
 });

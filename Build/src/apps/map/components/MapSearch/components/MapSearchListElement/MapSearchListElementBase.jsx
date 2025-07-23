@@ -37,6 +37,13 @@ export const MapSearchListElementBase = ({
   const selectedLayers = useRecoilValue(selectedLayersState);
   const [errored, setErrored] = useState(false);
 
+  const { displayTime, sortTime } = useMemo(() => {
+    return {
+      displayTime: operationalLayer.getDisplayTime(),
+      sortTime: operationalLayer.getSortTime(),
+    };
+  }, [operationalLayer]);
+
   const src = useMemo(
     () => getImageSrcFromLayer(operationalLayer),
     [operationalLayer]
@@ -88,11 +95,6 @@ export const MapSearchListElementBase = ({
       ? translate("mapsearch-listelement-unknown")
       : `1:${operationalLayer.getMetadata(METADATA.mapScale)}`;
 
-  const timePublished = parseInt(
-    operationalLayer.getMetadata(METADATA.timePublished),
-    0
-  );
-
   const isMosaicMap =
     operationalLayer.getMetadata(METADATA.type) === LAYER_TYPES.MOSAIC_MAP;
   const isVectorMap =
@@ -116,9 +118,7 @@ export const MapSearchListElementBase = ({
       onMouseLeave={onMouseLeave}
     >
       {children}
-      <span className="data-col time">
-        {isNaN(timePublished) ? "" : timePublished}
-      </span>
+      <span className="data-col time">{isNaN(sortTime) ? "" : sortTime}</span>
       <span className="data-col title">
         {operationalLayer.getMetadata(METADATA.title)}
       </span>
@@ -132,7 +132,7 @@ export const MapSearchListElementBase = ({
               <img
                 alt={`Thumbnail Image of Map ${operationalLayer.getMetadata(
                   METADATA.title
-                )} ${operationalLayer.getMetadata(METADATA.timePublished)}`}
+                )} ${displayTime}`}
                 onError={handleError}
                 src={errored ? fallbackSrc : src}
               />
@@ -171,9 +171,7 @@ export const MapSearchListElementBase = ({
               {isLoading ? (
                 <Skeleton.default />
               ) : (
-                `${translate(
-                  "mapsearch-listelement-time"
-                )} ${operationalLayer.getMetadata(METADATA.timePublished)}`
+                `${translate("mapsearch-listelement-time")} ${displayTime}`
               )}
             </div>
             {!isVectorMap && (

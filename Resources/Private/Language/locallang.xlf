@@ -327,10 +327,10 @@
                 <source>Image</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-label-placeholder">
-                <source>Enter field values here...</source>
+                <source>Enter field title here...</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-input-placeholder">
-                <source>enter field title here...</source>
+                <source>Enter field values here...</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.editfeature-input-placeholder-date">
                 <source>mm/dd/yyyy</source>
@@ -427,6 +427,12 @@
             <trans-unit id="plugin.map.geojson.metadatapanel.intro.edit">
 				<source>Edit the settings for the entire vector map here. You can define the title, description and preview image here.</source>
 			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.external.intro.create">
+				<source>Add a title, the GeoJson URL and the time range for your external vector map here.</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.external.intro.edit">
+				<source>Edit the settings for the external vector map here.</source>
+			</trans-unit>
             <trans-unit id="plugin.map.geojson.metadatapanel.intro.history">
 				<source>Select an earlier version of the vector map here by first browsing the older versions and then resetting.</source>
 			</trans-unit>
@@ -439,6 +445,15 @@
             <trans-unit id="plugin.map.geojson.metadatapanel.delete-btn">
 				<source>Delete vector map</source>
 			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.refresh-btn">
+				<source>Refresh bounding box</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.refresh">
+				<source>Refresh the bounding box of the vector map in the search index.</source>
+			</trans-unit>
+            <trans-unit id="plugin.map.geojson.metadatapanel.notify.refresh">
+				<source>The bounding box has successfully been refreshed.</source>
+			</trans-unit>
 
             <!-- GeoJson Metadata Fields -->
             <trans-unit id="plugin.map.geojson.metadata.title">
@@ -449,6 +464,21 @@
             </trans-unit>
             <trans-unit id="plugin.map.geojson.metadata.thumbnail_url">
                 <source>Preview image</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.time_period">
+                <source>Time period</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.label.time_period.start">
+				<source>Start date</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.label.time_period.end">
+				<source>End date</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.content_type">
+				<source>Layer type</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.metadata.external_content_url">
+                <source>GeoJson URL</source>
             </trans-unit>
             <trans-unit id="plugin.map.geojson.metadata.delete.vector">
                 <source>Do you really want to delete this vector map?</source>
@@ -463,6 +493,9 @@
             </trans-unit>
             <trans-unit id="plugin.map.geojson.placeholders.thumbnail_url">
 				<source>Enter preview image url here…</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.placeholders.external_content_url">
+				<source>Enter GeoJson url here…</source>
             </trans-unit>
 
             <!-- Global > Map > MapWrapper -->
@@ -491,6 +524,9 @@
 			<trans-unit id="plugin.map.layermanagement.vectorMapActions.create">
 				<source>Create vector map</source>
 			</trans-unit>
+			<trans-unit id="plugin.map.layermanagement.vectorMapActions.createExternal">
+				<source>Create external vector map</source>
+			</trans-unit>
 
 			<!-- vk2.module.MapSearchModule -->
 			<trans-unit id="plugin.map.mapsearch.foundMaps">
@@ -503,6 +539,9 @@
 				<source>Georeference</source>
 			</trans-unit>
 			<trans-unit id="plugin.map.mapsearch.time_published">
+				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="plugin.map.mapsearch.time">
 				<source>Time</source>
 			</trans-unit>
 			<trans-unit id="plugin.map.mapsearch.title">
@@ -1146,6 +1185,9 @@
 			<trans-unit id="plugin.map.geojsoncontrolbar.add-feature" approved="yes">
                 <source>No features present. Create a new one now.</source>
             </trans-unit>
+            <trans-unit id="plugin.map.geojsoncontrolbar.add-content-url" approved="yes">
+                <source>No features present. Please add a GeoJson URL.</source>
+            </trans-unit>
 			<trans-unit id="plugin.map.geojsoncontrolbar.add-title" approved="yes">
                 <source>Please add a title first.</source>
             </trans-unit>
@@ -1221,7 +1263,11 @@
             </trans-unit>
 
             <trans-unit id="plugin.map.errors.vector-map.metadata.http.422" approved="yes">
-                <source>The metadata you entered is not valid and cannot be saved. Please checking if the thumbnail URL is a valid URL and try again.</source>
+                <source>The metadata you entered is not valid and cannot be saved. Please open the metadata form and check if the information is correct.</source>
+            </trans-unit>
+
+            <trans-unit id="plugin.map.errors.external-vector-map.metadata.http.422" approved="yes">
+                <source>The metadata you entered is not valid and cannot be saved. Please check if the provided GeoJson URL is returning a valid FeatureCollection.</source>
             </trans-unit>
 
 			<trans-unit id="plugin.map.errors.vector-map.no-feature-id" approved="yes">
@@ -1234,7 +1280,38 @@
 
             <trans-unit id="plugin.map.feature-permalink-button.title" approved="yes">
                 <source>Copy the permalink for this feature to the clipboard</source>
-            </trans-unit>            
+            </trans-unit>
+
+            <!--- Global -> Button label -->
+            <trans-unit id="global.button.loading-label" approved="yes">
+                <source>Loading…</source>
+            </trans-unit>
+
+            <!-- Idohist -->
+            <trans-unit id="plugin.map.geojson.idohist.date-label" approved="yes">
+                <source>Dating</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.permalink-label" approved="yes">
+                <source>IDOHIST Documentation</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.tags-label" approved="yes">
+                <source>Tags</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.affiliation-label" approved="yes">
+                <source>Affiliation</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.certainty-label" approved="yes">
+                <source>Confidences</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.certainty-label-spatial" approved="yes">
+                <source>Spatial confidence</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.certainty-label-temporal" approved="yes">
+                <source>Temporal cerconfidencetainty</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.geojson.idohist.certainty-label-content" approved="yes">
+                <source>Thematic confidence</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

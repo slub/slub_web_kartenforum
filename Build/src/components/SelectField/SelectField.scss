@@ -1,0 +1,41 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 20.05.25.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@use "../../../../Resources/Private/Scss/Variables" as *;
+
+// TODO select-field styles need to be aligned with the vkf-form styles found in the various GeoJson forms
+
+.vkf-select-field-root {
+    select {
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: #fff;
+        cursor: pointer;
+
+        &:disabled {
+            background-color: $color-disabled;
+            cursor: not-allowed;
+        }
+    }
+
+    .select-field-container {
+        position: relative;
+
+        &::after {
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            translate: 0 -50%;
+            width: 0.7em;
+            height: 0.4em;
+            clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+            background-color: $secondary-color-dark;
+        }
+    }
+}

@@ -1,4 +1,5 @@
-@import "../../../../../../Resources/Private/Scss/Variables";
+@use "sass:color";
+@use "../../../../../../Resources/Private/Scss/Variables" as *;
 
 button.vkf-control-button {
     position: relative;
@@ -51,7 +52,7 @@ button.vkf-control-button {
     &.save {
         &:hover {
             background-color: green;
-            border-color: darken(green, 7%);
+            border-color: color.adjust(green, $lightness: -7%);
         }
     }
 }

@@ -1,0 +1,65 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 19.06.25.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+$idohist-light-color: #00b19e;
+$idohist-dark-color: #00927e;
+
+.map-container {
+    .maplibregl-map {
+        .maplibregl-marker.marker-idohist {
+            position: absolute;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+
+            height: 75px;
+            width: 75px;
+
+            &:hover {
+                z-index: 1000;
+            }
+
+            svg {
+                pointer-events: all;
+                scale: var(--vkf-idohist-scale-factor);
+
+                &:hover {
+                    cursor: pointer;
+                    scale: calc(var(--vkf-idohist-scale-factor) + 0.2);
+                }
+
+                .circle.background {
+                    fill: #fff;
+                    fill-opacity: 0.6;
+                }
+
+                .circle.spatial-certainty {
+                    fill: $idohist-light-color;
+                    filter: blur(var(--idohist-spatial-blur));
+                }
+
+                .circle.track {
+                    fill: none;
+                    stroke: #ccc;
+                    stroke-opacity: 0.6;
+                    stroke-width: 3;
+                }
+
+                .arcs {
+                    .certainty {
+                        fill: $idohist-dark-color;
+                        fill-opacity: 0.6;
+                    }
+
+                    .uncertainty {
+                        fill: none;
+                    }
+                }
+            }
+        }
+    }
+}

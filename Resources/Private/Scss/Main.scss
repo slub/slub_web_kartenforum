@@ -10,23 +10,23 @@
  */
 
 // Helpers
-@import "Helpers";
-@import "Variables";
+@use "Helpers" as *;
+@use "Variables" as *;
 
 // Add some modules
-@import "Modules/Header";
-@import "Modules/Navigation";
-@import "Modules/Map";
-@import "Modules/Footer";
-@import "Modules/Content";
+@use "Modules/Header" as *;
+@use "Modules/Navigation" as *;
+@use "Modules/Map" as *;
+@use "Modules/Footer" as *;
+@use "Modules/Content" as *;
 
 // Components
-@import "Components/Normalize";
-@import "Components/Typography";
-@import "Components/Lightbox";
-@import "Components/Images";
-@import "Components/Accordion";
-@import "Components/Login";
+@use "Components/Normalize" as *;
+@use "Components/Typography" as *;
+@use "Components/Lightbox" as *;
+@use "Components/Images" as *;
+@use "Components/Accordion" as *;
+@use "Components/Login" as*;
 
 // The basic page structures
-@import "Structure";
+@use "Structure" as *;

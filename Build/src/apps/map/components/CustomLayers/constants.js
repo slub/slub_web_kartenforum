@@ -7,7 +7,6 @@
 
 export const METADATA = {
     id: "id",
-    timePublished: "time_published",
     timeChanged: "time_changed",
     title: "title",
     thumbnailUrl: "thumb_url",
@@ -19,18 +18,29 @@ export const METADATA = {
     rawMapIds: "raw_map_ids",
     name: "name",
     description: "description",
+    timePeriod: "time_period",
+    externalContentUrl: "external_content_url",
+    externalContentType: "external_content_type",
 
     // Internally used
     type: "type",
 
     // Vector map specific metadata
     vectorMapId: "vector_map_id",
+
+    // Persistent vector map specific metadata
     version: "version",
     userRole: "user_role",
 };
 
 export const MAP_LIBRE_METADATA = {
     id: "vkf:layer_id",
+    contentType: "vkf:content_type",
+};
+
+export const EXTERNAL_CONTENT_TYPES = {
+    VKF: "vkf:geojson-spec-v1",
+    IDOHIST: "idohist:idohist-v1",
 };
 
 export const LAYER_TYPES = {
@@ -40,4 +50,9 @@ export const LAYER_TYPES = {
 
     // Deprecated
     LEGACY_GEOJSON: "geojson",
+};
+
+export const VISIBILITY = {
+    VISIBLE: "visible",
+    NONE: "none",
 };
