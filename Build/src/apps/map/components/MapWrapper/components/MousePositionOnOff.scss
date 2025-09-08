@@ -38,8 +38,8 @@
 
         .no-touchevents & {
             position: absolute;
-            left: 370px;
-            bottom: 15px;
+            left: 380px;
+            bottom: 26px;
             display: block;
             opacity: 0;
             transition: $transition;
@@ -55,9 +55,16 @@
                 opacity: 1;
             }
         }
+    }
+}
 
-        .ol-map-large:fullscreen & {
-            left: 10px;
+// Fullscreen override for large map
+body:fullscreen {
+    .ol-map-large {
+        .ol-mouse-position-box {
+            .no-touchevents & {
+                left: 10px;
+            }
         }
     }
 }

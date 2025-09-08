@@ -268,12 +268,6 @@
         }
     }
 
-    &:fullscreen {
-        .maplibregl-ctrl-top-left {
-            left: 10px;
-        }
-    }
-
     .maplibregl-ctrl-bottom-right {
         bottom: 26px;
         display: flex;
@@ -318,9 +312,6 @@
         > div:nth-child(4) {
             display: none;
         }
-    }
-    &:fullscreen .maplibregl-ctrl-top-left {
-        top: 14px;
     }
 
     .maplibregl-ctrl-bottom-right {
@@ -405,5 +396,15 @@
                 transform: translate(0px, 0px);
             }
         }
+    }
+}
+
+// Fullscreen mode styles
+body:fullscreen {
+    .ol-map-large .maplibregl-ctrl-top-left {
+        left: 10px;
+    }
+    .ol-map-small .maplibregl-ctrl-top-left {
+        top: 14px;
     }
 }

@@ -29,3 +29,18 @@
     }
 }
 
+body:fullscreen {
+    .site-header {
+        display: none;
+    }
+    #vkf-app-map {
+        inset: 0 0 40px 0;
+    }
+    .vkf-dropzone {
+        inset: 0;
+
+        .dropzone-content {
+            top: 30vh;
+        }
+    }
+}

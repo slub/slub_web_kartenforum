@@ -6,11 +6,11 @@
  */
 
 import {
-    FullscreenControl,
     GeolocateControl,
     NavigationControl,
     ScaleControl,
     AttributionControl,
+    FullscreenControl,
 } from "maplibre-gl";
 
 import SettingsProvider from "@settings-provider";
@@ -86,7 +86,10 @@ export const getDefaultControls = () => {
                 visualizePitch: false,
             }),
         },
-        { position: "top-left", control: new FullscreenControl() },
+        {
+            position: "top-left",
+            control: new FullscreenControl({ container: document.body }),
+        },
 
         {
             position: "top-left",
