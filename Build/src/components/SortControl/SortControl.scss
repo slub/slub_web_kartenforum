@@ -1,0 +1,75 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 08.09.25.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@use "../../../../Resources/Private/Scss/Variables" as *;
+
+.vkf-sort-control-root {
+    .list-header {
+        position: relative;
+        border-bottom: 1px solid $color-ultralightgrey;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+
+        strong {
+            font-size: 12px;
+            color: $color-grey;
+        }
+
+        .inner-columns {
+            position: relative;
+            display: flex;
+            margin-right: -3px;
+
+            .inner-col {
+                position: relative;
+                padding: 5px;
+                font-size: 12px;
+
+                .sort-element {
+                    cursor: pointer;
+                    color: $color-grey;
+                    outline-offset: 2px;
+                    user-select: none;
+
+                    .caret-container {
+                        height: 19px;
+                        position: relative;
+                        top: 0;
+
+                        .caret {
+                            border: 4px solid transparent;
+                            border-top-color: $color-midgrey;
+                            border-bottom-width: 0;
+                        }
+                    }
+
+                    &.ascending {
+                        color: $secondary-color-dark;
+                        font-weight: 700;
+
+                        .caret {
+                            border-top-color: $secondary-color;
+                        }
+                    }
+
+                    &.descending {
+                        color: $secondary-color-dark;
+                        font-weight: 700;
+
+                        .caret {
+                            border-top: 0 none;
+                            margin-top: -2px;
+                            border-bottom: 4px solid $secondary-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

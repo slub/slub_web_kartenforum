@@ -28,6 +28,7 @@ import SettingsProvider from "@settings-provider";
 import { getSearchExtent, limitExtent } from "./util";
 import { useDebounce } from "@util/hooks";
 import { LngLatBounds } from "maplibre-gl";
+import { SORT_STATE } from "@components/SortControl/SortControl";
 
 export const PaginatingDataController = ({
   customQuery,
@@ -64,7 +65,7 @@ export const PaginatingDataController = ({
    */
   const createSearchRequest = useCallback(
     (extent) => {
-      const sortOrd_ = sortOrder === "ascending" ? "asc" : "desc";
+      const sortOrd_ = sortOrder === SORT_STATE.ASCENDING ? "asc" : "desc";
 
       // build response with bbox filter
       const envelope = limitExtent([

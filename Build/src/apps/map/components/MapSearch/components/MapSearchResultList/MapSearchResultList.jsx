@@ -5,16 +5,14 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useCallback, useState } from "react";
 import MapSearchOverlayLayer from "../MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 import PropTypes from "prop-types";
 import { MapSearchResultListBase } from "./MapSearchResultListBase.jsx";
+import { SORT_STATE } from "@components/SortControl/SortControl.jsx";
 
-const DEFAULT_TYPE = "title";
-const SORT_ORDERS = {
-  ASCENDING: "ascending",
-  DESCENDING: "descending",
-};
+export const DEFAULT_SORT_KEY = "title";
+export const DEFAULT_SORT_ORDER = SORT_STATE.ASCENDING;
 
 /**
  * Wraps the MapSearchList in order to bundle it with the data supply
@@ -29,31 +27,21 @@ export const WrappedMapSearchResultList = ({
 }) => {
   // state
   const [sortSettings, setSortOrder] = useState({
-    activeType: DEFAULT_TYPE,
-    sortOrder: SORT_ORDERS.ASCENDING,
+    activeType: DEFAULT_SORT_KEY,
+    sortOrder: DEFAULT_SORT_ORDER,
   });
-
-  // derived
-  const { activeType, sortOrder } = sortSettings;
 
   ////
   // Handler section
   ////
 
   // Set field by which is sorted and toggle sort oder
-  const handleUpdateSortType = (type) => {
-    const newSortOrder =
-      type === activeType
-        ? sortOrder === SORT_ORDERS.ASCENDING
-          ? SORT_ORDERS.DESCENDING
-          : SORT_ORDERS.ASCENDING
-        : SORT_ORDERS.ASCENDING;
-
+  const handleUpdateSortType = useCallback((newSortKey, newSortOrder) => {
     setSortOrder({
       sortOrder: newSortOrder,
-      activeType: type,
+      activeType: newSortKey,
     });
-  };
+  }, []);
 
   ////
   // Render helper
@@ -63,7 +51,6 @@ export const WrappedMapSearchResultList = ({
     return (
       <MapSearchResultListBase
         onUpdateSortType={handleUpdateSortType}
-        sortSettings={sortSettings}
         {...props}
         {...extraProps}
       />
@@ -72,9 +59,7 @@ export const WrappedMapSearchResultList = ({
 
   return (
     <Fragment>
-      {enableOverlayLayer && (
-        <MapSearchOverlayLayer sortSettings={sortSettings} />
-      )}
+      {enableOverlayLayer && <MapSearchOverlayLayer />}
       <DataProvider
         customQuery={customQuery}
         renderConsumer={renderMapSearchResultList}

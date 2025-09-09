@@ -4,7 +4,13 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import PropTypes from "prop-types";
 import { useRecoilValue } from "recoil";
 import clsx from "clsx";
@@ -12,14 +18,13 @@ import { FixedSizeList as List } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
 
 import { map3dState } from "@map/atoms";
-import MapSearchSortColumn from "../MapSearchSortColumn/MapSearchSortColumn";
 import { useSize } from "@util/hooks";
 import { translate } from "@util/util";
 import "./MapSearchResultList.scss";
 import MapSearchListElement from "../MapSearchListElement/MapSearchListElement.jsx";
 import { HistoricMapLayer, METADATA } from "@map/components/CustomLayers";
-
-const SEARCH_COLS = ["map_scale", "time_period_start", "title", "georeference"];
+import SortControl from "@components/SortControl/SortControl";
+import { DEFAULT_SORT_KEY, DEFAULT_SORT_ORDER } from "./MapSearchResultList";
 
 export const LOADING_LAYER = new HistoricMapLayer({
   metadata: {
@@ -40,13 +45,23 @@ export const MapSearchResultListBase = ({
   onUpdateSortType,
   renderHeader = true,
   searchResultDescriptor: { itemCount, id },
-  sortSettings,
 }) => {
-  const { activeType, sortOrder } = sortSettings;
-
   // state
   const is3dEnabled = useRecoilValue(map3dState);
   const [items, setItems] = useState({});
+
+  // memos
+  const sortColumns = useMemo(
+    () => [
+      {
+        sortKey: "map_scale",
+        label: translate("mapsearch-map_scale"),
+      },
+      { sortKey: "time_period_start", label: translate("mapsearch-time") },
+      { sortKey: "title", label: translate("mapsearch-title") },
+    ],
+    []
+  );
 
   // Refs
   const refClearResults = useRef(false);
@@ -113,21 +128,12 @@ export const MapSearchResultListBase = ({
   return (
     <div className={clsx("vkf-mapsearch-result-list", direction)}>
       {renderHeader && (
-        <div className="list-header">
-          <strong className="list-label">
-            {translate("mapsearch-sorting")}:
-          </strong>
-          <div className="inner-columns">
-            {SEARCH_COLS.map((type) => (
-              <MapSearchSortColumn
-                key={type}
-                onClick={onUpdateSortType}
-                sortOrder={activeType === type ? sortOrder : ""}
-                type={type}
-              />
-            ))}
-          </div>
-        </div>
+        <SortControl
+          sortColumns={sortColumns}
+          onUpdateSortOrder={onUpdateSortType}
+          defaultSortKey={DEFAULT_SORT_KEY}
+          defaultSortOrder={DEFAULT_SORT_ORDER}
+        />
       )}
       <div className="mapsearch-contentlist-container" ref={refSearchList}>
         <InfiniteLoader
