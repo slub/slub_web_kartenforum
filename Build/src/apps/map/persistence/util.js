@@ -6,13 +6,9 @@
  */
 import { useEffect, useState } from "react";
 
-import {
-    GeoJsonLayer,
-    LAYER_TYPES,
-    METADATA,
-} from "@map/components/CustomLayers";
+import { GeoJsonLayer, LAYER_TYPES } from "@map/components/CustomLayers";
 import { isDefined } from "@util/util";
-import { LngLatBounds } from "maplibre-gl";
+
 import { emptyFeatureCollection } from "@map/components/GeoJson/constants";
 
 /**
@@ -71,30 +67,6 @@ export const deserializeGeojsonLayer = ({ geojson, properties }) => {
         metadata: properties,
         geoJson: geojson ?? structuredClone(emptyFeatureCollection),
     });
-};
-
-/**
- * Fits the map view to an array of features
- * @param map
- * @param features
- */
-export const fitMapToFeatures = (map, features) => {
-    let boundingExtent;
-    features.forEach((feature) => {
-        const featureBoundingExtent = feature.getMetadata(METADATA.bounds);
-        boundingExtent =
-            boundingExtent === undefined
-                ? new LngLatBounds(featureBoundingExtent)
-                : boundingExtent.extend(featureBoundingExtent);
-    });
-
-    //@TODO: Adjust for mobile layout
-    if (boundingExtent !== undefined) {
-        map.fitBounds(boundingExtent, {
-            animate: false,
-            padding: { left: 350, right: 350, top: 50, bottom: 50 },
-        });
-    }
 };
 
 /**

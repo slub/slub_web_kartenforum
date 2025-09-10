@@ -22,7 +22,6 @@ import {
 import SettingsProvider from "@settings-provider";
 import {
   areAllUndefined,
-  fitMapToFeatures,
   joinArrayPathParameters,
   useLocalStorage,
 } from "./util";
@@ -45,6 +44,7 @@ import { LAYER_TYPES } from "@map/components/CustomLayers";
 import { fetchWmsTmsSettings } from "@map/components/CustomLayers/HistoricMapLayer/fetchWmsTmsSettings";
 import { loadLayer } from "@map/persistence/loadLayer";
 import { initializeVectorMap } from "@map/components/GeoJson/util/initializeVectorMap";
+import useZoomLayerToExtent from "@map/components/LayerManagement/LayerManagementEntry/components/ZoomToExtentButton/useZoomLayerToExtent";
 
 export const PERSISTENCE_OBJECT_KEY = "vk_persistence_container";
 
@@ -71,6 +71,7 @@ export const PersistenceController = () => {
   const setSelectedGeoJsonFeatureIdentifier = useSetRecoilState(
     selectedGeoJsonFeatureIdentifierState
   );
+  const { zoomToExtent } = useZoomLayerToExtent();
 
   const georeferenceApi = SettingsProvider.getGeoreferenceApiClient();
 
@@ -295,7 +296,7 @@ export const PersistenceController = () => {
                   cameraOptions === undefined ||
                   Object.entries(cameraOptions).length === 0
                 ) {
-                  fitMapToFeatures(map, layers);
+                  zoomToExtent(layers);
                 }
               })
               .catch((e) => {
