@@ -123,7 +123,7 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
                 {translate("idohist-permalink-label")}
               </p>
               <a href={permalink} target="_blank" rel="noreferrer">
-                <p className="geojson-feature-property-text">{permalink}</p>
+                <p className="geojson-feature-property-link">{permalink}</p>
               </a>
             </div>
           )}

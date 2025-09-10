@@ -24,6 +24,18 @@
     padding: unset;
 }
 
+@mixin geojson-feature-property-link {
+    @include text-overflow;
+    color: $secondary-color-dark;
+    font-family: $font;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    margin: unset;
+    padding: unset;
+}
+
 @mixin geojson-feature-title {
     font-family: $font;
     font-size: 24px;
