@@ -13,10 +13,14 @@ export const IDOHIST_FEATURE_PROPS = {
     permalink: "permanent_link",
     parentLabel: "parent_label",
     tags: "tag",
+    timeLabelDe: "time_label_edtf_de",
+    timeLabelEn: "time_label_edtf_en",
+    idohistLightColor: "idohist_light_color",
+    idohistDarkColor: "idohist_dark_color",
 };
 
-const IDOHIST_FILL_COLOR = "#00b19e";
-const IDOHIST_LINE_COLOR = "#00927E";
+export const IDOHIST_FILL_COLOR = "#00b19e";
+export const IDOHIST_LINE_COLOR = "#00927E";
 
 export const DEFAULT_OPACITY_VALUES = {
     fill: 0.4,
@@ -34,7 +38,11 @@ export const IDOHIST_HOVER_LAYER_DEFINITIONS = {
     fill: {
         type: "fill",
         paint: {
-            "fill-color": IDOHIST_FILL_COLOR,
+            "fill-color": [
+                "coalesce",
+                ["get", "idohist_light_color"],
+                IDOHIST_FILL_COLOR,
+            ],
             "fill-opacity": DEFAULT_OPACITY_VALUES.fill,
         },
         filter: defaultHoverFilters,
@@ -42,7 +50,11 @@ export const IDOHIST_HOVER_LAYER_DEFINITIONS = {
     outline: {
         type: "line",
         paint: {
-            "line-color": IDOHIST_LINE_COLOR,
+            "line-color": [
+                "coalesce",
+                ["get", "idohist_dark_color"],
+                IDOHIST_LINE_COLOR,
+            ],
             "line-width": 2,
             "line-opacity": DEFAULT_OPACITY_VALUES.line,
         },
@@ -54,7 +66,11 @@ export const IDOHIST_LAYER_DEFINITIONS = {
     line: {
         type: "line",
         paint: {
-            "line-color": IDOHIST_LINE_COLOR,
+            "line-color": [
+                "coalesce",
+                ["get", "idohist_dark_color"],
+                IDOHIST_LINE_COLOR,
+            ],
             "line-width": 2,
             "line-opacity": DEFAULT_OPACITY_VALUES.line,
         },
@@ -63,7 +79,11 @@ export const IDOHIST_LAYER_DEFINITIONS = {
     fill: {
         type: "fill",
         paint: {
-            "fill-color": IDOHIST_FILL_COLOR,
+            "fill-color": [
+                "coalesce",
+                ["get", "idohist_light_color"],
+                IDOHIST_FILL_COLOR,
+            ],
             "fill-opacity": DEFAULT_OPACITY_VALUES.fill,
         },
         filter: ["==", ["geometry-type"], "Polygon"],
@@ -71,7 +91,11 @@ export const IDOHIST_LAYER_DEFINITIONS = {
     outline: {
         type: "line",
         paint: {
-            "line-color": IDOHIST_LINE_COLOR,
+            "line-color": [
+                "coalesce",
+                ["get", "idohist_dark_color"],
+                IDOHIST_LINE_COLOR,
+            ],
             "line-width": 2,
             "line-opacity": DEFAULT_OPACITY_VALUES.line,
         },

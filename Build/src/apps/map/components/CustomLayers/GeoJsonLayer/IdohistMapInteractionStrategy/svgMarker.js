@@ -59,6 +59,8 @@ export const createIdohistSvg = ({
     spatialCertainty,
     temporalCertainty,
     contentCertainty,
+    lightColor,
+    darkColor,
 }) => {
     const svgSize = OUTERMOST_RADIUS * 2;
 
@@ -82,6 +84,9 @@ export const createIdohistSvg = ({
     const backgroundCircle = createBackgroundCircle();
 
     const svgNode = baseSvgs.svg.cloneNode();
+    svgNode.style.setProperty("--idohist-light-color", lightColor);
+    svgNode.style.setProperty("--idohist-dark-color", darkColor);
+
     const temporalArcsNode = baseSvgs.arcs.cloneNode();
     temporalArcsNode.classList.add("temporal");
     const contentArcsNode = baseSvgs.arcs.cloneNode();
@@ -89,14 +94,20 @@ export const createIdohistSvg = ({
 
     const data = {
         content: [
-            { value: contentCertainty, cssClass: "certainty" },
+            {
+                value: contentCertainty,
+                cssClass: "certainty",
+            },
             {
                 value: 1 - contentCertainty,
                 cssClass: "uncertainty",
             },
         ],
         temporal: [
-            { value: temporalCertainty, cssClass: "certainty" },
+            {
+                value: temporalCertainty,
+                cssClass: "certainty",
+            },
             { value: 1 - temporalCertainty, cssClass: "uncertainty" },
         ],
     };

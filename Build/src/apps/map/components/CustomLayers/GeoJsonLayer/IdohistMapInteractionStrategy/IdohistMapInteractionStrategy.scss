@@ -5,9 +5,6 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-$idohist-light-color: #00b19e;
-$idohist-dark-color: #00927e;
-
 .map-container {
     .maplibregl-map {
         .maplibregl-marker.marker-idohist {
@@ -38,8 +35,8 @@ $idohist-dark-color: #00927e;
                 }
 
                 .circle.spatial-certainty {
-                    fill: $idohist-light-color;
                     filter: blur(var(--idohist-spatial-blur));
+                    fill: var(--idohist-light-color);
                 }
 
                 .circle.track {
@@ -51,8 +48,8 @@ $idohist-dark-color: #00927e;
 
                 .arcs {
                     .certainty {
-                        fill: $idohist-dark-color;
                         fill-opacity: 0.6;
+                        fill: var(--idohist-dark-color);
                     }
 
                     .uncertainty {

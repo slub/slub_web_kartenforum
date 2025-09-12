@@ -15,7 +15,9 @@ import {
 import {
     defaultHoverFilters,
     IDOHIST_FEATURE_PROPS,
+    IDOHIST_FILL_COLOR,
     IDOHIST_HOVER_LAYER_DEFINITIONS,
+    IDOHIST_LINE_COLOR,
 } from "./constants";
 import { isDefined } from "@util/util";
 import {
@@ -138,6 +140,7 @@ export const createIdohistMarker = (feature, { sourceId, sourceIdHover }) => {
     const spatialCertainty = coerceCertainty(
         properties[IDOHIST_FEATURE_PROPS.spatialCertainty]
     );
+    const { lightColor, darkColor } = coerceColors(properties);
 
     const el = baseDivElement.cloneNode();
     el.classList.add(MARKER_CLASS);
@@ -149,6 +152,8 @@ export const createIdohistMarker = (feature, { sourceId, sourceIdHover }) => {
         spatialCertainty,
         temporalCertainty,
         contentCertainty,
+        lightColor,
+        darkColor,
     });
 
     el.appendChild(svgEl);
@@ -176,10 +181,16 @@ export const createFeatureFromHoverPolygon = (feature) => {
         geometry = properties[IDOHIST_FEATURE_PROPS.hoverPolygon];
     }
 
+    const { lightColor, darkColor } = coerceColors(properties);
+
     return {
         type: "Feature",
         geometry,
         id: feature.id,
+        properties: {
+            [IDOHIST_FEATURE_PROPS.idohistLightColor]: lightColor,
+            [IDOHIST_FEATURE_PROPS.idohistDarkColor]: darkColor,
+        },
     };
 };
 
@@ -254,4 +265,18 @@ export const coerceCertainty = (value) => {
     }
 
     return value;
+};
+
+const coerceColors = (properties) => {
+    const darkColor =
+        properties[IDOHIST_FEATURE_PROPS.idohistDarkColor] ??
+        IDOHIST_LINE_COLOR;
+    const lightColor =
+        properties[IDOHIST_FEATURE_PROPS.idohistLightColor] ??
+        IDOHIST_FILL_COLOR;
+
+    return {
+        darkColor,
+        lightColor,
+    };
 };
