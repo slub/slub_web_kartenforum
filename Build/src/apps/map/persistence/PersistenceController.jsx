@@ -224,7 +224,7 @@ export const PersistenceController = () => {
           }
 
           if (persistenceIs3dEnabled) {
-            map.enableTerrain();
+            map.enableVkfGlobeMode();
           }
 
           // restore features from localstorage if available and no query param for oid is specified

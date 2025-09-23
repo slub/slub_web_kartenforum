@@ -461,7 +461,7 @@
             </trans-unit>
 			<trans-unit id="global.map.control-toggleviewmode.title" approved="yes">
 				<source><![CDATA[Switch between 2D and 3D view]]></source>
-				<target><![CDATA[Wechsel zwischen 2D. und 3D-Ansicht]]></target>
+				<target><![CDATA[Wechsel zwischen 2D und 3D-Ansicht]]></target>
 			</trans-unit>
 			<trans-unit id="global.map.control-toggleviewmode.zoomin" approved="yes">
 				<source><![CDATA[Switch to 3D is not possible for this resolution. Please zoom in.]]></source>

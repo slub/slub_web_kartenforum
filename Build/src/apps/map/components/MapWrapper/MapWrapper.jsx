@@ -25,6 +25,7 @@ import { getLocale } from "./locale.js";
 
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./MapWrapper.scss";
+import { VKF_GLOBE_MODE_CHANGE_EVENT } from "../VkfMap/MapWithTerrainBehavior.jsx";
 
 const style =
   "https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json";
@@ -38,6 +39,18 @@ const handleZoom = (event) => {
   }
   const scaleFactor = calculateIdohistMarkerScaleFactor(target.getZoom());
   mapContainer.style.setProperty("--vkf-idohist-scale-factor", scaleFactor);
+};
+
+const handleGlobeModeChange = (event) => {
+  const { target } = event;
+  const mapContainer = document.getElementsByClassName("map-container")[0];
+  if (!isDefined(mapContainer)) {
+    return;
+  }
+  const backgroundColor = target.isVkfGlobeModeEnabled()
+    ? "#262626"
+    : "#ffffff";
+  mapContainer.style.setProperty("--vkf-map-background-color", backgroundColor);
 };
 
 export function MapWrapper(props) {
@@ -93,11 +106,13 @@ export function MapWrapper(props) {
     // Add event listener for style load
     initialMap.on("style.load", handleStyleLoad);
     initialMap.on("zoom", handleZoom);
+    initialMap.on(VKF_GLOBE_MODE_CHANGE_EVENT, handleGlobeModeChange);
 
     return () => {
       // Clean up event listener and remove map on unmount
       initialMap.off("style.load", handleStyleLoad);
       initialMap.off("zoom", handleZoom);
+      initialMap.off(VKF_GLOBE_MODE_CHANGE_EVENT, handleGlobeModeChange);
       setMap(undefined);
       initialMap.remove();
     };

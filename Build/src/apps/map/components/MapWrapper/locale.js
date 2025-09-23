@@ -13,8 +13,10 @@ export function getLocale() {
         "FullscreenControl.Enter": translate("control-fullscreen-Enter"),
         "FullscreenControl.Exit": translate("control-fullscreen-Exit"),
         "NavigationControl.ResetBearing": translate("control-rotate"),
-        "TerrainControl.Enable": translate("control-toggleviewmode-title"),
-        "TerrainControl.Disable": translate("control-toggleviewmode-title"),
+        "VkfGlobeModeControl.Enable": translate("control-toggleviewmode-title"),
+        "VkfGlobeModeControl.Disable": translate(
+            "control-toggleviewmode-title"
+        ),
         "GeolocateControl.FindMyLocation": translate("control-locateme-title"),
         "GeolocateControl.LocationNotAvailable": translate(
             "control-locateme-location-not-available"

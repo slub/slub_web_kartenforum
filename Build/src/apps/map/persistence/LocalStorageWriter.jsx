@@ -42,7 +42,7 @@ export const LocalStorageWriter = function () {
   // Persist current state to localStorage
   const writeStateToLocalStorage = useCallback(() => {
     if (map !== undefined) {
-      const mapIs3dEnabled = map.hasTerrain();
+      const mapIs3dEnabled = map.isVkfGlobeModeEnabled();
 
       // Persist basic feature settings
       const newPersistenceObject = {

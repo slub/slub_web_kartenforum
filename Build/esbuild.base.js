@@ -12,6 +12,7 @@ const getDefine = (env = "development") => {
     config({ path: `.env.${env}` });
 
     const define = {};
+    define["process"] = JSON.stringify({ env: {} });
 
     for (const k in process.env) {
         define[`process.env.${k}`] = JSON.stringify(process.env[k]);

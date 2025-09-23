@@ -14,7 +14,6 @@ export const LANGUAGE_CODE = {
 };
 
 const hasDebugCredentials =
-    typeof process !== "undefined" &&
     isDefined(process.env.DEV_MODE_SECRET) &&
     process.env.DEV_MODE_SECRET !== "" &&
     isDefined(process.env.DEV_MODE_NAME) &&
@@ -58,6 +57,10 @@ export default {
 
     appendSettings(newSettings) {
         settingsObject = Object.assign({}, settingsObject, newSettings);
+    },
+    isDebug() {
+        // e.g., to enable debug visualization for search extent
+        return Boolean(process?.env?.VKF_DEBUG) === true;
     },
     getSettings() {
         return settingsObject;

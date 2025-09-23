@@ -17,7 +17,7 @@ import SettingsProvider from "@settings-provider";
 import BasemapSelectorControl from "@map/components/Controls/BasemapSelectorControl";
 import { MousePositionOnOff } from "@map/components/MapWrapper/components/MousePositionOnOff";
 import PermalinkControl from "@map/components/Controls/PermalinkControl";
-import { TerrainControl } from "@map/components/Controls/TerrainControl";
+import { VkfGlobeModeControl } from "@map/components/Controls/VkfGlobeModeControl";
 
 /*
  * ol does not export an inherits function in the current version
@@ -103,7 +103,7 @@ export const getDefaultControls = () => {
             position: "top-left",
             control: new MousePositionOnOff(),
         },
-        { position: "top-left", control: new TerrainControl() },
+        { position: "top-left", control: new VkfGlobeModeControl() },
         { position: "top-left", control: new BasemapSelectorControl() },
         {
             position: "top-left",
