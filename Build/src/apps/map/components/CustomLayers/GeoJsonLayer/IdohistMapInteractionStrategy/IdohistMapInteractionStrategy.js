@@ -205,7 +205,7 @@ class IdohistMapInteractionStrategy extends AbstractMapInteractionStrategy {
         }
 
         this.#opacity = opacity;
-        this.#markers.forEach((marker) => marker.setOpacity(opacity));
+        this.#markers.forEach((marker) => marker.setOpacity(opacity, 0));
 
         // set opacity of hover polygon layers
         const mapLayers = this.#getLayers(map);
