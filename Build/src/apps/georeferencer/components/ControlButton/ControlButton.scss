@@ -25,7 +25,8 @@ button.vkf-control-button {
         }
     }
 
-    svg.icon {
+    svg.icon,
+    .glyphicon {
         position: absolute;
         top: 50%;
         left: 5px;
@@ -34,6 +35,10 @@ button.vkf-control-button {
         width: auto;
         vertical-align: middle;
         fill: white;
+    }
+
+    .glyphicon {
+        font-size: 16px;
     }
 
     &:hover {

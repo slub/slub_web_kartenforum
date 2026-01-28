@@ -1290,6 +1290,10 @@
 				<source><![CDATA[Draw clip polygon]]></source>
 				<target><![CDATA[Zeichne Clip-Polygon]]></target>
 			</trans-unit>
+			<trans-unit id="plugin.georeference.removeClip" approved="yes">
+				<source><![CDATA[Remove clip polygon]]></source>
+				<target><![CDATA[Entferne Clip-Polygon]]></target>
+			</trans-unit>
 			<trans-unit id="plugin.georeference.moveGcp" approved="yes">
 				<source><![CDATA[Move ground control point]]></source>
 				<target><![CDATA[Passpunkt verschieben]]></target>

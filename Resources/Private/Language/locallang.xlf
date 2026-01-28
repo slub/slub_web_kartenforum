@@ -1042,6 +1042,9 @@
 			<trans-unit id="plugin.georeference.drawClip">
 				<source>Draw clip polygon</source>
 			</trans-unit>
+			<trans-unit id="plugin.georeference.removeClip">
+				<source>Remove clip polygon</source>
+			</trans-unit>
 			<trans-unit id="plugin.georeference.validate">
 				<source>Update preview</source>
 			</trans-unit>
