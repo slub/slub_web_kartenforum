@@ -1,0 +1,60 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 28.01.26.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@use "sass:color";
+@use "../../../Variables.scss" as *;
+
+.form-add-wms-root {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+
+    .form-select-custom-wms-layer-root {
+        .vkf-button-save,
+        .vkf-button-discard {
+            width: 100%;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .cancel-button {
+            background-color: $color-midgrey;
+            color: $color-darkgrey;
+            font-weight: 700;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+
+            &:hover {
+                background-color: color.adjust(
+                    $color-midgrey,
+                    $lightness: -15%
+                );
+            }
+        }
+    }
+
+    .form-parse-wms-capabilities-root,
+    .form-select-custom-wms-layer-root {
+        .form-description {
+            font-family: "Titillium Web";
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 20px;
+            margin: 0;
+        }
+
+        .form-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+    }
+}

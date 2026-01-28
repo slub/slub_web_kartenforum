@@ -5,7 +5,10 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 import axios from "axios";
-import { fetchAndParseWmsCapabilities } from "@map/components/BasemapSelectorControl/util.js";
+import {
+    buildWmsGetMapUrl,
+    fetchAndParseWmsCapabilities,
+} from "@map/components/BasemapSelectorControl/util.js";
 import { METADATA } from "../constants";
 
 /**
@@ -68,9 +71,10 @@ export const fetchWmsTmsSettings = async (layer) => {
         };
     } else {
         const layers = await fetchAndParseWmsCapabilities(wms_capability_url);
+        const url = buildWmsGetMapUrl(layers[0]);
 
         sourceSettings = {
-            tiles: layers[0].urls,
+            tiles: [url],
         };
     }
 

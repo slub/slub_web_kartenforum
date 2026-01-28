@@ -94,10 +94,6 @@
                     box-shadow: 0 0 0 1px $primary-color;
                     color: $primary-color !important;
 
-                    &::placeholder {
-                        color: $primary-color;
-                    }
-
                     &:hover,
                     &:focus {
                         border-color: $primary-color;

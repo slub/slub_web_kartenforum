@@ -4,33 +4,27 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useState } from "react";
+import React from "react";
 import { Glyphicon, Radio } from "react-bootstrap";
-import PropTypes from "prop-types";
 
 import { translate } from "@util/util";
 import { useLocalStorage } from "@map/persistence/util";
-import "./BasemapSelector.scss";
 import DialogAddWms from "./DialogAddWms";
 import { removeWMSLayer } from "./util.js";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { activeBasemapIdState } from "@map/atoms/atoms.js";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { activeBasemapIdState, mapState } from "@map/atoms/atoms.js";
 import SettingsProvider from "@settings-provider";
 import { notificationState } from "@atoms";
+import { isCustomWmsDialogOpenState } from "./atoms";
 //@TODO: Only allow one active dialog at the same time
 //@TODO: Fix WMS basemap applied after selecting default style (configuration?)
 //@TODO: Fix persistence -> Move to effect?
 export const PERSISTENCE_CUSTOM_BASEMAP_KEYS = "vkf-custom-basemaps";
 
-/**
- * Component for rendering a basemap selector tools
- * @param props
- * @returns {JSX.Element}
- * @constructor
- */
-export const BasemapSelectorDialog = (props) => {
-  const { map } = props;
+import "./BasemapSelector.scss";
 
+export const BasemapSelectorDialog = () => {
+  const map = useRecoilValue(mapState);
   const [activeBasemapId, setActiveBasemapId] =
     useRecoilState(activeBasemapIdState);
   const [customLayers, setCustomLayers] = useLocalStorage(
@@ -41,7 +35,9 @@ export const BasemapSelectorDialog = (props) => {
   const layers = SettingsProvider.getBaseMaps();
   const setNotification = useSetRecoilState(notificationState);
 
-  const [showAddWmsDialog, setShowAddWmsDialog] = useState(false);
+  const [showAddWmsDialog, setShowAddWmsDialog] = useRecoilState(
+    isCustomWmsDialogOpenState
+  );
 
   ////
   // Handler section
@@ -54,6 +50,10 @@ export const BasemapSelectorDialog = (props) => {
   // Handler for opening the add wms dialog
   const handleClickShowAddWmsDialog = () => {
     setShowAddWmsDialog(true);
+  };
+
+  const handleClose = () => {
+    setShowAddWmsDialog(false);
   };
 
   const handleDeleteBaseMapLayer = (oldLayer) => {
@@ -97,14 +97,10 @@ export const BasemapSelectorDialog = (props) => {
     }
   };
 
-  ////
-  // Effect section
-  ////
-
   return (
-    <React.Fragment>
+    <>
       {activeBasemapId !== undefined && (
-        <React.Fragment>
+        <>
           <h2>{translate("control-basemapselector-label")}:</h2>
           <ul className="wms-entries">
             {[...layers, ...customLayers].map((l) => (
@@ -141,23 +137,13 @@ export const BasemapSelectorDialog = (props) => {
               {translate("control-basemapselector-btn-addwms")}
             </button>
           </div>
-        </React.Fragment>
+        </>
       )}
       {showAddWmsDialog && (
-        <DialogAddWms
-          onClose={() => setShowAddWmsDialog(false)}
-          onSubmit={handleAddNewLayer}
-        />
+        <DialogAddWms onClose={handleClose} onSubmit={handleAddNewLayer} />
       )}
-    </React.Fragment>
+    </>
   );
-};
-
-BasemapSelectorDialog.propTypes = {
-  map: PropTypes.object,
-  onBasemapChange: PropTypes.func,
-  onSetNotification: PropTypes.func,
-  activeBasemapId: PropTypes.string,
 };
 
 export default BasemapSelectorDialog;
