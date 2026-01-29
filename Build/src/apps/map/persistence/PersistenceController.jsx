@@ -204,6 +204,10 @@ export const PersistenceController = () => {
             cameraOptions
           );
 
+          if (persistenceIs3dEnabled) {
+            map.enableVkfGlobeMode({ initialZoom: cameraSettings.zoom });
+          }
+
           map.jumpTo(cameraSettings);
 
           // if we are restoring a legacy 3d map view, we shift the center a little
@@ -221,10 +225,6 @@ export const PersistenceController = () => {
               translate("persistencecontroller-deprecated-3d-map-view"),
               "warning"
             );
-          }
-
-          if (persistenceIs3dEnabled) {
-            map.enableVkfGlobeMode();
           }
 
           // restore features from localstorage if available and no query param for oid is specified
