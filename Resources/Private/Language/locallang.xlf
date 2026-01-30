@@ -940,6 +940,10 @@
             <trans-unit id="global.map.control-basemapselector.invalid-url-error-hint" approved="yes">
 				<source>Please check that the URL is valid and begins with https</source>
 			</trans-unit>
+            <trans-unit id="global.map.control-basemapselector.select-disabled-hint" approved="yes">
+				<source>Please enter a URL first</source>
+			</trans-unit>
+
 			<!-- Plugin Map > OriginalMapview -->
 			<trans-unit id="plugin.map.originalview.title">
                 <source>Original map</source>

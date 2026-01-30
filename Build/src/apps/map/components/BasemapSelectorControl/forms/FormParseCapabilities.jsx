@@ -6,8 +6,8 @@
  */
 
 import clsx from "clsx";
-import React from "react";
-import { isValidHttpsUrl, translate } from "@util/util";
+import React, { useEffect } from "react";
+import { isDefined, isValidHttpsUrl, translate } from "@util/util";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   isParsingWmsCapabilitiesAtom,
@@ -54,8 +54,6 @@ const FormParseCapabilities = () => {
     formState: { errors },
   } = methods;
 
-  console.log(errors);
-
   const handleFormSubmitWithParseWms = useCallback(async (data) => {
     const url = data[FORM_FIELDS.url];
     setIsLoading(true);
@@ -74,6 +72,14 @@ const FormParseCapabilities = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!isDefined(errors[FORM_FIELDS.url])) {
+      return;
+    }
+
+    resetSelectableLayers();
+  }, [errors[FORM_FIELDS.url]]);
+
   return (
     <>
       <FormProvider {...methods}>
@@ -82,12 +88,6 @@ const FormParseCapabilities = () => {
           id={FORM_ID}
           onSubmit={handleSubmit(handleFormSubmitWithParseWms)}
         >
-          <div className="form-description">
-            <p>
-              {translate("control-basemapselector-addwms-input-description")}
-            </p>
-          </div>
-
           <div className="form-wrapper">
             <div
               className={clsx(

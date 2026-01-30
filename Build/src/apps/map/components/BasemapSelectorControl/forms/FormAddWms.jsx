@@ -9,20 +9,23 @@ import React from "react";
 import FormParseCapabilities from "./FormParseCapabilities";
 import FormSelectWmsLayer from "./FormSelectWmsLayer";
 import PropTypes from "prop-types";
-import { useRecoilValue } from "recoil";
-import { hasWmsSelectableLayersAtom } from "./atoms";
 
 import "./FormAddWms.scss";
+import { translate } from "@util/util";
 
 const FormAddWms = ({ onSubmit, onClose }) => {
-  const hasValidLayers = useRecoilValue(hasWmsSelectableLayersAtom);
-
   return (
     <div className="form-add-wms-root">
+      <div className="form-description">
+        <div>
+          {translate("control-basemapselector-addwms-input-description")}
+        </div>
+        <div>
+          {translate("control-basemapselector-addwms-select-description")}
+        </div>
+      </div>
       <FormParseCapabilities />
-      {hasValidLayers && (
-        <FormSelectWmsLayer onSubmit={onSubmit} onClose={onClose} />
-      )}
+      <FormSelectWmsLayer onSubmit={onSubmit} onClose={onClose} />
     </div>
   );
 };

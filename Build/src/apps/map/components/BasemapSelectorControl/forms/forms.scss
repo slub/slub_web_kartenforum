@@ -40,8 +40,9 @@
         flex-direction: column;
 
         .vkf-form-error-hint {
-            display: none;
             @include vkf-form-input-text;
+            display: none;
+            padding: 4px 0px 0px 11px;
         }
 
         &.error {
