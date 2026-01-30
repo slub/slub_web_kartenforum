@@ -12,6 +12,7 @@ import { Map } from "maplibre-gl";
 //@TODO: Add license notice for maptiler-sdk -> Terrain behavior, fly-to-async
 
 export const VKF_GLOBE_MODE_CHANGE_EVENT = "vkf.globemodechange";
+const DEFAULT_MAX_PITCH = 60;
 
 /**
  * Extends the Map class with an animation when enabling the terrain.
@@ -24,10 +25,11 @@ export class MapWithTerrainBehavior extends Map {
   minZoomLevelForTerrain = 12;
   minZoomLevelForPitchAnimation = 4;
 
-  enableVkfGlobeMode() {
+  enableVkfGlobeMode({ initialZoom } = { initialZoom: null }) {
     this.isVkfGlobeModeEnabledFlag = true;
     this.fire(VKF_GLOBE_MODE_CHANGE_EVENT);
     this.on("zoomend", this._handleZoomBasedTerrainEnabling);
+    this.on("zoomend", this._handleZoomBasedPitch);
 
     const enableWithAnimation = () => {
       flyToAsync(this, this._getFlyToOptions(60))
@@ -37,7 +39,7 @@ export class MapWithTerrainBehavior extends Map {
         });
     };
 
-    const zoomLevel = this.getZoom();
+    const zoomLevel = initialZoom || this.getZoom();
 
     if (zoomLevel > this.minZoomLevelForPitchAnimation) {
       if (zoomLevel >= this.minZoomLevelForTerrain) {
@@ -48,14 +50,18 @@ export class MapWithTerrainBehavior extends Map {
       this.setProjection({ type: "globe" });
       this.flyTo(this._getFlyToOptions(60));
     } else {
+      this.setMaxPitch(0);
       this.setProjection({ type: "globe" });
     }
   }
 
   disableVkfGlobeMode() {
     this.isVkfGlobeModeEnabledFlag = false;
+    this.setMaxPitch(DEFAULT_MAX_PITCH);
     this.fire(VKF_GLOBE_MODE_CHANGE_EVENT);
+
     this.off("zoomend", this._handleZoomBasedTerrainEnabling);
+    this.off("zoomend", this._handleZoomBasedPitch);
 
     const flyTo = () => {
       flyToAsync(this, this._getFlyToOptions(0));
@@ -312,6 +318,26 @@ export class MapWithTerrainBehavior extends Map {
 
     this._disableTerrain(() => {
       this.setProjection({ type: "globe" });
+    });
+  }
+
+  _handleZoomBasedPitch() {
+    const zoomLevel = this.getZoom();
+    const pitch = this.getPitch();
+
+    if (zoomLevel >= this.minZoomLevelForPitchAnimation) {
+      this.setMaxPitch(DEFAULT_MAX_PITCH);
+      return;
+    }
+
+    if (pitch === 0) {
+      this.setMaxPitch(0);
+      return;
+    }
+
+    this.flyTo(this._getFlyToOptions(0));
+    this.once("pitchend", () => {
+      this.setMaxPitch(0);
     });
   }
 }

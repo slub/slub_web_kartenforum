@@ -1109,24 +1109,24 @@
 				<target><![CDATA[URL zur WMS Capabilities]]></target>
 			</trans-unit>
 			<trans-unit id="global.map.control-basemapselector.addwms-input-description" approved="yes">
-				<source><![CDATA[Please insert a URL to a WMS Capabilities for adding an WMS as a base map. A WMS GetCapabilities URL should look like a Capabilities-Request]]></source>
-				<target><![CDATA[Um den WMS als Basiskarte zu verwenden, fügen Sie Bitte eine URL zur WMS Capabilities hinzu. Die URL sollte der Form einer Capabilities-Anfrage entsprechen.]]></target>
+				<source><![CDATA[Please enter a URL to the WMS capabilities to add a WMS as a base map. The URL must look like a capabilities request. We currently support WMS versions 1.1.0 and above.]]></source>
+				<target><![CDATA[Bitte geben Sie eine URL zu den WMS-Funktionen ein, um ein WMS als Basiskarte hinzuzufügen. Die URL muss wie eine Capabilities-Anfrage aussehen. Wir unterstützen derzeit WMS-Versionen ab 1.1.0.]]></target>
 			</trans-unit>
 			<trans-unit id="global.map.control-basemapselector.addwms-btn-load-capabilities" approved="yes">
-				<source><![CDATA[Load capabilities]]></source>
-				<target><![CDATA[Lade Capabilities]]></target>
+				<source><![CDATA[Load WMS layers]]></source>
+				<target><![CDATA[Lade WMS layer]]></target>
 			</trans-unit>
 			<trans-unit id="global.map.control-basemapselector.addwms-select-label" approved="yes">
 				<source><![CDATA[WMS Layer]]></source>
 				<target><![CDATA[WMS Layer]]></target>
 			</trans-unit>
 			<trans-unit id="global.map.control-basemapselector.addwms-select-description" approved="yes">
-				<source><![CDATA[Please select the wms layer which should be used as a base map.]]></source>
-				<target><![CDATA[Wählen Sie bitte ein Layer aus, der als Basiskarte verwendet soll und klicken Sie auf hinzufügen.]]></target>
+				<source><![CDATA[Then select a layer to use as the base map and click Add.]]></source>
+				<target><![CDATA[Wählen Sie anschließend ein Layer aus, der als Basiskarte verwendet soll und klicken Sie auf hinzufügen.]]></target>
 			</trans-unit>
 			<trans-unit id="global.map.control-basemapselector.addwms-btn-cancel" approved="yes">
-				<source><![CDATA[Cancel]]></source>
-				<target><![CDATA[Abbrechen]]></target>
+				<source><![CDATA[No, Cancel]]></source>
+				<target><![CDATA[Nein, Abbrechen]]></target>
 			</trans-unit>
 			<trans-unit id="global.map.control-basemapselector.addwms-btn-submit" approved="yes">
 				<source><![CDATA[Add WMS]]></source>
@@ -1145,8 +1145,16 @@
 				<target><![CDATA[Die ausgewählte Basiskarte ist nicht verfügbar]]></target>
 			</trans-unit>
             <trans-unit id="global.map.control-basemapselector.error-invalid-url" approved="yes">
-				<source><![CDATA[The URL you entered is invalid or does not support WMS services. Please check the URL and try again.]]></source>
-				<target><![CDATA[Die eingegebene URL ist ungültig oder unterstützt keine WMS-Dienste. Bitte überprüfen Sie die URL und versuchen Sie es erneut.]]></target>
+				<source><![CDATA[The WMS cannot be added. Please check whether the URL corresponds to a HTTPS GetCapabilities request, whether the WMS version is specified correctly in the URL, and whether the WMS supports the EPSG:3857 reference system.]]></source>
+				<target><![CDATA[Der WMS kann nicht hinzugefügt werden. Bitte überprüfen sie, ob die URL einer HTTPS GetCapabilities Anfrage entspricht, die WMS Version korrekt in der URL angegeben ist oder der WMS das Referenzsystem EPSG:3857 unterstützt.]]></target>
+			</trans-unit>
+            <trans-unit id="global.map.control-basemapselector.invalid-url-error-hint" approved="yes">
+				<source><![CDATA[Please check that the URL is valid and begins with https]]></source>
+				<target><![CDATA[Bitte prüfen Sie, ob die URL gültig ist und mit https beginnt]]></target>
+			</trans-unit>
+            <trans-unit id="global.map.control-basemapselector.select-disabled-hint" approved="yes">
+				<source><![CDATA[Please enter a URL first]]></source>
+				<target><![CDATA[Bitte geben sie zunächst eine URL ein]]></target>
 			</trans-unit>
 
 			<!-- Plugin Map > OriginalMapview -->
@@ -1289,6 +1297,10 @@
 			<trans-unit id="plugin.georeference.drawClip" approved="yes">
 				<source><![CDATA[Draw clip polygon]]></source>
 				<target><![CDATA[Zeichne Clip-Polygon]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.removeClip" approved="yes">
+				<source><![CDATA[Remove clip polygon]]></source>
+				<target><![CDATA[Entferne Clip-Polygon]]></target>
 			</trans-unit>
 			<trans-unit id="plugin.georeference.moveGcp" approved="yes">
 				<source><![CDATA[Move ground control point]]></source>

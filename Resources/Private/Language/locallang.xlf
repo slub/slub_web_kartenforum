@@ -908,7 +908,7 @@
 				<source>WMS URL Capabilities</source>
 			</trans-unit>
 			<trans-unit id="global.map.control-basemapselector.addwms-input-description">
-				<source>Please insert a URL to a WMS Capabilities for adding an WMS as a base map. A WMS GetCapabilities URL should look like a Capabilities-Request.</source>
+				<source>Please insert a URL to a WMS Capabilities for adding an WMS as a base map. A WMS GetCapabilities URL should look like a Capabilities-Request. We currently support WMS versions from 1.1.0 onwards.</source>
 			</trans-unit>
 			<trans-unit id="global.map.control-basemapselector.addwms-btn-load-capabilities">
 				<source>Load capabilities</source>
@@ -920,7 +920,7 @@
 				<source>Please select the wms layer which should be used as a base map.</source>
 			</trans-unit>
 			<trans-unit id="global.map.control-basemapselector.addwms-btn-cancel">
-				<source>Cancel</source>
+				<source>No, Cancel</source>
 			</trans-unit>
 			<trans-unit id="global.map.control-basemapselector.addwms-btn-submit">
 				<source>Add WMS</source>
@@ -935,8 +935,15 @@
                 <source>The selected base map is not available</source>
             </trans-unit>
             <trans-unit id="global.map.control-basemapselector.error-invalid-url">
-                <source>The URL you entered is invalid or does not support WMS services. Please check the URL and try again.</source>
+                <source>The WMS cannot be added. Please check whether the URL corresponds to a HTTPS GetCapabilities request, whether the WMS version is specified correctly in the URL, and whether the WMS supports the EPSG:3857 reference system.</source>
             </trans-unit>
+            <trans-unit id="global.map.control-basemapselector.invalid-url-error-hint" approved="yes">
+				<source>Please check that the URL is valid and begins with https</source>
+			</trans-unit>
+            <trans-unit id="global.map.control-basemapselector.select-disabled-hint" approved="yes">
+				<source>Please enter a URL first</source>
+			</trans-unit>
+
 			<!-- Plugin Map > OriginalMapview -->
 			<trans-unit id="plugin.map.originalview.title">
                 <source>Original map</source>
@@ -1041,6 +1048,9 @@
 			</trans-unit>
 			<trans-unit id="plugin.georeference.drawClip">
 				<source>Draw clip polygon</source>
+			</trans-unit>
+			<trans-unit id="plugin.georeference.removeClip">
+				<source>Remove clip polygon</source>
 			</trans-unit>
 			<trans-unit id="plugin.georeference.validate">
 				<source>Update preview</source>

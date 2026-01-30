@@ -74,7 +74,7 @@ export const PaginatingDataController = ({
     (searchArea) => {
       const sortOrd_ = sortOrder === SORT_STATE.ASCENDING ? "asc" : "desc";
       const searchPolygons = searchArea
-        .filter((ft) => ft.geometry.type === "Polygon")
+        .filter((ft) => ft?.geometry?.type === "Polygon")
         .map((ft) => ft.geometry.coordinates);
 
       return getSpatialQuery({

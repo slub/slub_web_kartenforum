@@ -12,7 +12,7 @@ import {
   queryTransformationPreview,
   queryTransformationTry,
 } from "@util/apiGeo";
-import { translate } from "@util/util";
+import { isDefined, translate } from "@util/util";
 import { notificationState } from "@atoms";
 import {
   isLoadingState,
@@ -27,6 +27,8 @@ import DialogConfirm from "@georeferencer/components/DialogConfirm";
 import { usePrevious } from "@util/hooks";
 import { Controller } from "./Controller";
 import { activateZoomPanAction } from "./actions";
+import { Glyphicon } from "react-bootstrap";
+
 import "./Toolbar.scss";
 
 const ID_CONTROLS = {
@@ -116,7 +118,7 @@ export const Toolbar = () => {
   };
 
   // Handle get rectified image
-  const handleClickRectifiedImage = () => {
+  const handleClickRectifiedImage = async () => {
     const fetchData = async (map_id, params) => {
       const rectifiedImageParams =
         refController.current.hasParamsOrClipChanged() ||
@@ -125,25 +127,40 @@ export const Toolbar = () => {
         transformation.overwrites === 0
           ? await queryTransformationTry(map_id, params)
           : await queryTransformationPreview(transformation.overwrites);
-      setIsLoading(false);
       setRectifiedImageParams(rectifiedImageParams);
     };
 
-    if (!isLoading) {
-      const newParams = Object.assign(refController.current.getParams(), {
-        algorithm: selectedAlgorithm,
+    if (isLoading) {
+      return;
+    }
+
+    const newParams = Object.assign(refController.current.getParams(), {
+      algorithm: selectedAlgorithm,
+    });
+
+    if (newParams.gcps.length < 4) {
+      setNotification({
+        id: "toolbar-info",
+        type: "warning",
+        text: translate("georef-confirm-warn-gcp"),
       });
 
-      if (newParams.gcps.length < 4) {
-        setNotification({
-          id: "toolbar-info",
-          type: "warning",
-          text: translate("georef-confirm-warn-gcp"),
-        });
-      } else {
-        setIsLoading(true);
-        fetchData(transformation.map_id, newParams);
-      }
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await fetchData(transformation.map_id, newParams);
+    } catch (error) {
+      setNotification({
+        id: "toolbar-info",
+        type: "danger",
+        text: error.message,
+      });
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -174,30 +191,48 @@ export const Toolbar = () => {
   };
 
   // Handle confirm
-  const handleConfirm = () => {
-    if (pendingParams !== null) {
-      const confirmData = async (map_id, params) => {
-        const response = await postTransformation(map_id, params);
-        setIsLoading(false);
-
-        if (response.error_code === undefined) {
-          // If there is redirect path set use it and if not redirect to main
-          const qs = queryString.parse(location.search);
-          const path = qs.redirect !== undefined ? qs.redirect : "/";
-          window.location.href = `${window.location.origin}${path}`;
-        } else {
-          setNotification({
-            id: "toolbar-info",
-            type: "danger",
-            text: response.error_message,
-          });
-        }
-      };
-
-      setPendingParams(null);
-      setIsLoading(true);
-      confirmData(pendingParams.map_id, pendingParams.params);
+  const handleConfirm = async () => {
+    if (!isDefined(pendingParams)) {
+      return;
     }
+
+    const confirmData = async (map_id, params) => {
+      const response = await postTransformation(map_id, params);
+
+      // handle error cases
+      if (isDefined(response.error_code)) {
+        throw new Error(response.error_message);
+      }
+
+      // If there is redirect path set use it and if not redirect to main
+      const qs = queryString.parse(location.search);
+      const path = qs.redirect !== undefined ? qs.redirect : "/";
+      window.location.href = `${window.location.origin}${path}`;
+    };
+
+    try {
+      setIsLoading(true);
+      setPendingParams(null);
+      await confirmData(pendingParams.map_id, pendingParams.params);
+    } catch (error) {
+      setNotification({
+        id: "toolbar-info",
+        type: "danger",
+        text: error.message,
+      });
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRemoveClip = () => {
+    handleClickControl();
+    if (!isDefined(refController.current)) {
+      return;
+    }
+
+    refController.current.removeClip();
   };
 
   // Effect for initializing the gcp controller
@@ -322,6 +357,13 @@ export const Toolbar = () => {
           iconClassName="icon-draw"
           onClick={handleClickControl}
           title={translate("georef-drawclip")}
+        />
+        <ControlButton
+          id={"remove-clip"}
+          iconClassName="remove"
+          onClick={handleRemoveClip}
+          title={translate("georef-removeclip")}
+          IconComponent={Glyphicon}
         />
       </div>
 

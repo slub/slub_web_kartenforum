@@ -53,6 +53,23 @@ export function isValidUrl(string) {
     return url.protocol === "http:" || url.protocol === "https:";
 }
 
+/**
+ * Function checks if it is a valid url
+ * @param {string} string
+ * @returns {boolean}
+ */
+export function isValidHttpsUrl(string) {
+    let url;
+
+    try {
+        url = new URL(string);
+    } catch (_) {
+        return false;
+    }
+
+    return url.protocol === "https:";
+}
+
 export function translate(key) {
     const dictionary = SettingsProvider.getLanguageDict();
 

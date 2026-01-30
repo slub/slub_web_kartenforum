@@ -1,0 +1,116 @@
+/*
+ * Created by tom.schulze@pikobytes.de on 28.01.26.
+ * 
+ * This file is subject to the terms and conditions defined in
+ * file "LICENSE.txt", which is part of this source code package.
+ */
+
+@use "sass:color";
+@use "../../../Variables.scss" as *;
+
+// TODO make these reusable across GeoJsoinFeatureEditPanel/EditStyleField and GeoJsonFeaturePanel
+// TODO Refactor GeoJsonFeatureEditPanel form scss
+@mixin vkf-form-input-text {
+    color: $secondary-color-dark;
+    font-family: $font;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    margin: unset;
+    padding: 10px 19px 10px 11px;
+}
+
+@mixin vkf-form-label-text {
+    color: $color-grey;
+    font-family: $font;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 26px;
+    letter-spacing: 0.48px;
+    text-transform: uppercase;
+    margin: unset;
+}
+
+.form-parse-wms-capabilities-root,
+.form-select-custom-wms-layer-root {
+    .vkf-form-control {
+        display: flex;
+        flex-direction: column;
+
+        .vkf-form-error-hint {
+            @include vkf-form-input-text;
+            display: none;
+            padding: 4px 0px 0px 11px;
+        }
+
+        &.error {
+            .vkf-form-error-hint {
+                display: block;
+                color: $primary-color !important;
+            }
+
+            .vkf-form-input,
+            .vkf-form-textarea {
+                border: 1px solid $primary-color;
+                box-shadow: 0 0 0 1px $primary-color;
+                color: $primary-color !important;
+
+                &:hover,
+                &:focus {
+                    border-color: $primary-color;
+                    color: $primary-color !important;
+                    box-shadow: 0 0 0 1px $primary-color;
+                }
+            }
+        }
+    }
+
+    .vkf-form-label {
+        @include vkf-form-label-text;
+
+        width: 100%;
+    }
+
+    .vkf-form-input {
+        @include vkf-form-input-text;
+
+        width: 100%;
+
+        border: 1px solid $gray-500;
+
+        &::placeholder {
+            color: $gray-500;
+        }
+
+        &:hover,
+        &:focus,
+        &:hover,
+        &:focus-visible {
+            border-color: color.adjust($gray-500, $lightness: -15%);
+            outline: unset;
+        }
+    }
+
+    .vkf-form-textarea {
+        @include vkf-form-input-text;
+
+        width: 100%;
+
+        resize: vertical;
+        border: 1px solid $gray-500;
+
+        &::placeholder {
+            color: $gray-500;
+        }
+
+        &:hover,
+        &:focus,
+        &:hover,
+        &:focus-visible {
+            border-color: color.adjust($gray-500, $lightness: -15%);
+            outline: unset;
+        }
+    }
+}

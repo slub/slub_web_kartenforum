@@ -1,27 +1,21 @@
-.vkf-dialog-addwms {
-    .modal-dialog {
-        margin-top: 25%;
-        margin-bottom: 25%;
+.vkf-dialog-addwms.modal-dialog {
+    .modal-body {
+        .form-group-capabilities {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            justify-content: space-between;
 
-        .modal-body {
-            .form-group-capabilities {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-
-                > div {
-                    margin-bottom: 0;
-                    flex-grow: 1;
-                }
+            > div {
+                margin-bottom: 0;
+                flex-grow: 1;
             }
         }
+    }
 
-        .modal-footer {
-            height: 45px;
-            padding: 5px;
-            .btn {
-                display: inline-block;
-            }
+    .modal-footer {
+        .btn {
+            display: inline-block;
         }
     }
 }
