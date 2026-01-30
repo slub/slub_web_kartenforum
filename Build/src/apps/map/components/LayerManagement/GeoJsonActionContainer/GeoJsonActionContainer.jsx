@@ -16,6 +16,7 @@ import {
 } from "@map/components/GeoJson/util/authorization";
 import { useHorizontalDrawMode } from "@map/components/GeoJson/util/hooks/useHorizontalDrawMode";
 import { useHorizontalExternalVectorMapMode } from "@map/components/GeoJson/util/hooks/useHorizontalExternalVectorMapMode";
+import clsx from "clsx";
 
 export default function GeoJsonActionContainer() {
   const { createNewVectorMap } = useHorizontalDrawMode();
@@ -35,7 +36,12 @@ export default function GeoJsonActionContainer() {
   }, []);
 
   return (
-    <div className="geojson-container">
+    <div
+      className={clsx(
+        "geojson-container",
+        isExternalVectorMapCreateAllowed() && "has-3-rows"
+      )}
+    >
       <div className="geojson-action">
         <button
           disabled={!isVectorMapCreateAllowed()}

@@ -6,18 +6,18 @@
  */
 
 import {
-    FullscreenControl,
     GeolocateControl,
     NavigationControl,
     ScaleControl,
     AttributionControl,
+    FullscreenControl,
 } from "maplibre-gl";
 
 import SettingsProvider from "@settings-provider";
 import BasemapSelectorControl from "@map/components/Controls/BasemapSelectorControl";
 import { MousePositionOnOff } from "@map/components/MapWrapper/components/MousePositionOnOff";
 import PermalinkControl from "@map/components/Controls/PermalinkControl";
-import { TerrainControl } from "@map/components/Controls/TerrainControl";
+import { VkfGlobeModeControl } from "@map/components/Controls/VkfGlobeModeControl";
 
 /*
  * ol does not export an inherits function in the current version
@@ -53,6 +53,23 @@ export function isValidUrl(string) {
     return url.protocol === "http:" || url.protocol === "https:";
 }
 
+/**
+ * Function checks if it is a valid url
+ * @param {string} string
+ * @returns {boolean}
+ */
+export function isValidHttpsUrl(string) {
+    let url;
+
+    try {
+        url = new URL(string);
+    } catch (_) {
+        return false;
+    }
+
+    return url.protocol === "https:";
+}
+
 export function translate(key) {
     const dictionary = SettingsProvider.getLanguageDict();
 
@@ -86,7 +103,10 @@ export const getDefaultControls = () => {
                 visualizePitch: false,
             }),
         },
-        { position: "top-left", control: new FullscreenControl() },
+        {
+            position: "top-left",
+            control: new FullscreenControl({ container: document.body }),
+        },
 
         {
             position: "top-left",
@@ -100,7 +120,7 @@ export const getDefaultControls = () => {
             position: "top-left",
             control: new MousePositionOnOff(),
         },
-        { position: "top-left", control: new TerrainControl() },
+        { position: "top-left", control: new VkfGlobeModeControl() },
         { position: "top-left", control: new BasemapSelectorControl() },
         {
             position: "top-left",

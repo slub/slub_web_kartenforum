@@ -24,6 +24,7 @@ import {
     activateDrawClipAction,
 } from "./actions";
 import { DEFAULT_PROJ } from "@georeferencer/util/util.js";
+import { isDefined } from "@util/util";
 
 /**
  * Transforms the given pixel coordinates to geo pixel coordinate system.
@@ -91,7 +92,7 @@ export class Controller extends Observer {
          * Clip Polygon
          * @type {GeoJSON}
          */
-        this.clip_ = options.clip;
+        this.clip_ = options.clip ?? null;
 
         /**
          * Function should be called i a helper message should be set.
@@ -197,13 +198,13 @@ export class Controller extends Observer {
             })
         );
 
-        this.loadData();
+        this._loadData();
     }
 
     /**
      * This function initial loads the data to the vector source
      */
-    loadData() {
+    _loadData() {
         // Add ground control points to the map
         if (this.params_.gcps.length > 0) {
             for (let i = 0, l = this.params_.gcps.length; i < l; i++) {
@@ -234,7 +235,7 @@ export class Controller extends Observer {
         }
 
         // Add the clip polygon to the map
-        if (this.clip_) {
+        if (isDefined(this.clip_)) {
             const newFeature = new GeoJSON().readFeature(this.clip_, {
                 dataProjection: DEFAULT_PROJ,
                 featureProjection: this.trgMap_.getView().getProjection(),
@@ -360,18 +361,23 @@ export class Controller extends Observer {
                 ? this.clipVectorSource_.getFeatures()[0]
                 : undefined;
 
-        if (clipFeature !== undefined) {
-            return new GeoJSON().writeGeometryObject(
-                clipFeature.getGeometry(),
-                {
-                    dataProjection: DEFAULT_PROJ,
-                    featureProjection: "EPSG:3857",
-                    decimals: 9,
-                }
-            );
-        } else {
-            this.clip_;
+        if (!isDefined(clipFeature)) {
+            return this.clip_;
         }
+
+        return new GeoJSON().writeGeometryObject(clipFeature.getGeometry(), {
+            dataProjection: DEFAULT_PROJ,
+            featureProjection: "EPSG:3857",
+            decimals: 9,
+        });
+    }
+
+    /**
+     * Removes the current clip feature from the target layer and from internal state
+     */
+    removeClip() {
+        this.clipVectorSource_.clear();
+        this.clip_ = null;
     }
 
     /**

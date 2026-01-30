@@ -40,6 +40,30 @@ export const createMinMaxYearQuery = function (
 };
 
 /**
+ * Creates a geo_shape es filter, which allows the combination of multiple geo_shape polygones via boolean or filter
+ * @param {string} geometrySearchFieldName
+ * @param {Array<Array<Array<Array<number, number>>>>} geometrySearchPolygons
+ * @returns {Object}
+ * @private
+ */
+const createGeoShapeQuery_ = function (geometrySearchFieldName, geometrySearchPolygons) {
+    const geoShapeFilters = geometrySearchPolygons.map(
+        (polygon) => ({
+            geo_shape: {
+                [geometrySearchFieldName]: {
+                    relation: "intersects",
+                    shape: {
+                        type: "polygon",
+                        coordinates: polygon,
+                    },
+                },
+            }
+        })
+    );
+    return  { "bool": { "should": geoShapeFilters }};
+}
+
+/**
  * The function creates a elasticsearch query, which query an index with
  * a boundingbox and a time range filter. The spatial data in the index is
  * in WGS84 meaning EPSG:4326.
@@ -61,8 +85,8 @@ export const getSpatialQuery = function ({
     timePeriodStartFieldName,
     timePeriodEndFieldName,
     timeValues,
-    bboxFieldName,
-    bboxPolygon,
+    geometrySearchFieldName,
+    geometrySearchPolygons,
     sortFieldName,
     sortValue,
     facets,
@@ -84,17 +108,7 @@ export const getSpatialQuery = function ({
                             [timePeriodEndFieldName]: { gte: start },
                         },
                     },
-                    {
-                        geo_shape: {
-                            [bboxFieldName]: {
-                                relation: "intersects",
-                                shape: {
-                                    type: "envelope",
-                                    coordinates: bboxPolygon,
-                                },
-                            },
-                        },
-                    },
+                    createGeoShapeQuery_(geometrySearchFieldName, geometrySearchPolygons),
                     createFacetQuery_(facets),
                     { term: { has_georeference: true } },
                     ...(customQueryExtension || []),

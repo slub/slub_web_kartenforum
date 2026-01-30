@@ -60,7 +60,6 @@
             }
             .maplibregl-ctrl-top-left {
                 left: 715px;
-                > div:nth-child(5),
                 > div:nth-child(8) {
                     display: none;
                 }
@@ -69,7 +68,14 @@
                 right: 15px;
                 left: 715px;
             }
-            &:fullscreen {
+        }
+    }
+}
+// Fullscreen styles for large map
+body:fullscreen {
+    .vkf-app-mosaic-map-container {
+        .vkf-plugin-map-mosaic {
+            .ol-map-large {
                 .vkf-horizontal-layout {
                     .vkf-spatialsearch-root {
                         display: block;

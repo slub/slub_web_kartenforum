@@ -7,6 +7,11 @@
 import { atom, selector } from "recoil";
 import { getUnixSeconds, isValidDate, normalizeDate } from "@util/date";
 import { selectedGeoJsonLayerLastUpdatedState } from "@map/atoms";
+import { sortFeatures } from "./util";
+import {
+    DEFAULT_FEATURE_SORT_KEY,
+    DEFAULT_FEATURE_SORT_ORDER,
+} from "./components/GeoJsonLayerSortControl";
 
 export const GEOJSON_LAYER_VIEW_MODE = {
     INITIAL: 1,
@@ -39,6 +44,16 @@ export const geoJsonLayerViewFeaturesState = selector({
 export const geoJsonLayerViewTimeExtentFilterState = atom({
     key: "geoJsonLayerViewTimeExtentFilterState",
     default: null,
+});
+
+export const geoJsonLayerViewFeaturesSortKeyState = atom({
+    key: "geoJsonLayerViewFeaturesSortKeyState",
+    default: DEFAULT_FEATURE_SORT_KEY,
+});
+
+export const geoJsonLayerViewFeaturesSortOrderState = atom({
+    key: "geoJsonLayerViewFeaturesSortOrderState",
+    default: DEFAULT_FEATURE_SORT_ORDER,
 });
 
 export const geoJsonLayerViewTimeRangeState = selector({
@@ -102,10 +117,13 @@ export const geoJsonLayerViewFilteredFeaturesState = selector({
     get: ({ get }) => {
         const viewMode = get(geoJsonLayerViewViewModeState);
         const geoJsonFeatures = get(geoJsonLayerViewFeaturesState);
+        const sortKey = get(geoJsonLayerViewFeaturesSortKeyState);
+        const sortOrder = get(geoJsonLayerViewFeaturesSortOrderState);
+        const sortFn = sortFeatures(sortKey, sortOrder);
 
         // If we are not in filter view mode, return all features
         if (viewMode !== GEOJSON_LAYER_VIEW_MODE.FILTER) {
-            return geoJsonFeatures;
+            return [...geoJsonFeatures].sort(sortFn);
         }
 
         let filteredFeatures = geoJsonFeatures;
@@ -131,7 +149,9 @@ export const geoJsonLayerViewFilteredFeaturesState = selector({
             });
         }
 
-        return filteredFeatures;
+        const sortedFeatures = [...filteredFeatures].sort(sortFn);
+
+        return sortedFeatures;
     },
 });
 

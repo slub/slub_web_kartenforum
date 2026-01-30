@@ -8,7 +8,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import axios from "axios";
-import { equals } from "ol/extent";
 
 import {
   elementsScreenSizeState,
@@ -25,9 +24,18 @@ import { isDefined } from "@util/util";
 import { createMinMaxYearQuery, getSpatialQuery } from "@util/query";
 import { readLayers } from "@util/parser";
 import SettingsProvider from "@settings-provider";
-import { getSearchExtent, limitExtent } from "./util";
+import {
+  getSearchExtentWithSamplingVertices,
+  mapPointsToSearchPolygons,
+} from "./util";
 import { useDebounce } from "@util/hooks";
-import { LngLatBounds } from "maplibre-gl";
+import { SORT_STATE } from "@components/SortControl/SortControl";
+import DebugRenderSearchArea from "@map/components/PaginatingDataController/debug/DebugRenderSearchArea.jsx";
+
+function _equals(a, b) {
+  if (a.length !== b.length) return false;
+  return a.every((obj, i) => JSON.stringify(obj) === JSON.stringify(b[i]));
+}
 
 export const PaginatingDataController = ({
   customQuery,
@@ -43,7 +51,7 @@ export const PaginatingDataController = ({
   const { facets } = useRecoilValue(facetState);
   const layout = useRecoilValue(layoutState);
   const map = useRecoilValue(mapState);
-  const [mapView, setMapView] = useState(undefined);
+  const [spatialSearchView, setSpatialSearchView] = useState(undefined);
   const setIsSearchLoading = useSetRecoilState(searchIsLoadingState);
   const setMapsInViewport = useSetRecoilState(mapCountState);
   const [timeRange, setTimeRange] = useRecoilState(timeRangeState);
@@ -58,26 +66,23 @@ export const PaginatingDataController = ({
   const elasticsearch_node = settings.API_SEARCH;
 
   /**
-   * @param {Array.<number>} extent An array of numbers representing an extent: [minx, miny, maxx, maxy]
+   * @param {Array.<GeoJSONFeature>} Array of GeoJSON features representing the search area
    * @return {Object}
    * @private
    */
   const createSearchRequest = useCallback(
-    (extent) => {
-      const sortOrd_ = sortOrder === "ascending" ? "asc" : "desc";
-
-      // build response with bbox filter
-      const envelope = limitExtent([
-        [extent[0], extent[3]],
-        [extent[2], extent[1]],
-      ]);
+    (searchArea) => {
+      const sortOrd_ = sortOrder === SORT_STATE.ASCENDING ? "asc" : "desc";
+      const searchPolygons = searchArea
+        .filter((ft) => ft?.geometry?.type === "Polygon")
+        .map((ft) => ft.geometry.coordinates);
 
       return getSpatialQuery({
         timePeriodStartFieldName: "time_period_start",
         timePeriodEndFieldName: "time_period_end",
         timeValues: [`${timeExtent[0]}-01-01`, `${timeExtent[1]}-12-31`],
-        bboxFieldName: "geometry",
-        bboxPolygon: envelope,
+        geometrySearchFieldName: "geometry",
+        geometrySearchPolygons: searchPolygons,
         sortFieldName: sortAttribute,
         sortValue: sortOrd_,
         facets,
@@ -90,12 +95,12 @@ export const PaginatingDataController = ({
   // fetch the results from the index
   const fetchResults = useCallback(
     (start, size, opt_raw = false) => {
-      if (mapView === undefined) {
+      if (spatialSearchView === undefined) {
         setIsSearchLoading(false);
         return new Promise((res) => res([]));
       }
       // build elasticsearch request
-      const requestPayload = createSearchRequest(mapView, "ESPG:4326");
+      const requestPayload = createSearchRequest(spatialSearchView);
       const requestUrl =
         elasticsearch_node + "/_search?from=" + start + "&size=" + size;
 
@@ -118,7 +123,7 @@ export const PaginatingDataController = ({
           setIsSearchLoading(false);
         });
     },
-    [createSearchRequest, mapView]
+    [createSearchRequest, spatialSearchView]
   );
 
   ////
@@ -138,24 +143,23 @@ export const PaginatingDataController = ({
 
   // handles an update of the internally kept map extent
   // either triggered by a map move or a resize of some component
-  const handleUpdateMapView = useCallback(() => {
+  const handleUpdateSpatialSearchView = useCallback(() => {
     if (isDefined(map)) {
-      const screenCorners = getSearchExtent(elementsScreenSize, layout);
+      const searchAreaPointsPX = getSearchExtentWithSamplingVertices(
+        elementsScreenSize,
+        layout,
+        map.getZoom()
+      );
+      const newSearchArea = mapPointsToSearchPolygons(searchAreaPointsPX, map);
 
-      // get equivalent coordinates
-      const lngLatBounds = new LngLatBounds();
-      screenCorners.forEach((corner) => {
-        const coord = map.unproject(corner);
-        lngLatBounds.extend(coord);
-      });
-
-      const newMapView = lngLatBounds.toArray().flat();
-
-      if (mapView === undefined || !equals(newMapView, mapView)) {
-        setMapView(newMapView);
+      if (
+        spatialSearchView === undefined ||
+        !_equals(newSearchArea, spatialSearchView)
+      ) {
+        setSpatialSearchView(newSearchArea);
       }
     }
-  }, [map, mapView, elementsScreenSize]);
+  }, [map, spatialSearchView, elementsScreenSize]);
 
   ////
   // Effect section
@@ -164,21 +168,28 @@ export const PaginatingDataController = ({
   // bind event handler on map
   useEffect(() => {
     if (isDefined(map)) {
-      map.on("moveend", handleUpdateMapView);
+      map.on("moveend", handleUpdateSpatialSearchView);
       return () => {
-        map.off("moveend", handleUpdateMapView);
+        map.off("moveend", handleUpdateSpatialSearchView);
       };
     }
-  }, [map, handleUpdateMapView]);
+  }, [map, handleUpdateSpatialSearchView]);
 
   // if the map view changes, reset the state and fetch new results
   useEffect(() => {
     handleRefreshDebounced();
-  }, [facets, handleRefresh, mapView, sortAttribute, sortOrder, timeExtent]);
+  }, [
+    facets,
+    handleRefresh,
+    spatialSearchView,
+    sortAttribute,
+    sortOrder,
+    timeExtent,
+  ]);
 
   // manually update the internal map view on change of element size
   useEffect(() => {
-    handleUpdateMapView();
+    handleUpdateSpatialSearchView();
   }, [elementsScreenSize, map]);
 
   // determine initial time filter
@@ -218,6 +229,9 @@ export const PaginatingDataController = ({
         onFetchResults: fetchResults,
         searchResultDescriptor,
       })}
+      {SettingsProvider.isDebug() && (
+        <DebugRenderSearchArea features={spatialSearchView} />
+      )}
     </React.Fragment>
   );
 };

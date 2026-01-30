@@ -14,6 +14,7 @@ import GeoJsonPanelHeader from "@map/components/GeoJson/GeoJsonPanelHeader";
 import { FEATURE_PROPERTIES } from "../../constants";
 import FeaturePermalinkButton from "../../components/FeaturePermalinkButton";
 import { formatFeatureTime } from "../../util/formatters";
+import CustomValue from "./CustomValue";
 
 import "./VkfFeaturePanel.scss";
 
@@ -93,9 +94,7 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
             {customEntries.map(([key, value]) => (
               <div key={key}>
                 <p className="geojson-feature-property-label">{key}</p>
-                <p className="geojson-feature-property-text" key={key}>
-                  {`${value}`}
-                </p>
+                <CustomValue value={value} />
               </div>
             ))}
           </div>

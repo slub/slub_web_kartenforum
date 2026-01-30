@@ -18,7 +18,6 @@ import {
 } from "@mosaic-map/atoms";
 import { translate } from "@util/util.js";
 import { fetchLayerForMapId } from "@map/persistence/api.js";
-import { fitMapToFeatures } from "@map/persistence/util.js";
 import { notificationState } from "@atoms";
 import { mapState } from "@map/atoms";
 
@@ -27,6 +26,7 @@ import {
   MOSAIC_MAP_OVERLAY_SOURCE_ID,
   resetMosaicOverlaySource,
 } from "@mosaic-map/components/MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
+import useZoomLayerToExtent from "@map/components/LayerManagement/LayerManagementEntry/components/ZoomToExtentButton/useZoomLayerToExtent";
 
 export const VALUE_CREATE_NEW_MAP = "create-new-mosaic-map";
 
@@ -44,6 +44,8 @@ export const MosaicMapSelectorDropdown = () => {
     mosaicMapSelectedLayersState
   );
   const setNotification = useSetRecoilState(notificationState);
+
+  const { zoomToExtentMosaicMap } = useZoomLayerToExtent();
 
   const fetchMosaicMapList = () => {
     setIsLoading(true);
@@ -85,8 +87,10 @@ export const MosaicMapSelectorDropdown = () => {
       Promise.all(fetchProcesses)
         .then((layers) => {
           if (map !== undefined) {
-            fitMapToFeatures(map, layers);
+            zoomToExtentMosaicMap(layers);
           }
+
+          resetMosaicOverlaySource(map);
 
           setSelectedMosaicLayers(layers);
           layers.forEach((layer) =>

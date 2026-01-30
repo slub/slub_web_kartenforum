@@ -8,13 +8,14 @@
 import React, { memo, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 
-import { translate } from "@util/util";
+import { isDefined, translate } from "@util/util";
 
 import { FEATURE_PROPERTIES } from "../../constants";
 import { formatFeatureTime } from "../../util/formatters";
 import { IDOHIST_FEATURE_PROPS } from "@map/components/CustomLayers/GeoJsonLayer/IdohistMapInteractionStrategy/constants";
 
 import "./FeatureItem.scss";
+import SettingsProvider, { LANGUAGE_CODE } from "@settings-provider";
 
 const IdohistFeatureItem = ({ data, index, style }) => {
   const feature = data.features[index];
@@ -31,8 +32,18 @@ const IdohistFeatureItem = ({ data, index, style }) => {
   }, []);
 
   const formattedTime = useMemo(() => {
-    const time = properties[FEATURE_PROPERTIES.time];
+    const isGerman =
+      SettingsProvider.getSettings().LANGUAGE_CODE === LANGUAGE_CODE.DE;
 
+    const timeLabel = isGerman
+      ? properties[IDOHIST_FEATURE_PROPS.timeLabelDe]
+      : properties[IDOHIST_FEATURE_PROPS.timeLabelEn];
+
+    if (isDefined(timeLabel)) {
+      return timeLabel;
+    }
+
+    const time = properties[FEATURE_PROPERTIES.time];
     return formatFeatureTime(time);
   }, [properties[FEATURE_PROPERTIES.time]]);
 

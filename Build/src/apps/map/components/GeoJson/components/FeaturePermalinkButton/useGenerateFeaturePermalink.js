@@ -48,7 +48,9 @@ const useGenerateFeaturePermalink = () =>
                     activeBasemapIdState
                 );
 
-                const viewModeParam = serializeViewMode(map.hasTerrain());
+                const viewModeParam = serializeViewMode(
+                    map.isVkfGlobeModeEnabled()
+                );
                 const selectedLayerParam =
                     serializeSelectedLayers(selectedLayers);
                 const basemapParam = serializeBasemapId(activeBasemapId);

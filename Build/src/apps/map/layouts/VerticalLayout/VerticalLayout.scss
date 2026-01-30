@@ -57,8 +57,8 @@
     }
 }
 
-.ol-map-small {
-    &:fullscreen {
+body:fullscreen {
+    .ol-map-small {
         .vkf-vertical-layout {
             .vkf-search-header {
                 display: none;

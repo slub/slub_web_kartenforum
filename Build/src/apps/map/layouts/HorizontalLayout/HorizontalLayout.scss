@@ -1,5 +1,5 @@
-.ol-map-large {
-    &:fullscreen {
+body:fullscreen {
+    .ol-map-large {
         .vkf-horizontal-layout {
             .vkf-spatialsearch-root {
                 display: none;
@@ -7,7 +7,6 @@
         }
     }
 }
-
 .geojson-feature-panel-container {
     position: absolute;
     top: 26px;

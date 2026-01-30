@@ -39,7 +39,7 @@ export const PermalinkInput = () => {
     if (!isDefined(map)) return;
     const cameraParams = cameraToUrlParams(serializeCameraOptions(map, true));
 
-    const viewModeParam = serializeViewMode(map.hasTerrain());
+    const viewModeParam = serializeViewMode(map.isVkfGlobeModeEnabled());
 
     const selectedLayerParam = serializeSelectedLayers(selectedLayers);
 

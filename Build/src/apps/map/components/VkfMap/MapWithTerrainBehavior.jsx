@@ -11,32 +11,81 @@ import { Map } from "maplibre-gl";
 
 //@TODO: Add license notice for maptiler-sdk -> Terrain behavior, fly-to-async
 
+export const VKF_GLOBE_MODE_CHANGE_EVENT = "vkf.globemodechange";
+const DEFAULT_MAX_PITCH = 60;
+
 /**
  * Extends the Map class with an animation when enabling the terrain.
  */
 export class MapWithTerrainBehavior extends Map {
   terrainConfiguration = SettingsProvider.getTerrain();
   terrainExaggeration = this.terrainConfiguration.exaggeration;
-  isTerrainEnabled = false;
+  isVkfGlobeModeEnabledFlag = false;
   abortController = new AbortController();
+  minZoomLevelForTerrain = 12;
+  minZoomLevelForPitchAnimation = 4;
 
-  /**
-   * Get the exaggeration factor applied to the terrain
-   * @returns
-   */
-  getTerrainExaggeration() {
-    return this.terrainExaggeration;
+  enableVkfGlobeMode({ initialZoom } = { initialZoom: null }) {
+    this.isVkfGlobeModeEnabledFlag = true;
+    this.fire(VKF_GLOBE_MODE_CHANGE_EVENT);
+    this.on("zoomend", this._handleZoomBasedTerrainEnabling);
+    this.on("zoomend", this._handleZoomBasedPitch);
+
+    const enableWithAnimation = () => {
+      flyToAsync(this, this._getFlyToOptions(60))
+        .then(() => sleepAsync(500))
+        .then(() => {
+          this._growTerrain(this.terrainExaggeration);
+        });
+    };
+
+    const zoomLevel = initialZoom || this.getZoom();
+
+    if (zoomLevel > this.minZoomLevelForPitchAnimation) {
+      if (zoomLevel >= this.minZoomLevelForTerrain) {
+        this._enableTerrain(enableWithAnimation);
+        this.setProjection({ type: "mercator" });
+        return;
+      }
+      this.setProjection({ type: "globe" });
+      this.flyTo(this._getFlyToOptions(60));
+    } else {
+      this.setMaxPitch(0);
+      this.setProjection({ type: "globe" });
+    }
+  }
+
+  disableVkfGlobeMode() {
+    this.isVkfGlobeModeEnabledFlag = false;
+    this.setMaxPitch(DEFAULT_MAX_PITCH);
+    this.fire(VKF_GLOBE_MODE_CHANGE_EVENT);
+
+    this.off("zoomend", this._handleZoomBasedTerrainEnabling);
+    this.off("zoomend", this._handleZoomBasedPitch);
+
+    const flyTo = () => {
+      flyToAsync(this, this._getFlyToOptions(0));
+    };
+
+    if (this.terrain) {
+      this._disableTerrain(flyTo);
+      this.setProjection({ type: "mercator" });
+      return;
+    }
+
+    this.flyTo(this._getFlyToOptions(0));
+    this.setProjection({ type: "mercator" });
   }
 
   /**
-   * Know if terrian is enabled or not
+   * Know if Vkf globe mode  is enabled or not
    * @returns
    */
-  hasTerrain() {
-    return this.isTerrainEnabled;
+  isVkfGlobeModeEnabled() {
+    return this.isVkfGlobeModeEnabledFlag;
   }
 
-  growTerrain(exaggeration, durationMs = 1000) {
+  _growTerrain(exaggeration, durationMs = 1000) {
     // This method assumes the terrain is already built
     if (!this.terrain) {
       return;
@@ -86,15 +135,7 @@ export class MapWithTerrainBehavior extends Map {
     requestAnimationFrame(updateExaggeration);
   }
 
-  /**
-   * Enables the 3D terrain visualization
-   */
-  enableTerrain(exaggeration = this.terrainExaggeration) {
-    if (exaggeration < 0) {
-      console.warn("Terrain exaggeration cannot be negative.");
-      return;
-    }
-
+  _maybeDispatchGrowTerrain(callback) {
     // This function is mapped to a map "data" event. It checks that the terrain
     // tiles are loaded and when so, it starts an animation to make the terrain grow
     const dataEventTerrainGrow = async (evt) => {
@@ -129,69 +170,66 @@ export class MapWithTerrainBehavior extends Map {
       // has `isSourceLoaded` true
       this.off("data", dataEventTerrainGrow);
 
-      this.growTerrain(exaggeration);
+      callback();
     };
 
-    // This is put into a function so that it can be called regardless
-    // of the loading state of _this_ the map instance
-    const addTerrain = () => {
-      // When style is changed,
-      this.isTerrainEnabled = true;
-      this.terrainExaggeration = exaggeration;
+    const source = this.getSource(TERRAIN_SOURCE_ID);
+    if (source.loaded()) {
+      callback();
+    } else {
+      this.on("data", dataEventTerrainGrow);
+    }
+  }
 
-      // Mapping it to the "data" event so that we can check that the terrain
-      // growing starts only when terrain tiles are loaded (to reduce glitching)
-      this.addSource(TERRAIN_SOURCE_ID, {
-        attribution: this.terrainConfiguration.attribution,
-        type: "raster-dem",
-        tiles: [this.terrainConfiguration.url],
-        tileSize: 256,
-        minzoom: this.terrainConfiguration.minZoom,
-        maxzoom: this.terrainConfiguration.maxZoom,
-        encoding: "terrarium",
-      });
+  _addTerrainSource() {
+    // Mapping it to the "data" event so that we can check that the terrain
+    // growing starts only when terrain tiles are loaded (to reduce glitching)
+    this.addSource(TERRAIN_SOURCE_ID, {
+      attribution: this.terrainConfiguration.attribution,
+      type: "raster-dem",
+      tiles: [this.terrainConfiguration.url],
+      tileSize: 256,
+      minzoom: this.terrainConfiguration.minZoom,
+      maxzoom: this.terrainConfiguration.maxZoom,
+      encoding: "terrarium",
+    });
 
-      // Setting up the terrain with a 0 exaggeration factor
-      // so it loads ~seamlessly and then can grow from there
-      this.setTerrain({
-        source: TERRAIN_SOURCE_ID,
-        exaggeration: 0,
-      });
+    // Setting up the terrain with a 0 exaggeration factor
+    // so it loads ~seamlessly and then can grow from there
+    this.setTerrain({
+      source: TERRAIN_SOURCE_ID,
+      exaggeration: 0,
+    });
+  }
 
-      this.abortController.abort();
-      this.abortController = new AbortController();
-      flyToAsync(this, {
-        signal: this.abortController.signal,
-        pitch: 60,
-        duration: 700,
-      })
-        .then(() => sleepAsync(500))
-        .then(() => {
-          const source = this.getSource(TERRAIN_SOURCE_ID);
-          if (source.loaded()) {
-            this.growTerrain(exaggeration);
-          } else {
-            this.on("data", dataEventTerrainGrow);
-          }
-        });
-    };
+  /**
+   * Enables the 3D terrain visualization
+   */
+  _enableTerrain(callback) {
+    const exaggeration = this.terrainExaggeration;
+
+    if (exaggeration < 0) {
+      console.warn("Terrain exaggeration cannot be negative.");
+      return;
+    }
 
     // The terrain has already been loaded,
     // we just update the exaggeration.
     if (this.getTerrain()) {
-      this.isTerrainEnabled = true;
-      this.growTerrain(exaggeration);
+      this._growTerrain(exaggeration);
       return;
     }
 
-    if (this.loaded() || this.isTerrainEnabled) {
-      addTerrain();
+    if (this.loaded() || this.isVkfGlobeModeEnabled()) {
+      this._addTerrainSource();
+      this._maybeDispatchGrowTerrain(callback);
     } else {
       this.once("load", () => {
         if (this.getTerrain() && this.getSource(TERRAIN_SOURCE_ID)) {
           return;
         }
-        addTerrain();
+        this._addTerrainSource();
+        this._maybeDispatchGrowTerrain(callback);
       });
     }
   }
@@ -199,13 +237,12 @@ export class MapWithTerrainBehavior extends Map {
   /**
    * Disable the 3D terrain visualization
    */
-  async disableTerrain() {
+  _disableTerrain(callback = () => {}) {
     // It could be disabled already
     if (!this.terrain) {
       return;
     }
 
-    this.isTerrainEnabled = false;
     // this.stopFlattening = false;
 
     // Duration of the animation in millisec
@@ -250,13 +287,8 @@ export class MapWithTerrainBehavior extends Map {
         if (this.getSource(TERRAIN_SOURCE_ID)) {
           this.removeSource(TERRAIN_SOURCE_ID);
         }
-        this.abortController.abort();
-        this.abortController = new AbortController();
-        flyToAsync(this, {
-          pitch: 0,
-          signal: this.abortController.signal,
-          duration: 700,
-        });
+
+        callback();
       }
 
       this.triggerRepaint();
@@ -267,20 +299,45 @@ export class MapWithTerrainBehavior extends Map {
     requestAnimationFrame(updateExaggeration);
   }
 
-  /**
-   * Sets the 3D terrain exageration factor.
-   * If the terrain was not enabled prior to the call of this method,
-   * the method `.enableTerrain()` will be called.
-   * If `animate` is `true`, the terrain transformation will be animated in the span of 1 second.
-   * If `animate` is `false`, no animated transition to the newly defined exaggeration.
-   */
-  setTerrainExaggeration(exaggeration, animate = true) {
-    if (!animate && this.terrain) {
-      this.terrainExaggeration = exaggeration;
-      this.terrain.exaggeration = exaggeration;
-      this.triggerRepaint();
-    } else {
-      this.enableTerrain(exaggeration);
+  _getFlyToOptions(pitch) {
+    this.abortController.abort();
+    this.abortController = new AbortController();
+    return { signal: this.abortController.signal, pitch, duration: 700 };
+  }
+
+  _handleZoomBasedTerrainEnabling() {
+    const zoomLevel = this.getZoom();
+    if (zoomLevel >= this.minZoomLevelForTerrain) {
+      this._enableTerrain(() => {
+        this._growTerrain(this.terrainExaggeration);
+        this.setProjection({ type: "mercator" });
+      });
+
+      return;
     }
+
+    this._disableTerrain(() => {
+      this.setProjection({ type: "globe" });
+    });
+  }
+
+  _handleZoomBasedPitch() {
+    const zoomLevel = this.getZoom();
+    const pitch = this.getPitch();
+
+    if (zoomLevel >= this.minZoomLevelForPitchAnimation) {
+      this.setMaxPitch(DEFAULT_MAX_PITCH);
+      return;
+    }
+
+    if (pitch === 0) {
+      this.setMaxPitch(0);
+      return;
+    }
+
+    this.flyTo(this._getFlyToOptions(0));
+    this.once("pitchend", () => {
+      this.setMaxPitch(0);
+    });
   }
 }

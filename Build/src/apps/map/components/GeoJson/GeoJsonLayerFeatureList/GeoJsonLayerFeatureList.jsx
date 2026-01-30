@@ -14,6 +14,7 @@ import { FixedSizeList } from "react-window";
 import { useSize } from "@util/hooks";
 import { useRecoilValue } from "recoil";
 import { geoJsonLayerViewFilteredFeaturesState } from "@map/views/GeoJsonLayerView/atoms";
+import GeoJsonLayerSortControl from "@map/views/GeoJsonLayerView/components/GeoJsonLayerSortControl";
 
 const GeoJsonLayerFeatureList = ({
   className,
@@ -33,6 +34,7 @@ const GeoJsonLayerFeatureList = ({
     <>
       <div className={className} ref={refContainer}>
         <div className="geojson-layer-feature-list-container">
+          <GeoJsonLayerSortControl />
           {features.length === 0 && (
             <div className="no-feature-container">
               {translate("geojsonlayerpanel-no-features")}

@@ -12,14 +12,25 @@ import {
     ActiveDialog,
     CustomEvents,
 } from "@map/components/VkfMap/constants.js";
+import { useShouldBasemapSelectorDialogStayOpen } from "@map/components/BasemapSelectorControl/atoms";
 
 const useControlContainer = (controlId, dialogType) => {
     const map = useRecoilValue(mapState);
     const [baseMapControlEl, setBaseMapControlEl] = useState(null);
     const [activeDialog, setActiveDialog] = useRecoilState(activeDialogState);
     const dialogRef = useRef(null);
+    const readShouldBasemapSelectorDialogStayOpen =
+        useShouldBasemapSelectorDialogStayOpen();
 
-    const handleClickAway = useCallback((event) => {
+    const handleClickAway = useCallback(async (event) => {
+        const shouldBasemapSelectorDialogStayOpen =
+            await readShouldBasemapSelectorDialogStayOpen();
+
+        // TODO draft a better UI concept to avoid the modal in modal issue for adding custom WMS layers
+        if (shouldBasemapSelectorDialogStayOpen) {
+            return;
+        }
+
         if (dialogRef.current && !dialogRef.current.contains(event.target)) {
             setActiveDialog(ActiveDialog.None);
         }

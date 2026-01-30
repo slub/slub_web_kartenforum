@@ -5,7 +5,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import React, { useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { translate, isDefined, isValidUrl } from "@util/util";
 
@@ -19,6 +19,7 @@ import { formatFeatureTime } from "../../util/formatters";
 import { IDOHIST_FEATURE_PROPS } from "@map/components/CustomLayers/GeoJsonLayer/IdohistMapInteractionStrategy/constants";
 import IdohistCertaintyItem from "./IdohistCertaintyItem";
 import { coerceCertainty } from "@map/components/CustomLayers/GeoJsonLayer/IdohistMapInteractionStrategy/util";
+import SettingsProvider, { LANGUAGE_CODE } from "@settings-provider";
 
 import "./IdohistFeaturePanel.scss";
 
@@ -32,45 +33,48 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
     };
   }, []);
 
-  const parseTimeForDisplay = useCallback(
-    (time) => formatFeatureTime(time),
-    []
-  );
+  const formattedTime = useMemo(() => {
+    const isGerman =
+      SettingsProvider.getSettings().LANGUAGE_CODE === LANGUAGE_CODE.DE;
 
-  const {
-    imageLink,
-    title,
-    description,
-    time,
-    permalink,
-    certainties,
-    affiliation,
-  } = useMemo(() => {
-    const url = properties[IDOHIST_FEATURE_PROPS.permalink];
-    const permalink = isValidUrl(url) ? url : "";
+    const timeLabel = isGerman
+      ? properties[IDOHIST_FEATURE_PROPS.timeLabelDe]
+      : properties[IDOHIST_FEATURE_PROPS.timeLabelEn];
 
-    return {
-      imageLink: properties[FEATURE_PROPERTIES.imgLink],
-      title: properties[FEATURE_PROPERTIES.title] ?? defaultTitle,
-      description:
-        properties[FEATURE_PROPERTIES.description] ?? defaultDescription,
-      time: parseTimeForDisplay(properties[FEATURE_PROPERTIES.time]),
-      tags: properties[IDOHIST_FEATURE_PROPS.tags] ?? [],
-      permalink,
-      affiliation: properties[IDOHIST_FEATURE_PROPS.parentLabel] ?? "",
-      certainties: {
-        spatial: coerceCertainty(
-          properties[IDOHIST_FEATURE_PROPS.spatialCertainty]
-        ),
-        content: coerceCertainty(
-          properties[IDOHIST_FEATURE_PROPS.contentCertainty]
-        ),
-        temporal: coerceCertainty(
-          properties[IDOHIST_FEATURE_PROPS.temporalCertainty]
-        ),
-      },
-    };
-  }, [properties]);
+    if (isDefined(timeLabel)) {
+      return timeLabel;
+    }
+
+    const time = properties[FEATURE_PROPERTIES.time];
+    return formatFeatureTime(time);
+  }, [properties[FEATURE_PROPERTIES.time]]);
+
+  const { imageLink, title, description, permalink, certainties, affiliation } =
+    useMemo(() => {
+      const url = properties[IDOHIST_FEATURE_PROPS.permalink];
+      const permalink = isValidUrl(url) ? url : "";
+
+      return {
+        imageLink: properties[FEATURE_PROPERTIES.imgLink],
+        title: properties[FEATURE_PROPERTIES.title] ?? defaultTitle,
+        description:
+          properties[FEATURE_PROPERTIES.description] ?? defaultDescription,
+        tags: properties[IDOHIST_FEATURE_PROPS.tags] ?? [],
+        permalink,
+        affiliation: properties[IDOHIST_FEATURE_PROPS.parentLabel] ?? "",
+        certainties: {
+          spatial: coerceCertainty(
+            properties[IDOHIST_FEATURE_PROPS.spatialCertainty]
+          ),
+          content: coerceCertainty(
+            properties[IDOHIST_FEATURE_PROPS.contentCertainty]
+          ),
+          temporal: coerceCertainty(
+            properties[IDOHIST_FEATURE_PROPS.temporalCertainty]
+          ),
+        },
+      };
+    }, [properties]);
 
   const isValidImage = useMemo(
     () => isDefined(imageLink) && imageLink.length > 0,
@@ -107,7 +111,9 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
             <p className="geojson-feature-property-label">
               {translate("idohist-date-label")}
             </p>
-            <p className="time geojson-feature-property-text">{time}</p>
+            <p className="time geojson-feature-property-text">
+              {formattedTime}
+            </p>
           </div>
           <div className="description-section">
             <p className="geojson-feature-property-label">
@@ -123,7 +129,7 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
                 {translate("idohist-permalink-label")}
               </p>
               <a href={permalink} target="_blank" rel="noreferrer">
-                <p className="geojson-feature-property-text">{permalink}</p>
+                <p className="geojson-feature-property-link">{permalink}</p>
               </a>
             </div>
           )}

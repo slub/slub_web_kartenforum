@@ -25,6 +25,10 @@
             @include geojson-feature-property-text;
         }
 
+        .geojson-feature-property-link {
+            @include geojson-feature-property-link;
+        }
+
         .geojson-feature-property-label {
             @include geojson-feature-property-label;
         }
@@ -36,12 +40,6 @@
             .title {
                 @include geojson-feature-title;
                 @include text-overflow-with-line-break;
-            }
-        }
-
-        .permalink-section {
-            .geojson-feature-property-text {
-                @include text-overflow;
             }
         }
 

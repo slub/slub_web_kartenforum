@@ -54,6 +54,10 @@
             .geojson-feature-property-label {
                 @include geojson-feature-property-label;
             }
+
+            .geojson-feature-property-link {
+                @include geojson-feature-property-link;
+            }
         }
     }
 }
