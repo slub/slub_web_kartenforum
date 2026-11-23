@@ -5,7 +5,7 @@
  * file "LICENSE.txt", which is part of this source code package.
  */
 
-import { SORT_STATE } from "@components/SortControl/SortControl";
+import { SORT_STATE } from "@components/SortControl/constants";
 import { FEATURE_PROPERTIES } from "@map/components/GeoJson/constants";
 import { isDefined } from "@util/util";
 
@@ -25,8 +25,11 @@ const getTimeValue = (feature) => {
         return Number.NEGATIVE_INFINITY;
     }
 
-    // use start date
-    return feature.properties[FEATURE_PROPERTIES.time][0];
+    // use start date, an unknown start (`null`) sorts like a feature without time
+    return (
+        feature.properties[FEATURE_PROPERTIES.time][0] ??
+        Number.NEGATIVE_INFINITY
+    );
 };
 
 // expects values that can be compared with < or >

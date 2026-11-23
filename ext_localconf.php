@@ -1,13 +1,8 @@
 <?php
 
 use Slub\SlubWebKartenforum\Controller\AuthController;
-use Slub\SlubWebKartenforum\Controller\GeorefController;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
-use \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
-use \TYPO3\CMS\Core\Imaging\IconRegistry;
-use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 defined('TYPO3') || die();
 
@@ -18,29 +13,6 @@ $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum'] = 'EXT:slu
 $GLOBALS['TYPO3_CONF_VARS']['RTE']['Presets']['slub_web_kartenforum_minimal'] = 'EXT:slub_web_kartenforum/Configuration/RTE/Minimal.yaml';
 
 /*
- * Register some icons to use them in the backend via IconIdentifiers
- */
-$iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
-$icons = ['Signup', 'Map', 'Apps', 'Georef', 'Admin'];
-foreach ($icons as $icon) {
-    $iconRegistry->registerIcon(
-        'Vkf' . $icon,
-        SvgIconProvider::class,
-        ['source' => 'EXT:slub_web_kartenforum/Resources/Public/Icons/Backend/' . $icon . '.svg']
-    );
-}
-
-/*
- * Pass some extension configuration variables to typoscript constants
- */
-ExtensionManagementUtility::addTypoScriptConstants('plugin.tx_slubwebkartenforum.settings.basemaps= ' . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['basemaps']);
-ExtensionManagementUtility::addTypoScriptConstants('plugin.tx_slubwebkartenforum.settings.mapView= ' . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['mapView']);
-ExtensionManagementUtility::addTypoScriptConstants('plugin.tx_slubwebkartenforum.settings.urlNominatim= ' . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlNominatim']);
-ExtensionManagementUtility::addTypoScriptConstants('plugin.tx_slubwebkartenforum.settings.urlSearch= ' . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['urlSearch']);
-ExtensionManagementUtility::addTypoScriptConstants('plugin.tx_slubwebkartenforum.settings.terrain= ' . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['terrain']);
-ExtensionManagementUtility::addTypoScriptConstants('plugin.tx_slubwebkartenforum.settings.georefApi= ' . $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['slub_web_kartenforum']['georefApi']);
-
-/*
  * Enable direct extension access through ajax requests
  */
 ExtensionUtility::configurePlugin(
@@ -49,8 +21,7 @@ ExtensionUtility::configurePlugin(
     [AuthController::class => 'signup, addUser'],
     [
         AuthController::class => '',
-    ],
-    ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
+    ]
 );
 
 /*
@@ -65,3 +36,19 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['backend'] = [
     'loginFootnote' => $loginFootnote . 'by PIKOBYTES GmbH',
     'backendLogo' => 'EXT:slub_web_kartenforum/Resources/Public/Icons/VkfLogoBackend.svg',
 ];
+
+/*
+ * The apps read these query parameters in the browser (permalinks, georeferencer
+ * links), so they must not cause a cHash error where its validation is enforced
+ */
+$GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'] = array_merge(
+    $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'] ?? [],
+    [
+        // map
+        'map_id', 'oid', 'b', 'v', 'c', 'z', 'be', 'p', 'fid', 'foid', 'map_view_id',
+        // map, legacy camera parameters
+        'r', 'd', 'u', 'ri',
+        // georeferencer
+        'transformation_id',
+    ]
+);

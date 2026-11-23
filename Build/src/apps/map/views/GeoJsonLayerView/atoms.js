@@ -7,6 +7,7 @@
 import { atom, selector } from "recoil";
 import { getUnixSeconds, isValidDate, normalizeDate } from "@util/date";
 import { selectedGeoJsonLayerLastUpdatedState } from "@map/atoms";
+import { isTimeOverlapping } from "@map/components/CustomLayers/GeoJsonLayer/util";
 import { sortFeatures } from "./util";
 import {
     DEFAULT_FEATURE_SORT_KEY,
@@ -66,26 +67,20 @@ export const geoJsonLayerViewTimeRangeState = selector({
 
         for (const feature of geoJsonFeatures) {
             const time = feature.properties.time ?? [];
-            const [start, end] = time;
 
-            if (!isValidDate(start) || !isValidDate(end)) {
-                continue;
-            }
+            // an open side (`null`) does not contribute to the time range
+            for (const date of time) {
+                if (!isValidDate(date)) {
+                    continue;
+                }
 
-            if (Number.isNaN(minDate)) {
-                minDate = start;
-            }
+                if (Number.isNaN(minDate) || date < minDate) {
+                    minDate = date;
+                }
 
-            if (Number.isNaN(maxDate)) {
-                maxDate = end;
-            }
-
-            if (start < minDate) {
-                minDate = start;
-            }
-
-            if (end > maxDate) {
-                maxDate = end;
+                if (Number.isNaN(maxDate) || date > maxDate) {
+                    maxDate = date;
+                }
             }
         }
 
@@ -131,22 +126,9 @@ export const geoJsonLayerViewFilteredFeaturesState = selector({
         const timeExtentFilter = get(geoJsonLayerViewTimeExtentFilterState);
 
         if (timeExtentFilter !== null) {
-            const [min, max] = timeExtentFilter;
-            filteredFeatures = filteredFeatures.filter(({ properties }) => {
-                const [start, end] = properties?.time ?? [];
-
-                const unixTimestampStart = getUnixSeconds(normalizeDate(start));
-                const unixTimestampEnd = getUnixSeconds(normalizeDate(end));
-
-                if (
-                    Number.isNaN(unixTimestampStart) ||
-                    Number.isNaN(unixTimestampEnd)
-                ) {
-                    return true;
-                }
-
-                return unixTimestampStart <= max && unixTimestampEnd >= min;
-            });
+            filteredFeatures = filteredFeatures.filter(({ properties }) =>
+                isTimeOverlapping(properties?.time, timeExtentFilter)
+            );
         }
 
         const sortedFeatures = [...filteredFeatures].sort(sortFn);

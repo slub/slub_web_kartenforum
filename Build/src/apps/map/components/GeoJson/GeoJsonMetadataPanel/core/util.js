@@ -32,28 +32,30 @@ const coerceUndefinedOrNullToEmptyString = (metadata) => {
     );
 };
 
-// maps ["2015-01-01", "2015-02-01"] to localized date format for display in form fields
+// maps ["2015-01-01", "2015-02-01"] to localized date format for display in form fields.
+// An open side of the time period (null) is shown as an empty field.
 const metadataToFormTimePeriod = (metadata) => {
-    const timePeriodStart = metadata[METADATA.timePeriod]
-        ? formatDateLocalized(metadata[METADATA.timePeriod][0])
-        : "";
-    const timePeriodEnd = metadata[METADATA.timePeriod]
-        ? formatDateLocalized(metadata[METADATA.timePeriod][1])
-        : "";
+    const [start, end] = metadata[METADATA.timePeriod] ?? [null, null];
+    const toFormDate = (date) =>
+        isDefined(date) ? formatDateLocalized(date) : "";
 
-    return { timePeriodStart, timePeriodEnd };
+    return {
+        timePeriodStart: toFormDate(start),
+        timePeriodEnd: toFormDate(end),
+    };
 };
 
-// maps localized date format for display in form fields to metadata timePeriod
+// maps localized date format for display in form fields to metadata timePeriod.
+// An empty field is an open side of the time period (null).
 const formTimePeriodToMetadata = (start, end) => {
-    const parsedStartDate = formatDateIso(parseDateLocalized(start), {
-        representation: "date",
-    });
-    const parsedEndDate = formatDateIso(parseDateLocalized(end), {
-        representation: "date",
-    });
+    const toIsoDate = (date) =>
+        !isDefined(date) || date === ""
+            ? null
+            : formatDateIso(parseDateLocalized(date), {
+                  representation: "date",
+              });
 
-    return [parsedStartDate, parsedEndDate];
+    return [toIsoDate(start), toIsoDate(end)];
 };
 
 export {

@@ -26,7 +26,7 @@ import {
 import { MAPLIBRE_OPACITY_KEYS } from "../VkfMapInteractionStrategy/constants";
 
 import "./IdohistMapInteractionStrategy.scss";
-import { getTimeFilter } from "../util";
+import { getTimeFilter, isTimeOverlapping } from "../util";
 
 // NOTE mousemove event handler could be replaced with mouseenter if the polygon outline should not trigger an event
 const eventHandlers = [
@@ -305,12 +305,11 @@ class IdohistMapInteractionStrategy extends AbstractMapInteractionStrategy {
         }
 
         for (const marker of this.#markers) {
-            const [start, end] =
-                marker[FEATURE_PROPS_SYMBOL][FEATURE_PROPERTIES.time];
+            const time = marker[FEATURE_PROPS_SYMBOL][FEATURE_PROPERTIES.time];
             const { timeExtent } = filterValues;
 
             // if time ranges overlap re-add the marker to the map
-            if (start <= timeExtent[1] * 1000 && end >= timeExtent[0] * 1000) {
+            if (isTimeOverlapping(time, timeExtent)) {
                 marker.addTo(map);
             } else {
                 marker.remove();

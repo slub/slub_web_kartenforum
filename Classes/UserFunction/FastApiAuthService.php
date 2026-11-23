@@ -2,71 +2,67 @@
 
 namespace Slub\SlubWebKartenforum\UserFunction;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Slub\SlubWebKartenforum\Domain\Model\FrontendUser;
+use Slub\SlubWebKartenforum\Domain\Model\FrontendUserGroup;
 use Slub\SlubWebKartenforum\Domain\Repository\FrontendUserRepository;
+use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 /**
  * FastApiAuthService
  */
 final class FastApiAuthService
 {
-    /**
-     * feUserRepository
-     *
-     * @var FrontendUserRepository
-     */
-    private $feUserRepository;
-
-    public function __construct(FrontendUserRepository $feUserRepository)
-    {
-        $this->feUserRepository = $feUserRepository;
-    }
+    public function __construct(
+        private readonly FrontendUserRepository $feUserRepository,
+    ) {}
 
     /**
      * gets current logged in frontend user
-     *
-     * @return FrontendUser
      */
-    private function getActualUser()
+    private function getActualUser(ServerRequestInterface $request): ?FrontendUser
     {
-        $user = $GLOBALS['TSFE']->fe_user->user;
+        $frontendUser = $request->getAttribute('frontend.user');
+        $user = $frontendUser instanceof FrontendUserAuthentication ? $frontendUser->user : null;
 
-        if (is_null($user)) {
+        if (!is_array($user)) {
             return null;
         }
 
-        $feUserObj = $this->feUserRepository->findByUid($user['uid']);
-        return $feUserObj;
+        $feUserObj = $this->feUserRepository->findByUid((int)$user['uid']);
+        return $feUserObj instanceof FrontendUser ? $feUserObj : null;
     }
 
     /**
      * Validate user session
      *
-     * @param string $sessionId
-     * @return mixed
+     * Called as USER_INT userFunc, which passes the current request as third argument.
      */
-    public function getSession()
+    #[AsAllowedCallable]
+    public function getSession(string $content, array $conf, ServerRequestInterface $request): string
     {
-        $feUserObj = $this->getActualUser();
+        $feUserObj = $this->getActualUser($request);
         $response = [
             'valid' => false,
             'userData' => null,
         ];
 
-        if (is_null($feUserObj) || is_null($feUserObj->getUsername())) {
-            return json_encode($response);
+        if ($feUserObj === null || $feUserObj->getUsername() === '') {
+            return json_encode($response, JSON_THROW_ON_ERROR);
         }
 
         $response['valid'] = true;
         $userData = [
             'username' => $feUserObj->getUsername(),
             'uid' => $feUserObj->getUid(),
-            'groups' => array_map(function ($group) {
-                return $group->getTitle();
-            }, $feUserObj->getUsergroup()->getArray())
+            'groups' => array_map(
+                static fn (FrontendUserGroup $group): string => $group->getTitle(),
+                $feUserObj->getUsergroup()->getArray()
+            ),
         ];
         $response['userData'] = $userData;
 
-        return json_encode($response);
+        return json_encode($response, JSON_THROW_ON_ERROR);
     }
 }

@@ -91,6 +91,7 @@ export const SearchHeader = ({
           enableOverlayLayer={false}
           DataProvider={PaginatingDataController}
           direction="horizontal"
+          enableRelevanceSort
           itemSize={170}
           renderHeader={false}
         />

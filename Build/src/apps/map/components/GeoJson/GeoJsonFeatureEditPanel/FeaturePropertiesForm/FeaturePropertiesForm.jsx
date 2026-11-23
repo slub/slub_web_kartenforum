@@ -174,6 +174,7 @@ const FeaturePropertiesForm = ({ feature, onSavePreview, onFormSubmit }) => {
                 endFieldName="timeEnd"
                 showLabels={false}
                 required={false}
+                skipFutureValidation
               />
             </div>
 

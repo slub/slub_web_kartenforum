@@ -9,12 +9,8 @@ import { translate } from "@util/util";
 import PropTypes from "prop-types";
 import React, { useCallback, useState } from "react";
 import SortColumn from "./SortColumn";
+import { SORT_STATE } from "./constants";
 import "./SortControl.scss";
-
-export const SORT_STATE = {
-  ASCENDING: "ascending",
-  DESCENDING: "descending",
-};
 
 const SortControl = ({
   sortColumns,
@@ -42,13 +38,14 @@ const SortControl = ({
           {translate("mapsearch-sorting")}:
         </strong>
         <div className="inner-columns">
-          {sortColumns.map(({ sortKey, label }) => (
+          {sortColumns.map(({ sortKey, label, fixedSortOrder }) => (
             <SortColumn
               key={sortKey}
               onClick={handleClick}
               sortOrder={activeSortKey === sortKey ? activeSortKeyOrder : ""}
               sortKey={sortKey}
               label={label}
+              fixedSortOrder={fixedSortOrder}
             />
           ))}
         </div>
@@ -59,7 +56,15 @@ const SortControl = ({
 
 SortControl.propTypes = {
   sortColumns: PropTypes.arrayOf(
-    PropTypes.shape({ sortKey: PropTypes.string, label: PropTypes.string })
+    PropTypes.shape({
+      sortKey: PropTypes.string,
+      label: PropTypes.string,
+      // if set, clicking the column does not toggle the sort order
+      fixedSortOrder: PropTypes.oneOf([
+        SORT_STATE.ASCENDING,
+        SORT_STATE.DESCENDING,
+      ]),
+    })
   ).isRequired,
   onUpdateSortOrder: PropTypes.func,
   defaultSortKey: PropTypes.string,

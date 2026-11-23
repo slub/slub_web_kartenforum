@@ -26,9 +26,10 @@ namespace Slub\SlubWebKartenforum\Domain\Model;
  *  This copyright notice MUST APPEAR in all copies of the script!
  */
 
+use TYPO3\CMS\Extbase\Attribute\Validate;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use TYPO3\CMS\Extbase\Annotation as Extbase;
+use Slub\SlubWebKartenforum\Domain\Validator\UsernameValidator;
 
 /**
  * FrontendUser
@@ -38,55 +39,37 @@ class FrontendUser extends AbstractEntity
     /**
      * @var ObjectStorage<FrontendUserGroup>
      */
-    protected $usergroup;
+    protected ObjectStorage $usergroup;
 
-    /**
-     * @var string
-     */
-    protected $name = '';
+    protected string $name = '';
 
-    /**
-     * @var string
-     */
-    protected $firstName = '';
+    protected string $firstName = '';
 
-    /**
-     * @var string
-     */
-    protected $lastName = '';
+    protected string $lastName = '';
 
     /**
      * Username - must be unique
-     *
-     * @var string
-     * @Extbase\Validate("NotEmpty")
-     * @Extbase\Validate("Slub\SlubWebKartenforum\Domain\Validator\UsernameValidator")
      */
-    protected $username = '';
+    #[Validate(validator: 'NotEmpty')]
+    #[Validate(validator: UsernameValidator::class)]
+    protected string $username = '';
 
     /**
      * Email address - make sure no record is created if empty
-     *
-     * @var string
-     * @Extbase\Validate("NotEmpty")
      */
-    protected $email = '';
+    #[Validate(validator: 'NotEmpty')]
+    protected string $email = '';
 
     /**
      * Password - make sure no record is created if empty
-     *
-     * @var string
-     * @Extbase\Validate("StringLength", options={"minimum": 9, "maximum": 50})
      */
-    protected $password = '';
+    #[Validate(validator: 'StringLength', options: ['minimum' => 9, 'maximum' => 50])]
+    protected string $password = '';
 
     /**
      * Constructs a new Front-End User
-     *
-     * @param string $username
-     * @param string $password
      */
-    public function __construct($username = '', $password = '')
+    public function __construct(string $username = '', string $password = '')
     {
         $this->username = $username;
         $this->password = $password;
@@ -96,47 +79,27 @@ class FrontendUser extends AbstractEntity
     /**
      * Called again with initialize object, as fetching an entity from the DB does not use the constructor
      */
-    public function initializeObject()
+    public function initializeObject(): void
     {
-        $this->usergroup = $this->usergroup ?? new ObjectStorage();
+        $this->usergroup ??= new ObjectStorage();
     }
 
-    /**
-     * Sets the username value
-     *
-     * @param string $username
-     */
-    public function setUsername($username)
+    public function setUsername(string $username): void
     {
         $this->username = $username;
     }
 
-    /**
-     * Returns the username value
-     *
-     * @return string
-     */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
 
-    /**
-     * Sets the password value
-     *
-     * @param string $password
-     */
-    public function setPassword($password)
+    public function setPassword(string $password): void
     {
         $this->password = $password;
     }
 
-    /**
-     * Returns the password value
-     *
-     * @return string
-     */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -147,27 +110,17 @@ class FrontendUser extends AbstractEntity
      *
      * @param ObjectStorage<FrontendUserGroup> $usergroup
      */
-    public function setUsergroup(ObjectStorage $usergroup)
+    public function setUsergroup(ObjectStorage $usergroup): void
     {
         $this->usergroup = $usergroup;
     }
 
-    /**
-     * Adds a usergroup to the frontend user
-     *
-     * @param FrontendUserGroup $usergroup
-     */
-    public function addUsergroup(FrontendUserGroup $usergroup)
+    public function addUsergroup(FrontendUserGroup $usergroup): void
     {
         $this->usergroup->attach($usergroup);
     }
 
-    /**
-     * Removes a usergroup from the frontend user
-     *
-     * @param FrontendUserGroup $usergroup
-     */
-    public function removeUsergroup(FrontendUserGroup $usergroup)
+    public function removeUsergroup(FrontendUserGroup $usergroup): void
     {
         $this->usergroup->detach($usergroup);
     }
@@ -178,87 +131,50 @@ class FrontendUser extends AbstractEntity
      *
      * @return ObjectStorage<FrontendUserGroup> An object storage containing the usergroup
      */
-    public function getUsergroup()
+    public function getUsergroup(): ObjectStorage
     {
         return $this->usergroup;
     }
 
-    /**
-     * Sets the name value
-     *
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
      * Returns the name value. The name is stored as firstName + LastName in backend.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Sets the firstName value
-     *
-     * @param string $firstName
-     */
-    public function setFirstName($firstName)
+    public function setFirstName(string $firstName): void
     {
         $this->firstName = $firstName;
     }
 
-    /**
-     * Returns the firstName value
-     *
-     * @return string
-     */
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    /**
-     * Sets the lastName value
-     *
-     * @param string $lastName
-     */
-    public function setLastName($lastName)
+    public function setLastName(string $lastName): void
     {
         $this->lastName = $lastName;
     }
 
-    /**
-     * Returns the lastName value
-     *
-     * @return string
-     */
-    public function getLastName()
+    public function getLastName(): string
     {
         return $this->lastName;
     }
 
-    /**
-     * Sets the email value
-     *
-     * @param string $email
-     */
-    public function setEmail($email)
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
 
-    /**
-     * Returns the email value
-     *
-     * @return string
-     */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }

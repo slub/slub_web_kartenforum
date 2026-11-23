@@ -6,6 +6,8 @@
  */
 import axios from "axios";
 
+import SettingsProvider from "@settings-provider";
+
 /**
  * @param {string} url
  * @param {string} placename
@@ -18,7 +20,13 @@ export const requestPlacenameData = (
     placename,
     loadingFinishedCallback
 ) => {
-    const request_url = url + "?format=json&q=" + placename;
+    // the results are localized in the language selected in the UI
+    const params = new URLSearchParams({
+        format: "json",
+        q: placename,
+        "accept-language": SettingsProvider.getSettings().LANGUAGE_CODE,
+    });
+    const request_url = `${url}?${params}`;
 
     return axios.get(request_url).then((response) => {
         const data = response.data;

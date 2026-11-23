@@ -35,6 +35,10 @@
 				<source><![CDATA[Close dynamic map visualization tool]]></source>
 				<target><![CDATA[Schließe dynamische Kartenvisualisierung]]></target>
 			</trans-unit>
+			<trans-unit id="plugin.map.dynamicmapvis.no-dated-layers" approved="yes">
+				<source><![CDATA[The timeseries visualization needs at least one map with a known start year.]]></source>
+				<target><![CDATA[Für die Zeitreihenvisualisierung wird mindestens eine Karte mit bekanntem Anfangsjahr benötigt.]]></target>
+			</trans-unit>
 			<trans-unit id="plugin.map.dynamicmapvis.open" approved="yes">
 				<source><![CDATA[Open dynamic map visualization tool]]></source>
 				<target><![CDATA[Öffne dynamische Kartenvisualisierung]]></target>
@@ -116,8 +120,8 @@
                 <target><![CDATA[Lädt]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.mapsearchlistelement.unknown" approved="yes">
-                <source><![CDATA[Unknown]]></source>
-                <target><![CDATA[Unbekannt]]></target>
+                <source><![CDATA[unknown]]></source>
+                <target><![CDATA[unbekannt]]></target>
             </trans-unit>
 
             <!-- Global > Map > DialogAddGeoJson -->
@@ -570,6 +574,14 @@
 				<source><![CDATA[Time]]></source>
 				<target><![CDATA[Zeit]]></target>
 			</trans-unit>
+			<trans-unit id="plugin.map.timeperiod.open-end" approved="yes">
+				<source><![CDATA[from {year}]]></source>
+				<target><![CDATA[ab {year}]]></target>
+			</trans-unit>
+			<trans-unit id="plugin.map.timeperiod.open-start" approved="yes">
+				<source><![CDATA[until {year}]]></source>
+				<target><![CDATA[bis {year}]]></target>
+			</trans-unit>
 			<trans-unit id="plugin.map.mapsearch.title" approved="yes">
 				<source><![CDATA[Title]]></source>
 				<target><![CDATA[Titel]]></target>
@@ -577,6 +589,10 @@
             <trans-unit id="plugin.map.mapsearch.map_scale" approved="yes">
                 <source><![CDATA[Scale]]></source>
                 <target><![CDATA[Maßstab]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapsearch.relevance" approved="yes">
+                <source><![CDATA[Relevance]]></source>
+                <target><![CDATA[Relevanz]]></target>
             </trans-unit>
 			<trans-unit id="plugin.map.mapsearch.sorting">
 				<source><![CDATA[Sorting]]></source>
@@ -626,9 +642,13 @@
                 <source><![CDATA[Title]]></source>
                 <target><![CDATA[Titel]]></target>
             </trans-unit>
-            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_time_of_publication">
-                <source><![CDATA[Publishing year]]></source>
-                <target><![CDATA[Erscheinungsjahr]]></target>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_time_period_start">
+                <source><![CDATA[Start year]]></source>
+                <target><![CDATA[Startjahr]]></target>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_time_period_end">
+                <source><![CDATA[End year]]></source>
+                <target><![CDATA[Endjahr]]></target>
             </trans-unit>
             <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_link_to_thumb">
                 <source><![CDATA[Link to thumbnail]]></source>

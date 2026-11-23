@@ -7,12 +7,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { queryUnreferencedDocuments } from "@util/apiEs";
 import { translate } from "@util/util";
+import { formatTimePeriod } from "@map/components/CustomLayers/util";
 import SettingsProvider from "@settings-provider";
 
 import "./UnreferencedMaps.scss";
 import { endOfYear, isSameDay, startOfYear } from "date-fns";
 
-const formatTimePeriod = (start, end) => {
+const formatClosedPeriod = (start, end) => {
   const firstDayOfYear = startOfYear(start);
   const lastDayOfYear = endOfYear(start);
 
@@ -102,7 +103,11 @@ export const UnreferencedMaps = () => {
                   {translate("unreferencedmaps-label-time")}:{" "}
                 </span>
                 <span className="map-meta-value">
-                  {formatTimePeriod(map.time_period_start, map.time_period_end)}
+                  {formatTimePeriod(
+                    map.time_period_start,
+                    map.time_period_end,
+                    { formatClosedPeriod }
+                  )}
                 </span>
               </p>
               <p>

@@ -97,6 +97,7 @@ export const MapSearch = ({
           <MapSearchResultList
             customQuery={customQuery}
             DataProvider={PaginatingDataController}
+            enableRelevanceSort
             ListItemComponent={MapSearchListItemComponent}
           />
         </div>

@@ -201,6 +201,9 @@
 			<trans-unit id="plugin.map.dynamicmapvis.close">
 				<source>Close dynamic map visualization tool</source>
 			</trans-unit>
+			<trans-unit id="plugin.map.dynamicmapvis.no-dated-layers">
+				<source>The timeseries visualization needs at least one map with a known start year.</source>
+			</trans-unit>
 
             <!-- vk2.control.FlipViewMode -->
 			<trans-unit id="global.map.control-toggleviewmode.title">
@@ -246,7 +249,7 @@
                 <source>Loading</source>
             </trans-unit>
             <trans-unit id="plugin.map.mapsearchlistelement.unknown">
-                <source>Unknown</source>
+                <source>unknown</source>
             </trans-unit>
 
             <!-- Global > Map > DialogAddGeoJson -->
@@ -544,11 +547,20 @@
 			<trans-unit id="plugin.map.mapsearch.time">
 				<source>Time</source>
 			</trans-unit>
+			<trans-unit id="plugin.map.timeperiod.open-end">
+				<source>from {year}</source>
+			</trans-unit>
+			<trans-unit id="plugin.map.timeperiod.open-start">
+				<source>until {year}</source>
+			</trans-unit>
 			<trans-unit id="plugin.map.mapsearch.title">
 				<source>Title</source>
 			</trans-unit>
             <trans-unit id="plugin.map.mapsearch.map_scale">
                 <source>Scale</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mapsearch.relevance">
+                <source>Relevance</source>
             </trans-unit>
 			<trans-unit id="plugin.map.mapsearch.sorting">
 				<source>Sorting</source>
@@ -594,8 +606,11 @@
             <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_title">
                 <source>Title</source>
             </trans-unit>
-            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_time_of_publication">
-                <source>Publishing year</source>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_time_period_start">
+                <source>Start year</source>
+            </trans-unit>
+            <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_time_period_end">
+                <source>End year</source>
             </trans-unit>
             <trans-unit id="plugin.map.mosaicMaps.inputPanel.field_link_to_thumb">
                 <source>Link to thumbnail</source>

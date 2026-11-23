@@ -30,28 +30,20 @@ use Slub\SlubWebKartenforum\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 /**
- * User
+ * Validates that a username is not in use yet
  */
 class UsernameValidator extends AbstractValidator
 {
-    /**
-     * feUserRepository
-     *
-     * @var FrontendUserRepository
-     */
-    protected $feUserRepository;
-
-    public function __construct(FrontendUserRepository $feUserRepository)
-    {
-        $this->feUserRepository = $feUserRepository;
-    }
+    public function __construct(
+        protected readonly FrontendUserRepository $feUserRepository,
+    ) {}
 
     /**
      * Username is only valid if it is not in use yet.
      */
     protected function isValid(mixed $value): void
     {
-        $countUser = $this->feUserRepository->findByUsername($value)->count();
+        $countUser = $this->feUserRepository->findByUsername((string)$value)->count();
         if ($countUser === 0) {
             return;
         }

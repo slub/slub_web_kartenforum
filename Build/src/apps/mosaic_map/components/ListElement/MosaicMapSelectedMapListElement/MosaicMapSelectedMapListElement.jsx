@@ -25,7 +25,10 @@ import { translate } from "@util/util.js";
 import "@map/components/MapSearch/components/MapSearchListElement/MapSearchListElement.scss";
 import "./MosaicMapSelectedMapListElement.scss";
 import { METADATA } from "@map/components/CustomLayers";
-import { checkIfArrayContainsLayer } from "@map/components/MapSearch/util.js";
+import {
+  checkIfArrayContainsLayer,
+  formatScaleForDisplay,
+} from "@map/components/MapSearch/util.js";
 import { MOSAIC_MAP_OVERLAY_SOURCE_ID } from "@mosaic-map/components/MosaicMapOverlayLayer/MosaicMapOverlayLayer.jsx";
 import { fetchWmsTmsSettings } from "@map/components/CustomLayers/HistoricMapLayer/fetchWmsTmsSettings";
 
@@ -65,14 +68,9 @@ export const MosaicMapSelectedMapListElement = ({
 
   const isSelected = selectedLayer?.isDisplayedInMap(map);
 
-  const scale =
-    operationalLayer.getMetadata(METADATA.mapScale) === "0" ||
-    operationalLayer.getMetadata(METADATA.mapScale) === 0
-      ? translate("mapsearch-listelement-unknown")
-      : `1:${operationalLayer.getMetadata(METADATA.mapScale)}`;
+  const scale = formatScaleForDisplay(operationalLayer);
 
   const displayTime = operationalLayer.getDisplayTime();
-  const sortTime = operationalLayer.getSortTime();
 
   ////
   // Handler section
@@ -149,7 +147,7 @@ export const MosaicMapSelectedMapListElement = ({
       onMouseLeave={onMouseLeave}
     >
       {children}
-      <span className="data-col time">{isNaN(sortTime) ? "" : sortTime}</span>
+      <span className="data-col time">{displayTime}</span>
       <span className="data-col title">
         {operationalLayer.getMetadata(METADATA.title)}
       </span>

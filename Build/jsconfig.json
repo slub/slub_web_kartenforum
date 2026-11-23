@@ -2,17 +2,38 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es6",
+    "jsx": "react",
     "paths": {
-      "@map/*": ["./src/apps/map/*"],
-      "@mosaic-map/*": ["./src/apps/mosaic_map/*"],
-      "@georeferencer/*": ["./src/apps/georeferencer/*"],
-      "@upload/*": ["./src/apps/upload/*"],
-      "@admin/*": ["./src/apps/admin/*"],
-      "@util/*": ["./src/util/*"],
-      "@atoms": ["./src/atoms/atoms.js"],
-      "@components/*": ["./src/components/*"],
-      "@settings-provider": ["./src/SettingsProvider"]
+      "@map/*": [
+        "./src/apps/map/*"
+      ],
+      "@mosaic-map/*": [
+        "./src/apps/mosaic_map/*"
+      ],
+      "@georeferencer/*": [
+        "./src/apps/georeferencer/*"
+      ],
+      "@upload/*": [
+        "./src/apps/upload/*"
+      ],
+      "@admin/*": [
+        "./src/apps/admin/*"
+      ],
+      "@util/*": [
+        "./src/util/*"
+      ],
+      "@atoms": [
+        "./src/atoms/atoms.js"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@settings-provider": [
+        "./src/SettingsProvider"
+      ]
     }
   },
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

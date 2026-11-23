@@ -36,12 +36,16 @@ export default function UploadMapView(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [httpErrorStatusCode, setHttpErrorStatusCode] = useState(null);
   const [reloadKey, setReloadKey] = useState(Date.now());
+  const [timePeriodStart, timePeriodEnd] = mapMetadata?.time_period ?? [
+    null,
+    null,
+  ];
   const methods = useForm({
     defaultValues: {
       ...mapMetadata,
-      time_of_publication: mapMetadata
-        ? mapMetadata.time_of_publication.slice(0, 4)
-        : "",
+      // an open side of the time period is shown as an empty field
+      time_period_start: timePeriodStart ?? "",
+      time_period_end: timePeriodEnd ?? "",
     },
   });
 
@@ -213,7 +217,8 @@ export default function UploadMapView(props) {
               <Input {...formValidations.permalink} />
               <Input {...formValidations.ppn} />
               <Input {...formValidations.technic} />
-              <Input {...formValidations.time_of_publication} />
+              <Input {...formValidations.time_period_start} />
+              <Input {...formValidations.time_period_end} />
               <Input {...formValidations.allow_download} />
               <Input {...formValidations.title} />
               <Input {...formValidations.title_serie} />

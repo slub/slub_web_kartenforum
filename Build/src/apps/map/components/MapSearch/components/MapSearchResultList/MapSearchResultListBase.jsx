@@ -24,7 +24,8 @@ import "./MapSearchResultList.scss";
 import MapSearchListElement from "../MapSearchListElement/MapSearchListElement.jsx";
 import { HistoricMapLayer, METADATA } from "@map/components/CustomLayers";
 import SortControl from "@components/SortControl/SortControl";
-import { DEFAULT_SORT_KEY, DEFAULT_SORT_ORDER } from "./MapSearchResultList";
+import { SORT_STATE } from "@components/SortControl/constants";
+import { getDefaultSortSettings } from "./MapSearchResultList";
 
 export const LOADING_LAYER = new HistoricMapLayer({
   metadata: {
@@ -38,6 +39,7 @@ export const LOADING_LAYER = new HistoricMapLayer({
 
 export const MapSearchResultListBase = ({
   direction = "vertical",
+  enableRelevanceSort = false,
   itemSize = 110,
   ListItemComponent = MapSearchListElement,
   minimumBatchSize,
@@ -53,6 +55,15 @@ export const MapSearchResultListBase = ({
   // memos
   const sortColumns = useMemo(
     () => [
+      ...(enableRelevanceSort
+        ? [
+            {
+              sortKey: "relevance",
+              label: translate("mapsearch-relevance"),
+              fixedSortOrder: SORT_STATE.DESCENDING,
+            },
+          ]
+        : []),
       {
         sortKey: "map_scale",
         label: translate("mapsearch-map_scale"),
@@ -60,8 +71,10 @@ export const MapSearchResultListBase = ({
       { sortKey: "time_period_start", label: translate("mapsearch-time") },
       { sortKey: "title", label: translate("mapsearch-title") },
     ],
-    []
+    [enableRelevanceSort]
   );
+  const { activeType: defaultSortKey, sortOrder: defaultSortOrder } =
+    getDefaultSortSettings(enableRelevanceSort);
 
   // Refs
   const refClearResults = useRef(false);
@@ -131,8 +144,8 @@ export const MapSearchResultListBase = ({
         <SortControl
           sortColumns={sortColumns}
           onUpdateSortOrder={onUpdateSortType}
-          defaultSortKey={DEFAULT_SORT_KEY}
-          defaultSortOrder={DEFAULT_SORT_ORDER}
+          defaultSortKey={defaultSortKey}
+          defaultSortOrder={defaultSortOrder}
         />
       )}
       <div className="mapsearch-contentlist-container" ref={refSearchList}>
@@ -170,6 +183,8 @@ export const MapSearchResultListBase = ({
 
 MapSearchResultListBase.propTypes = {
   direction: PropTypes.oneOf(["horizontal", "vertical"]),
+  // adds the relevance sort column and uses it as default (only for data providers querying the search index)
+  enableRelevanceSort: PropTypes.bool,
   itemSize: PropTypes.number,
   minimumBatchSize: PropTypes.number,
   ListItemComponent: PropTypes.elementType,

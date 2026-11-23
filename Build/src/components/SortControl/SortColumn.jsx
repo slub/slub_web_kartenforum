@@ -8,7 +8,7 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { SORT_STATE } from "./SortControl";
+import { SORT_STATE } from "./constants";
 
 const getNewSortState = (old) => {
   if (old === SORT_STATE.ASCENDING) {
@@ -17,11 +17,11 @@ const getNewSortState = (old) => {
   return SORT_STATE.ASCENDING;
 };
 
-const SortColumn = ({ label, sortOrder, sortKey, onClick }) => {
+const SortColumn = ({ label, sortOrder, sortKey, onClick, fixedSortOrder }) => {
   const handleClick = useCallback(() => {
-    const newSortOrder = getNewSortState(sortOrder);
+    const newSortOrder = fixedSortOrder ?? getNewSortState(sortOrder);
     onClick(sortKey, newSortOrder);
-  }, [sortKey, sortOrder, onClick]);
+  }, [sortKey, sortOrder, onClick, fixedSortOrder]);
 
   const handleEnterKey = useCallback(
     (event) => {
@@ -41,9 +41,11 @@ const SortColumn = ({ label, sortOrder, sortKey, onClick }) => {
         tabIndex={0}
       >
         {label}
-        <span className="caret-container">
-          <span className="caret caret-reversed" />
-        </span>
+        {!fixedSortOrder && (
+          <span className="caret-container">
+            <span className="caret caret-reversed" />
+          </span>
+        )}
       </div>
     </div>
   );
@@ -54,6 +56,7 @@ SortColumn.propTypes = {
   sortOrder: PropTypes.string.isRequired,
   sortKey: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  fixedSortOrder: PropTypes.oneOf([SORT_STATE.ASCENDING, SORT_STATE.DESCENDING]),
 };
 
 export default SortColumn;

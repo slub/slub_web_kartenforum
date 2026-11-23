@@ -22,6 +22,7 @@ import {
 import { VALUE_CREATE_NEW_MAP } from "@mosaic-map/components/MosaicMapSelectorDropdown/MosaicMapSelectorDropdown.jsx";
 import SaveIndicator from "./components/SaveIndicator/SaveIndicator.jsx";
 import { translate } from "@util/util.js";
+import { isConsistentTimePeriod, isValidYear } from "./util.js";
 
 import "./MosaicMapInputPanel.scss";
 
@@ -39,12 +40,31 @@ const inputFields = [
   },
   {
     className: "small-input",
-    id: "time_of_publication",
+    id: "time_period_start",
     type: "number",
     extraProps: {
-      min: 0,
-      max: 2100,
+      allowEmpty: true,
     },
+    validate: (mosaicMap) =>
+      isValidYear(mosaicMap.time_period_start) &&
+      isConsistentTimePeriod(
+        mosaicMap.time_period_start,
+        mosaicMap.time_period_end
+      ),
+  },
+  {
+    className: "small-input",
+    id: "time_period_end",
+    type: "number",
+    extraProps: {
+      allowEmpty: true,
+    },
+    validate: (mosaicMap) =>
+      isValidYear(mosaicMap.time_period_end) &&
+      isConsistentTimePeriod(
+        mosaicMap.time_period_start,
+        mosaicMap.time_period_end
+      ),
   },
   {
     id: "link_thumb",
@@ -75,11 +95,11 @@ export const MosaicMapInputPanel = () => {
   const [, setForceUpdate] = useState(0);
 
   const validateField = (fieldKey, field) => {
-    const { allowEmpty, min, max } = field.extraProps ?? {
-      allowEmpty: false,
-      min: Number.MIN_SAFE_INTEGER,
-      max: Number.MAX_SAFE_INTEGER,
-    };
+    const {
+      allowEmpty = false,
+      min = Number.MIN_SAFE_INTEGER,
+      max = Number.MAX_SAFE_INTEGER,
+    } = field.extraProps ?? {};
 
     const inputField = document.getElementById(fieldKey);
     if (inputField !== null && selectedMosaicMap[fieldKey] !== undefined) {
@@ -96,7 +116,14 @@ export const MosaicMapInputPanel = () => {
       // validate number fields
       if (field.type === "number") {
         const value = inputField.valueAsNumber;
-        if (value >= min && value <= max) {
+        const isValidNumber = Number.isNaN(value)
+          ? allowEmpty
+          : value >= min && value <= max;
+        // e.g. rules across fields
+        const isValid =
+          isValidNumber && (field.validate?.(selectedMosaicMap) ?? true);
+
+        if (isValid) {
           return "success";
         } else {
           return "error";
@@ -110,12 +137,17 @@ export const MosaicMapInputPanel = () => {
   const handleChange = (event) => {
     const field = event.target.id;
 
-    const type = inputFields.find((row) => row.id === field).type;
+    const { type, extraProps } = inputFields.find((row) => row.id === field);
 
     let value;
 
     if (type === "number") {
       value = event.target.valueAsNumber;
+
+      // an empty number field, which is allowed to be empty, is stored as null
+      if (Number.isNaN(value) && extraProps?.allowEmpty) {
+        value = null;
+      }
     } else if (type === "date") {
       value = event.target.value;
     } else {

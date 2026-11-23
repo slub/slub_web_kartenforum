@@ -26,21 +26,24 @@
 
 namespace Slub\SlubWebKartenforum\Domain\Repository;
 
+use Slub\SlubWebKartenforum\Domain\Model\FrontendUser;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * A Frontend User repository
+ *
+ * @extends Repository<FrontendUser>
  */
 class FrontendUserRepository extends Repository
 {
-	/**
-	 * @param string $username
-	 * @return \Slub\SlubWebKartenforum\Domain\Model\FrontendUser $user
-	 */
-	public function findByUsername($username)
-	{
-		$query = $this->createQuery();
-		$query->matching($query->equals('username', $username));
-		return $query->execute();
-	}
+    /**
+     * @return QueryResultInterface<int, FrontendUser>
+     */
+    public function findByUsername(string $username): QueryResultInterface
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals('username', $username));
+        return $query->execute();
+    }
 }

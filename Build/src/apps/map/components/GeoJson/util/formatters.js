@@ -60,8 +60,33 @@ export function formatFeatureTime(time) {
 
     const [start, end] = time;
 
-    if (!isValidDate(start) || !isValidDate(end)) {
+    // `null` marks an open side: an unknown start or an open end
+    const isOpenStart = !isDefined(start);
+    const isOpenEnd = !isDefined(end);
+
+    if (isOpenStart && isOpenEnd) {
+        return translate("geojson-featureview-no-time");
+    }
+
+    if (
+        (!isOpenStart && !isValidDate(start)) ||
+        (!isOpenEnd && !isValidDate(end))
+    ) {
         return translate("geojson-featureview-invalid-time");
+    }
+
+    if (isOpenStart) {
+        return translate("time-period-open-start").replace(
+            "{year}",
+            formatDateLocalized(end)
+        );
+    }
+
+    if (isOpenEnd) {
+        return translate("time-period-open-end").replace(
+            "{year}",
+            formatDateLocalized(start)
+        );
     }
 
     if (start === end) {

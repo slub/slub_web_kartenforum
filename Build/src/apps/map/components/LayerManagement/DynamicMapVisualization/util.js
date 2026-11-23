@@ -23,7 +23,16 @@ export const setLayersToInitialState = (sortedLayers, map) => {
 };
 
 /**
- * Sort layers depending on time and rearrange the layer stack on the map accordingly
+ * Layers with an open start (unknown creation date) have no sort time and are
+ * left out of the animation.
+ * @param layer
+ * @return {boolean}
+ */
+export const isExcludedFromAnimation = (layer) => layer.getSortTime() === null;
+
+/**
+ * Sort layers depending on time and rearrange the layer stack on the map accordingly.
+ * Layers without a sort time (open start) are sorted last.
  * @param layers
  * @return {layers[]}
  */
@@ -31,6 +40,15 @@ export const sortLayers = (layers) => {
     return layers.slice().sort((a, b) => {
         const sortTimeA = a.getSortTime();
         const sortTimeB = b.getSortTime();
+
+        // layers may have unbounded time periods in one direction
+        if (sortTimeA === null || sortTimeB === null) {
+            if (sortTimeA === sortTimeB) {
+                return 0;
+            }
+
+            return sortTimeA === null ? 1 : -1;
+        }
 
         if (sortTimeA > sortTimeB) {
             return 1;
@@ -45,7 +63,12 @@ export const sortLayers = (layers) => {
 export const groupLayers = (sortedLayers, map) => {
     const responseObj = {};
     sortedLayers.forEach((layer) => {
+        // all layers are moved, so that the layer stack matches the sorted layer list
         layer.move(map, null);
+
+        if (isExcludedFromAnimation(layer)) {
+            return;
+        }
 
         // build responseObj
         const layerTime = layer.getSortTime();

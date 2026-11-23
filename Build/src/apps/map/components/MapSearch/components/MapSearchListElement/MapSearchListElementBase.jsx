@@ -14,6 +14,7 @@ import { selectedLayersState } from "@map/atoms";
 import { translate } from "@util/util";
 import {
   checkIfArrayContainsLayer,
+  formatScaleForDisplay,
   getFallbackSrc,
   getImageSrcFromLayer,
 } from "../../util";
@@ -37,12 +38,10 @@ export const MapSearchListElementBase = ({
   const selectedLayers = useRecoilValue(selectedLayersState);
   const [errored, setErrored] = useState(false);
 
-  const { displayTime, sortTime } = useMemo(() => {
-    return {
-      displayTime: operationalLayer.getDisplayTime(),
-      sortTime: operationalLayer.getSortTime(),
-    };
-  }, [operationalLayer]);
+  const displayTime = useMemo(
+    () => operationalLayer.getDisplayTime(),
+    [operationalLayer]
+  );
 
   const src = useMemo(
     () => getImageSrcFromLayer(operationalLayer),
@@ -89,11 +88,7 @@ export const MapSearchListElementBase = ({
   const isSelected =
     checkIfArrayContainsLayer(selectedLayers, operationalLayer) && !isLoading;
 
-  const scale =
-    operationalLayer.getMetadata(METADATA.mapScale) === "0" ||
-    operationalLayer.getMetadata(METADATA.mapScale) === 0
-      ? translate("mapsearch-listelement-unknown")
-      : `1:${operationalLayer.getMetadata(METADATA.mapScale)}`;
+  const scale = formatScaleForDisplay(operationalLayer);
 
   const isMosaicMap =
     operationalLayer.getMetadata(METADATA.type) === LAYER_TYPES.MOSAIC_MAP;
@@ -118,7 +113,7 @@ export const MapSearchListElementBase = ({
       onMouseLeave={onMouseLeave}
     >
       {children}
-      <span className="data-col time">{isNaN(sortTime) ? "" : sortTime}</span>
+      <span className="data-col time">{displayTime}</span>
       <span className="data-col title">
         {operationalLayer.getMetadata(METADATA.title)}
       </span>

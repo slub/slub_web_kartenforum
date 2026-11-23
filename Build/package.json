@@ -58,6 +58,7 @@
     "@mapbox/mapbox-gl-draw": "^1.4.3",
     "@react-hook/resize-observer": "^1.2.5",
     "@react-hook/window-size": "^3.0.7",
+    "@turf/area": "^7.4.0",
     "@turf/bbox": "^7.1.0",
     "@turf/convex": "^7.2.0",
     "@turf/helpers": "^7.2.0",
@@ -136,7 +137,6 @@
   "browserslist": [
     "defaults",
     "Last 2 versions",
-    "Firefox ESR",
-    "IE 11"
+    "Firefox ESR"
   ]
 }

@@ -8,25 +8,26 @@
  *
  */
 
+// latin + latin-ext subsets, e.g. for Sorbian characters
 @font-face {
     font-family: 'Titillium Web';
     font-style: normal;
     font-weight: 200;
-    src: local(''), url('../Fonts/titillium-web-v10-latin-200.woff2') format('woff2'), url('../Fonts/titillium-web-v10-latin-200.woff') format('woff');
+    src: local(''), url('../Fonts/titillium-web-v19-latin_latin-ext-200.woff2') format('woff2');
 }
 
 @font-face {
     font-family: 'Titillium Web';
     font-style: normal;
     font-weight: 400;
-    src: local(''), url('../Fonts/titillium-web-v10-latin-regular.woff2') format('woff2'), url('../Fonts/titillium-web-v10-latin-regular.woff') format('woff');
+    src: local(''), url('../Fonts/titillium-web-v19-latin_latin-ext-regular.woff2') format('woff2');
 }
 
 @font-face {
     font-family: 'Titillium Web';
     font-style: normal;
     font-weight: 700;
-    src: local(''), url('../Fonts/titillium-web-v10-latin-700.woff2') format('woff2'), url('../Fonts/titillium-web-v10-latin-700.woff') format('woff');
+    src: local(''), url('../Fonts/titillium-web-v19-latin_latin-ext-700.woff2') format('woff2');
 }
 
 body {

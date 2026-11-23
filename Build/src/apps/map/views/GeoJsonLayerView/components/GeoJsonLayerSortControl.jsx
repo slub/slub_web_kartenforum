@@ -7,7 +7,8 @@
 
 import { translate } from "@util/util";
 import React, { useCallback, useEffect, useMemo } from "react";
-import SortControl, { SORT_STATE } from "@components/SortControl/SortControl";
+import SortControl from "@components/SortControl/SortControl";
+import { SORT_STATE } from "@components/SortControl/constants";
 import { useSetRecoilState } from "recoil";
 import {
   geoJsonLayerViewFeaturesSortOrderState,

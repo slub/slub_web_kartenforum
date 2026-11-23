@@ -25,87 +25,67 @@
 
 namespace Slub\SlubWebKartenforum\ViewHelpers;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Slub\SlubWebKartenforum\Domain\Model\FrontendUser;
 use Slub\SlubWebKartenforum\Domain\Repository\FrontendUserRepository;
-use \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * ViewHelper to get page info
+ * ViewHelper to get the current frontend user's name or username
  *
  * # Example: Basic example
  * <code>
- * <vk:frontendUser field="name">
- * 	<span>name</span>
+ * <vk:username field="name" />
  * </code>
  * <output>
  * Will output the fe_user name field
  * </output>
- *
- * @package TYPO3
  */
 class UsernameViewHelper extends AbstractViewHelper
 {
-	/**
-	 * feUserRepository
-	 *
-	 * @var FrontendUserRepository
-	 */
-	protected $feUserRepository;
+    public function __construct(
+        protected readonly FrontendUserRepository $feUserRepository,
+    ) {}
 
-	/**
-	 * @param FrontendUserRepository $feUserRepository
-	 */
-	public function injectfeUserRepository(FrontendUserRepository $feUserRepository)
-	{
-		$this->feUserRepository = $feUserRepository;
-	}
+    /**
+     * Initialize arguments.
+     */
+    public function initializeArguments(): void
+    {
+        parent::initializeArguments();
+        $this->registerArgument('field', 'string', 'field to fetch from fe_user record', false, 'name');
+    }
 
-	/**
-	 * Initialize arguments.
-	 */
-	public function initializeArguments()
-	{
-		parent::initializeArguments();
-		$this->registerArgument('field', 'string', 'field to fetch from fe_user record', false, 'name');
-	}
+    public function render(): string
+    {
+        $feUserObj = $this->getActualUser();
+        if ($feUserObj === null) {
+            return '';
+        }
 
-	/**
-	 * @throws \UnexpectedValueException
-	 */
-	public function render()
-	{
-		$field = $this->arguments['field'];
+        return match ($this->arguments['field']) {
+            'name' => $feUserObj->getName(),
+            default => $feUserObj->getUsername(),
+        };
+    }
 
-		$feUserObj = $this->getActualUser();
+    /**
+     * gets current logged in frontend user
+     */
+    public function getActualUser(): ?FrontendUser
+    {
+        $request = $this->renderingContext->hasAttribute(ServerRequestInterface::class)
+            ? $this->renderingContext->getAttribute(ServerRequestInterface::class)
+            : null;
+        $frontendUser = $request instanceof ServerRequestInterface ? $request->getAttribute('frontend.user') : null;
+        $user = $frontendUser instanceof FrontendUserAuthentication ? $frontendUser->user : null;
 
-		if ($feUserObj != NULL) {
-			switch ($field) {
-				case 'name':
-					$output = $feUserObj->getName();
-					break;
-				case 'username':
-				default:
-					$output = $feUserObj->getUsername();
-			}
-			return $output;
-		} else {
-			return '';
-		}
-	}
+        if (!is_array($user)) {
+            return null;
+        }
 
-	/**
-	 * gets current logged in frontend user
-	 *
-	 * @return FrontendUser
-	 */
-	public function getActualUser()
-	{
-		$user = $GLOBALS['TSFE']->fe_user->user;
-
-		if (is_null($user)) {
-			return null;
-		}
-
-		$feUserObj = $this->feUserRepository->findByUid($user['uid']);
-		return $feUserObj;
-	}
+        $feUserObj = $this->feUserRepository->findByUid((int)$user['uid']);
+        return $feUserObj instanceof FrontendUser ? $feUserObj : null;
+    }
 }
