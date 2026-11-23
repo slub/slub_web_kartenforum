@@ -31,7 +31,7 @@
 
 
 
-<f:section name="HeaderAssets">
+<f:page.headerData>
     <link
         rel="stylesheet"
         href="{f:uri.resource(path: 'Contrib/Css/ol.css', extensionName: 'slub_web_kartenforum')}"
@@ -48,9 +48,9 @@
         type="text/javascript"
         src="{f:uri.resource(path: 'Build/plugin-map.js', extensionName: 'slub_web_kartenforum')}"
     ></script>
-</f:section>
+</f:page.headerData>
 
-<f:section name="FooterAssets">
+<f:page.footerData>
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
             API_SEARCH:
@@ -121,12 +121,18 @@
                         "<f:translate key='plugin.map.mapsearch.time_published' extensionName='SlubWebKartenforum' />",
                     "mapsearch-time":
                         "<f:translate key='plugin.map.mapsearch.time' extensionName='SlubWebKartenforum' />",
+                    "time-period-open-end":
+                        "<f:translate key='plugin.map.timeperiod.open-end' extensionName='SlubWebKartenforum' />",
+                    "time-period-open-start":
+                        "<f:translate key='plugin.map.timeperiod.open-start' extensionName='SlubWebKartenforum' />",
                     "mapsearch-title":
                         "<f:translate key='plugin.map.mapsearch.title' extensionName='SlubWebKartenforum' />",
                     "mapsearch-sorting":
                         "<f:translate key='plugin.map.mapsearch.sorting' extensionName='SlubWebKartenforum' />",
                     "mapsearch-map_scale":
                         "<f:translate key='plugin.map.mapsearch.map_scale' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-relevance":
+                        "<f:translate key='plugin.map.mapsearch.relevance' extensionName='SlubWebKartenforum' />",
                     "mapsearch-listelement-time":
                         "<f:translate key='plugin.map.mapsearchlistelement.time' extensionName='SlubWebKartenforum' />",
                     "mapsearch-listelement-scale":
@@ -380,6 +386,8 @@
                         "<f:translate key='plugin.map.dynamicmapvis.start' extensionName='SlubWebKartenforum' />",
                     "dynamicmapvis-stop":
                         "<f:translate key='plugin.map.dynamicmapvis.stop' extensionName='SlubWebKartenforum' />",
+                    "dynamicmapvis-no-dated-layers":
+                        "<f:translate key='plugin.map.dynamicmapvis.no-dated-layers' extensionName='SlubWebKartenforum' />",
 
                     // persistence controller
                     "persistencecontroller-error-operational-layers":
@@ -511,7 +519,7 @@
             vk2.renderApp(document.getElementById("vkf-app-map"));
         }
     </script>
-</f:section>
+</f:page.footerData>
 
 
 <f:security.ifHasRole role="vk2-editor">

@@ -1,0 +1,35 @@
+categories:
+  kartenforum:
+    label: 'SLUB Kartenforum'
+
+settings:
+  plugin.tx_slubwebkartenforum.settings.basemaps:
+    label: 'JSON string (array) containing the base map configuration'
+    category: kartenforum
+    type: string
+    default: '[{"id":"slub-osm","label":"SLUB OSM","urls":["https://tile-2.kartenforum.slub-dresden.de/styles/maptiler-basic-v2/style.json"],"type":"vector","attribution":"<a href=\"https://kartenforum.slub-dresden.de/\" target=\"_blank\">Hosted by SLUB Dresden</a> <a href=\"https://www.pikobytes.de/\" target=\"_blank\">built by PIKOBYTES GmbH</a> <a href=\"https://www.openmaptiles.org/\" target=\"_blank\">&copy; OpenMapTiles</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">&copy; OpenStreetMap contributors</a>"},{"id":"bkg-topoplus","label":"TopPlusOpen","urls":["https://sgx.geodatenzentrum.de/wms_topplus_open"],"type":"wms","layers":"web","tileSize":512,"attribution":"<a href=\"https://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf\" target=\"blank\">© Bundesamt für Kartographie und Geodäsie 2022</a>"}]'
+  plugin.tx_slubwebkartenforum.settings.mapView:
+    label: 'JSON string containing the default map view configuration'
+    category: kartenforum
+    type: string
+    default: '{"center":[13.5981217, 59.562795],"zoom":2}'
+  plugin.tx_slubwebkartenforum.settings.urlNominatim:
+    label: 'Url to the nominatim (placename) endpoint'
+    category: kartenforum
+    type: string
+    default: 'https://place-search.kartenforum.slub-dresden.de/search'
+  plugin.tx_slubwebkartenforum.settings.urlSearch:
+    label: 'Url to the search endpoint'
+    category: kartenforum
+    type: string
+    default: 'https://search.test.kartenforum.slub-dresden.de/vk20'
+  plugin.tx_slubwebkartenforum.settings.terrain:
+    label: 'JSON string (object) containing the terrain configuration'
+    category: kartenforum
+    type: string
+    default: '{"url":"https://terrain.kartenforum.slub-dresden.de/v2/{z}/{x}/{y}.png"}'
+  plugin.tx_slubwebkartenforum.settings.georefApi:
+    label: 'API endpoint of the georeference service'
+    category: kartenforum
+    type: string
+    default: 'https://geo.test.kartenforum.slub-dresden.de'

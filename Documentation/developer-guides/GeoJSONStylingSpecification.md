@@ -43,7 +43,7 @@ The following properties are displayed in the feature popup[^1] with dedicated s
 | :------------ | :-------------------------------- | :------------- | :------------------------------------------------------------------------------------------- |
 | title         | String                            | No Title       | "That is a sample title"                                                                     |
 | description   | String                            | No Description | "That is a sample description"                                                               |
-| time          | String or `Array[string, string]` | `null`         | "2025-06-30" or `["2026-06-30", "2027-06-30"]`                                               |
+| time          | String or `Array[string \| null, string \| null]` | `null`         | "2025-06-30" or `["2026-06-30", "2027-06-30"]`                                               |
 | img_link      | String                            | `null`         | "https://fotothek.slub-dresden.de/fotos/df/hauptkatalog/0312000/df_hauptkatalog_0312816.jpg" |
 
 The property `time` can be
@@ -51,11 +51,21 @@ The property `time` can be
 -   a string in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), representing a single point in time or
 -   an array of 2 ISO 8601 strings, representing a time interval.
 
+One side of the interval may be `null`:
+
+-   `[null, "d"]` means the start is unknown. The feature is shown as "until d".
+-   `["d", null]` means the interval is open at the end. The feature is shown as "from d".
+-   `[null, null]` is treated like a missing `time` property.
+
+When filtering features by time, an open side is unbounded.
+
 Valid `time` values are:
 
 -   `"2025-06-30"`
 -   `["2025-06-30", "2025-06-30"]` (identical to the one above)
 -   `["2025-06-30", "2026-12-01"]`
+-   `[null, "2025-06-30"]`
+-   `["2025-06-30", null]`
 
 ### Custom Properties
 
@@ -64,7 +74,7 @@ Custom properties **must** be primitive types. Objects or arrays are not support
 
 ## Example
 
-The following example shows a FeatureCollection with a point, a polygon and a line.
+The following example shows a FeatureCollection with two points, a polygon and a line.
 
 ```json
 {
@@ -81,6 +91,19 @@ The following example shows a FeatureCollection with a point, a polygon and a li
                 "description": "A simple VKF point with a single date.",
                 "marker": "#00927e",
                 "time": "2026-07-01"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [13.7372621, 51.0504088]
+            },
+            "properties": {
+                "title": "A VKF Point feature with an open time interval",
+                "description": "A point that exists from 1950 on, without an end date.",
+                "marker": "#00927e",
+                "time": ["1950-01-01", null]
             }
         },
         {

@@ -71,8 +71,8 @@ export const useTrackGeoJsonChanges = () => {
 
                         if (key === FEATURE_PROPERTIES.time) {
                             return (
-                                oldValue[0] !== updValue[0] ||
-                                oldValue[1] !== updValue[1]
+                                oldValue?.[0] !== updValue?.[0] ||
+                                oldValue?.[1] !== updValue?.[1]
                             );
                         }
                         return oldValue !== updValue;

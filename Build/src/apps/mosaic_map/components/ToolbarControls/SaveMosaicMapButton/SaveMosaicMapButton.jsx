@@ -24,9 +24,11 @@ import {
   SaveStates,
 } from "@mosaic-map/components/MosaicMapInputPanel/components/SaveIndicator/SaveIndicator.jsx";
 
+import { isValidTimePeriod } from "@mosaic-map/components/MosaicMapInputPanel/util.js";
+
 import "./SaveMosaicMapButton.scss";
 
-// "name", "raw_map_ids", "title", "title_short", "time_of_publication", "link_thumb", "map_scale"
+// "name", "raw_map_ids", "title", "title_short", "time_period_start", "time_period_end", "link_thumb", "map_scale"
 
 const validateArray = (array) => {
   return array !== undefined && array.length > 0;
@@ -46,7 +48,8 @@ export const isMapValid = (newMap) => {
     raw_map_ids,
     title,
     title_short,
-    time_of_publication,
+    time_period_start,
+    time_period_end,
     link_thumb,
     map_scale,
   } = newMap;
@@ -56,7 +59,7 @@ export const isMapValid = (newMap) => {
     validateArray(raw_map_ids) &&
     validateString(title) &&
     validateString(title_short) &&
-    validateNumber(time_of_publication) &&
+    isValidTimePeriod(time_period_start, time_period_end) &&
     validateString(link_thumb) &&
     validateNumber(map_scale)
   );

@@ -25,7 +25,7 @@ export function getDefaultMapMetadata() {
         permalink: null,
         ppn: null,
         technic: null,
-        time_of_publication: "1899-01-01T00:00:00",
+        time_period: [1899, 1899],
         title: "",
         title_serie: null,
         title_short: "",

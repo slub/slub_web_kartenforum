@@ -3,13 +3,7 @@
 ###################################################
 
 # FLUID STYLED CONTENT
-styles {
-    templates {
-        layoutRootPath = EXT:slub_web_kartenforum/Resources/Private/Layouts/ContentElements/
-        partialRootPath = EXT:slub_web_kartenforum/Resources/Private/Partials/ContentElements/
-        templateRootPath = EXT:slub_web_kartenforum/Resources/Private/Templates/ContentElements/
-    }
-}
+# Template paths are set as settings in Configuration/Sets/Kartenforum/settings.yaml
 
 # PAGE
 page {

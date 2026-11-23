@@ -6,13 +6,19 @@
  */
 
 import React, { useState, useRef } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
 import { isDefined, translate } from "@util/util";
+import { notificationState } from "@atoms";
 import { mapState, selectedLayersState } from "@map/atoms";
-import { groupLayers, setLayersToInitialState, sortLayers } from "./util";
+import {
+  groupLayers,
+  isExcludedFromAnimation,
+  setLayersToInitialState,
+  sortLayers,
+} from "./util";
 import "./DynamicMapVisualization.scss";
 
 export const DynamicMapVisualization = ({ animationOptions = {} }) => {
@@ -24,9 +30,19 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
   const title = translate(`dynamicmapvis-${open ? "close" : "open"}`);
   const [selectedLayers, setSelectedLayers] =
     useRecoilState(selectedLayersState);
+  const setNotification = useSetRecoilState(notificationState);
 
   // refs
   const activeRef = useRef(false);
+  // layers left out of the animation, with the opacity to restore afterwards
+  const excludedLayersRef = useRef([]);
+
+  const restoreExcludedLayers = () => {
+    excludedLayersRef.current.forEach(({ layer, opacity }) => {
+      layer.setOpacity(map, opacity);
+    });
+    excludedLayersRef.current = [];
+  };
 
   const startFadeInAnimation = (options) => {
     const { layers, delay = 500 } = options;
@@ -96,10 +112,35 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
 
   // handle animation start
   const handleStart = () => {
+    const sortedLayers = sortLayers(selectedLayers);
+    const excludedLayers = sortedLayers.filter(isExcludedFromAnimation);
+
+    // nothing to animate, if all selected layers have an open start
+    if (
+      sortedLayers.length > 0 &&
+      excludedLayers.length === sortedLayers.length
+    ) {
+      setNotification({
+        id: "dynamicMapVisualization",
+        type: "info",
+        text: translate("dynamicmapvis-no-dated-layers"),
+      });
+      return;
+    }
+
+    // e.g. a restart while the animation is running
+    restoreExcludedLayers();
+
     setActive(true);
     activeRef.current = true;
-    const sortedLayers = sortLayers(selectedLayers);
     const groupedLayers = groupLayers(sortedLayers, map);
+
+    // excluded layers are on top of the layer stack and would cover the animation
+    excludedLayersRef.current = excludedLayers.map((layer) => ({
+      layer,
+      opacity: layer.getOpacity(map) ?? 1,
+    }));
+    excludedLayers.forEach((layer) => layer.setOpacity(map, 0));
 
     setSelectedLayers(sortedLayers);
 
@@ -111,6 +152,7 @@ export const DynamicMapVisualization = ({ animationOptions = {} }) => {
     setActive(false);
     activeRef.current = false;
     setAnimatedLayer(undefined);
+    restoreExcludedLayers();
   };
 
   // Toggle open state of the menu

@@ -4,7 +4,13 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import PropTypes from "prop-types";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import axios from "axios";
@@ -21,16 +27,27 @@ import {
   layoutState,
 } from "@map/atoms";
 import { isDefined } from "@util/util";
-import { createMinMaxYearQuery, getSpatialQuery } from "@util/query";
+import {
+  createMinMaxYearQuery,
+  getSpatialQuery,
+  SORT_FIELD_SCORE,
+} from "@util/query";
 import { readLayers } from "@util/parser";
+import { getCurrentYear } from "@util/date";
 import SettingsProvider from "@settings-provider";
 import {
   getSearchExtentWithSamplingVertices,
   mapPointsToSearchPolygons,
 } from "./util";
 import { useDebounce } from "@util/hooks";
-import { SORT_STATE } from "@components/SortControl/SortControl";
+import { SORT_STATE } from "@components/SortControl/constants";
 import DebugRenderSearchArea from "@map/components/PaginatingDataController/debug/DebugRenderSearchArea.jsx";
+import area from "@turf/area";
+import {
+  calculateMaxDistance,
+  calculateOptimalResolutionForViewport,
+  getPolygonFeatures,
+} from "./util_search";
 
 function _equals(a, b) {
   if (a.length !== b.length) return false;
@@ -60,22 +77,30 @@ export const PaginatingDataController = ({
     itemCount: 10,
     id: Date.now(),
   });
+  // kept in a ref, so that updating it does not trigger another refresh
+  const medianMapResolutionRef = useRef(0);
 
   // derived
   const settings = SettingsProvider.getSettings();
   const elasticsearch_node = settings.API_SEARCH;
 
   /**
-   * @param {Array.<GeoJSONFeature>} Array of GeoJSON features representing the search area
+   * @param {Array.<import("ol/format/GeoJSON").GeoJSONFeature>} Array of GeoJSON features representing the search area
    * @return {Object}
    * @private
    */
   const createSearchRequest = useCallback(
-    (searchArea) => {
+    (searchArea, optimalResolution, center, maxDistance) => {
       const sortOrd_ = sortOrder === SORT_STATE.ASCENDING ? "asc" : "desc";
-      const searchPolygons = searchArea
-        .filter((ft) => ft?.geometry?.type === "Polygon")
-        .map((ft) => ft.geometry.coordinates);
+      const polygonFeatures = getPolygonFeatures(searchArea);
+      const searchPolygons = polygonFeatures.map(
+        (ft) => ft.geometry.coordinates
+      );
+
+      const searchPolygonArea = area({
+        type: "FeatureCollection",
+        features: polygonFeatures,
+      });
 
       return getSpatialQuery({
         timePeriodStartFieldName: "time_period_start",
@@ -83,14 +108,41 @@ export const PaginatingDataController = ({
         timeValues: [`${timeExtent[0]}-01-01`, `${timeExtent[1]}-12-31`],
         geometrySearchFieldName: "geometry",
         geometrySearchPolygons: searchPolygons,
-        sortFieldName: sortAttribute,
+        sortFieldName:
+          sortAttribute === "relevance" ? SORT_FIELD_SCORE : sortAttribute,
         sortValue: sortOrd_,
         facets,
         customQueryExtension: customQuery,
+        scriptScoreParams: {
+          optimalResolution,
+          center,
+          maxDistance,
+          searchArea: searchPolygonArea,
+          medianMapResolution: medianMapResolutionRef.current,
+        },
+        mapResolutionFieldName: "map_resolution",
       });
     },
     [facets, sortAttribute, sortOrder, timeExtent]
   );
+
+  const { optimalResolution, center, maxDistance } = useMemo(() => {
+    if (!isDefined(map)) {
+      return {
+        center: { lng: 50, lat: 50 }, // an arbitrary default
+        maxDistance: 1,
+        optimalResolution: 1,
+      };
+    }
+
+    const center = map.getCenter();
+
+    return {
+      maxDistance: calculateMaxDistance(spatialSearchView, center),
+      optimalResolution: calculateOptimalResolutionForViewport(map),
+      center,
+    };
+  }, [spatialSearchView, map]);
 
   // fetch the results from the index
   const fetchResults = useCallback(
@@ -100,7 +152,12 @@ export const PaginatingDataController = ({
         return new Promise((res) => res([]));
       }
       // build elasticsearch request
-      const requestPayload = createSearchRequest(spatialSearchView);
+      const requestPayload = createSearchRequest(
+        spatialSearchView,
+        optimalResolution,
+        center,
+        maxDistance
+      );
       const requestUrl =
         elasticsearch_node + "/_search?from=" + start + "&size=" + size;
 
@@ -123,7 +180,13 @@ export const PaginatingDataController = ({
           setIsSearchLoading(false);
         });
     },
-    [createSearchRequest, spatialSearchView]
+    [
+      createSearchRequest,
+      spatialSearchView,
+      optimalResolution,
+      center,
+      maxDistance,
+    ]
   );
 
   ////
@@ -133,6 +196,10 @@ export const PaginatingDataController = ({
   const handleRefresh = useCallback(() => {
     fetchResults(0, 0, true).then((data) => {
       const mapCount = data["hits"]["total"]["value"];
+      // update before the descriptor, so that the consumer fetches with the current median
+      medianMapResolutionRef.current =
+        data["aggregations"]["medianMapResolution"]["values"]["50.0"] ?? 0;
+
       setMapsInViewport(mapCount);
       setSearchResultDescriptor({ itemCount: mapCount, id: Date.now() });
     });
@@ -205,7 +272,12 @@ export const PaginatingDataController = ({
         const max = new Date(data["aggregations"]["maxYear"]["value"]),
           min = new Date(data["aggregations"]["minYear"]["value"]);
 
-        const newRange = [min.getUTCFullYear(), max.getUTCFullYear()];
+        // future years are not allowed, so the range ends at the current year at the latest
+        const currentYear = getCurrentYear();
+        const newRange = [
+          Math.min(min.getUTCFullYear(), currentYear),
+          Math.min(max.getUTCFullYear(), currentYear),
+        ];
 
         // reset the range and extent only if the range was still the default range or if the range has changed
         if (

@@ -118,7 +118,7 @@ page {
 
         og:site_name {
             attribute = property
-            data = TSFE:tmpl|setup|sitetitle
+            data = site:websiteTitle
         }
 
         og:description = {$page.meta.description}
@@ -147,9 +147,11 @@ page {
                             height = 720c
                         }
 
+                        # IMG_RESOURCE passes the processed image's public URL to stdWrap
                         stdWrap {
+                            setContentToCurrent = 1
                             typolink {
-                                parameter.data = TSFE:lastImgResourceInfo|3
+                                parameter.current = 1
                                 returnLast = url
                                 forceAbsoluteUrl = 1
                             }

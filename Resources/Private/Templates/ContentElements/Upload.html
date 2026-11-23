@@ -14,7 +14,7 @@
         </f:then>
     </f:security.ifAuthenticated>
 
-    <f:section name="HeaderAssets">
+    <f:page.headerData>
         <link
             rel="stylesheet"
             href="{f:uri.resource(path: 'Build/plugin-upload-map.css', extensionName: 'slub_web_kartenforum')}"
@@ -23,9 +23,9 @@
             type="text/javascript"
             src="{f:uri.resource(path: 'Build/plugin-upload-map.js', extensionName: 'slub_web_kartenforum')}"
         ></script>
-    </f:section>
+    </f:page.headerData>
 
-    <f:section name="FooterAssets">
+    <f:page.footerData>
         <script type="text/javascript">
             vk2.SettingsProvider.appendSettings({
                 API_GEOREFERENCE_BASEURL:
@@ -105,7 +105,7 @@
                 vk2.renderApp(document.getElementById("vkf-app-upload"));
             }
         </script>
-    </f:section>
+    </f:page.footerData>
 
     <div id="vkf-app-upload"></div>
 </html>

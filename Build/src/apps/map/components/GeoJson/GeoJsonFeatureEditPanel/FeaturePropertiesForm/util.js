@@ -19,7 +19,10 @@ import {
 import { formatDateLocalized, parseDateLocalized } from "@util/date.js";
 import { getNonStylingProperties } from "../../util/util";
 
-// maps [number,number] to localized date format for display in form fields
+const isEmptyFormDate = (date) => !isDefined(date) || date === "";
+
+// maps [number|null,number|null] to localized date format for display in form fields,
+// an open side (`null`) becomes an empty field
 const propertiesTimePeriodToForm = (timePeriod) => {
     if (!Array.isArray(timePeriod)) {
         return {
@@ -28,20 +31,27 @@ const propertiesTimePeriodToForm = (timePeriod) => {
         };
     }
 
-    const timeStart = formatDateLocalized(timePeriod[0]) ?? "";
-    const timeEnd = formatDateLocalized(timePeriod[1]) ?? "";
+    const [start, end] = timePeriod;
+
+    const timeStart = isDefined(start) ? formatDateLocalized(start) : "";
+    const timeEnd = isDefined(end) ? formatDateLocalized(end) : "";
 
     return { timeStart, timeEnd };
 };
 
-// maps localized [string,string] to [number,number]
+// maps localized [string,string] to [number|null,number|null], an empty field becomes an
+// open side (`null`)
 const formTimePeriodToProperties = (start, end) => {
-    if (start === "" || end === "") {
+    if (isEmptyFormDate(start) && isEmptyFormDate(end)) {
         return [];
     }
 
-    const parsedStartDate = parseDateLocalized(start).valueOf();
-    const parsedEndDate = parseDateLocalized(end).valueOf();
+    const parsedStartDate = isEmptyFormDate(start)
+        ? null
+        : parseDateLocalized(start).valueOf();
+    const parsedEndDate = isEmptyFormDate(end)
+        ? null
+        : parseDateLocalized(end).valueOf();
 
     if (Number.isNaN(parsedStartDate) || Number.isNaN(parsedEndDate)) {
         return [];

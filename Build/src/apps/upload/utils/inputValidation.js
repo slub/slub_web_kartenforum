@@ -1,3 +1,30 @@
+import { getCurrentYear } from "@util/date";
+
+const YEAR_MIN = 1;
+
+const isEmpty = (value) =>
+    value === undefined || value === null || value === "";
+
+// An empty year is valid, otherwise it must be a whole number from YEAR_MIN to the current year
+const validateYear = (value) => {
+    if (isEmpty(value)) {
+        return true;
+    }
+
+    const year = Number(value);
+    if (!Number.isInteger(year) || year < YEAR_MIN) {
+        return "Please enter a valid year";
+    }
+
+    return year <= getCurrentYear() || "The year must not be in the future";
+};
+
+// The time period may be open on one side, but not on both
+const validateTimePeriodSet = (value, otherValue) =>
+    !isEmpty(value) ||
+    !isEmpty(otherValue) ||
+    "Please enter a start or end year";
+
 export const formValidations = {
     description: {
         name: "description",
@@ -119,20 +146,45 @@ export const formValidations = {
             },
         },
     },
-    time_of_publication: {
-        name: "time_of_publication",
-        label: "time_of_publication",
+    time_period_start: {
+        name: "time_period_start",
+        label: "time_period_start",
         type: "number",
-        id: "time_of_publication",
+        id: "time_period_start",
         validation: {
             required: {
-                value: true,
+                value: false,
                 message: "required",
             },
-            maxLength: {
-                value: 4,
-                message: "Please enter a valid year",
+            validate: {
+                isYear: validateYear,
+                isTimePeriodSet: (value, values) =>
+                    validateTimePeriodSet(value, values.time_period_end),
             },
+            deps: ["time_period_end"],
+        },
+    },
+    time_period_end: {
+        name: "time_period_end",
+        label: "time_period_end",
+        type: "number",
+        id: "time_period_end",
+        validation: {
+            required: {
+                value: false,
+                message: "required",
+            },
+            validate: {
+                isYear: validateYear,
+                isTimePeriodSet: (value, values) =>
+                    validateTimePeriodSet(value, values.time_period_start),
+                isNotBeforeStart: (value, values) =>
+                    isEmpty(value) ||
+                    isEmpty(values.time_period_start) ||
+                    Number(values.time_period_start) <= Number(value) ||
+                    "The end year must not be before the start year",
+            },
+            deps: ["time_period_start"],
         },
     },
     allow_download: {

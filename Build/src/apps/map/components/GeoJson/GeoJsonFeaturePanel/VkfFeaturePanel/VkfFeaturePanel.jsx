@@ -19,28 +19,31 @@ import CustomValue from "./CustomValue";
 import "./VkfFeaturePanel.scss";
 
 const HEADER_PROPERTIES = [...predefinedProperties];
+
+const isEmptyString = (value) =>
+  typeof value === "string" && value.trim() === "";
+
 const canBeDisplayed = (value) =>
-  isDefined(value) && value !== "" && typeof value !== "object";
+  isDefined(value) && !isEmptyString(value) && typeof value !== "object";
 
 const GeoJsonFeaturePanel = ({ feature, onClose }) => {
   const properties = useMemo(() => getNonStylingProperties(feature), [feature]);
 
-  const { defaultTitle, defaultDescription } = useMemo(() => {
-    return {
-      defaultTitle: translate("geojson-featureview-no-title"),
-      defaultDescription: translate("geojson-featureview-no-description"),
-    };
-  }, []);
+  const defaultTitle = useMemo(
+    () => translate("geojson-featureview-no-title"),
+    []
+  );
 
   const { imageLink, title, description, time } = useMemo(() => {
     const time = properties[FEATURE_PROPERTIES.time];
     const parsedTime = isDefined(time) ? formatFeatureTime(time) : null;
+    const description = properties[FEATURE_PROPERTIES.description];
+    const parsedDescription = canBeDisplayed(description) ? description : null;
 
     return {
       imageLink: properties[FEATURE_PROPERTIES.imgLink],
       title: properties[FEATURE_PROPERTIES.title] ?? defaultTitle,
-      description:
-        properties[FEATURE_PROPERTIES.description] ?? defaultDescription,
+      description: parsedDescription,
       time: parsedTime,
     };
   }, [properties]);
@@ -73,12 +76,14 @@ const GeoJsonFeaturePanel = ({ feature, onClose }) => {
             </span>
             <span className="title">{title}</span>
           </div>
-          <div className="description-section">
-            <p className="geojson-feature-property-label">
-              {translate("geojson-featureview-description")}
-            </p>
-            <p className="geojson-feature-property-text">{description}</p>
-          </div>
+          {description !== null && (
+            <div className="description-section">
+              <p className="geojson-feature-property-label">
+                {translate("geojson-featureview-description")}
+              </p>
+              <p className="geojson-feature-property-text">{description}</p>
+            </div>
+          )}
           {time !== null && (
             <div className="time-section">
               <p className="geojson-feature-property-label">

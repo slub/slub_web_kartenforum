@@ -5,7 +5,7 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-import { isDefined } from "@util/util";
+import { isDefined, translate } from "@util/util";
 import { LAYER_TYPES, METADATA } from "@map/components/CustomLayers";
 import SettingsProvider from "@settings-provider";
 
@@ -37,4 +37,15 @@ export const getImageSrcFromLayer = (layer) => {
     }
 
     return thumbnailUrl.replace("http:", "");
+};
+
+// a missing scale or a scale of 0 is shown as unknown
+export const formatScaleForDisplay = (layer) => {
+    const scale = layer.getMetadata(METADATA.mapScale);
+
+    if (!scale || scale === "0") {
+        return translate("mapsearch-listelement-unknown");
+    }
+
+    return `1:${scale}`;
 };

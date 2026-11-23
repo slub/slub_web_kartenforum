@@ -47,7 +47,7 @@ export async function queryStatistics() {
  *     items: {
  *       map_id: string,
  *       metadata: {
- *         time_published: string,
+ *         time_period: [number|null, number|null],
  *         title: string,
  *       },
  *       transformation: {
@@ -69,7 +69,7 @@ export async function queryStatistics() {
  *     }[],
  *     map_id: string,
  *     metadata: {
- *       time_published: string,
+ *       time_period: [number|null, number|null],
  *       title: string,
  *     },
  *     pending_jobs: boolean,
@@ -105,7 +105,7 @@ export async function queryTransformationForMapId(mapId) {
  *     transformations: {
  *       map_id: string,
  *       metadata: {
- *         time_published: string,
+ *         time_period: [number|null, number|null],
  *         title: string,
  *         title_short: string,
  *       },
@@ -157,7 +157,7 @@ export async function queryTransformationForUserId(userId) {
  *     transformations: {
  *       map_id: string,
  *       metadata: {
- *         time_published: string,
+ *         time_period: [number|null, number|null],
  *         title: string,
  *         title_short: string,
  *       },
@@ -351,7 +351,7 @@ export async function queryTransformationPreview(transformationId) {
  *         map_id: string,
  *         metadata: {
  *             thumbnail: string,
- *             time_published: string,
+ *             time_period: [number|null, number|null],
  *             title: string,
  *         },
  *         transformation: {

@@ -2,41 +2,37 @@
     <sheets>
         <sDEF>
             <ROOT>
-                <TCEforms>
-                    <sheetTitle>Configuration of Plugin Apps.</sheetTitle>
-                </TCEforms>
+                <sheetTitle>Configuration of Plugin Apps.</sheetTitle>
                 <type>array</type>
                 <el>
                     <settings.importApp>
-                        <TCEforms>
-                            <label>Select app to import</label>
-                            <config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items>
-                                    <numIndex index="0">
-                                        <numIndex index="0"/>
-                                        <numIndex index="1"/>
-                                    </numIndex>
-                                    <numIndex index="1">
-                                        <numIndex index="0">User History</numIndex>
-                                        <numIndex index="1">UserHistory</numIndex>
-                                    </numIndex>
-                                    <numIndex index="2">
-                                        <numIndex index="0">Georeference ProgressBar</numIndex>
-                                        <numIndex index="1">ProgressBar</numIndex>
-                                    </numIndex>
-                                    <numIndex index="3">
-                                        <numIndex index="0">Georeference Ranking</numIndex>
-                                        <numIndex index="1">GeoreferenceRanking</numIndex>
-                                    </numIndex>
-                                    <numIndex index="4">
-                                        <numIndex index="0">Unreferenced Maps</numIndex>
-                                        <numIndex index="1">UnreferencedMaps</numIndex>
-                                    </numIndex>
-                                </items>
-                            </config>
-                        </TCEforms>
+                        <label>Select app to import</label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items>
+                                <numIndex index="0">
+                                    <label></label>
+                                    <value></value>
+                                </numIndex>
+                                <numIndex index="1">
+                                    <label>User History</label>
+                                    <value>UserHistory</value>
+                                </numIndex>
+                                <numIndex index="2">
+                                    <label>Georeference ProgressBar</label>
+                                    <value>ProgressBar</value>
+                                </numIndex>
+                                <numIndex index="3">
+                                    <label>Georeference Ranking</label>
+                                    <value>GeoreferenceRanking</value>
+                                </numIndex>
+                                <numIndex index="4">
+                                    <label>Unreferenced Maps</label>
+                                    <value>UnreferencedMaps</value>
+                                </numIndex>
+                            </items>
+                        </config>
                     </settings.importApp>
                 </el>
             </ROOT>

@@ -5,95 +5,54 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 defined('TYPO3') || die();
 
 /*
- * Configure backend tabs and palettes for the new content elements
+ * Configure backend tabs and palettes for the new content elements.
+ * The "Plugin Options" field (pi_flexform) is only shown for elements with a FlexForm.
  */
-$contentElementConfig = [
-    'showitem' => '
-        --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,
-        pi_flexform,
-        --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,
-        --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility,
-        --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,
-    '
+$showitem = static fn (bool $withFlexForm): string => '
+    --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,
+    ' . ($withFlexForm ? 'pi_flexform,' : '') . '
+    --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access,
+    --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility,
+    --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,
+';
+
+/*
+ * Enhance available content elements: CType => [label key, icon identifier, FlexForm file or null]
+ */
+$contentElements = [
+    'slubwebkartenforum_signup' => ['plugin.signup', 'VkfSignup', 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_signup.xml'],
+    'slubwebkartenforum_map' => ['plugin.map', 'VkfMap', null],
+    'slubwebkartenforum_apps' => ['plugin.apps', 'VkfApps', 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_apps.xml'],
+    'slubwebkartenforum_admin' => ['plugin.admin', 'VkfAdmin', null],
+    'slubwebkartenforum_georeference' => ['plugin.georeference', 'VkfGeoref', null],
+    'slubwebkartenforum_mosaicmap' => ['plugin.mosaic-map', 'VkfMap', null],
+    'slubwebkartenforum_upload' => ['plugin.upload', 'VkfMap', null],
 ];
 
 /*
- * Enhance available content elements
+ * The group and items are also used by the "New content element" wizard
  */
-$orgTca = $GLOBALS['TCA']['tt_content'];
-$overrideTca = [
-    'ctrl' => [
-        'typeicon_classes' => [
-            'slubwebkartenforum_signup' => 'VkfSignup',
-            'slubwebkartenforum_map' => 'VkfMap',
-            'slubwebkartenforum_apps' => 'VkfApps',
-            'slubwebkartenforum_georeference' => 'VkfGeoref',
-            'slubwebkartenforum_admin' => 'VkfAdmin',
-            'slubwebkartenforum_mosaicmap' => 'VkfGeoref',
-            'slubwebkartenforum_upload' => 'VkfGeoref',
-        ],
-    ],
-    'types' => [
-        'slubwebkartenforum_signup' => $contentElementConfig,
-        'slubwebkartenforum_map' => $contentElementConfig,
-        'slubwebkartenforum_apps' => $contentElementConfig,
-        'slubwebkartenforum_georeference' => $contentElementConfig,
-        'slubwebkartenforum_admin' => $contentElementConfig,
-        'slubwebkartenforum_mosaicmap' => $contentElementConfig,
-        'slubwebkartenforum_upload' => $contentElementConfig,
-    ],
-    'columns' => [
-        'CType' => [
-            'config' => [
-                'items' => [
-                    [
-                        'SLUB Kartenforum',
-                        '--div--'
-                    ],
-                    [
-                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.signup',
-                        'slubwebkartenforum_signup',
-                        'VkfSignup'
-                    ],
-                    [
-                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.map',
-                        'slubwebkartenforum_map',
-                        'VkfMap'
-                    ],
-                    [
-                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.apps',
-                        'slubwebkartenforum_apps',
-                        'VkfApps'
-                    ],
-                    [
-                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.admin',
-                        'slubwebkartenforum_admin',
-                        'VkfAdmin'
-                    ],
-                    [
-                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.georeference',
-                        'slubwebkartenforum_georeference',
-                        'VkfGeoref'
-                    ],
-                    [
-                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.mosaic-map',
-                        'slubwebkartenforum_mosaicmap',
-                        'VkfMosaicMap'
-                    ],
-                    [
-                        'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:plugin.upload',
-                        'slubwebkartenforum_upload',
-                        'VkfUpload'
-                    ],
-                ]
-            ]
+ExtensionManagementUtility::addTcaSelectItemGroup(
+    'tt_content',
+    'CType',
+    'slubwebkartenforum',
+    'SLUB Kartenforum'
+);
+
+foreach ($contentElements as $cType => [$labelKey, $icon, $flexForm]) {
+    ExtensionManagementUtility::addTcaSelectItem(
+        'tt_content',
+        'CType',
+        [
+            'label' => 'LLL:EXT:slub_web_kartenforum/Resources/Private/Language/locallang.xlf:' . $labelKey,
+            'value' => $cType,
+            'icon' => $icon,
+            'group' => 'slubwebkartenforum',
         ]
-    ]
-];
-$GLOBALS['TCA']['tt_content'] = array_merge_recursive($orgTca, $overrideTca);
-
-/*
- * Add dedicated flexform setups for the new content elements
- */
-ExtensionManagementUtility::addPiFlexFormValue('*', 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_apps.xml', 'slubwebkartenforum_apps');
-ExtensionManagementUtility::addPiFlexFormValue('*', 'FILE:EXT:slub_web_kartenforum/Configuration/FlexForms/flexform_signup.xml', 'slubwebkartenforum_signup');
+    );
+    $GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes'][$cType] = $icon;
+    $GLOBALS['TCA']['tt_content']['types'][$cType] = ['showitem' => $showitem($flexForm !== null)];
+    if ($flexForm !== null) {
+        $GLOBALS['TCA']['tt_content']['types'][$cType]['columnsOverrides']['pi_flexform']['config']['ds'] = $flexForm;
+    }
+}

@@ -23,9 +23,10 @@ import { emptyFeatureCollection } from "@map/components/GeoJson/constants";
  */
 export const readLayer = function (id, record) {
     const geometry = "geometry" in record ? record["geometry"] : undefined;
+    // a missing date is an open side of the time period
     const time_period = [
-        record["time_period_start"],
-        record["time_period_end"],
+        record["time_period_start"] ?? null,
+        record["time_period_end"] ?? null,
     ];
 
     delete record["geometry"];
@@ -68,20 +69,38 @@ export const readLayers = function (records) {
     return features;
 };
 
+/**
+ * Maps the time period of a mosaic map (years, `null` for an open side) to
+ * the start and end year used by the input panel.
+ */
 export const readMosaicMap = (mosaicMap) => {
-    const { time_of_publication, ...rest } = mosaicMap;
+    const { time_period, ...rest } = mosaicMap;
+    const [time_period_start, time_period_end] = time_period;
 
     return {
-        time_of_publication: parseInt(time_of_publication.split("-")[0]),
+        time_period_start,
+        time_period_end,
         ...rest,
     };
 };
 
+const _toYear = (year) => {
+    if (year === undefined || year === null || Number.isNaN(year)) {
+        return null;
+    }
+
+    return year;
+};
+
+/**
+ * Maps the start and end year of the input panel to the time period of a
+ * mosaic map. An empty year is sent as `null` (open side).
+ */
 export const serializeMosaicMap = (mosaicMap) => {
-    const { time_of_publication, ...rest } = mosaicMap;
+    const { time_period_start, time_period_end, ...rest } = mosaicMap;
 
     return {
-        time_of_publication: `${time_of_publication}-01-01T00:00:00`,
+        time_period: [_toYear(time_period_start), _toYear(time_period_end)],
         ...rest,
     };
 };

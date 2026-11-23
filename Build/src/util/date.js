@@ -147,6 +147,29 @@ export function normalizeDate(date) {
     return startOfDay(date, { in: utc });
 }
 
+/**
+ * Checks if a date is after today. Compares calendar days: the date is normalized
+ * to UTC start of day (as returned by parseDateLocalized) and compared with the
+ * local calendar day of today.
+ * @param {Date} date A Date instance
+ * @returns {boolean}
+ */
+export function isDateInFuture(date) {
+    const now = new Date();
+    const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+
+    return normalizeDate(date).getTime() > today;
+}
+
+/**
+ * Returns the current year. Evaluated on each call, so it stays correct in
+ * long-lived pages.
+ * @returns {number}
+ */
+export function getCurrentYear() {
+    return new Date().getFullYear();
+}
+
 export function getUnixSeconds(date) {
     if (!isDefined(date)) {
         return Number.NaN;

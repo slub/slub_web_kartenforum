@@ -4,5 +4,4 @@
 @import 'EXT:slub_web_kartenforum/Configuration/TsConfig/Page/RTE.tsconfig'
 @import 'EXT:slub_web_kartenforum/Configuration/TsConfig/Page/TCEFORM.tsconfig'
 @import 'EXT:slub_web_kartenforum/Configuration/TsConfig/Page/TCEMAIN.tsconfig'
-@import 'EXT:slub_web_kartenforum/Configuration/TsConfig/Page/Mod/Wizards.tsconfig'
 @import 'EXT:slub_web_kartenforum/Configuration/TsConfig/Page/Mod/WebLayout/BackendLayouts/*.tsconfig'

@@ -6,16 +6,16 @@
 <input type="hidden" value="{urlSearch}" id="setting-urlSearch"/>
 <input type="hidden" value="{georefApi}" id="setting-georefApi"/>
 
-<f:section name="HeaderAssets">
+<f:page.headerData>
     <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/ol.css', extensionName: 'slub_web_kartenforum')}"/>
     <link rel="stylesheet"
           href="{f:uri.resource(path: 'Build/plugin-admin.css', extensionName: 'slub_web_kartenforum')}"/>
     <script type="text/javascript"
             src="{f:uri.resource(path: 'Build/plugin-admin.js', extensionName: 'slub_web_kartenforum')}"></script>
-</f:section>
+</f:page.headerData>
 
 <!-- We have to set the language code extra, because if not the fluid template engine will destroy our osm_urls pattern -->
-<f:section name="FooterAssets">
+<f:page.footerData>
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
             "LANGUAGE_CODE": "<f:translate key='global.language_code' extensionName='SlubWebKartenforum' />",
@@ -50,7 +50,7 @@
         }
     </script>
 
-</f:section>
+</f:page.footerData>
 
 <div id="vkf-app-container">
 </div>

@@ -1,0 +1,4 @@
+name: slub/kartenforum
+label: 'SLUB Kartenforum'
+dependencies:
+  - typo3/fluid-styled-content

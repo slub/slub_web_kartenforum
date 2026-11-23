@@ -28,62 +28,36 @@ namespace Slub\SlubWebKartenforum\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Slub\SlubWebKartenforum\Domain\Model\FrontendUser;
+use Slub\SlubWebKartenforum\Domain\Model\FrontendUserGroup;
 use Slub\SlubWebKartenforum\Domain\Repository\FrontendUserGroupRepository;
 use Slub\SlubWebKartenforum\Domain\Repository\FrontendUserRepository;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
-use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 /**
  * AuthController
  */
 class AuthController extends ActionController
 {
-    /**
-     * feUserRepository
-     *
-     * @var FrontendUserRepository
-     */
-    protected $feUserRepository;
-
-    /**
-     * userGroupRepository
-     *
-     * @var FrontendUserGroupRepository
-     */
-    protected $feUserGroupRepository;
-
-    /**
-     * persistenceManager
-     *
-     * @var PersistenceManager
-     */
-    protected $persistenceManager;
-
-    public function __construct(FrontendUserRepository $feUserRepository, FrontendUserGroupRepository $feUserGroupRepository, PersistenceManager $persistenceManager)
-    {
-        $this->feUserRepository = $feUserRepository;
-        $this->feUserGroupRepository = $feUserGroupRepository;
-        $this->persistenceManager = $persistenceManager;
-    }
+    public function __construct(
+        protected readonly FrontendUserRepository $feUserRepository,
+        protected readonly FrontendUserGroupRepository $feUserGroupRepository,
+        protected readonly PersistenceManager $persistenceManager,
+        protected readonly PasswordHashFactory $passwordHashFactory,
+    ) {}
 
     /**
      * Handle signup form
-     * @param FrontendUser|NULL $user
-     * @return ResponseInterface
      */
-    public function signupAction(FrontendUser $user = NULL)
+    public function signupAction(?FrontendUser $user = null): ResponseInterface
     {
         $arguments = $this->request->getArguments();
-        if (key_exists(
-            'errors',
-            $arguments,
-        )) {
+        if (array_key_exists('errors', $arguments)) {
             $this->view->assign('errors', $arguments['errors']);
         }
 
@@ -94,22 +68,20 @@ class AuthController extends ActionController
 
     /**
      * Add new users to database
-     * @param FrontendUser $user
-     * @return ResponseInterface
+     *
      * @throws InvalidPasswordHashException
-     * @throws StopActionException
-     * @throws UnsupportedRequestTypeException
      * @throws IllegalObjectTypeException
      */
-    public function addUserAction(FrontendUser $user)
+    public function addUserAction(FrontendUser $user): ResponseInterface
     {
         // attach user group to user
-        $usergroup = $this->feUserGroupRepository->findByTitle('vk2-user')[0];
-        $user->addUsergroup($usergroup);
+        $usergroup = $this->feUserGroupRepository->findOneBy(['title' => 'vk2-user']);
+        if ($usergroup instanceof FrontendUserGroup) {
+            $user->addUsergroup($usergroup);
+        }
 
         // handle password
-        $saltFactory = GeneralUtility::makeInstance(PasswordHashFactory::class);
-        $defaultHashInstance = $saltFactory->getDefaultHashInstance('FE');
+        $defaultHashInstance = $this->passwordHashFactory->getDefaultHashInstance('FE');
         $user->setPassword($defaultHashInstance->getHashedPassword($user->getPassword()));
 
         // add user to repository and persist
@@ -117,20 +89,26 @@ class AuthController extends ActionController
         $this->feUserRepository->add($user);
         $this->persistenceManager->persistAll();
 
-        $uriBuilder = $this->uriBuilder;
         $redirectTargetUid = empty($this->settings['flexform']['loginPage']) ? $this->settings['loginPage'] : $this->settings['flexform']['loginPage'];
 
         $userId = $user->getUid();
         if (!empty($userId)) {
-            $tsfe = $this->request->getAttribute('frontend.controller');
-            $tsfe->fe_user->createUserSession(['uid' => $userId]);
-            $tsfe->fe_user->enforceNewSessionId();
+            $frontendUser = $this->request->getAttribute('frontend.user');
+            if ($frontendUser instanceof FrontendUserAuthentication) {
+                $frontendUser->createUserSession(['uid' => $userId]);
+                // Make the new user known to the current request as well, otherwise
+                // storeSessionData() treats the request as anonymous and removes the cookie
+                $frontendUser->user = $frontendUser->getRawUserByUid($userId);
+                $frontendUser->enforceNewSessionId();
+            }
 
-            $rootPageId = $tsfe->rootLine[0]['uid'];
-            $redirectTargetUid = $rootPageId;
+            $site = $this->request->getAttribute('site');
+            if ($site instanceof Site) {
+                $redirectTargetUid = $site->getRootPageId();
+            }
         }
 
-        $uri = $uriBuilder->setTargetPageUid($redirectTargetUid)->build();
+        $uri = $this->uriBuilder->setTargetPageUid((int)$redirectTargetUid)->build();
         return $this
             ->responseFactory
             ->createResponse(303)

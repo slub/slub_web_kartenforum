@@ -18,7 +18,7 @@
     </f:then>
 </f:security.ifAuthenticated>
 
-<f:section name="HeaderAssets">
+<f:page.headerData>
     <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/ol.css', extensionName: 'slub_web_kartenforum')}"/>
     <link rel="stylesheet"
           href="{f:uri.resource(path: 'Build/plugin-map-mosaic.css', extensionName: 'slub_web_kartenforum')}"/>
@@ -26,9 +26,9 @@
             src="{f:uri.resource(path: 'Contrib/JavaScript/glif.min.js', extensionName: 'slub_web_kartenforum')}"></script>
     <script type="text/javascript"
             src="{f:uri.resource(path: 'Build/plugin-map-mosaic.js', extensionName: 'slub_web_kartenforum')}"></script>
-</f:section>
+</f:page.headerData>
 
-<f:section name="FooterAssets">
+<f:page.footerData>
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
             "API_GEOREFERENCE_BASEURL": document.getElementById("setting-georefApi").value,
@@ -65,9 +65,12 @@
                     "mapsearch-georeference": "<f:translate key='plugin.map.mapsearch.georeference' extensionName='SlubWebKartenforum' />",
                     "mapsearch-time_published": "<f:translate key='plugin.map.mapsearch.time_published' extensionName='SlubWebKartenforum' />",
                     "mapsearch-time": "<f:translate key='plugin.map.mapsearch.time_published' extensionName='SlubWebKartenforum' />",
+                    "time-period-open-end": "<f:translate key='plugin.map.timeperiod.open-end' extensionName='SlubWebKartenforum' />",
+                    "time-period-open-start": "<f:translate key='plugin.map.timeperiod.open-start' extensionName='SlubWebKartenforum' />",
                     "mapsearch-title": "<f:translate key='plugin.map.mapsearch.title' extensionName='SlubWebKartenforum' />",
                     "mapsearch-sorting": "<f:translate key='plugin.map.mapsearch.sorting' extensionName='SlubWebKartenforum' />",
                     "mapsearch-map_scale": "<f:translate key='plugin.map.mapsearch.map_scale' extensionName='SlubWebKartenforum' />",
+                    "mapsearch-relevance": "<f:translate key='plugin.map.mapsearch.relevance' extensionName='SlubWebKartenforum' />",
                     "mapsearch-listelement-time": "<f:translate key='plugin.map.mapsearchlistelement.time' extensionName='SlubWebKartenforum' />",
                     "mapsearch-listelement-scale": "<f:translate key='plugin.map.mapsearchlistelement.scale' extensionName='SlubWebKartenforum' />",
                     "mapsearch-listelement-no-georef": "<f:translate key='plugin.map.mapsearchlistelement.notGeoref' extensionName='SlubWebKartenforum' />",
@@ -89,7 +92,8 @@
                     "mosaic-maps-input-panel-title": "<f:translate key='plugin.map.mosaicMaps.inputPanel.title' extensionName='SlubWebKartenforum' />",
                     "mosaic-maps-input-panel-field_name": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_name' extensionName='SlubWebKartenforum' />",
                     "mosaic-maps-input-panel-field_title": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_title' extensionName='SlubWebKartenforum' />",
-                    "mosaic-maps-input-panel-field_time_of_publication": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_time_of_publication' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-input-panel-field_time_period_start": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_time_period_start' extensionName='SlubWebKartenforum' />",
+                    "mosaic-maps-input-panel-field_time_period_end": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_time_period_end' extensionName='SlubWebKartenforum' />",
                     "mosaic-maps-input-panel-field_link_thumb": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_link_to_thumb' extensionName='SlubWebKartenforum' />",
                     "mosaic-maps-input-panel-field_title_short": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_title_short' extensionName='SlubWebKartenforum' />",
                     "mosaic-maps-input-panel-field_map_scale": "<f:translate key='plugin.map.mosaicMaps.inputPanel.field_scale' extensionName='SlubWebKartenforum' />",
@@ -153,6 +157,7 @@
                     "dynamicmapvis-close": "<f:translate key='plugin.map.dynamicmapvis.close' extensionName='SlubWebKartenforum' />",
                     "dynamicmapvis-start": "<f:translate key='plugin.map.dynamicmapvis.start' extensionName='SlubWebKartenforum' />",
                     "dynamicmapvis-stop": "<f:translate key='plugin.map.dynamicmapvis.stop' extensionName='SlubWebKartenforum' />",
+                    "dynamicmapvis-no-dated-layers": "<f:translate key='plugin.map.dynamicmapvis.no-dated-layers' extensionName='SlubWebKartenforum' />",
 
                     // persistence controller
                     // TODO mosaic maps - this languagecode block can be removed?
@@ -174,7 +179,7 @@
             );
         }
     </script>
-</f:section>
+</f:page.footerData>
 
 <div id="vkf-app-mosaic-map">
 </div>

@@ -14,7 +14,8 @@
 
 import { isDefined } from "@util/util";
 import { METADATA } from "./constants";
-import { getYear, isSameYear } from "date-fns";
+import { formatTimePeriod } from "./util";
+import { getYear } from "date-fns";
 
 export class ApplicationLayer {
     metadata = {};
@@ -61,19 +62,16 @@ export class ApplicationLayer {
         this.metadata[key] = value;
     }
 
+    // returns null for an open start (unknown creation date)
     getSortTime() {
         const start = this.metadata[METADATA.timePeriod][0];
-        return getYear(start);
+        return isDefined(start) ? getYear(start) : null;
     }
 
     getDisplayTime() {
         const [start, end] = this.metadata[METADATA.timePeriod];
 
-        if (isSameYear(start, end)) {
-            return getYear(start);
-        }
-
-        return `${getYear(start)} – ${getYear(end)}`;
+        return formatTimePeriod(start, end);
     }
 
     addLayerToMap() {

@@ -11,5 +11,5 @@ services:
   Slub\SlubWebKartenforum\UserFunction\FastApiAuthService:
     public: true
 
-  Slub\SlubWebKartenforum\Domain\Model\Validator\UsernameValidator:
+  Slub\SlubWebKartenforum\Domain\Validator\UsernameValidator:
     public: true

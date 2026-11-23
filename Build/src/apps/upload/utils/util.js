@@ -5,16 +5,38 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
+const TIME_PERIOD_KEYS = [
+    "time_period",
+    "time_period_start",
+    "time_period_end",
+];
+
+const toYear = (value) =>
+    value === undefined || value === null || value === ""
+        ? null
+        : Number(value);
+
+const isEqualValue = (a, b) => {
+    if (Array.isArray(a) && Array.isArray(b)) {
+        return a.length === b.length && a.every((value, i) => value === b[i]);
+    }
+
+    return a === b;
+};
+
 //  This function makes sure that the given input data object is valid with the remote data schema.
 export const getCleanMapMetadata = (data) => {
     const metadata = {};
 
     // Preprocess and sort the input data
     Object.keys(data).forEach((key) => {
+        // the time period is built from the start and end year below
+        if (TIME_PERIOD_KEYS.includes(key)) {
+            return;
+        }
+
         if (data[key] !== undefined && data[key] !== null) {
-            if (key === "time_of_publication") {
-                metadata[key] = `${data[key]}-01-01T00:00:00`;
-            } else if (key === "map_scale") {
+            if (key === "map_scale") {
                 metadata[key] = Number(data[key]);
             } else if (key === "allow_download") {
                 metadata[key] = data[key] === "true";
@@ -23,6 +45,12 @@ export const getCleanMapMetadata = (data) => {
             }
         }
     });
+
+    // always send the whole time period, an empty year is an open side
+    metadata["time_period"] = [
+        toYear(data["time_period_start"]),
+        toYear(data["time_period_end"]),
+    ];
 
     return metadata;
 };
@@ -37,7 +65,7 @@ export const areMetadataPropertiesDistinct = (newMetadata, mapMetadata) => {
     }
 
     for (const key of newKeys) {
-        if (newMetadata[key] !== mapMetadata[key]) {
+        if (!isEqualValue(newMetadata[key], mapMetadata[key])) {
             return true;
         }
     }

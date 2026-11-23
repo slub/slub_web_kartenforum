@@ -6,15 +6,15 @@
 <input type="hidden" value="{georefApi}" id="setting-georefApi"/>
 <input type="hidden" value="{f:uri.resource(path: 'EXT:slub_web_kartenforum/Resources/Public/Icons/ReactIconSprite.svg')}" id="settings-icon-sprite"/>
 
-<f:section name="HeaderAssets">
+<f:page.headerData>
     <link rel="stylesheet" href="{f:uri.resource(path: 'Contrib/Css/ol.css', extensionName: 'slub_web_kartenforum')}"/>
     <link rel="stylesheet" href="{f:uri.resource(path: 'Build/plugin-georeferencer.css', extensionName: 'slub_web_kartenforum')}"/>
     <script type="text/javascript" src="{f:uri.resource(path: 'Contrib/JavaScript/proj4-2.2.1.js', extensionName: 'slub_web_kartenforum')}"></script>
     <script type="text/javascript" src="{f:uri.resource(path: 'Build/plugin-georeferencer.js', extensionName: 'slub_web_kartenforum')}"></script>
-</f:section>
+</f:page.headerData>
 
 
-<f:section name="FooterAssets">
+<f:page.footerData>
     <script type="text/javascript">
         vk2.SettingsProvider.appendSettings({
             "API_SEARCH": document.getElementById("setting-urlSearch").value,
@@ -58,7 +58,7 @@
             );
         }
     </script>
-</f:section>
+</f:page.footerData>
 
 <div id="vkf-app-georeference">
 </div>

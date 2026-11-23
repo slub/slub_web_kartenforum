@@ -9,10 +9,21 @@ import React, { Fragment, useCallback, useState } from "react";
 import MapSearchOverlayLayer from "../MapSearchOverlayLayer/MapSearchOverlayLayer.jsx";
 import PropTypes from "prop-types";
 import { MapSearchResultListBase } from "./MapSearchResultListBase.jsx";
-import { SORT_STATE } from "@components/SortControl/SortControl.jsx";
+import { SORT_STATE } from "@components/SortControl/constants";
 
 export const DEFAULT_SORT_KEY = "title";
 export const DEFAULT_SORT_ORDER = SORT_STATE.ASCENDING;
+
+/**
+ * Returns the default sort settings. Sorting by relevance is only available for
+ * data providers which query the search index.
+ * @param {boolean} enableRelevanceSort
+ * @returns {{activeType: string, sortOrder: string}}
+ */
+export const getDefaultSortSettings = (enableRelevanceSort) =>
+  enableRelevanceSort
+    ? { activeType: "relevance", sortOrder: SORT_STATE.DESCENDING }
+    : { activeType: DEFAULT_SORT_KEY, sortOrder: DEFAULT_SORT_ORDER };
 
 /**
  * Wraps the MapSearchList in order to bundle it with the data supply
@@ -23,13 +34,13 @@ export const WrappedMapSearchResultList = ({
   customQuery,
   DataProvider,
   enableOverlayLayer = true,
+  enableRelevanceSort = false,
   ...props
 }) => {
   // state
-  const [sortSettings, setSortOrder] = useState({
-    activeType: DEFAULT_SORT_KEY,
-    sortOrder: DEFAULT_SORT_ORDER,
-  });
+  const [sortSettings, setSortOrder] = useState(() =>
+    getDefaultSortSettings(enableRelevanceSort)
+  );
 
   ////
   // Handler section
@@ -50,6 +61,7 @@ export const WrappedMapSearchResultList = ({
   const renderMapSearchResultList = (extraProps) => {
     return (
       <MapSearchResultListBase
+        enableRelevanceSort={enableRelevanceSort}
         onUpdateSortType={handleUpdateSortType}
         {...props}
         {...extraProps}
